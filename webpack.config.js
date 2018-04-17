@@ -17,6 +17,8 @@ module.exports = {
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       title: 'Hipla',
+      // Load a custom template (lodash by default)
+      template: 'src/index.html',
     }),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
