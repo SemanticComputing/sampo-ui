@@ -1,5 +1,7 @@
 import React from 'react';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'react-leaflet-fullscreen/dist/styles.css';
+import FullscreenControl from 'react-leaflet-fullscreen';
 
 class LeafletMap extends React.Component {
   state = {
@@ -25,6 +27,7 @@ class LeafletMap extends React.Component {
             </span>
           </Popup>
         </Marker>
+        <FullscreenControl position='topright' />
       </Map>
     );
   }
