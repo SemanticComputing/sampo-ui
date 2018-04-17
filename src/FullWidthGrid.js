@@ -5,6 +5,7 @@ import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import ButtonAppBar from './ButtonAppBar';
 import IntegrationAutosuggest from './IntegrationAutosuggest';
+import LeafletMapContainer from './LeafletMapContainer';
 
 const styles = theme => ({
   root: {
@@ -28,6 +29,9 @@ function FullWidthGrid(props) {
         </Grid>
         <Grid item xs={12} sm={3}>
           <IntegrationAutosuggest />
+        </Grid>
+        <Grid item xs={12} sm={9}>
+          <LeafletMapContainer />
         </Grid>
       </Grid>
     </div>
