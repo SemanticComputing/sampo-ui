@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Autosuggest from 'react-autosuggest';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
+import{ debounce } from 'lodash';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import { MenuItem } from 'material-ui/Menu';
@@ -99,25 +100,6 @@ function getSuggestionValue(suggestion) {
   return suggestion.label;
 }
 
-function getSuggestions(value) {
-  const inputValue = value.trim().toLowerCase();
-  const inputLength = inputValue.length;
-  let count = 0;
-
-  return inputLength === 0
-    ? []
-    : suggestions.filter(suggestion => {
-      const keep =
-          count < 5 && suggestion.label.toLowerCase().slice(0, inputLength) === inputValue;
-
-      if (keep) {
-        count += 1;
-      }
-
-      return keep;
-    });
-}
-
 const styles = theme => ({
   container: {
     flexGrow: 1,
@@ -147,10 +129,48 @@ class IntegrationAutosuggest extends React.Component {
     suggestions: [],
   };
 
+  debouncedLoadSuggestions = debounce(this.loadSuggestions, 2000);
+
+  loadSuggestions(value) {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+    let count = 0;
+
+    fetch('http://localhost:3000/search?dataset=warsa_karelian_places&dataset=pnr&q=' + inputValue)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Something went wrong ...');
+        }
+      })
+      .then(data => {
+        // eslint-disable-next-line no-console
+        console.log(data)
+      });
+
+
+    return inputLength === 0
+      ? []
+      : suggestions.filter(suggestion => {
+        const keep =
+            count < 5 && suggestion.label.toLowerCase().slice(0, inputLength) === inputValue;
+
+        if (keep) {
+          count += 1;
+        }
+        // eslint-disable-next-line no-console
+        console.log(keep);
+        return keep;
+      });
+  }
+
+
   handleSuggestionsFetchRequested = ({ value }) => {
-    this.setState({
-      suggestions: getSuggestions(value),
-    });
+    this.debouncedLoadSuggestions(value);
+    //this.setState({
+    //  suggestions: this.debouncedLoadSuggestions(value),
+    //});
   };
 
   handleSuggestionsClearRequested = () => {
