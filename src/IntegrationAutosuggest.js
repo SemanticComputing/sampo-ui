@@ -146,7 +146,7 @@ class IntegrationAutosuggest extends React.Component {
       })
       .then(data => {
         // eslint-disable-next-line no-console
-        console.log(data)
+        console.log(data);
       });
 
 
