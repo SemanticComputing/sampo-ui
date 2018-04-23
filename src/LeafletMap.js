@@ -5,9 +5,9 @@ import FullscreenControl from 'react-leaflet-fullscreen';
 
 class LeafletMap extends React.Component {
   state = {
-    lat: 51.505,
-    lng: -0.09,
-    zoom: 13,
+    lat: 64.950916,
+    lng: 27.095982,
+    zoom: 5,
   }
 
   render() {
