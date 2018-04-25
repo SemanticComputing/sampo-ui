@@ -1,5 +1,5 @@
 import React from 'react';
-import FullWidthGrid from './FullWidthGrid';
+import FullWidthGrid from '../containers/FullWidthGrid';
 
 const App = () => (
   <FullWidthGrid />
