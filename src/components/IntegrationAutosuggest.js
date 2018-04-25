@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Autosuggest from 'react-autosuggest';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
-import{ debounce } from 'lodash';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import { MenuItem } from 'material-ui/Menu';
@@ -88,19 +87,11 @@ const styles = theme => ({
 
 const IntegrationAutosuggest = (props) => {
 
-  const loadSuggestions = (value) => [''];
-
-  const debouncedLoadSuggestions = debounce(loadSuggestions, 2000);
-
-  const handleSuggestionsFetchRequested = ({ value }) => {
-    debouncedLoadSuggestions(value);
-  };
+  const handleOnChange = (event, { newValue }) => props.updateQuery(newValue);
 
   const { classes } = props;
 
-  console.log("IntegrationAutosuggest", props)
-
-  const handleOnChange = (event, { newValue }) => props.updateQuery(newValue);
+  console.log('IntegrationAutosuggest', props);
 
   return (
     <Autosuggest
@@ -112,8 +103,8 @@ const IntegrationAutosuggest = (props) => {
       }}
       renderInputComponent={renderInput}
       suggestions={props.search.suggestions}
-      onSuggestionsFetchRequested={handleSuggestionsFetchRequested}
-      onSuggestionsClearRequested={() => console.log("clear requested")}
+      onSuggestionsClearRequested={props.clearResults}
+      onSuggestionsFetchRequested={props.fetchResults}
       renderSuggestionsContainer={renderSuggestionsContainer}
       getSuggestionValue={getSuggestionValue}
       renderSuggestion={renderSuggestion}
@@ -131,6 +122,8 @@ IntegrationAutosuggest.propTypes = {
   classes: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
   updateQuery: PropTypes.func.isRequired,
+  fetchResults: PropTypes.func.isRequired,
+  clearResults: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(IntegrationAutosuggest);

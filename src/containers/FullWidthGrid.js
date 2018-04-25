@@ -7,7 +7,7 @@ import Grid from 'material-ui/Grid';
 import ButtonAppBar from '../components/ButtonAppBar';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import LeafletMapContainer from '../components/LeafletMapContainer';
-import { updateQuery, updateDatasets } from '../actions';
+import { updateQuery, updateDatasets, fetchResults, clearResults } from '../actions';
 
 const styles = theme => ({
   root: {
@@ -31,7 +31,8 @@ let FullWidthGrid = (props) => {
           <ButtonAppBar />
         </Grid>
         <Grid item xs={12} sm={3}>
-          <IntegrationAutosuggest search={props.search} updateQuery={props.updateQuery} />
+          <IntegrationAutosuggest search={props.search} updateQuery={props.updateQuery}
+            fetchResults={props.fetchResults} clearResults={props.clearResults} />
         </Grid>
         <Grid item xs={12} sm={9}>
           <LeafletMapContainer />
@@ -48,19 +49,21 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = ({
   updateQuery,
   updateDatasets,
+  fetchResults,
+  clearResults,
 });
 
 FullWidthGrid.propTypes = {
   classes: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
   updateQuery: PropTypes.func.isRequired,
+  fetchResults: PropTypes.func.isRequired,
+  clearResults: PropTypes.func.isRequired,
 };
 
 FullWidthGrid = connect(
   mapStateToProps,
   mapDispatchToProps
 )(withStyles(styles)(FullWidthGrid));
-
-
 
 export default FullWidthGrid;

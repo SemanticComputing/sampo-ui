@@ -17,6 +17,7 @@ module.exports = {
       2,
       "always"
     ],
+    //'no-console': 'off',
     "react/jsx-uses-vars": ["error"],
     "space-infix-ops": ["error", {"int32Hint": true}]
   },
