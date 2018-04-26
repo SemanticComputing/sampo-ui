@@ -11,7 +11,8 @@ const hiplaApiMiddleware = () => {
       return store.dispatch(updateResults([]));
     }
 
-    console.log(query, datasets);
+    console.log('query:', query);
+    console.log('datasets:', datasets);
     return request(searchUrl)
       .query({ q: query})
       .query({ dataset: datasets})
@@ -27,7 +28,7 @@ const hiplaApiMiddleware = () => {
   return store => next => action => {
     switch(action.type) {
       case 'FETCH_RESULTS':
-        console.log('FETCH_RESULTS');
+        console.log('action: FETCH_RESULTS');
 
         store.dispatch(startSpinner);
         next(action);

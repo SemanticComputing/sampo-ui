@@ -5,7 +5,7 @@ export const INITIAL_STATE = {
 };
 
 const search = (state = INITIAL_STATE, action) => {
-  console.log(state, action);
+  // console.log(state, action);
   switch (action.type) {
     case 'UPDATE_QUERY':
       return { ...state, query: action.query || '' };
