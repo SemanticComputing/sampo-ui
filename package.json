@@ -44,8 +44,7 @@
     "react-leaflet-fullscreen": "0.0.6",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
-    "redux-debounced": "^0.5.0",
-    "redux-thunk": "^2.2.0",
+    "redux-observable": "^0.18.0",
     "superagent": "^3.8.2"
   }
 }

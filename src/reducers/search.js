@@ -1,3 +1,5 @@
+import { UPDATE_QUERY, FETCH_RESULTS, UPDATE_DATASETS, UPDATE_RESULTS, CLEAR_RESULTS } from '../actions';
+
 export const INITIAL_STATE = {
   query: '',
   datasets: ['warsa_karelian_places'],
@@ -5,15 +7,20 @@ export const INITIAL_STATE = {
 };
 
 const search = (state = INITIAL_STATE, action) => {
-  // console.log(state, action);
   switch (action.type) {
-    case 'UPDATE_QUERY':
+    case UPDATE_QUERY:
       return { ...state, query: action.query || '' };
-    case 'UPDATE_DATASETS':
+    case FETCH_RESULTS:
+      return { ...state, isFetchingResults: true };
+    case UPDATE_DATASETS:
       return { ...state, datasets: action.datasets || [] };
-    case 'UPDATE_RESULTS':
-      return { ...state, suggestions: action.results || [] };
-    case 'CLEAR_RESULTS':
+    case UPDATE_RESULTS:
+      return {
+        ...state,
+        suggestions: action.results || [],
+        isFetchingResults: false
+      };
+    case CLEAR_RESULTS:
       return { ...state, suggestions: [] };
     default:
       return state;

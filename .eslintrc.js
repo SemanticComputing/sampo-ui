@@ -7,7 +7,8 @@ module.exports = {
     ],
     "quotes": [
       2,
-      "single"
+      "single",
+      { "allowTemplateLiterals": true }
     ],
     "linebreak-style": [
       2,
@@ -19,7 +20,7 @@ module.exports = {
     ],
     //'no-console': 'off',
     "react/jsx-uses-vars": ["error"],
-    "space-infix-ops": ["error", {"int32Hint": true}]
+    "space-infix-ops": ["error", {"int32Hint": true}],
   },
   "env": {
     "es6": true,
