@@ -4,7 +4,8 @@ import LeafletMap from './LeafletMap';
 class LeafletMapContainer extends React.Component {
 
   updateDimensions() {
-    const height = window.innerWidth >= 992 ? window.innerHeight : 400;
+    let height = window.innerWidth >= 992 ? window.innerHeight : 400;
+    height = height - 64;
     this.setState({ height: height });
   }
 

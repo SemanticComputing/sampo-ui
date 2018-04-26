@@ -4,7 +4,12 @@ import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 // import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
-import ButtonAppBar from '../components/ButtonAppBar';
+import AppBar from 'material-ui/AppBar';
+import Toolbar from 'material-ui/Toolbar';
+import Typography from 'material-ui/Typography';
+import Button from 'material-ui/Button';
+import IconButton from 'material-ui/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import LeafletMapContainer from '../components/LeafletMapContainer';
 import { updateQuery, updateDatasets, fetchResults, clearResults } from '../actions';
@@ -12,11 +17,19 @@ import { updateQuery, updateDatasets, fetchResults, clearResults } from '../acti
 const styles = theme => ({
   root: {
     flexGrow: 1,
+    margin: 0,
+  },
+  flex: {
+    flex: 1,
   },
   paper: {
     padding: theme.spacing.unit * 2,
     textAlign: 'center',
     color: theme.palette.text.secondary,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
   },
 });
 
@@ -26,15 +39,21 @@ let FullWidthGrid = (props) => {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={24}>
+      <Grid container spacing={0}>
         <Grid item xs={12}>
-          <ButtonAppBar />
+          <AppBar position="static" color="default">
+            <Toolbar>
+              <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+                <MenuIcon />
+              </IconButton>
+              <Grid item xs={3}>
+                <IntegrationAutosuggest search={props.search} updateQuery={props.updateQuery}
+                  fetchResults={props.fetchResults} clearResults={props.clearResults} />
+              </Grid>
+            </Toolbar>
+          </AppBar>
         </Grid>
-        <Grid item xs={12} sm={3}>
-          <IntegrationAutosuggest search={props.search} updateQuery={props.updateQuery}
-            fetchResults={props.fetchResults} clearResults={props.clearResults} />
-        </Grid>
-        <Grid item xs={12} sm={9}>
+        <Grid item xs={12}>
           <LeafletMapContainer />
         </Grid>
       </Grid>

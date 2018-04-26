@@ -34,13 +34,13 @@ function renderSuggestion(suggestion, { query, isHighlighted }) {
       <div>
         {parts.map((part, index) => {
           return part.highlight ? (
-            <span key={String(index)} style={{ fontWeight: 300 }}>
-              {part.text}
-            </span>
-          ) : (
             <strong key={String(index)} style={{ fontWeight: 500 }}>
               {part.text}
             </strong>
+          ) : (
+            <span key={String(index)} style={{ fontWeight: 300 }}>
+              {part.text}
+            </span>
           );
         })}
       </div>
@@ -66,11 +66,10 @@ const styles = theme => ({
   container: {
     flexGrow: 1,
     position: 'relative',
-    height: 250,
   },
   suggestionsContainerOpen: {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 1500,
     marginTop: theme.spacing.unit,
     left: 0,
     right: 0,
@@ -82,6 +81,8 @@ const styles = theme => ({
     margin: 0,
     padding: 0,
     listStyleType: 'none',
+    maxHeight: 500,
+    overflow: 'auto',
   },
 });
 
@@ -91,7 +92,7 @@ const IntegrationAutosuggest = (props) => {
 
   const { classes } = props;
 
-  console.log('IntegrationAutosuggest', props);
+  // console.log('IntegrationAutosuggest', props);
 
   return (
     <Autosuggest
