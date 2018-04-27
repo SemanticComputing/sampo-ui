@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import renderer from 'react-test-renderer';
 import { mount } from 'enzyme';
@@ -14,12 +15,12 @@ describe('IntegrationAutosuggest', () => {
   });
 
   test('Renders with initial state without crashing', () => {
-    const component = renderer.create(
+    const div = document.createElement('div');
+    ReactDOM.render(
       <IntegrationAutosuggest search={INITIAL_STATE} updateQuery={updateQuery}
         fetchSuggestions={fetchSuggestions} clearSuggestions={clearSuggestions} />,
+      div
     );
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
   });
 
   test('Displays query string', () => {
