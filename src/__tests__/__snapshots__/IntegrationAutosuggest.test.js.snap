@@ -6,7 +6,7 @@ exports[`IntegrationAutosuggest Displays query string 1`] = `
 >
   <div
     aria-describedby={undefined}
-    className="MuiFormControl-root-5 MuiFormControl-fullWidth-8"
+    className="MuiFormControl-root-7 MuiFormControl-fullWidth-10"
     onBlur={[Function]}
     onFocus={[Function]}
   >
@@ -15,7 +15,7 @@ exports[`IntegrationAutosuggest Displays query string 1`] = `
       aria-autocomplete="list"
       aria-expanded={false}
       aria-owns="react-autowhatever-1"
-      className="MuiInput-root-9 MuiInput-fullWidth-16 MuiInput-formControl-10 MuiInput-underline-13"
+      className="MuiInput-root-11 MuiInput-fullWidth-18 MuiInput-formControl-12 MuiInput-underline-15"
       role="combobox"
       style={Object {}}
     >
@@ -24,7 +24,7 @@ exports[`IntegrationAutosuggest Displays query string 1`] = `
         aria-required={false}
         autoComplete="off"
         autoFocus={undefined}
-        className="MuiInput-input-17"
+        className="MuiInput-input-19"
         defaultValue={undefined}
         disabled={false}
         id={undefined}
@@ -44,7 +44,7 @@ exports[`IntegrationAutosuggest Displays query string 1`] = `
     </div>
   </div>
   <div
-    className="MuiPaper-root-22 MuiPaper-elevation2-26"
+    className="MuiPaper-root-24 MuiPaper-elevation2-28"
     id="react-autowhatever-1"
     style={Object {}}
   />

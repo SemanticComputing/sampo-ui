@@ -94,6 +94,12 @@ const styles = theme => ({
     maxHeight: 500,
     overflow: 'auto',
   },
+  sectionContainer: {
+    borderTop: '1px dashed #ccc',
+  },
+  sectionContainerFirst: {
+    borderTop: 0,
+  }
 });
 
 const IntegrationAutosuggest = (props) => {
@@ -111,6 +117,8 @@ const IntegrationAutosuggest = (props) => {
         suggestionsContainerOpen: classes.suggestionsContainerOpen,
         suggestionsList: classes.suggestionsList,
         suggestion: classes.suggestion,
+        sectionContainer : classes.sectionContainer,
+        sectionContainerFirst : classes.sectionContainerFirst,
       }}
       multiSection={true}
       renderInputComponent={renderInput}
