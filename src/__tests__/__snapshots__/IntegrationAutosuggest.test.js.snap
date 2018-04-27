@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IntegrationAutosuggest Displays query string 1`] = `
+<div
+  className="IntegrationAutosuggest-container-1"
+>
+  <div
+    aria-describedby={undefined}
+    className="MuiFormControl-root-5 MuiFormControl-fullWidth-8"
+    onBlur={[Function]}
+    onFocus={[Function]}
+  >
+    <div
+      aria-activedescendant={null}
+      aria-autocomplete="list"
+      aria-expanded={false}
+      aria-owns="react-autowhatever-1"
+      className="MuiInput-root-9 MuiInput-fullWidth-16 MuiInput-formControl-10 MuiInput-underline-13"
+      role="combobox"
+      style={Object {}}
+    >
+      <input
+        aria-invalid={false}
+        aria-required={false}
+        autoComplete="off"
+        autoFocus={undefined}
+        className="MuiInput-input-17"
+        defaultValue={undefined}
+        disabled={false}
+        id={undefined}
+        name={undefined}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={undefined}
+        placeholder="Search place names"
+        readOnly={undefined}
+        required={undefined}
+        rows={undefined}
+        type="text"
+        value="kivennapa"
+      />
+    </div>
+  </div>
+  <div
+    className="MuiPaper-root-22 MuiPaper-elevation2-26"
+    id="react-autowhatever-1"
+    style={Object {}}
+  />
+</div>
+`;
+
+exports[`IntegrationAutosuggest Renders with initial state without crashing 1`] = `
+<div
+  className="IntegrationAutosuggest-container-1"
+>
+  <div
+    aria-describedby={undefined}
+    className="MuiFormControl-root-5 MuiFormControl-fullWidth-8"
+    onBlur={[Function]}
+    onFocus={[Function]}
+  >
+    <div
+      aria-activedescendant={null}
+      aria-autocomplete="list"
+      aria-expanded={false}
+      aria-owns="react-autowhatever-1"
+      className="MuiInput-root-9 MuiInput-fullWidth-16 MuiInput-formControl-10 MuiInput-underline-13"
+      role="combobox"
+      style={Object {}}
+    >
+      <input
+        aria-invalid={false}
+        aria-required={false}
+        autoComplete="off"
+        autoFocus={undefined}
+        className="MuiInput-input-17"
+        defaultValue={undefined}
+        disabled={false}
+        id={undefined}
+        name={undefined}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={undefined}
+        placeholder="Search place names"
+        readOnly={undefined}
+        required={undefined}
+        rows={undefined}
+        type="text"
+        value=""
+      />
+    </div>
+  </div>
+  <div
+    className="MuiPaper-root-22 MuiPaper-elevation2-26"
+    id="react-autowhatever-1"
+    style={Object {}}
+  />
+</div>
+`;

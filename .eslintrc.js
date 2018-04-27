@@ -26,6 +26,7 @@ module.exports = {
     "es6": true,
     "node": true,
     "browser": true,
+    "jest/globals": true, 
   },
   "extends": [
     "eslint:recommended",
@@ -43,5 +44,6 @@ module.exports = {
   },
   "plugins": [
     "react",
+    "jest",
   ]
 };
