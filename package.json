@@ -49,11 +49,13 @@
     "lodash": "^4.17.5",
     "material-ui": "^1.0.0-beta.42",
     "react": "^16.3.2",
+    "react-alert-template-basic": "^1.0.0",
     "react-autosuggest": "^9.3.4",
     "react-dom": "^16.3.2",
     "react-leaflet": "^1.9.1",
     "react-leaflet-fullscreen": "0.0.6",
     "react-redux": "^5.0.7",
+    "react-redux-toastr": "^7.2.3",
     "redux": "^4.0.0",
     "redux-observable": "^0.18.0",
     "superagent": "^3.8.2"

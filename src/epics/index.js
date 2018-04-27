@@ -2,7 +2,8 @@ import 'rxjs';
 import _ from 'lodash';
 import { ajax } from 'rxjs/observable/dom/ajax';
 import { combineEpics } from 'redux-observable';
-import { updateSuggestions, FETCH_SUGGESTIONS } from '../actions';
+import { Observable } from 'rxjs/Observable';
+import { updateSuggestions, FETCH_SUGGESTIONS, FETCH_SUGGESTIONS_FAILED } from '../actions';
 
 const getSuggestionsEpic = (action$, store) => {
   const searchUrl = 'http://localhost:3000/search';
@@ -18,7 +19,11 @@ const getSuggestionsEpic = (action$, store) => {
 
       const requestUrl = `${searchUrl}?q=${query}&${dsParams}`;
       return ajax.getJSON(requestUrl)
-        .map(response => updateSuggestions(response));
+        .map(response => updateSuggestions(response))
+        .catch(error => Observable.of({
+          type: FETCH_SUGGESTIONS_FAILED,
+          error: error,
+        }));
     });
 };
 

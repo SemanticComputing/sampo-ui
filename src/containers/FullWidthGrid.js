@@ -13,6 +13,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import LeafletMapContainer from '../components/LeafletMapContainer';
 import { updateQuery, updateDatasets, fetchSuggestions, clearSuggestions } from '../actions';
+import Message from '../components/Message';
+
 
 const styles = theme => ({
   root: {
@@ -34,11 +36,12 @@ const styles = theme => ({
 });
 
 let FullWidthGrid = (props) => {
-  const { classes } = props;
+  const { classes, error } = props;
   // console.log("FullWidthGrid.js", props);
 
   return (
     <div className={classes.root}>
+      <Message error={error} />
       <Grid container spacing={0}>
         <Grid item xs={12}>
           <AppBar position="static" color="default">
@@ -63,6 +66,7 @@ let FullWidthGrid = (props) => {
 
 const mapStateToProps = (state) => ({
   search: state.search,
+  error: state.error,
 });
 
 const mapDispatchToProps = ({
@@ -75,6 +79,7 @@ const mapDispatchToProps = ({
 FullWidthGrid.propTypes = {
   classes: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
+  error: PropTypes.object.isRequired,
   updateQuery: PropTypes.func.isRequired,
   fetchSuggestions: PropTypes.func.isRequired,
   clearSuggestions: PropTypes.func.isRequired,
