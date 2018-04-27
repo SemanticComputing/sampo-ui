@@ -58,6 +58,16 @@ function renderSuggestionsContainer(options) {
   );
 }
 
+function renderSectionTitle(section) {
+  return (
+    <strong>{section.dataset}</strong>
+  );
+}
+
+function getSectionSuggestions(section) {
+  return section.results;
+}
+
 function getSuggestionValue(suggestion) {
   return suggestion.label;
 }
@@ -102,12 +112,15 @@ const IntegrationAutosuggest = (props) => {
         suggestionsList: classes.suggestionsList,
         suggestion: classes.suggestion,
       }}
+      multiSection={true}
       renderInputComponent={renderInput}
       suggestions={props.search.suggestions}
       onSuggestionsClearRequested={props.clearSuggestions}
       onSuggestionsFetchRequested={props.fetchSuggestions}
       renderSuggestionsContainer={renderSuggestionsContainer}
       getSuggestionValue={getSuggestionValue}
+      renderSectionTitle={renderSectionTitle}
+      getSectionSuggestions={getSectionSuggestions}
       renderSuggestion={renderSuggestion}
       inputProps={{
         classes,

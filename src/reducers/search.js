@@ -2,7 +2,7 @@ import { UPDATE_QUERY, FETCH_SUGGESTIONS, UPDATE_DATASETS, UPDATE_SUGGESTIONS, C
 
 export const INITIAL_STATE = {
   query: '',
-  datasets: ['warsa_karelian_places'],
+  datasets: ['warsa_karelian_places', 'warsa_municipalities'],
   suggestions: [],
   isFetchingSuggestions: false,
 };
