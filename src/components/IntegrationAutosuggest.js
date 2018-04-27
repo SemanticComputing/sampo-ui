@@ -104,8 +104,8 @@ const IntegrationAutosuggest = (props) => {
       }}
       renderInputComponent={renderInput}
       suggestions={props.search.suggestions}
-      onSuggestionsClearRequested={props.clearResults}
-      onSuggestionsFetchRequested={props.fetchResults}
+      onSuggestionsClearRequested={props.clearSuggestions}
+      onSuggestionsFetchRequested={props.fetchSuggestions}
       renderSuggestionsContainer={renderSuggestionsContainer}
       getSuggestionValue={getSuggestionValue}
       renderSuggestion={renderSuggestion}
@@ -123,8 +123,8 @@ IntegrationAutosuggest.propTypes = {
   classes: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
   updateQuery: PropTypes.func.isRequired,
-  fetchResults: PropTypes.func.isRequired,
-  clearResults: PropTypes.func.isRequired,
+  fetchSuggestions: PropTypes.func.isRequired,
+  clearSuggestions: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(IntegrationAutosuggest);
