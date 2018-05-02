@@ -4,12 +4,20 @@ import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 import { MenuItem } from 'material-ui/Menu';
 
+const styles = {
+  fontWeight: 300
+};
+
 const SuggestionItem = ({ suggestion, query, isHighlighted }) => {
   const matches = match(suggestion.preferredLabel.value, query);
   const parts = parse(suggestion.preferredLabel.value, matches);
 
   return (
-    <MenuItem selected={isHighlighted} component="div">
+    <MenuItem
+      selected={isHighlighted}
+      component="div"
+      style={styles}
+    >
       <div>
         {parts.map((part, index) => {
           return part.highlight ? (
