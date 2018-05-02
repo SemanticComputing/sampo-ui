@@ -1,10 +1,10 @@
 import {
   UPDATE_QUERY,
-  FETCH_SUGGESTIONS,
   UPDATE_DATASETS,
   UPDATE_SUGGESTIONS,
   CLEAR_SUGGESTIONS,
 } from '../actions';
+import suggestions from './suggestions';
 
 export const INITIAL_STATE = {
   query: '',
@@ -16,17 +16,11 @@ const search = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case UPDATE_QUERY:
       return { ...state, query: action.query || '' };
-    case FETCH_SUGGESTIONS:
-      return { ...state };
     case UPDATE_DATASETS:
       return { ...state, datasets: action.datasets || [] };
-    case UPDATE_SUGGESTIONS:
-      return {
-        ...state,
-        suggestions: action.results || [],
-      };
     case CLEAR_SUGGESTIONS:
-      return { ...state, suggestions: [] };
+    case UPDATE_SUGGESTIONS:
+      return { ...state, suggestions: suggestions(state.suggestions, action) };
     default:
       return state;
   }

@@ -9,6 +9,7 @@ export const FETCH_RESULTS = 'FETCH_RESULTS';
 export const UPDATE_RESULTS = 'UPDATE_RESULTS';
 export const CLEAR_RESULTS = 'CLEAR_RESULTS';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
+export const UPDATE_LANGUAGE = 'UPDATE_LANGUAGE';
 
 export const updateQuery = (query) => ({
   type: UPDATE_QUERY,
@@ -33,9 +34,9 @@ export const fetchSuggestionsFailed = (error) => ({
   error
 });
 
-export const updateSuggestions = (results) => ({
+export const updateSuggestions = ({ results, language }) => ({
   type: UPDATE_SUGGESTIONS,
-  results
+  results, language
 });
 
 export const clearSuggestions = () => ({
@@ -57,4 +58,9 @@ export const clearResults = () => ({
 
 export const clearError = () => ({
   type: CLEAR_ERROR,
+});
+
+export const updateLanguage = (language) => ({
+  type: UPDATE_LANGUAGE,
+  language
 });

@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Autosuggest from 'react-autosuggest';
-import match from 'autosuggest-highlight/match';
-import parse from 'autosuggest-highlight/parse';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
-import { MenuItem } from 'material-ui/Menu';
 import { withStyles } from 'material-ui/styles';
+import SuggestionItem from './SuggestionItem';
 
 function renderInput(inputProps) {
   const { classes, ref, ...other } = inputProps;
@@ -26,26 +24,7 @@ function renderInput(inputProps) {
 }
 
 function renderSuggestion(suggestion, { query, isHighlighted }) {
-  const matches = match(suggestion.label, query);
-  const parts = parse(suggestion.label, matches);
-
-  return (
-    <MenuItem selected={isHighlighted} component="div">
-      <div>
-        {parts.map((part, index) => {
-          return part.highlight ? (
-            <strong key={String(index)} style={{ fontWeight: 500 }}>
-              {part.text}
-            </strong>
-          ) : (
-            <span key={String(index)} style={{ fontWeight: 300 }}>
-              {part.text}
-            </span>
-          );
-        })}
-      </div>
-    </MenuItem>
-  );
+  return <SuggestionItem suggestion={suggestion} query={query} isHighlighted={isHighlighted} />;
 }
 
 function renderSuggestionsContainer(options) {
@@ -69,7 +48,7 @@ function getSectionSuggestions(section) {
 }
 
 function getSuggestionValue(suggestion) {
-  return suggestion.label;
+  return suggestion.preferredLabel.value;
 }
 
 const styles = theme => ({
@@ -108,7 +87,7 @@ const IntegrationAutosuggest = (props) => {
 
   const { classes } = props;
 
-  // console.log('IntegrationAutosuggest', props);
+  //console.log('IntegrationAutosuggest', props);
 
   return (
     <Autosuggest
