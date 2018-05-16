@@ -12,7 +12,7 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import LeafletMapContainer from '../components/LeafletMapContainer';
-import { updateQuery, updateDatasets, fetchSuggestions, clearSuggestions } from '../actions';
+import { updateQuery, updateDatasets, fetchSuggestions, clearSuggestions, fetchResults } from '../actions';
 import Message from '../components/Message';
 
 
@@ -50,14 +50,19 @@ let FullWidthGrid = (props) => {
                 <MenuIcon />
               </IconButton>
               <Grid item xs={3}>
-                <IntegrationAutosuggest search={props.search} updateQuery={props.updateQuery}
-                  fetchSuggestions={props.fetchSuggestions} clearSuggestions={props.clearSuggestions} />
+                <IntegrationAutosuggest
+                  search={props.search}
+                  updateQuery={props.updateQuery}
+                  fetchSuggestions={props.fetchSuggestions}
+                  clearSuggestions={props.clearSuggestions}
+                  fetchResults={props.fetchResults}
+                />
               </Grid>
             </Toolbar>
           </AppBar>
         </Grid>
         <Grid item xs={12}>
-          <LeafletMapContainer />
+          <LeafletMapContainer places={props.search.results} />
         </Grid>
       </Grid>
     </div>
@@ -74,6 +79,7 @@ const mapDispatchToProps = ({
   updateDatasets,
   fetchSuggestions,
   clearSuggestions,
+  fetchResults,
 });
 
 FullWidthGrid.propTypes = {
@@ -83,6 +89,7 @@ FullWidthGrid.propTypes = {
   updateQuery: PropTypes.func.isRequired,
   fetchSuggestions: PropTypes.func.isRequired,
   clearSuggestions: PropTypes.func.isRequired,
+  fetchResults: PropTypes.func.isRequired,
 };
 
 FullWidthGrid = connect(

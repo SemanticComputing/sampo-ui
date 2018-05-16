@@ -74,6 +74,7 @@ const styles = theme => ({
 const IntegrationAutosuggest = (props) => {
 
   const handleOnChange = (event, { newValue }) => props.updateQuery(newValue);
+  const handleOnSuggestionSelected = (event, { suggestion }) => props.fetchResults(suggestion);
 
   const { classes } = props;
 
@@ -96,6 +97,7 @@ const IntegrationAutosuggest = (props) => {
       renderSuggestionsContainer={renderSuggestionsContainer}
       getSuggestionValue={getSuggestionValue}
       renderSuggestion={renderSuggestion}
+      onSuggestionSelected={handleOnSuggestionSelected}
       inputProps={{
         classes,
         placeholder: 'Search place names',
@@ -112,6 +114,7 @@ IntegrationAutosuggest.propTypes = {
   updateQuery: PropTypes.func.isRequired,
   fetchSuggestions: PropTypes.func.isRequired,
   clearSuggestions: PropTypes.func.isRequired,
+  fetchResults: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(IntegrationAutosuggest);

@@ -6,6 +6,7 @@ export const FETCH_SUGGESTIONS_FAILED = 'FETCH_SUGGESTIONS_FAILED';
 export const UPDATE_SUGGESTIONS = 'UPDATE_SUGGESTIONS';
 export const CLEAR_SUGGESTIONS = 'CLEAR_SUGGESTIONS';
 export const FETCH_RESULTS = 'FETCH_RESULTS';
+export const FETCH_RESULTS_FAILED = 'FETCH_RESULTS_FAILED';
 export const UPDATE_RESULTS = 'UPDATE_RESULTS';
 export const CLEAR_RESULTS = 'CLEAR_RESULTS';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
@@ -31,6 +32,11 @@ export const fetchSuggestions = () => ({
 
 export const fetchSuggestionsFailed = (error) => ({
   type: FETCH_SUGGESTIONS_FAILED,
+  error
+});
+
+export const fetchResultsFailed = (error) => ({
+  type: FETCH_RESULTS_FAILED,
   error
 });
 
