@@ -1,27 +1,18 @@
-import _ from 'lodash';
 import {
   UPDATE_SUGGESTIONS,
   CLEAR_SUGGESTIONS,
 } from '../actions';
 
-export const getLangValue = (language, valueList) =>
-  _.find(valueList, ['xml:lang', language]) || _.first(valueList) || {};
+const getShortTitle = (datasetId) => datasetId.split('_').map((part) => part.substr(0, 1)).join('');
 
-export const updateDatasetSuggestions = ({ language, results }) => {
-  return _.map(results, (suggestion) => ({
+export const updateSuggestions = ({ results }) =>
+  results.map((suggestion) => ({
     ...suggestion,
-    preferredLabel: getLangValue(language, suggestion.label),
-    preferredTypeLabel: getLangValue(language, suggestion.typeLabel),
-    preferredBroaderAreaLabel: getLangValue(language, suggestion.broaderAreaLabel),
+    datasets: suggestion.datasets.map((dataset) => ({
+      ...dataset,
+      shortTitle: getShortTitle(dataset.datasetId)
+    }))
   }));
-};
-
-export const updateSuggestions = ({ language, results }) => {
-  return _.map(results, (result) => ({
-    ...result,
-    results: updateDatasetSuggestions({ language, results: result.results })
-  }));
-};
 
 const suggestions = (state = [], action) => {
   switch (action.type) {

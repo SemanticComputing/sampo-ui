@@ -5,12 +5,20 @@ import parse from 'autosuggest-highlight/parse';
 import { MenuItem } from 'material-ui/Menu';
 
 const styles = {
-  fontWeight: 300
+  fontWeight: 300,
+  height: 10
 };
 
+const getCounts = (suggestion) => suggestion.datasets.map((dataset, index) => (
+  <span key={dataset.datasetId}>
+    {index > 0 ? ', ' : ''}
+    {`${dataset.shortTitle}: ${dataset.count.value}`}
+  </span>
+));
+
 const SuggestionItem = ({ suggestion, query, isHighlighted }) => {
-  const matches = match(suggestion.preferredLabel.value, query);
-  const parts = parse(suggestion.preferredLabel.value, matches);
+  const matches = match(suggestion.label, query);
+  const parts = parse(suggestion.label, matches);
 
   return (
     <MenuItem
@@ -27,15 +35,11 @@ const SuggestionItem = ({ suggestion, query, isHighlighted }) => {
           ) : (
             <span key={String(index)} style={{ fontWeight: 300 }}>
               {part.text}
+
             </span>
           );
         })}
-        <sup>{suggestion.preferredLabel['xml:lang']}</sup>
-        <span>{' ('}
-          <span>{suggestion.preferredTypeLabel.value}</span>
-          <span>{', '}{suggestion.preferredBroaderAreaLabel.value}</span>
-          {')'}
-        </span>
+        <span> ({getCounts(suggestion)})</span>
       </div>
     </MenuItem>
   );

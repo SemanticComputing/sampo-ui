@@ -37,18 +37,8 @@ function renderSuggestionsContainer(options) {
   );
 }
 
-function renderSectionTitle(section) {
-  return (
-    <strong>{section.dataset}</strong>
-  );
-}
-
-function getSectionSuggestions(section) {
-  return section.results;
-}
-
 function getSuggestionValue(suggestion) {
-  return suggestion.preferredLabel.value;
+  return suggestion.label;
 }
 
 const styles = theme => ({
@@ -99,15 +89,12 @@ const IntegrationAutosuggest = (props) => {
         sectionContainer : classes.sectionContainer,
         sectionContainerFirst : classes.sectionContainerFirst,
       }}
-      multiSection={true}
       renderInputComponent={renderInput}
       suggestions={props.search.suggestions}
       onSuggestionsClearRequested={props.clearSuggestions}
       onSuggestionsFetchRequested={props.fetchSuggestions}
       renderSuggestionsContainer={renderSuggestionsContainer}
       getSuggestionValue={getSuggestionValue}
-      renderSectionTitle={renderSectionTitle}
-      getSectionSuggestions={getSectionSuggestions}
       renderSuggestion={renderSuggestion}
       inputProps={{
         classes,

@@ -34,9 +34,9 @@ export const fetchSuggestionsFailed = (error) => ({
   error
 });
 
-export const updateSuggestions = ({ results, language }) => ({
+export const updateSuggestions = ({ results }) => ({
   type: UPDATE_SUGGESTIONS,
-  results, language
+  results
 });
 
 export const clearSuggestions = () => ({

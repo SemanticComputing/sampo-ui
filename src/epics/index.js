@@ -12,7 +12,6 @@ const getSuggestionsEpic = (action$, store) => {
     .debounceTime(500)
     .switchMap(() => {
       const { query, datasets } = store.getState().search;
-      const language = store.getState().options.language;
       if (query.length < 3) {
         return [];
       }
@@ -20,7 +19,7 @@ const getSuggestionsEpic = (action$, store) => {
 
       const requestUrl = `${searchUrl}?q=${query}&${dsParams}`;
       return ajax.getJSON(requestUrl)
-        .map(response => updateSuggestions({ results: response, language }))
+        .map(response => updateSuggestions({ results: response }))
         .catch(error => Observable.of({
           type: FETCH_SUGGESTIONS_FAILED,
           error: error,
