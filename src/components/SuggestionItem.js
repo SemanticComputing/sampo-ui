@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
-import { MenuItem } from 'material-ui/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const styles = {
   fontWeight: 300,
