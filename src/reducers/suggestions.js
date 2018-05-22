@@ -5,8 +5,8 @@ import {
 
 const getShortTitle = (datasetId) => datasetId.split('_').map((part) => part.substr(0, 1)).join('');
 
-export const updateSuggestions = ({ results }) =>
-  results.map((suggestion) => ({
+export const updateSuggestions = ({ suggestions }) =>
+  suggestions.map((suggestion) => ({
     ...suggestion,
     datasets: suggestion.datasets.map((dataset) => ({
       ...dataset,

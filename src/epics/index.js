@@ -26,7 +26,7 @@ const getSuggestionsEpic = (action$, store) => {
 
       const requestUrl = `${searchUrl}?q=${query}&${dsParams}`;
       return ajax.getJSON(requestUrl)
-        .map(response => updateSuggestions({ results: response }))
+        .map(response => updateSuggestions({ suggestions: response }))
         .catch(error => Observable.of({
           type: FETCH_SUGGESTIONS_FAILED,
           error: error,

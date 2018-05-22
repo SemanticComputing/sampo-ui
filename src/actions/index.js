@@ -1,3 +1,5 @@
+export const OPEN_DRAWER = 'OPEN_DRAWER';
+export const CLOSE_DRAWER = 'CLOSE_DRAWER';
 export const UPDATE_QUERY = 'UPDATE_QUERY';
 export const UPDATE_DATASETS = 'UPDATE_DATASETS';
 export const START_SPINNER = 'START_SPINNER';
@@ -11,6 +13,14 @@ export const UPDATE_RESULTS = 'UPDATE_RESULTS';
 export const CLEAR_RESULTS = 'CLEAR_RESULTS';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const UPDATE_LANGUAGE = 'UPDATE_LANGUAGE';
+
+export const openDrawer = () => ({
+  type: OPEN_DRAWER,
+});
+
+export const closeDrawer = () => ({
+  type: CLOSE_DRAWER,
+});
 
 export const updateQuery = (query) => ({
   type: UPDATE_QUERY,
@@ -40,9 +50,9 @@ export const fetchResultsFailed = (error) => ({
   error
 });
 
-export const updateSuggestions = ({ results }) => ({
+export const updateSuggestions = ({ suggestions }) => ({
   type: UPDATE_SUGGESTIONS,
-  results
+  suggestions
 });
 
 export const clearSuggestions = () => ({

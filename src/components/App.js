@@ -1,8 +1,8 @@
 import React from 'react';
-import FullWidthGrid from '../containers/FullWidthGrid';
+import MapApp from '../containers/MapApp';
 
 const App = () => (
-  <FullWidthGrid />
+  <MapApp />
 );
 
 export default App;
