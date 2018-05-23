@@ -1,7 +1,9 @@
 import React from 'react';
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import PropTypes from 'prop-types';
+import { Map, TileLayer } from 'react-leaflet';
 import 'react-leaflet-fullscreen/dist/styles.css';
 import FullscreenControl from 'react-leaflet-fullscreen';
+import ResultMarkerList from './ResultMarkerList';
 
 class LeafletMap extends React.Component {
   state = {
@@ -20,17 +22,15 @@ class LeafletMap extends React.Component {
           attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={position}>
-          <Popup>
-            <span>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </span>
-          </Popup>
-        </Marker>
+        <ResultMarkerList results={this.props.results} />
         <FullscreenControl position='topright' />
       </Map>
     );
   }
 }
+
+LeafletMap.propTypes = {
+  results: PropTypes.array.isRequired,
+};
 
 export default LeafletMap;

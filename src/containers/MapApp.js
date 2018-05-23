@@ -186,7 +186,7 @@ let MapApp = (props) => {
         >
           <div className={classes.drawerHeader} />
           <Message error={error} />
-          <LeafletMap />
+          <LeafletMap results={props.search.results} />
         </main>
         {after}
       </div>
