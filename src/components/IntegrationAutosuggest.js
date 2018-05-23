@@ -74,7 +74,14 @@ const styles = theme => ({
 const IntegrationAutosuggest = (props) => {
 
   const handleOnChange = (event, { newValue }) => props.updateQuery(newValue);
-  const handleOnSuggestionSelected = (event, { suggestion }) => props.fetchResults(suggestion);
+
+  const handleOnSuggestionSelected = () => props.fetchResults();
+
+  const handleOnKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      props.fetchResults();
+    }
+  };
 
   const { classes } = props;
 
@@ -103,6 +110,7 @@ const IntegrationAutosuggest = (props) => {
         placeholder: 'Search place names',
         value: props.search.query,
         onChange: handleOnChange,
+        onKeyDown: handleOnKeyDown
       }}
     />
   );
