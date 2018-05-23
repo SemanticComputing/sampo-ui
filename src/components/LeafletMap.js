@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Map, TileLayer } from 'react-leaflet';
-import 'react-leaflet-fullscreen/dist/styles.css';
 import FullscreenControl from 'react-leaflet-fullscreen';
 import ResultMarkerList from './ResultMarkerList';
+import MarkerClusterGroup from 'react-leaflet-markercluster';
+import 'react-leaflet-fullscreen/dist/styles.css';
+import 'react-leaflet-markercluster/dist/styles.min.css';
 
 class LeafletMap extends React.Component {
   state = {
@@ -22,7 +24,9 @@ class LeafletMap extends React.Component {
           attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <ResultMarkerList results={this.props.results} />
+        <MarkerClusterGroup>
+          <ResultMarkerList results={this.props.results} />
+        </MarkerClusterGroup>
         <FullscreenControl position='topright' />
       </Map>
     );
