@@ -19,56 +19,37 @@ const styles = theme => ({
   },
 });
 
-// let id = 0;
-// function createData(name, calories, fat, carbs, protein) {
-//   id += 1;
-//   return { id, name, calories, fat, carbs, protein };
-// }
-
-// const data = [
-//   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-//   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-//   createData('Eclair', 262, 16.0, 24, 6.0),
-//   createData('Cupcake', 305, 3.7, 67, 4.3),
-//   createData('Gingerbread', 356, 16.0, 49, 3.9),
-// ];
-
-const data = [];
-
 const SimpleTable = (props) => {
   const { classes, search } = props;
-
-  //console.log(search);
-  //const data = search.results;
-  //console.log(results);
-
+  
   return (
     <Paper className={classes.root}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell numeric>Type</TableCell>
-            <TableCell numeric>Area</TableCell>
-            <TableCell numeric>Source</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map(n => {
-            return (
-              <TableRow key={n.id}>
-                <TableCell component="th" scope="row">
-                  {n.name}
-                </TableCell>
-                <TableCell numeric>{n.calories}</TableCell>
-                <TableCell numeric>{n.fat}</TableCell>
-                <TableCell numeric>{n.carbs}</TableCell>
-                <TableCell numeric>{n.protein}</TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
+      {search.results.length > 0 &&
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Type</TableCell>
+              <TableCell>Area</TableCell>
+              <TableCell>Source</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {search.results.map(result => {
+              return (
+                <TableRow key={result.s}>
+                  <TableCell component="th" scope="row">
+                    {result.label[0].value}
+                  </TableCell>
+                  <TableCell>{result.typeLabel[0].value}</TableCell>
+                  <TableCell>{result.broaderAreaLabel[0].value}</TableCell>
+                  <TableCell>{result.source[0].value}</TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      }
     </Paper>
   );
 };

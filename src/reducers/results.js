@@ -6,7 +6,7 @@ import {
 const results = (state = [], action) => {
   switch (action.type) {
     case UPDATE_RESULTS:
-      return action.results;
+      return action.results.results;
     case CLEAR_RESULTS:
       return [];
     default:

@@ -14,7 +14,6 @@ import {
 
 const getSuggestionsEpic = (action$, store) => {
   const searchUrl = 'http://localhost:3000/suggest';
-
   return action$.ofType(FETCH_SUGGESTIONS)
     .debounceTime(500)
     .switchMap(() => {
@@ -23,7 +22,6 @@ const getSuggestionsEpic = (action$, store) => {
         return [];
       }
       const dsParams = _.map(datasets, ds => `dataset=${ds}`).join('&');
-
       const requestUrl = `${searchUrl}?q=${query}&${dsParams}`;
       return ajax.getJSON(requestUrl)
         .map(response => updateSuggestions({ suggestions: response }))
@@ -36,7 +34,6 @@ const getSuggestionsEpic = (action$, store) => {
 
 const getResultsEpic = (action$, store) => {
   const searchUrl = 'http://localhost:3000/search';
-
   return action$.ofType(FETCH_RESULTS)
     .switchMap(() => {
       const { query, datasets } = store.getState().search;
@@ -44,7 +41,6 @@ const getResultsEpic = (action$, store) => {
         return [];
       }
       const dsParams = _.map(datasets, ds => `dataset=${ds}`).join('&');
-
       const requestUrl = `${searchUrl}?q=${query}&${dsParams}`;
       return ajax.getJSON(requestUrl)
         .map(response => updateResults({ results: response }))
