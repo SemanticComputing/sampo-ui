@@ -27,7 +27,12 @@ const search = (state = INITIAL_STATE, action) => {
       return { ...state, suggestions: suggestions(state.suggestions, action) };
     case CLEAR_RESULTS:
     case UPDATE_RESULTS:
-      return { ...state, results: results(state.results, action) };
+      return {
+        ...state,
+        suggestions: [], 
+        results: results(state.results, action)
+
+      };
     default:
       return state;
   }

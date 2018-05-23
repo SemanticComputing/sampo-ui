@@ -75,10 +75,14 @@ const IntegrationAutosuggest = (props) => {
 
   const handleOnChange = (event, { newValue }) => props.updateQuery(newValue);
 
-  const handleOnSuggestionSelected = () => props.fetchResults();
+  const handleOnSuggestionSelected = () => {
+    props.clearSuggestions();
+    props.fetchResults();
+  };
 
   const handleOnKeyDown = (event) => {
     if (event.key === 'Enter') {
+      props.clearSuggestions();
       props.fetchResults();
     }
   };

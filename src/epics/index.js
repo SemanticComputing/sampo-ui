@@ -35,6 +35,7 @@ const getSuggestionsEpic = (action$, store) => {
 const getResultsEpic = (action$, store) => {
   const searchUrl = 'http://localhost:3000/search';
   return action$.ofType(FETCH_RESULTS)
+    .debounceTime(500)
     .switchMap(() => {
       const { query, datasets } = store.getState().search;
       if (query.length < 3) {
