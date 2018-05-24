@@ -15,16 +15,16 @@ const styles = theme => ({
     overflowX: 'auto',
   },
   table: {
-    minWidth: 700,
+    minWidth: 750,
   },
 });
 
 const SimpleTable = (props) => {
-  const { classes, search } = props;
-  
+  const { classes, data } = props;
+
   return (
     <Paper className={classes.root}>
-      {search.results.length > 0 &&
+      {data.length > 0 &&
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
@@ -35,15 +35,15 @@ const SimpleTable = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {search.results.map(result => {
+            {data.map(result => {
               return (
                 <TableRow key={result.s}>
                   <TableCell component="th" scope="row">
-                    {result.label[0].value}
+                    {result.label}
                   </TableCell>
-                  <TableCell>{result.typeLabel[0].value}</TableCell>
-                  <TableCell>{result.broaderAreaLabel[0].value}</TableCell>
-                  <TableCell>{result.source[0].value}</TableCell>
+                  <TableCell>{result.typeLabel}</TableCell>
+                  <TableCell>{result.broaderAreaLabel}</TableCell>
+                  <TableCell>{result.source}</TableCell>
                 </TableRow>
               );
             })}
@@ -56,7 +56,7 @@ const SimpleTable = (props) => {
 
 SimpleTable.propTypes = {
   classes: PropTypes.object.isRequired,
-  search: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(SimpleTable);

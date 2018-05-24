@@ -15,7 +15,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import LeafletMap from '../components/LeafletMap';
 import Message from '../components/Message';
-// import ResultTable from '../components/ResultTable';
+//import ResultTable from '../components/ResultTable';
 import SimpleTable from '../components/SimpleTable';
 
 import {
@@ -28,7 +28,7 @@ import {
   closeDrawer
 } from '../actions';
 
-const drawerWidth = 700;
+const drawerWidth = 800;
 
 const styles = theme => ({
   root: {
@@ -141,7 +141,9 @@ let MapApp = (props) => {
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </div>
-      <SimpleTable search={props.search} />
+      {props.search.results.length > 0 &&
+        <SimpleTable data={props.search.results} />
+      }
     </Drawer>
   );
 
