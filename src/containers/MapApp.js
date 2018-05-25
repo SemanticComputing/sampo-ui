@@ -12,11 +12,16 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import PlaceIcon from '@material-ui/icons/Place';
+
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import LeafletMap from '../components/LeafletMap';
 import Message from '../components/Message';
 //import ResultTable from '../components/ResultTable';
 import SimpleTable from '../components/SimpleTable';
+import Paper from '@material-ui/core/Paper';
 
 import {
   updateQuery,
@@ -29,7 +34,7 @@ import {
   setMapReady
 } from '../actions';
 
-const drawerWidth = 800;
+const drawerWidth = 700;
 
 const styles = theme => ({
   root: {
@@ -113,13 +118,6 @@ const styles = theme => ({
 let MapApp = (props) => {
   const { classes, error, theme, drawerIsOpen, mapReady } = props;
   const anchor = 'left';
-  //console.log("MapApp.js", props);
-
-  // handleChangeAnchor = event => {
-  //   this.setState({
-  //     anchor: event.target.value,
-  //   });
-  // };
 
   const drawer = (
     <Drawer
@@ -131,17 +129,27 @@ let MapApp = (props) => {
       }}
     >
       <div className={classes.drawerHeader}>
-        <IntegrationAutosuggest
-          search={props.search}
-          updateQuery={props.updateQuery}
-          fetchSuggestions={props.fetchSuggestions}
-          clearSuggestions={props.clearSuggestions}
-          fetchResults={props.fetchResults}
-        />
+        <Tabs
+          value={0}
+          onChange={null}
+          fullWidth
+          indicatorColor="secondary"
+          textColor="secondary"
+        >
+          <Tab label="Places" />
+          <Tab label="Maps" />
+        </Tabs>
         <IconButton onClick={props.closeDrawer}>
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </div>
+      <IntegrationAutosuggest
+        search={props.search}
+        updateQuery={props.updateQuery}
+        fetchSuggestions={props.fetchSuggestions}
+        clearSuggestions={props.clearSuggestions}
+        fetchResults={props.fetchResults}
+      />
       {props.search.results.length > 0 &&
         <SimpleTable data={props.search.results} />
       }
@@ -163,7 +171,6 @@ let MapApp = (props) => {
       props.openDrawer();
     }, 300);
   }
-
 
   return (
     <div className={classes.root}>
