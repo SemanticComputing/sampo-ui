@@ -25,7 +25,8 @@ import {
   clearSuggestions,
   fetchResults,
   openDrawer,
-  closeDrawer
+  closeDrawer,
+  setMapReady
 } from '../actions';
 
 const drawerWidth = 800;
@@ -110,7 +111,7 @@ const styles = theme => ({
 });
 
 let MapApp = (props) => {
-  const { classes, error, theme, drawerIsOpen } = props;
+  const { classes, error, theme, drawerIsOpen, mapReady } = props;
   const anchor = 'left';
   //console.log("MapApp.js", props);
 
@@ -156,6 +157,14 @@ let MapApp = (props) => {
     after = drawer;
   }
 
+  if (!mapReady) {
+    props.setMapReady();
+    setTimeout(() => {
+      props.openDrawer();
+    }, 300);
+  }
+
+
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
@@ -188,7 +197,9 @@ let MapApp = (props) => {
         >
           <div className={classes.drawerHeader} />
           <Message error={error} />
-          <LeafletMap results={props.search.results} />
+          <LeafletMap
+            drawerIsOpen={drawerIsOpen}
+            results={props.search.results} />
         </main>
         {after}
       </div>
@@ -199,6 +210,7 @@ let MapApp = (props) => {
 const mapStateToProps = (state) => ({
   search: state.search,
   drawerIsOpen: state.options.drawerIsOpen,
+  mapReady: state.options.mapReady,
   error: state.error,
 });
 
@@ -210,6 +222,7 @@ const mapDispatchToProps = ({
   fetchSuggestions,
   clearSuggestions,
   fetchResults,
+  setMapReady
 });
 
 MapApp.propTypes = {
@@ -218,12 +231,14 @@ MapApp.propTypes = {
   search: PropTypes.object.isRequired,
   error: PropTypes.object.isRequired,
   drawerIsOpen: PropTypes.bool.isRequired,
+  mapReady: PropTypes.bool.isRequired,
   openDrawer: PropTypes.func.isRequired,
   closeDrawer: PropTypes.func.isRequired,
   updateQuery: PropTypes.func.isRequired,
   fetchSuggestions: PropTypes.func.isRequired,
   clearSuggestions: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
+  setMapReady: PropTypes.func.isRequired,
 };
 
 MapApp = connect(
