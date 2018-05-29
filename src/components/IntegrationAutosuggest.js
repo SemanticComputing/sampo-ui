@@ -43,8 +43,11 @@ function getSuggestionValue(suggestion) {
 
 const styles = theme => ({
   container: {
-    flexGrow: 1,
+    flexGrow: 0,
     position: 'relative',
+    marginTop: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2
   },
   suggestionsContainerOpen: {
     position: 'absolute',
@@ -52,6 +55,8 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     left: 0,
     right: 0,
+    marginLeft: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2
   },
   suggestion: {
     display: 'block',
@@ -63,12 +68,6 @@ const styles = theme => ({
     maxHeight: 500,
     overflow: 'auto',
   },
-  sectionContainer: {
-    borderTop: '1px dashed #ccc',
-  },
-  sectionContainerFirst: {
-    borderTop: 0,
-  }
 });
 
 const IntegrationAutosuggest = (props) => {

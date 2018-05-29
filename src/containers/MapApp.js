@@ -7,21 +7,20 @@ import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-// import Divider from '@material-ui/core/Divider';
+import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import PlaceIcon from '@material-ui/icons/Place';
-
+// import PlaceIcon from '@material-ui/icons/Place';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import LeafletMap from '../components/LeafletMap';
 import Message from '../components/Message';
 //import ResultTable from '../components/ResultTable';
 import SimpleTable from '../components/SimpleTable';
-import Paper from '@material-ui/core/Paper';
+// import Paper from '@material-ui/core/Paper';
 
 import {
   updateQuery,
@@ -82,7 +81,7 @@ const styles = theme => ({
   drawerHeader: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     padding: '0 8px',
     ...theme.mixins.toolbar,
   },
@@ -138,11 +137,13 @@ let MapApp = (props) => {
         >
           <Tab label="Places" />
           <Tab label="Maps" />
+          <Tab label="Options" />
         </Tabs>
         <IconButton onClick={props.closeDrawer}>
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </div>
+      <Divider />
       <IntegrationAutosuggest
         search={props.search}
         updateQuery={props.updateQuery}
