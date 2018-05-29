@@ -18,8 +18,9 @@ import Tab from '@material-ui/core/Tab';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import LeafletMap from '../components/LeafletMap';
 import Message from '../components/Message';
-//import ResultTable from '../components/ResultTable';
-import SimpleTable from '../components/SimpleTable';
+// import ResultTable from '../components/ResultTable';
+// import SimpleTable from '../components/SimpleTable';
+import DataTable from '../components/DataTable';
 // import Paper from '@material-ui/core/Paper';
 
 import {
@@ -118,6 +119,8 @@ let MapApp = (props) => {
   const { classes, error, theme, drawerIsOpen, mapReady } = props;
   const anchor = 'left';
 
+  //console.log(props.search.results)
+
   const drawer = (
     <Drawer
       variant="persistent"
@@ -152,7 +155,7 @@ let MapApp = (props) => {
         fetchResults={props.fetchResults}
       />
       {props.search.results.length > 0 &&
-        <SimpleTable data={props.search.results} />
+        <DataTable data={props.search.results} />
       }
     </Drawer>
   );

@@ -19,8 +19,8 @@ const ResultMarker = ({ label, lat, long }) => {
 
 ResultMarker.propTypes = {
   label: PropTypes.string.isRequired,
-  lat: PropTypes.string.isRequired,
-  long: PropTypes.string.isRequired,
+  lat: PropTypes.string,
+  long: PropTypes.string,
 };
 
 export default ResultMarker;
