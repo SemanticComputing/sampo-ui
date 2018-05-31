@@ -34,9 +34,7 @@ const columns = [
 ];
 
 const options = {
-  filterType: 'checkbox',
-  pagination: false,
-  responsive: 'stacked'
+
 };
 
 const DataTable = (props) => {
