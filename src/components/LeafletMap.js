@@ -12,14 +12,23 @@ import 'react-leaflet-fullscreen/dist/styles.css';
 import 'react-leaflet-markercluster/dist/styles.min.css';
 import SimpleSlider from './SimpleSlider';
 import Control from 'react-leaflet-control';
+import { GoogleLayer } from 'react-leaflet-google';
+
+// https://console.developers.google.com/apis/credentials?project=hipla-187309
+const key = 'AIzaSyCKWw5FjhwLsfp_l2gjVAifPkT3cxGXhA4';
+const road = 'ROADMAP'; // displays the default road map view. This is the default map type.
+const satellite = 'SATELLITE'; // displays Google Earth satellite images.
+const hybrid = 'HYBRID'; // displays a mixture of normal and satellite views.
+const terrain = 'TERRAIN'; // displays a physical map based on terrain information.
+
 
 class LeafletMap extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      lat: 64.950916,
-      lng: 27.095982,
+      lat: 63.78248603116502,
+      lng: 40.10009765625001,
       zoom: 5,
       opacity: 1.0
     };
@@ -31,13 +40,26 @@ class LeafletMap extends React.Component {
 
   render() {
     const position = [this.state.lat, this.state.lng];
-  
+
     return (
       <Map
         center={position}
-        zoom={this.state.zoom}>
+        zoom={this.state.zoom}
+      >
         <LayersControl position="topright">
-          <LayersControl.BaseLayer checked name="OpenStreetMap">
+          <LayersControl.BaseLayer checked name='Google Maps Roads'>
+            <GoogleLayer googlekey={key}  maptype={road}/>
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name='Google Maps Satellite'>
+            <GoogleLayer googlekey={key}  maptype={satellite} />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name='Google Maps Hybrid'>
+            <GoogleLayer googlekey={key}  maptype={hybrid} />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name='Google Maps Terrain'>
+            <GoogleLayer googlekey={key}  maptype={terrain} />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name="OpenStreetMap">
             <TileLayer
               attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -57,7 +79,6 @@ class LeafletMap extends React.Component {
               opacity={this.state.opacity}
             />
           </LayersControl.Overlay>
-
         </LayersControl>
         <MarkerClusterGroup>
           <ResultMarkerList results={this.props.results} />
