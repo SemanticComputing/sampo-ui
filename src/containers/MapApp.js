@@ -18,10 +18,8 @@ import Tab from '@material-ui/core/Tab';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import LeafletMap from '../components/LeafletMap';
 import Message from '../components/Message';
-// import ResultTable from '../components/ResultTable';
-// import SimpleTable from '../components/SimpleTable';
-import DataTable from '../components/DataTable';
-// import Paper from '@material-ui/core/Paper';
+import SimpleTable from '../components/SimpleTable';
+//import DataTable from '../components/DataTable';
 
 import {
   updateQuery,
@@ -155,7 +153,7 @@ let MapApp = (props) => {
         fetchResults={props.fetchResults}
       />
       {props.search.results.length > 0 &&
-        <DataTable data={props.search.results} />
+        <SimpleTable data={props.search.results} />
       }
     </Drawer>
   );
@@ -209,7 +207,7 @@ let MapApp = (props) => {
           <div className={classes.drawerHeader} />
           <Message error={error} />
           <LeafletMap
-            drawerIsOpen={drawerIsOpen}
+            sliderValue={100}
             results={props.search.results} />
         </main>
         {after}
