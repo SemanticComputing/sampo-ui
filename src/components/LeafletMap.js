@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import {
   Map,
   LayersControl,
-  TileLayer
+  TileLayer,
+  GeoJSON
 } from 'react-leaflet';
 import FullscreenControl from 'react-leaflet-fullscreen';
 import ResultMarkerList from './ResultMarkerList';
@@ -40,6 +41,7 @@ class LeafletMap extends React.Component {
 
   render() {
     const position = [this.state.lat, this.state.lng];
+    console.log(this.props.geoJSON);
 
     return (
       <Map
@@ -80,6 +82,7 @@ class LeafletMap extends React.Component {
             />
           </LayersControl.Overlay>
         </LayersControl>
+        <GeoJSON data={this.props.geoJSON} />
         <MarkerClusterGroup>
           <ResultMarkerList results={this.props.results} />
         </MarkerClusterGroup>
@@ -90,6 +93,13 @@ class LeafletMap extends React.Component {
             setOpacity={this.handleSetOpacity}
           />
         </Control>
+        <Control position="topright" >
+          <button
+            onClick={this.props.getGeoJSON}
+          >
+            Kotus pitäjät
+          </button>
+        </Control>
       </Map>
     );
   }
@@ -98,6 +108,8 @@ class LeafletMap extends React.Component {
 LeafletMap.propTypes = {
   results: PropTypes.array.isRequired,
   sliderValue: PropTypes.number.isRequired,
+  geoJSON: PropTypes.object,
+  getGeoJSON: PropTypes.func.isRequired
 };
 
 export default LeafletMap;

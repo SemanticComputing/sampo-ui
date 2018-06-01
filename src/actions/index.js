@@ -14,6 +14,9 @@ export const CLEAR_RESULTS = 'CLEAR_RESULTS';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const UPDATE_LANGUAGE = 'UPDATE_LANGUAGE';
 export const SET_MAP_READY = 'SET_MAP_READY';
+export const GET_GEOJSON = 'GET_GEOJSON';
+export const UPDATE_GEOJSON = 'UPDATE_GEOJSON';
+export const GET_GEOJSON_FAILED = 'GET_GEOJSON_FAILED';
 
 export const openDrawer = () => ({
   type: OPEN_DRAWER,
@@ -84,4 +87,18 @@ export const updateLanguage = (language) => ({
 
 export const setMapReady = () => ({
   type: SET_MAP_READY,
+});
+
+export const getGeoJSON = () => ({
+  type: GET_GEOJSON,
+});
+
+export const updateGeoJSON = (geoJSON) => ({
+  type: UPDATE_GEOJSON,
+  geoJSON
+});
+
+export const getGeoJSONFailed = (error) => ({
+  type: GET_GEOJSON_FAILED,
+  error
 });

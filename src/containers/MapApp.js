@@ -29,7 +29,8 @@ import {
   fetchResults,
   openDrawer,
   closeDrawer,
-  setMapReady
+  setMapReady,
+  getGeoJSON
 } from '../actions';
 
 const drawerWidth = 700;
@@ -208,7 +209,10 @@ let MapApp = (props) => {
           <Message error={error} />
           <LeafletMap
             sliderValue={100}
-            results={props.search.results} />
+            results={props.search.results}
+            geoJSON={props.geoJSON}
+            getGeoJSON={props.getGeoJSON}
+          />
         </main>
         {after}
       </div>
@@ -221,6 +225,7 @@ const mapStateToProps = (state) => ({
   drawerIsOpen: state.options.drawerIsOpen,
   mapReady: state.options.mapReady,
   error: state.error,
+  geoJSON: state.map.geoJSON,
 });
 
 const mapDispatchToProps = ({
@@ -231,7 +236,8 @@ const mapDispatchToProps = ({
   fetchSuggestions,
   clearSuggestions,
   fetchResults,
-  setMapReady
+  setMapReady,
+  getGeoJSON
 });
 
 MapApp.propTypes = {
@@ -248,6 +254,8 @@ MapApp.propTypes = {
   clearSuggestions: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
   setMapReady: PropTypes.func.isRequired,
+  geoJSON: PropTypes.object.isRequired,
+  getGeoJSON: PropTypes.func.isRequired,
 };
 
 MapApp = connect(

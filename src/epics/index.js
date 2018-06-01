@@ -6,10 +6,13 @@ import { Observable } from 'rxjs/Observable';
 import {
   updateSuggestions,
   updateResults,
+  updateGeoJSON,
   FETCH_SUGGESTIONS,
   FETCH_SUGGESTIONS_FAILED,
   FETCH_RESULTS,
   FETCH_RESULTS_FAILED,
+  GET_GEOJSON,
+  GET_GEOJSON_FAILED
 } from '../actions';
 
 const getSuggestionsEpic = (action$, store) => {
@@ -52,6 +55,23 @@ const getResultsEpic = (action$, store) => {
     });
 };
 
-const rootEpic = combineEpics(getSuggestionsEpic, getResultsEpic);
+const getGeoJSONEpic = (action$) => {
+  const url = 'http://localhost:3000/wfs';
+  return action$.ofType(GET_GEOJSON)
+    .switchMap(() => {
+      return ajax.getJSON(url)
+        // .map(response => {
+        //   console.log('res' + response)
+        // })
+        .map(response => updateGeoJSON({ geoJSON: response }))
+        .catch(error => Observable.of({
+          type: GET_GEOJSON_FAILED,
+          error: error,
+        }));
+    });
+};
+
+
+const rootEpic = combineEpics(getSuggestionsEpic, getResultsEpic, getGeoJSONEpic);
 
 export default rootEpic;
