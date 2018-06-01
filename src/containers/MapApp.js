@@ -211,6 +211,7 @@ let MapApp = (props) => {
             sliderValue={100}
             results={props.search.results}
             geoJSON={props.geoJSON}
+            geoJSONKey={props.geoJSONKey}
             getGeoJSON={props.getGeoJSON}
           />
         </main>
@@ -226,6 +227,7 @@ const mapStateToProps = (state) => ({
   mapReady: state.options.mapReady,
   error: state.error,
   geoJSON: state.map.geoJSON,
+  geoJSONKey: state.map.geoJSONKey
 });
 
 const mapDispatchToProps = ({
@@ -255,6 +257,7 @@ MapApp.propTypes = {
   fetchResults: PropTypes.func.isRequired,
   setMapReady: PropTypes.func.isRequired,
   geoJSON: PropTypes.object.isRequired,
+  geoJSONKey: PropTypes.number,
   getGeoJSON: PropTypes.func.isRequired,
 };
 

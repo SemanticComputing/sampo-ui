@@ -39,10 +39,14 @@ class LeafletMap extends React.Component {
     this.setState({ opacity: +value / 100 });
   }
 
+  handleOnEachFeature = (feature, layer) => {
+    if (feature.properties && feature.properties.NIMI) {
+      layer.bindPopup('<p>Nimi: ' + feature.properties.NIMI + '</p></p>ID: ' + feature.id + '</p>');
+    }
+  }
+
   render() {
     const position = [this.state.lat, this.state.lng];
-    console.log(this.props.geoJSON);
-
     return (
       <Map
         center={position}
@@ -82,7 +86,11 @@ class LeafletMap extends React.Component {
             />
           </LayersControl.Overlay>
         </LayersControl>
-        <GeoJSON data={this.props.geoJSON} />
+        <GeoJSON
+          key={this.props.geoJSONKey}
+          data={this.props.geoJSON}
+          onEachFeature={this.handleOnEachFeature}
+        />
         <MarkerClusterGroup>
           <ResultMarkerList results={this.props.results} />
         </MarkerClusterGroup>
@@ -109,6 +117,7 @@ LeafletMap.propTypes = {
   results: PropTypes.array.isRequired,
   sliderValue: PropTypes.number.isRequired,
   geoJSON: PropTypes.object,
+  geoJSONKey: PropTypes.number,
   getGeoJSON: PropTypes.func.isRequired
 };
 
