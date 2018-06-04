@@ -78,6 +78,13 @@ class LeafletMap extends React.Component {
               opacity={this.state.opacity}
             />
           </LayersControl.Overlay>
+          <LayersControl.Overlay name="Senate atlas">
+            <TileLayer
+              attribution="SeCo"
+              url="http:///mapwarper.onki.fi/mosaics/tile/5/{z}/{x}/{y}.png"
+              opacity={this.state.opacity}
+            />
+          </LayersControl.Overlay>
           <LayersControl.Overlay name="Western Front July 1917">
             <TileLayer
               attribution="SeCo"
