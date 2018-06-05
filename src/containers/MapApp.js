@@ -18,8 +18,9 @@ import Tab from '@material-ui/core/Tab';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import LeafletMap from '../components/LeafletMap';
 import Message from '../components/Message';
-import SimpleTable from '../components/SimpleTable';
+// import SimpleTable from '../components/SimpleTable';
 //import DataTable from '../components/DataTable';
+import DataGrid from '../components/DataGrid';
 
 import {
   updateQuery,
@@ -33,7 +34,7 @@ import {
   getGeoJSON
 } from '../actions';
 
-const drawerWidth = 700;
+const drawerWidth = 800;
 
 const styles = theme => ({
   root: {
@@ -154,7 +155,7 @@ let MapApp = (props) => {
         fetchResults={props.fetchResults}
       />
       {props.search.results.length > 0 &&
-        <SimpleTable data={props.search.results} />
+        <DataGrid data={props.search.results} />
       }
     </Drawer>
   );
