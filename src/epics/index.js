@@ -18,7 +18,7 @@ import {
 const getSuggestionsEpic = (action$, store) => {
   const searchUrl = 'http://localhost:3000/suggest';
   return action$.ofType(FETCH_SUGGESTIONS)
-    .debounceTime(500)
+    .debounceTime(1000)
     .switchMap(() => {
       const { query, datasets } = store.getState().search;
       if (query.length < 3) {
