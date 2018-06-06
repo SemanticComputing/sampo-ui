@@ -72,7 +72,13 @@ const styles = theme => ({
 
 const IntegrationAutosuggest = (props) => {
 
-  const handleOnChange = (event, { newValue }) => props.updateQuery(newValue);
+  const handleOnChange = (event, { newValue }) => {
+    props.clearSuggestions();
+    props.updateQuery(newValue);
+    //if (newValue.length < 3) {
+
+  //  }
+  };
 
   const handleOnSuggestionSelected = () => {
     props.clearSuggestions();
@@ -86,9 +92,37 @@ const IntegrationAutosuggest = (props) => {
     }
   };
 
+  // const handleOnBlur = (event, { highlightedSuggestion }) => {
+  //   // console.log(event);
+  //   // console.log(highlightedSuggestion);
+  // };
+
+  const handleOnSuggestionsFetchRequested = ({ value }) => {
+    // console.log(value)
+    // console.log(reason)
+    // console.log(props.search.suggestionsQuery)
+    if (props.search.suggestionsQuery != value ) {
+      // console.log('fetching suggestions');
+      props.fetchSuggestions();
+    }
+    // else {
+    //   console.log('using old suggestions');
+    // }
+  };
+
+  const shouldRenderSuggestions = (value)  => {
+    return value.trim().length > 2;
+  };
+
+  const handleOnSuggestionsClearRequested = () => {
+    //console.log('SuggestionsClearRequested');
+    //props.clearSuggestions();
+  };
+  //alwaysRenderSuggestions={true}
+
   const { classes } = props;
 
-  //console.log('IntegrationAutosuggest', props);
+  //console.log('IntegrationAutosuggest', props.search.suggestions);
 
   return (
     <Autosuggest
@@ -97,13 +131,12 @@ const IntegrationAutosuggest = (props) => {
         suggestionsContainerOpen: classes.suggestionsContainerOpen,
         suggestionsList: classes.suggestionsList,
         suggestion: classes.suggestion,
-        sectionContainer : classes.sectionContainer,
-        sectionContainerFirst : classes.sectionContainerFirst,
       }}
       renderInputComponent={renderInput}
       suggestions={props.search.suggestions}
-      onSuggestionsClearRequested={props.clearSuggestions}
-      onSuggestionsFetchRequested={props.fetchSuggestions}
+      shouldRenderSuggestions={shouldRenderSuggestions}
+      onSuggestionsFetchRequested={handleOnSuggestionsFetchRequested}
+      onSuggestionsClearRequested={handleOnSuggestionsClearRequested}
       renderSuggestionsContainer={renderSuggestionsContainer}
       getSuggestionValue={getSuggestionValue}
       renderSuggestion={renderSuggestion}
@@ -113,7 +146,7 @@ const IntegrationAutosuggest = (props) => {
         placeholder: 'Search place names',
         value: props.search.query,
         onChange: handleOnChange,
-        onKeyDown: handleOnKeyDown
+        onKeyDown: handleOnKeyDown,
       }}
     />
   );

@@ -11,9 +11,11 @@ import results from './results';
 
 export const INITIAL_STATE = {
   query: '',
-  datasets: ['warsa_karelian_places', 'warsa_municipalities'],
+  datasets: ['warsa_karelian_places', 'warsa_municipalities', 'kotus'],
   suggestions: [],
-  results: []
+  suggestionsQuery: '',
+  results: [],
+  resultsQuery: ''
 };
 
 const search = (state = INITIAL_STATE, action) => {
@@ -24,14 +26,18 @@ const search = (state = INITIAL_STATE, action) => {
       return { ...state, datasets: action.datasets || [] };
     case CLEAR_SUGGESTIONS:
     case UPDATE_SUGGESTIONS:
-      return { ...state, suggestions: suggestions(state.suggestions, action) };
+      return {
+        ...state,
+        suggestions: suggestions(state.suggestions, action),
+        suggestionsQuery: state.query
+      };
     case CLEAR_RESULTS:
     case UPDATE_RESULTS:
       return {
         ...state,
         suggestions: [],
-        results: results(state.results, action)
-
+        results: results(state.results, action),
+        resultsQuery: state.query
       };
     default:
       return state;
