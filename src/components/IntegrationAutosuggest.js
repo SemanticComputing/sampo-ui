@@ -75,19 +75,18 @@ const IntegrationAutosuggest = (props) => {
   const handleOnChange = (event, { newValue }) => {
     props.clearSuggestions();
     props.updateQuery(newValue);
-    //if (newValue.length < 3) {
-
-  //  }
   };
 
   const handleOnSuggestionSelected = () => {
-    props.clearSuggestions();
+    // TODO: input should lose focus
+    console.log('fetching results');
     props.fetchResults();
   };
 
   const handleOnKeyDown = (event) => {
     if (event.key === 'Enter') {
-      props.clearSuggestions();
+      // TODO: input should lose focus
+      console.log('fetching results');
       props.fetchResults();
     }
   };
@@ -98,16 +97,13 @@ const IntegrationAutosuggest = (props) => {
   // };
 
   const handleOnSuggestionsFetchRequested = ({ value }) => {
-    // console.log(value)
-    // console.log(reason)
-    // console.log(props.search.suggestionsQuery)
     if (props.search.suggestionsQuery != value ) {
-      // console.log('fetching suggestions');
+      console.log('fetching suggestions');
       props.fetchSuggestions();
     }
-    // else {
-    //   console.log('using old suggestions');
-    // }
+    else {
+      console.log('using old suggestions');
+    }
   };
 
   const shouldRenderSuggestions = (value)  => {
@@ -118,7 +114,6 @@ const IntegrationAutosuggest = (props) => {
     //console.log('SuggestionsClearRequested');
     //props.clearSuggestions();
   };
-  //alwaysRenderSuggestions={true}
 
   const { classes } = props;
 

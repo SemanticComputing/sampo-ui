@@ -25,6 +25,11 @@ const search = (state = INITIAL_STATE, action) => {
     case UPDATE_DATASETS:
       return { ...state, datasets: action.datasets || [] };
     case CLEAR_SUGGESTIONS:
+      return {
+        ...state,
+        suggestions: [],
+        suggestionsQuery: '',
+      };
     case UPDATE_SUGGESTIONS:
       return {
         ...state,
@@ -32,10 +37,14 @@ const search = (state = INITIAL_STATE, action) => {
         suggestionsQuery: state.query
       };
     case CLEAR_RESULTS:
+      return {
+        ...state,
+        results: [],
+        resultsQuery: '',
+      };
     case UPDATE_RESULTS:
       return {
         ...state,
-        suggestions: [],
         results: results(state.results, action),
         resultsQuery: state.query
       };
