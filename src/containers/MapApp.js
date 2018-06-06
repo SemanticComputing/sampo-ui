@@ -18,9 +18,9 @@ import Tab from '@material-ui/core/Tab';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import LeafletMap from '../components/LeafletMap';
 import Message from '../components/Message';
-// import SimpleTable from '../components/SimpleTable';
-//import DataTable from '../components/DataTable';
-import DataGrid from '../components/DataGrid';
+import SimpleTable from '../components/SimpleTable';
+// import DataTable from '../components/DataTable';
+// import DataGrid from '../components/DataGrid';
 
 import {
   updateQuery,
@@ -155,7 +155,7 @@ let MapApp = (props) => {
         fetchResults={props.fetchResults}
       />
       {props.search.results.length > 0 &&
-        <DataGrid data={props.search.results} />
+        <SimpleTable data={props.search.results} />
       }
     </Drawer>
   );
