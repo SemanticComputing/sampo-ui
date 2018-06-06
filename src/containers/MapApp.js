@@ -28,6 +28,7 @@ import {
   fetchSuggestions,
   clearSuggestions,
   fetchResults,
+  clearResults,
   openDrawer,
   closeDrawer,
   setMapReady,
@@ -153,6 +154,7 @@ let MapApp = (props) => {
         fetchSuggestions={props.fetchSuggestions}
         clearSuggestions={props.clearSuggestions}
         fetchResults={props.fetchResults}
+        clearResults={props.clearResults}
       />
       {props.search.results.length > 0 &&
         <SimpleTable data={props.search.results} />
@@ -239,6 +241,7 @@ const mapDispatchToProps = ({
   fetchSuggestions,
   clearSuggestions,
   fetchResults,
+  clearResults,
   setMapReady,
   getGeoJSON
 });
@@ -256,6 +259,7 @@ MapApp.propTypes = {
   fetchSuggestions: PropTypes.func.isRequired,
   clearSuggestions: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
+  clearResults: PropTypes.func.isRequired,
   setMapReady: PropTypes.func.isRequired,
   geoJSON: PropTypes.object.isRequired,
   geoJSONKey: PropTypes.number,

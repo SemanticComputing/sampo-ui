@@ -81,6 +81,7 @@ const IntegrationAutosuggest = (props) => {
 
   const handleOnSuggestionSelected = () => {
     console.log('fetching results');
+    props.clearResults();
     props.fetchResults();
   };
 
@@ -88,6 +89,7 @@ const IntegrationAutosuggest = (props) => {
     if (event.key === 'Enter') {
       console.log('fetching results');
       autosuggestDOM.current.input.blur();
+      props.clearResults();
       props.fetchResults();
     }
   };
@@ -157,6 +159,7 @@ IntegrationAutosuggest.propTypes = {
   fetchSuggestions: PropTypes.func.isRequired,
   clearSuggestions: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
+  clearResults: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(IntegrationAutosuggest);
