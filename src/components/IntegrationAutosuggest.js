@@ -72,21 +72,22 @@ const styles = theme => ({
 
 const IntegrationAutosuggest = (props) => {
 
+  let autosuggestDOM = React.createRef();
+
   const handleOnChange = (event, { newValue }) => {
     props.clearSuggestions();
     props.updateQuery(newValue);
   };
 
   const handleOnSuggestionSelected = () => {
-    // TODO: input should lose focus
     console.log('fetching results');
     props.fetchResults();
   };
 
   const handleOnKeyDown = (event) => {
     if (event.key === 'Enter') {
-      // TODO: input should lose focus
       console.log('fetching results');
+      autosuggestDOM.current.input.blur();
       props.fetchResults();
     }
   };
@@ -116,7 +117,6 @@ const IntegrationAutosuggest = (props) => {
   };
 
   const { classes } = props;
-
   //console.log('IntegrationAutosuggest', props.search.suggestions);
 
   return (
@@ -136,12 +136,15 @@ const IntegrationAutosuggest = (props) => {
       getSuggestionValue={getSuggestionValue}
       renderSuggestion={renderSuggestion}
       onSuggestionSelected={handleOnSuggestionSelected}
+      focusInputOnSuggestionClick={false}
+      ref={autosuggestDOM}
       inputProps={{
         classes,
         placeholder: 'Search place names',
         value: props.search.query,
         onChange: handleOnChange,
         onKeyDown: handleOnKeyDown,
+        autoFocus: true
       }}
     />
   );
