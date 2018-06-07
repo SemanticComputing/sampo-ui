@@ -5,6 +5,8 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import SuggestionItem from './SuggestionItem';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function renderInput(inputProps) {
   const { classes, ref, ...other } = inputProps;
@@ -121,6 +123,11 @@ const IntegrationAutosuggest = (props) => {
   const { classes } = props;
   //console.log('IntegrationAutosuggest', props.search.suggestions);
 
+  let spinner = null;
+  if (props.search.fetchingSuggestions) {
+    spinner = <InputAdornment position="end"><CircularProgress size={28} /></InputAdornment>;
+  }
+
   return (
     <Autosuggest
       theme={{
@@ -146,7 +153,8 @@ const IntegrationAutosuggest = (props) => {
         value: props.search.query,
         onChange: handleOnChange,
         onKeyDown: handleOnKeyDown,
-        autoFocus: true
+        autoFocus: true,
+        endAdornment: spinner
       }}
     />
   );

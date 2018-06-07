@@ -1,6 +1,7 @@
 import {
   UPDATE_QUERY,
   UPDATE_DATASETS,
+  FETCH_SUGGESTIONS,
   UPDATE_SUGGESTIONS,
   CLEAR_SUGGESTIONS,
   UPDATE_RESULTS,
@@ -14,8 +15,10 @@ export const INITIAL_STATE = {
   datasets: ['warsa_karelian_places', 'warsa_municipalities', 'kotus'],
   suggestions: [],
   suggestionsQuery: '',
+  fetchingSuggestions: false,
   results: [],
-  resultsQuery: ''
+  resultsQuery: '',
+  fetchingResults: true,
 };
 
 const search = (state = INITIAL_STATE, action) => {
@@ -24,17 +27,21 @@ const search = (state = INITIAL_STATE, action) => {
       return { ...state, query: action.query || '' };
     case UPDATE_DATASETS:
       return { ...state, datasets: action.datasets || [] };
+    case FETCH_SUGGESTIONS:
+      return { ...state, fetchingSuggestions: true };
     case CLEAR_SUGGESTIONS:
       return {
         ...state,
         suggestions: [],
         suggestionsQuery: '',
+        fetchingSuggestions: false
       };
     case UPDATE_SUGGESTIONS:
       return {
         ...state,
         suggestions: suggestions(state.suggestions, action),
-        suggestionsQuery: state.query
+        suggestionsQuery: state.query,
+        fetchingSuggestions: false
       };
     case CLEAR_RESULTS:
       return {
