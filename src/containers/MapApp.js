@@ -35,7 +35,7 @@ import {
   getGeoJSON
 } from '../actions';
 
-const drawerWidth = 800;
+const drawerWidth = 600;
 
 const styles = theme => ({
   root: {
@@ -127,6 +127,7 @@ let MapApp = (props) => {
       variant="persistent"
       anchor={anchor}
       open={drawerIsOpen}
+      width={drawerWidth}
       classes={{
         paper: classes.drawerPaper,
       }}

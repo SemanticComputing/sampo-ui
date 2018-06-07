@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import SuggestionItem from './SuggestionItem';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import SearchIcon from '@material-ui/icons/Search';
 
 function renderInput(inputProps) {
   const { classes, ref, ...other } = inputProps;
@@ -48,8 +49,11 @@ const styles = theme => ({
     flexGrow: 0,
     position: 'relative',
     marginTop: theme.spacing.unit * 2,
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2
+    // paddingLeft: theme.spacing.unit * 15,
+    // paddingRight: theme.spacing.unit * 15,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: 300,
   },
   suggestionsContainerOpen: {
     position: 'absolute',
@@ -57,8 +61,9 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     left: 0,
     right: 0,
-    marginLeft: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: 300,
   },
   suggestion: {
     display: 'block',
@@ -70,6 +75,13 @@ const styles = theme => ({
     maxHeight: 500,
     overflow: 'auto',
   },
+  icon: {
+    color: theme.palette.text.secondary,
+    paddingTop: 4,
+  },
+  spinner: {
+    //margin: theme.spacing.unit,
+  }
 });
 
 const IntegrationAutosuggest = (props) => {
@@ -112,7 +124,7 @@ const IntegrationAutosuggest = (props) => {
   };
 
   const shouldRenderSuggestions = (value)  => {
-    return value.trim().length > 2;
+    return value.trim().length > 3;
   };
 
   const handleOnSuggestionsClearRequested = () => {
@@ -123,9 +135,11 @@ const IntegrationAutosuggest = (props) => {
   const { classes } = props;
   //console.log('IntegrationAutosuggest', props.search.suggestions);
 
-  let spinner = null;
+  let adornment = null;
   if (props.search.fetchingSuggestions) {
-    spinner = <InputAdornment position="end"><CircularProgress size={28} /></InputAdornment>;
+    adornment = <InputAdornment position="end"><CircularProgress size={20} /></InputAdornment>;
+  } else {
+    adornment = <SearchIcon className={classes.icon} />;
   }
 
   return (
@@ -154,7 +168,7 @@ const IntegrationAutosuggest = (props) => {
         onChange: handleOnChange,
         onKeyDown: handleOnKeyDown,
         autoFocus: true,
-        endAdornment: spinner
+        endAdornment: adornment
       }}
     />
   );

@@ -15,9 +15,22 @@ const styles = theme => ({
     overflowX: 'hidden',
   },
   table: {
-    minWidth: 700,
+    width: 600,
   },
+
 });
+
+const CustomTableCell = withStyles(theme => ({
+  root: {
+    paddingRight: 24,
+  },
+  head: {
+    fontWeight: 600,
+  },
+  // body: {
+  //   fontSize: 14,
+  // },
+}))(TableCell);
 
 const SimpleTable = (props) => {
   const { classes, data } = props;
@@ -28,22 +41,22 @@ const SimpleTable = (props) => {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Type</TableCell>
-              <TableCell>Area</TableCell>
-              <TableCell>Source</TableCell>
+              <CustomTableCell>Name</CustomTableCell>
+              <CustomTableCell>Type</CustomTableCell>
+              <CustomTableCell>Area</CustomTableCell>
+              <CustomTableCell>Source</CustomTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data.map(result => {
               return (
                 <TableRow key={result.s}>
-                  <TableCell component="th" scope="row">
+                  <CustomTableCell component="th" scope="row">
                     {result.label}
-                  </TableCell>
-                  <TableCell>{result.typeLabel}</TableCell>
-                  <TableCell>{result.broaderAreaLabel}</TableCell>
-                  <TableCell>{result.source}</TableCell>
+                  </CustomTableCell>
+                  <CustomTableCell>{result.typeLabel}</CustomTableCell>
+                  <CustomTableCell>{result.broaderAreaLabel}</CustomTableCell>
+                  <CustomTableCell>{result.source}</CustomTableCell>
                 </TableRow>
               );
             })}
