@@ -2,6 +2,7 @@ import {
   UPDATE_QUERY,
   UPDATE_DATASETS,
   FETCH_SUGGESTIONS,
+  FETCH_RESULTS,
   UPDATE_SUGGESTIONS,
   CLEAR_SUGGESTIONS,
   UPDATE_RESULTS,
@@ -18,7 +19,7 @@ export const INITIAL_STATE = {
   fetchingSuggestions: false,
   results: [],
   resultsQuery: '',
-  fetchingResults: true,
+  fetchingResults: false,
 };
 
 const search = (state = INITIAL_STATE, action) => {
@@ -29,6 +30,8 @@ const search = (state = INITIAL_STATE, action) => {
       return { ...state, datasets: action.datasets || [] };
     case FETCH_SUGGESTIONS:
       return { ...state, fetchingSuggestions: true };
+    case FETCH_RESULTS:
+      return { ...state, fetchingResults: true };
     case CLEAR_SUGGESTIONS:
       return {
         ...state,
@@ -48,12 +51,14 @@ const search = (state = INITIAL_STATE, action) => {
         ...state,
         results: [],
         resultsQuery: '',
+        fetchingResults: false
       };
     case UPDATE_RESULTS:
       return {
         ...state,
         results: results(state.results, action),
-        resultsQuery: state.query
+        resultsQuery: state.query,
+        fetchingResults: false
       };
     default:
       return state;

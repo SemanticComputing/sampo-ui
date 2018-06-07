@@ -124,7 +124,7 @@ const IntegrationAutosuggest = (props) => {
   };
 
   const shouldRenderSuggestions = (value)  => {
-    return value.trim().length > 3;
+    return value.trim().length > 2;
   };
 
   const handleOnSuggestionsClearRequested = () => {
@@ -136,7 +136,7 @@ const IntegrationAutosuggest = (props) => {
   //console.log('IntegrationAutosuggest', props.search.suggestions);
 
   let adornment = null;
-  if (props.search.fetchingSuggestions) {
+  if (props.search.fetchingSuggestions || props.search.fetchingResults) {
     adornment = <InputAdornment position="end"><CircularProgress size={20} /></InputAdornment>;
   } else {
     adornment = <SearchIcon className={classes.icon} />;
