@@ -8,7 +8,7 @@ import {
   UPDATE_RESULTS,
   CLEAR_RESULTS
 } from '../actions';
-import suggestions from './suggestions';
+//import suggestions from './suggestions';
 import results from './results';
 
 export const INITIAL_STATE = {
@@ -42,7 +42,7 @@ const search = (state = INITIAL_STATE, action) => {
     case UPDATE_SUGGESTIONS:
       return {
         ...state,
-        suggestions: suggestions(state.suggestions, action),
+        suggestions: action.suggestions,
         suggestionsQuery: state.query,
         fetchingSuggestions: false
       };

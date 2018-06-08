@@ -41,7 +41,7 @@ function renderSuggestionsContainer(options) {
 }
 
 function getSuggestionValue(suggestion) {
-  return suggestion.label;
+  return suggestion;
 }
 
 const styles = theme => ({
