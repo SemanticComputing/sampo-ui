@@ -4,8 +4,11 @@
   "description": "",
   "private": true,
   "scripts": {
-    "start": "webpack-dev-server --open",
-    "build": "webpack",
+    "start": "node src/server/index.js",
+    "build": "webpack --mode production",
+    "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon --exec babel-node src/server/index.js",
     "test": "jest --watch"
   },
   "jest": {
@@ -15,6 +18,7 @@
   "author": "Esko Ikkala",
   "license": "MIT",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
     "babel-jest": "^22.4.4",
@@ -22,6 +26,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
+    "concurrently": "^3.5.1",
     "css-loader": "^0.28.11",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
@@ -48,6 +53,7 @@
     "autosuggest-highlight": "^3.1.1",
     "babel-preset-stage-2": "^6.24.1",
     "bootstrap": "^4.1.1",
+    "express": "^4.16.3",
     "google-maps": "^3.3.0",
     "leaflet": "^1.3.1",
     "leaflet.markercluster": "^1.3.0",

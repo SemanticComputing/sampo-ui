@@ -15,8 +15,10 @@ import {
   GET_GEOJSON_FAILED
 } from '../actions';
 
+const hiplaApiUrl = 'http://localhost:3000/api/';
+
 const getSuggestionsEpic = (action$, store) => {
-  const searchUrl = 'http://localhost:3000/suggest';
+  const searchUrl = hiplaApiUrl + 'suggest';
   return action$.ofType(FETCH_SUGGESTIONS)
     .debounceTime(1000)
     .switchMap(() => {
@@ -36,7 +38,7 @@ const getSuggestionsEpic = (action$, store) => {
 };
 
 const getResultsEpic = (action$, store) => {
-  const searchUrl = 'http://localhost:3000/search';
+  const searchUrl = hiplaApiUrl + 'search';
   return action$.ofType(FETCH_RESULTS)
     .debounceTime(500)
     .switchMap(() => {
@@ -56,10 +58,10 @@ const getResultsEpic = (action$, store) => {
 };
 
 const getGeoJSONEpic = (action$) => {
-  const url = 'http://localhost:3000/wfs';
+  const searchUrl = hiplaApiUrl + 'wfs';
   return action$.ofType(GET_GEOJSON)
     .switchMap(() => {
-      return ajax.getJSON(url)
+      return ajax.getJSON(searchUrl)
         // .map(response => {
         //   console.log('res' + response)
         // })
