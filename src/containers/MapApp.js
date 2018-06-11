@@ -141,8 +141,8 @@ let MapApp = (props) => {
           textColor="secondary"
         >
           <Tab label="Places" />
-          <Tab label="Maps" />
-          <Tab label="Options" />
+          <Tab label="Maps" disabled />
+          <Tab label="Options" disabled />
         </Tabs>
         <IconButton onClick={props.closeDrawer}>
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
