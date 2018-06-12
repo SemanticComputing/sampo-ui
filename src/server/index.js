@@ -3,8 +3,11 @@ import bodyParser from 'body-parser';
 import request from 'superagent';
 import _ from 'lodash';
 import sparqlSearchEngine from './SparqlSearchEngine';
-
+const DEFAULT_PORT = 3001;
 const app = express();
+//const isDevelopment  = app.get('env') !== 'production';
+
+app.set('port', process.env.PORT || DEFAULT_PORT);
 app.use(bodyParser.json());
 
 // allow CORS
@@ -69,4 +72,4 @@ app.get('/api/wfs', (req, res) => {
     });
 });
 
-app.listen(8080, () => console.log('Hipla backend listening on port 8080'));
+app.listen(app.get('port'), () => console.log('Hipla backend listening on port ' + app.get('port')));
