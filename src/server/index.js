@@ -17,6 +17,8 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use(express.static(__dirname + './../public/'));
+
 app.get('/suggest', (req, res) => {
   // https://softwareengineering.stackexchange.com/questions/233164/how-do-searches-fit-into-a-restful-interface
   // example request: http://localhost:3000/search?dataset=warsa_karelian_places&dataset=pnr&q=viip
@@ -72,4 +74,4 @@ app.get('/wfs', (req, res) => {
     });
 });
 
-app.listen(app.get('port'), () => console.log('Hipla backend listening on port ' + app.get('port')));
+app.listen(app.get('port'), () => console.log('Hipla app listening on port ' + app.get('port')));
