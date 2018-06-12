@@ -15,7 +15,7 @@ import {
   GET_GEOJSON_FAILED
 } from '../actions';
 
-const hiplaApiUrl = 'http://localhost:3000/api/';
+const hiplaApiUrl = 'http://localhost:3001/';
 
 const getSuggestionsEpic = (action$, store) => {
   const searchUrl = hiplaApiUrl + 'suggest';

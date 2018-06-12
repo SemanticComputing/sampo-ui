@@ -17,7 +17,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/api/suggest', (req, res) => {
+app.get('/suggest', (req, res) => {
   // https://softwareengineering.stackexchange.com/questions/233164/how-do-searches-fit-into-a-restful-interface
   // example request: http://localhost:3000/search?dataset=warsa_karelian_places&dataset=pnr&q=viip
   const queryDatasets = _.castArray(req.query.dataset);
@@ -34,7 +34,7 @@ app.get('/api/suggest', (req, res) => {
     });
 });
 
-app.get('/api/search', (req, res) => {
+app.get('/search', (req, res) => {
   // https://softwareengineering.stackexchange.com/questions/233164/how-do-searches-fit-into-a-restful-interface
   // example request: http://localhost:3000/search?dataset=warsa_karelian_places&dataset=pnr&q=viip
   const queryDatasets = _.castArray(req.query.dataset);
@@ -51,7 +51,7 @@ app.get('/api/search', (req, res) => {
     });
 });
 
-app.get('/api/wfs', (req, res) => {
+app.get('/wfs', (req, res) => {
   //
   // Taustakartan rajat:
   //

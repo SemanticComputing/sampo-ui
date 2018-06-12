@@ -9,8 +9,8 @@ module.exports = merge(common, {
     hot: true,
     port: 8080,
     open: true,
-    proxy: {
-      '/api': 'http://localhost:3000'
-    }
+    // proxy: {
+    //   '/api': 'http://localhost:3000'
+    // }
   }
 });
