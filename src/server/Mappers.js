@@ -33,9 +33,13 @@ export const mergeSuggestions = (suggestions) => {
 
 
 export const mergeSimpleSuggestions = (suggestions) => {
+
+  // Suggestions from different datasets may have duplicates
+  let uniqueSuggestions = [...new Set(_.flatten(suggestions))];
+
   // Sort suggestions alphabetically, because Lunece score does
   // not work with wildcard queries.
-  return _.flatten(suggestions).sort();
+  return uniqueSuggestions.sort();
 };
 
 export const mergeResults = (results) => {
