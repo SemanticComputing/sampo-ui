@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import SuggestionItem from './SuggestionItem';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 
 function renderInput(inputProps) {
@@ -53,7 +54,7 @@ const styles = theme => ({
     // paddingRight: theme.spacing.unit * 15,
     marginLeft: 'auto',
     marginRight: 'auto',
-    width: 300,
+    width: 280,
   },
   suggestionsContainerOpen: {
     position: 'absolute',
@@ -77,7 +78,7 @@ const styles = theme => ({
   },
   icon: {
     color: theme.palette.text.secondary,
-    paddingTop: 4,
+    //paddingTop: 4,
   },
   spinner: {
     //margin: theme.spacing.unit,
@@ -94,19 +95,31 @@ const IntegrationAutosuggest = (props) => {
   };
 
   const handleOnSuggestionSelected = () => {
-    console.log('fetching results');
-    props.clearResults();
-    props.fetchResults();
+    searchPlaces();
   };
 
   const handleOnKeyDown = (event) => {
     if (event.key === 'Enter') {
+      searchPlaces();
+    }
+  };
+
+  const handleClickSearchButton = () => {
+    searchPlaces();
+  };
+
+  const handleMouseDownSearchButton = (event) => {
+    event.preventDefault();
+  };
+
+  const searchPlaces = () => {
+    if (props.search.query.length > 0) {
       console.log('fetching results');
       autosuggestDOM.current.input.blur();
       props.clearResults();
       props.fetchResults();
     }
-  };
+  }
 
   // const handleOnBlur = (event, { highlightedSuggestion }) => {
   //   // console.log(event);
@@ -137,9 +150,25 @@ const IntegrationAutosuggest = (props) => {
 
   let adornment = null;
   if (props.search.fetchingSuggestions || props.search.fetchingResults) {
-    adornment = <InputAdornment position="end"><CircularProgress size={20} /></InputAdornment>;
+    adornment =
+    <InputAdornment position="end">
+      <IconButton
+        aria-label="Search places"
+      >
+        <CircularProgress size={24} />
+      </IconButton>
+    </InputAdornment>;
   } else {
-    adornment = <SearchIcon className={classes.icon} />;
+    adornment =
+    <InputAdornment position="end">
+      <IconButton
+        aria-label="Search places"
+        onClick={handleClickSearchButton}
+        onMouseDown={handleMouseDownSearchButton}
+      >
+        <SearchIcon className={classes.icon} />
+      </IconButton>
+    </InputAdornment>;
   }
 
   return (
