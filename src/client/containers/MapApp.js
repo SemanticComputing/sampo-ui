@@ -14,13 +14,11 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-// import PlaceIcon from '@material-ui/icons/Place';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
-import LeafletMap from '../components/LeafletMap';
+import LeafletMap from '../components/map/LeafletMap';
 import Message from '../components/Message';
-import SimpleTable from '../components/SimpleTable';
-// import DataTable from '../components/DataTable';
-// import DataGrid from '../components/DataGrid';
+import ResultTable from '../components/result-table/ResultTable';
+
 
 import {
   updateQuery,
@@ -158,7 +156,7 @@ let MapApp = (props) => {
         clearResults={props.clearResults}
       />
       {props.search.results.length > 0 &&
-        <SimpleTable data={props.search.results} />
+        <ResultTable data={props.search.results} />
       }
     </Drawer>
   );
