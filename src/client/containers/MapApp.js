@@ -17,7 +17,9 @@ import Tab from '@material-ui/core/Tab';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import LeafletMap from '../components/map/LeafletMap';
 import Message from '../components/Message';
-import ResultTable from '../components/result-table/ResultTable';
+//import ResultTable from '../components/result-table/ResultTable';
+import VirtualizedTable from '../components/VirtualizedTable';
+import Immutable from 'immutable';
 
 
 import {
@@ -119,6 +121,11 @@ let MapApp = (props) => {
   const anchor = 'left';
 
   //console.log(props.search.results)
+  let resultList = [];
+  if (props.search.results.length > 0) {
+    resultList = Immutable.List(props.search.results);
+  }
+
 
   const drawer = (
     <Drawer
@@ -156,7 +163,7 @@ let MapApp = (props) => {
         clearResults={props.clearResults}
       />
       {props.search.results.length > 0 &&
-        <ResultTable data={props.search.results} />
+        <VirtualizedTable list={resultList} />
       }
     </Drawer>
   );
