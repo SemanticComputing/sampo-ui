@@ -6,12 +6,11 @@ import {
   Column,
   Table,
   SortDirection,
-  SortIndicator
 } from 'react-virtualized';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
-  root: {
+  Table: {
     width: '100%',
     marginTop: theme.spacing.unit * 25,
   },
@@ -48,7 +47,8 @@ class VirtualizedTable extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const sortBy = 'source';
+    //const sortBy = 'broaderAreaLabel';
+    const sortBy = 'typeLabel';
     const sortDirection = SortDirection.ASC;
     const sortedList = this._sortList({sortBy, sortDirection});
 
@@ -68,7 +68,6 @@ class VirtualizedTable extends React.PureComponent {
     };
 
     this._getRowHeight = this._getRowHeight.bind(this);
-    this._headerRenderer = this._headerRenderer.bind(this);
     this._noRowsRenderer = this._noRowsRenderer.bind(this);
     this._onRowCountChange = this._onRowCountChange.bind(this);
     this._onScrollToRowChange = this._onScrollToRowChange.bind(this);
@@ -158,15 +157,6 @@ class VirtualizedTable extends React.PureComponent {
     return this._getDatum(list, index).size;
   }
 
-  _headerRenderer({dataKey, sortBy, sortDirection}) {
-    return (
-      <div>
-        Full Name
-        {sortBy === dataKey && <SortIndicator sortDirection={sortDirection} />}
-      </div>
-    );
-  }
-
   _noRowsRenderer() {
     const { classes } = this.props;
     return <div className={classes.noRows}>No rows</div>;
@@ -209,6 +199,8 @@ class VirtualizedTable extends React.PureComponent {
 
   _sortList({sortBy, sortDirection}) {
     const list = this.props.list;
+    //console.log(list);
+    //console.log(list.sortBy(item => item[sortBy]));
 
     return list
       .sortBy(item => item[sortBy])

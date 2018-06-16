@@ -120,7 +120,6 @@ let MapApp = (props) => {
   const { classes, error, theme, drawerIsOpen, mapReady } = props;
   const anchor = 'left';
 
-  //console.log(props.search.results)
   let resultList = [];
   if (props.search.results.length > 0) {
     resultList = Immutable.List(props.search.results);
