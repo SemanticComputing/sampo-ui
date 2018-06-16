@@ -49,7 +49,7 @@ module.exports = {
         {
           SELECT DISTINCT ?s {
             GRAPH <http://ldf.fi/warsa/places/karelian_places> {
-              (?s ?score) text:query (skos:prefLabel '<QUERYTERM>') .
+              ?s text:query (skos:prefLabel '<QUERYTERM>') .
             }
           }
         }
@@ -65,7 +65,6 @@ module.exports = {
         FILTER(LANGMATCHES(LANG(?typeLabel), 'fi'))
         FILTER(LANGMATCHES(LANG(?broaderAreaLabel), 'fi'))
       }
-      ORDER BY ?score
       `,
   },
   'warsa_municipalities': {
@@ -118,7 +117,7 @@ module.exports = {
         {
           SELECT DISTINCT ?s {
             GRAPH <http://ldf.fi/warsa/places/municipalities> {
-              (?s ?score) text:query (skos:prefLabel '<QUERYTERM>') .
+              ?s text:query (skos:prefLabel '<QUERYTERM>') .
             }
           }
         }
@@ -134,7 +133,6 @@ module.exports = {
         FILTER(LANGMATCHES(LANG(?typeLabel), 'fi'))
         FILTER(LANGMATCHES(LANG(?broaderAreaLabel), 'fi'))
       }
-      ORDER BY ?score
       `,
   },
   'pnr': {
@@ -190,12 +188,14 @@ module.exports = {
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
       SELECT DISTINCT *
       WHERE {
-        (?s ?score) text:query (skos:prefLabel '<QUERYTERM>') .
+        ?s text:query (skos:prefLabel '<QUERYTERM>') .
         ?s a hipla:Place .
         ?s skos:prefLabel ?label .
         ?s hipla:municipality ?broaderAreaLabel .
-        OPTIONAL { ?s hipla:type ?typeLabel . }
         BIND("DNA" AS ?source)
+        BIND("undefined" AS ?missingValue)
+        OPTIONAL { ?s hipla:type ?tLbl . }
+        BIND(COALESCE(?tLbl, ?missingValue) as ?typeLabel)
         OPTIONAL {
           ?s wgs84:lat ?lat .
           ?s wgs84:long ?long .
@@ -204,7 +204,6 @@ module.exports = {
         #FILTER(LANGMATCHES(LANG(?typeLabel), 'fi'))
         #FILTER(LANGMATCHES(LANG(?broaderAreaLabel), 'fi'))
       }
-      ORDER BY ?score
       `,
   },
 };

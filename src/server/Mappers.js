@@ -14,7 +14,7 @@ export const groupBy = (sparqlBindings, group, simplify) => Object.values(_.redu
       result[group] = value.value;
     } else {
       if (simplify) {
-        result[key] = value.value;
+        result[key] = capitalizeFirstLetter(value.value);
       } else {
         const oldVal = result[key];
         // add new value if it doesn't already exist
@@ -45,7 +45,12 @@ export const mergeSimpleSuggestions = (suggestions) => {
 export const mergeResults = (results) => {
   // SPARQL query defines the ordering of results of one dataset.
   // Return all merged results subsequentially.
+  //console.log(_.flatten(results))
   return _.flatten(results);
+};
+
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 export const mapResults = (results) => groupBy(results, 's', true);
