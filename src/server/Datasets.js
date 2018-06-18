@@ -140,6 +140,46 @@ module.exports = {
     'shortTitle': 'FGN',
     'timePeriod': 'contemporary',
     'endpoint': 'http://ldf.fi/pnr/sparql',
+    'simpleSuggestionQuery': `
+      PREFIX text: <http://jena.apache.org/text#>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      PREFIX gs: <http://www.opengis.net/ont/geosparql#>
+      PREFIX sf: <http://ldf.fi/functions#>
+      SELECT DISTINCT ?label
+      WHERE {
+        ?s text:query (skos:prefLabel '<QUERYTERM>*' 10000) .
+        ?s sf:preferredLanguageLiteral (skos:prefLabel 'fi' '' ?lbl) .
+        BIND(STR(?lbl) AS ?label)
+      }
+        `,
+    'resultQuery': `
+      PREFIX text: <http://jena.apache.org/text#>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      PREFIX gs: <http://www.opengis.net/ont/geosparql#>
+      PREFIX sf: <http://ldf.fi/functions#>
+      PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+      PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+      SELECT DISTINCT *
+      WHERE {
+        ?s text:query (skos:prefLabel '<QUERYTERM>') .
+        ?s sf:preferredLanguageLiteral (skos:prefLabel 'fi' '' ?label) .
+        ?s a ?type .
+        ?type sf:preferredLanguageLiteral (skos:prefLabel 'fi' '' ?typeLabel) .
+        ?s wgs84:lat ?lat .
+        ?s wgs84:long ?long .
+        OPTIONAL {
+          ?s crm:P89_falls_within ?municipality .
+          ?municipality a ?munType .
+          ?municipality sf:preferredLanguageLiteral (skos:prefLabel 'fi' '' ?broaderAreaLabel) .
+          FILTER (?munType != <http://ldf.fi/pnr-schema#SubRegion>)
+        }
+        BIND("PNR" AS ?source)
+      }
+      `,
   },
   'kotus': {
     'title': 'Institute for the Languages of Finland (Kotus) Digital Names archive',

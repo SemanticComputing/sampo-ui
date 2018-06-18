@@ -13,7 +13,7 @@ import results from './results';
 
 export const INITIAL_STATE = {
   query: '',
-  datasets: ['warsa_karelian_places', 'warsa_municipalities', 'kotus'],
+  datasets: ['warsa_karelian_places', 'warsa_municipalities', 'kotus', 'pnr'],
   suggestions: [],
   suggestionsQuery: '',
   fetchingSuggestions: false,
