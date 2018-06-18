@@ -52,8 +52,8 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2,
     // paddingLeft: theme.spacing.unit * 15,
     // paddingRight: theme.spacing.unit * 15,
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    marginLeft: 24,
+    //marginRight: 'auto',
     width: 280,
   },
   suggestionsContainerOpen: {
@@ -119,7 +119,7 @@ const IntegrationAutosuggest = (props) => {
       props.clearResults();
       props.fetchResults();
     }
-  }
+  };
 
   // const handleOnBlur = (event, { highlightedSuggestion }) => {
   //   // console.log(event);

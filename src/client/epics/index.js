@@ -28,7 +28,7 @@ const getSuggestionsEpic = (action$, store) => {
       if (query.length < 3) {
         return [];
       }
-      const dsParams = _.map(datasets, ds => `dataset=${ds}`).join('&');
+      const dsParams = _.map(datasets, ds => `dataset=${ds.id}`).join('&');
       const requestUrl = `${searchUrl}?q=${query}&${dsParams}`;
       return ajax.getJSON(requestUrl)
         .map(response => updateSuggestions({ suggestions: response }))
@@ -48,7 +48,7 @@ const getResultsEpic = (action$, store) => {
       if (query.length < 3) {
         return [];
       }
-      const dsParams = _.map(datasets, ds => `dataset=${ds}`).join('&');
+      const dsParams = _.map(datasets, ds => `dataset=${ds.id}`).join('&');
       const requestUrl = `${searchUrl}?q=${query}&${dsParams}`;
       return ajax.getJSON(requestUrl)
         .map(response => updateResults({ results: response }))

@@ -13,7 +13,12 @@ import results from './results';
 
 export const INITIAL_STATE = {
   query: '',
-  datasets: ['warsa_karelian_places', 'warsa_municipalities', 'kotus', 'pnr'],
+  datasets: [
+    { id: 'kotus', selected: true},
+    { id: 'pnr', selected: true},
+    { id: 'warsa_karelian_places', selected: true},
+    { id: 'warsa_municipalities', selected: true},
+  ],
   suggestions: [],
   suggestionsQuery: '',
   fetchingSuggestions: false,
@@ -27,7 +32,15 @@ const search = (state = INITIAL_STATE, action) => {
     case UPDATE_QUERY:
       return { ...state, query: action.query || '' };
     case UPDATE_DATASETS:
-      return { ...state, datasets: action.datasets || [] };
+      return {
+        ...state,
+        datasets: [
+          { id: 'kotus', selected: true},
+          { id: 'pnr', selected: true},
+          { id: 'warsa_karelian_places', selected: false},
+          { id: 'warsa_municipalities', selected: true},
+        ],
+      };
     case FETCH_SUGGESTIONS:
       return { ...state, fetchingSuggestions: true };
     case FETCH_RESULTS:

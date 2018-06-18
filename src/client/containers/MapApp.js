@@ -17,11 +17,9 @@ import Tab from '@material-ui/core/Tab';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import LeafletMap from '../components/map/LeafletMap';
 import Message from '../components/Message';
-//import ResultTable from '../components/result-table/ResultTable';
 import VirtualizedTable from '../components/VirtualizedTable';
+import DatasetSelector from '../components/DatasetSelector';
 import Immutable from 'immutable';
-
-
 import {
   updateQuery,
   updateDatasets,
@@ -148,13 +146,17 @@ let MapApp = (props) => {
           textColor="secondary"
         >
           <Tab label="Places" />
-          <Tab label="Maps" disabled />
           <Tab label="Options" disabled />
         </Tabs>
         <IconButton onClick={props.closeDrawer}>
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </div>
+      <Divider />
+      <DatasetSelector
+        datasets={props.search.datasets}
+        updateDatasets={props.updateDatasets}
+      />
       <Divider />
       <IntegrationAutosuggest
         search={props.search}
@@ -264,6 +266,7 @@ MapApp.propTypes = {
   openDrawer: PropTypes.func.isRequired,
   closeDrawer: PropTypes.func.isRequired,
   updateQuery: PropTypes.func.isRequired,
+  updateDatasets: PropTypes.func.isRequired,
   fetchSuggestions: PropTypes.func.isRequired,
   clearSuggestions: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
