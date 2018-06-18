@@ -76,9 +76,11 @@ const styles = theme => ({
   hide: {
     display: 'none',
   },
+  // drawerHeader + drawerPaper = whole left column
   drawerPaper: {
     position: 'relative',
     width: drawerWidth,
+    overflow: 'hidden',
   },
   drawerHeader: {
     display: 'flex',
@@ -87,6 +89,7 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
   },
+  // content = whole rigth column
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,

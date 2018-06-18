@@ -7,25 +7,24 @@ import {
   Table,
   SortDirection,
 } from 'react-virtualized';
-import { withStyles } from '@material-ui/core/styles';
+// import styles from '../styles/react-virtualized-table.css';
+//import { withStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
-  Table: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 25,
+const styles = {
+  root: {
+    marginTop: 25,
+    fontFamily: 'Roboto',
   },
   headerRow: {
-    borderBottom: '1px solid #e0e0e0'
+    textTransform: 'none',
+    borderBottom: '1px solid rgba(224, 224, 224, 1)'
   },
   evenRow: {
-    borderBottom: '1px solid #e0e0e0'
-  },
-  oddRow: {
-    borderBottom: '1px solid #e0e0e0',
+    borderBottom: '1px solid rgba(224, 224, 224, 1)',
     //backgroundColor: '#fafafa'
   },
-  headerColumn: {
-    textTransform: 'none'
+  oddRow: {
+    borderBottom: '1px solid rgba(224, 224, 224, 1)',
   },
   noRows: {
     position: 'absolute',
@@ -39,28 +38,30 @@ const styles = theme => ({
     fontSize: '1em',
     color: '#bdbdbd',
   }
+};
 
-});
+const calculateRowStyle = ({ index }) => {
+  if (index < 0) {
+    return styles.headerRow;
+  } else {
+    return index % 2 === 0 ? styles.evenRow : styles.oddRow;
+  }
+};
 
 class VirtualizedTable extends React.PureComponent {
 
   constructor(props) {
     super(props);
 
-    //const sortBy = 'broaderAreaLabel';
     const sortBy = 'typeLabel';
     const sortDirection = SortDirection.ASC;
     const sortedList = this._sortList({sortBy, sortDirection});
 
-
     this.state = {
-      disableHeader: false,
       headerHeight: 30,
-      height: 500,
       overscanRowCount: 10,
       rowHeight: 40,
       rowCount: this.props.list.size,
-      scrollToIndex: undefined,
       sortBy,
       sortDirection,
       sortedList,
@@ -71,50 +72,41 @@ class VirtualizedTable extends React.PureComponent {
     this._noRowsRenderer = this._noRowsRenderer.bind(this);
     this._onRowCountChange = this._onRowCountChange.bind(this);
     this._onScrollToRowChange = this._onScrollToRowChange.bind(this);
-    this._rowClassName = this._rowClassName.bind(this);
     this._sort = this._sort.bind(this);
   }
 
   render() {
     const {
-      disableHeader,
       headerHeight,
-      height,
       overscanRowCount,
       rowHeight,
       rowCount,
-      scrollToIndex,
       sortBy,
       sortDirection,
       sortedList,
       useDynamicRowHeight,
     } = this.state;
 
-    const { classes } = this.props;
-
     const rowGetter = ({index}) => this._getDatum(sortedList, index);
 
     return (
-      <div>
+      <div style={{ flex: '1 1 auto' }}>
         <AutoSizer>
-          {({width}) => (
+          {({ height, width }) => (
             <Table
-              disableHeader={disableHeader}
-              headerClassName={classes.headerColumn}
-              headerHeight={headerHeight}
-              height={height}
-              noRowsRenderer={this._noRowsRenderer}
               overscanRowCount={overscanRowCount}
-              rowClassName={this._rowClassName}
               rowHeight={useDynamicRowHeight ? this._getRowHeight : rowHeight}
               rowGetter={rowGetter}
               rowCount={rowCount}
-              scrollToIndex={scrollToIndex}
               sort={this._sort}
               sortBy={sortBy}
               sortDirection={sortDirection}
               width={width}
-              style={classes}
+              height={height}
+              headerHeight={headerHeight}
+              noRowsRenderer={this._noRowsRenderer}
+              style={styles.root}
+              rowStyle={calculateRowStyle}
             >
               <Column
                 label="Label"
@@ -158,8 +150,7 @@ class VirtualizedTable extends React.PureComponent {
   }
 
   _noRowsRenderer() {
-    const { classes } = this.props;
-    return <div className={classes.noRows}>No rows</div>;
+    return <div className={styles.noRows}>No rows</div>;
   }
 
   _onRowCountChange(event) {
@@ -180,15 +171,6 @@ class VirtualizedTable extends React.PureComponent {
     }
 
     this.setState({scrollToIndex});
-  }
-
-  _rowClassName({index}) {
-    const { classes } = this.props;
-    if (index < 0) {
-      return classes.headerRow;
-    } else {
-      return index % 2 === 0 ? classes.evenRow : classes.oddRow;
-    }
   }
 
   _sort({sortBy, sortDirection}) {
@@ -218,7 +200,6 @@ class VirtualizedTable extends React.PureComponent {
 
 VirtualizedTable.propTypes = {
   list: PropTypes.instanceOf(Immutable.List).isRequired,
-  classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(VirtualizedTable);
+export default VirtualizedTable;
