@@ -98,7 +98,9 @@ class LeafletMap extends React.Component {
           data={this.props.geoJSON}
           onEachFeature={this.handleOnEachFeature}
         />
-        <MarkerClusterGroup>
+        <MarkerClusterGroup
+          disableClusteringAtZoom={9}
+        >
           <ResultMarkerList results={this.props.results} />
         </MarkerClusterGroup>
         <FullscreenControl position='topright' />
