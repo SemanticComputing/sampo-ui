@@ -34,9 +34,9 @@ const DatasetSelector = props => {
   return (
     <div className={classes.root}>
       <List subheader={<ListSubheader>Select data sources</ListSubheader>}>
-        {props.datasets.map(dataset => (
+        {Object.keys(props.datasets).map(key => (
           <ListItem
-            key={dataset.id}
+            key={key}
             role={undefined}
             dense
             button
@@ -44,11 +44,11 @@ const DatasetSelector = props => {
             className={classes.listItem}
           >
             <Checkbox
-              checked={dataset.selected}
+              checked={props.datasets[key].selected}
               tabIndex={-1}
               disableRipple
             />
-            <ListItemText primary={dataset.id} />
+            <ListItemText primary={props.datasets[key].title} />
             <ListItemSecondaryAction>
               <IconButton aria-label="Comments">
                 <CommentIcon />
@@ -63,7 +63,7 @@ const DatasetSelector = props => {
 
 DatasetSelector.propTypes = {
   classes: PropTypes.object.isRequired,
-  datasets: PropTypes.array.isRequired,
+  datasets: PropTypes.object.isRequired,
   updateDatasets: PropTypes.func.isRequired
 };
 

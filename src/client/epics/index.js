@@ -19,6 +19,16 @@ const hiplaApiUrl = (process.env.NODE_ENV === 'development')
   ? 'http://localhost:3001/'
   : 'http://193.166.25.181:3005/';
 
+const pickSelectedDatasets = (datasets) => {
+  let selected = [];
+  Object.keys(datasets).map(key => {
+    if (datasets[key].selected) {
+      selected.push(key);
+    }
+  });
+  return selected;
+};
+
 const getSuggestionsEpic = (action$, store) => {
   const searchUrl = hiplaApiUrl + 'suggest';
   return action$.ofType(FETCH_SUGGESTIONS)
@@ -28,7 +38,7 @@ const getSuggestionsEpic = (action$, store) => {
       if (query.length < 3) {
         return [];
       }
-      const dsParams = _.map(datasets, ds => `dataset=${ds.id}`).join('&');
+      const dsParams = _.map(pickSelectedDatasets(datasets), ds => `dataset=${ds}`).join('&');
       const requestUrl = `${searchUrl}?q=${query}&${dsParams}`;
       return ajax.getJSON(requestUrl)
         .map(response => updateSuggestions({ suggestions: response }))
@@ -48,7 +58,7 @@ const getResultsEpic = (action$, store) => {
       if (query.length < 3) {
         return [];
       }
-      const dsParams = _.map(datasets, ds => `dataset=${ds.id}`).join('&');
+      const dsParams = _.map(pickSelectedDatasets(datasets), ds => `dataset=${ds}`).join('&');
       const requestUrl = `${searchUrl}?q=${query}&${dsParams}`;
       return ajax.getJSON(requestUrl)
         .map(response => updateResults({ results: response }))
