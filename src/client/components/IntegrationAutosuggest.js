@@ -137,7 +137,7 @@ const IntegrationAutosuggest = (props) => {
   };
 
   const shouldRenderSuggestions = (value)  => {
-    return value.trim().length > 2;
+    return value.trim().length > 3;
   };
 
   const handleOnSuggestionsClearRequested = () => {
