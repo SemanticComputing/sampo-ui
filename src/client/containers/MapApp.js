@@ -22,7 +22,7 @@ import DatasetSelector from '../components/DatasetSelector';
 import Immutable from 'immutable';
 import {
   updateQuery,
-  updateDatasets,
+  toggleDataset,
   fetchSuggestions,
   clearSuggestions,
   fetchResults,
@@ -155,7 +155,7 @@ let MapApp = (props) => {
       <Divider />
       <DatasetSelector
         datasets={props.search.datasets}
-        updateDatasets={props.updateDatasets}
+        toggleDataset={props.toggleDataset}
       />
       <Divider />
       <IntegrationAutosuggest
@@ -247,7 +247,7 @@ const mapDispatchToProps = ({
   openDrawer,
   closeDrawer,
   updateQuery,
-  updateDatasets,
+  toggleDataset,
   fetchSuggestions,
   clearSuggestions,
   fetchResults,
@@ -266,7 +266,7 @@ MapApp.propTypes = {
   openDrawer: PropTypes.func.isRequired,
   closeDrawer: PropTypes.func.isRequired,
   updateQuery: PropTypes.func.isRequired,
-  updateDatasets: PropTypes.func.isRequired,
+  toggleDataset: PropTypes.func.isRequired,
   fetchSuggestions: PropTypes.func.isRequired,
   clearSuggestions: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,

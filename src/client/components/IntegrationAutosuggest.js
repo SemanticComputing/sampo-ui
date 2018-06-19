@@ -127,7 +127,7 @@ const IntegrationAutosuggest = (props) => {
   // };
 
   const handleOnSuggestionsFetchRequested = ({ value }) => {
-    if (props.search.suggestionsQuery != value ) {
+    if (props.search.suggestionsQuery != value || props.search.suggestions.length === 0) {
       console.log('fetching suggestions');
       props.fetchSuggestions();
     }

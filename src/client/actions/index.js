@@ -1,7 +1,7 @@
 export const OPEN_DRAWER = 'OPEN_DRAWER';
 export const CLOSE_DRAWER = 'CLOSE_DRAWER';
 export const UPDATE_QUERY = 'UPDATE_QUERY';
-export const UPDATE_DATASETS = 'UPDATE_DATASETS';
+export const TOGGLE_DATASET = 'TOGGLE_DATASET';
 export const START_SPINNER = 'START_SPINNER';
 export const FETCH_SUGGESTIONS = 'FETCH_SUGGESTIONS';
 export const FETCH_SUGGESTIONS_FAILED = 'FETCH_SUGGESTIONS_FAILED';
@@ -31,9 +31,9 @@ export const updateQuery = (query) => ({
   query
 });
 
-export const updateDatasets = (datasets) => ({
-  type: UPDATE_DATASETS,
-  datasets
+export const toggleDataset = (dataset) => ({
+  type: TOGGLE_DATASET,
+  dataset
 });
 
 export const startSpinner = () => ({

@@ -1,6 +1,6 @@
 import {
   UPDATE_QUERY,
-  UPDATE_DATASETS,
+  TOGGLE_DATASET,
   FETCH_SUGGESTIONS,
   FETCH_RESULTS,
   UPDATE_SUGGESTIONS,
@@ -49,10 +49,18 @@ const search = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case UPDATE_QUERY:
       return { ...state, query: action.query || '' };
-    case UPDATE_DATASETS:
+    case TOGGLE_DATASET:
       return {
         ...state,
-        datasets: state.datasets
+        suggestions: [],
+        results: [],
+        datasets: {
+          ...state.datasets,
+          [action.dataset]: {
+            ...state.datasets[action.dataset],
+            selected: state.datasets[action.dataset].selected ? false : true
+          }
+        }
       };
     case FETCH_SUGGESTIONS:
       return { ...state, fetchingSuggestions: true };
