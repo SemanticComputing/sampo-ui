@@ -28,21 +28,21 @@ class SparqlSearchEngine {
       .then((results) => results.map(res => (res.label.value)));
   }
 
-  getSuggestions(queryTerm, datasetId) {
-    const { endpoint, suggestionQuery } = datasetConfig[datasetId];
-    const query = suggestionQuery.replace(/<QUERYTERM>/g, queryTerm);
-    const sparqlApi = new SparqlApi({ endpoint });
-
-    // handle the situation when there are no results, and only one row
-    // with no label and count is returned
-    const checkLabel = (res) => res[0].label ? res : [];
-
-    return this.doSearch(query, sparqlApi, checkLabel)
-      .then((results) => results.map(res => ({
-        label: res.label,
-        datasets: { datasetId, count: res.count }
-      })));
-  }
+  // getSuggestions(queryTerm, datasetId) {
+  //   const { endpoint, suggestionQuery } = datasetConfig[datasetId];
+  //   const query = suggestionQuery.replace(/<QUERYTERM>/g, queryTerm);
+  //   const sparqlApi = new SparqlApi({ endpoint });
+  //
+  //   // handle the situation when there are no results, and only one row
+  //   // with no label and count is returned
+  //   const checkLabel = (res) => res[0].label ? res : [];
+  //
+  //   return this.doSearch(query, sparqlApi, checkLabel)
+  //     .then((results) => results.map(res => ({
+  //       label: res.label,
+  //       datasets: { datasetId, count: res.count }
+  //     })));
+  // }
 
   getResults(queryTerm, datasetId) {
     const { endpoint, resultQuery } = datasetConfig[datasetId];
