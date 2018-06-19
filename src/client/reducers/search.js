@@ -8,17 +8,35 @@ import {
   UPDATE_RESULTS,
   CLEAR_RESULTS
 } from '../actions';
-//import suggestions from './suggestions';
-import results from './results';
 
 export const INITIAL_STATE = {
   query: '',
-  datasets: [
-    { id: 'kotus', selected: true},
-    { id: 'pnr', selected: true},
-    { id: 'warsa_karelian_places', selected: true},
-    { id: 'warsa_municipalities', selected: true},
-  ],
+  datasets: {
+    'kotus': {
+      'title': 'Institute for the Languages of Finland (Kotus) Digital Names archive',
+      'shortTitle': 'DNA',
+      'timePeriod': '1900s',
+      'selected': true
+    },
+    'pnr': {
+      'title': 'Finnish Geographic Names Registry',
+      'shortTitle': 'FGN',
+      'timePeriod': 'contemporary',
+      'selected': true
+    },
+    'warsa_karelian_places': {
+      'title': 'Karelian map names',
+      'shortTitle': 'KMN',
+      'timePeriod': '1922-1944',
+      'selected': true
+    },
+    'warsa_municipalities': {
+      'title': 'Finnish WW2 municipalities',
+      'shortTitle': 'FWM',
+      'timePeriod': '1939-1944',
+      'selected': true
+    },
+  },
   suggestions: [],
   suggestionsQuery: '',
   fetchingSuggestions: false,
@@ -34,12 +52,7 @@ const search = (state = INITIAL_STATE, action) => {
     case UPDATE_DATASETS:
       return {
         ...state,
-        datasets: [
-          { id: 'kotus', selected: true},
-          { id: 'pnr', selected: true},
-          { id: 'warsa_karelian_places', selected: false},
-          { id: 'warsa_municipalities', selected: true},
-        ],
+        datasets: state.datasets
       };
     case FETCH_SUGGESTIONS:
       return { ...state, fetchingSuggestions: true };
@@ -69,7 +82,7 @@ const search = (state = INITIAL_STATE, action) => {
     case UPDATE_RESULTS:
       return {
         ...state,
-        results: results(state.results, action),
+        results: action.results,
         resultsQuery: state.query,
         fetchingResults: false
       };

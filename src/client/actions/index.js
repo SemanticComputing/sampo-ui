@@ -67,7 +67,7 @@ export const fetchResults = () => ({
   type: FETCH_RESULTS,
 });
 
-export const updateResults = (results) => ({
+export const updateResults = ({ results }) => ({
   type: UPDATE_RESULTS,
   results
 });
