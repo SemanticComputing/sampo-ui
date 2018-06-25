@@ -186,23 +186,24 @@ module.exports = {
     'shortTitle': 'TGN',
     'timePeriod': 'contemporary',
     'endpoint': 'http://vocab.getty.edu/sparql.json',
-    'simpleSuggestionQuery': `
-      PREFIX gvp: <http://vocab.getty.edu/ontology#>
-      PREFIX luc: <http://www.ontotext.com/owlim/lucene#>
-      PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-      PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
-      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-      PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-      SELECT DISTINCT ?label
-      WHERE {
-        ?s skos:inScheme <http://vocab.getty.edu/tgn/> .
-        ?s luc:term '<QUERYTERM>*' .
-        ?s gvp:prefLabelGVP [xl:literalForm ?lbl]
-        BIND(STR(?lbl) AS ?label)
-      }
-      LIMIT 20
-      `,
+    // 'simpleSuggestionQuery': `
+    //   PREFIX gvp: <http://vocab.getty.edu/ontology#>
+    //   PREFIX luc: <http://www.ontotext.com/owlim/lucene#>
+    //   PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+    //   PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+    //   PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
+    //   PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    //   PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+    //   SELECT DISTINCT ?label
+    //   WHERE {
+    //     ?s skos:inScheme <http://vocab.getty.edu/tgn/> .
+    //     ?s luc:term "<QUERYTERM>*" .
+    //     ?s gvp:prefLabelGVP [xl:literalForm ?lbl]
+    //     BIND(STR(?lbl) AS ?label)
+    //   }
+    //   LIMIT 20
+    //   `,
+    'simpleSuggestionQuery': 'SELECT+DISTINCT+?label{?s+skos:inScheme+tgn:;luc:term+"<QUERYTERM>*";gvp:prefLabelGVP/xl:literalForm?lbl+BIND(STR(?lbl)+AS+?label)}LIMIT+20',  
     'resultQuery': `
       PREFIX text: <http://jena.apache.org/text#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>

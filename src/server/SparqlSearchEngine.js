@@ -22,7 +22,6 @@ class SparqlSearchEngine {
     const { endpoint, simpleSuggestionQuery } = datasetConfig[datasetId];
     const query = simpleSuggestionQuery.replace(/<QUERYTERM>/g, queryTerm);
     const sparqlApi = new SparqlApi({ endpoint });
-    //console.log(query)
 
     return this.doSearch(query, sparqlApi, null)
       .then((results) => results.map(res => (res.label.value)));
