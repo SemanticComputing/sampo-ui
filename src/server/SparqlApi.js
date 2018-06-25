@@ -10,28 +10,6 @@ const defaultConstructHeaders = {
   'Accept': 'text/turtle'
 };
 
-const test = {
-  'head' : {
-    'vars' : [ 'label' ]
-  },
-  'results' : {
-    'bindings' :
-    [ {
-      'label' : {
-        'type' : 'literal',
-        'value' : 'test'
-      }
-    },
-    {
-      'label' : {
-        'type' : 'literal',
-        'value' : 'test2'
-      }
-    }
-    ]
-  }
-};
-
 class SparqlApi {
 
   constructor({ endpoint }) {
@@ -40,12 +18,16 @@ class SparqlApi {
 
   query(query, { headers }) {
     return new Promise((resolve, reject) => {
-      //
-      // fetch('http://vocab.getty.edu/sparql.json?query=select*{?f+a+gvp:Facet;skos:inScheme+aat:;gvp:prefLabelGVP/xl:literalForm?l}')
-      //   .then(response => { return response.json();})
-      //   .then(responseData => {console.log(responseData); return responseData;})
-      //   .catch(error => console.log('error is', error));
 
+      if (this.endpoint === 'http://vocab.getty.edu/sparql.json') {
+        fetch('http://vocab.getty.edu/sparql.json?query=select*{?s+a+gvp:Facet;skos:inScheme+aat:;gvp:prefLabelGVP/xl:literalForm?label}')
+          .then(response => { return response.text();})
+          .then(responseData => {
+            console.log(responseData);
+            return resolve(responseData);
+          })
+          .catch(error => console.log('error is', error));
+      }
       //
       // fetch('http://vocab.getty.edu/sparql.json',
       //   { method: 'POST',
