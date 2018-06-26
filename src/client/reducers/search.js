@@ -16,13 +16,13 @@ export const INITIAL_STATE = {
       'title': 'Institute for the Languages of Finland (Kotus) Digital Names archive',
       'shortTitle': 'DNA',
       'timePeriod': '1900s',
-      'selected': false
+      'selected': true
     },
     'pnr': {
       'title': 'Finnish Geographic Names Registry',
       'shortTitle': 'FGN',
       'timePeriod': 'contemporary',
-      'selected': false
+      'selected': true
     },
     'tgn': {
       'title': 'The Getty Thesaurus of Geographic Names',
@@ -34,13 +34,13 @@ export const INITIAL_STATE = {
       'title': 'Karelian map names',
       'shortTitle': 'KMN',
       'timePeriod': '1922-1944',
-      'selected': false
+      'selected': true
     },
     'warsa_municipalities': {
       'title': 'Finnish WW2 municipalities',
       'shortTitle': 'FWM',
       'timePeriod': '1939-1944',
-      'selected': false
+      'selected': true
     },
   },
   suggestions: [],
