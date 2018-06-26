@@ -34,6 +34,7 @@ module.exports = {
             ?s text:query (skos:prefLabel '<QUERYTERM>*' 50) .
           }
           ?s skos:prefLabel ?lbl .
+          FILTER(STRSTARTS(LCASE(?lbl), '<QUERYTERM>'))
           BIND(STR(?lbl) AS ?label)
         }
         `,
@@ -102,6 +103,7 @@ module.exports = {
           ?s text:query (skos:prefLabel '<QUERYTERM>*' 50) .
         }
         ?s skos:prefLabel ?lbl .
+        FILTER(STRSTARTS(LCASE(?lbl), '<QUERYTERM>'))
         BIND(STR(?lbl) AS ?label)
       }
       `,
@@ -151,6 +153,7 @@ module.exports = {
       WHERE {
         ?s text:query (skos:prefLabel '<QUERYTERM>*' 50) .
         ?s sf:preferredLanguageLiteral (skos:prefLabel 'fi' '' ?lbl) .
+        FILTER(STRSTARTS(LCASE(?lbl), '<QUERYTERM>'))
         BIND(STR(?lbl) AS ?label)
       }
         `,
@@ -251,6 +254,7 @@ module.exports = {
         ?s text:query (skos:prefLabel '<QUERYTERM>*' 50) .
         ?s hipla:type [] .
         ?s skos:prefLabel ?lbl .
+        FILTER(STRSTARTS(LCASE(?lbl), '<QUERYTERM>'))
         BIND(STR(?lbl) AS ?label)
       }
       `,
