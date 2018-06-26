@@ -20,7 +20,6 @@ class SparqlApi {
     return new Promise((resolve, reject) => {
 
       if (this.endpoint === 'http://vocab.getty.edu/sparql.json') {
-        //const q = 'select*{?s+a+gvp:Facet;skos:inScheme+aat:;gvp:prefLabelGVP/xl:literalForm?label}';
         const url = this.endpoint + '?query=' + query;
         fetch(url)
           .then(response => {
