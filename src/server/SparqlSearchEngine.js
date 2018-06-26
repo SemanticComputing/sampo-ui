@@ -20,28 +20,12 @@ class SparqlSearchEngine {
 
   getSimpleSuggestions(queryTerm, datasetId) {
     const { endpoint, simpleSuggestionQuery } = datasetConfig[datasetId];
-    const query = simpleSuggestionQuery.replace(/<QUERYTERM>/g, queryTerm);
+    const query = simpleSuggestionQuery.replace(/<QUERYTERM>/g, queryTerm.toLowerCase());
     const sparqlApi = new SparqlApi({ endpoint });
 
     return this.doSearch(query, sparqlApi, null)
       .then((results) => results.map(res => (res.label.value)));
   }
-
-  // getSuggestions(queryTerm, datasetId) {
-  //   const { endpoint, suggestionQuery } = datasetConfig[datasetId];
-  //   const query = suggestionQuery.replace(/<QUERYTERM>/g, queryTerm);
-  //   const sparqlApi = new SparqlApi({ endpoint });
-  //
-  //   // handle the situation when there are no results, and only one row
-  //   // with no label and count is returned
-  //   const checkLabel = (res) => res[0].label ? res : [];
-  //
-  //   return this.doSearch(query, sparqlApi, checkLabel)
-  //     .then((results) => results.map(res => ({
-  //       label: res.label,
-  //       datasets: { datasetId, count: res.count }
-  //     })));
-  // }
 
   getResults(queryTerm, datasetId) {
     const { endpoint, resultQuery } = datasetConfig[datasetId];
@@ -60,6 +44,21 @@ class SparqlSearchEngine {
       this.getResults(queryTerm, datasetId))).then(mergeResults);
   }
 
+  // getSuggestions(queryTerm, datasetId) {
+  //   const { endpoint, suggestionQuery } = datasetConfig[datasetId];
+  //   const query = suggestionQuery.replace(/<QUERYTERM>/g, queryTerm);
+  //   const sparqlApi = new SparqlApi({ endpoint });
+  //
+  //   // handle the situation when there are no results, and only one row
+  //   // with no label and count is returned
+  //   const checkLabel = (res) => res[0].label ? res : [];
+  //
+  //   return this.doSearch(query, sparqlApi, checkLabel)
+  //     .then((results) => results.map(res => ({
+  //       label: res.label,
+  //       datasets: { datasetId, count: res.count }
+  //     })));
+  // }
 }
 
 export default new SparqlSearchEngine();
