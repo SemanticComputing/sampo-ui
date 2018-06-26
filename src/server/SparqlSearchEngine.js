@@ -45,7 +45,7 @@ class SparqlSearchEngine {
 
   getResults(queryTerm, datasetId) {
     const { endpoint, resultQuery } = datasetConfig[datasetId];
-    const query = resultQuery.replace(/<QUERYTERM>/g, queryTerm);
+    const query = resultQuery.replace(/<QUERYTERM>/g, queryTerm.toLowerCase());
     const sparqlApi = new SparqlApi({ endpoint });
     return this.doSearch(query, sparqlApi, mapResults);
   }
