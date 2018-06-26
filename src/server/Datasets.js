@@ -182,35 +182,27 @@ module.exports = {
       `,
   },
   'tgn': {
+    // Getty LOD documentation:
+    // http://vocab.getty.edu/queries#Places_by_Type
+    // http://vocab.getty.edu/doc/#TGN_Place_Types
+    // http://vocab.getty.edu/doc/queries/#Full_Text_Search_Query
+    // https://groups.google.com/forum/#!topic/gettyvocablod/r4wsSJyne84
+    // https://confluence.ontotext.com/display/OWLIMv54/OWLIM-SE+Full-text+Search
     'title': 'The Getty Thesaurus of Geographic Names',
     'shortTitle': 'TGN',
     'timePeriod': 'contemporary',
     'endpoint': 'http://vocab.getty.edu/sparql.json',
-    // 'simpleSuggestionQuery': `
-    //   PREFIX gvp: <http://vocab.getty.edu/ontology#>
-    //   PREFIX luc: <http://www.ontotext.com/owlim/lucene#>
-    //   PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-    //   PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    //   PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
-    //   PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    //   PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-    //   SELECT DISTINCT ?label
-    //   WHERE {
-    //     ?s skos:inScheme <http://vocab.getty.edu/tgn/> .
-    //     ?s luc:term "<QUERYTERM>*" .
-    //     ?s gvp:prefLabelGVP [xl:literalForm ?lbl]
-    //     BIND(STR(?lbl) AS ?label)
-    //   }
-    //   LIMIT 20
-    //   `,
-
-    // http://vocab.getty.edu/queries#Places_by_Type
-    // http://vocab.getty.edu/doc/queries/#Full_Text_Search_Query
-    // https://groups.google.com/forum/#!topic/gettyvocablod/r4wsSJyne84
-    // https://confluence.ontotext.com/display/OWLIMv54/OWLIM-SE+Full-text+Search
-
     'simpleSuggestionQuery': 'SELECT+DISTINCT+?label{?s+a+skos:Concept;+luc:term+"<QUERYTERM>*";+skos:inScheme+tgn:;gvp:prefLabelGVP/xl:literalForm+?lbl+.+BIND(STR(?lbl)+AS+?label)}LIMIT+20',
-    'resultQuery': 'SELECT+?s+(COALESCE(?labelEn,?labelGVP)+AS+?label)+?typeLabel{?s+luc:term+"<QUERYTERM>";+skos:inScheme+tgn:;+gvp:placeTypePreferred+[gvp:prefLabelGVP+[xl:literalForm+?typeLabel;dct:language+gvp_lang:en]];+.OPTIONAL+{?s+xl:prefLabel+[xl:literalForm+?labelEn;+dct:language+gvp_lang:en]}+OPTIONAL{?s+gvp:prefLabelGVP+[xl:literalForm?labelGVP]}+}',
+    'resultQuery':
+      'SELECT+?s+(COALESCE(?labelEn,?labelGVP)+AS+?label)+?typeLabel+?broaderAreaLabel+?source+?lat+?long' +
+      '{?s+luc:term+"<QUERYTERM>";+' +
+      'skos:inScheme+tgn:;+' +
+      'gvp:placeTypePreferred+[gvp:prefLabelGVP+[xl:literalForm+?typeLabel;dct:language+gvp_lang:en]];+' +
+      'gvp:parentStringAbbrev+?broaderAreaLabel+.+' +
+      'OPTIONAL+{?s+xl:prefLabel+[xl:literalForm+?labelEn;+dct:language+gvp_lang:en]}+' +
+      'OPTIONAL{?s+gvp:prefLabelGVP+[xl:literalForm?labelGVP]}+' +
+      'OPTIONAL{?s+foaf:focus+?place+.+?place+wgs:lat+?lat;+wgs:long+?long}+' +
+      'BIND("TGN"+AS+?source)+}',
   },
   'kotus': {
     'title': 'Institute for the Languages of Finland (Kotus) Digital Names archive',
