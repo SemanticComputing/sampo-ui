@@ -87,6 +87,10 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
   },
+  drawerSearch: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
   // content = whole rigth column
   content: {
     flexGrow: 1,
@@ -158,14 +162,16 @@ let MapApp = (props) => {
         toggleDataset={props.toggleDataset}
       />
       <Divider />
-      <IntegrationAutosuggest
-        search={props.search}
-        updateQuery={props.updateQuery}
-        fetchSuggestions={props.fetchSuggestions}
-        clearSuggestions={props.clearSuggestions}
-        fetchResults={props.fetchResults}
-        clearResults={props.clearResults}
-      />
+      <div className={classes.drawerSearch}>
+        <IntegrationAutosuggest
+          search={props.search}
+          updateQuery={props.updateQuery}
+          fetchSuggestions={props.fetchSuggestions}
+          clearSuggestions={props.clearSuggestions}
+          fetchResults={props.fetchResults}
+          clearResults={props.clearResults}
+        />
+      </div>
       {props.search.results.length > 0 &&
         <VirtualizedTable list={resultList} />
       }

@@ -9,6 +9,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchButtons from './SearchButtons';
 
 function renderInput(inputProps) {
   const { classes, ref, ...other } = inputProps;
@@ -47,14 +49,14 @@ function getSuggestionValue(suggestion) {
 
 const styles = theme => ({
   container: {
-    flexGrow: 0,
+    //flexGrow: 0,
     position: 'relative',
     marginTop: theme.spacing.unit * 2,
     // paddingLeft: theme.spacing.unit * 15,
     // paddingRight: theme.spacing.unit * 15,
-    marginLeft: 24,
+    //marginLeft: 24,
     //marginRight: 'auto',
-    width: 280,
+    width: 300,
   },
   suggestionsContainerOpen: {
     position: 'absolute',
@@ -108,7 +110,11 @@ const IntegrationAutosuggest = (props) => {
     searchPlaces();
   };
 
-  const handleMouseDownSearchButton = (event) => {
+  const handleClickOptionsButton = () => {
+    console.log('options')
+  };
+
+  const handleMouseDownButton = (event) => {
     event.preventDefault();
   };
 
@@ -159,16 +165,7 @@ const IntegrationAutosuggest = (props) => {
       </IconButton>
     </InputAdornment>;
   } else {
-    adornment =
-    <InputAdornment position="end">
-      <IconButton
-        aria-label="Search places"
-        onClick={handleClickSearchButton}
-        onMouseDown={handleMouseDownSearchButton}
-      >
-        <SearchIcon className={classes.icon} />
-      </IconButton>
-    </InputAdornment>;
+    adornment = <SearchButtons search={props.search} />;
   }
 
   return (
