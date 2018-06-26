@@ -62,6 +62,7 @@ module.exports = {
           ?s wgs84:lat ?lat .
           ?s wgs84:long ?long .
         }
+        FILTER(LCASE(STR(?label))='<QUERYTERM>')
         FILTER(LANGMATCHES(LANG(?label), 'fi'))
         FILTER(LANGMATCHES(LANG(?typeLabel), 'fi'))
         FILTER(LANGMATCHES(LANG(?broaderAreaLabel), 'fi'))
@@ -131,6 +132,7 @@ module.exports = {
           ?s wgs84:lat ?lat .
           ?s wgs84:long ?long .
         }
+        FILTER(LCASE(STR(?label))='<QUERYTERM>')
         FILTER(LANGMATCHES(LANG(?label), 'fi'))
         FILTER(LANGMATCHES(LANG(?typeLabel), 'fi'))
         FILTER(LANGMATCHES(LANG(?broaderAreaLabel), 'fi'))
@@ -169,6 +171,7 @@ module.exports = {
       SELECT DISTINCT *
       WHERE {
         ?s text:query (skos:prefLabel '<QUERYTERM>') .
+        ?s skos:prefLabel ?prefLabel .
         ?s sf:preferredLanguageLiteral (skos:prefLabel 'fi' '' ?label) .
         ?s a ?type .
         ?type sf:preferredLanguageLiteral (skos:prefLabel 'fi' '' ?typeLabel) .
@@ -180,6 +183,7 @@ module.exports = {
           ?municipality sf:preferredLanguageLiteral (skos:prefLabel 'fi' '' ?broaderAreaLabel) .
           FILTER (?munType != <http://ldf.fi/pnr-schema#SubRegion>)
         }
+        FILTER (LCASE(STR(?prefLabel))='<QUERYTERM>')
         BIND("PNR" AS ?source)
       }
       `,
