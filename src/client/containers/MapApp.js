@@ -20,6 +20,7 @@ import Message from '../components/Message';
 import VirtualizedTable from '../components/VirtualizedTable';
 import DatasetSelector from '../components/DatasetSelector';
 import Immutable from 'immutable';
+import Pie from '../components/Pie.js';
 import {
   updateQuery,
   toggleDataset,
@@ -173,10 +174,11 @@ let MapApp = (props) => {
         />
       </div>
       {props.search.results.length > 0 &&
-        <VirtualizedTable list={resultList} />
+        <Pie data={props.search.results} />
       }
     </Drawer>
   );
+//<VirtualizedTable list={resultList} />
 
   let before = null;
   let after = null;
