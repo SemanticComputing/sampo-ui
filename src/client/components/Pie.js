@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-//import { dataArray, legendArray } from './TestData';
+// import { testDataArray } from './TestData';
 
 
 const styles = theme => ({
@@ -33,6 +33,28 @@ const styles = theme => ({
   }
 });
 
+const combineSmallGroups = (dataArray) => {
+  const totalLength = dataArray.length;
+  const threshold = 0.1;
+  let other = { x: 'Other', y: 0, values: [] };
+  let newArray = [];
+  for (let item of dataArray) {
+    const portion = item.y / totalLength;
+    if (portion < threshold) {
+      other.y += item.y;
+      other.values.push(item.values);
+    } else {
+      newArray.push(item);
+    }
+  }
+  if (other.y > 0) {
+    newArray.push(other);
+    return newArray;
+  } else {
+    return dataArray;
+  }
+};
+
 let Pie = (props) => {
   const { classes, data } = props;
   const grouped = _.groupBy(data,'typeLabel');
@@ -47,6 +69,7 @@ let Pie = (props) => {
     });
   }
   dataArray = _.orderBy(dataArray, 'y', 'desc');
+  dataArray = combineSmallGroups(dataArray);
   const legendArray = dataArray.map(group => ({ name: group.x + ' (' + group.y + ')' }));
   const legendHeigth = legendArray.length * 34;
 

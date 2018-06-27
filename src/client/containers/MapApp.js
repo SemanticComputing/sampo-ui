@@ -178,7 +178,7 @@ let MapApp = (props) => {
       }
     </Drawer>
   );
-//<VirtualizedTable list={resultList} />
+  //<VirtualizedTable list={resultList} />
 
   let before = null;
   let after = null;

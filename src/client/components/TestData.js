@@ -1,4 +1,4 @@
-export const dataArray = [
+export const testDataArray = [
   {
     'x': 'Mäki',
     'y': 172,
@@ -2311,95 +2311,5 @@ export const dataArray = [
         'source': 'DNA'
       }
     ]
-  }
-];
-
-export const legendArray = [
-  {
-    'name': 'Mäki (172)'
-  },
-  {
-    'name': 'Undefined (25)'
-  },
-  {
-    'name': 'Talo (18)'
-  },
-  {
-    'name': 'Tila (12)'
-  },
-  {
-    'name': 'Kallio (6)'
-  },
-  {
-    'name': 'M (5)'
-  },
-  {
-    'name': 'Mökki (3)'
-  },
-  {
-    'name': 'Metsä (2)'
-  },
-  {
-    'name': 'Rinne (2)'
-  },
-  {
-    'name': 'Vaara (2)'
-  },
-  {
-    'name': 'Mäkialue (2)'
-  },
-  {
-    'name': 'Kalliomaa (1)'
-  },
-  {
-    'name': 'Kahvilarakennus (1)'
-  },
-  {
-    'name': 'Leikkipaikka (1)'
-  },
-  {
-    'name': 'Ranta (1)'
-  },
-  {
-    'name': 'Töyränne (1)'
-  },
-  {
-    'name': 'Työmiesasunto (1)'
-  },
-  {
-    'name': 'Kangas (1)'
-  },
-  {
-    'name': 'Korkea maa (1)'
-  },
-  {
-    'name': 'Kumpu (1)'
-  },
-  {
-    'name': 'Vuori (1)'
-  },
-  {
-    'name': 'Hakamaa (1)'
-  },
-  {
-    'name': 'Avokallio (1)'
-  },
-  {
-    'name': 'Kylänosa (1)'
-  },
-  {
-    'name': 'Kennäs (1)'
-  },
-  {
-    'name': 'Mäet (1)'
-  },
-  {
-    'name': 'Itärinne (1)'
-  },
-  {
-    'name': 'Pelto (1)'
-  },
-  {
-    'name': 'Kalliomäki (1)'
   }
 ];
