@@ -45,7 +45,7 @@ module.exports = {
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX gs: <http://www.opengis.net/ont/geosparql#>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-      SELECT DISTINCT *
+      SELECT ?s ?label ?typeLabel ?broaderAreaLabel ?source ?lat ?long
       WHERE {
         {
           SELECT DISTINCT ?s {
@@ -115,7 +115,7 @@ module.exports = {
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX gs: <http://www.opengis.net/ont/geosparql#>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-      SELECT DISTINCT *
+      SELECT ?s ?label ?typeLabel ?broaderAreaLabel ?source ?lat ?long
       WHERE {
         {
           SELECT DISTINCT ?s {
@@ -168,7 +168,7 @@ module.exports = {
       PREFIX sf: <http://ldf.fi/functions#>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-      SELECT DISTINCT *
+      SELECT ?s ?label ?typeLabel ?broaderAreaLabel ?source ?lat ?long
       WHERE {
         ?s text:query (skos:prefLabel '<QUERYTERM>') .
         ?s skos:prefLabel ?prefLabel .
@@ -270,7 +270,7 @@ module.exports = {
       PREFIX gs: <http://www.opengis.net/ont/geosparql#>
       PREFIX hipla: <http://ldf.fi/schema/hipla/>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-      SELECT DISTINCT *
+      SELECT ?s ?label ?typeLabel ?broaderAreaLabel ?source ?lat ?long
       WHERE {
         ?s text:query (skos:prefLabel '<QUERYTERM>') .
         ?s a hipla:Place .
