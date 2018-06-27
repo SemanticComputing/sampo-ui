@@ -8,8 +8,6 @@ import SuggestionItem from './SuggestionItem';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchButtons from './SearchButtons';
 
 function renderInput(inputProps) {
@@ -106,18 +104,6 @@ const IntegrationAutosuggest = (props) => {
     }
   };
 
-  const handleClickSearchButton = () => {
-    searchPlaces();
-  };
-
-  const handleClickOptionsButton = () => {
-    console.log('options')
-  };
-
-  const handleMouseDownButton = (event) => {
-    event.preventDefault();
-  };
-
   const searchPlaces = () => {
     if (props.search.query.length > 0) {
       console.log('fetching results');
@@ -165,7 +151,7 @@ const IntegrationAutosuggest = (props) => {
       </IconButton>
     </InputAdornment>;
   } else {
-    adornment = <SearchButtons search={props.search} />;
+    adornment = <SearchButtons search={props.search} updateResultFormat={props.updateResultFormat} />;
   }
 
   return (
@@ -207,7 +193,8 @@ IntegrationAutosuggest.propTypes = {
   fetchSuggestions: PropTypes.func.isRequired,
   clearSuggestions: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
-  clearResults: PropTypes.func.isRequired
+  clearResults: PropTypes.func.isRequired,
+  updateResultFormat: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(IntegrationAutosuggest);

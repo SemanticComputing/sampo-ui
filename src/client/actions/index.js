@@ -13,6 +13,7 @@ export const UPDATE_RESULTS = 'UPDATE_RESULTS';
 export const CLEAR_RESULTS = 'CLEAR_RESULTS';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const UPDATE_LANGUAGE = 'UPDATE_LANGUAGE';
+export const UPDATE_RESULT_FORMAT = 'UPDATE_RESULT_FORMAT';
 export const SET_MAP_READY = 'SET_MAP_READY';
 export const GET_GEOJSON = 'GET_GEOJSON';
 export const UPDATE_GEOJSON = 'UPDATE_GEOJSON';
@@ -83,6 +84,11 @@ export const clearError = () => ({
 export const updateLanguage = (language) => ({
   type: UPDATE_LANGUAGE,
   language
+});
+
+export const updateResultFormat = (resultFormat) => ({
+  type: UPDATE_RESULT_FORMAT,
+  resultFormat
 });
 
 export const setMapReady = () => ({

@@ -31,7 +31,8 @@ import {
   openDrawer,
   closeDrawer,
   setMapReady,
-  getGeoJSON
+  getGeoJSON,
+  updateResultFormat
 } from '../actions';
 
 const drawerWidth = 600;
@@ -126,11 +127,19 @@ let MapApp = (props) => {
   const { classes, error, theme, drawerIsOpen, mapReady } = props;
   const anchor = 'left';
 
-  let resultList = [];
+  let resultsView = '';
   if (props.search.results.length > 0) {
-    resultList = Immutable.List(props.search.results);
+    switch(props.resultFormat) {
+      case 'list':
+        resultsView = <VirtualizedTable list={Immutable.List(props.search.results)} />;
+        break;
+      case 'stats':
+        resultsView =  <Pie data={props.search.results} />;
+        break;
+      default:
+        resultsView = <VirtualizedTable list={Immutable.List(props.search.results)} />;
+    }
   }
-
 
   const drawer = (
     <Drawer
@@ -171,14 +180,13 @@ let MapApp = (props) => {
           clearSuggestions={props.clearSuggestions}
           fetchResults={props.fetchResults}
           clearResults={props.clearResults}
+          updateResultFormat={props.updateResultFormat}
         />
       </div>
-      {props.search.results.length > 0 &&
-        <Pie data={props.search.results} />
-      }
+      {resultsView}
     </Drawer>
   );
-  //<VirtualizedTable list={resultList} />
+  //<
 
   let before = null;
   let after = null;
@@ -248,7 +256,8 @@ const mapStateToProps = (state) => ({
   mapReady: state.options.mapReady,
   error: state.error,
   geoJSON: state.map.geoJSON,
-  geoJSONKey: state.map.geoJSONKey
+  geoJSONKey: state.map.geoJSONKey,
+  resultFormat: state.options.resultFormat
 });
 
 const mapDispatchToProps = ({
@@ -261,7 +270,8 @@ const mapDispatchToProps = ({
   fetchResults,
   clearResults,
   setMapReady,
-  getGeoJSON
+  getGeoJSON,
+  updateResultFormat
 });
 
 MapApp.propTypes = {
@@ -283,6 +293,8 @@ MapApp.propTypes = {
   geoJSON: PropTypes.object.isRequired,
   geoJSONKey: PropTypes.number,
   getGeoJSON: PropTypes.func.isRequired,
+  updateResultFormat: PropTypes.func.isRequired,
+  resultFormat: PropTypes.string.isRequired
 };
 
 MapApp = connect(

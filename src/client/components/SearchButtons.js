@@ -19,11 +19,22 @@ class SearchButtons extends React.Component {
 
   handleClose = () => {
     this.setState({ anchorEl: null });
+
   };
 
   handleClickSearchButton = () => {
     console.log('places');
   };
+
+  handleClickStats = () => {
+    this.handleClose();
+    this.props.updateResultFormat('stats');
+  }
+
+  handleClickTable = () => {
+    this.handleClose();
+    this.props.updateResultFormat('table');
+  }
 
   handleMouseDownButton = (event) => {
     event.preventDefault();
@@ -61,14 +72,14 @@ class SearchButtons extends React.Component {
             <CSVLink data={this.props.search.results}>Results as CSV</CSVLink>
           </MenuItem>
           <MenuItem
-            key='opt2'
-            onClick={this.handleClose}>
-            Option 2
+            key='stats'
+            onClick={this.handleClickStats}>
+            Results by place type
           </MenuItem>
           <MenuItem
-            key='otp3'
-            onClick={this.handleClose}>
-            Option 3
+            key='list'
+            onClick={this.handleClickTable}>
+            Results as a table
           </MenuItem>
         </Menu>
       </InputAdornment>
@@ -78,6 +89,7 @@ class SearchButtons extends React.Component {
 
 SearchButtons.propTypes = {
   search: PropTypes.object.isRequired,
+  updateResultFormat: PropTypes.func.isRequired
 };
 
 export default SearchButtons;
