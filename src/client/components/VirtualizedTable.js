@@ -2,29 +2,43 @@ import React from 'react';
 import Immutable from 'immutable';
 import PropTypes from 'prop-types';
 import {CSVLink} from 'react-csv';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {
   AutoSizer,
   Column,
   Table,
   SortDirection,
 } from 'react-virtualized';
-// import styles from '../styles/react-virtualized-table.css';
-//import { withStyles } from '@material-ui/core/styles';
 
-const styles = {
-  r: {
-    display: 'flex',
-    height: '100%'
-  },
-  inforow: {
-    display: 'block',
-    height: 30
-  },
+const styles = theme => ({
   root: {
-    marginTop: 25,
+    display: 'flex',
+    height: '100%',
+    flexGrow: 1,
+  },
+  container: {
+    paddingTop: theme.spacing.unit * 3,
+    height: '100%',
+    flexDirection: 'column'
+  },
+  resultsInfo: {
+    flexGrow: 0
+  },
+  resultsInfoPaper: {
+    height: 40
+  },
+});
+
+const tableStyles = {
+  tableRoot: {
     fontFamily: 'Roboto',
+    paddingTop: 24
   },
   headerRow: {
     textTransform: 'none',
@@ -53,9 +67,9 @@ const styles = {
 
 const calculateRowStyle = ({ index }) => {
   if (index < 0) {
-    return styles.headerRow;
+    return tableStyles.headerRow;
   } else {
-    return index % 2 === 0 ? styles.evenRow : styles.oddRow;
+    return index % 2 === 0 ? tableStyles.evenRow : tableStyles.oddRow;
   }
 };
 
@@ -99,61 +113,70 @@ class VirtualizedTable extends React.PureComponent {
     } = this.state;
 
     const rowGetter = ({index}) => this._getDatum(sortedList, index);
+    const { classes } = this.props;
+
+    //https://github.com/bvaughn/react-virtualized/blob/master/docs/usingAutoSizer.md
 
     return (
-
-      <div style={styles.r}>
-        <div style={styles.inforow}>
-          <Paper>
-            <CSVLink data={sortedList.toArray()}>CSV export</CSVLink>
-          </Paper>
-        </div>
-        <div style={{ flex: '1 1 auto' }}>
-          <AutoSizer>
-            {({ height, width }) => (
-              <Table
-                overscanRowCount={overscanRowCount}
-                rowHeight={useDynamicRowHeight ? this._getRowHeight : rowHeight}
-                rowGetter={rowGetter}
-                rowCount={rowCount}
-                sort={this._sort}
-                sortBy={sortBy}
-                sortDirection={sortDirection}
-                width={width}
-                height={height}
-                headerHeight={headerHeight}
-                noRowsRenderer={this._noRowsRenderer}
-                style={styles.root}
-                rowStyle={calculateRowStyle}
-              >
-                <Column
-                  label="Label"
-                  cellDataGetter={({rowData}) => rowData.label}
-                  dataKey="label"
-                  width={150}
-                />
-                <Column
-                  label="Type"
-                  cellDataGetter={({rowData}) => rowData.typeLabel}
-                  dataKey="typeLabel"
-                  width={150}
-                />
-                <Column
-                  label="Area"
-                  cellDataGetter={({rowData}) => rowData.broaderAreaLabel}
-                  dataKey="broaderAreaLabel"
-                  width={150}
-                />
-                <Column
-                  label="Source"
-                  cellDataGetter={({rowData}) => rowData.source}
-                  dataKey="source"
-                  width={150}
-                />
-              </Table>
-            )}
-          </AutoSizer>
-        </div>
+      <div className={classes.root}>
+        <Grid container className={classes.container}>
+          <div className={classes.resultsInfo}>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>Result options</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <CSVLink data={sortedList.toArray()}>Results as CSV</CSVLink>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          </div>
+          <div style={{ flex: '1 1 auto' }}>
+            <AutoSizer>
+              {({ height, width }) => (
+                <Table
+                  overscanRowCount={overscanRowCount}
+                  rowHeight={useDynamicRowHeight ? this._getRowHeight : rowHeight}
+                  rowGetter={rowGetter}
+                  rowCount={rowCount}
+                  sort={this._sort}
+                  sortBy={sortBy}
+                  sortDirection={sortDirection}
+                  width={width}
+                  height={height}
+                  headerHeight={headerHeight}
+                  noRowsRenderer={this._noRowsRenderer}
+                  style={tableStyles.tableRoot}
+                  rowStyle={calculateRowStyle}
+                >
+                  <Column
+                    label="Label"
+                    cellDataGetter={({rowData}) => rowData.label}
+                    dataKey="label"
+                    width={150}
+                  />
+                  <Column
+                    label="Type"
+                    cellDataGetter={({rowData}) => rowData.typeLabel}
+                    dataKey="typeLabel"
+                    width={150}
+                  />
+                  <Column
+                    label="Area"
+                    cellDataGetter={({rowData}) => rowData.broaderAreaLabel}
+                    dataKey="broaderAreaLabel"
+                    width={150}
+                  />
+                  <Column
+                    label="Source"
+                    cellDataGetter={({rowData}) => rowData.source}
+                    dataKey="source"
+                    width={150}
+                  />
+                </Table>
+              )}
+            </AutoSizer>
+          </div>
+        </Grid>
       </div>
     );
   }
@@ -169,7 +192,7 @@ class VirtualizedTable extends React.PureComponent {
   }
 
   _noRowsRenderer() {
-    return <div className={styles.noRows}>No rows</div>;
+    return <div className={tableStyles.noRows}>No rows</div>;
   }
 
   _onRowCountChange(event) {
@@ -218,7 +241,8 @@ class VirtualizedTable extends React.PureComponent {
 }
 
 VirtualizedTable.propTypes = {
+  classes: PropTypes.object.isRequired,
   list: PropTypes.instanceOf(Immutable.List).isRequired,
 };
 
-export default VirtualizedTable;
+export default withStyles(styles)(VirtualizedTable);
