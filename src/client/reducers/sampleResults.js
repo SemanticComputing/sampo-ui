@@ -200,4 +200,4 @@
   broaderAreaLabel: 'Viipurin lääni',
   lat: '60.365334',
   long: '29.820196',
-  source: 'FWM' } ]
+  source: 'FWM' } ];

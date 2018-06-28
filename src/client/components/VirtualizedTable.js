@@ -1,6 +1,9 @@
 import React from 'react';
 import Immutable from 'immutable';
 import PropTypes from 'prop-types';
+import {CSVLink} from 'react-csv';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import {
   AutoSizer,
   Column,
@@ -11,6 +14,14 @@ import {
 //import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
+  r: {
+    display: 'flex',
+    height: '100%'
+  },
+  inforow: {
+    display: 'block',
+    height: 30
+  },
   root: {
     marginTop: 25,
     fontFamily: 'Roboto',
@@ -90,51 +101,59 @@ class VirtualizedTable extends React.PureComponent {
     const rowGetter = ({index}) => this._getDatum(sortedList, index);
 
     return (
-      <div style={{ flex: '1 1 auto' }}>
-        <AutoSizer>
-          {({ height, width }) => (
-            <Table
-              overscanRowCount={overscanRowCount}
-              rowHeight={useDynamicRowHeight ? this._getRowHeight : rowHeight}
-              rowGetter={rowGetter}
-              rowCount={rowCount}
-              sort={this._sort}
-              sortBy={sortBy}
-              sortDirection={sortDirection}
-              width={width}
-              height={height}
-              headerHeight={headerHeight}
-              noRowsRenderer={this._noRowsRenderer}
-              style={styles.root}
-              rowStyle={calculateRowStyle}
-            >
-              <Column
-                label="Label"
-                cellDataGetter={({rowData}) => rowData.label}
-                dataKey="label"
-                width={150}
-              />
-              <Column
-                label="Type"
-                cellDataGetter={({rowData}) => rowData.typeLabel}
-                dataKey="typeLabel"
-                width={150}
-              />
-              <Column
-                label="Area"
-                cellDataGetter={({rowData}) => rowData.broaderAreaLabel}
-                dataKey="broaderAreaLabel"
-                width={150}
-              />
-              <Column
-                label="Source"
-                cellDataGetter={({rowData}) => rowData.source}
-                dataKey="source"
-                width={150}
-              />
-            </Table>
-          )}
-        </AutoSizer>
+
+      <div style={styles.r}>
+        <div style={styles.inforow}>
+          <Paper>
+            <CSVLink data={sortedList.toArray()}>CSV export</CSVLink>
+          </Paper>
+        </div>
+        <div style={{ flex: '1 1 auto' }}>
+          <AutoSizer>
+            {({ height, width }) => (
+              <Table
+                overscanRowCount={overscanRowCount}
+                rowHeight={useDynamicRowHeight ? this._getRowHeight : rowHeight}
+                rowGetter={rowGetter}
+                rowCount={rowCount}
+                sort={this._sort}
+                sortBy={sortBy}
+                sortDirection={sortDirection}
+                width={width}
+                height={height}
+                headerHeight={headerHeight}
+                noRowsRenderer={this._noRowsRenderer}
+                style={styles.root}
+                rowStyle={calculateRowStyle}
+              >
+                <Column
+                  label="Label"
+                  cellDataGetter={({rowData}) => rowData.label}
+                  dataKey="label"
+                  width={150}
+                />
+                <Column
+                  label="Type"
+                  cellDataGetter={({rowData}) => rowData.typeLabel}
+                  dataKey="typeLabel"
+                  width={150}
+                />
+                <Column
+                  label="Area"
+                  cellDataGetter={({rowData}) => rowData.broaderAreaLabel}
+                  dataKey="broaderAreaLabel"
+                  width={150}
+                />
+                <Column
+                  label="Source"
+                  cellDataGetter={({rowData}) => rowData.source}
+                  dataKey="source"
+                  width={150}
+                />
+              </Table>
+            )}
+          </AutoSizer>
+        </div>
       </div>
     );
   }
