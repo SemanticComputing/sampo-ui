@@ -7,13 +7,11 @@ import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+// import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import LeafletMap from '../components/map/LeafletMap';
 import Message from '../components/Message';
@@ -21,6 +19,11 @@ import VirtualizedTable from '../components/VirtualizedTable';
 import DatasetSelector from '../components/DatasetSelector';
 import Immutable from 'immutable';
 import Pie from '../components/Pie.js';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 import {
   updateQuery,
   toggleDataset,
@@ -85,7 +88,7 @@ const styles = theme => ({
   drawerHeader: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     padding: '0 8px',
     ...theme.mixins.toolbar,
   },
@@ -152,26 +155,32 @@ let MapApp = (props) => {
       }}
     >
       <div className={classes.drawerHeader}>
-        <Tabs
-          value={0}
-          onChange={null}
-          fullWidth
-          indicatorColor="secondary"
-          textColor="secondary"
-        >
-          <Tab label="Places" />
-          <Tab label="Options" disabled />
-        </Tabs>
         <IconButton onClick={props.closeDrawer}>
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </div>
-      <Divider />
-      <DatasetSelector
-        datasets={props.search.datasets}
-        toggleDataset={props.toggleDataset}
-      />
-      <Divider />
+      <ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.heading}>Select data sources</Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <DatasetSelector
+            datasets={props.search.datasets}
+            toggleDataset={props.toggleDataset}
+          />
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+      <ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.heading}>Saved searches</Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <Typography>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+            sit amet blandit leo lobortis eget.
+          </Typography>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
       <div className={classes.drawerSearch}>
         <IntegrationAutosuggest
           search={props.search}

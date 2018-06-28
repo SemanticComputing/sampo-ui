@@ -3,12 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-//import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
-//import IconButton from '@material-ui/core/IconButton';
-//import CommentIcon from '@material-ui/icons/Comment';
-import ListSubheader from '@material-ui/core/ListSubheader';
 
 const styles = theme => ({
   root: {
@@ -30,15 +26,9 @@ const DatasetSelector = props => {
     props.toggleDataset(value);
   };
 
-  // <ListItemSecondaryAction>
-  //   <IconButton aria-label="Comments">
-  //     <CommentIcon />
-  //   </IconButton>
-  // </ListItemSecondaryAction>
-
   return (
     <div className={classes.root}>
-      <List subheader={<ListSubheader>Select data sources</ListSubheader>}>
+      <List>
         {Object.keys(props.datasets).map(id => (
           <ListItem
             key={id}
@@ -54,7 +44,6 @@ const DatasetSelector = props => {
               disableRipple
             />
             <ListItemText primary={props.datasets[id].title} />
-
           </ListItem>
         ))}
       </List>
