@@ -6,7 +6,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import {CSVLink} from 'react-csv';
 
 class SearchButtons extends React.Component {
   state = {
@@ -23,7 +22,7 @@ class SearchButtons extends React.Component {
   };
 
   handleClickSearchButton = () => {
-    console.log('places');
+    // console.log('places');
   };
 
   handleClickStats = () => {
@@ -66,11 +65,6 @@ class SearchButtons extends React.Component {
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
-          <MenuItem
-            key='csv'
-            onClick={this.handleClose}>
-            <CSVLink data={this.props.search.results}>Results as CSV</CSVLink>
-          </MenuItem>
           <MenuItem
             key='stats'
             onClick={this.handleClickStats}>

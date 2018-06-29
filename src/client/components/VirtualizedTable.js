@@ -16,29 +16,24 @@ import {
   SortDirection,
 } from 'react-virtualized';
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     display: 'flex',
     height: '100%',
     flexGrow: 1,
   },
   container: {
-    paddingTop: theme.spacing.unit * 3,
     height: '100%',
     flexDirection: 'column'
   },
   resultsInfo: {
     flexGrow: 0
   },
-  resultsInfoPaper: {
-    height: 40
-  },
 });
 
 const tableStyles = {
   tableRoot: {
     fontFamily: 'Roboto',
-    paddingTop: 24
   },
   headerRow: {
     textTransform: 'none',
@@ -83,7 +78,7 @@ class VirtualizedTable extends React.PureComponent {
     const sortedList = this._sortList({sortBy, sortDirection});
 
     this.state = {
-      headerHeight: 30,
+      headerHeight: 50,
       overscanRowCount: 10,
       rowHeight: 40,
       rowCount: this.props.list.size,

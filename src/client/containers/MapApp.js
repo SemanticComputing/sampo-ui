@@ -95,6 +95,8 @@ const styles = theme => ({
   drawerSearch: {
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
+    ...theme.mixins.toolbar,
   },
   // content = whole rigth column
   content: {
@@ -154,7 +156,16 @@ let MapApp = (props) => {
         paper: classes.drawerPaper,
       }}
     >
-      <div className={classes.drawerHeader}>
+      <div className={classes.drawerSearch}>
+        <IntegrationAutosuggest
+          search={props.search}
+          updateQuery={props.updateQuery}
+          fetchSuggestions={props.fetchSuggestions}
+          clearSuggestions={props.clearSuggestions}
+          fetchResults={props.fetchResults}
+          clearResults={props.clearResults}
+          updateResultFormat={props.updateResultFormat}
+        />
         <IconButton onClick={props.closeDrawer}>
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
@@ -176,22 +187,11 @@ let MapApp = (props) => {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-            sit amet blandit leo lobortis eget.
+            Saved searches go here
           </Typography>
         </ExpansionPanelDetails>
       </ExpansionPanel>
-      <div className={classes.drawerSearch}>
-        <IntegrationAutosuggest
-          search={props.search}
-          updateQuery={props.updateQuery}
-          fetchSuggestions={props.fetchSuggestions}
-          clearSuggestions={props.clearSuggestions}
-          fetchResults={props.fetchResults}
-          clearResults={props.clearResults}
-          updateResultFormat={props.updateResultFormat}
-        />
-      </div>
+
       {resultsView}
     </Drawer>
   );
