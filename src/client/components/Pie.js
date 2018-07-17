@@ -1,10 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VictoryPie, VictoryLegend, VictoryContainer } from 'victory';
+import {
+  VictoryPie,
+  VictoryLegend,
+  VictoryContainer,
+  VictoryLabel,
+} from 'victory';
+import PieTooltip from './PieTooltip';
 import _ from 'lodash';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+//import Typography from '@material-ui/core/Typography'
 // import { testDataArray } from './TestData';
 
 
@@ -28,7 +35,7 @@ const styles = theme => ({
     paddingRight: theme.spacing.unit * 4,
   },
   legendPaper: {
-    height: 300,
+    height: 275,
     overflowY: 'auto',
   }
 });
@@ -56,7 +63,8 @@ const combineSmallGroups = (dataArray) => {
 };
 
 let Pie = (props) => {
-  const { classes, data } = props;
+  const { classes, data, query } = props;
+  const resultCount = data.length;
   const grouped = _.groupBy(data,'typeLabel');
   let dataArray = [];
   for (let key in grouped) {
@@ -72,21 +80,29 @@ let Pie = (props) => {
   dataArray = combineSmallGroups(dataArray);
   const legendArray = dataArray.map(group => ({ name: group.x + ' (' + group.y + ')' }));
   const legendHeigth = legendArray.length * 34;
+  const pieTitle = resultCount + ' results for the query "' + query + '"';
+  //
+  // labels={p => `${p.x} (${p.y})\n\n${p.x/resultCount}` }
 
   return (
     <div className={classes.root}>
       <Grid container className={classes.container}>
+
         <Grid className={classes.pie} item xs={12} sm={6}>
+          <VictoryLabel
+            style={{
+              fontSize: '0.875rem',
+              fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+            }}
+            text={pieTitle}
+          />
           <VictoryPie
             padding={{
-              left: 0, bottom: 0, top: 0
+              left: 0, bottom: 0, top: 16
             }}
             colorScale={'qualitative'}
             data={dataArray}
-            labels={() => null}
-            animate={{
-              duration: 4000
-            }}
+            labelComponent={<PieTooltip resultCount={resultCount} />}
           />
         </Grid>
         <Grid className={classes.legend} item xs={12} sm={6}>
@@ -116,7 +132,8 @@ let Pie = (props) => {
 
 Pie.propTypes = {
   classes: PropTypes.object.isRequired,
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
+  query: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(Pie);

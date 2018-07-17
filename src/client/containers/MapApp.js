@@ -139,7 +139,7 @@ let MapApp = (props) => {
         resultsView = <VirtualizedTable list={Immutable.List(props.search.results)} />;
         break;
       case 'stats':
-        resultsView =  <Pie data={props.search.results} />;
+        resultsView =  <Pie data={props.search.results} query={props.search.query} />;
         break;
       default:
         resultsView = <VirtualizedTable list={Immutable.List(props.search.results)} />;
