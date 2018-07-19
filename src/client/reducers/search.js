@@ -6,7 +6,8 @@ import {
   UPDATE_SUGGESTIONS,
   CLEAR_SUGGESTIONS,
   UPDATE_RESULTS,
-  CLEAR_RESULTS
+  CLEAR_RESULTS,
+  UPDATE_RESULTS_FILTER
 } from '../actions';
 
 export const INITIAL_STATE = {
@@ -47,6 +48,8 @@ export const INITIAL_STATE = {
   suggestionsQuery: '',
   fetchingSuggestions: false,
   results: [],
+  //resultsFilter: { 'typeLabel': new Set(['Talo', 'Kaupunki']) },
+  resultsFilter: null,
   resultsQuery: '',
   fetchingResults: false,
 };
@@ -99,6 +102,11 @@ const search = (state = INITIAL_STATE, action) => {
         results: action.results,
         resultsQuery: state.query,
         fetchingResults: false
+      };
+    case UPDATE_RESULTS_FILTER:
+      return {
+        ...state,
+        resultsFilter: action.filter
       };
     default:
       return state;

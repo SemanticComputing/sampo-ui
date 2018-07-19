@@ -23,6 +23,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { getVisibleResults } from '../selectors';
 
 import {
   updateQuery,
@@ -132,17 +133,19 @@ let MapApp = (props) => {
   const { classes, error, theme, drawerIsOpen, mapReady } = props;
   const anchor = 'left';
 
+  //console.log(props.results);
+
   let resultsView = '';
-  if (props.search.results.length > 0) {
+  if (props.results.length > 0) {
     switch(props.resultFormat) {
       case 'list':
-        resultsView = <VirtualizedTable list={Immutable.List(props.search.results)} />;
+        resultsView = <VirtualizedTable list={Immutable.List(props.results)} />;
         break;
       case 'stats':
-        resultsView =  <Pie data={props.search.results} query={props.search.query} />;
+        resultsView =  <Pie data={props.results} query={props.search.query} />;
         break;
       default:
-        resultsView = <VirtualizedTable list={Immutable.List(props.search.results)} />;
+        resultsView = <VirtualizedTable list={Immutable.List(props.results)} />;
     }
   }
 
@@ -247,7 +250,7 @@ let MapApp = (props) => {
           <Message error={error} />
           <LeafletMap
             sliderValue={100}
-            results={props.search.results}
+            results={props.results}
             geoJSON={props.geoJSON}
             geoJSONKey={props.geoJSONKey}
             getGeoJSON={props.getGeoJSON}
@@ -261,6 +264,7 @@ let MapApp = (props) => {
 
 const mapStateToProps = (state) => ({
   search: state.search,
+  results: getVisibleResults(state),
   drawerIsOpen: state.options.drawerIsOpen,
   mapReady: state.options.mapReady,
   error: state.error,
@@ -303,7 +307,8 @@ MapApp.propTypes = {
   geoJSONKey: PropTypes.number,
   getGeoJSON: PropTypes.func.isRequired,
   updateResultFormat: PropTypes.func.isRequired,
-  resultFormat: PropTypes.string.isRequired
+  resultFormat: PropTypes.string.isRequired,
+  results: PropTypes.array,
 };
 
 MapApp = connect(

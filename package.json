@@ -82,6 +82,7 @@
     "react-virtualized": "^9.20.0",
     "redux": "^4.0.0",
     "redux-observable": "^0.18.0",
+    "reselect": "^3.0.1",
     "superagent": "^3.8.3",
     "victory": "^0.26.1"
   }
