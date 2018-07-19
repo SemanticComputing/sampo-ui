@@ -16,6 +16,8 @@ import {
   SortDirection,
 } from 'react-virtualized';
 
+// https://github.com/bvaughn/react-virtualized/issues/650
+
 const styles = () => ({
   root: {
     display: 'flex',
@@ -85,10 +87,8 @@ class VirtualizedTable extends React.PureComponent {
       sortBy,
       sortDirection,
       sortedList,
-      useDynamicRowHeight: false,
     };
 
-    this._getRowHeight = this._getRowHeight.bind(this);
     this._noRowsRenderer = this._noRowsRenderer.bind(this);
     this._onRowCountChange = this._onRowCountChange.bind(this);
     this._onScrollToRowChange = this._onScrollToRowChange.bind(this);
@@ -104,7 +104,6 @@ class VirtualizedTable extends React.PureComponent {
       sortBy,
       sortDirection,
       sortedList,
-      useDynamicRowHeight,
     } = this.state;
 
     const rowGetter = ({index}) => this._getDatum(sortedList, index);
@@ -130,7 +129,7 @@ class VirtualizedTable extends React.PureComponent {
               {({ height, width }) => (
                 <Table
                   overscanRowCount={overscanRowCount}
-                  rowHeight={useDynamicRowHeight ? this._getRowHeight : rowHeight}
+                  rowHeight={rowHeight}
                   rowGetter={rowGetter}
                   rowCount={rowCount}
                   sort={this._sort}
@@ -226,12 +225,6 @@ class VirtualizedTable extends React.PureComponent {
       .update(
         list => (sortDirection === SortDirection.DESC ? list.reverse() : list),
       );
-  }
-
-  _updateUseDynamicRowHeight(value) {
-    this.setState({
-      useDynamicRowHeight: value,
-    });
   }
 }
 
