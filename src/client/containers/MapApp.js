@@ -23,7 +23,10 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { getVisibleResults } from '../selectors';
+import {
+  getVisibleResults,
+  getVisibleValues
+} from '../selectors';
 
 import {
   updateQuery,
@@ -133,7 +136,7 @@ let MapApp = (props) => {
   const { classes, error, theme, drawerIsOpen, mapReady } = props;
   const anchor = 'left';
 
-  //console.log(props.results);
+  console.log(props.resultValues);
 
   let resultsView = '';
   if (props.results.length > 0) {
@@ -265,6 +268,7 @@ let MapApp = (props) => {
 const mapStateToProps = (state) => ({
   search: state.search,
   results: getVisibleResults(state),
+  resultValues: getVisibleValues(state),
   drawerIsOpen: state.options.drawerIsOpen,
   mapReady: state.options.mapReady,
   error: state.error,
@@ -309,6 +313,7 @@ MapApp.propTypes = {
   updateResultFormat: PropTypes.func.isRequired,
   resultFormat: PropTypes.string.isRequired,
   results: PropTypes.array,
+  resultValues: PropTypes.object
 };
 
 MapApp = connect(

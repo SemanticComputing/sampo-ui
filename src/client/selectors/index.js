@@ -16,3 +16,22 @@ export const getVisibleResults = createSelector(
     }
   }
 );
+
+export const getVisibleValues = createSelector(
+  [ getVisibleResults ],
+  (visibleResults) => {
+    let typeLabels = [];
+    let broaderAreaLabels = [];
+    let sources = [];
+    for (const result of visibleResults) {
+      typeLabels.push(result.typeLabel);
+      broaderAreaLabels.push(result.broaderAreaLabel);
+      sources.push(result.source);
+    }
+    return {
+      typeLabels: Array.from(new Set(typeLabels)),
+      broaderAreaLabels: Array.from(new Set(broaderAreaLabels)),
+      sources: Array.from(new Set(sources)),
+    };
+  }
+);
