@@ -44,6 +44,26 @@ class LeafletMap extends React.Component {
       layer.bindPopup('<p>Nimi: ' + feature.properties.NIMI + '</p></p>ID: ' + feature.id + '</p>');
     }
   }
+  // 
+  // <LayersControl.BaseLayer checked name='Google Maps Roads'>
+  //   <GoogleLayer googlekey={key}  maptype={road}/>
+  // </LayersControl.BaseLayer>
+  // <LayersControl.BaseLayer name='Google Maps Satellite'>
+  //   <GoogleLayer googlekey={key}  maptype={satellite} />
+  // </LayersControl.BaseLayer>
+  // <LayersControl.BaseLayer name='Google Maps Hybrid'>
+  //   <GoogleLayer googlekey={key}  maptype={hybrid} />
+  // </LayersControl.BaseLayer>
+  // <LayersControl.BaseLayer name='Google Maps Terrain'>
+  //   <GoogleLayer googlekey={key}  maptype={terrain} />
+  // </LayersControl.BaseLayer>
+  //
+
+  // <MarkerClusterGroup
+  //   disableClusteringAtZoom={9}
+  // >
+  //   <ResultMarkerList results={this.props.results} />
+  // </MarkerClusterGroup>
 
   render() {
     const position = [this.state.lat, this.state.lng];
@@ -53,19 +73,8 @@ class LeafletMap extends React.Component {
         zoom={this.state.zoom}
       >
         <LayersControl position="topright">
-          <LayersControl.BaseLayer checked name='Google Maps Roads'>
-            <GoogleLayer googlekey={key}  maptype={road}/>
-          </LayersControl.BaseLayer>
-          <LayersControl.BaseLayer name='Google Maps Satellite'>
-            <GoogleLayer googlekey={key}  maptype={satellite} />
-          </LayersControl.BaseLayer>
-          <LayersControl.BaseLayer name='Google Maps Hybrid'>
-            <GoogleLayer googlekey={key}  maptype={hybrid} />
-          </LayersControl.BaseLayer>
-          <LayersControl.BaseLayer name='Google Maps Terrain'>
-            <GoogleLayer googlekey={key}  maptype={terrain} />
-          </LayersControl.BaseLayer>
-          <LayersControl.BaseLayer name="OpenStreetMap">
+
+          <LayersControl.BaseLayer checked name="OpenStreetMap">
             <TileLayer
               attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -98,11 +107,7 @@ class LeafletMap extends React.Component {
           data={this.props.geoJSON}
           onEachFeature={this.handleOnEachFeature}
         />
-        <MarkerClusterGroup
-          disableClusteringAtZoom={9}
-        >
-          <ResultMarkerList results={this.props.results} />
-        </MarkerClusterGroup>
+        <ResultMarkerList results={this.props.results} />
         <FullscreenControl position='topright' />
         <Control position="topright" >
           <SimpleSlider
