@@ -1,6 +1,7 @@
 import React from 'react';
 import Immutable from 'immutable';
 import PropTypes from 'prop-types';
+import ResultFilterDialog from './ResultFilterDialog'
 import {CSVLink} from 'react-csv';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
@@ -121,6 +122,7 @@ class VirtualizedTable extends React.PureComponent {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <CSVLink data={sortedList.toArray()}>Results as CSV</CSVLink>
+                <ResultFilterDialog />
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </div>

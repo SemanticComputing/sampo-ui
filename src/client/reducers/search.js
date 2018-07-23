@@ -10,6 +10,8 @@ import {
   UPDATE_RESULTS_FILTER
 } from '../actions';
 
+import sampleResults from './sampleResults';
+
 export const INITIAL_STATE = {
   query: '',
   datasets: {
@@ -47,9 +49,10 @@ export const INITIAL_STATE = {
   suggestions: [],
   suggestionsQuery: '',
   fetchingSuggestions: false,
-  results: [],
-  //resultsFilter: { 'typeLabel': new Set(['Talo', 'Kaupunki']) },
-  resultsFilter: null,
+  //results: [],
+  results: sampleResults,
+  resultsFilter: { 'typeLabel': new Set(['Vesimuodostuma', 'Kirkonkylä , kaupunki']) },
+  //resultsFilter: null,
   resultsQuery: '',
   fetchingResults: false,
 };
