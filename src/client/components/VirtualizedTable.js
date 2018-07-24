@@ -1,7 +1,7 @@
 import React from 'react';
 import Immutable from 'immutable';
 import PropTypes from 'prop-types';
-import ResultFilterDialog from './ResultFilterDialog'
+import ResultFilterDialog from './ResultFilterDialog';
 import {CSVLink} from 'react-csv';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
@@ -116,13 +116,13 @@ class VirtualizedTable extends React.PureComponent {
       <div className={classes.root}>
         <Grid container className={classes.container}>
           <div className={classes.resultsInfo}>
-            <ExpansionPanel>
+            <ExpansionPanel expanded={true}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>Result options</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <CSVLink data={sortedList.toArray()}>Results as CSV</CSVLink>
-                <ResultFilterDialog />
+                <ResultFilterDialog resultValues={this.props.resultValues} updateResultsFilter={this.props.updateResultsFilter} />
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </div>
@@ -233,6 +233,8 @@ class VirtualizedTable extends React.PureComponent {
 VirtualizedTable.propTypes = {
   classes: PropTypes.object.isRequired,
   list: PropTypes.instanceOf(Immutable.List).isRequired,
+  resultValues: PropTypes.object,
+  updateResultsFilter: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(VirtualizedTable);

@@ -51,7 +51,11 @@ export const INITIAL_STATE = {
   fetchingSuggestions: false,
   //results: [],
   results: sampleResults,
-  resultsFilter: { 'typeLabel': new Set(['Vesimuodostuma', 'Kirkonkylä , kaupunki']) },
+  resultsFilter: {
+    'typeLabel': new Set(),
+    'broaderAreaLabel': new Set(),
+    'source': new Set(),
+  },
   //resultsFilter: null,
   resultsQuery: '',
   fetchingResults: false,
@@ -107,13 +111,29 @@ const search = (state = INITIAL_STATE, action) => {
         fetchingResults: false
       };
     case UPDATE_RESULTS_FILTER:
-      return {
-        ...state,
-        resultsFilter: action.filter
-      };
+      return updateResultsFilter(state, action);
     default:
       return state;
   }
+};
+
+const updateResultsFilter = (state, action) => {
+  const { property, value } = action.filter;
+  let nSet = state.resultsFilter[property];
+  if (nSet.has(value)) {
+    nSet.delete(value);
+  } else {
+    nSet.add(value);
+  }
+  const newFilter = updateObject(state.resultsFilter, { [property]: nSet });
+  return updateObject(state, { resultsFilter: newFilter });
+};
+
+const updateObject = (oldObject, newValues) => {
+  // Encapsulate the idea of passing a new object as the first parameter
+  // to Object.assign to ensure we correctly copy data instead of mutating
+  //console.log(Object.assign({}, oldObject, newValues));
+  return Object.assign({}, oldObject, newValues);
 };
 
 export default search;

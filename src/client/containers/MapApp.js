@@ -39,7 +39,8 @@ import {
   closeDrawer,
   setMapReady,
   getGeoJSON,
-  updateResultFormat
+  updateResultFormat,
+  updateResultsFilter
 } from '../actions';
 
 const drawerWidth = 600;
@@ -136,19 +137,26 @@ let MapApp = (props) => {
   const { classes, error, theme, drawerIsOpen, mapReady } = props;
   const anchor = 'left';
 
-  console.log(props.resultValues);
+  // TODO: results are not updated when resultFilter changes
+  // console.log('results received as prop ', props.results);
 
   let resultsView = '';
   if (props.results.length > 0) {
     switch(props.resultFormat) {
       case 'list':
-        resultsView = <VirtualizedTable list={Immutable.List(props.results)} />;
+        resultsView = <VirtualizedTable
+          list={Immutable.List(props.results)}
+          resultValues={props.resultValues}
+          updateResultsFilter={props.updateResultsFilter} />;
         break;
       case 'stats':
-        resultsView =  <Pie data={props.results} query={props.search.query} />;
+        resultsView = <Pie data={props.results} query={props.search.query} />;
         break;
       default:
-        resultsView = <VirtualizedTable list={Immutable.List(props.results)} />;
+        resultsView = <VirtualizedTable
+          list={Immutable.List(props.results)}
+          resultValues={props.resultValues}
+          updateResultsFilter={props.updateResultsFilter} />;
     }
   }
 
@@ -265,17 +273,20 @@ let MapApp = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  search: state.search,
-  results: getVisibleResults(state),
-  resultValues: getVisibleValues(state),
-  drawerIsOpen: state.options.drawerIsOpen,
-  mapReady: state.options.mapReady,
-  error: state.error,
-  geoJSON: state.map.geoJSON,
-  geoJSONKey: state.map.geoJSONKey,
-  resultFormat: state.options.resultFormat
-});
+const mapStateToProps = (state) => {
+  // console.log('mapping state to props ', getVisibleResults(state.search))
+  return {
+    search: state.search,
+    results: getVisibleResults(state.search),
+    resultValues: getVisibleValues(state.search),
+    drawerIsOpen: state.options.drawerIsOpen,
+    mapReady: state.options.mapReady,
+    error: state.error,
+    geoJSON: state.map.geoJSON,
+    geoJSONKey: state.map.geoJSONKey,
+    resultFormat: state.options.resultFormat
+  };
+};
 
 const mapDispatchToProps = ({
   openDrawer,
@@ -288,7 +299,8 @@ const mapDispatchToProps = ({
   clearResults,
   setMapReady,
   getGeoJSON,
-  updateResultFormat
+  updateResultFormat,
+  updateResultsFilter
 });
 
 MapApp.propTypes = {
@@ -313,7 +325,8 @@ MapApp.propTypes = {
   updateResultFormat: PropTypes.func.isRequired,
   resultFormat: PropTypes.string.isRequired,
   results: PropTypes.array,
-  resultValues: PropTypes.object
+  resultValues: PropTypes.object,
+  updateResultsFilter: PropTypes.func.isRequired
 };
 
 MapApp = connect(

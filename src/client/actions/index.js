@@ -78,7 +78,7 @@ export const clearResults = () => ({
   type: CLEAR_RESULTS,
 });
 
-export const updateResultsFilter = ({ filter }) => ({
+export const updateResultsFilter = (filter) => ({
   type: UPDATE_RESULTS_FILTER,
   filter
 });
