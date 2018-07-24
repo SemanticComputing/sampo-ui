@@ -7,7 +7,8 @@ import {
   CLEAR_SUGGESTIONS,
   UPDATE_RESULTS,
   CLEAR_RESULTS,
-  UPDATE_RESULTS_FILTER
+  UPDATE_RESULTS_FILTER,
+  SORT_RESULTS
 } from '../actions';
 
 import sampleResults from './sampleResults';
@@ -56,6 +57,8 @@ export const INITIAL_STATE = {
     'broaderAreaLabel': new Set(),
     'source': new Set(),
   },
+  sortBy: 'broaderAreaLabel',
+  sortDirection: 'asc',
   //resultsFilter: null,
   resultsQuery: '',
   fetchingResults: false,
@@ -112,6 +115,13 @@ const search = (state = INITIAL_STATE, action) => {
       };
     case UPDATE_RESULTS_FILTER:
       return updateResultsFilter(state, action);
+    case SORT_RESULTS:
+      //console.log(action)
+      return {
+        ...state,
+        sortBy: action.options.sortBy,
+        sortDirection: action.options.sortDirection,
+      };
     default:
       return state;
   }

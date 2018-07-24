@@ -14,7 +14,6 @@ import {
   AutoSizer,
   Column,
   Table,
-  SortDirection,
 } from 'react-virtualized';
 
 // https://github.com/bvaughn/react-virtualized/issues/650
@@ -75,40 +74,13 @@ class VirtualizedTable extends React.PureComponent {
 
   constructor(props) {
     super(props);
-
-    const sortBy = 'typeLabel';
-    const sortDirection = SortDirection.ASC;
-    const sortedList = this._sortList({sortBy, sortDirection});
-
-    this.state = {
-      headerHeight: 50,
-      overscanRowCount: 10,
-      rowHeight: 40,
-      rowCount: this.props.list.size,
-      sortBy,
-      sortDirection,
-      sortedList,
-    };
-
     this._noRowsRenderer = this._noRowsRenderer.bind(this);
-    this._onRowCountChange = this._onRowCountChange.bind(this);
-    this._onScrollToRowChange = this._onScrollToRowChange.bind(this);
     this._sort = this._sort.bind(this);
   }
 
   render() {
-    const {
-      headerHeight,
-      overscanRowCount,
-      rowHeight,
-      rowCount,
-      sortBy,
-      sortDirection,
-      sortedList,
-    } = this.state;
-
-    const rowGetter = ({index}) => this._getDatum(sortedList, index);
-    const { classes } = this.props;
+    const { classes, list } = this.props;
+    const rowGetter = ({index}) => this._getDatum(list, index);
 
     //https://github.com/bvaughn/react-virtualized/blob/master/docs/usingAutoSizer.md
 
@@ -121,7 +93,7 @@ class VirtualizedTable extends React.PureComponent {
                 <Typography className={classes.heading}>Result options</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <CSVLink data={sortedList.toArray()}>Results as CSV</CSVLink>
+                <CSVLink data={list.toArray()}>Results as CSV</CSVLink>
                 <ResultFilterDialog resultValues={this.props.resultValues} updateResultsFilter={this.props.updateResultsFilter} />
               </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -130,16 +102,16 @@ class VirtualizedTable extends React.PureComponent {
             <AutoSizer>
               {({ height, width }) => (
                 <Table
-                  overscanRowCount={overscanRowCount}
-                  rowHeight={rowHeight}
+                  overscanRowCount={10}
+                  rowHeight={40}
                   rowGetter={rowGetter}
-                  rowCount={rowCount}
+                  rowCount={this.props.list.size}
                   sort={this._sort}
-                  sortBy={sortBy}
-                  sortDirection={sortDirection}
+                  sortBy={this.props.search.sortBy}
+                  sortDirection={this.props.search.sortDirection.toUpperCase()}
                   width={width}
                   height={height}
-                  headerHeight={headerHeight}
+                  headerHeight={50}
                   noRowsRenderer={this._noRowsRenderer}
                   style={tableStyles.tableRoot}
                   rowStyle={calculateRowStyle}
@@ -191,49 +163,33 @@ class VirtualizedTable extends React.PureComponent {
     return <div className={tableStyles.noRows}>No rows</div>;
   }
 
-  _onRowCountChange(event) {
-    const rowCount = parseInt(event.target.value, 10) || 0;
+  // _onScrollToRowChange(event) {
+  //   const {rowCount} = this.state;
+  //   let scrollToIndex = Math.min(
+  //     rowCount - 1,
+  //     parseInt(event.target.value, 10),
+  //   );
+  //
+  //   if (isNaN(scrollToIndex)) {
+  //     scrollToIndex = undefined;
+  //   }
+  //
+  //   this.setState({scrollToIndex});
+  // }
 
-    this.setState({rowCount});
+  _sort({ sortBy, sortDirection }) {
+    this.props.sortResults({ sortBy, sortDirection: sortDirection.toLowerCase() });
   }
 
-  _onScrollToRowChange(event) {
-    const {rowCount} = this.state;
-    let scrollToIndex = Math.min(
-      rowCount - 1,
-      parseInt(event.target.value, 10),
-    );
 
-    if (isNaN(scrollToIndex)) {
-      scrollToIndex = undefined;
-    }
-
-    this.setState({scrollToIndex});
-  }
-
-  _sort({sortBy, sortDirection}) {
-    const sortedList = this._sortList({sortBy, sortDirection});
-
-    this.setState({sortBy, sortDirection, sortedList});
-  }
-
-  _sortList({sortBy, sortDirection}) {
-    const list = this.props.list;
-    //console.log(list);
-    //console.log(list.sortBy(item => item[sortBy]));
-
-    return list
-      .sortBy(item => item[sortBy])
-      .update(
-        list => (sortDirection === SortDirection.DESC ? list.reverse() : list),
-      );
-  }
 }
 
 VirtualizedTable.propTypes = {
   classes: PropTypes.object.isRequired,
   list: PropTypes.instanceOf(Immutable.List).isRequired,
-  resultValues: PropTypes.object,
+  search: PropTypes.object.isRequired,
+  resultValues: PropTypes.object.isRequired,
+  sortResults: PropTypes.func.isRequired,
   updateResultsFilter: PropTypes.func.isRequired
 };
 

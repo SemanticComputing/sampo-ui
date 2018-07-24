@@ -5,13 +5,16 @@ import _ from 'lodash';
 
 const getResultsFilter = (state) => state.resultsFilter;
 const getResults = (state) => state.results;
+const getSortBy = (state) => state.sortBy;
+const getSortDirection = (state) => state.sortDirection;
 
 export const getVisibleResults = createSelector(
-  [ getResults, getResultsFilter ],
-  (results, resultsFilter) => {
-    //console.log('filtering')
-    //console.log(results.filter(filterVisibleResult(resultsFilter)));
-    return results.filter(filterVisibleResult(resultsFilter));
+  [ getResults, getResultsFilter, getSortBy, getSortDirection ],
+  (results, resultsFilter, sortBy, sortDirection) => {
+    console.log(sortBy)
+    console.log(sortDirection)
+    const filteredResults =  results.filter(filterVisibleResult(resultsFilter));
+    return _.orderBy(filteredResults, sortBy, sortDirection);
   }
 );
 
@@ -33,7 +36,6 @@ export const getVisibleValues = createSelector(
     let typeLabels = [];
     let broaderAreaLabels = [];
     let sources = [];
-    //console.log(resultsFilter)
     for (const result of visibleResults) {
       typeLabels.push({ value: result.typeLabel, selected: !resultsFilter.typeLabel.has(result.typeLabel) });
       broaderAreaLabels.push({ value: result.broaderAreaLabel, selected: !resultsFilter.broaderAreaLabel.has(result.broaderAreaLabel) });

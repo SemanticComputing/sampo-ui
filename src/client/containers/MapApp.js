@@ -40,7 +40,8 @@ import {
   setMapReady,
   getGeoJSON,
   updateResultFormat,
-  updateResultsFilter
+  updateResultsFilter,
+  sortResults,
 } from '../actions';
 
 const drawerWidth = 600;
@@ -137,16 +138,15 @@ let MapApp = (props) => {
   const { classes, error, theme, drawerIsOpen, mapReady } = props;
   const anchor = 'left';
 
-  // TODO: results are not updated when resultFilter changes
-  // console.log('results received as prop ', props.results);
-
   let resultsView = '';
   if (props.results.length > 0) {
     switch(props.resultFormat) {
-      case 'list':
+      case 'table':
         resultsView = <VirtualizedTable
           list={Immutable.List(props.results)}
           resultValues={props.resultValues}
+          search={props.search}
+          sortResults={props.sortResults}
           updateResultsFilter={props.updateResultsFilter} />;
         break;
       case 'stats':
@@ -155,7 +155,7 @@ let MapApp = (props) => {
       default:
         resultsView = <VirtualizedTable
           list={Immutable.List(props.results)}
-          resultValues={props.resultValues}
+          search={props.search}
           updateResultsFilter={props.updateResultsFilter} />;
     }
   }
@@ -297,6 +297,7 @@ const mapDispatchToProps = ({
   clearSuggestions,
   fetchResults,
   clearResults,
+  sortResults,
   setMapReady,
   getGeoJSON,
   updateResultFormat,
@@ -318,6 +319,7 @@ MapApp.propTypes = {
   clearSuggestions: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
+  sortResults: PropTypes.func.isRequired,
   setMapReady: PropTypes.func.isRequired,
   geoJSON: PropTypes.object.isRequired,
   geoJSONKey: PropTypes.number,

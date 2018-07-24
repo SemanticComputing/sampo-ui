@@ -12,6 +12,7 @@ export const FETCH_RESULTS_FAILED = 'FETCH_RESULTS_FAILED';
 export const UPDATE_RESULTS = 'UPDATE_RESULTS';
 export const CLEAR_RESULTS = 'CLEAR_RESULTS';
 export const UPDATE_RESULTS_FILTER = 'UPDATE_RESULTS_FILTER';
+export const SORT_RESULTS = 'SORT_RESULTS';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const UPDATE_LANGUAGE = 'UPDATE_LANGUAGE';
 export const UPDATE_RESULT_FORMAT = 'UPDATE_RESULT_FORMAT';
@@ -81,6 +82,11 @@ export const clearResults = () => ({
 export const updateResultsFilter = (filter) => ({
   type: UPDATE_RESULTS_FILTER,
   filter
+});
+
+export const sortResults = (options) => ({
+  type: SORT_RESULTS,
+  options
 });
 
 export const clearError = () => ({
