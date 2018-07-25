@@ -11,8 +11,6 @@ const getSortDirection = (state) => state.sortDirection;
 export const getVisibleResults = createSelector(
   [ getResults, getResultsFilter, getSortBy, getSortDirection ],
   (results, resultsFilter, sortBy, sortDirection) => {
-    console.log(sortBy)
-    console.log(sortDirection)
     const filteredResults =  results.filter(filterVisibleResult(resultsFilter));
     return _.orderBy(filteredResults, sortBy, sortDirection);
   }
@@ -20,9 +18,7 @@ export const getVisibleResults = createSelector(
 
 const filterVisibleResult = resultsFilter => (resultObj) => {
   for (const property in resultsFilter) {
-    //console.log(resultObj[property])
     const filterValues = resultsFilter[property];
-    // console.log(property, filterValues)
     if (filterValues.has(resultObj[property])) {
       return false;
     }
@@ -48,23 +44,3 @@ export const getVisibleValues = createSelector(
     };
   }
 );
-
-
-// export const getVisibleValues = createSelector(
-//   [ getVisibleResults ],
-//   (visibleResults) => {
-//     let typeLabels = [];
-//     let broaderAreaLabels = [];
-//     let sources = [];
-//     for (const result of visibleResults) {
-//       typeLabels.push(result.typeLabel);
-//       broaderAreaLabels.push(result.broaderAreaLabel);
-//       sources.push(result.source);
-//     }
-//     return {
-//       typeLabels: Array.from(new Set(typeLabels)),
-//       broaderAreaLabels: Array.from(new Set(broaderAreaLabels)),
-//       sources: Array.from(new Set(sources)),
-//     };
-//   }
-// );
