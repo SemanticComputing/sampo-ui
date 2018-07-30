@@ -137,7 +137,7 @@ const styles = theme => ({
 let MapApp = (props) => {
   const { classes, error, theme, drawerIsOpen, mapReady } = props;
   const anchor = 'left';
-
+  console.log(props.results)
   let resultsView = '';
   if (props.results.length > 0) {
     switch(props.resultFormat) {
