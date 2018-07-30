@@ -227,8 +227,8 @@ module.exports = {
   'kotus': {
     'title': 'Institute for the Languages of Finland (Kotus) Digital Names archive',
     'shortTitle': 'DNA',
-    'endpoint': 'http://ldf.fi/kotus-digital-names-archive/sparql',
-    //'endpoint': 'http://localhost:3037/ds/sparql',
+    // 'endpoint': 'http://ldf.fi/kotus-digital-names-archive/sparql',
+    'endpoint': 'http://localhost:3037/ds/sparql',
     // 'suggestionQuery': `
     //   PREFIX text: <http://jena.apache.org/text#>
     //   PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -270,7 +270,7 @@ module.exports = {
       PREFIX gs: <http://www.opengis.net/ont/geosparql#>
       PREFIX hipla: <http://ldf.fi/schema/hipla/>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-      SELECT ?s ?label ?typeLabel ?broaderAreaLabel ?source ?lat ?long
+      SELECT ?s ?label ?typeLabel ?broaderAreaLabel ?source ?lat ?long ?modifier ?basicElement
       WHERE {
         ?s text:query (skos:prefLabel '<QUERYTERM>') .
         ?s a hipla:Place .
@@ -284,6 +284,12 @@ module.exports = {
           ?s wgs84:lat ?lat .
           ?s wgs84:long ?long .
         }
+        OPTIONAL {
+          ?s hipla:place_name_modifier ?modifier ;
+             hipla:place_name_basic_element ?basicElement .
+        }
+        OPTIONAL { ?s hipla:collector ?collector }
+        OPTIONAL { ?s hipla:collection_year ?collectionYear }
         #FILTER(LANGMATCHES(LANG(?label), 'fi'))
         #FILTER(LANGMATCHES(LANG(?typeLabel), 'fi'))
         #FILTER(LANGMATCHES(LANG(?broaderAreaLabel), 'fi'))
