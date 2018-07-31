@@ -7,23 +7,21 @@
    integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
    crossorigin=""/>
     <style>
+    html {
+      height: 100%;
+    }
+    body {
+      height: 100%;
+      margin: 0;
+    }
+    #root, #app {
+      height: 100%;
+    }
     .leaflet-container {
       height: 100%;
     }
-    .react-grid-Main{
-      height: 100%;
-    }
-    .react-grid-Container{
-      height: 100%;
-    }
-    .react-grid-Grid{
-      min-height: 100% !important;
-    }
-    .react-grid-Canvas{
-      height: 100% !important;
-    }
-    body {
-      margin:0;
+    .ReactVirtualized__Table__headerRow {
+      padding-right: 0px !important;
     }
     </style>
     <title><%= htmlWebpackPlugin.options.title %></title>

@@ -23,7 +23,7 @@ bindActionCreators(toastrActions, store.dispatch);
 
 render(
   <Provider store={store}>
-    <div>
+    <div id='app'>
       <App />
       <ReduxToastr
         timeOut={4000}

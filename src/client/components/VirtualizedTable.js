@@ -84,20 +84,22 @@ class VirtualizedTable extends React.PureComponent {
 
     //https://github.com/bvaughn/react-virtualized/blob/master/docs/usingAutoSizer.md
 
+    // <div className={classes.resultsInfo}>
+    //   <ExpansionPanel expanded={true}>
+    //     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+    //       <Typography className={classes.heading}>Result options</Typography>
+    //     </ExpansionPanelSummary>
+    //     <ExpansionPanelDetails>
+    //       <CSVLink data={list.toArray()}>Results as CSV</CSVLink>
+    //       <ResultFilterDialog resultValues={this.props.resultValues} updateResultsFilter={this.props.updateResultsFilter} />
+    //     </ExpansionPanelDetails>
+    //   </ExpansionPanel>
+    // </div>
+
     return (
       <div className={classes.root}>
         <Grid container className={classes.container}>
-          <div className={classes.resultsInfo}>
-            <ExpansionPanel expanded={true}>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>Result options</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <CSVLink data={list.toArray()}>Results as CSV</CSVLink>
-                <ResultFilterDialog resultValues={this.props.resultValues} updateResultsFilter={this.props.updateResultsFilter} />
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-          </div>
+
           <div style={{ flex: '1 1 auto' }}>
             <AutoSizer>
               {({ height, width }) => (

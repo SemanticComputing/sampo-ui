@@ -14,7 +14,8 @@ export const INITIAL_STATE = {
   language: DEFAULT_LANGUAGE,
   resultFormat: DEFAULT_RESULT_FORMAT,
   drawerIsOpen: DEFAULT_DRAWER_IS_OPEN,
-  mapReady: false
+  mapReady: false,
+  analysisView: false
 };
 
 const options = (state = INITIAL_STATE, action) => {

@@ -28,8 +28,8 @@ class LeafletMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lat: 63.78248603116502,
-      lng: 40.10009765625001,
+      lat: 65.184809,
+      lng: 27.314050,
       zoom: 5,
       opacity: 1.0
     };
@@ -44,7 +44,7 @@ class LeafletMap extends React.Component {
       layer.bindPopup('<p>Nimi: ' + feature.properties.NIMI + '</p></p>ID: ' + feature.id + '</p>');
     }
   }
-  // 
+  //
   // <LayersControl.BaseLayer checked name='Google Maps Roads'>
   //   <GoogleLayer googlekey={key}  maptype={road}/>
   // </LayersControl.BaseLayer>

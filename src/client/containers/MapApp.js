@@ -1,28 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-// import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
-import LeafletMap from '../components/map/LeafletMap';
-import Message from '../components/Message';
-import VirtualizedTable from '../components/VirtualizedTable';
-import DatasetSelector from '../components/DatasetSelector';
+import Grid from '@material-ui/core/Grid';
 import Immutable from 'immutable';
-import Pie from '../components/Pie.js';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import VirtualizedTable from '../components/VirtualizedTable';
+import LeafletMap from '../components/map/LeafletMap';
+
 import {
   getVisibleResults,
   getVisibleValues
@@ -44,11 +33,17 @@ import {
   sortResults,
 } from '../actions';
 
-const drawerWidth = 600;
-
 const styles = theme => ({
   root: {
     flexGrow: 1,
+    height: '100%',
+  },
+  flex: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
   },
   appFrame: {
     height: '100%',
@@ -58,216 +53,128 @@ const styles = theme => ({
     display: 'flex',
     width: '100%',
   },
-  appBar: {
-    position: 'absolute',
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  'appBarShift-left': {
-    marginLeft: drawerWidth,
-  },
-  'appBarShift-right': {
-    marginRight: drawerWidth,
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 20,
-  },
-  hide: {
-    display: 'none',
-  },
-  // drawerHeader + drawerPaper = whole left column
-  drawerPaper: {
-    position: 'relative',
-    width: drawerWidth,
-    overflow: 'hidden',
-  },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  drawerSearch: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    ...theme.mixins.toolbar,
-  },
-  // content = whole rigth column
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    //padding: theme.spacing.unit * 3,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  'content-left': {
-    marginLeft: -drawerWidth,
-  },
-  'content-right': {
-    marginRight: -drawerWidth,
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  'contentShift-left': {
-    marginLeft: 0,
-  },
-  'contentShift-right': {
-    marginRight: 0,
-  },
+  mainContainer: {
+    marginTop: 64,
+    height: 'calc(100% - 64px)'
+  }
 });
 
 let MapApp = (props) => {
-  const { classes, error, theme, drawerIsOpen, mapReady } = props;
-  const anchor = 'left';
-  console.log(props.results)
-  let resultsView = '';
+  const { classes, error, theme, drawerIsOpen, mapReady, analysisView } = props;
+  // console.log(props.results)
+
+  let resultsSection = '';
   if (props.results.length > 0) {
-    switch(props.resultFormat) {
-      case 'table':
-        resultsView = <VirtualizedTable
-          list={Immutable.List(props.results)}
-          resultValues={props.resultValues}
-          search={props.search}
-          sortResults={props.sortResults}
-          updateResultsFilter={props.updateResultsFilter} />;
-        break;
-      case 'stats':
-        resultsView = <Pie data={props.results} query={props.search.query} />;
-        break;
-      default:
-        resultsView = <VirtualizedTable
-          list={Immutable.List(props.results)}
-          search={props.search}
-          updateResultsFilter={props.updateResultsFilter} />;
-    }
+    resultsSection = (
+      <VirtualizedTable
+        list={Immutable.List(props.results)}
+        resultValues={props.resultValues}
+        search={props.search}
+        sortResults={props.sortResults}
+        updateResultsFilter={props.updateResultsFilter} />
+    );
+    //resultsView = <Pie data={props.results} query={props.search.query} />;
   }
 
-  const drawer = (
-    <Drawer
-      variant="persistent"
-      anchor={anchor}
-      open={drawerIsOpen}
-      width={drawerWidth}
-      classes={{
-        paper: classes.drawerPaper,
-      }}
-    >
-      <div className={classes.drawerSearch}>
-        <IntegrationAutosuggest
-          search={props.search}
-          updateQuery={props.updateQuery}
-          fetchSuggestions={props.fetchSuggestions}
-          clearSuggestions={props.clearSuggestions}
-          fetchResults={props.fetchResults}
-          clearResults={props.clearResults}
-          updateResultFormat={props.updateResultFormat}
-        />
-        <IconButton onClick={props.closeDrawer}>
-          {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-        </IconButton>
-      </div>
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography className={classes.heading}>Select data sources</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <DatasetSelector
-            datasets={props.search.datasets}
-            toggleDataset={props.toggleDataset}
-          />
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography className={classes.heading}>Saved searches</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Typography>
-            Saved searches go here
-          </Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-
-      {resultsView}
-    </Drawer>
+  const map = (
+    <LeafletMap
+      sliderValue={100}
+      results={props.results}
+      geoJSON={props.geoJSON}
+      geoJSONKey={props.geoJSONKey}
+      getGeoJSON={props.getGeoJSON}
+    />
   );
-  //<
 
-  let before = null;
-  let after = null;
+  let smallView = analysisView ? map : resultsSection;
+  let mainView = analysisView ? resultsSection : map ;
 
-  if (anchor === 'left') {
-    before = drawer;
-  } else {
-    after = drawer;
-  }
+  // const drawer = (
+  //   <Drawer
+  //     variant="persistent"
+  //     anchor={anchor}
+  //     open={drawerIsOpen}
+  //     width={drawerWidth}
+  //     classes={{
+  //       paper: classes.drawerPaper,
+  //     }}
+  //   >
+  //     <div className={classes.drawerSearch}>
+  //       <IntegrationAutosuggest
+  //         search={props.search}
+  //         updateQuery={props.updateQuery}
+  //         fetchSuggestions={props.fetchSuggestions}
+  //         clearSuggestions={props.clearSuggestions}
+  //         fetchResults={props.fetchResults}
+  //         clearResults={props.clearResults}
+  //         updateResultFormat={props.updateResultFormat}
+  //       />
+  //       <IconButton onClick={props.closeDrawer}>
+  //         {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+  //       </IconButton>
+  //     </div>
+  //     <ExpansionPanel>
+  //       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+  //         <Typography className={classes.heading}>Select data sources</Typography>
+  //       </ExpansionPanelSummary>
+  //       <ExpansionPanelDetails>
+  //         <DatasetSelector
+  //           datasets={props.search.datasets}
+  //           toggleDataset={props.toggleDataset}
+  //         />
+  //       </ExpansionPanelDetails>
+  //     </ExpansionPanel>
+  //     <ExpansionPanel>
+  //       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+  //         <Typography className={classes.heading}>Saved searches</Typography>
+  //       </ExpansionPanelSummary>
+  //       <ExpansionPanelDetails>
+  //         <Typography>
+  //           Saved searches go here
+  //         </Typography>
+  //       </ExpansionPanelDetails>
+  //     </ExpansionPanel>
+  //     {smallView}
+  //   </Drawer>
+  // );
 
-  if (!mapReady) {
-    props.setMapReady();
-    setTimeout(() => {
-      props.openDrawer();
-    }, 300);
-  }
+  // let before = null;
+  // let after = null;
+
+  // if (anchor === 'left') {
+  //   before = drawer;
+  // } else {
+  //   after = drawer;
+  // }
+
+  // if (!mapReady) {
+  //   props.setMapReady();
+  //   setTimeout(() => {
+  //     props.openDrawer();
+  //   }, 300);
+  // }
 
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
-        <AppBar
-          className={classNames(classes.appBar, {
-            [classes.appBarShift]: drawerIsOpen,
-            [classes[`appBarShift-${anchor}`]]: drawerIsOpen,
-          })}
-        >
-          <Toolbar disableGutters={!drawerIsOpen}>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={props.openDrawer}
-              className={classNames(classes.menuButton, drawerIsOpen && classes.hide)}
-            >
+        <AppBar position="absolute">
+          <Toolbar>
+            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
               <MenuIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" noWrap>
+            <Typography variant="title" color="inherit" className={classes.flex}>
               Hipla.fi
             </Typography>
           </Toolbar>
         </AppBar>
-        {before}
-        <main
-          className={classNames(classes.content, classes[`content-${anchor}`], {
-            [classes.contentShift]: drawerIsOpen,
-            [classes[`contentShift-${anchor}`]]: drawerIsOpen,
-          })}
-        >
-          <div className={classes.drawerHeader} />
-          <Message error={error} />
-          <LeafletMap
-            sliderValue={100}
-            results={props.results}
-            geoJSON={props.geoJSON}
-            geoJSONKey={props.geoJSONKey}
-            getGeoJSON={props.getGeoJSON}
-          />
-        </main>
-        {after}
+        <Grid container className={classes.mainContainer}>
+          <Grid item xs={12} sm={4}>
+            {smallView}
+          </Grid>
+          <Grid item xs={12} sm={8}>
+            {mainView}
+          </Grid>
+        </Grid>
       </div>
     </div>
   );
@@ -281,6 +188,7 @@ const mapStateToProps = (state) => {
     resultValues: getVisibleValues(state.search),
     drawerIsOpen: state.options.drawerIsOpen,
     mapReady: state.options.mapReady,
+    analysisView: state.options.analysisView,
     error: state.error,
     geoJSON: state.map.geoJSON,
     geoJSONKey: state.map.geoJSONKey,
@@ -311,6 +219,7 @@ MapApp.propTypes = {
   error: PropTypes.object.isRequired,
   drawerIsOpen: PropTypes.bool.isRequired,
   mapReady: PropTypes.bool.isRequired,
+  analysisView: PropTypes.bool.isRequired,
   openDrawer: PropTypes.func.isRequired,
   closeDrawer: PropTypes.func.isRequired,
   updateQuery: PropTypes.func.isRequired,
