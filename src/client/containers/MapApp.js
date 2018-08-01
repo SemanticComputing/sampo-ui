@@ -8,14 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Grid from '@material-ui/core/Grid';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Immutable from 'immutable';
-import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import VirtualizedTable from '../components/VirtualizedTable';
-import DatasetSelector from '../components/DatasetSelector';
 import LeafletMap from '../components/map/LeafletMap';
 
 import {
@@ -68,41 +62,24 @@ let MapApp = (props) => {
   const { classes, error, analysisView } = props;
   console.log(props.results);
 
-  let resultsSection = '';
-  if (props.results.length > 0) {
-    resultsSection = (
-      <div>
-        <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Select data sources</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <DatasetSelector
-              datasets={props.search.datasets}
-              toggleDataset={props.toggleDataset}
-            />
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-        <IntegrationAutosuggest
-          search={props.search}
-          updateQuery={props.updateQuery}
-          fetchSuggestions={props.fetchSuggestions}
-          clearSuggestions={props.clearSuggestions}
-          fetchResults={props.fetchResults}
-          clearResults={props.clearResults}
-          updateResultFormat={props.updateResultFormat}
-        />
-        <VirtualizedTable
-          list={Immutable.List(props.results)}
-          resultValues={props.resultValues}
-          search={props.search}
-          sortResults={props.sortResults}
-          updateResultsFilter={props.updateResultsFilter} />
-      </div>
-    );
+  const resultsSection = (
+    <VirtualizedTable
+      list={Immutable.List(props.results)}
+      resultValues={props.resultValues}
+      search={props.search}
+      sortResults={props.sortResults}
+      toggleDataset={props.toggleDataset}
+      updateResultsFilter={props.updateResultsFilter}
+      updateQuery={props.updateQuery}
+      fetchResults={props.fetchResults}
+      clearResults={props.clearResults}
+      fetchSuggestions={props.fetchSuggestions}
+      clearSuggestions={props.clearSuggestions}
+      updateResultFormat={props.updateResultFormat}
+      analysisView={props.analysisView}
+    />
+  );
     //resultsView = <Pie data={props.results} query={props.search.query} />;
-  }
-
   const map = (
     <LeafletMap
       sliderValue={100}
@@ -112,26 +89,6 @@ let MapApp = (props) => {
       getGeoJSON={props.getGeoJSON}
     />
   );
-
-  let smallView = analysisView ? map : resultsSection;
-  let mainView = analysisView ? resultsSection : map ;
-
-
-
-  //
-  //     <ExpansionPanel>
-  //       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-  //         <Typography className={classes.heading}>Saved searches</Typography>
-  //       </ExpansionPanelSummary>
-  //       <ExpansionPanelDetails>
-  //         <Typography>
-  //           Saved searches go here
-  //         </Typography>
-  //       </ExpansionPanelDetails>
-  //     </ExpansionPanel>
-  //     {smallView}
-  //   </Drawer>
-  // );
 
   return (
     <div className={classes.root}>
@@ -147,11 +104,11 @@ let MapApp = (props) => {
           </Toolbar>
         </AppBar>
         <Grid container className={classes.mainContainer}>
-          <Grid item xs={12} sm={4}>
-            {smallView}
+          <Grid item xs={12} sm={analysisView ? 8 : 4}>
+            {resultsSection}
           </Grid>
-          <Grid item xs={12} sm={8}>
-            {mainView}
+          <Grid item xs={12} sm={analysisView ? 4 : 8}>
+            {map}
           </Grid>
         </Grid>
       </div>
@@ -160,7 +117,6 @@ let MapApp = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  // console.log('mapping state to props ', getVisibleResults(state.search))
   return {
     search: state.search,
     results: getVisibleResults(state.search),

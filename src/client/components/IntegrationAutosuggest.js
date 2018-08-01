@@ -47,13 +47,7 @@ function getSuggestionValue(suggestion) {
 
 const styles = theme => ({
   container: {
-    //flexGrow: 0,
     position: 'relative',
-    //marginTop: theme.spacing.unit * 4,
-    // paddingLeft: theme.spacing.unit * 15,
-    // paddingRight: theme.spacing.unit * 15,
-    //marginLeft: 24,
-    //marginRight: 'auto',
     width: 300,
   },
   suggestionsContainerOpen: {
@@ -78,11 +72,7 @@ const styles = theme => ({
   },
   icon: {
     color: theme.palette.text.secondary,
-    //paddingTop: 4,
   },
-  spinner: {
-    //margin: theme.spacing.unit,
-  }
 });
 
 const IntegrationAutosuggest = (props) => {
@@ -138,8 +128,6 @@ const IntegrationAutosuggest = (props) => {
   };
 
   const { classes } = props;
-  //console.log('IntegrationAutosuggest', props.search.suggestions);
-
   let adornment = null;
   if (props.search.fetchingSuggestions || props.search.fetchingResults) {
     adornment =

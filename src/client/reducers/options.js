@@ -6,7 +6,7 @@ import {
 } from '../actions';
 
 const DEFAULT_LANGUAGE = 'en';
-const DEFAULT_ANALYSIS_VIEW = false;
+const DEFAULT_ANALYSIS_VIEW = true;
 const DEFAULT_RESULT_FORMAT = 'table';
 
 export const INITIAL_STATE = {

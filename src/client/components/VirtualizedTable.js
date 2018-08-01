@@ -10,12 +10,13 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import DatasetSelector from '../components/DatasetSelector';
+import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import {
   AutoSizer,
   Column,
   Table,
 } from 'react-virtualized';
-
 // https://github.com/bvaughn/react-virtualized/issues/650
 
 const styles = () => ({
@@ -31,6 +32,12 @@ const styles = () => ({
   resultsInfo: {
     flexGrow: 0
   },
+  searchField: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 70
+  }
 });
 
 const tableStyles = {
@@ -79,74 +86,133 @@ class VirtualizedTable extends React.PureComponent {
   }
 
   render() {
-    const { classes, list } = this.props;
+    const { classes, list, analysisView } = this.props;
     const rowGetter = ({index}) => this._getDatum(list, index);
-
     //https://github.com/bvaughn/react-virtualized/blob/master/docs/usingAutoSizer.md
 
-    // <div className={classes.resultsInfo}>
-    //   <ExpansionPanel expanded={true}>
-    //     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-    //       <Typography className={classes.heading}>Result options</Typography>
-    //     </ExpansionPanelSummary>
-    //     <ExpansionPanelDetails>
-    //       <CSVLink data={list.toArray()}>Results as CSV</CSVLink>
-    //       <ResultFilterDialog resultValues={this.props.resultValues} updateResultsFilter={this.props.updateResultsFilter} />
-    //     </ExpansionPanelDetails>
-    //   </ExpansionPanel>
-    // </div>
 
-    console.log(list)
+    let modifier = '';
+    let base = '';
+    let collector = '';
+    let collectionYear = '';
+    if (analysisView) {
+      modifier = (
+        <Column
+          label="Modifier"
+          cellDataGetter={({rowData}) => rowData.modifier}
+          dataKey="modifier"
+          width={150}
+        />
+      );
+      base = (
+        <Column
+          label="Base"
+          cellDataGetter={({rowData}) => rowData.basicElement}
+          dataKey="basicElement"
+          width={150}
+        />
+      );
+      collector = (
+        <Column
+          label="Collector"
+          cellDataGetter={({rowData}) => rowData.collector}
+          dataKey="collector"
+          width={150}
+        />
+      );
+      collectionYear = (
+        <Column
+          label="Year"
+          cellDataGetter={({rowData}) => rowData.collectionYear}
+          dataKey="collectionYear"
+          width={150}
+        />
+      );
+    }
 
     return (
       <div className={classes.root}>
         <Grid container className={classes.container}>
-          <div style={{ flex: '1 1 auto' }}>
-            <AutoSizer>
-              {({ height, width }) => (
-                <Table
-                  overscanRowCount={10}
-                  rowHeight={40}
-                  rowGetter={rowGetter}
-                  rowCount={this.props.list.size}
-                  sort={this._sort}
-                  sortBy={this.props.search.sortBy}
-                  sortDirection={this.props.search.sortDirection.toUpperCase()}
-                  width={width}
-                  height={height}
-                  headerHeight={50}
-                  noRowsRenderer={this._noRowsRenderer}
-                  style={tableStyles.tableRoot}
-                  rowStyle={calculateRowStyle}
-                >
-                  <Column
-                    label="Label"
-                    cellDataGetter={({rowData}) => rowData.label}
-                    dataKey="label"
-                    width={150}
+          <div className={classes.resultsInfo}>
+            <div className={classes.searchField}>
+              <IntegrationAutosuggest
+                search={this.props.search}
+                updateQuery={this.props.updateQuery}
+                fetchSuggestions={this.props.fetchSuggestions}
+                clearSuggestions={this.props.clearSuggestions}
+                fetchResults={this.props.fetchResults}
+                clearResults={this.props.clearResults}
+                updateResultFormat={this.props.updateResultFormat}
+              />
+            </div>
+            {this.props.list.size > 0 &&
+              <ExpansionPanel>
+                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography className={classes.heading}>Result options</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <DatasetSelector
+                    datasets={this.props.search.datasets}
+                    toggleDataset={this.props.toggleDataset}
                   />
-                  <Column
-                    label="Type"
-                    cellDataGetter={({rowData}) => rowData.typeLabel}
-                    dataKey="typeLabel"
-                    width={150}
-                  />
-                  <Column
-                    label="Area"
-                    cellDataGetter={({rowData}) => rowData.broaderAreaLabel}
-                    dataKey="broaderAreaLabel"
-                    width={150}
-                  />
-                  <Column
-                    label="Source"
-                    cellDataGetter={({rowData}) => rowData.source}
-                    dataKey="source"
-                    width={150}
-                  />
-                </Table>
-              )}
-            </AutoSizer>
+                  <CSVLink data={list.toArray()}>Results as CSV</CSVLink>
+                  <ResultFilterDialog resultValues={this.props.resultValues} updateResultsFilter={this.props.updateResultsFilter} />
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            }
           </div>
+          {this.props.list.size > 0 &&
+            <div style={{ flex: '1 1 auto' }}>
+              <AutoSizer>
+                {({ height, width }) => (
+                  <Table
+                    overscanRowCount={10}
+                    rowHeight={40}
+                    rowGetter={rowGetter}
+                    rowCount={this.props.list.size}
+                    sort={this._sort}
+                    sortBy={this.props.search.sortBy}
+                    sortDirection={this.props.search.sortDirection.toUpperCase()}
+                    width={width}
+                    height={height}
+                    headerHeight={50}
+                    noRowsRenderer={this._noRowsRenderer}
+                    style={tableStyles.tableRoot}
+                    rowStyle={calculateRowStyle}
+                  >
+                    <Column
+                      label="Name"
+                      cellDataGetter={({rowData}) => rowData.label}
+                      dataKey="label"
+                      width={150}
+                    />
+                    {modifier}
+                    {base}
+                    <Column
+                      label="Type"
+                      cellDataGetter={({rowData}) => rowData.typeLabel}
+                      dataKey="typeLabel"
+                      width={150}
+                    />
+                    <Column
+                      label="Area"
+                      cellDataGetter={({rowData}) => rowData.broaderAreaLabel}
+                      dataKey="broaderAreaLabel"
+                      width={150}
+                    />
+                    {collector}
+                    {collectionYear}
+                    <Column
+                      label="Source"
+                      cellDataGetter={({rowData}) => rowData.source}
+                      dataKey="source"
+                      width={150}
+                    />
+                  </Table>
+                )}
+              </AutoSizer>
+            </div>
+          }
         </Grid>
       </div>
     );
@@ -190,7 +256,15 @@ VirtualizedTable.propTypes = {
   search: PropTypes.object.isRequired,
   resultValues: PropTypes.object.isRequired,
   sortResults: PropTypes.func.isRequired,
-  updateResultsFilter: PropTypes.func.isRequired
+  updateResultsFilter: PropTypes.func.isRequired,
+  toggleDataset: PropTypes.func.isRequired,
+  updateQuery: PropTypes.func.isRequired,
+  fetchSuggestions: PropTypes.func.isRequired,
+  clearSuggestions: PropTypes.func.isRequired,
+  fetchResults: PropTypes.func.isRequired,
+  clearResults: PropTypes.func.isRequired,
+  updateResultFormat: PropTypes.func.isRequired,
+  analysisView: PropTypes.bool.isRequired
 };
 
 export default withStyles(styles)(VirtualizedTable);

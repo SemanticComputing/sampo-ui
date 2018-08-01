@@ -50,8 +50,8 @@ export const INITIAL_STATE = {
   suggestions: [],
   suggestionsQuery: '',
   fetchingSuggestions: false,
-  //results: [],
-  results: sampleResults,
+  results: [],
+  //results: sampleResults,
   resultsFilter: {
     'typeLabel': new Set(),
     'broaderAreaLabel': new Set(),
