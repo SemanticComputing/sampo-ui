@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Immutable from 'immutable';
 import VirtualizedTable from '../components/VirtualizedTable';
 import LeafletMap from '../components/map/LeafletMap';
+import Pie from '../components/Pie';
 
 import {
   getVisibleResults,
@@ -55,40 +56,15 @@ const styles = theme => ({
   mainContainer: {
     marginTop: 64,
     height: 'calc(100% - 64px)'
+  },
+  map: {
+    height: '50%'
   }
 });
 
 let MapApp = (props) => {
   const { classes, error, analysisView } = props;
   console.log(props.results);
-
-  const resultsSection = (
-    <VirtualizedTable
-      list={Immutable.List(props.results)}
-      resultValues={props.resultValues}
-      search={props.search}
-      sortResults={props.sortResults}
-      toggleDataset={props.toggleDataset}
-      updateResultsFilter={props.updateResultsFilter}
-      updateQuery={props.updateQuery}
-      fetchResults={props.fetchResults}
-      clearResults={props.clearResults}
-      fetchSuggestions={props.fetchSuggestions}
-      clearSuggestions={props.clearSuggestions}
-      updateResultFormat={props.updateResultFormat}
-      analysisView={props.analysisView}
-    />
-  );
-    //resultsView = <Pie data={props.results} query={props.search.query} />;
-  const map = (
-    <LeafletMap
-      sliderValue={100}
-      results={props.results}
-      geoJSON={props.geoJSON}
-      geoJSONKey={props.geoJSONKey}
-      getGeoJSON={props.getGeoJSON}
-    />
-  );
 
   return (
     <div className={classes.root}>
@@ -105,10 +81,35 @@ let MapApp = (props) => {
         </AppBar>
         <Grid container className={classes.mainContainer}>
           <Grid item xs={12} sm={analysisView ? 8 : 4}>
-            {resultsSection}
+            <VirtualizedTable
+              list={Immutable.List(props.results)}
+              resultValues={props.resultValues}
+              search={props.search}
+              sortResults={props.sortResults}
+              toggleDataset={props.toggleDataset}
+              updateResultsFilter={props.updateResultsFilter}
+              updateQuery={props.updateQuery}
+              fetchResults={props.fetchResults}
+              clearResults={props.clearResults}
+              fetchSuggestions={props.fetchSuggestions}
+              clearSuggestions={props.clearSuggestions}
+              updateResultFormat={props.updateResultFormat}
+              analysisView={props.analysisView}
+            />
           </Grid>
           <Grid item xs={12} sm={analysisView ? 4 : 8}>
-            {map}
+            <div className={classes.map}>
+              <LeafletMap
+                sliderValue={100}
+                results={props.results}
+                geoJSON={props.geoJSON}
+                geoJSONKey={props.geoJSONKey}
+                getGeoJSON={props.getGeoJSON}
+              />
+            </div>
+            <div className={classes.map}>
+              <Pie data={props.results} query={props.search.query} />
+            </div>
           </Grid>
         </Grid>
       </div>

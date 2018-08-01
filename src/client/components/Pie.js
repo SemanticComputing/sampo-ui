@@ -65,6 +65,9 @@ const combineSmallGroups = (dataArray) => {
 let Pie = (props) => {
   const { classes, data, query } = props;
   const resultCount = data.length;
+  if (resultCount < 1) {
+    return '';
+  }
   const grouped = _.groupBy(data,'typeLabel');
   let dataArray = [];
   for (let key in grouped) {
