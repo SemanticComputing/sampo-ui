@@ -166,10 +166,11 @@ class VirtualizedTable extends React.PureComponent {
                       <ResultFilterDialog resultValues={this.props.resultValues} updateResultsFilter={this.props.updateResultsFilter} />
                     </Grid>
                     <Grid item xs={12}>
-
-                      <Button >
-                        Results as CSV
-                      </Button>
+                      <CSVLink data={list.toArray()}>
+                        <Button>
+                          Results as CSV
+                        </Button>
+                      </CSVLink>
                     </Grid>
                   </Grid>
                 </ExpansionPanelDetails>
