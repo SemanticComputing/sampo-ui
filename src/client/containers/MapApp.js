@@ -8,8 +8,14 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Grid from '@material-ui/core/Grid';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Immutable from 'immutable';
+import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import VirtualizedTable from '../components/VirtualizedTable';
+import DatasetSelector from '../components/DatasetSelector';
 import LeafletMap from '../components/map/LeafletMap';
 
 import {
@@ -24,9 +30,8 @@ import {
   clearSuggestions,
   fetchResults,
   clearResults,
-  openDrawer,
-  closeDrawer,
-  setMapReady,
+  openAnalysisView,
+  closeAnalysisView,
   getGeoJSON,
   updateResultFormat,
   updateResultsFilter,
@@ -60,18 +65,40 @@ const styles = theme => ({
 });
 
 let MapApp = (props) => {
-  const { classes, error, theme, drawerIsOpen, mapReady, analysisView } = props;
-  // console.log(props.results)
+  const { classes, error, analysisView } = props;
+  console.log(props.results);
 
   let resultsSection = '';
   if (props.results.length > 0) {
     resultsSection = (
-      <VirtualizedTable
-        list={Immutable.List(props.results)}
-        resultValues={props.resultValues}
-        search={props.search}
-        sortResults={props.sortResults}
-        updateResultsFilter={props.updateResultsFilter} />
+      <div>
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography className={classes.heading}>Select data sources</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <DatasetSelector
+              datasets={props.search.datasets}
+              toggleDataset={props.toggleDataset}
+            />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+        <IntegrationAutosuggest
+          search={props.search}
+          updateQuery={props.updateQuery}
+          fetchSuggestions={props.fetchSuggestions}
+          clearSuggestions={props.clearSuggestions}
+          fetchResults={props.fetchResults}
+          clearResults={props.clearResults}
+          updateResultFormat={props.updateResultFormat}
+        />
+        <VirtualizedTable
+          list={Immutable.List(props.results)}
+          resultValues={props.resultValues}
+          search={props.search}
+          sortResults={props.sortResults}
+          updateResultsFilter={props.updateResultsFilter} />
+      </div>
     );
     //resultsView = <Pie data={props.results} query={props.search.query} />;
   }
@@ -89,41 +116,9 @@ let MapApp = (props) => {
   let smallView = analysisView ? map : resultsSection;
   let mainView = analysisView ? resultsSection : map ;
 
-  // const drawer = (
-  //   <Drawer
-  //     variant="persistent"
-  //     anchor={anchor}
-  //     open={drawerIsOpen}
-  //     width={drawerWidth}
-  //     classes={{
-  //       paper: classes.drawerPaper,
-  //     }}
-  //   >
-  //     <div className={classes.drawerSearch}>
-  //       <IntegrationAutosuggest
-  //         search={props.search}
-  //         updateQuery={props.updateQuery}
-  //         fetchSuggestions={props.fetchSuggestions}
-  //         clearSuggestions={props.clearSuggestions}
-  //         fetchResults={props.fetchResults}
-  //         clearResults={props.clearResults}
-  //         updateResultFormat={props.updateResultFormat}
-  //       />
-  //       <IconButton onClick={props.closeDrawer}>
-  //         {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-  //       </IconButton>
-  //     </div>
-  //     <ExpansionPanel>
-  //       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-  //         <Typography className={classes.heading}>Select data sources</Typography>
-  //       </ExpansionPanelSummary>
-  //       <ExpansionPanelDetails>
-  //         <DatasetSelector
-  //           datasets={props.search.datasets}
-  //           toggleDataset={props.toggleDataset}
-  //         />
-  //       </ExpansionPanelDetails>
-  //     </ExpansionPanel>
+
+
+  //
   //     <ExpansionPanel>
   //       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
   //         <Typography className={classes.heading}>Saved searches</Typography>
@@ -137,22 +132,6 @@ let MapApp = (props) => {
   //     {smallView}
   //   </Drawer>
   // );
-
-  // let before = null;
-  // let after = null;
-
-  // if (anchor === 'left') {
-  //   before = drawer;
-  // } else {
-  //   after = drawer;
-  // }
-
-  // if (!mapReady) {
-  //   props.setMapReady();
-  //   setTimeout(() => {
-  //     props.openDrawer();
-  //   }, 300);
-  // }
 
   return (
     <div className={classes.root}>
@@ -186,8 +165,6 @@ const mapStateToProps = (state) => {
     search: state.search,
     results: getVisibleResults(state.search),
     resultValues: getVisibleValues(state.search),
-    drawerIsOpen: state.options.drawerIsOpen,
-    mapReady: state.options.mapReady,
     analysisView: state.options.analysisView,
     error: state.error,
     geoJSON: state.map.geoJSON,
@@ -197,8 +174,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = ({
-  openDrawer,
-  closeDrawer,
+  openAnalysisView,
+  closeAnalysisView,
   updateQuery,
   toggleDataset,
   fetchSuggestions,
@@ -206,7 +183,6 @@ const mapDispatchToProps = ({
   fetchResults,
   clearResults,
   sortResults,
-  setMapReady,
   getGeoJSON,
   updateResultFormat,
   updateResultsFilter
@@ -217,11 +193,9 @@ MapApp.propTypes = {
   theme: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
   error: PropTypes.object.isRequired,
-  drawerIsOpen: PropTypes.bool.isRequired,
-  mapReady: PropTypes.bool.isRequired,
   analysisView: PropTypes.bool.isRequired,
-  openDrawer: PropTypes.func.isRequired,
-  closeDrawer: PropTypes.func.isRequired,
+  openAnalysisView: PropTypes.func.isRequired,
+  closeAnalysisView: PropTypes.func.isRequired,
   updateQuery: PropTypes.func.isRequired,
   toggleDataset: PropTypes.func.isRequired,
   fetchSuggestions: PropTypes.func.isRequired,
@@ -229,7 +203,6 @@ MapApp.propTypes = {
   fetchResults: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
-  setMapReady: PropTypes.func.isRequired,
   geoJSON: PropTypes.object.isRequired,
   geoJSONKey: PropTypes.number,
   getGeoJSON: PropTypes.func.isRequired,

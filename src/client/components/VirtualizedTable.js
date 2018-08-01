@@ -96,10 +96,11 @@ class VirtualizedTable extends React.PureComponent {
     //   </ExpansionPanel>
     // </div>
 
+    console.log(list)
+
     return (
       <div className={classes.root}>
         <Grid container className={classes.container}>
-
           <div style={{ flex: '1 1 auto' }}>
             <AutoSizer>
               {({ height, width }) => (
@@ -157,7 +158,6 @@ class VirtualizedTable extends React.PureComponent {
 
   _getRowHeight({index}) {
     const list = this.props.list;
-
     return this._getDatum(list, index).size;
   }
 
@@ -182,8 +182,6 @@ class VirtualizedTable extends React.PureComponent {
   _sort({ sortBy, sortDirection }) {
     this.props.sortResults({ sortBy, sortDirection: sortDirection.toLowerCase() });
   }
-
-
 }
 
 VirtualizedTable.propTypes = {
