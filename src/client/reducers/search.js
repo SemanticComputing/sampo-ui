@@ -59,6 +59,7 @@ export const INITIAL_STATE = {
   },
   sortBy: 'broaderAreaLabel',
   sortDirection: 'asc',
+  groupBy: 'broaderAreaLabel',
   resultsQuery: '',
   fetchingResults: false,
 };

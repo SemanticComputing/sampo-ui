@@ -96,7 +96,7 @@ const IntegrationAutosuggest = (props) => {
 
   const searchPlaces = () => {
     if (props.search.query.length > 0) {
-      console.log('fetching results');
+      // console.log('fetching results');
       autosuggestDOM.current.input.blur();
       props.clearResults();
       props.fetchResults();
@@ -110,11 +110,11 @@ const IntegrationAutosuggest = (props) => {
 
   const handleOnSuggestionsFetchRequested = ({ value }) => {
     if (props.search.suggestionsQuery != value || props.search.suggestions.length === 0) {
-      console.log('fetching suggestions');
+      // console.log('fetching suggestions');
       props.fetchSuggestions();
     }
     else {
-      console.log('using old suggestions');
+      // console.log('using old suggestions');
     }
   };
 

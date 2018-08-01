@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import Immutable from 'immutable';
 import VirtualizedTable from '../components/VirtualizedTable';
 import LeafletMap from '../components/map/LeafletMap';
@@ -58,13 +59,14 @@ const styles = theme => ({
     height: 'calc(100% - 64px)'
   },
   map: {
+    marginLeft: theme.spacing.unit,
     height: '50%'
   }
 });
 
 let MapApp = (props) => {
   const { classes, error, analysisView } = props;
-  console.log(props.results);
+  // console.log(props.results);
 
   return (
     <div className={classes.root}>
@@ -98,7 +100,7 @@ let MapApp = (props) => {
             />
           </Grid>
           <Grid item xs={12} sm={analysisView ? 4 : 8}>
-            <div className={classes.map}>
+            <Paper className={classes.map}>
               <LeafletMap
                 sliderValue={100}
                 results={props.results}
@@ -106,9 +108,9 @@ let MapApp = (props) => {
                 geoJSONKey={props.geoJSONKey}
                 getGeoJSON={props.getGeoJSON}
               />
-            </div>
+            </Paper>
             <div className={classes.map}>
-              <Pie data={props.results} query={props.search.query} />
+              <Pie data={props.results} groupBy={props.search.groupBy} query={props.search.query} />
             </div>
           </Grid>
         </Grid>

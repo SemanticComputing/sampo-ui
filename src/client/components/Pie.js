@@ -11,9 +11,6 @@ import _ from 'lodash';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-//import Typography from '@material-ui/core/Typography'
-// import { testDataArray } from './TestData';
-
 
 const styles = theme => ({
   root: {
@@ -63,16 +60,15 @@ const combineSmallGroups = (dataArray) => {
 };
 
 let Pie = (props) => {
-  const { classes, data, query } = props;
+  const { classes, data, query, groupBy } = props;
   const resultCount = data.length;
   if (resultCount < 1) {
     return '';
   }
-  const grouped = _.groupBy(data,'typeLabel');
+  const grouped = _.groupBy(data, groupBy);
   let dataArray = [];
   for (let key in grouped) {
     const length = grouped[key].length;
-    //console.log(key)
     dataArray.push({
       x: key,
       y: length,
@@ -84,8 +80,6 @@ let Pie = (props) => {
   const legendArray = dataArray.map(group => ({ name: group.x + ' (' + group.y + ')' }));
   const legendHeigth = legendArray.length * 34;
   const pieTitle = resultCount + ' results for the query "' + query + '"';
-  //
-  // labels={p => `${p.x} (${p.y})\n\n${p.x/resultCount}` }
 
   return (
     <div className={classes.root}>
@@ -112,7 +106,7 @@ let Pie = (props) => {
           <Paper className={classes.legendPaper}>
             <VictoryLegend
               height={legendHeigth}
-              title={'Place type'}
+              title={groupBy}
               colorScale={'qualitative'}
               data={legendArray}
               style={{
@@ -136,6 +130,7 @@ let Pie = (props) => {
 Pie.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
+  groupBy: PropTypes.string.isRequired,
   query: PropTypes.string.isRequired,
 };
 
