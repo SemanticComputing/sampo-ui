@@ -12,6 +12,8 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DatasetSelector from '../components/DatasetSelector';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
+import Button from '@material-ui/core/Button';
+
 import {
   AutoSizer,
   Column,
@@ -130,6 +132,8 @@ class VirtualizedTable extends React.PureComponent {
       );
     }
 
+    const csvLink = <CSVLink data={list.toArray()}>Results as CSV</CSVLink>;
+
     return (
       <div className={classes.root}>
         <Grid container className={classes.container}>
@@ -151,12 +155,23 @@ class VirtualizedTable extends React.PureComponent {
                   <Typography className={classes.heading}>Result options</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                  <DatasetSelector
-                    datasets={this.props.search.datasets}
-                    toggleDataset={this.props.toggleDataset}
-                  />
-                  <CSVLink data={list.toArray()}>Results as CSV</CSVLink>
-                  <ResultFilterDialog resultValues={this.props.resultValues} updateResultsFilter={this.props.updateResultsFilter} />
+                  <Grid container>
+                    <Grid item xs={12}>
+                      <DatasetSelector
+                        datasets={this.props.search.datasets}
+                        toggleDataset={this.props.toggleDataset}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <ResultFilterDialog resultValues={this.props.resultValues} updateResultsFilter={this.props.updateResultsFilter} />
+                    </Grid>
+                    <Grid item xs={12}>
+
+                      <Button >
+                        Results as CSV
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </ExpansionPanelDetails>
               </ExpansionPanel>
             }
