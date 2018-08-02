@@ -18,8 +18,11 @@ import {
   AutoSizer,
   Column,
   Table,
+  SortIndicator
 } from 'react-virtualized';
+
 // https://github.com/bvaughn/react-virtualized/issues/650
+// https://github.com/bvaughn/react-virtualized/blob/master/docs/usingAutoSizer.md
 
 const styles = () => ({
   root: {
@@ -90,9 +93,30 @@ class VirtualizedTable extends React.PureComponent {
   render() {
     const { classes, list, analysisView } = this.props;
     const rowGetter = ({index}) => this._getDatum(list, index);
-    //https://github.com/bvaughn/react-virtualized/blob/master/docs/usingAutoSizer.md
+    const headerRenderer = ({
+      dataKey,
+      label,
+      sortBy,
+      sortDirection,
+    }) => {
+      const showSortIndicator = sortBy === dataKey;
+      const children = [
+        <span
+          className="ReactVirtualized__Table__headerTruncatedText"
+          key="label"
+          title={label}>
+          {label}
+        </span>,
+      ];
+      if (showSortIndicator) {
+        children.push(
+          <SortIndicator key="SortIndicator" sortDirection={sortDirection} />,
+        );
+      }
+      return children;
+    };
 
-
+    // Some extra columns for analysis view
     let modifier = '';
     let base = '';
     let collector = '';
@@ -131,8 +155,6 @@ class VirtualizedTable extends React.PureComponent {
         />
       );
     }
-
-    const csvLink = <CSVLink data={list.toArray()}>Results as CSV</CSVLink>;
 
     return (
       <div className={classes.root}>
@@ -200,6 +222,7 @@ class VirtualizedTable extends React.PureComponent {
                       label="Name"
                       cellDataGetter={({rowData}) => rowData.label}
                       dataKey="label"
+                      headerRenderer={headerRenderer}
                       width={150}
                     />
                     {modifier}
