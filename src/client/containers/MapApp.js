@@ -66,7 +66,7 @@ const styles = theme => ({
 
 let MapApp = (props) => {
   const { classes, error, analysisView } = props;
-  // console.log(props.results);
+  console.log(props.results);
 
   return (
     <div className={classes.root}>
@@ -107,6 +107,7 @@ let MapApp = (props) => {
                 geoJSON={props.geoJSON}
                 geoJSONKey={props.geoJSONKey}
                 getGeoJSON={props.getGeoJSON}
+                analysisView={props.analysisView}
               />
             </Paper>
             <div className={classes.map}>

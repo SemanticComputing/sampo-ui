@@ -14,7 +14,6 @@ import 'react-leaflet-markercluster/dist/styles.min.css';
 import SimpleSlider from './SimpleSlider';
 import Control from 'react-leaflet-control';
 import { GoogleLayer } from 'react-leaflet-google';
-
 // https://console.developers.google.com/apis/credentials?project=hipla-187309
 const key = 'AIzaSyCKWw5FjhwLsfp_l2gjVAifPkT3cxGXhA4';
 const road = 'ROADMAP'; // displays the default road map view. This is the default map type.
@@ -30,7 +29,7 @@ class LeafletMap extends React.Component {
     this.state = {
       lat: 65.184809,
       lng: 27.314050,
-      zoom: 5,
+      zoom: props.analysisView ? 4 : 5,
       opacity: 1.0
     };
   }
@@ -67,6 +66,8 @@ class LeafletMap extends React.Component {
 
   render() {
     const position = [this.state.lat, this.state.lng];
+    const markers = <ResultMarkerList results={this.props.results} />
+
     return (
       <Map
         center={position}
@@ -107,7 +108,7 @@ class LeafletMap extends React.Component {
           data={this.props.geoJSON}
           onEachFeature={this.handleOnEachFeature}
         />
-        <ResultMarkerList results={this.props.results} />
+        {markers}
         <FullscreenControl position='topright' />
         <Control position="topright" >
           <SimpleSlider
@@ -132,7 +133,8 @@ LeafletMap.propTypes = {
   sliderValue: PropTypes.number.isRequired,
   geoJSON: PropTypes.object,
   geoJSONKey: PropTypes.number,
-  getGeoJSON: PropTypes.func.isRequired
+  getGeoJSON: PropTypes.func.isRequired,
+  analysisView: PropTypes.bool.isRequired
 };
 
 export default LeafletMap;

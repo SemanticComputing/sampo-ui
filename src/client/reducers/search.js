@@ -50,8 +50,8 @@ export const INITIAL_STATE = {
   suggestions: [],
   suggestionsQuery: '',
   fetchingSuggestions: false,
-  results: [],
-  //results: sampleResults,
+  //results: [],
+  results: sampleResults,
   resultsFilter: {
     'typeLabel': new Set(),
     'broaderAreaLabel': new Set(),
@@ -59,7 +59,7 @@ export const INITIAL_STATE = {
   },
   sortBy: 'broaderAreaLabel',
   sortDirection: 'asc',
-  groupBy: 'broaderAreaLabel',
+  groupBy: 'typeLabel',
   resultsQuery: '',
   fetchingResults: false,
 };
