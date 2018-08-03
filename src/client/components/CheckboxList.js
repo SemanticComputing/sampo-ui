@@ -9,7 +9,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 const styles = theme => ({
   root: {
     width: '100%',
-    //maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
 });
@@ -21,6 +20,11 @@ let CheckboxList = (props) => {
   const handleToggle = value => () => {
     props.updateResultsFilter(value);
   };
+
+  let isDisabled = false;
+  if (props.list.length < 2) {
+    isDisabled = true;
+  }
 
   return (
     <div className={classes.root}>
@@ -36,6 +40,7 @@ let CheckboxList = (props) => {
           >
             <Checkbox
               checked={item.selected}
+              disabled={isDisabled}
               tabIndex={-1}
               disableRipple
             />
@@ -50,8 +55,8 @@ let CheckboxList = (props) => {
 CheckboxList.propTypes = {
   classes: PropTypes.object.isRequired,
   list: PropTypes.array,
+  property: PropTypes.string.isRequired,
   updateResultsFilter: PropTypes.func.isRequired,
-  property: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(CheckboxList);

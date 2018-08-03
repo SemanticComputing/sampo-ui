@@ -118,6 +118,7 @@ class VirtualizedTable extends React.PureComponent {
       children.push(
         <ResultFilterDialogSingle
           key="resultFilter"
+          propertyLabel={label}
           property={dataKey}
           resultValues={this.props.resultValues[dataKey]}
           updateResultsFilter={this.props.updateResultsFilter}
