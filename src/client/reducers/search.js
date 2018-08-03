@@ -53,8 +53,13 @@ export const INITIAL_STATE = {
   //results: [],
   results: sampleResults,
   resultsFilter: {
+    'label': new Set(),
+    'modifier': new Set(),
+    'basicElement': new Set(),
     'typeLabel': new Set(),
     'broaderAreaLabel': new Set(),
+    'collector': new Set(),
+    'collectionYear': new Set(),
     'source': new Set(),
   },
   sortBy: 'broaderAreaLabel',

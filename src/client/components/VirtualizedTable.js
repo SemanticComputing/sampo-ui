@@ -1,7 +1,6 @@
 import React from 'react';
 import Immutable from 'immutable';
 import PropTypes from 'prop-types';
-import ResultFilterDialog from './ResultFilterDialog';
 import {CSVLink} from 'react-csv';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
@@ -13,8 +12,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DatasetSelector from '../components/DatasetSelector';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import ResultFilterDialogSingle from './ResultFilterDialogSingle';
+
 
 import {
   AutoSizer,
@@ -95,6 +94,7 @@ class VirtualizedTable extends React.PureComponent {
   render() {
     const { classes, list, analysisView } = this.props;
     const rowGetter = ({index}) => this._getDatum(list, index);
+
     const headerRenderer = ({
       dataKey,
       label,
@@ -116,9 +116,12 @@ class VirtualizedTable extends React.PureComponent {
         );
       }
       children.push(
-        <IconButton key="iconButton" id={'filter' + label} aria-label="Filter">
-          <FilterListIcon />
-        </IconButton>
+        <ResultFilterDialogSingle
+          key="resultFilter"
+          property={dataKey}
+          resultValues={this.props.resultValues[dataKey]}
+          updateResultsFilter={this.props.updateResultsFilter}
+        />
       );
       return children;
     };
@@ -194,9 +197,6 @@ class VirtualizedTable extends React.PureComponent {
                         datasets={this.props.search.datasets}
                         toggleDataset={this.props.toggleDataset}
                       />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <ResultFilterDialog resultValues={this.props.resultValues} updateResultsFilter={this.props.updateResultsFilter} />
                     </Grid>
                     <Grid item xs={12}>
                       <CSVLink data={list.toArray()}>
@@ -300,7 +300,8 @@ class VirtualizedTable extends React.PureComponent {
 
   // https://stackoverflow.com/questions/40412114/how-to-do-proper-column-filtering-with-react-virtualized-advice-needed
   _sort({ event, sortBy, sortDirection }) {
-    if (event.target.id.startsWith('filter')) {
+    // console.log(event.target)
+    if (event.target.id.startsWith('filter') || event.target.className.startsWith('Mui')) {
       event.stopPropagation();
     } else {
       this.props.sortResults({ sortBy, sortDirection: sortDirection.toLowerCase() });
