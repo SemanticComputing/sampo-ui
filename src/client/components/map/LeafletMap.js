@@ -43,21 +43,6 @@ class LeafletMap extends React.Component {
       layer.bindPopup('<p>Nimi: ' + feature.properties.NIMI + '</p></p>ID: ' + feature.id + '</p>');
     }
   }
-  //
-  // <LayersControl.BaseLayer checked name='Google Maps Roads'>
-  //   <GoogleLayer googlekey={key}  maptype={road}/>
-  // </LayersControl.BaseLayer>
-  // <LayersControl.BaseLayer name='Google Maps Satellite'>
-  //   <GoogleLayer googlekey={key}  maptype={satellite} />
-  // </LayersControl.BaseLayer>
-  // <LayersControl.BaseLayer name='Google Maps Hybrid'>
-  //   <GoogleLayer googlekey={key}  maptype={hybrid} />
-  // </LayersControl.BaseLayer>
-  // <LayersControl.BaseLayer name='Google Maps Terrain'>
-  //   <GoogleLayer googlekey={key}  maptype={terrain} />
-  // </LayersControl.BaseLayer>
-  //
-
   // <MarkerClusterGroup
   //   disableClusteringAtZoom={9}
   // >
@@ -66,7 +51,7 @@ class LeafletMap extends React.Component {
 
   render() {
     const position = [this.state.lat, this.state.lng];
-    const markers = <ResultMarkerList results={this.props.results} />
+    const markers = <ResultMarkerList results={this.props.results} />;
 
     return (
       <Map
@@ -74,12 +59,23 @@ class LeafletMap extends React.Component {
         zoom={this.state.zoom}
       >
         <LayersControl position="topright">
-
           <LayersControl.BaseLayer checked name="OpenStreetMap">
             <TileLayer
               attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name='Google Maps Roads'>
+            <GoogleLayer googlekey={key}  maptype={road}/>
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name='Google Maps Satellite'>
+            <GoogleLayer googlekey={key}  maptype={satellite} />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name='Google Maps Hybrid'>
+            <GoogleLayer googlekey={key}  maptype={hybrid} />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name='Google Maps Terrain'>
+            <GoogleLayer googlekey={key}  maptype={terrain} />
           </LayersControl.BaseLayer>
           <LayersControl.Overlay name="Karelian maps">
             <TileLayer
