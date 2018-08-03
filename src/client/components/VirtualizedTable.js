@@ -13,6 +13,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DatasetSelector from '../components/DatasetSelector';
 import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import FilterListIcon from '@material-ui/icons/FilterList';
 
 import {
   AutoSizer,
@@ -42,7 +44,7 @@ const styles = () => ({
     alignItems: 'center',
     justifyContent: 'center',
     height: 70
-  }
+  },
 });
 
 const tableStyles = {
@@ -113,6 +115,11 @@ class VirtualizedTable extends React.PureComponent {
           <SortIndicator key="SortIndicator" sortDirection={sortDirection} />,
         );
       }
+      children.push(
+        <IconButton key="iconButton" id={'filter' + label} aria-label="Filter">
+          <FilterListIcon />
+        </IconButton>
+      );
       return children;
     };
 
@@ -127,6 +134,7 @@ class VirtualizedTable extends React.PureComponent {
           label="Modifier"
           cellDataGetter={({rowData}) => rowData.modifier}
           dataKey="modifier"
+          headerRenderer={headerRenderer}
           width={150}
         />
       );
@@ -135,6 +143,7 @@ class VirtualizedTable extends React.PureComponent {
           label="Base"
           cellDataGetter={({rowData}) => rowData.basicElement}
           dataKey="basicElement"
+          headerRenderer={headerRenderer}
           width={150}
         />
       );
@@ -143,6 +152,7 @@ class VirtualizedTable extends React.PureComponent {
           label="Collector"
           cellDataGetter={({rowData}) => rowData.collector}
           dataKey="collector"
+          headerRenderer={headerRenderer}
           width={150}
         />
       );
@@ -151,6 +161,7 @@ class VirtualizedTable extends React.PureComponent {
           label="Year"
           cellDataGetter={({rowData}) => rowData.collectionYear}
           dataKey="collectionYear"
+          headerRenderer={headerRenderer}
           width={150}
         />
       );
@@ -231,12 +242,14 @@ class VirtualizedTable extends React.PureComponent {
                       label="Type"
                       cellDataGetter={({rowData}) => rowData.typeLabel}
                       dataKey="typeLabel"
+                      headerRenderer={headerRenderer}
                       width={150}
                     />
                     <Column
                       label="Area"
                       cellDataGetter={({rowData}) => rowData.broaderAreaLabel}
                       dataKey="broaderAreaLabel"
+                      headerRenderer={headerRenderer}
                       width={150}
                     />
                     {collector}
@@ -245,6 +258,7 @@ class VirtualizedTable extends React.PureComponent {
                       label="Source"
                       cellDataGetter={({rowData}) => rowData.source}
                       dataKey="source"
+                      headerRenderer={headerRenderer}
                       width={150}
                     />
                   </Table>
@@ -284,8 +298,13 @@ class VirtualizedTable extends React.PureComponent {
   //   this.setState({scrollToIndex});
   // }
 
-  _sort({ sortBy, sortDirection }) {
-    this.props.sortResults({ sortBy, sortDirection: sortDirection.toLowerCase() });
+  // https://stackoverflow.com/questions/40412114/how-to-do-proper-column-filtering-with-react-virtualized-advice-needed
+  _sort({ event, sortBy, sortDirection }) {
+    if (event.target.id.startsWith('filter')) {
+      event.stopPropagation();
+    } else {
+      this.props.sortResults({ sortBy, sortDirection: sortDirection.toLowerCase() });
+    }
   }
 }
 
