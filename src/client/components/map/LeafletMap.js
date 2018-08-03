@@ -43,11 +43,7 @@ class LeafletMap extends React.Component {
       layer.bindPopup('<p>Nimi: ' + feature.properties.NIMI + '</p></p>ID: ' + feature.id + '</p>');
     }
   }
-  // <MarkerClusterGroup
-  //   disableClusteringAtZoom={9}
-  // >
-  //   <ResultMarkerList results={this.props.results} />
-  // </MarkerClusterGroup>
+
 
   render() {
     const position = [this.state.lat, this.state.lng];
@@ -104,7 +100,11 @@ class LeafletMap extends React.Component {
           data={this.props.geoJSON}
           onEachFeature={this.handleOnEachFeature}
         />
-        {markers}
+        <MarkerClusterGroup
+          disableClusteringAtZoom={9}
+        >
+          {markers}
+        </MarkerClusterGroup>
         <FullscreenControl position='topright' />
         <Control position="topright" >
           <SimpleSlider
