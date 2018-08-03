@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
+// import L from 'leaflet';
 
 const ResultMarker = ({ uri, label, typeLabel, broaderAreaLabel, source, lat, long }) => {
   // const greenIcon = new L.Icon({
