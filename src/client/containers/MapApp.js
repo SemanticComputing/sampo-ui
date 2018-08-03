@@ -66,7 +66,7 @@ const styles = theme => ({
 
 let MapApp = (props) => {
   const { classes, error, analysisView } = props;
-  console.log(props.results);
+  // console.log(props.results);
 
   return (
     <div className={classes.root}>
@@ -77,7 +77,7 @@ let MapApp = (props) => {
               <MenuIcon />
             </IconButton>
             <Typography variant="title" color="inherit" className={classes.flex}>
-              Hipla.fi
+              NameSampo
             </Typography>
           </Toolbar>
         </AppBar>
