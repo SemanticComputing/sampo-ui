@@ -62,7 +62,11 @@ const styles = theme => ({
   },
   map: {
     marginLeft: theme.spacing.unit,
-    height: '50%'
+    //marginBotto: theme.spacing.unit * 3,
+    height: '65%'
+  },
+  statistics: {
+    height: '35%'
   }
 });
 
@@ -128,7 +132,7 @@ let MapApp = (props) => {
             <Paper className={classes.map}>
               {map}
             </Paper>
-            <div className={classes.map}>
+            <div className={classes.statistics}>
               <Pie data={props.results} groupBy={props.search.groupBy} query={props.search.query} />
             </div>
           </Grid>
