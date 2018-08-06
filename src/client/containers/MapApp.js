@@ -62,7 +62,6 @@ const styles = theme => ({
   },
   map: {
     marginLeft: theme.spacing.unit,
-    //marginBotto: theme.spacing.unit * 3,
     height: '65%'
   },
   statistics: {
@@ -74,7 +73,7 @@ let MapApp = (props) => {
   const { classes, error, analysisView, heatMap } = props;
 
   let map = '';
-  if (heatMap) {
+  if (props.results.length > 0 && heatMap) {
     map = (
       <GMap
         results={props.results}
@@ -84,7 +83,7 @@ let MapApp = (props) => {
         mapElement={<div style={{ height: `100%` }} />}
       />
     );
-  } else {
+  } else if (props.results.length > 0) {
     map = (
       <LeafletMap
         sliderValue={100}
@@ -129,9 +128,11 @@ let MapApp = (props) => {
             />
           </Grid>
           <Grid item xs={12} sm={analysisView ? 4 : 8}>
-            <Paper className={classes.map}>
-              {map}
-            </Paper>
+            {props.results.length > 0 &&
+              <Paper className={classes.map}>
+                {map}
+              </Paper>
+            }
             <div className={classes.statistics}>
               <Pie data={props.results} groupBy={props.search.groupBy} query={props.search.query} />
             </div>

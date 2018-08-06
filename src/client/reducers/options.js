@@ -7,7 +7,7 @@ import {
 
 const DEFAULT_LANGUAGE = 'en';
 const DEFAULT_ANALYSIS_VIEW = true;
-const DEFAULT_HEATMAP = true;
+const DEFAULT_HEATMAP = false;
 const DEFAULT_RESULT_FORMAT = 'table';
 
 export const INITIAL_STATE = {
