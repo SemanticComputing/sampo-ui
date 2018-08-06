@@ -12,7 +12,9 @@ import Paper from '@material-ui/core/Paper';
 import Immutable from 'immutable';
 import VirtualizedTable from '../components/VirtualizedTable';
 import LeafletMap from '../components/map/LeafletMap';
+import GMap from '../components/map/GMap';
 import Pie from '../components/Pie';
+
 
 import {
   getVisibleResults,
@@ -65,8 +67,31 @@ const styles = theme => ({
 });
 
 let MapApp = (props) => {
-  const { classes, error, analysisView } = props;
-  // console.log(props.results);
+  const { classes, error, analysisView, heatMap } = props;
+
+  let map = '';
+  if (heatMap) {
+    map = (
+      <GMap
+        results={props.results}
+        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKWw5FjhwLsfp_l2gjVAifPkT3cxGXhA4&v=3.exp&libraries=geometry,drawing,places,visualization"
+        loadingElement={<div style={{ height: `100%` }} />}
+        containerElement={<div style={{ height: `100%` }} />}
+        mapElement={<div style={{ height: `100%` }} />}
+      />
+    );
+  } else {
+    map = (
+      <LeafletMap
+        sliderValue={100}
+        results={props.results}
+        geoJSON={props.geoJSON}
+        geoJSONKey={props.geoJSONKey}
+        getGeoJSON={props.getGeoJSON}
+        analysisView={props.analysisView}
+      />
+    );
+  }
 
   return (
     <div className={classes.root}>
@@ -101,14 +126,7 @@ let MapApp = (props) => {
           </Grid>
           <Grid item xs={12} sm={analysisView ? 4 : 8}>
             <Paper className={classes.map}>
-              <LeafletMap
-                sliderValue={100}
-                results={props.results}
-                geoJSON={props.geoJSON}
-                geoJSONKey={props.geoJSONKey}
-                getGeoJSON={props.getGeoJSON}
-                analysisView={props.analysisView}
-              />
+              {map}
             </Paper>
             <div className={classes.map}>
               <Pie data={props.results} groupBy={props.search.groupBy} query={props.search.query} />
@@ -126,6 +144,7 @@ const mapStateToProps = (state) => {
     results: getVisibleResults(state.search),
     resultValues: getVisibleValues(state.search),
     analysisView: state.options.analysisView,
+    heatMap: state.options.heatMap,
     error: state.error,
     geoJSON: state.map.geoJSON,
     geoJSONKey: state.map.geoJSONKey,
@@ -154,6 +173,7 @@ MapApp.propTypes = {
   search: PropTypes.object.isRequired,
   error: PropTypes.object.isRequired,
   analysisView: PropTypes.bool.isRequired,
+  heatMap: PropTypes.bool.isRequired,
   openAnalysisView: PropTypes.func.isRequired,
   closeAnalysisView: PropTypes.func.isRequired,
   updateQuery: PropTypes.func.isRequired,

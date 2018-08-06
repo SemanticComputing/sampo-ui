@@ -7,12 +7,14 @@ import {
 
 const DEFAULT_LANGUAGE = 'en';
 const DEFAULT_ANALYSIS_VIEW = true;
+const DEFAULT_HEATMAP = true;
 const DEFAULT_RESULT_FORMAT = 'table';
 
 export const INITIAL_STATE = {
   language: DEFAULT_LANGUAGE,
   resultFormat: DEFAULT_RESULT_FORMAT,
   analysisView: DEFAULT_ANALYSIS_VIEW,
+  heatMap: DEFAULT_HEATMAP
 };
 
 const options = (state = INITIAL_STATE, action) => {

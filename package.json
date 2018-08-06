@@ -72,6 +72,7 @@
     "react-data-grid": "^4.0.8",
     "react-data-grid-addons": "^4.0.8",
     "react-dom": "^16.4.2",
+    "react-google-maps": "^9.4.5",
     "react-leaflet": "^1.9.1",
     "react-leaflet-control": "^1.4.1",
     "react-leaflet-fullscreen": "0.0.6",
