@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import withWidth from '@material-ui/core/withWidth';
+import compose from 'recompose/compose';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -14,7 +16,7 @@ import VirtualizedTable from '../components/VirtualizedTable';
 import LeafletMap from '../components/map/LeafletMap';
 import GMap from '../components/map/GMap';
 import Pie from '../components/Pie';
-
+import Hidden from '@material-ui/core/Hidden';
 
 import {
   getVisibleResults,
@@ -73,7 +75,7 @@ let MapApp = (props) => {
   const { classes, error, analysisView, heatMap } = props;
 
   let map = '';
-  if (props.results.length > 0 && heatMap) {
+  if (heatMap) {
     map = (
       <GMap
         results={props.results}
@@ -83,7 +85,7 @@ let MapApp = (props) => {
         mapElement={<div style={{ height: `100%` }} />}
       />
     );
-  } else if (props.results.length > 0) {
+  } else {
     map = (
       <LeafletMap
         sliderValue={100}
@@ -110,7 +112,7 @@ let MapApp = (props) => {
           </Toolbar>
         </AppBar>
         <Grid container className={classes.mainContainer}>
-          <Grid item xs={12} sm={analysisView ? 8 : 4}>
+          <Grid item xs={12} sm={12} md={12} lg={analysisView ? 7 : 5}>
             <VirtualizedTable
               list={Immutable.List(props.results)}
               resultValues={props.resultValues}
@@ -127,16 +129,16 @@ let MapApp = (props) => {
               analysisView={props.analysisView}
             />
           </Grid>
-          <Grid item xs={12} sm={analysisView ? 4 : 8}>
-            {props.results.length > 0 &&
+          <Hidden mdDown>
+            <Grid item xs={12} sm={12} md={12} lg={analysisView ? 5 : 7}>
               <Paper className={classes.map}>
                 {map}
               </Paper>
-            }
-            <div className={classes.statistics}>
-              <Pie data={props.results} groupBy={props.search.groupBy} query={props.search.query} />
-            </div>
-          </Grid>
+              <div className={classes.statistics}>
+                <Pie data={props.results} groupBy={props.search.groupBy} query={props.search.query} />
+              </div>
+            </Grid>
+          </Hidden>
         </Grid>
       </div>
     </div>
@@ -198,9 +200,18 @@ MapApp.propTypes = {
   updateResultsFilter: PropTypes.func.isRequired
 };
 
-MapApp = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles, {withTheme: true})(MapApp));
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  withWidth(),
+  withStyles(styles, {withTheme: true}),
+)(MapApp);
 
-export default MapApp;
+// MapApp = connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(withStyles(styles, {withTheme: true})(MapApp));
+//
+// export default MapApp;

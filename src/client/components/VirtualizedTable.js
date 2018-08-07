@@ -33,6 +33,7 @@ const styles = () => ({
   },
   container: {
     height: '100%',
+    minWidth: 1024,
     flexDirection: 'column'
   },
   resultsInfo: {
@@ -75,6 +76,8 @@ const tableStyles = {
   }
 };
 
+const columnWidth = 115;
+
 const calculateRowStyle = ({ index }) => {
   if (index < 0) {
     return tableStyles.headerRow;
@@ -105,6 +108,7 @@ class VirtualizedTable extends React.PureComponent {
       const children = [
         <span
           className="ReactVirtualized__Table__headerTruncatedText"
+          style={showSortIndicator ? {} : { marginRight: 16 }}
           key="label"
           title={label}>
           {label}
@@ -139,7 +143,7 @@ class VirtualizedTable extends React.PureComponent {
           cellDataGetter={({rowData}) => rowData.modifier}
           dataKey="modifier"
           headerRenderer={headerRenderer}
-          width={150}
+          width={columnWidth}
         />
       );
       base = (
@@ -148,7 +152,7 @@ class VirtualizedTable extends React.PureComponent {
           cellDataGetter={({rowData}) => rowData.basicElement}
           dataKey="basicElement"
           headerRenderer={headerRenderer}
-          width={150}
+          width={columnWidth}
         />
       );
       collector = (
@@ -157,7 +161,7 @@ class VirtualizedTable extends React.PureComponent {
           cellDataGetter={({rowData}) => rowData.collector}
           dataKey="collector"
           headerRenderer={headerRenderer}
-          width={150}
+          width={columnWidth}
         />
       );
       collectionYear = (
@@ -166,7 +170,7 @@ class VirtualizedTable extends React.PureComponent {
           cellDataGetter={({rowData}) => rowData.collectionYear}
           dataKey="collectionYear"
           headerRenderer={headerRenderer}
-          width={150}
+          width={columnWidth}
         />
       );
     }
@@ -236,7 +240,7 @@ class VirtualizedTable extends React.PureComponent {
                       cellDataGetter={({rowData}) => rowData.label}
                       dataKey="label"
                       headerRenderer={headerRenderer}
-                      width={150}
+                      width={columnWidth}
                     />
                     {modifier}
                     {base}
@@ -245,14 +249,14 @@ class VirtualizedTable extends React.PureComponent {
                       cellDataGetter={({rowData}) => rowData.typeLabel}
                       dataKey="typeLabel"
                       headerRenderer={headerRenderer}
-                      width={150}
+                      width={columnWidth}
                     />
                     <Column
                       label="Area"
                       cellDataGetter={({rowData}) => rowData.broaderAreaLabel}
                       dataKey="broaderAreaLabel"
                       headerRenderer={headerRenderer}
-                      width={150}
+                      width={columnWidth}
                     />
                     {collector}
                     {collectionYear}
@@ -261,7 +265,7 @@ class VirtualizedTable extends React.PureComponent {
                       cellDataGetter={({rowData}) => rowData.source}
                       dataKey="source"
                       headerRenderer={headerRenderer}
-                      width={150}
+                      width={columnWidth}
                     />
                   </Table>
                 )}

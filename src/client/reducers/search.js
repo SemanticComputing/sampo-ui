@@ -11,7 +11,7 @@ import {
   SORT_RESULTS
 } from '../actions';
 
-import sampleResults from './sampleResults';
+ import sampleResults from './sampleResults';
 
 export const INITIAL_STATE = {
   query: '',
@@ -50,8 +50,8 @@ export const INITIAL_STATE = {
   suggestions: [],
   suggestionsQuery: '',
   fetchingSuggestions: false,
-  //results: [],
-  results: sampleResults,
+  results: [],
+  //results: sampleResults,
   resultsFilter: {
     'label': new Set(),
     'modifier': new Set(),

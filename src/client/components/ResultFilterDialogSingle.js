@@ -10,8 +10,12 @@ import CheckboxList from './CheckboxList';
 
 const styles = () => ({
   root: {
-    display: 'inline',
+    display: 'inline'
   },
+  iconButton: {
+    width: 25,
+    height: 25
+  }
 });
 
 class ResultFilterDialogSingle extends React.Component {
@@ -32,12 +36,12 @@ class ResultFilterDialogSingle extends React.Component {
 
     return (
       <div className={classes.root}>
-        <IconButton
+        <IconButton className={classes.iconButton}
           onClick={this.handleClickOpen}
           id={'filter' + property}
           aria-label="Filter"
         >
-          <FilterListIcon />
+          <FilterListIcon className={classes.iconButton} />
         </IconButton>
         <Dialog
           open={this.state.open}
