@@ -8,6 +8,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
   root: {
@@ -38,12 +39,43 @@ class SearchField extends React.Component {
     event.preventDefault();
   };
 
+  handleOnKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      this.props.updateQuery(this.state.value);
+      this.props.clearResults();
+      this.props.fetchResults();
+    }
+  };
+
   handleClick = () => {
-    console.log('search button clicked');
+    this.props.updateQuery(this.state.value);
+    this.props.clearResults();
+    this.props.fetchResults();
   };
 
   render() {
     const { classes } = this.props;
+
+    let searchButton = null;
+    if (this.props.search.fetchingSuggestions || this.props.search.fetchingResults) {
+      searchButton = (
+        <IconButton
+          aria-label="Search places"
+        >
+          <CircularProgress size={24} />
+        </IconButton>
+      );
+    } else {
+      searchButton = (
+        <IconButton
+          aria-label="Search"
+          onClick={this.handleClick}
+          onMouseDown={this.handleMouseDown}
+        >
+          <SearchIcon />
+        </IconButton>
+      );
+    }
 
     return (
       <div className={classes.root}>
@@ -54,15 +86,10 @@ class SearchField extends React.Component {
             type='text'
             value={this.state.value}
             onChange={this.handleChange}
+            onKeyDown={this.handleOnKeyDown}
             endAdornment={
               <InputAdornment position="end">
-                <IconButton
-                  aria-label="Search"
-                  onClick={this.handleClick}
-                  onMouseDown={this.handleMouseDown}
-                >
-                  <SearchIcon />
-                </IconButton>
+                {searchButton}
               </InputAdornment>
             }
           />
@@ -74,6 +101,10 @@ class SearchField extends React.Component {
 
 SearchField.propTypes = {
   classes: PropTypes.object.isRequired,
+  search: PropTypes.object.isRequired,
+  fetchResults: PropTypes.func.isRequired,
+  clearResults: PropTypes.func.isRequired,
+  updateQuery: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(SearchField);

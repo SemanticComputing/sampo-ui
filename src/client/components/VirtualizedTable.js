@@ -10,7 +10,6 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DatasetSelector from '../components/DatasetSelector';
-import IntegrationAutosuggest from '../components/IntegrationAutosuggest';
 import SearchField from '../components/SearchField';
 import Button from '@material-ui/core/Button';
 import ResultFilterDialogSingle from './ResultFilterDialogSingle';
@@ -173,20 +172,13 @@ class VirtualizedTable extends React.PureComponent {
     }
 
     const searchField = (
-      <IntegrationAutosuggest
+      <SearchField
         search={this.props.search}
-        updateQuery={this.props.updateQuery}
-        fetchSuggestions={this.props.fetchSuggestions}
-        clearSuggestions={this.props.clearSuggestions}
         fetchResults={this.props.fetchResults}
+        updateQuery={this.props.updateQuery}
         clearResults={this.props.clearResults}
-        updateResultFormat={this.props.updateResultFormat}
       />
     );
-
-    // const searchField = (
-    //   <SearchField />
-    // );
 
     return (
       <div className={classes.root}>
