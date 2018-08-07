@@ -14,7 +14,7 @@ import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
   root: {
-    width: 600,
+    width: 475,
     height: '100%',
     display: 'flex',
     flexGrow: 1,
@@ -78,13 +78,12 @@ let Pie = (props) => {
   dataArray = _.orderBy(dataArray, 'y', 'desc');
   dataArray = combineSmallGroups(dataArray);
   const legendArray = dataArray.map(group => ({ name: group.x + ' (' + group.y + ')' }));
-  const legendHeigth = legendArray.length * 34;
+  const legendHeigth = legendArray.length * 33;
   const pieTitle = resultCount + ' results for the query "' + query + '"';
 
   return (
     <div className={classes.root}>
       <Grid container className={classes.container}>
-
         <Grid className={classes.pie} item xs={12} sm={6}>
           <VictoryLabel
             style={{
@@ -116,7 +115,7 @@ let Pie = (props) => {
               containerComponent={
                 <VictoryContainer
                   responsive={false}
-                  width={242}
+                  width={175}
                 />
               }
             />

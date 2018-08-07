@@ -9,14 +9,13 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+// import Paper from '@material-ui/core/Paper';
 import Immutable from 'immutable';
 import VirtualizedTable from '../components/VirtualizedTable';
 import LeafletMap from '../components/map/LeafletMap';
 import GMap from '../components/map/GMap';
 import Pie from '../components/Pie';
-import Hidden from '@material-ui/core/Hidden';
+import NavTabs from '../components/NavTabs';
 
 import {
   getVisibleResults,
@@ -57,22 +56,51 @@ const styles = theme => ({
     position: 'relative',
     display: 'flex',
     width: '100%',
+    minWidth: 640,
+    minHeight: 700
   },
   mainContainer: {
+    display: 'flex',
+    width: '100%',
     marginTop: 64,
-    height: 'calc(100% - 64px)'
+    height: 'calc(100% - 64px)',
+    boxSizing: 'border-box',
+    borderBottom: '5px solid' + theme.palette.primary.main,
+    borderRight: '5px solid' + theme.palette.primary.main,
+    borderLeft: '5px solid' + theme.palette.primary.main,
+  },
+  resultTable: {
+    width: 1024,
+    height: '100%',
+    borderRight: '5px solid' + theme.palette.primary.main,
+    borderRadius: 0,
+  },
+  resultTableOneColumn: {
+    width: 1024,
+    height: '100%',
+  },
+  rightColumn: {
+    height: '100%',
+    width: 'calc(100% - 1024px)',
   },
   map: {
-    marginLeft: theme.spacing.unit,
-    height: '65%'
+    width: '100%',
+    height: '50%',
+    borderBottom: '5px solid' + theme.palette.primary.main,
   },
   statistics: {
-    height: '35%'
+    width: '100%',
+    height: '50%',
   }
 });
 
 let MapApp = (props) => {
-  const { classes, error, analysisView, heatMap } = props;
+  const { classes, error, analysisView, heatMap, browser } = props;
+
+  let oneColumnView = true;
+  if (browser.greaterThan.extraLarge) {
+    oneColumnView = false;
+  }
 
   let map = '';
   if (heatMap) {
@@ -97,6 +125,7 @@ let MapApp = (props) => {
       />
     );
   }
+  //
 
   return (
     <div className={classes.root}>
@@ -109,10 +138,12 @@ let MapApp = (props) => {
             <Typography variant="title" color="inherit" className={classes.flex}>
               NameSampo
             </Typography>
+            {oneColumnView && <NavTabs /> }
           </Toolbar>
+
         </AppBar>
-        <Grid container className={classes.mainContainer}>
-          <Grid item xs={12} sm={12} md={12} lg={analysisView ? 7 : 5}>
+        <div className={classes.mainContainer}>
+          <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
             <VirtualizedTable
               list={Immutable.List(props.results)}
               resultValues={props.resultValues}
@@ -128,18 +159,18 @@ let MapApp = (props) => {
               updateResultFormat={props.updateResultFormat}
               analysisView={props.analysisView}
             />
-          </Grid>
-          <Hidden mdDown>
-            <Grid item xs={12} sm={12} md={12} lg={analysisView ? 5 : 7}>
-              <Paper className={classes.map}>
+          </div>
+          {!oneColumnView &&
+            <div className={classes.rightColumn}>
+              <div className={classes.map}>
                 {map}
-              </Paper>
+              </div>
               <div className={classes.statistics}>
                 <Pie data={props.results} groupBy={props.search.groupBy} query={props.search.query} />
               </div>
-            </Grid>
-          </Hidden>
-        </Grid>
+            </div>
+          }
+        </div>
       </div>
     </div>
   );
@@ -155,7 +186,8 @@ const mapStateToProps = (state) => {
     error: state.error,
     geoJSON: state.map.geoJSON,
     geoJSONKey: state.map.geoJSONKey,
-    resultFormat: state.options.resultFormat
+    resultFormat: state.options.resultFormat,
+    browser: state.browser
   };
 };
 
@@ -197,7 +229,8 @@ MapApp.propTypes = {
   resultFormat: PropTypes.string.isRequired,
   results: PropTypes.array,
   resultValues: PropTypes.object,
-  updateResultsFilter: PropTypes.func.isRequired
+  updateResultsFilter: PropTypes.func.isRequired,
+  browser: PropTypes.object.isRequired
 };
 
 export default compose(
@@ -208,10 +241,3 @@ export default compose(
   withWidth(),
   withStyles(styles, {withTheme: true}),
 )(MapApp);
-
-// MapApp = connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(withStyles(styles, {withTheme: true})(MapApp));
-//
-// export default MapApp;

@@ -33,7 +33,7 @@ const styles = () => ({
   },
   container: {
     height: '100%',
-    minWidth: 1024,
+    width: '100%',
     flexDirection: 'column'
   },
   resultsInfo: {
