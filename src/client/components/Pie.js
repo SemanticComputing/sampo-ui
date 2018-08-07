@@ -88,14 +88,14 @@ let Pie = (props) => {
         <Grid className={classes.pie} item xs={12} sm={6}>
           <VictoryLabel
             style={{
-              fontSize: '0.875rem',
+              fontSize: '14px',
               fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
             }}
             text={pieTitle}
           />
           <VictoryPie
             padding={{
-              left: 0, bottom: 0, top: 16
+              left: 0, bottom: 0, top: 32
             }}
             colorScale={'qualitative'}
             data={dataArray}
@@ -110,8 +110,8 @@ let Pie = (props) => {
               colorScale={'qualitative'}
               data={legendArray}
               style={{
-                labels: { fontFamily: 'Roboto' },
-                title: { fontFamily: 'Roboto' },
+                labels: { fontFamily: 'Roboto, Helvetica, Arial, sans-serif' },
+                title: { fontFamily: 'Roboto, Helvetica, Arial, sans-serif' },
               }}
               containerComponent={
                 <VictoryContainer

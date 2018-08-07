@@ -4,6 +4,15 @@ import {
   VictoryTooltip,
 } from 'victory';
 
+const styles = {
+  toolTip: {
+    fontSize: 24
+  },
+  flyOut: {
+    strokeWidth: 3,
+  }
+};
+
 class PieTooltip extends React.Component {
   static defaultEvents = VictoryTooltip.defaultEvents
 
@@ -12,7 +21,9 @@ class PieTooltip extends React.Component {
     return (
       <VictoryTooltip
         {...this.props}
-        text={`${datum.x}\n${datum.y}\n${Math.round((datum.y / resultCount) * 100)}%`}
+        flyoutStyle={styles.flyOut}
+        style={styles.toolTip}
+        text={`${datum.x} (${datum.y})\n${Math.round((datum.y / resultCount) * 100)}%`}
       />
     );
   }
