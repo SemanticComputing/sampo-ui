@@ -14,14 +14,16 @@ import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
   root: {
-    width: 475,
     height: '100%',
     display: 'flex',
     flexGrow: 1,
-    marginLeft: 'auto',
-    marginRight: 'auto'
+
   },
   container: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: 'calc(100% - 50px)',
+    maxWidth: 900,
     height: '100%',
     alignItems: 'center'
   },
