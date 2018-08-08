@@ -18,6 +18,8 @@ const styles = theme => ({
     height: '100%',
     display: 'flex',
     flexGrow: 1,
+    marginLeft: 'auto',
+    marginRight: 'auto'
   },
   container: {
     height: '100%',
