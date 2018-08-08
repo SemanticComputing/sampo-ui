@@ -9,7 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-// import Paper from '@material-ui/core/Paper';
+import Paper from '@material-ui/core/Paper';
 import Immutable from 'immutable';
 import VirtualizedTable from '../components/VirtualizedTable';
 import LeafletMap from '../components/map/LeafletMap';
@@ -63,17 +63,15 @@ const styles = theme => ({
     display: 'flex',
     width: '100%',
     marginTop: 64,
-    height: 'calc(100% - 64px)',
-    boxSizing: 'border-box',
-    borderBottom: '5px solid' + theme.palette.primary.main,
-    borderRight: '5px solid' + theme.palette.primary.main,
-    borderLeft: '5px solid' + theme.palette.primary.main,
+    height: 'calc(100% - 128px)',
+    borderRight: '4px solid' + theme.palette.primary.main,
+    borderLeft: '4px solid' + theme.palette.primary.main,
   },
   resultTable: {
     width: 1024,
     height: '100%',
-    borderRight: '5px solid' + theme.palette.primary.main,
-    borderRadius: 0,
+    borderRight: '4px solid' + theme.palette.primary.main,
+
   },
   resultTableOneColumn: {
     width: 1024,
@@ -81,17 +79,49 @@ const styles = theme => ({
   },
   rightColumn: {
     height: '100%',
-    width: 'calc(100% - 1024px)',
+    width: 'calc(100% - 1044px)',
   },
   map: {
     width: '100%',
     height: '50%',
-    borderBottom: '5px solid' + theme.palette.primary.main,
+    borderBottom: '4px solid' + theme.palette.primary.main,
   },
   statistics: {
     width: '100%',
     height: '50%',
-  }
+  },
+  footer: {
+    position: 'absolute',
+    borderTop: '4px solid' + theme.palette.primary.main,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    bottom: 0,
+    width: '100%',
+    height: 64,
+    background: theme.palette.primary.main,
+    borderRadius: 0,
+  },
+  aaltoLogo: {
+    //paddingLeft: 24,
+    height: 37
+  },
+  uhLogo: {
+    paddingLeft: 44,
+    height: 52
+  },
+  secoLogo: {
+    paddingLeft: 44,
+    height: 52
+  },
+  heldigLogo: {
+    paddingLeft: 44,
+    height: 37
+  },
+  kotusLogo: {
+    paddingLeft: 44,
+    height: 50
+  },
 });
 
 let MapApp = (props) => {
@@ -125,7 +155,7 @@ let MapApp = (props) => {
       />
     );
   }
-  //
+  map = '';
 
   return (
     <div className={classes.root}>
@@ -140,7 +170,6 @@ let MapApp = (props) => {
             </Typography>
             {oneColumnView && <NavTabs /> }
           </Toolbar>
-
         </AppBar>
         <div className={classes.mainContainer}>
           <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
@@ -171,6 +200,13 @@ let MapApp = (props) => {
             </div>
           }
         </div>
+        <Paper className={classes.footer}>
+          {/* <img className={classes.aaltoLogo} src='http://localhost:3001/img/aalto-logo-white-no-background-small.png' alt='Aalto University logo'/> */}
+          <img className={classes.uhLogo} src='http://localhost:3001/img/university-of-helsinki-logo-white-no-background-small.png' alt='University of Helsinki logo'/>
+          {/* <img className={classes.secoLogo} src='http://localhost:3001/img/seco-logo-white-no-background-small.png' alt='SeCo logo'/> */}
+          <img className={classes.heldigLogo} src='http://localhost:3001/img/heldig-logo-small.png' alt='HELDIG logo'/>
+          <img className={classes.kotusLogo} src='http://localhost:3001/img/kotus-logo-white-no-backgrounds-small.png' alt='Kotus logo'/>
+        </Paper>
       </div>
     </div>
   );
