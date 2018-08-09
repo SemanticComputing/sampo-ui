@@ -29,10 +29,9 @@ import {
   clearSuggestions,
   fetchResults,
   clearResults,
-  openAnalysisView,
-  closeAnalysisView,
   getGeoJSON,
   updateResultFormat,
+  updateMapMode,
   updateResultsFilter,
   sortResults,
 } from '../actions';
@@ -69,17 +68,17 @@ const styles = theme => ({
   },
   resultTable: {
     width: 1024,
-    height: '100%',
+    height: 'calc(100% - 5px)',
     borderRight: '4px solid' + theme.palette.primary.main,
 
   },
   resultTableOneColumn: {
     width: 1024,
-    height: '100%',
+    height: 'calc(100% - 5px)',
   },
   rightColumn: {
     height: '100%',
-    width: 'calc(100% - 1044px)',
+    width: 'calc(100% - 1024px)',
   },
   map: {
     width: '100%',
@@ -125,7 +124,8 @@ const styles = theme => ({
 });
 
 let MapApp = (props) => {
-  const { classes, error, analysisView, heatMap, browser } = props;
+  const { classes,  mapMode, browser } = props;
+  //error,
 
   let oneColumnView = true;
   if (browser.greaterThan.extraLarge) {
@@ -133,7 +133,7 @@ let MapApp = (props) => {
   }
 
   let map = '';
-  if (heatMap) {
+  if (mapMode === 'heatMap') {
     map = (
       <GMap
         results={props.results}
@@ -151,11 +151,11 @@ let MapApp = (props) => {
         geoJSON={props.geoJSON}
         geoJSONKey={props.geoJSONKey}
         getGeoJSON={props.getGeoJSON}
-        analysisView={props.analysisView}
+        mapMode={props.mapMode}
       />
     );
   }
-  map = '';
+  // map = '';
 
   return (
     <div className={classes.root}>
@@ -185,8 +185,6 @@ let MapApp = (props) => {
               clearResults={props.clearResults}
               fetchSuggestions={props.fetchSuggestions}
               clearSuggestions={props.clearSuggestions}
-              updateResultFormat={props.updateResultFormat}
-              analysisView={props.analysisView}
             />
           </div>
           {!oneColumnView &&
@@ -217,8 +215,7 @@ const mapStateToProps = (state) => {
     search: state.search,
     results: getVisibleResults(state.search),
     resultValues: getVisibleValues(state.search),
-    analysisView: state.options.analysisView,
-    heatMap: state.options.heatMap,
+    mapMode: state.options.mapMode,
     error: state.error,
     geoJSON: state.map.geoJSON,
     geoJSONKey: state.map.geoJSONKey,
@@ -228,8 +225,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = ({
-  openAnalysisView,
-  closeAnalysisView,
   updateQuery,
   toggleDataset,
   fetchSuggestions,
@@ -239,6 +234,7 @@ const mapDispatchToProps = ({
   sortResults,
   getGeoJSON,
   updateResultFormat,
+  updateMapMode,
   updateResultsFilter
 });
 
@@ -247,10 +243,6 @@ MapApp.propTypes = {
   theme: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
   error: PropTypes.object.isRequired,
-  analysisView: PropTypes.bool.isRequired,
-  heatMap: PropTypes.bool.isRequired,
-  openAnalysisView: PropTypes.func.isRequired,
-  closeAnalysisView: PropTypes.func.isRequired,
   updateQuery: PropTypes.func.isRequired,
   toggleDataset: PropTypes.func.isRequired,
   fetchSuggestions: PropTypes.func.isRequired,
@@ -263,6 +255,7 @@ MapApp.propTypes = {
   getGeoJSON: PropTypes.func.isRequired,
   updateResultFormat: PropTypes.func.isRequired,
   resultFormat: PropTypes.string.isRequired,
+  mapMode: PropTypes.string.isRequired,
   results: PropTypes.array,
   resultValues: PropTypes.object,
   updateResultsFilter: PropTypes.func.isRequired,

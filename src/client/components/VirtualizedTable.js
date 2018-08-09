@@ -95,7 +95,7 @@ class VirtualizedTable extends React.PureComponent {
   }
 
   render() {
-    const { classes, list, analysisView } = this.props;
+    const { classes, list } = this.props;
     const rowGetter = ({index}) => this._getDatum(list, index);
 
     const headerRenderer = ({
@@ -131,6 +131,8 @@ class VirtualizedTable extends React.PureComponent {
       return children;
     };
 
+    // always render extra columns for now
+    const analysisView = true;
     // Some extra columns for analysis view
     let modifier = '';
     let base = '';
@@ -328,8 +330,6 @@ VirtualizedTable.propTypes = {
   clearSuggestions: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
-  updateResultFormat: PropTypes.func.isRequired,
-  analysisView: PropTypes.bool.isRequired
 };
 
 export default withStyles(styles)(VirtualizedTable);

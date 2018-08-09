@@ -1,5 +1,3 @@
-export const OPEN_ANALYSIS_VIEW = 'OPEN_ANALYSIS_VIEW';
-export const CLOSE_ANALYSIS_VIEW = 'CLOSE_ANALYSIS_VIEW';
 export const UPDATE_QUERY = 'UPDATE_QUERY';
 export const TOGGLE_DATASET = 'TOGGLE_DATASET';
 export const START_SPINNER = 'START_SPINNER';
@@ -16,17 +14,10 @@ export const SORT_RESULTS = 'SORT_RESULTS';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const UPDATE_LANGUAGE = 'UPDATE_LANGUAGE';
 export const UPDATE_RESULT_FORMAT = 'UPDATE_RESULT_FORMAT';
+export const UPDATE_MAP_MODE = 'UPDATE_MAP_MODE';
 export const GET_GEOJSON = 'GET_GEOJSON';
 export const UPDATE_GEOJSON = 'UPDATE_GEOJSON';
 export const GET_GEOJSON_FAILED = 'GET_GEOJSON_FAILED';
-
-export const openAnalysisView = () => ({
-  type: OPEN_ANALYSIS_VIEW,
-});
-
-export const closeAnalysisView = () => ({
-  type: CLOSE_ANALYSIS_VIEW,
-});
 
 export const updateQuery = (query) => ({
   type: UPDATE_QUERY,
@@ -100,6 +91,11 @@ export const updateLanguage = (language) => ({
 export const updateResultFormat = (resultFormat) => ({
   type: UPDATE_RESULT_FORMAT,
   resultFormat
+});
+
+export const updateMapMode = (mapMode) => ({
+  type: UPDATE_MAP_MODE,
+  mapMode
 });
 
 export const getGeoJSON = () => ({

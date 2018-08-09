@@ -1,20 +1,17 @@
 import {
   UPDATE_LANGUAGE,
   UPDATE_RESULT_FORMAT,
-  OPEN_ANALYSIS_VIEW,
-  CLOSE_ANALYSIS_VIEW,
+  UPDATE_MAP_MODE,
 } from '../actions';
 
 const DEFAULT_LANGUAGE = 'en';
-const DEFAULT_ANALYSIS_VIEW = true;
-const DEFAULT_HEATMAP = false;
 const DEFAULT_RESULT_FORMAT = 'table';
+const DEFAULT_MAP_MODE = 'noCluster';
 
 export const INITIAL_STATE = {
   language: DEFAULT_LANGUAGE,
   resultFormat: DEFAULT_RESULT_FORMAT,
-  analysisView: DEFAULT_ANALYSIS_VIEW,
-  heatMap: DEFAULT_HEATMAP
+  mapMode: DEFAULT_MAP_MODE
 };
 
 const options = (state = INITIAL_STATE, action) => {
@@ -23,10 +20,8 @@ const options = (state = INITIAL_STATE, action) => {
       return { ...state, language: action.language || DEFAULT_LANGUAGE };
     case UPDATE_RESULT_FORMAT:
       return { ...state, resultFormat: action.resultFormat || DEFAULT_RESULT_FORMAT };
-    case OPEN_ANALYSIS_VIEW:
-      return { ...state, analysisView: true };
-    case CLOSE_ANALYSIS_VIEW:
-      return { ...state, analysisView: false };
+    case UPDATE_MAP_MODE:
+      return { ...state, mapMode: action.mapMode || DEFAULT_MAP_MODE };
     default:
       return state;
   }

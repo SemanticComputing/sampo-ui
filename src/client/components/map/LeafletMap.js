@@ -29,7 +29,7 @@ class LeafletMap extends React.Component {
     this.state = {
       lat: 65.184809,
       lng: 27.314050,
-      zoom: props.analysisView ? 4 : 5,
+      zoom: 4,
       opacity: 1.0
     };
   }
@@ -47,7 +47,6 @@ class LeafletMap extends React.Component {
 
   render() {
     const position = [this.state.lat, this.state.lng];
-    const markers = <ResultMarkerList results={this.props.results} />;
 
     return (
       <Map
@@ -100,11 +99,11 @@ class LeafletMap extends React.Component {
           data={this.props.geoJSON}
           onEachFeature={this.handleOnEachFeature}
         />
-        <MarkerClusterGroup
-          disableClusteringAtZoom={9}
-        >
-          {markers}
-        </MarkerClusterGroup>
+        {this.props.mapMode == 'cluster' &&
+          <MarkerClusterGroup disableClusteringAtZoom={9} >
+            <ResultMarkerList results={this.props.results} />
+          </MarkerClusterGroup>}
+        {this.props.mapMode == 'noCluster' && <ResultMarkerList results={this.props.results} />}
         <FullscreenControl position='topright' />
         <Control position="topright" >
           <SimpleSlider
@@ -130,7 +129,7 @@ LeafletMap.propTypes = {
   geoJSON: PropTypes.object,
   geoJSONKey: PropTypes.number,
   getGeoJSON: PropTypes.func.isRequired,
-  analysisView: PropTypes.bool.isRequired
+  mapMode: PropTypes.string.isRequired
 };
 
 export default LeafletMap;
