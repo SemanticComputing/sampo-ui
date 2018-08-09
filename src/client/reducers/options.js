@@ -6,7 +6,7 @@ import {
 
 const DEFAULT_LANGUAGE = 'en';
 const DEFAULT_RESULT_FORMAT = 'table';
-const DEFAULT_MAP_MODE = 'noCluster';
+const DEFAULT_MAP_MODE = 'cluster';
 
 export const INITIAL_STATE = {
   language: DEFAULT_LANGUAGE,

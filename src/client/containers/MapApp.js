@@ -4,18 +4,13 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
 import compose from 'recompose/compose';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import Paper from '@material-ui/core/Paper';
 import Immutable from 'immutable';
 import VirtualizedTable from '../components/VirtualizedTable';
 import LeafletMap from '../components/map/LeafletMap';
 import GMap from '../components/map/GMap';
 import Pie from '../components/Pie';
-import NavTabs from '../components/NavTabs';
+import TopBar from '../components/TopBar';
 
 import {
   getVisibleResults,
@@ -43,10 +38,6 @@ const styles = theme => ({
   },
   flex: {
     flexGrow: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
   },
   appFrame: {
     height: '100%',
@@ -160,17 +151,7 @@ let MapApp = (props) => {
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
-        <AppBar position="absolute">
-          <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="title" color="inherit" className={classes.flex}>
-              NameSampo
-            </Typography>
-            {oneColumnView && <NavTabs /> }
-          </Toolbar>
-        </AppBar>
+        <TopBar oneColumnView={oneColumnView} />
         <div className={classes.mainContainer}>
           <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
             <VirtualizedTable
