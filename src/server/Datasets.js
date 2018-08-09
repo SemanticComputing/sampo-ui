@@ -295,5 +295,37 @@ module.exports = {
         #FILTER(LANGMATCHES(LANG(?broaderAreaLabel), 'fi'))
       }
       `,
+    'comparisonQuery': `
+      PREFIX text: <http://jena.apache.org/text#>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      PREFIX gs: <http://www.opengis.net/ont/geosparql#>
+      PREFIX hipla: <http://ldf.fi/schema/hipla/>
+      PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+      SELECT ?s ?label ?typeLabel ?broaderAreaLabel ?source ?lat ?long ?modifier ?basicElement ?collector ?collectionYear
+      WHERE {
+        { ?s text:query (skos:prefLabel 'ukon*') . }
+        UNION
+        { ?s text:query (skos:prefLabel '*palo') .  }
+        ?s a hipla:Place .
+        ?s skos:prefLabel ?label .
+        ?s hipla:municipality ?broaderAreaLabel .
+        BIND("DNA" AS ?source)
+        BIND("undefined" AS ?missingValue)
+        OPTIONAL { ?s hipla:type ?tLbl . }
+        BIND(COALESCE(?tLbl, ?missingValue) as ?typeLabel)
+        OPTIONAL {
+          ?s wgs84:lat ?lat .
+          ?s wgs84:long ?long .
+        }
+        OPTIONAL {
+          ?s hipla:place_name_modifier ?modifier ;
+             hipla:place_name_basic_element ?basicElement .
+        }
+        OPTIONAL { ?s hipla:collector ?collector }
+        OPTIONAL { ?s hipla:collection_year ?collectionYear }
+      }
+    `,
   },
 };

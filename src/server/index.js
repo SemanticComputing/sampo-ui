@@ -57,6 +57,13 @@ app.get('/search', (req, res) => {
     });
 });
 
+app.get('/compare', (req, res) => {
+  //const queryTerm = req.query.q;
+  // console.log(queryDatasets);
+  const data = sparqlSearchEngine.getComparisonResults();
+  return res.json(data);
+});
+
 app.get('/wfs', (req, res) => {
   //
   // Taustakartan rajat:

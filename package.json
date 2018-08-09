@@ -58,6 +58,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "bootstrap": "^4.1.3",
     "express": "^4.16.3",
+    "geographiclib": "^1.49.0",
     "google-maps": "^3.3.0",
     "immutable": "^3.8.2",
     "leaflet": "^1.3.3",
