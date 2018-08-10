@@ -3,11 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-
 import NavTabs from '../components/NavTabs';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -15,19 +12,28 @@ import MenuList from '@material-ui/core/MenuList';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-
 import Switch from '@material-ui/core/Switch';
-import WifiIcon from '@material-ui/icons/Wifi';
-import BluetoothIcon from '@material-ui/icons/Bluetooth';
+import PlaceIcon from '@material-ui/icons/Place';
 
 
 const styles = () => ({
+  toolBar: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+  },
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
   },
   menuList: {
     width: 350
+  },
+  namesampoLogo: {
+    marginTop: 4,
+    height: 30
+  },
+  navTabs: {
+    marginLeft: 'auto'
   }
 });
 
@@ -67,7 +73,7 @@ class TopBar extends React.Component {
 
     return (
       <AppBar position="absolute">
-        <Toolbar>
+        <Toolbar className={classes.toolBar}>
           <IconButton
             className={classes.menuButton}
             color="inherit"
@@ -85,7 +91,7 @@ class TopBar extends React.Component {
             <MenuList className={classes.menuList}>
               <MenuItem>
                 <ListItemIcon>
-                  <WifiIcon />
+                  <PlaceIcon />
                 </ListItemIcon>
                 <ListItemText primary="Cluster markers" />
                 <ListItemSecondaryAction>
@@ -97,10 +103,12 @@ class TopBar extends React.Component {
               </MenuItem>
             </MenuList>
           </Menu>
-          <Typography variant="title" color="inherit" className={classes.flex}>
-            NameSampo
-          </Typography>
-          {this.props.oneColumnView && <NavTabs /> }
+          <img className={classes.namesampoLogo} src='http://localhost:3001/img/namesampo.png' alt='NameSampo logo'/>
+          {this.props.oneColumnView &&
+            <div className={classes.navTabs}>
+              <NavTabs />
+            </div>
+          }
         </Toolbar>
       </AppBar>
     );
