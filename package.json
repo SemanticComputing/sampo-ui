@@ -9,7 +9,7 @@
     "client": "webpack-dev-server --config webpack.client.dev.js",
     "server": "nodemon src/server/index.js --exec babel-node ",
     "build-client": "webpack --progress --config webpack.client.prod.js",
-    "build-server": "babel --no-babelrc --presets=es2015 -d ./dist/server ./src/server",
+    "build-server": "babel --no-babelrc --presets=es2015 src/server --out-dir ./dist/server --copy-files",
     "serve": "NODE_ENV=production node dist/server/index.js",
     "test": "jest --watch"
   },
