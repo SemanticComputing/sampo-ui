@@ -9,6 +9,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 const styles = theme => ({
   root: {
     width: '100%',
+    marginRight: theme.spacing.unit * 2,
     backgroundColor: theme.palette.background.paper,
   },
 });
@@ -35,7 +36,7 @@ let CheckboxList = (props) => {
             role={undefined}
             dense
             button
-            onClick={handleToggle({ property: props.property, value: item.value })}
+            onClick={isDisabled ? null : handleToggle({ property: props.property, value: item.value })}
             className={classes.listItem}
           >
             <Checkbox

@@ -9,7 +9,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 const styles = theme => ({
   root: {
     width: '100%',
-    //maxWidth: 360,
     backgroundColor: theme.palette.background.default,
   },
   listItem: {
