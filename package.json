@@ -9,7 +9,7 @@
     "client": "webpack-dev-server --config webpack.client.dev.js",
     "server": "nodemon src/server/index.js --exec babel-node ",
     "build-client": "webpack --progress --config webpack.client.prod.js",
-    "build-server": "babel --no-babelrc --presets=es2015 src/server --out-dir ./dist/server --copy-files",
+    "build-server": "babel --no-babelrc --presets=es2015 src/server --out-dir ./dist/server",
     "serve": "NODE_ENV=production node dist/server/index.js",
     "test": "jest --watch"
   },
@@ -30,6 +30,7 @@
     "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
     "concurrently": "^3.6.1",
+    "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^0.28.11",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
