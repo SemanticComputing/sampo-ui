@@ -103,7 +103,7 @@ class TopBar extends React.Component {
               </MenuItem>
             </MenuList>
           </Menu>
-          <img className={classes.namesampoLogo} src='http://localhost:3001/img/namesampo.png' alt='NameSampo logo'/>
+          <img className={classes.namesampoLogo} src='img/logos/namesampo.png' alt='NameSampo logo'/>
           {this.props.oneColumnView &&
             <div className={classes.navTabs}>
               <NavTabs />
