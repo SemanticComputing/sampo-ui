@@ -19,7 +19,7 @@ import MarkerCluster from './MarkerCluster';
 //
 // import { GoogleLayer } from 'react-leaflet-google';
 // https://console.developers.google.com/apis/credentials?project=hipla-187309
-// const key = 'AIzaSyCKWw5FjhwLsfp_l2gjVAifPkT)3cxGXhA4';
+// const gKey = 'AIzaSyCKWw5FjhwLsfp_l2gjVAifPkT)3cxGXhA4';
 // const road = 'ROADMAP'; // displays the default road map view. This is the default map type.
 // const satellite = 'SATELLITE'; // displays Google Earth satellite images.
 // const hybrid = 'HYBRID'; // displays a mixture of normal and satellite views.
@@ -64,23 +64,23 @@ class LeafletMap extends React.Component {
             />
           </BaseLayer>
           {/* <BaseLayer name='Google Maps Roads'>
-            <GoogleLayer googlekey={key}  maptype={road}/>
+            <GoogleLayer googlekey={gKey}  maptype={road}/>
             </BaseLayer>
             <BaseLayer name='Google Maps Satellite'>
-            <GoogleLayer googlekey={key}  maptype={satellite} />
+            <GoogleLayer googlekey={gKey}  maptype={satellite} />
             </BaseLayer>
             <BaseLayer name='Google Maps Hybrid'>
-            <GoogleLayer googlekey={key}  maptype={hybrid} />
+            <GoogleLayer googlekey={gKey}  maptype={hybrid} />
             </BaseLayer>
             <BaseLayer name='Google Maps Terrain'>
-            <GoogleLayer googlekey={key}  maptype={terrain} />
-            </BaseLayer>
-            <BaseLayer name="MML Maastokartta">
+            <GoogleLayer googlekey={gKey}  maptype={terrain} />
+          </BaseLayer> */}
+          <BaseLayer name="MML Maastokartta">
             <TileLayer
               attribution="SeCo"
               url="https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/maastokartta/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png"
             />
-          </BaseLayer> */}
+          </BaseLayer>
           <Overlay name="Karelian maps">
             <TileLayer
               attribution="SeCo"
