@@ -6,21 +6,24 @@ import {
   TileLayer,
   GeoJSON
 } from 'react-leaflet';
-import FullscreenControl from 'react-leaflet-fullscreen';
-import ResultMarkerList from './ResultMarkerList';
-import MarkerClusterGroup from 'react-leaflet-markercluster';
-import 'react-leaflet-fullscreen/dist/styles.css';
-import 'react-leaflet-markercluster/dist/styles.min.css';
-import SimpleSlider from './SimpleSlider';
-import Control from 'react-leaflet-control';
-import { GoogleLayer } from 'react-leaflet-google';
-// https://console.developers.google.com/apis/credentials?project=hipla-187309
-const key = 'AIzaSyCKWw5FjhwLsfp_l2gjVAifPkT3cxGXhA4';
-const road = 'ROADMAP'; // displays the default road map view. This is the default map type.
-const satellite = 'SATELLITE'; // displays Google Earth satellite images.
-const hybrid = 'HYBRID'; // displays a mixture of normal and satellite views.
-const terrain = 'TERRAIN'; // displays a physical map based on terrain information.
+const { BaseLayer, Overlay } = LayersControl;
 
+// import FullscreenControl from 'react-leaflet-fullscreen';
+// import 'react-leaflet-fullscreen/dist/styles.css';
+
+import ResultMarkerList from './ResultMarkerList';
+import MarkerCluster from './MarkerCluster';
+
+// import SimpleSlider from './SimpleSlider';
+// import Control from 'react-leaflet-control';
+//
+// import { GoogleLayer } from 'react-leaflet-google';
+// https://console.developers.google.com/apis/credentials?project=hipla-187309
+// const key = 'AIzaSyCKWw5FjhwLsfp_l2gjVAifPkT)3cxGXhA4';
+// const road = 'ROADMAP'; // displays the default road map view. This is the default map type.
+// const satellite = 'SATELLITE'; // displays Google Earth satellite images.
+// const hybrid = 'HYBRID'; // displays a mixture of normal and satellite views.
+// const terrain = 'TERRAIN'; // displays a physical map based on terrain information.
 
 class LeafletMap extends React.Component {
 
@@ -54,70 +57,76 @@ class LeafletMap extends React.Component {
         zoom={this.state.zoom}
       >
         <LayersControl position="topright">
-          <LayersControl.BaseLayer checked name="OpenStreetMap">
+          <BaseLayer checked name="OpenStreetMap">
             <TileLayer
               attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-          </LayersControl.BaseLayer>
-          <LayersControl.BaseLayer name='Google Maps Roads'>
+          </BaseLayer>
+          {/* <BaseLayer name='Google Maps Roads'>
             <GoogleLayer googlekey={key}  maptype={road}/>
-          </LayersControl.BaseLayer>
-          <LayersControl.BaseLayer name='Google Maps Satellite'>
+            </BaseLayer>
+            <BaseLayer name='Google Maps Satellite'>
             <GoogleLayer googlekey={key}  maptype={satellite} />
-          </LayersControl.BaseLayer>
-          <LayersControl.BaseLayer name='Google Maps Hybrid'>
+            </BaseLayer>
+            <BaseLayer name='Google Maps Hybrid'>
             <GoogleLayer googlekey={key}  maptype={hybrid} />
-          </LayersControl.BaseLayer>
-          <LayersControl.BaseLayer name='Google Maps Terrain'>
+            </BaseLayer>
+            <BaseLayer name='Google Maps Terrain'>
             <GoogleLayer googlekey={key}  maptype={terrain} />
-          </LayersControl.BaseLayer>
-          <LayersControl.Overlay name="Karelian maps">
+            </BaseLayer>
+            <BaseLayer name="MML Maastokartta">
+            <TileLayer
+              attribution="SeCo"
+              url="https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/maastokartta/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png"
+            />
+          </BaseLayer> */}
+          <Overlay name="Karelian maps">
             <TileLayer
               attribution="SeCo"
               url="http:///mapwarper.onki.fi/mosaics/tile/4/{z}/{x}/{y}.png"
               opacity={this.state.opacity}
             />
-          </LayersControl.Overlay>
-          <LayersControl.Overlay name="Senate atlas">
+          </Overlay>
+          <Overlay name="Senate atlas">
             <TileLayer
               attribution="SeCo"
               url="http:///mapwarper.onki.fi/mosaics/tile/5/{z}/{x}/{y}.png"
               opacity={this.state.opacity}
             />
-          </LayersControl.Overlay>
-          <LayersControl.Overlay name="Western Front July 1917">
+          </Overlay>
+          <Overlay name="Western Front July 1917">
             <TileLayer
               attribution="SeCo"
               url="http://mapwarper.net/mosaics/tile/844/{z}/{x}/{y}.png"
               opacity={this.state.opacity}
             />
-          </LayersControl.Overlay>
+          </Overlay>
         </LayersControl>
         <GeoJSON
           key={this.props.geoJSONKey}
           data={this.props.geoJSON}
           onEachFeature={this.handleOnEachFeature}
         />
-        {this.props.mapMode == 'cluster' &&
-          <MarkerClusterGroup disableClusteringAtZoom={9} >
-            <ResultMarkerList results={this.props.results} />
-          </MarkerClusterGroup>}
-        {this.props.mapMode == 'noCluster' && <ResultMarkerList results={this.props.results} />}
-        <FullscreenControl position='topright' />
-        <Control position="topright" >
+        {this.props.mapMode == 'cluster' && this.props.results.length > 0 &&
+          <MarkerCluster results={this.props.results} />
+        }
+        {this.props.mapMode == 'noCluster' &&  this.props.results.length > 0 &&
+          <ResultMarkerList results={this.props.results} />}
+        {/* <FullscreenControl position='topright' /> */}
+        {/* <Control position="topright" >
           <SimpleSlider
             sliderValue={this.props.sliderValue}
             setOpacity={this.handleSetOpacity}
           />
-        </Control>
-        <Control position="topright" >
+          </Control>
+          <Control position="topright" >
           <button
             onClick={this.props.getGeoJSON}
           >
             Kotus pitäjät
           </button>
-        </Control>
+        </Control> */}
       </Map>
     );
   }
