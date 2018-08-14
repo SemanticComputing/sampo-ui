@@ -124,7 +124,7 @@ let MapApp = (props) => {
   }
 
   let map = '';
-  if (mapMode === 'heatMap') {
+  if (mapMode === 'heatmap') {
     map = (
       <GMap
         results={props.results}
@@ -151,7 +151,11 @@ let MapApp = (props) => {
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
-        <TopBar oneColumnView={oneColumnView} />
+        <TopBar
+          oneColumnView={oneColumnView}
+          mapMode={props.mapMode}
+          updateMapMode={props.updateMapMode}
+        />
         <div className={classes.mainContainer}>
           <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
             <VirtualizedTable
@@ -235,6 +239,7 @@ MapApp.propTypes = {
   geoJSONKey: PropTypes.number,
   getGeoJSON: PropTypes.func.isRequired,
   updateResultFormat: PropTypes.func.isRequired,
+  updateMapMode: PropTypes.func.isRequired,
   resultFormat: PropTypes.string.isRequired,
   mapMode: PropTypes.string.isRequired,
   results: PropTypes.array,

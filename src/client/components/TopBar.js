@@ -16,7 +16,16 @@ import Switch from '@material-ui/core/Switch';
 import PlaceIcon from '@material-ui/icons/Place';
 
 
-const styles = () => ({
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+
+
+
+const styles = theme => ({
   toolBar: {
     display: 'flex',
     justifyContent: 'flex-start',
@@ -34,33 +43,26 @@ const styles = () => ({
   },
   navTabs: {
     marginLeft: 'auto'
-  }
+  },
+  formControl: {
+    margin: theme.spacing.unit * 3,
+  },
+  group: {
+    margin: `${theme.spacing.unit}px 0`,
+  },
 });
 
 class TopBar extends React.Component {
   state = {
     anchorEl: null,
-    checked: ['cluster'],
   };
 
   handleClick = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleToggle = value => () => {
-    const { checked } = this.state;
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    this.setState({
-      checked: newChecked,
-    });
+  handleChange = event => {
+    this.props.updateMapMode(event.target.value);
   };
 
   handleClose = () => {
@@ -88,20 +90,20 @@ class TopBar extends React.Component {
             open={Boolean(anchorEl)}
             onClose={this.handleClose}
           >
-            <MenuList className={classes.menuList}>
-              <MenuItem>
-                <ListItemIcon>
-                  <PlaceIcon />
-                </ListItemIcon>
-                <ListItemText primary="Cluster markers" />
-                <ListItemSecondaryAction>
-                  <Switch
-                    onChange={this.handleToggle('cluster')}
-                    checked={this.state.checked.indexOf('cluster') !== -1}
-                  />
-                </ListItemSecondaryAction>
-              </MenuItem>
-            </MenuList>
+            <FormControl component="fieldset" className={classes.formControl}>
+              <FormLabel component="legend">Map mode</FormLabel>
+              <RadioGroup
+                aria-label="Map mode"
+                name="map"
+                className={classes.group}
+                value={this.props.mapMode}
+                onChange={this.handleChange}
+              >
+                <FormControlLabel value="cluster" control={<Radio />} label="Clustered markers" />
+                <FormControlLabel value="noCluster" control={<Radio />} label="Markers" />
+                <FormControlLabel value="heatmap" control={<Radio />} label="Heatmap" />
+              </RadioGroup>
+            </FormControl>
           </Menu>
           <img className={classes.namesampoLogo} src='img/logos/namesampo.png' alt='NameSampo logo'/>
           {this.props.oneColumnView &&
@@ -118,6 +120,8 @@ class TopBar extends React.Component {
 TopBar.propTypes = {
   classes: PropTypes.object.isRequired,
   oneColumnView: PropTypes.bool.isRequired,
+  mapMode: PropTypes.string.isRequired,
+  updateMapMode: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(TopBar);
