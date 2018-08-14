@@ -3,29 +3,22 @@ import PropTypes from 'prop-types';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-class NavTabs extends React.Component {
-  state = {
-    value: 0,
+const NavTabs = (props) => {
+  const handleChange = (event, value) => {
+    props.updateResultFormat(value);
   };
-
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
-
-  render() {
-    const { value } = this.state;
-    return (
-      <Tabs value={value} onChange={this.handleChange}>
-        <Tab label="Table" />
-        <Tab label="Map" />
-        <Tab label="Statistics" />
-      </Tabs>
-    );
-  }
-}
+  return (
+    <Tabs value={props.resultFormat} onChange={handleChange}>
+      <Tab value="table" label="Table" />
+      <Tab value="map" label="Map" />
+      <Tab value="statistics" label="Statistics" />
+    </Tabs>
+  );
+};
 
 NavTabs.propTypes = {
-  resultView: PropTypes.string,
+  resultFormat: PropTypes.string.isRequired,
+  updateResultFormat: PropTypes.func.isRequired
 };
 
 export default NavTabs;

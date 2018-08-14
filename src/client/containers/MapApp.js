@@ -76,6 +76,10 @@ const styles = theme => ({
     height: '50%',
     borderBottom: '4px solid' + theme.palette.primary.main,
   },
+  fullMap: {
+    width: '100%',
+    height: '100%',
+  },
   statistics: {
     width: '100%',
     height: '50%',
@@ -115,37 +119,95 @@ const styles = theme => ({
 });
 
 let MapApp = (props) => {
-  const { classes,  mapMode, browser } = props;
+  const { classes,  mapMode, resultFormat, browser } = props;
   //error,
 
-  let oneColumnView = true;
-  if (browser.greaterThan.extraLarge) {
-    oneColumnView = false;
+  let oneColumnView = browser.lessThan.extraLarge;
+
+  // console.log('oneColumnView', oneColumnView)
+  // console.log('resultFormat', resultFormat)
+  // console.log('mapMode', mapMode)
+
+  let table = '';
+  if ((oneColumnView && resultFormat === 'table') || (!oneColumnView)) {
+    table = (
+      <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
+        <VirtualizedTable
+          list={Immutable.List(props.results)}
+          resultValues={props.resultValues}
+          search={props.search}
+          sortResults={props.sortResults}
+          toggleDataset={props.toggleDataset}
+          updateResultsFilter={props.updateResultsFilter}
+          updateQuery={props.updateQuery}
+          fetchResults={props.fetchResults}
+          clearResults={props.clearResults}
+          fetchSuggestions={props.fetchSuggestions}
+          clearSuggestions={props.clearSuggestions}
+        />
+      </div>
+    );
   }
 
   let map = '';
-  if (mapMode === 'heatmap') {
-    map = (
-      <GMap
-        results={props.results}
-        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKWw5FjhwLsfp_l2gjVAifPkT3cxGXhA4&v=3.exp&libraries=geometry,drawing,places,visualization"
-        loadingElement={<div style={{ height: `100%` }} />}
-        containerElement={<div style={{ height: `100%` }} />}
-        mapElement={<div style={{ height: `100%` }} />}
-      />
-    );
-  } else {
-    map = (
-      <LeafletMap
-        sliderValue={100}
-        results={props.results}
-        geoJSON={props.geoJSON}
-        geoJSONKey={props.geoJSONKey}
-        getGeoJSON={props.getGeoJSON}
-        mapMode={props.mapMode}
-      />
+  if ((oneColumnView && resultFormat === 'map') || (!oneColumnView)) {
+    if (mapMode === 'heatmap') {
+      map = (
+        <GMap
+          results={props.results}
+          googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKWw5FjhwLsfp_l2gjVAifPkT3cxGXhA4&v=3.exp&libraries=geometry,drawing,places,visualization"
+          loadingElement={<div style={{ height: `100%` }} />}
+          containerElement={<div style={{ height: `100%` }} />}
+          mapElement={<div style={{ height: `100%` }} />}
+        />
+      );
+    } else {
+      map = (
+        <LeafletMap
+          sliderValue={100}
+          results={props.results}
+          geoJSON={props.geoJSON}
+          geoJSONKey={props.geoJSONKey}
+          getGeoJSON={props.getGeoJSON}
+          mapMode={props.mapMode}
+        />
+      );
+    }
+  }
+
+  let statistics = '';
+  if ((oneColumnView && resultFormat === 'statistics') || (!oneColumnView)) {
+    statistics = (
+      <div className={classes.statistics}>
+        <Pie data={props.results} groupBy={props.search.groupBy} query={props.search.query} />
+      </div>
     );
   }
+
+  let mainResultsView = '';
+  if (oneColumnView) {
+    switch(props.resultFormat) {
+      case 'table': {
+        mainResultsView = table;
+        break;
+      }
+      case 'map': {
+        mainResultsView = (
+          <div className={classes.fullMap}>
+            {map}
+          </div>
+        );
+        break;
+      }
+      case 'statistics': {
+        mainResultsView = statistics;
+        break;
+      }
+    }
+  } else {
+    mainResultsView = table;
+  }
+
   // map = '';
 
   return (
@@ -154,32 +216,18 @@ let MapApp = (props) => {
         <TopBar
           oneColumnView={oneColumnView}
           mapMode={props.mapMode}
+          resultFormat={props.resultFormat}
           updateMapMode={props.updateMapMode}
+          updateResultFormat={props.updateResultFormat}
         />
         <div className={classes.mainContainer}>
-          <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
-            <VirtualizedTable
-              list={Immutable.List(props.results)}
-              resultValues={props.resultValues}
-              search={props.search}
-              sortResults={props.sortResults}
-              toggleDataset={props.toggleDataset}
-              updateResultsFilter={props.updateResultsFilter}
-              updateQuery={props.updateQuery}
-              fetchResults={props.fetchResults}
-              clearResults={props.clearResults}
-              fetchSuggestions={props.fetchSuggestions}
-              clearSuggestions={props.clearSuggestions}
-            />
-          </div>
+          {mainResultsView}
           {!oneColumnView &&
             <div className={classes.rightColumn}>
               <div className={classes.map}>
                 {map}
               </div>
-              <div className={classes.statistics}>
-                <Pie data={props.results} groupBy={props.search.groupBy} query={props.search.query} />
-              </div>
+              {statistics}
             </div>
           }
         </div>

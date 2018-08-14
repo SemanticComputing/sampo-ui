@@ -108,7 +108,10 @@ class TopBar extends React.Component {
           <img className={classes.namesampoLogo} src='img/logos/namesampo.png' alt='NameSampo logo'/>
           {this.props.oneColumnView &&
             <div className={classes.navTabs}>
-              <NavTabs />
+              <NavTabs
+                resultFormat={this.props.resultFormat}
+                updateResultFormat={this.props.updateResultFormat}
+              />
             </div>
           }
         </Toolbar>
@@ -121,6 +124,8 @@ TopBar.propTypes = {
   classes: PropTypes.object.isRequired,
   oneColumnView: PropTypes.bool.isRequired,
   mapMode: PropTypes.string.isRequired,
+  resultFormat: PropTypes.string.isRequired,
+  updateResultFormat: PropTypes.func.isRequired,
   updateMapMode: PropTypes.func.isRequired,
 };
 
