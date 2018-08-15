@@ -16,9 +16,9 @@ const reducer = combineReducers({
   browser: createResponsiveStateReducer({
     extraSmall: 500,
     small: 700,
-    medium: 1024,
-    large: 1280,
-    extraLarge: 1500,
+    medium: 1000,
+    large: 1400,
+    extraLarge: 1600,
   }),
 });
 
