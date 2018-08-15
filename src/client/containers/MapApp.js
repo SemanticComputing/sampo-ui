@@ -84,6 +84,10 @@ const styles = theme => ({
     width: '100%',
     height: '50%',
   },
+  statisticsOneColumn: {
+    width: '100%',
+    height: '100%',
+  },
   footer: {
     position: 'absolute',
     borderTop: '4px solid' + theme.palette.primary.main,
@@ -178,7 +182,7 @@ let MapApp = (props) => {
   let statistics = '';
   if ((oneColumnView && resultFormat === 'statistics') || (!oneColumnView)) {
     statistics = (
-      <div className={classes.statistics}>
+      <div className={oneColumnView ? classes.statisticsOneColumn : classes.statistics}>
         <Pie data={props.results} groupBy={props.search.groupBy} query={props.search.query} />
       </div>
     );
