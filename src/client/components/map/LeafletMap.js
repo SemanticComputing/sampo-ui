@@ -7,18 +7,14 @@ import {
   GeoJSON
 } from 'react-leaflet';
 const { BaseLayer, Overlay } = LayersControl;
-
-// import FullscreenControl from 'react-leaflet-fullscreen';
-// import 'react-leaflet-fullscreen/dist/styles.css';
-
+import FullscreenControl from 'react-leaflet-fullscreen';
+import 'react-leaflet-fullscreen/dist/styles.css';
 import ResultMarkerList from './ResultMarkerList';
-import MarkerCluster from './MarkerCluster';
-
-// import SimpleSlider from './SimpleSlider';
-// import Control from 'react-leaflet-control';
-//
+// import MarkerCluster from './MarkerCluster';
+import SimpleSlider from './SimpleSlider';
+import Control from 'react-leaflet-control';
 // import { GoogleLayer } from 'react-leaflet-google';
-// https://console.developers.google.com/apis/credentials?project=hipla-187309
+// // https://console.developers.google.com/apis/credentials?project=hipla-187309
 // const gKey = 'AIzaSyCKWw5FjhwLsfp_l2gjVAifPkT)3cxGXhA4';
 // const road = 'ROADMAP'; // displays the default road map view. This is the default map type.
 // const satellite = 'SATELLITE'; // displays Google Earth satellite images.
@@ -75,12 +71,12 @@ class LeafletMap extends React.Component {
             <BaseLayer name='Google Maps Terrain'>
             <GoogleLayer googlekey={gKey}  maptype={terrain} />
           </BaseLayer> */}
-          <BaseLayer name="MML Maastokartta">
+          {/* <BaseLayer name="MML Maastokartta">
             <TileLayer
               attribution="SeCo"
               url="https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/maastokartta/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png"
             />
-          </BaseLayer>
+          </BaseLayer> */}
           <Overlay name="Karelian maps">
             <TileLayer
               attribution="SeCo"
@@ -108,25 +104,25 @@ class LeafletMap extends React.Component {
           data={this.props.geoJSON}
           onEachFeature={this.handleOnEachFeature}
         />
-        {this.props.mapMode == 'cluster' && this.props.results.length > 0 &&
+        {/* {this.props.mapMode == 'cluster' && this.props.results.length > 0 &&
           <MarkerCluster results={this.props.results} />
-        }
+        } */}
         {this.props.mapMode == 'noCluster' &&  this.props.results.length > 0 &&
           <ResultMarkerList results={this.props.results} />}
-        {/* <FullscreenControl position='topright' /> */}
-        {/* <Control position="topright" >
+        <FullscreenControl position='topright' />
+        <Control position="topright" >
           <SimpleSlider
             sliderValue={this.props.sliderValue}
             setOpacity={this.handleSetOpacity}
           />
-          </Control>
-          <Control position="topright" >
+        </Control>
+        <Control position="topright" >
           <button
             onClick={this.props.getGeoJSON}
           >
             Kotus pitäjät
           </button>
-        </Control> */}
+        </Control>
       </Map>
     );
   }
