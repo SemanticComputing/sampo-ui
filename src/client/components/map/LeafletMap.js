@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
+import 'leaflet-fullscreen/dist/fullscreen.png';
+import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
+import 'leaflet-fullscreen/dist/Leaflet.fullscreen.min.js';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster/dist/leaflet.markercluster.js';
