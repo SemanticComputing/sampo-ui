@@ -108,13 +108,8 @@ class LeafletMap2 extends React.Component {
   updateMarkers(results) {
     this.resultMarkerLayer.clearLayers();
     results.forEach(result => {
-      const { lat, long, label } = result;
-      if (typeof lat === 'undefined' || typeof long === 'undefined') {
-        return null;
-      } else {
-        const latLng = [+lat, +long];
-        L.marker(latLng, { title: label }).addTo(this.resultMarkerLayer);
-      }
+      const marker = this.createMarker(result);
+      marker == null ? null : marker.addTo(this.resultMarkerLayer);
     });
   }
 
@@ -122,15 +117,30 @@ class LeafletMap2 extends React.Component {
     this.resultMarkerLayer.clearLayers();
     const clusterer = L.markerClusterGroup();
     results.forEach(result => {
-      const { lat, long, label } = result;
-      if (typeof lat === 'undefined' || typeof long === 'undefined') {
-        return null;
-      } else {
-        const latLng = [+lat, +long];
-        clusterer.addLayer(L.marker(latLng, { title: label }));
-      }
+      const marker = this.createMarker(result);
+      marker == null ? null : clusterer.addLayer(marker);
     });
     clusterer.addTo(this.resultMarkerLayer);
+  }
+
+  createMarker(result) {
+    const { lat, long } = result;
+    if (typeof lat === 'undefined' || typeof long === 'undefined') {
+      return null;
+    } else {
+      const latLng = [+lat, +long];
+      return L.marker(latLng).bindPopup(this.createPopUpContent(result));
+    }
+  }
+
+  createPopUpContent(result) {
+    const popUpTemplate = `
+      <h3>{label}</h3>
+      <p>Type: {typeLabel}</p>
+      <p>Area: {broaderAreaLabel}</p>
+      <p>Source: <a target='_blank' rel='noopener noreferrer' href={s}>{source}</a></p>
+      `;
+    return L.Util.template(popUpTemplate, result);
   }
 
   createNLSUrl(layerID) {
