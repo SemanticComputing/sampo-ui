@@ -8,7 +8,6 @@ import Paper from '@material-ui/core/Paper';
 import Immutable from 'immutable';
 import VirtualizedTable from '../components/VirtualizedTable';
 import LeafletMap from '../components/map/LeafletMap';
-import LeafletMap2 from '../components/map/LeafletMap2';
 import GMap from '../components/map/GMap';
 import Pie from '../components/Pie';
 import TopBar from '../components/TopBar';
@@ -169,14 +168,13 @@ let MapApp = (props) => {
     } else {
       map = (
         <LeafletMap
-          sliderValue={100}
           results={props.results}
-          geoJSON={props.geoJSON}
-          geoJSONKey={props.geoJSONKey}
-          getGeoJSON={props.getGeoJSON}
           mapMode={props.mapMode}
+          // geoJSON={props.geoJSON}
+          // geoJSONKey={props.geoJSONKey}
+          // getGeoJSON={props.getGeoJSON}
+          // sliderValue={100}
         />
-        // <LeafletMap2 markerPosition={{ lat: 49.8419, lng: 24.0315 }} />
       );
     }
   }

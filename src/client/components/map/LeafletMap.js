@@ -1,140 +1,152 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Map,
-  LayersControl,
-  TileLayer,
-  GeoJSON
-} from 'react-leaflet';
-const { BaseLayer, Overlay } = LayersControl;
-import FullscreenControl from 'react-leaflet-fullscreen';
-import 'react-leaflet-fullscreen/dist/styles.css';
-import ResultMarkerList from './ResultMarkerList';
-// import MarkerCluster from './MarkerCluster';
-import SimpleSlider from './SimpleSlider';
-import Control from 'react-leaflet-control';
-// import { GoogleLayer } from 'react-leaflet-google';
-// // https://console.developers.google.com/apis/credentials?project=hipla-187309
-// const gKey = 'AIzaSyCKWw5FjhwLsfp_l2gjVAifPkT)3cxGXhA4';
-// const road = 'ROADMAP'; // displays the default road map view. This is the default map type.
-// const satellite = 'SATELLITE'; // displays Google Earth satellite images.
-// const hybrid = 'HYBRID'; // displays a mixture of normal and satellite views.
-// const terrain = 'TERRAIN'; // displays a physical map based on terrain information.
+import L from 'leaflet';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+import 'leaflet.markercluster/dist/leaflet.markercluster.js';
 
-class LeafletMap extends React.Component {
+const style = {
+  width: '100%',
+  height: '100%'
+};
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      lat: 65.184809,
-      lng: 27.314050,
+class LeafletMap2 extends React.Component {
+
+  componentDidMount() {
+
+    // Base layers
+    const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    });
+
+    const topographicalMapNLS = L.tileLayer(this.createNLSUrl('maastokartta'), {
+      attribution: 'National Land Survey of Finland'
+    });
+
+    //https://www.maanmittauslaitos.fi/kartat-ja-paikkatieto/asiantuntevalle-kayttajalle/kartta-ja-paikkatietojen-rajapintapalvelut-19
+    const backgroundMapNLS = L.tileLayer(this.createNLSUrl('taustakartta'), {
+      attribution: 'National Land Survey of Finland'
+    });
+
+    // const accessibleMapNLS  = L.tileLayer(this.createNLSUrl('selkokartta'), {
+    //   attribution: 'National Land Survey of Finland'
+    // });
+    //
+    // const aerialPhotoMapNLS = L.tileLayer(this.createNLSUrl('ortokuva'), {
+    //   attribution: 'National Land Survey of Finland'
+    // });
+
+    // Overlay layers
+    const realEstateMapNLS = L.tileLayer(this.createNLSUrl('kiinteistojaotus'), {
+      attribution: 'National Land Survey of Finland'
+    });
+
+    const realEstateIdMapNLS = L.tileLayer(this.createNLSUrl('kiinteistotunnukset'), {
+      attribution: 'National Land Survey of Finland'
+    });
+
+    const karelianMaps = L.tileLayer('http:///mapwarper.onki.fi/mosaics/tile/4/{z}/{x}/{y}.png', {
+      attribution: 'SeCo'
+    });
+
+    const senateAtlas = L.tileLayer('http:///mapwarper.onki.fi/mosaics/tile/5/{z}/{x}/{y}.png', {
+      attribution: 'SeCo'
+    });
+
+    const westernFront = L.tileLayer('http://mapwarper.net/mosaics/tile/844/{z}/{x}/{y}.png', {
+      attribution: 'SeCo'
+    });
+
+    // Result marker layer
+    this.resultMarkerLayer = L.layerGroup();
+
+    if (this.props.mapMode === 'cluster') {
+      this.updateMarkersAndCluster(this.props.results);
+    } else {
+      this.updateMarkers(this.props.results);
+    }
+
+    // create map
+    this.map = L.map('map', {
+      center: [65.184809, 27.314050],
       zoom: 4,
-      opacity: 1.0
+      layers: [
+        OSMBaseLayer,
+        this.resultMarkerLayer
+      ],
+      fullscreenControl: true,
+    });
+
+    // layer controls
+    const baseMaps = {
+      'OpenStreetMap': OSMBaseLayer,
+      'Topographical map (National Land Survey of Finland)': topographicalMapNLS,
+      'Background map (National Land Survey of Finland)': backgroundMapNLS,
     };
+    const overlayMaps = {
+      'Search results': this.resultMarkerLayer,
+      'Real estate boundaries (National Land Survey of Finland)': realEstateMapNLS,
+      'Real estate ids (National Land Survey of Finland)': realEstateIdMapNLS,
+      'Karelian maps (MapWarper)': karelianMaps,
+      'Senate atlas (MapWarper)': senateAtlas,
+      'Western Front July 1917 (MapWarper)': westernFront
+    };
+    L.control.layers(baseMaps, overlayMaps).addTo(this.map);
   }
 
-  handleSetOpacity = (value) => {
-    this.setState({ opacity: +value / 100 });
-  }
-
-  handleOnEachFeature = (feature, layer) => {
-    if (feature.properties && feature.properties.NIMI) {
-      layer.bindPopup('<p>Nimi: ' + feature.properties.NIMI + '</p></p>ID: ' + feature.id + '</p>');
+  componentDidUpdate({ results, mapMode }) {
+    // check if results data or mapMode have changed
+    if (this.props.results !== results || this.props.mapMode !== mapMode) {
+      if (this.props.mapMode === 'cluster') {
+        this.updateMarkersAndCluster(this.props.results);
+      } else {
+        this.updateMarkers(this.props.results);
+      }
     }
   }
 
+  updateMarkers(results) {
+    this.resultMarkerLayer.clearLayers();
+    results.forEach(result => {
+      const { lat, long, label } = result;
+      if (typeof lat === 'undefined' || typeof long === 'undefined') {
+        return null;
+      } else {
+        const latLng = [+lat, +long];
+        L.marker(latLng, { title: label }).addTo(this.resultMarkerLayer);
+      }
+    });
+  }
+
+  updateMarkersAndCluster(results) {
+    this.resultMarkerLayer.clearLayers();
+    const clusterer = L.markerClusterGroup();
+    results.forEach(result => {
+      const { lat, long, label } = result;
+      if (typeof lat === 'undefined' || typeof long === 'undefined') {
+        return null;
+      } else {
+        const latLng = [+lat, +long];
+        clusterer.addLayer(L.marker(latLng, { title: label }));
+      }
+    });
+    clusterer.addTo(this.resultMarkerLayer);
+  }
+
+  createNLSUrl(layerID) {
+    return 'https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts?service=WMTS' +
+    '&request=GetTile&version=1.0.0&layer=' + layerID + '&style=default' +
+    '&format=image/png&TileMatrixSet=WGS84_Pseudo-Mercator&TileMatrix={z}&TileRow={y}&TileCol={x}';
+  }
 
   render() {
-    const position = [this.state.lat, this.state.lng];
-
-    return (
-      <Map
-        center={position}
-        zoom={this.state.zoom}
-      >
-        <LayersControl position="topright">
-          <BaseLayer checked name="OpenStreetMap">
-            <TileLayer
-              attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-          </BaseLayer>
-          {/* <BaseLayer name='Google Maps Roads'>
-            <GoogleLayer googlekey={gKey}  maptype={road}/>
-            </BaseLayer>
-            <BaseLayer name='Google Maps Satellite'>
-            <GoogleLayer googlekey={gKey}  maptype={satellite} />
-            </BaseLayer>
-            <BaseLayer name='Google Maps Hybrid'>
-            <GoogleLayer googlekey={gKey}  maptype={hybrid} />
-            </BaseLayer>
-            <BaseLayer name='Google Maps Terrain'>
-            <GoogleLayer googlekey={gKey}  maptype={terrain} />
-          </BaseLayer> */}
-          {/* <BaseLayer name="MML Maastokartta">
-            <TileLayer
-              attribution="SeCo"
-              url="https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/maastokartta/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png"
-            />
-          </BaseLayer> */}
-          <Overlay name="Karelian maps">
-            <TileLayer
-              attribution="SeCo"
-              url="http:///mapwarper.onki.fi/mosaics/tile/4/{z}/{x}/{y}.png"
-              opacity={this.state.opacity}
-            />
-          </Overlay>
-          <Overlay name="Senate atlas">
-            <TileLayer
-              attribution="SeCo"
-              url="http:///mapwarper.onki.fi/mosaics/tile/5/{z}/{x}/{y}.png"
-              opacity={this.state.opacity}
-            />
-          </Overlay>
-          <Overlay name="Western Front July 1917">
-            <TileLayer
-              attribution="SeCo"
-              url="http://mapwarper.net/mosaics/tile/844/{z}/{x}/{y}.png"
-              opacity={this.state.opacity}
-            />
-          </Overlay>
-        </LayersControl>
-        <GeoJSON
-          key={this.props.geoJSONKey}
-          data={this.props.geoJSON}
-          onEachFeature={this.handleOnEachFeature}
-        />
-        {/* {this.props.mapMode == 'cluster' && this.props.results.length > 0 &&
-          <MarkerCluster results={this.props.results} />
-        } */}
-        {this.props.mapMode == 'noCluster' &&  this.props.results.length > 0 &&
-          <ResultMarkerList results={this.props.results} />}
-        <FullscreenControl position='topright' />
-        <Control position="topright" >
-          <SimpleSlider
-            sliderValue={this.props.sliderValue}
-            setOpacity={this.handleSetOpacity}
-          />
-        </Control>
-        <Control position="topright" >
-          <button
-            onClick={this.props.getGeoJSON}
-          >
-            Kotus pitäjät
-          </button>
-        </Control>
-      </Map>
-    );
+    return <div id="map" style={style} />;
   }
 }
 
-LeafletMap.propTypes = {
-  results: PropTypes.array.isRequired,
-  sliderValue: PropTypes.number.isRequired,
-  geoJSON: PropTypes.object,
-  geoJSONKey: PropTypes.number,
-  getGeoJSON: PropTypes.func.isRequired,
+LeafletMap2.propTypes = {
+  results: PropTypes.array,
   mapMode: PropTypes.string.isRequired
 };
 
-export default LeafletMap;
+export default LeafletMap2;
