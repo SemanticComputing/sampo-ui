@@ -102,8 +102,8 @@ class LeafletMap2 extends React.Component {
     };
     const overlayMaps = {
       'Search results': this.resultMarkerLayer,
-      'Real estate boundaries (National Land Survey of Finland)': realEstateMapNLS,
-      'Real estate ids (National Land Survey of Finland)': realEstateIdMapNLS,
+      // 'Real estate boundaries (National Land Survey of Finland)': realEstateMapNLS,
+      // 'Real estate ids (National Land Survey of Finland)': realEstateIdMapNLS,
       'Karelian maps (MapWarper)': karelianMaps,
       'Senate atlas (MapWarper)': senateAtlas,
       'Western Front July 1917 (MapWarper)': westernFront
