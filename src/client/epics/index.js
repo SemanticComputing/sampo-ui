@@ -70,10 +70,11 @@ const getResultsEpic = (action$, store) => {
 };
 
 const getGeoJSONEpic = (action$) => {
-  const searchUrl = hiplaApiUrl + 'wfs';
+  const wfsUrl = hiplaApiUrl + 'wfs';
   return action$.ofType(GET_GEOJSON)
-    .switchMap(() => {
-      return ajax.getJSON(searchUrl)
+    .switchMap(action => {
+      const requestUrl = `${wfsUrl}?layer=${action.layer}`;
+      return ajax.getJSON(requestUrl)
         // .map(response => {
         //   console.log('res' + response)
         // })

@@ -98,8 +98,9 @@ export const updateMapMode = (mapMode) => ({
   mapMode
 });
 
-export const getGeoJSON = () => ({
+export const getGeoJSON = (layer) => ({
   type: GET_GEOJSON,
+  layer
 });
 
 export const updateGeoJSON = (geoJSON) => ({

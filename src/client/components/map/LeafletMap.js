@@ -27,7 +27,7 @@ const ColorIcon = L.Icon.extend({
 class LeafletMap2 extends React.Component {
 
   componentDidMount() {
-    this.props.getGeoJSON();
+    this.props.getGeoJSON('kotus:pitajat');
 
     // Base layers
     const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -121,7 +121,9 @@ class LeafletMap2 extends React.Component {
       }
     }
     if (this.props.geoJSON !== geoJSON) {
-      const sockenMapKotus = L.geoJSON(this.props.geoJSON);
+      const sockenMapKotus = L.geoJSON(this.props.geoJSON, {
+        onEachFeature: this.onEachFeature
+      });
       this.layerControl.addOverlay(sockenMapKotus, 'Kotus pitäjät');
     }
   }
@@ -164,6 +166,13 @@ class LeafletMap2 extends React.Component {
       <p>Source: <a target='_blank' rel='noopener noreferrer' href={s}>{source}</a></p>
       `;
     return L.Util.template(popUpTemplate, result);
+  }
+
+  onEachFeature(feature, layer) {
+    if (feature.properties && feature.properties.NIMI) {
+      const popupContent = '<p>Nimi: ' + feature.properties.NIMI + '</p></p>ID: ' + feature.id + '</p>';
+      layer.bindPopup(popupContent);
+    }
   }
 
   createNLSUrl(layerID) {
