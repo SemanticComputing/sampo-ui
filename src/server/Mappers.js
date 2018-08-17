@@ -14,7 +14,7 @@ export const groupBy = (sparqlBindings, group, simplify) => Object.values(_.redu
       result[group] = value.value;
     } else {
       if (simplify) {
-        if (key === 'basicElement') {
+        if (key === 'basicElement' || key === 'markerColor') {
           result[key] = value.value;
         } else {
           result[key] = capitalizeFirstLetter(value.value);

@@ -45,7 +45,7 @@ module.exports = {
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX gs: <http://www.opengis.net/ont/geosparql#>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-      SELECT ?s ?label ?typeLabel ?broaderAreaLabel ?source ?lat ?long
+      SELECT ?s ?label ?typeLabel ?broaderAreaLabel ?source ?lat ?long ?markerColor
       WHERE {
         {
           SELECT DISTINCT ?s {
@@ -58,6 +58,7 @@ module.exports = {
         ?s a/skos:prefLabel ?typeLabel .
         ?s gs:sfWithin/skos:prefLabel ?broaderAreaLabel .
         BIND("KMN" AS ?source)
+        BIND("blue" AS ?markerColor)
         OPTIONAL {
           ?s wgs84:lat ?lat .
           ?s wgs84:long ?long .
@@ -115,7 +116,7 @@ module.exports = {
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX gs: <http://www.opengis.net/ont/geosparql#>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-      SELECT ?s ?label ?typeLabel ?broaderAreaLabel ?source ?lat ?long
+      SELECT ?s ?label ?typeLabel ?broaderAreaLabel ?source ?lat ?long ?markerColor
       WHERE {
         {
           SELECT DISTINCT ?s {
@@ -128,6 +129,7 @@ module.exports = {
         ?s a/skos:prefLabel ?typeLabel .
         ?s gs:sfWithin/skos:prefLabel ?broaderAreaLabel .
         BIND("FWM" AS ?source)
+        BIND("red" AS ?markerColor)
         OPTIONAL {
           ?s wgs84:lat ?lat .
           ?s wgs84:long ?long .
@@ -168,7 +170,7 @@ module.exports = {
       PREFIX sf: <http://ldf.fi/functions#>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-      SELECT ?s ?label ?typeLabel ?broaderAreaLabel ?source ?lat ?long
+      SELECT ?s ?label ?typeLabel ?broaderAreaLabel ?source ?lat ?long ?markerColor
       WHERE {
         ?s text:query (skos:prefLabel '<QUERYTERM>') .
         ?s skos:prefLabel ?prefLabel .
@@ -185,6 +187,7 @@ module.exports = {
         }
         FILTER (LCASE(STR(?prefLabel))='<QUERYTERM>')
         BIND("PNR" AS ?source)
+        BIND("yellow" AS ?markerColor)
       }
       `,
   },
@@ -197,7 +200,7 @@ module.exports = {
     // http://vocab.getty.edu/doc/#TGN_Place_Types
     'title': 'The Getty Thesaurus of Geographic Names',
     'shortTitle': 'TGN',
-    'timePeriod': 'contemporary',
+    'timePeriod': '',
     'endpoint': 'http://vocab.getty.edu/sparql.json',
     'simpleSuggestionQuery':
       'SELECT+DISTINCT+?label+' +
@@ -211,7 +214,7 @@ module.exports = {
       '}' +
       'LIMIT+20',
     'resultQuery':
-      'SELECT+?s+(COALESCE(?labelEn,?labelGVP)+AS+?label)+?typeLabel+?broaderAreaLabel+?source+?lat+?long+' +
+      'SELECT+?s+(COALESCE(?labelEn,?labelGVP)+AS+?label)+?typeLabel+?broaderAreaLabel+?source+?lat+?long+?markerColor' +
       'WHERE+{' +
       '?s+luc:term+"<QUERYTERM>";+' +
       'skos:inScheme+tgn:;+' +
@@ -222,11 +225,13 @@ module.exports = {
       'OPTIONAL{?s+foaf:focus+?place+.+?place+wgs:lat+?lat;+wgs:long+?long}+' +
       'FILTER+EXISTS+{?s+xl:prefLabel/gvp:term+?term+.+FILTER+(LCASE(STR(?term))="<QUERYTERM>")}' +
       'BIND("TGN"+AS+?source)+' +
+      'BIND("orange"+AS+?markerColor)+' +
       '}',
   },
   'kotus': {
     'title': 'Institute for the Languages of Finland (Kotus) Digital Names archive',
     'shortTitle': 'DNA',
+    'timePeriod': '',
     'endpoint': 'http://ldf.fi/kotus-digital-names-archive/sparql',
     // 'endpoint': 'http://localhost:3037/ds/sparql',
     // 'suggestionQuery': `
@@ -270,13 +275,14 @@ module.exports = {
       PREFIX gs: <http://www.opengis.net/ont/geosparql#>
       PREFIX hipla: <http://ldf.fi/schema/hipla/>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-      SELECT ?s ?label ?typeLabel ?broaderAreaLabel ?source ?lat ?long ?modifier ?basicElement ?collector ?collectionYear
+      SELECT ?s ?label ?typeLabel ?broaderAreaLabel ?source ?lat ?long ?modifier ?basicElement ?collector ?collectionYear ?markerColor
       WHERE {
         ?s text:query (skos:prefLabel '<QUERYTERM>') .
         ?s a hipla:Place .
         ?s skos:prefLabel ?label .
         ?s hipla:municipality ?broaderAreaLabel .
         BIND("DNA" AS ?source)
+        BIND("violet" AS ?markerColor)
         BIND("undefined" AS ?missingValue)
         OPTIONAL { ?s hipla:type ?tLbl . }
         BIND(COALESCE(?tLbl, ?missingValue) as ?typeLabel)

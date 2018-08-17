@@ -13,6 +13,17 @@ const style = {
   height: '100%'
 };
 
+// https://github.com/pointhi/leaflet-color-markers
+const ColorIcon = L.Icon.extend({
+  options: {
+    shadowUrl: 'img/markers/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  }
+});
+
 class LeafletMap2 extends React.Component {
 
   componentDidMount() {
@@ -127,12 +138,14 @@ class LeafletMap2 extends React.Component {
   }
 
   createMarker(result) {
+    const color = typeof result.markerColor === 'undefined' ? 'grey' : result.markerColor;
+    const icon = new ColorIcon({iconUrl: 'img/markers/marker-icon-' + color + '.png'});
     const { lat, long } = result;
     if (typeof lat === 'undefined' || typeof long === 'undefined') {
       return null;
     } else {
       const latLng = [+lat, +long];
-      return L.marker(latLng).bindPopup(this.createPopUpContent(result));
+      return L.marker(latLng, {icon: icon}).bindPopup(this.createPopUpContent(result));
     }
   }
 
