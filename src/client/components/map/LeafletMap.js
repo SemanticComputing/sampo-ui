@@ -27,6 +27,7 @@ const ColorIcon = L.Icon.extend({
 class LeafletMap2 extends React.Component {
 
   componentDidMount() {
+    this.props.getGeoJSON();
 
     // Base layers
     const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -50,7 +51,9 @@ class LeafletMap2 extends React.Component {
     //   attribution: 'National Land Survey of Finland'
     // });
 
-    // Overlay layers
+    //console.log(this.createNLSUrl('kiinteistojaotus'));
+
+    // Overlays
     const realEstateMapNLS = L.tileLayer(this.createNLSUrl('kiinteistojaotus'), {
       attribution: 'National Land Survey of Finland'
     });
@@ -105,10 +108,10 @@ class LeafletMap2 extends React.Component {
       'Senate atlas (MapWarper)': senateAtlas,
       'Western Front July 1917 (MapWarper)': westernFront
     };
-    L.control.layers(baseMaps, overlayMaps).addTo(this.map);
+    this.layerControl = L.control.layers(baseMaps, overlayMaps).addTo(this.map);
   }
 
-  componentDidUpdate({ results, mapMode }) {
+  componentDidUpdate({ results, mapMode, geoJSON }) {
     // check if results data or mapMode have changed
     if (this.props.results !== results || this.props.mapMode !== mapMode) {
       if (this.props.mapMode === 'cluster') {
@@ -116,6 +119,10 @@ class LeafletMap2 extends React.Component {
       } else {
         this.updateMarkers(this.props.results);
       }
+    }
+    if (this.props.geoJSON !== geoJSON) {
+      const sockenMapKotus = L.geoJSON(this.props.geoJSON);
+      this.layerControl.addOverlay(sockenMapKotus, 'Kotus pitäjät');
     }
   }
 
@@ -160,6 +167,9 @@ class LeafletMap2 extends React.Component {
   }
 
   createNLSUrl(layerID) {
+    // return 'https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/' +
+    // layerID + '/default/WGS84_Pseudo-Mercator/{z}/{x}/{y}.png';
+
     return 'https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts?service=WMTS' +
     '&request=GetTile&version=1.0.0&layer=' + layerID + '&style=default' +
     '&format=image/png&TileMatrixSet=WGS84_Pseudo-Mercator&TileMatrix={z}&TileRow={y}&TileCol={x}';
@@ -172,7 +182,10 @@ class LeafletMap2 extends React.Component {
 
 LeafletMap2.propTypes = {
   results: PropTypes.array,
-  mapMode: PropTypes.string.isRequired
+  mapMode: PropTypes.string.isRequired,
+  geoJSON: PropTypes.object,
+  //geoJSONKey: PropTypes.number,
+  getGeoJSON: PropTypes.func.isRequired,
 };
 
 export default LeafletMap2;

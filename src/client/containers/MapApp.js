@@ -170,9 +170,9 @@ let MapApp = (props) => {
         <LeafletMap
           results={props.results}
           mapMode={props.mapMode}
-          // geoJSON={props.geoJSON}
+          geoJSON={props.geoJSON}
           // geoJSONKey={props.geoJSONKey}
-          // getGeoJSON={props.getGeoJSON}
+          getGeoJSON={props.getGeoJSON}
           // sliderValue={100}
         />
       );
