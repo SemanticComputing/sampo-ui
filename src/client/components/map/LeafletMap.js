@@ -27,9 +27,10 @@ const ColorIcon = L.Icon.extend({
 class LeafletMap extends React.Component {
 
   componentDidMount() {
-    //
+    // https://avaa.tdata.fi/web/kotus/rajapinta
+    // Ilmiöt:
+    //    kotus:paikkatieto_view
     // Taustakartan rajat:
-    //
     //   kotus:pitajat
     //   kotus:rajat-sms-alueosat  murrealueenosat
     //   kotus:rajat-lansi-ita

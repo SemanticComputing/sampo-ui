@@ -78,6 +78,7 @@ const getWFSLayers = (layerIDs) => {
 
 const getWFSLayer = (layerID) => {
   return new Promise((resolve, reject) => {
+    // https://avaa.tdata.fi/web/kotus/rajapinta
     const url = 'http://avaa.tdata.fi/geoserver/kotus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=' + layerID + '&srsName=EPSG:4326&outputformat=json';
     request
       .get(url)
