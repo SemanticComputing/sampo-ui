@@ -24,10 +24,22 @@ const ColorIcon = L.Icon.extend({
   }
 });
 
-class LeafletMap2 extends React.Component {
+class LeafletMap extends React.Component {
 
   componentDidMount() {
-    this.props.getGeoJSON('kotus:pitajat');
+    //
+    // Taustakartan rajat:
+    //
+    //   kotus:pitajat
+    //   kotus:rajat-sms-alueosat  murrealueenosat
+    //   kotus:rajat-lansi-ita
+    //   kotus:rajat-sms-alueet    murrealueet
+    this.props.getGeoJSON([
+      'kotus:pitajat',
+      'kotus:rajat-sms-alueet',
+      'kotus:rajat-sms-alueosat',
+      'kotus:rajat-lansi-ita'
+    ]);
 
     // Base layers
     const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -111,7 +123,7 @@ class LeafletMap2 extends React.Component {
     this.layerControl = L.control.layers(baseMaps, overlayMaps).addTo(this.map);
   }
 
-  componentDidUpdate({ results, mapMode, geoJSON }) {
+  componentDidUpdate({ results, mapMode, geoJSONKey }) {
     // check if results data or mapMode have changed
     if (this.props.results !== results || this.props.mapMode !== mapMode) {
       if (this.props.mapMode === 'cluster') {
@@ -120,11 +132,14 @@ class LeafletMap2 extends React.Component {
         this.updateMarkers(this.props.results);
       }
     }
-    if (this.props.geoJSON !== geoJSON) {
-      const sockenMapKotus = L.geoJSON(this.props.geoJSON, {
-        onEachFeature: this.onEachFeature
+    // check if geoJSON has updated
+    if (this.props.geoJSONKey !== geoJSONKey) {
+      this.props.geoJSON.map(obj => {
+        const layer = L.geoJSON(obj.geoJSON, {
+          onEachFeature: this.onEachFeature
+        });
+        this.layerControl.addOverlay(layer, obj.layerID);
       });
-      this.layerControl.addOverlay(sockenMapKotus, 'Kotus pitäjät');
     }
   }
 
@@ -169,10 +184,17 @@ class LeafletMap2 extends React.Component {
   }
 
   onEachFeature(feature, layer) {
-    if (feature.properties && feature.properties.NIMI) {
-      const popupContent = '<p>Nimi: ' + feature.properties.NIMI + '</p></p>ID: ' + feature.id + '</p>';
-      layer.bindPopup(popupContent);
+    let popupContent = '';
+    if (feature.id.startsWith('rajat')) {
+      popupContent =  '<p>ID: ' + feature.id + '</p>';
     }
+    else if (feature.id.startsWith('pitajat')) {
+      if (feature.properties.NIMI) {
+        popupContent +=  '<p>Nimi: ' + feature.properties.NIMI + '</p>';
+      }
+      popupContent +=  '<p>ID: ' + feature.id + '</p>';
+    }
+    layer.bindPopup(popupContent);
   }
 
   createNLSUrl(layerID) {
@@ -189,12 +211,12 @@ class LeafletMap2 extends React.Component {
   }
 }
 
-LeafletMap2.propTypes = {
+LeafletMap.propTypes = {
   results: PropTypes.array,
   mapMode: PropTypes.string.isRequired,
-  geoJSON: PropTypes.object,
-  //geoJSONKey: PropTypes.number,
+  geoJSON: PropTypes.array,
+  geoJSONKey: PropTypes.number.isRequired,
   getGeoJSON: PropTypes.func.isRequired,
 };
 
-export default LeafletMap2;
+export default LeafletMap;

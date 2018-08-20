@@ -3,10 +3,10 @@ import {
 } from '../actions';
 
 export const INITIAL_STATE = {
-  geoJSON: {
+  geoJSON: [{
     'type': '',
     'features': []
-  },
+  }],
   geoJSONKey: 0
 };
 

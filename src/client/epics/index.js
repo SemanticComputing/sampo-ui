@@ -73,10 +73,14 @@ const getGeoJSONEpic = (action$) => {
   const wfsUrl = hiplaApiUrl + 'wfs';
   return action$.ofType(GET_GEOJSON)
     .switchMap(action => {
-      const requestUrl = `${wfsUrl}?layer=${action.layer}`;
+      let s = '';
+      action.layerIDs.map(layerID => {
+        s += `&layerID=${layerID}`;
+      });
+      const requestUrl = `${wfsUrl}?${s}`;
       return ajax.getJSON(requestUrl)
         // .map(response => {
-        //   console.log('res' + response)
+        //   console.log(response)
         // })
         .map(response => updateGeoJSON({ geoJSON: response }))
         .catch(error => Observable.of({

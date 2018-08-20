@@ -61,25 +61,33 @@ app.get('/compare', (req, res) => {
 });
 
 app.get('/wfs', (req, res) => {
-  //
-  // Taustakartan rajat:
-  //
-  //   kotus:pitajat
-  //   kotus:rajat-sms-alueosat  murrealueenosat
-  //   kotus:rajat-lansi-ita
-  //   kotus:rajat-sms-alueet    murrealueet
-  const layer = req.query.layer;
-  const url = 'http://avaa.tdata.fi/geoserver/kotus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=' + layer + '&srsName=EPSG:4326&outputformat=json';
-  request
-    .get(url)
-    .then(function(data) {
-      //console.log(data.body);
-      //return(res.json(geo));
-      return(res.json(data.body));
-    })
-    .catch(function(err) {
-      console.log(err.message, err.response);
+
+  return getWFSLayers(req.query.layerID).then((data) => {
+    //console.log(data);
+    res.json(data);
+  })
+    .catch((err) => {
+      console.log(err);
+      return res.sendStatus(500);
     });
 });
+
+const getWFSLayers = (layerIDs) => {
+  return Promise.all(layerIDs.map((layerID) => getWFSLayer(layerID)));
+};
+
+const getWFSLayer = (layerID) => {
+  return new Promise((resolve, reject) => {
+    const url = 'http://avaa.tdata.fi/geoserver/kotus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=' + layerID + '&srsName=EPSG:4326&outputformat=json';
+    request
+      .get(url)
+      .then(function(data) {
+        return resolve({ layerID: layerID, geoJSON: data.body });
+      })
+      .catch(function(err) {
+        return reject(err.message, err.response);
+      });
+  });
+};
 
 app.listen(app.get('port'), () => console.log('Hipla app listening on port ' + app.get('port')));

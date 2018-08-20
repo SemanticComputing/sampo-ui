@@ -171,7 +171,7 @@ let MapApp = (props) => {
           results={props.results}
           mapMode={props.mapMode}
           geoJSON={props.geoJSON}
-          // geoJSONKey={props.geoJSONKey}
+          geoJSONKey={props.geoJSONKey}
           getGeoJSON={props.getGeoJSON}
           // sliderValue={100}
         />
@@ -287,8 +287,8 @@ MapApp.propTypes = {
   fetchResults: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
-  geoJSON: PropTypes.object.isRequired,
-  geoJSONKey: PropTypes.number,
+  geoJSON: PropTypes.array.isRequired,
+  geoJSONKey: PropTypes.number.isRequired,
   getGeoJSON: PropTypes.func.isRequired,
   updateResultFormat: PropTypes.func.isRequired,
   updateMapMode: PropTypes.func.isRequired,
