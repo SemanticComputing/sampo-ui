@@ -141,7 +141,6 @@ let MapApp = (props) => {
           resultValues={props.resultValues}
           search={props.search}
           sortResults={props.sortResults}
-          toggleDataset={props.toggleDataset}
           updateResultsFilter={props.updateResultsFilter}
           updateQuery={props.updateQuery}
           fetchResults={props.fetchResults}
@@ -218,11 +217,14 @@ let MapApp = (props) => {
     <div className={classes.root}>
       <div className={classes.appFrame}>
         <TopBar
+          results={props.results}
           oneColumnView={oneColumnView}
           mapMode={props.mapMode}
           resultFormat={props.resultFormat}
           updateMapMode={props.updateMapMode}
           updateResultFormat={props.updateResultFormat}
+          datasets={props.search.datasets}
+          toggleDataset={props.toggleDataset}
         />
         <div className={classes.mainContainer}>
           {mainResultsView}

@@ -1,20 +1,10 @@
 import React from 'react';
 import Immutable from 'immutable';
 import PropTypes from 'prop-types';
-import {CSVLink} from 'react-csv';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DatasetSelector from '../components/DatasetSelector';
 import SearchField from '../components/SearchField';
-import Button from '@material-ui/core/Button';
 import ResultFilterDialogSingle from './ResultFilterDialogSingle';
-
-
 import {
   AutoSizer,
   Column,
@@ -193,30 +183,6 @@ class VirtualizedTable extends React.PureComponent {
             <div className={classes.searchField}>
               {searchField}
             </div>
-            {this.props.list.size > 0 &&
-              <ExpansionPanel>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>Result options</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  <Grid container>
-                    <Grid item xs={12}>
-                      <DatasetSelector
-                        datasets={this.props.search.datasets}
-                        toggleDataset={this.props.toggleDataset}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <CSVLink data={list.toArray()}>
-                        <Button>
-                          Results as CSV
-                        </Button>
-                      </CSVLink>
-                    </Grid>
-                  </Grid>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-            }
           </div>
           {this.props.list.size > 0 &&
             <div style={{ flex: '1 1 auto' }}>
@@ -324,7 +290,6 @@ VirtualizedTable.propTypes = {
   resultValues: PropTypes.object.isRequired,
   sortResults: PropTypes.func.isRequired,
   updateResultsFilter: PropTypes.func.isRequired,
-  toggleDataset: PropTypes.func.isRequired,
   updateQuery: PropTypes.func.isRequired,
   fetchSuggestions: PropTypes.func.isRequired,
   clearSuggestions: PropTypes.func.isRequired,

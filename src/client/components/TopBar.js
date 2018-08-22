@@ -6,24 +6,17 @@ import Toolbar from '@material-ui/core/Toolbar';
 import NavTabs from '../components/NavTabs';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
-import MenuList from '@material-ui/core/MenuList';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Switch from '@material-ui/core/Switch';
-import PlaceIcon from '@material-ui/icons/Place';
-
-
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-
-
+import { CSVLink } from 'react-csv';
+import Button from '@material-ui/core/Button';
+import FormGroup from '@material-ui/core/FormGroup';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const styles = theme => ({
   toolBar: {
@@ -34,6 +27,28 @@ const styles = theme => ({
     marginLeft: -12,
     marginRight: 20,
   },
+  menuContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: 350,
+    outline: 0,
+    padding: theme.spacing.unit * 3
+  },
+  formControl: {
+    marginBottom: theme.spacing.unit * 3,
+  },
+  formGroup: {
+    margin: `${theme.spacing.unit}px 0`,
+  },
+  csvButton: {
+    margin: theme.spacing.unit * 3,
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
   menuList: {
     width: 350
   },
@@ -43,12 +58,6 @@ const styles = theme => ({
   },
   navTabs: {
     marginLeft: 'auto'
-  },
-  formControl: {
-    margin: theme.spacing.unit * 3,
-  },
-  group: {
-    margin: `${theme.spacing.unit}px 0`,
   },
 });
 
@@ -69,6 +78,10 @@ class TopBar extends React.Component {
     this.setState({ anchorEl: null });
   };
 
+  handleToggleDataset = value => () => {
+    this.props.toggleDataset(value);
+  };
+
   render() {
     const { anchorEl } = this.state;
     const { classes } = this.props;
@@ -76,6 +89,7 @@ class TopBar extends React.Component {
     return (
       <AppBar position="absolute">
         <Toolbar className={classes.toolBar}>
+
           <IconButton
             className={classes.menuButton}
             color="inherit"
@@ -84,26 +98,59 @@ class TopBar extends React.Component {
           >
             <MenuIcon />
           </IconButton>
+
           <Menu
             id="simple-menu"
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={this.handleClose}
           >
-            <FormControl component="fieldset" className={classes.formControl}>
-              <FormLabel component="legend">Map mode</FormLabel>
-              <RadioGroup
-                aria-label="Map mode"
-                name="map"
-                className={classes.group}
-                value={this.props.mapMode}
-                onChange={this.handleChange}
-              >
-                <FormControlLabel value="cluster" control={<Radio />} label="Clustered markers" />
-                <FormControlLabel value="noCluster" control={<Radio />} label="Markers" />
-                <FormControlLabel value="heatmap" control={<Radio />} label="Heatmap" />
-              </RadioGroup>
-            </FormControl>
+            <div className={classes.menuContent}>
+              <FormControl component="fieldset" className={classes.formControl}>
+                <FormLabel component="legend">Source datasets</FormLabel>
+                <FormGroup className={classes.formGroup}>
+                  {Object.keys(this.props.datasets).map(id => (
+                    <FormControlLabel
+                      key={id}
+                      control={
+                        <Checkbox
+                          checked={this.props.datasets[id].selected}
+                          onChange={this.handleToggleDataset(id)}
+                          tabIndex={-1}
+                          disableRipple
+                        />
+                      }
+                      label={this.props.datasets[id].title}
+                    />
+
+                  ))}
+                </FormGroup>
+              </FormControl>
+
+              <FormControl component="fieldset" className={classes.formControl}>
+                <FormLabel component="legend">Map mode</FormLabel>
+                <RadioGroup
+                  className={classes.formGroup}
+                  aria-label="Map mode"
+                  name="map"
+                  value={this.props.mapMode}
+                  onChange={this.handleChange}
+                >
+                  <FormControlLabel value="cluster" control={<Radio />} label="Clustered markers" />
+                  <FormControlLabel value="noCluster" control={<Radio />} label="Markers" />
+                  <FormControlLabel value="heatmap" control={<Radio />} label="Heatmap" />
+                </RadioGroup>
+              </FormControl>
+
+
+              <CSVLink data={this.props.results}>
+                <Button variant="contained" color="primary" className={classes.button}>
+                  Results as CSV
+                  <CloudDownloadIcon className={classes.rightIcon} />
+                </Button>
+              </CSVLink>
+            </div>
+
           </Menu>
           <img className={classes.namesampoLogo} src='img/logos/namesampo.png' alt='NameSampo logo'/>
           {this.props.oneColumnView &&
@@ -122,11 +169,14 @@ class TopBar extends React.Component {
 
 TopBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  results: PropTypes.array.isRequired,
   oneColumnView: PropTypes.bool.isRequired,
   mapMode: PropTypes.string.isRequired,
   resultFormat: PropTypes.string.isRequired,
   updateResultFormat: PropTypes.func.isRequired,
   updateMapMode: PropTypes.func.isRequired,
+  datasets: PropTypes.object.isRequired,
+  toggleDataset: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(TopBar);
