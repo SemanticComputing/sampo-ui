@@ -275,7 +275,7 @@ module.exports = {
       PREFIX gs: <http://www.opengis.net/ont/geosparql#>
       PREFIX hipla: <http://ldf.fi/schema/hipla/>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-      SELECT ?s ?label ?typeLabel ?broaderAreaLabel ?source ?lat ?long ?modifier ?basicElement ?collector ?collectionYear ?markerColor
+      SELECT ?s ?label ?typeLabel ?broaderTypeLabel ?broaderAreaLabel ?source ?lat ?long ?modifier ?basicElement ?collector ?collectionYear ?markerColor
       WHERE {
         ?s text:query (skos:prefLabel '<QUERYTERM>') .
         ?s a hipla:Place .
@@ -284,7 +284,13 @@ module.exports = {
         BIND("DNA" AS ?source)
         BIND("violet" AS ?markerColor)
         BIND("undefined" AS ?missingValue)
-        OPTIONAL { ?s hipla:type ?tLbl . }
+        OPTIONAL {
+          ?s hipla:type ?type .
+          OPTIONAL {
+            ?type skos:prefLabel ?tLbl .
+            ?type rdfs:subClassOf/skos:prefLabel ?broaderTypeLabel .
+          }
+        }
         BIND(COALESCE(?tLbl, ?missingValue) as ?typeLabel)
         OPTIONAL {
           ?s wgs84:lat ?lat .
