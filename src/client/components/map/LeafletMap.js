@@ -7,6 +7,8 @@ import 'leaflet-fullscreen/dist/Leaflet.fullscreen.min.js';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster/dist/leaflet.markercluster.js';
+import 'Leaflet.Control.Opacity/dist/L.Control.Opacity.css';
+import 'Leaflet.Control.Opacity/dist/L.Control.Opacity.js';
 
 const style = {
   width: '100%',
@@ -121,9 +123,28 @@ class LeafletMap extends React.Component {
       'Senate atlas (MapWarper)': senateAtlas,
       'Western Front July 1917 (MapWarper)': westernFront
     };
-    this.layerControl = L.control.layers(baseMaps, overlayMaps).addTo(this.map);
 
-    this.createOpacitySlider();
+    this.layerControl = L.control.layers(
+      baseMaps,
+      overlayMaps,
+    ).addTo(this.map);
+
+    L.control.opacity(
+      overlayMaps, {
+        collapsed: true,
+        position: 'bottomleft'
+      }).addTo(this.map);
+
+  //     map.on('fullscreenchange', function () {
+  //     if (map.isFullscreen()) {
+  //         console.log('entered fullscreen');
+  //     } else {
+  //         console.log('exited fullscreen');
+  //     }
+  // });
+
+
+    //this.createOpacitySlider();
 
   }
 
