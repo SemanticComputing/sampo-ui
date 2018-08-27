@@ -122,6 +122,9 @@ class LeafletMap extends React.Component {
       'Western Front July 1917 (MapWarper)': westernFront
     };
     this.layerControl = L.control.layers(baseMaps, overlayMaps).addTo(this.map);
+
+    this.createOpacitySlider();
+
   }
 
   componentDidUpdate({ results, mapMode, geoJSONKey }) {
@@ -205,6 +208,25 @@ class LeafletMap extends React.Component {
     return 'https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts?service=WMTS' +
     '&request=GetTile&version=1.0.0&layer=' + layerID + '&style=default' +
     '&format=image/png&TileMatrixSet=WGS84_Pseudo-Mercator&TileMatrix={z}&TileRow={y}&TileCol={x}';
+  }
+
+  createOpacitySlider() {
+    L.Control.OpacitySlider = L.Control.extend({
+      onAdd: function(map) {
+        const slider = L.DomUtil.create('input', 'opacity-slider');
+        slider.type = 'range';
+        slider.min = 0;
+        slider.max = 100;
+        slider.value = 100;
+        return slider;
+      },
+    });
+
+    L.control.opacitySlider = function(opts) {
+      return new L.Control.OpacitySlider(opts);
+    };
+
+    L.control.opacitySlider({ position: 'bottomleft' }).addTo(this.map);
   }
 
   render() {
