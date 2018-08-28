@@ -9,6 +9,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster/dist/leaflet.markercluster.js';
 import 'Leaflet.Control.Opacity/dist/L.Control.Opacity.css';
 import 'Leaflet.Control.Opacity/dist/L.Control.Opacity.js';
+import 'leaflet.smooth_marker_bouncing/leaflet.smoothmarkerbouncing.js';
 
 const style = {
   width: '100%',
@@ -43,6 +44,8 @@ class LeafletMap extends React.Component {
       'kotus:rajat-sms-alueosat',
       'kotus:rajat-lansi-ita'
     ]);
+
+    this.bouncingMarker = this.props.bouncingMarker;
 
     // Base layers
     const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -148,7 +151,7 @@ class LeafletMap extends React.Component {
 
   }
 
-  componentDidUpdate({ results, mapMode, geoJSONKey }) {
+  componentDidUpdate({ results, mapMode, geoJSONKey, bouncingMarker }) {
     // check if results data or mapMode have changed
     if (this.props.results !== results || this.props.mapMode !== mapMode) {
       if (this.props.mapMode === 'cluster') {
@@ -157,6 +160,11 @@ class LeafletMap extends React.Component {
         this.updateMarkers(this.props.results);
       }
     }
+
+    if (this.props.bouncingMarker !== bouncingMarker) {
+      this.markers[this.props.bouncingMarker].bounce(5);
+    }
+
     // check if geoJSON has updated
     if (this.props.geoJSONKey !== geoJSONKey) {
       this.props.geoJSON.map(obj => {
@@ -170,8 +178,11 @@ class LeafletMap extends React.Component {
 
   updateMarkers(results) {
     this.resultMarkerLayer.clearLayers();
+    this.markers = {};
     results.forEach(result => {
       const marker = this.createMarker(result);
+      //console.log(result.s);
+      this.markers[result.s] = marker;
       marker == null ? null : marker.addTo(this.resultMarkerLayer);
     });
   }
@@ -194,7 +205,12 @@ class LeafletMap extends React.Component {
       return null;
     } else {
       const latLng = [+lat, +long];
-      return L.marker(latLng, {icon: icon}).bindPopup(this.createPopUpContent(result));
+      const marker = L.marker(latLng, {icon: icon})
+        .on('click', function() {
+          this.toggleBouncing();
+        })
+        .bindPopup(this.createPopUpContent(result));
+      return marker;
     }
   }
 
@@ -261,6 +277,7 @@ LeafletMap.propTypes = {
   geoJSON: PropTypes.array,
   geoJSONKey: PropTypes.number.isRequired,
   getGeoJSON: PropTypes.func.isRequired,
+  bouncingMarker: PropTypes.string.isRequired
 };
 
 export default LeafletMap;

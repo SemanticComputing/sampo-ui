@@ -5,6 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import SearchField from '../components/SearchField';
 import ResultFilterDialogSingle from './ResultFilterDialogSingle';
+import IconButton from '@material-ui/core/IconButton';
+import PlaceIcon from '@material-ui/icons/Place';
 import {
   AutoSizer,
   Column,
@@ -121,6 +123,31 @@ class VirtualizedTable extends React.PureComponent {
       return children;
     };
 
+    const labelRenderer = ({cellData, rowData}) => {
+      if (cellData == null) return '';
+      const label = <a target='_blank' rel='noopener noreferrer' href={rowData.s}>{cellData}</a>;
+      let  marker = '';
+      if (typeof rowData.lat !== 'undefined' || typeof rowData.long !== 'undefined') {
+        marker = (
+          <IconButton
+            onClick={handleMarkerClick(rowData.s)}
+            aria-label="Marker"
+          >
+            <PlaceIcon />
+          </IconButton>
+        );
+      }
+      return (
+        <div key={rowData.s}>
+          {label}{marker}
+        </div>
+      );
+    };
+
+    const handleMarkerClick = value => () => {
+      this.props.bounceMarker(value);
+    };
+
     // always render extra columns for now
     const analysisView = true;
     // Some extra columns for analysis view
@@ -208,6 +235,7 @@ class VirtualizedTable extends React.PureComponent {
                       cellDataGetter={({rowData}) => rowData.label}
                       dataKey="label"
                       headerRenderer={headerRenderer}
+                      cellRenderer={labelRenderer}
                       width={columnWidth}
                     />
                     {modifier}
@@ -258,6 +286,7 @@ class VirtualizedTable extends React.PureComponent {
     return <div className={tableStyles.noRows}>No rows</div>;
   }
 
+
   // _onScrollToRowChange(event) {
   //   const {rowCount} = this.state;
   //   let scrollToIndex = Math.min(
@@ -295,6 +324,7 @@ VirtualizedTable.propTypes = {
   clearSuggestions: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
+  bounceMarker: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(VirtualizedTable);

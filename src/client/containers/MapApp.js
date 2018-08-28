@@ -29,6 +29,7 @@ import {
   updateMapMode,
   updateResultsFilter,
   sortResults,
+  bounceMarker,
 } from '../actions';
 
 const styles = theme => ({
@@ -147,6 +148,7 @@ let MapApp = (props) => {
           clearResults={props.clearResults}
           fetchSuggestions={props.fetchSuggestions}
           clearSuggestions={props.clearSuggestions}
+          bounceMarker={props.bounceMarker}
         />
       </div>
     );
@@ -172,6 +174,7 @@ let MapApp = (props) => {
           geoJSON={props.geoJSON}
           geoJSONKey={props.geoJSONKey}
           getGeoJSON={props.getGeoJSON}
+          bouncingMarker={props.bouncingMarker}
           // sliderValue={100}
         />
       );
@@ -258,6 +261,7 @@ const mapStateToProps = (state) => {
     error: state.error,
     geoJSON: state.map.geoJSON,
     geoJSONKey: state.map.geoJSONKey,
+    bouncingMarker: state.map.bouncingMarker,
     resultFormat: state.options.resultFormat,
     browser: state.browser
   };
@@ -274,7 +278,8 @@ const mapDispatchToProps = ({
   getGeoJSON,
   updateResultFormat,
   updateMapMode,
-  updateResultsFilter
+  updateResultsFilter,
+  bounceMarker
 });
 
 MapApp.propTypes = {
@@ -292,6 +297,7 @@ MapApp.propTypes = {
   geoJSON: PropTypes.array.isRequired,
   geoJSONKey: PropTypes.number.isRequired,
   getGeoJSON: PropTypes.func.isRequired,
+  bounceMarker: PropTypes.func.isRequired,
   updateResultFormat: PropTypes.func.isRequired,
   updateMapMode: PropTypes.func.isRequired,
   resultFormat: PropTypes.string.isRequired,
@@ -299,7 +305,8 @@ MapApp.propTypes = {
   results: PropTypes.array,
   resultValues: PropTypes.object,
   updateResultsFilter: PropTypes.func.isRequired,
-  browser: PropTypes.object.isRequired
+  browser: PropTypes.object.isRequired,
+  bouncingMarker: PropTypes.string.isRequired
 };
 
 export default compose(
