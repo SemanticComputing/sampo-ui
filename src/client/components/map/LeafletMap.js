@@ -138,6 +138,8 @@ class LeafletMap extends React.Component {
         position: 'bottomleft'
       }).addTo(this.map);
 
+    L.Marker.setBouncingOptions({ exclusive: true });
+
   //     map.on('fullscreenchange', function () {
   //     if (map.isFullscreen()) {
   //         console.log('entered fullscreen');
@@ -146,12 +148,9 @@ class LeafletMap extends React.Component {
   //     }
   // });
 
-
-    //this.createOpacitySlider();
-
   }
 
-  componentDidUpdate({ results, mapMode, geoJSONKey, bouncingMarker }) {
+  componentDidUpdate({ results, mapMode, geoJSONKey, bouncingMarkerKey, openPopupMarkerKey }) {
     // check if results data or mapMode have changed
     if (this.props.results !== results || this.props.mapMode !== mapMode) {
       if (this.props.mapMode === 'cluster') {
@@ -161,8 +160,12 @@ class LeafletMap extends React.Component {
       }
     }
 
-    if (this.props.bouncingMarker !== bouncingMarker) {
-      this.markers[this.props.bouncingMarker].bounce(5);
+    if (this.props.bouncingMarkerKey !== bouncingMarkerKey) {
+      this.markers[this.props.bouncingMarker].bounce(3);
+    }
+
+    if (this.props.openPopupMarkerKey !== openPopupMarkerKey) {
+      this.markers[this.props.openPopupMarker].openPopup();
     }
 
     // check if geoJSON has updated
@@ -206,9 +209,6 @@ class LeafletMap extends React.Component {
     } else {
       const latLng = [+lat, +long];
       const marker = L.marker(latLng, {icon: icon})
-        .on('click', function() {
-          this.toggleBouncing();
-        })
         .bindPopup(this.createPopUpContent(result));
       return marker;
     }
@@ -249,7 +249,7 @@ class LeafletMap extends React.Component {
 
   createOpacitySlider() {
     L.Control.OpacitySlider = L.Control.extend({
-      onAdd: function(map) {
+      onAdd: function() {
         const slider = L.DomUtil.create('input', 'opacity-slider');
         slider.type = 'range';
         slider.min = 0;
@@ -277,7 +277,10 @@ LeafletMap.propTypes = {
   geoJSON: PropTypes.array,
   geoJSONKey: PropTypes.number.isRequired,
   getGeoJSON: PropTypes.func.isRequired,
-  bouncingMarker: PropTypes.string.isRequired
+  bouncingMarker: PropTypes.string.isRequired,
+  bouncingMarkerKey: PropTypes.number.isRequired,
+  openPopupMarker: PropTypes.string.isRequired,
+  openPopupMarkerKey: PropTypes.number.isRequired
 };
 
 export default LeafletMap;

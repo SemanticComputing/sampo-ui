@@ -30,6 +30,7 @@ import {
   updateResultsFilter,
   sortResults,
   bounceMarker,
+  openMarkerPopup,
 } from '../actions';
 
 const styles = theme => ({
@@ -124,7 +125,7 @@ const styles = theme => ({
 });
 
 let MapApp = (props) => {
-  const { classes,  mapMode, resultFormat, browser } = props;
+  const { classes, options, browser, search, map, results, resultValues } = props;
   //error,
 
   let oneColumnView = browser.lessThan.extraLarge;
@@ -134,13 +135,13 @@ let MapApp = (props) => {
   // console.log('mapMode', mapMode)
 
   let table = '';
-  if ((oneColumnView && resultFormat === 'table') || (!oneColumnView)) {
+  if ((oneColumnView && options.resultFormat === 'table') || (!oneColumnView)) {
     table = (
       <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
         <VirtualizedTable
-          list={Immutable.List(props.results)}
-          resultValues={props.resultValues}
-          search={props.search}
+          list={Immutable.List(results)}
+          resultValues={resultValues}
+          search={search}
           sortResults={props.sortResults}
           updateResultsFilter={props.updateResultsFilter}
           updateQuery={props.updateQuery}
@@ -149,15 +150,16 @@ let MapApp = (props) => {
           fetchSuggestions={props.fetchSuggestions}
           clearSuggestions={props.clearSuggestions}
           bounceMarker={props.bounceMarker}
+          openMarkerPopup={props.openMarkerPopup}
         />
       </div>
     );
   }
 
-  let map = '';
-  if ((oneColumnView && resultFormat === 'map') || (!oneColumnView)) {
-    if (mapMode === 'heatmap') {
-      map = (
+  let mapElement = '';
+  if ((oneColumnView && options.resultFormat === 'map') || (!oneColumnView)) {
+    if (options.mapMode === 'heatmap') {
+      mapElement = (
         <GMap
           results={props.results}
           googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKWw5FjhwLsfp_l2gjVAifPkT3cxGXhA4&v=3.exp&libraries=geometry,drawing,places,visualization"
@@ -167,14 +169,17 @@ let MapApp = (props) => {
         />
       );
     } else {
-      map = (
+      mapElement = (
         <LeafletMap
           results={props.results}
-          mapMode={props.mapMode}
-          geoJSON={props.geoJSON}
-          geoJSONKey={props.geoJSONKey}
+          mapMode={options.mapMode}
+          geoJSON={map.geoJSON}
+          geoJSONKey={map.geoJSONKey}
           getGeoJSON={props.getGeoJSON}
-          bouncingMarker={props.bouncingMarker}
+          bouncingMarker={map.bouncingMarker}
+          bouncingMarkerKey={map.bouncingMarkerKey}
+          openPopupMarker={map.openPopupMarker}
+          openPopupMarkerKey={map.openPopupMarkerKey}
           // sliderValue={100}
         />
       );
@@ -182,7 +187,7 @@ let MapApp = (props) => {
   }
 
   let statistics = '';
-  if ((oneColumnView && resultFormat === 'statistics') || (!oneColumnView)) {
+  if ((oneColumnView && options.resultFormat === 'statistics') || (!oneColumnView)) {
     statistics = (
       <div className={oneColumnView ? classes.statisticsOneColumn : classes.statistics}>
         <Pie data={props.results} groupBy={props.search.groupBy} query={props.search.query} />
@@ -192,7 +197,7 @@ let MapApp = (props) => {
 
   let mainResultsView = '';
   if (oneColumnView) {
-    switch(props.resultFormat) {
+    switch(options.resultFormat) {
       case 'table': {
         mainResultsView = table;
         break;
@@ -220,13 +225,13 @@ let MapApp = (props) => {
     <div className={classes.root}>
       <div className={classes.appFrame}>
         <TopBar
-          results={props.results}
+          results={results}
           oneColumnView={oneColumnView}
-          mapMode={props.mapMode}
-          resultFormat={props.resultFormat}
+          mapMode={options.mapMode}
+          resultFormat={options.resultFormat}
           updateMapMode={props.updateMapMode}
           updateResultFormat={props.updateResultFormat}
-          datasets={props.search.datasets}
+          datasets={search.datasets}
           toggleDataset={props.toggleDataset}
         />
         <div className={classes.mainContainer}>
@@ -234,7 +239,7 @@ let MapApp = (props) => {
           {!oneColumnView &&
             <div className={classes.rightColumn}>
               <div className={classes.map}>
-                {map}
+                {mapElement}
               </div>
               {statistics}
             </div>
@@ -254,16 +259,12 @@ let MapApp = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    options: state.options,
+    browser: state.browser,
     search: state.search,
+    map: state.map,
     results: getVisibleResults(state.search),
     resultValues: getVisibleValues(state.search),
-    mapMode: state.options.mapMode,
-    error: state.error,
-    geoJSON: state.map.geoJSON,
-    geoJSONKey: state.map.geoJSONKey,
-    bouncingMarker: state.map.bouncingMarker,
-    resultFormat: state.options.resultFormat,
-    browser: state.browser
   };
 };
 
@@ -279,14 +280,22 @@ const mapDispatchToProps = ({
   updateResultFormat,
   updateMapMode,
   updateResultsFilter,
-  bounceMarker
+  bounceMarker,
+  openMarkerPopup,
 });
 
 MapApp.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
+  //error: PropTypes.object.isRequired,
+  browser: PropTypes.object.isRequired,
+
+  options: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
-  error: PropTypes.object.isRequired,
+  map: PropTypes.object.isRequired,
+  results: PropTypes.array,
+  resultValues: PropTypes.object,
+
   updateQuery: PropTypes.func.isRequired,
   toggleDataset: PropTypes.func.isRequired,
   fetchSuggestions: PropTypes.func.isRequired,
@@ -294,19 +303,12 @@ MapApp.propTypes = {
   fetchResults: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
-  geoJSON: PropTypes.array.isRequired,
-  geoJSONKey: PropTypes.number.isRequired,
   getGeoJSON: PropTypes.func.isRequired,
   bounceMarker: PropTypes.func.isRequired,
+  openMarkerPopup: PropTypes.func.isRequired,
   updateResultFormat: PropTypes.func.isRequired,
   updateMapMode: PropTypes.func.isRequired,
-  resultFormat: PropTypes.string.isRequired,
-  mapMode: PropTypes.string.isRequired,
-  results: PropTypes.array,
-  resultValues: PropTypes.object,
   updateResultsFilter: PropTypes.func.isRequired,
-  browser: PropTypes.object.isRequired,
-  bouncingMarker: PropTypes.string.isRequired
 };
 
 export default compose(

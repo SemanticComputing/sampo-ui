@@ -1,6 +1,7 @@
 export const UPDATE_QUERY = 'UPDATE_QUERY';
 export const TOGGLE_DATASET = 'TOGGLE_DATASET';
 export const BOUNCE_MARKER = 'BOUNCE_MARKER';
+export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP';
 export const START_SPINNER = 'START_SPINNER';
 export const FETCH_SUGGESTIONS = 'FETCH_SUGGESTIONS';
 export const FETCH_SUGGESTIONS_FAILED = 'FETCH_SUGGESTIONS_FAILED';
@@ -32,6 +33,11 @@ export const toggleDataset = (dataset) => ({
 
 export const bounceMarker = (uri) => ({
   type: BOUNCE_MARKER,
+  uri
+});
+
+export const openMarkerPopup = (uri) => ({
+  type: OPEN_MARKER_POPUP,
   uri
 });
 

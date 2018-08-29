@@ -1,6 +1,7 @@
 import {
   UPDATE_GEOJSON,
   BOUNCE_MARKER,
+  OPEN_MARKER_POPUP,
 } from '../actions';
 
 export const INITIAL_STATE = {
@@ -9,7 +10,10 @@ export const INITIAL_STATE = {
     'features': []
   }],
   geoJSONKey: 0,
-  bouncingMarker: ''
+  bouncingMarker: '',
+  bouncingMarkerKey: 0,
+  openPopupMarker: '',
+  openPopupMarkerKey: 0,
 };
 
 const map = (state = INITIAL_STATE, action) => {
@@ -23,7 +27,14 @@ const map = (state = INITIAL_STATE, action) => {
     case BOUNCE_MARKER:
       return {
         ...state,
-        bouncingMarker: action.uri
+        bouncingMarker: action.uri,
+        bouncingMarkerKey: state.bouncingMarkerKey + 1
+      };
+    case OPEN_MARKER_POPUP:
+      return {
+        ...state,
+        openPopupMarker: action.uri,
+        openPopupMarkerKey: state.openPopupMarkerKey + 1
       };
     default:
       return state;

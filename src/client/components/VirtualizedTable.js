@@ -130,6 +130,7 @@ class VirtualizedTable extends React.PureComponent {
       if (typeof rowData.lat !== 'undefined' || typeof rowData.long !== 'undefined') {
         marker = (
           <IconButton
+            onMouseOver={handleMarkerHover(rowData.s)}
             onClick={handleMarkerClick(rowData.s)}
             aria-label="Marker"
           >
@@ -145,6 +146,10 @@ class VirtualizedTable extends React.PureComponent {
     };
 
     const handleMarkerClick = value => () => {
+      this.props.openMarkerPopup(value);
+    };
+
+    const handleMarkerHover = value => () => {
       this.props.bounceMarker(value);
     };
 
@@ -324,7 +329,8 @@ VirtualizedTable.propTypes = {
   clearSuggestions: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
-  bounceMarker: PropTypes.func.isRequired
+  bounceMarker: PropTypes.func.isRequired,
+  openMarkerPopup: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(VirtualizedTable);
