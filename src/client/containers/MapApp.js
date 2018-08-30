@@ -31,6 +31,7 @@ import {
   sortResults,
   bounceMarker,
   openMarkerPopup,
+  removeTempMarker
 } from '../actions';
 
 const styles = theme => ({
@@ -151,6 +152,7 @@ let MapApp = (props) => {
           clearSuggestions={props.clearSuggestions}
           bounceMarker={props.bounceMarker}
           openMarkerPopup={props.openMarkerPopup}
+          removeTempMarker={props.removeTempMarker}
         />
       </div>
     );
@@ -177,10 +179,9 @@ let MapApp = (props) => {
           geoJSONKey={map.geoJSONKey}
           getGeoJSON={props.getGeoJSON}
           bouncingMarker={map.bouncingMarker}
+          popupMarker={map.popupMarker}
           bouncingMarkerKey={map.bouncingMarkerKey}
-          openPopupMarker={map.openPopupMarker}
           openPopupMarkerKey={map.openPopupMarkerKey}
-          // sliderValue={100}
         />
       );
     }
@@ -282,6 +283,7 @@ const mapDispatchToProps = ({
   updateResultsFilter,
   bounceMarker,
   openMarkerPopup,
+  removeTempMarker
 });
 
 MapApp.propTypes = {
@@ -306,6 +308,7 @@ MapApp.propTypes = {
   getGeoJSON: PropTypes.func.isRequired,
   bounceMarker: PropTypes.func.isRequired,
   openMarkerPopup: PropTypes.func.isRequired,
+  removeTempMarker: PropTypes.func.isRequired,
   updateResultFormat: PropTypes.func.isRequired,
   updateMapMode: PropTypes.func.isRequired,
   updateResultsFilter: PropTypes.func.isRequired,

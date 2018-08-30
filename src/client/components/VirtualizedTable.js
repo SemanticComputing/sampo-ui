@@ -130,7 +130,8 @@ class VirtualizedTable extends React.PureComponent {
       if (typeof rowData.lat !== 'undefined' || typeof rowData.long !== 'undefined') {
         marker = (
           <IconButton
-            onMouseOver={handleMarkerHover(rowData.s)}
+            onMouseOver={handleMarkerMouseOver(rowData.s)}
+            onMouseOut={handleMarkerMouseOut(rowData.s)}
             onClick={handleMarkerClick(rowData.s)}
             aria-label="Marker"
           >
@@ -149,8 +150,12 @@ class VirtualizedTable extends React.PureComponent {
       this.props.openMarkerPopup(value);
     };
 
-    const handleMarkerHover = value => () => {
+    const handleMarkerMouseOver = value => () => {
       this.props.bounceMarker(value);
+    };
+
+    const handleMarkerMouseOut = () => () => {
+      this.props.removeTempMarker();
     };
 
     // always render extra columns for now
@@ -330,7 +335,8 @@ VirtualizedTable.propTypes = {
   fetchResults: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
   bounceMarker: PropTypes.func.isRequired,
-  openMarkerPopup: PropTypes.func.isRequired
+  openMarkerPopup: PropTypes.func.isRequired,
+  removeTempMarker: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(VirtualizedTable);

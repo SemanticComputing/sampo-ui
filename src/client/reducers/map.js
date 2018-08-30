@@ -2,6 +2,7 @@ import {
   UPDATE_GEOJSON,
   BOUNCE_MARKER,
   OPEN_MARKER_POPUP,
+  REMOVE_TEMP_MARKER
 } from '../actions';
 
 export const INITIAL_STATE = {
@@ -11,8 +12,8 @@ export const INITIAL_STATE = {
   }],
   geoJSONKey: 0,
   bouncingMarker: '',
+  popupMarker: '',
   bouncingMarkerKey: 0,
-  openPopupMarker: '',
   openPopupMarkerKey: 0,
 };
 
@@ -33,8 +34,13 @@ const map = (state = INITIAL_STATE, action) => {
     case OPEN_MARKER_POPUP:
       return {
         ...state,
-        openPopupMarker: action.uri,
+        popupMarker: action.uri,
         openPopupMarkerKey: state.openPopupMarkerKey + 1
+      };
+    case REMOVE_TEMP_MARKER:
+      return {
+        ...state,
+        bouncingMarker: '',
       };
     default:
       return state;

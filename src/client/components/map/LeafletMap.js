@@ -45,8 +45,6 @@ class LeafletMap extends React.Component {
       'kotus:rajat-lansi-ita'
     ]);
 
-    this.bouncingMarker = this.props.bouncingMarker;
-
     // Base layers
     const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -92,8 +90,11 @@ class LeafletMap extends React.Component {
       attribution: 'SeCo'
     });
 
-    // Result marker layer
+    // Marker layers
     this.resultMarkerLayer = L.layerGroup();
+
+    this.bouncingMarkerObj = null;
+    this.popupMarkerObj = null;
 
     if (this.props.mapMode === 'cluster') {
       this.updateMarkersAndCluster(this.props.results);
@@ -102,12 +103,12 @@ class LeafletMap extends React.Component {
     }
 
     // create map
-    this.map = L.map('map', {
+    this.leafletMap = L.map('map', {
       center: [65.184809, 27.314050],
       zoom: 4,
       layers: [
         OSMBaseLayer,
-        this.resultMarkerLayer
+        this.resultMarkerLayer,
       ],
       fullscreenControl: true,
     });
@@ -130,13 +131,13 @@ class LeafletMap extends React.Component {
     this.layerControl = L.control.layers(
       baseMaps,
       overlayMaps,
-    ).addTo(this.map);
+    ).addTo(this.leafletMap);
 
     L.control.opacity(
       overlayMaps, {
         collapsed: true,
         position: 'bottomleft'
-      }).addTo(this.map);
+      }).addTo(this.leafletMap);
 
     L.Marker.setBouncingOptions({ exclusive: true });
 
@@ -151,6 +152,34 @@ class LeafletMap extends React.Component {
   }
 
   componentDidUpdate({ results, mapMode, geoJSONKey, bouncingMarkerKey, openPopupMarkerKey }) {
+    if (this.props.bouncingMarker === '' && this.bouncingMarkerObj !== null) {
+      this.leafletMap.removeLayer(this.bouncingMarkerObj);
+    }
+
+    if (this.props.bouncingMarkerKey !== bouncingMarkerKey) {
+      if (this.props.mapMode === 'cluster') {
+        const m = this.markers[this.props.bouncingMarker];
+        const latlng = m.getLatLng();
+        // create a new marker so that the temporary popup can be left open
+        this.bouncingMarkerObj = L.marker(latlng);
+        this.bouncingMarkerObj.addTo(this.leafletMap).bounce(1);
+      } else {
+        this.markers[this.props.bouncingMarker].bounce(1);
+      }
+    }
+
+    if (this.props.openPopupMarkerKey !== openPopupMarkerKey) {
+      if (this.props.mapMode === 'cluster') {
+        if (this.popupMarkerObj !== null) {
+          this.leafletMap.removeLayer(this.popupMarkerObj);
+        }
+        this.popupMarkerObj = this.markers[this.props.popupMarker];
+        this.popupMarkerObj.addTo(this.leafletMap).openPopup();
+      } else {
+        this.markers[this.props.popupMarker].openPopup();
+      }
+    }
+
     // check if results data or mapMode have changed
     if (this.props.results !== results || this.props.mapMode !== mapMode) {
       if (this.props.mapMode === 'cluster') {
@@ -158,14 +187,6 @@ class LeafletMap extends React.Component {
       } else {
         this.updateMarkers(this.props.results);
       }
-    }
-
-    if (this.props.bouncingMarkerKey !== bouncingMarkerKey) {
-      this.markers[this.props.bouncingMarker].bounce(3);
-    }
-
-    if (this.props.openPopupMarkerKey !== openPopupMarkerKey) {
-      this.markers[this.props.openPopupMarker].openPopup();
     }
 
     // check if geoJSON has updated
@@ -192,9 +213,11 @@ class LeafletMap extends React.Component {
 
   updateMarkersAndCluster(results) {
     this.resultMarkerLayer.clearLayers();
+    this.markers = {};
     const clusterer = L.markerClusterGroup();
     results.forEach(result => {
       const marker = this.createMarker(result);
+      this.markers[result.s] = marker;
       marker == null ? null : clusterer.addLayer(marker);
     });
     clusterer.addTo(this.resultMarkerLayer);
@@ -263,7 +286,7 @@ class LeafletMap extends React.Component {
       return new L.Control.OpacitySlider(opts);
     };
 
-    L.control.opacitySlider({ position: 'bottomleft' }).addTo(this.map);
+    L.control.opacitySlider({ position: 'bottomleft' }).addTo(this.leafletMap);
   }
 
   render() {
@@ -278,9 +301,9 @@ LeafletMap.propTypes = {
   geoJSONKey: PropTypes.number.isRequired,
   getGeoJSON: PropTypes.func.isRequired,
   bouncingMarker: PropTypes.string.isRequired,
+  popupMarker: PropTypes.string.isRequired,
   bouncingMarkerKey: PropTypes.number.isRequired,
-  openPopupMarker: PropTypes.string.isRequired,
-  openPopupMarkerKey: PropTypes.number.isRequired
+  openPopupMarkerKey: PropTypes.number.isRequired,
 };
 
 export default LeafletMap;
