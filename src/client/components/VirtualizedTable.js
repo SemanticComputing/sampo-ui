@@ -246,12 +246,19 @@ class VirtualizedTable extends React.PureComponent {
                       dataKey="label"
                       headerRenderer={headerRenderer}
                       cellRenderer={labelRenderer}
-                      width={columnWidth}
+                      width={columnWidth + 70}
                     />
                     {modifier}
                     {base}
                     <Column
-                      label="Type"
+                      label="Type 1"
+                      cellDataGetter={({rowData}) => rowData.broaderTypeLabel}
+                      dataKey="broaderTypeLabel"
+                      headerRenderer={headerRenderer}
+                      width={columnWidth}
+                    />
+                    <Column
+                      label="Type 2"
                       cellDataGetter={({rowData}) => rowData.typeLabel}
                       dataKey="typeLabel"
                       headerRenderer={headerRenderer}
@@ -264,7 +271,7 @@ class VirtualizedTable extends React.PureComponent {
                       headerRenderer={headerRenderer}
                       width={columnWidth}
                     />
-                    {collector}
+                    {/*{collector}  */}
                     {collectionYear}
                     <Column
                       label="Source"

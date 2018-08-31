@@ -57,6 +57,7 @@ export const INITIAL_STATE = {
     'modifier': new Set(),
     'basicElement': new Set(),
     'typeLabel': new Set(),
+    'broaderTypeLabel': new Set(),
     'broaderAreaLabel': new Set(),
     'collector': new Set(),
     'collectionYear': new Set(),

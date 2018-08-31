@@ -33,6 +33,7 @@ export const getVisibleValues = createSelector(
     let modifier = [];
     let basicElement = [];
     let typeLabel = [];
+    let broaderTypeLabel = [];
     let broaderAreaLabel = [];
     let collector = [];
     let collectionYear = [];
@@ -42,6 +43,7 @@ export const getVisibleValues = createSelector(
       modifier.push({ value: result.modifier, selected: !resultsFilter.modifier.has(result.modifier) });
       basicElement.push({ value: result.basicElement, selected: !resultsFilter.basicElement.has(result.base) });
       typeLabel.push({ value: result.typeLabel, selected: !resultsFilter.typeLabel.has(result.typeLabel) });
+      broaderTypeLabel.push({ value: result.broaderTypeLabel, selected: !resultsFilter.broaderTypeLabel.has(result.broaderTypeLabel) });
       broaderAreaLabel.push({ value: result.broaderAreaLabel, selected: !resultsFilter.broaderAreaLabel.has(result.broaderAreaLabel) });
       collector.push({ value: result.collector, selected: !resultsFilter.collector.has(result.collector) });
       collectionYear.push({ value: result.collectionYear, selected: !resultsFilter.collectionYear.has(result.collectionYear) });
@@ -52,6 +54,7 @@ export const getVisibleValues = createSelector(
       modifier: _.sortBy(_.uniqBy(modifier, 'value'), 'value'),
       basicElement: _.sortBy(_.uniqBy(basicElement, 'value'), 'value'),
       typeLabel: _.sortBy(_.uniqBy(typeLabel, 'value'), 'value'),
+      broaderTypeLabel: _.sortBy(_.uniqBy(broaderTypeLabel, 'value'), 'value'),
       broaderAreaLabel:  _.sortBy(_.uniqBy(broaderAreaLabel, 'value'), 'value'),
       collector: _.sortBy(_.uniqBy(collector, 'value'), 'value'),
       collectionYear: _.sortBy(_.uniqBy(collectionYear, 'value'), 'value'),

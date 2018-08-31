@@ -288,10 +288,11 @@ module.exports = {
           ?s hipla:type ?type .
           OPTIONAL {
             ?type skos:prefLabel ?tLbl .
-            ?type rdfs:subClassOf/skos:prefLabel ?broaderTypeLabel .
+            ?type rdfs:subClassOf/skos:prefLabel ?btLbl .
           }
         }
         BIND(COALESCE(?tLbl, ?missingValue) as ?typeLabel)
+        BIND(COALESCE(?btLbl, ?missingValue) as ?broaderTypeLabel)
         OPTIONAL {
           ?s wgs84:lat ?lat .
           ?s wgs84:long ?long .
