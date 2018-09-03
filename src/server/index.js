@@ -53,11 +53,17 @@ app.get('/search', (req, res) => {
     });
 });
 
-app.get('/compare', (req, res) => {
-  //const queryTerm = req.query.q;
-  // console.log(queryDatasets);
-  const data = sparqlSearchEngine.getComparisonResults();
-  return res.json(data);
+app.get('/all', (req, res) => {
+  const queryDatasets = _.castArray(req.query.dataset);
+
+  return sparqlSearchEngine.getFederatedManuscripts(queryDatasets).then((data) => {
+    // console.log(data);
+    res.json(data);
+  })
+    .catch((err) => {
+      console.log(err);
+      return res.sendStatus(500);
+    });
 });
 
 app.get('/wfs', (req, res) => {

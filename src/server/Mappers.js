@@ -1,6 +1,8 @@
 import _ from 'lodash';
 
-export const groupBy = (sparqlBindings, group, simplify) => Object.values(_.reduce(sparqlBindings, (results, sparqlResult) => {
+//https://github.com/SemanticComputing/angular-paging-sparql-service/blob/master/src/sparql.object-mapper-service.js
+
+export const groupBy = (sparqlBindings, group) => Object.values(_.reduce(sparqlBindings, (results, sparqlResult) => {
   const id = _.get(sparqlResult[group], 'value');
   if (id === undefined) {
     return [];
@@ -11,50 +13,43 @@ export const groupBy = (sparqlBindings, group, simplify) => Object.values(_.redu
   let result = results[id];
   _.forOwn(sparqlResult, (value, key) => {
     if (key === group) {
-      result[group] = value.value;
+      result[group] = value.value; // ignore lang tags
     } else {
-      if (simplify) {
-        if (key === 'basicElement' || key === 'markerColor') {
-          result[key] = value.value;
-        } else {
-          result[key] = capitalizeFirstLetter(value.value);
-        }
-      } else {
-        const oldVal = result[key];
-        // add new value if it doesn't already exist
-        if (!_.find(oldVal, (val) => _.isEqual(val, value))) {
-          (result[key] || (result[key] = [])).push(value);
-        }
+      const oldValues = result[key];
+      // add new value if it doesn't already exist
+      if (!_.includes(oldValues, value.value)) {
+        (result[key] || (result[key] = [])).push(value.value);
       }
     }
   });
   return results;
 }, {}));
 
-export const mergeSuggestions = (suggestions) => {
-  return groupBy(_.compact(_.flatten(suggestions)), 'label', false);
-};
+// export const mergeSuggestions = (suggestions) => {
+//   return groupBy(_.compact(_.flatten(suggestions)), 'label', false);
+// };
+//
+//
+// export const mergeSimpleSuggestions = (suggestions) => {
+//
+//   // Suggestions from different datasets may have duplicates
+//   let uniqueSuggestions = [...new Set(_.flatten(suggestions))];
+//
+//   // Sort suggestions alphabetically, because Lunece score does
+//   // not work with wildcard queries.
+//   return uniqueSuggestions.sort();
+// };
+//
 
+// const capitalizeFirstLetter = (string) => {
+//   return string.charAt(0).toUpperCase() + string.slice(1);
+// };
 
-export const mergeSimpleSuggestions = (suggestions) => {
+export const mapAllResults = (results) => groupBy(results, 'id');
 
-  // Suggestions from different datasets may have duplicates
-  let uniqueSuggestions = [...new Set(_.flatten(suggestions))];
-
-  // Sort suggestions alphabetically, because Lunece score does
-  // not work with wildcard queries.
-  return uniqueSuggestions.sort();
-};
-
-export const mergeResults = (results) => {
+export const mergeAllResults = (results) => {
   // SPARQL query defines the ordering of results of one dataset.
   // Return all merged results subsequentially.
   //console.log(_.flatten(results))
   return _.flatten(results);
 };
-
-const capitalizeFirstLetter = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-};
-
-export const mapResults = (results) => groupBy(results, 's', true);

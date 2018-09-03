@@ -208,6 +208,7 @@ class VirtualizedTable extends React.PureComponent {
       <SearchField
         search={this.props.search}
         fetchResults={this.props.fetchResults}
+        fetchAllResults={this.props.fetchAllResults}
         updateQuery={this.props.updateQuery}
         clearResults={this.props.clearResults}
       />
@@ -340,6 +341,7 @@ VirtualizedTable.propTypes = {
   fetchSuggestions: PropTypes.func.isRequired,
   clearSuggestions: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
+  fetchAllResults: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
   bounceMarker: PropTypes.func.isRequired,
   openMarkerPopup: PropTypes.func.isRequired,

@@ -23,6 +23,7 @@ import {
   fetchSuggestions,
   clearSuggestions,
   fetchResults,
+  fetchAllResults,
   clearResults,
   getGeoJSON,
   updateResultFormat,
@@ -147,6 +148,7 @@ let MapApp = (props) => {
           updateResultsFilter={props.updateResultsFilter}
           updateQuery={props.updateQuery}
           fetchResults={props.fetchResults}
+          fetchAllResults={props.fetchAllResults}
           clearResults={props.clearResults}
           fetchSuggestions={props.fetchSuggestions}
           clearSuggestions={props.clearSuggestions}
@@ -171,6 +173,7 @@ let MapApp = (props) => {
         />
       );
     } else {
+      console.log(props.results)
       mapElement = (
         <LeafletMap
           results={props.results}
@@ -247,7 +250,7 @@ let MapApp = (props) => {
           }
         </div>
         <Paper className={classes.footer}>
-          <img className={classes.aaltoLogo} src='img/logos/aalto-logo-white-no-background-small.png' alt='Aalto University logo'/> 
+          <img className={classes.aaltoLogo} src='img/logos/aalto-logo-white-no-background-small.png' alt='Aalto University logo'/>
           <img className={classes.uhLogo} src='img/logos/university-of-helsinki-logo-white-no-background-small.png' alt='University of Helsinki logo'/>
           {/* <img className={classes.secoLogo} src='img/logos/seco-logo-white-no-background-small.png' alt='SeCo logo'/> */}
           <img className={classes.heldigLogo} src='img/logos/heldig-logo-small.png' alt='HELDIG logo'/>
@@ -275,6 +278,7 @@ const mapDispatchToProps = ({
   fetchSuggestions,
   clearSuggestions,
   fetchResults,
+  fetchAllResults,
   clearResults,
   sortResults,
   getGeoJSON,
@@ -303,6 +307,7 @@ MapApp.propTypes = {
   fetchSuggestions: PropTypes.func.isRequired,
   clearSuggestions: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
+  fetchAllResults: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   getGeoJSON: PropTypes.func.isRequired,

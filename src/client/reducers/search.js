@@ -16,34 +16,16 @@ import sampleResults from './sampleResults';
 export const INITIAL_STATE = {
   query: '',
   datasets: {
-    'kotus': {
-      'title': 'Institute for the Languages of Finland (Kotus) Digital Names archive',
-      'shortTitle': 'DNA',
-      'timePeriod': '1900s',
+    'mmm': {
+      'title': 'MMM',
+      'shortTitle': 'MMM',
+      'timePeriod': '',
       'selected': true
-    },
-    'pnr': {
-      'title': 'Finnish Geographic Names Registry',
-      'shortTitle': 'FGN',
-      'timePeriod': 'contemporary',
-      'selected': false
     },
     'tgn': {
       'title': 'The Getty Thesaurus of Geographic Names',
       'shortTitle': 'TGN',
       'timePeriod': '?',
-      'selected': false
-    },
-    'warsa_karelian_places': {
-      'title': 'Karelian map names',
-      'shortTitle': 'KMN',
-      'timePeriod': '1922-1944',
-      'selected': false
-    },
-    'warsa_municipalities': {
-      'title': 'Finnish WW2 municipalities',
-      'shortTitle': 'FWM',
-      'timePeriod': '1939-1944',
       'selected': false
     },
   },

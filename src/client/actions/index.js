@@ -9,6 +9,7 @@ export const FETCH_SUGGESTIONS_FAILED = 'FETCH_SUGGESTIONS_FAILED';
 export const UPDATE_SUGGESTIONS = 'UPDATE_SUGGESTIONS';
 export const CLEAR_SUGGESTIONS = 'CLEAR_SUGGESTIONS';
 export const FETCH_RESULTS = 'FETCH_RESULTS';
+export const FETCH_ALL_RESULTS = 'FETCH_ALL_RESULTS';
 export const FETCH_RESULTS_FAILED = 'FETCH_RESULTS_FAILED';
 export const UPDATE_RESULTS = 'UPDATE_RESULTS';
 export const CLEAR_RESULTS = 'CLEAR_RESULTS';
@@ -75,6 +76,10 @@ export const clearSuggestions = () => ({
 
 export const fetchResults = () => ({
   type: FETCH_RESULTS,
+});
+
+export const fetchAllResults = () => ({
+  type: FETCH_ALL_RESULTS,
 });
 
 export const updateResults = ({ results }) => ({

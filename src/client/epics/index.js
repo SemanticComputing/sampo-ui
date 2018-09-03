@@ -10,6 +10,7 @@ import {
   FETCH_SUGGESTIONS,
   FETCH_SUGGESTIONS_FAILED,
   FETCH_RESULTS,
+  FETCH_ALL_RESULTS,
   FETCH_RESULTS_FAILED,
   GET_GEOJSON,
   GET_GEOJSON_FAILED
@@ -69,6 +70,22 @@ const getResultsEpic = (action$, store) => {
     });
 };
 
+const getAllResultsEpic = (action$, store) => {
+  const searchUrl = hiplaApiUrl + 'all';
+  return action$.ofType(FETCH_ALL_RESULTS)
+    .switchMap(() => {
+      const { datasets } = store.getState().search;
+      const dsParams = _.map(pickSelectedDatasets(datasets), ds => `dataset=${ds}`).join('&');
+      const requestUrl = `${searchUrl}?${dsParams}`;
+      return ajax.getJSON(requestUrl)
+        .map(response => updateResults({ results: response }))
+        .catch(error => Observable.of({
+          type: FETCH_RESULTS_FAILED,
+          error: error,
+        }));
+    });
+};
+
 const getGeoJSONEpic = (action$) => {
   const wfsUrl = hiplaApiUrl + 'wfs';
   return action$.ofType(GET_GEOJSON)
@@ -91,6 +108,6 @@ const getGeoJSONEpic = (action$) => {
 };
 
 
-const rootEpic = combineEpics(getSuggestionsEpic, getResultsEpic, getGeoJSONEpic);
+const rootEpic = combineEpics(getSuggestionsEpic, getResultsEpic, getAllResultsEpic, getGeoJSONEpic);
 
 export default rootEpic;
