@@ -4,7 +4,10 @@ import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Checkbox from '@material-ui/core/Checkbox';
+import IconButton from '@material-ui/core/IconButton';
+import CommentIcon from '@material-ui/icons/Comment';
 
 const styles = theme => ({
   root: {
@@ -27,12 +30,14 @@ let CheckboxList = (props) => {
     isDisabled = true;
   }
 
+  // props.list.map(item => console.log(item.value));
+
   return (
     <div className={classes.root}>
       <List>
         {props.list.map(item => (
           <ListItem
-            key={item.value}
+            key={item.value === undefined ? 'undefined' : item.value }
             role={undefined}
             dense
             button
@@ -46,6 +51,11 @@ let CheckboxList = (props) => {
               disableRipple
             />
             <ListItemText primary={item.value} />
+            <ListItemSecondaryAction>
+              <IconButton aria-label="Comments">
+                <CommentIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
           </ListItem>
         ))}
       </List>

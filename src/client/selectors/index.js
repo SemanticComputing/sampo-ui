@@ -41,7 +41,7 @@ export const getVisibleValues = createSelector(
     for (const result of visibleResults) {
       label.push({ value: result.label, selected: !resultsFilter.label.has(result.label) });
       modifier.push({ value: result.modifier, selected: !resultsFilter.modifier.has(result.modifier) });
-      basicElement.push({ value: result.basicElement, selected: !resultsFilter.basicElement.has(result.base) });
+      basicElement.push({ value: result.basicElement, selected: !resultsFilter.basicElement.has(result.basicElement) });
       typeLabel.push({ value: result.typeLabel, selected: !resultsFilter.typeLabel.has(result.typeLabel) });
       broaderTypeLabel.push({ value: result.broaderTypeLabel, selected: !resultsFilter.broaderTypeLabel.has(result.broaderTypeLabel) });
       broaderAreaLabel.push({ value: result.broaderAreaLabel, selected: !resultsFilter.broaderAreaLabel.has(result.broaderAreaLabel) });
