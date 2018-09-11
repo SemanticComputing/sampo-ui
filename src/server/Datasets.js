@@ -27,9 +27,9 @@ module.exports = {
         }
         ?expression_creation frbroo:R18_created ?id .
         OPTIONAL {
-          ?expression_creation crm:P14_carried_out_by ?author .
-          ?author skos:prefLabel ?author__label .
-          OPTIONAL { ?author mmm-schema:person_place/skos:prefLabel ?author__place . }
+          ?expression_creation crm:P14_carried_out_by ?author__id .
+          ?author__id skos:prefLabel ?author__label .
+          OPTIONAL { ?author__id mmm-schema:person_place/skos:prefLabel ?author__place . }
         }
         OPTIONAL {
           ?expression_creation crm:P4_has_time_span ?timespan .
@@ -52,7 +52,7 @@ module.exports = {
          BIND (?language__id AS ?language__label)
        }
       }
-      LIMIT 5000
+      LIMIT 7000
       `,
     'tgn': {
       // Getty LOD documentation:

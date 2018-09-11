@@ -8,6 +8,7 @@ import _ from 'lodash';
 * id are merged into one object.
 */
 export const makeObjectList = (objects) => {
+  console.log(objects.length)
   let objList = _.transform(objects, function(result, obj) {
     if (!obj.id) {
       return null;
@@ -17,6 +18,7 @@ export const makeObjectList = (objects) => {
     //obj = reviseObject(obj, orig);
     mergeValueToList(result, obj);
   });
+  console.log(objList.length)
   return objList;
   //return self.postProcess(objList);
 };
