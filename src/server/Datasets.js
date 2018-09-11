@@ -17,36 +17,39 @@ module.exports = {
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX sdbm: <https://sdbm.library.upenn.edu/>
-      SELECT ?id ?label ?sdbm_id ?material ?author ?timespan ?place ?lat ?long ?language {
+      SELECT * WHERE {
         ?id a frbroo:F4_Manifestation_Singleton .
         ?id rdfs:label ?label .
         ?id crm:P1_is_identified_by ?sdbm_id .
         OPTIONAL {
-          ?id crm:P45_consists_of ?material .
+          ?id crm:P45_consists_of ?material__id .
+          BIND (?material__id AS ?material__label)
         }
         ?expression_creation frbroo:R18_created ?id .
         OPTIONAL {
-          ?expression_creation crm:P14_carried_out_by ?author_id .
-          ?author_id skos:prefLabel ?author .
-          OPTIONAL { ?author_id mmm-schema:person_place/skos:prefLabel ?author_place . }
+          ?expression_creation crm:P14_carried_out_by ?author .
+          ?author skos:prefLabel ?author__label .
+          OPTIONAL { ?author mmm-schema:person_place/skos:prefLabel ?author__place . }
         }
         OPTIONAL {
-          ?expression_creation crm:P4_has_time_span ?timespan_id .
-          ?timespan_id rdfs:label ?timespan .
-          ?timespan crm:P79_beginning_is_qualified_by ?timespan_start .
-          ?timespan crm:P80_end_is_qualified_by ?timespan_end .
+          ?expression_creation crm:P4_has_time_span ?timespan .
+          ?timespan rdfs:label ?timespan__id .
+          ?timespan crm:P79_beginning_is_qualified_by ?timespan__start .
+          ?timespan crm:P80_end_is_qualified_by ?timespan__end .
+          BIND (?timespan__id AS ?timespan__label)
         }
         OPTIONAL {
-         ?expression_creation crm:P7_took_place_at ?place_id .
-         ?place_id skos:prefLabel ?place .
+         ?expression_creation crm:P7_took_place_at ?creation_place .
+         ?creation_place skos:prefLabel ?creation_place__id .
          OPTIONAL {
-           ?place_id wgs84:lat ?lat .
-           ?place_id wgs84:long ?long .
+           ?creation_place wgs84:lat ?creation_place__lat .
+           ?creation_place wgs84:long ?creation_place__long .
          }
        }
        OPTIONAL {
          ?id crm:P128_carries ?expression .
-         ?expression crm:P72_has_language ?language .
+         ?expression crm:P72_has_language ?language__id .
+         BIND (?language__id AS ?language__label)
        }
       }
       LIMIT 5000

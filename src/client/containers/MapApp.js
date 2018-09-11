@@ -135,6 +135,7 @@ let MapApp = (props) => {
   // console.log('oneColumnView', oneColumnView)
   // console.log('resultFormat', resultFormat)
   // console.log('mapMode', mapMode)
+  console.log(props.results)
 
   let table = '';
   if ((oneColumnView && options.resultFormat === 'table') || (!oneColumnView)) {
@@ -173,7 +174,6 @@ let MapApp = (props) => {
         />
       );
     } else {
-      console.log(props.results)
       mapElement = (
         <LeafletMap
           results={props.results}
@@ -267,7 +267,8 @@ const mapStateToProps = (state) => {
     browser: state.browser,
     search: state.search,
     map: state.map,
-    results: getVisibleResults(state.search),
+    // results: getVisibleResults(state.search),
+    results: state.search.results,
     resultValues: getVisibleValues(state.search),
   };
 };

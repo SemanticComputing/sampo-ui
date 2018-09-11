@@ -4,6 +4,7 @@ import {
   mapAllResults,
   mergeAllResults
 } from './Mappers';
+import { makeObjectList } from './SparqlObjectMapper';
 
 class SparqlSearchEngine {
 
@@ -13,6 +14,7 @@ class SparqlSearchEngine {
         if (data.results.bindings.length === 0) {
           return [];
         }
+        console.log(data.results.bindings)
         return mapper ? mapper(data.results.bindings) : data.results.bindings;
       });
   }
@@ -20,8 +22,8 @@ class SparqlSearchEngine {
   getAllManuscripts(datasetId) {
     const { endpoint, getAllQuery } = datasetConfig[datasetId];
     const sparqlApi = new SparqlApi({ endpoint });
-    console.log(getAllQuery)
-    return this.doSearch(getAllQuery, sparqlApi, mapAllResults);
+    //console.log(getAllQuery)
+    return this.doSearch(getAllQuery, sparqlApi, makeObjectList);
   }
 
   getFederatedManuscripts(datasets) {
