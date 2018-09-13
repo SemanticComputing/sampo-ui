@@ -29,36 +29,22 @@ const filterVisibleResult = resultsFilter => (resultObj) => {
 export const getVisibleValues = createSelector(
   [ getResults, getResultsFilter ],
   (visibleResults, resultsFilter) => {
-    let label = [];
-    let modifier = [];
-    let basicElement = [];
-    let typeLabel = [];
-    let broaderTypeLabel = [];
-    let broaderAreaLabel = [];
-    let collector = [];
-    let collectionYear = [];
-    let source = [];
+    const properties = Object.keys(resultsFilter);
+    let visibleValues = {};
+    properties.forEach((property) => {
+      visibleValues[property] = [];
+    });
     for (const result of visibleResults) {
-      label.push({ value: result.label, selected: !resultsFilter.label.has(result.label) });
-      modifier.push({ value: result.modifier, selected: !resultsFilter.modifier.has(result.modifier) });
-      basicElement.push({ value: result.basicElement, selected: !resultsFilter.basicElement.has(result.basicElement) });
-      typeLabel.push({ value: result.typeLabel, selected: !resultsFilter.typeLabel.has(result.typeLabel) });
-      broaderTypeLabel.push({ value: result.broaderTypeLabel, selected: !resultsFilter.broaderTypeLabel.has(result.broaderTypeLabel) });
-      broaderAreaLabel.push({ value: result.broaderAreaLabel, selected: !resultsFilter.broaderAreaLabel.has(result.broaderAreaLabel) });
-      collector.push({ value: result.collector, selected: !resultsFilter.collector.has(result.collector) });
-      collectionYear.push({ value: result.collectionYear, selected: !resultsFilter.collectionYear.has(result.collectionYear) });
-      source.push({ value: result.source, selected: !resultsFilter.source.has(result.source) });
+      properties.forEach((property) => {
+        visibleValues[property].push({
+          value: result[property],
+          selected: !resultsFilter[property].has(result[property])
+        });
+      });
     }
-    return {
-      label: _.sortBy(_.uniqBy(label, 'value'), 'value'),
-      modifier: _.sortBy(_.uniqBy(modifier, 'value'), 'value'),
-      basicElement: _.sortBy(_.uniqBy(basicElement, 'value'), 'value'),
-      typeLabel: _.sortBy(_.uniqBy(typeLabel, 'value'), 'value'),
-      broaderTypeLabel: _.sortBy(_.uniqBy(broaderTypeLabel, 'value'), 'value'),
-      broaderAreaLabel:  _.sortBy(_.uniqBy(broaderAreaLabel, 'value'), 'value'),
-      collector: _.sortBy(_.uniqBy(collector, 'value'), 'value'),
-      collectionYear: _.sortBy(_.uniqBy(collectionYear, 'value'), 'value'),
-      source:  _.sortBy(_.uniqBy(source, 'value'), 'value'),
-    };
+    properties.forEach((property) => {
+      visibleValues[property] = _.sortBy(_.uniqBy(visibleValues[property], 'value'), 'value');
+    });
+    return visibleValues;
   }
 );
