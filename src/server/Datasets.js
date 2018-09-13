@@ -4,7 +4,8 @@ module.exports = {
     'title': 'MMM',
     'shortTitle': 'MMM',
     'timePeriod': '',
-    'endpoint': 'http://ldf.fi/mmm-sdbm-cidoc/sparql',
+    //'endpoint': 'http://ldf.fi/mmm-sdbm-cidoc/sparql',
+    'endpoint': 'http://localhost:3034/ds/sparql',
     'getAllQuery': `
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -17,42 +18,29 @@ module.exports = {
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX sdbm: <https://sdbm.library.upenn.edu/>
-      SELECT * WHERE {
+      SELECT
+      ?id ?sdbm_id
+      (GROUP_CONCAT(DISTINCT ?label_id; SEPARATOR=", ") AS ?label)
+      (GROUP_CONCAT(DISTINCT ?author_id; SEPARATOR=", ") AS ?author)
+      (GROUP_CONCAT(DISTINCT ?timespan_id; SEPARATOR=", ") AS ?timespan)
+      (GROUP_CONCAT(DISTINCT ?creation_place_id; SEPARATOR=", ") AS ?creationPlace)
+      (GROUP_CONCAT(DISTINCT ?material_id; SEPARATOR=", ") AS ?material)
+      (GROUP_CONCAT(DISTINCT ?language_id; SEPARATOR=", ") AS ?language)
+      WHERE {
         ?id a frbroo:F4_Manifestation_Singleton .
-        ?id rdfs:label ?label .
+        ?id rdfs:label ?label_id .
         ?id crm:P1_is_identified_by ?sdbm_id .
-        OPTIONAL {
-          ?id crm:P45_consists_of ?material__id .
-          BIND (?material__id AS ?material__label)
-        }
+        OPTIONAL { ?id crm:P45_consists_of ?material_id . }
         ?expression_creation frbroo:R18_created ?id .
+        OPTIONAL { ?expression_creation crm:P14_carried_out_by ?author_id . }
+        OPTIONAL { ?expression_creation crm:P4_has_time_span ?timespan_id . }
+        OPTIONAL { ?expression_creation crm:P7_took_place_at ?creation_place_id . }
         OPTIONAL {
-          ?expression_creation crm:P14_carried_out_by ?author__id .
-          ?author__id skos:prefLabel ?author__label .
-          OPTIONAL { ?author__id mmm-schema:person_place/skos:prefLabel ?author__place . }
+          ?id crm:P128_carries ?expression .
+          ?expression crm:P72_has_language ?language_id .
         }
-        OPTIONAL {
-          ?expression_creation crm:P4_has_time_span ?timespan .
-          ?timespan rdfs:label ?timespan__id .
-          ?timespan crm:P79_beginning_is_qualified_by ?timespan__start .
-          ?timespan crm:P80_end_is_qualified_by ?timespan__end .
-          BIND (?timespan__id AS ?timespan__label)
-        }
-        OPTIONAL {
-         ?expression_creation crm:P7_took_place_at ?creation_place .
-         ?creation_place skos:prefLabel ?creation_place__id .
-         OPTIONAL {
-           ?creation_place wgs84:lat ?creation_place__lat .
-           ?creation_place wgs84:long ?creation_place__long .
-         }
-       }
-       OPTIONAL {
-         ?id crm:P128_carries ?expression .
-         ?expression crm:P72_has_language ?language__id .
-         BIND (?language__id AS ?language__label)
-       }
       }
-      LIMIT 7000
+      GROUP BY ?id ?sdbm_id
       `,
     'tgn': {
       // Getty LOD documentation:

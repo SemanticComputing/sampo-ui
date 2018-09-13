@@ -68,7 +68,7 @@ const tableStyles = {
   }
 };
 
-const columnWidth = 115;
+const columnWidth = 200;
 
 const calculateRowStyle = ({ index }) => {
   if (index < 0) {
@@ -158,52 +158,6 @@ class VirtualizedTable extends React.PureComponent {
       this.props.removeTempMarker();
     };
 
-    // always render extra columns for now
-    const analysisView = true;
-    // Some extra columns for analysis view
-    let modifier = '';
-    let base = '';
-    let collector = '';
-    let collectionYear = '';
-    if (analysisView) {
-      modifier = (
-        <Column
-          label="Modifier"
-          cellDataGetter={({rowData}) => rowData.modifier}
-          dataKey="modifier"
-          headerRenderer={headerRenderer}
-          width={columnWidth}
-        />
-      );
-      base = (
-        <Column
-          label="Base"
-          cellDataGetter={({rowData}) => rowData.basicElement}
-          dataKey="basicElement"
-          headerRenderer={headerRenderer}
-          width={columnWidth}
-        />
-      );
-      collector = (
-        <Column
-          label="Collector"
-          cellDataGetter={({rowData}) => rowData.collector}
-          dataKey="collector"
-          headerRenderer={headerRenderer}
-          width={columnWidth}
-        />
-      );
-      collectionYear = (
-        <Column
-          label="Year"
-          cellDataGetter={({rowData}) => rowData.collectionYear}
-          dataKey="collectionYear"
-          headerRenderer={headerRenderer}
-          width={columnWidth}
-        />
-      );
-    }
-
     const searchField = (
       <SearchField
         search={this.props.search}
@@ -242,42 +196,31 @@ class VirtualizedTable extends React.PureComponent {
                     rowStyle={calculateRowStyle}
                   >
                     <Column
-                      label="Name"
+                      label="ID"
+                      cellDataGetter={({rowData}) => rowData.id}
+                      dataKey="id"
+                      headerRenderer={headerRenderer}
+                      cellRenderer={labelRenderer}
+                      width={columnWidth}
+                    />
+                    <Column
+                      label="Label"
                       cellDataGetter={({rowData}) => rowData.label}
                       dataKey="label"
                       headerRenderer={headerRenderer}
-                      cellRenderer={labelRenderer}
-                      width={columnWidth + 70}
+                      width={columnWidth}
                     />
-                    {modifier}
-                    {base}
                     <Column
-                      label="Type 1"
-                      cellDataGetter={({rowData}) => rowData.broaderTypeLabel}
-                      dataKey="broaderTypeLabel"
+                      label="Author"
+                      cellDataGetter={({rowData}) => rowData.author}
+                      dataKey="author"
                       headerRenderer={headerRenderer}
                       width={columnWidth}
                     />
                     <Column
-                      label="Type 2"
-                      cellDataGetter={({rowData}) => rowData.typeLabel}
-                      dataKey="typeLabel"
-                      headerRenderer={headerRenderer}
-                      width={columnWidth}
-                    />
-                    <Column
-                      label="Area"
-                      cellDataGetter={({rowData}) => rowData.broaderAreaLabel}
-                      dataKey="broaderAreaLabel"
-                      headerRenderer={headerRenderer}
-                      width={columnWidth}
-                    />
-                    {/*{collector}  */}
-                    {collectionYear}
-                    <Column
-                      label="Source"
-                      cellDataGetter={({rowData}) => rowData.source}
-                      dataKey="source"
+                      label="Creation place"
+                      cellDataGetter={({rowData}) => rowData.creationPlace}
+                      dataKey="creationPlace"
                       headerRenderer={headerRenderer}
                       width={columnWidth}
                     />
