@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import request from 'superagent';
 import _ from 'lodash';
-import sparqlSearchEngine from './SparqlSearchEngine';
+import sparqlSearchEngine from './sparql/SparqlSearchEngine';
 const DEFAULT_PORT = 3001;
 const app = express();
 //const isDevelopment  = app.get('env') !== 'production';

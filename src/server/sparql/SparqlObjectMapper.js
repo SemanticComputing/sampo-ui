@@ -23,6 +23,10 @@ export const makeObjectList = (objects) => {
   //return self.postProcess(objList);
 };
 
+export const makeDict = (objects) => {
+  return arrayToObject(objects, 'id');
+};
+
 /**
 * @param {Object} obj A single SPARQL result row object.
 * @returns {Object} The mapped object.
@@ -114,3 +118,15 @@ const merger = (a, b) => {
   }
   return mergeObjects(a, b);
 };
+
+const arrayToObject = (array, keyField) =>
+  array.reduce((obj, item) => {
+    let newItem = {};
+    Object.entries(item).forEach(([key, value]) => {
+      if (key !== keyField) {
+        newItem[key] = value.value;
+      }
+    });
+    obj[item[keyField].value] = newItem;
+    return obj;
+  }, {});

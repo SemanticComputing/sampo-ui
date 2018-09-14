@@ -6,7 +6,7 @@ module.exports = {
     'timePeriod': '',
     //'endpoint': 'http://ldf.fi/mmm-sdbm-cidoc/sparql',
     'endpoint': 'http://localhost:3034/ds/sparql',
-    'getAllQuery': `
+    'allQuery': `
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
       PREFIX foaf: <http://xmlns.com/foaf/0.1/>
@@ -20,12 +20,12 @@ module.exports = {
       PREFIX sdbm: <https://sdbm.library.upenn.edu/>
       SELECT
       ?id ?sdbm_id
-      (GROUP_CONCAT(DISTINCT ?label_id; SEPARATOR=", ") AS ?label)
-      (GROUP_CONCAT(DISTINCT ?author_id; SEPARATOR=", ") AS ?author)
-      (GROUP_CONCAT(DISTINCT ?timespan_id; SEPARATOR=", ") AS ?timespan)
-      (GROUP_CONCAT(DISTINCT ?creation_place_id; SEPARATOR=", ") AS ?creationPlace)
-      (GROUP_CONCAT(DISTINCT ?material_id; SEPARATOR=", ") AS ?material)
-      (GROUP_CONCAT(DISTINCT ?language_id; SEPARATOR=", ") AS ?language)
+      (GROUP_CONCAT(DISTINCT ?label_id; SEPARATOR=",") AS ?label)
+      (GROUP_CONCAT(DISTINCT ?author_id; SEPARATOR=",") AS ?author)
+      (GROUP_CONCAT(DISTINCT ?timespan_id; SEPARATOR=",") AS ?timespan)
+      (GROUP_CONCAT(DISTINCT ?creation_place_id; SEPARATOR=",") AS ?creationPlace)
+      (GROUP_CONCAT(DISTINCT ?material_id; SEPARATOR=",") AS ?material)
+      (GROUP_CONCAT(DISTINCT ?language_id; SEPARATOR=",") AS ?language)
       WHERE {
         ?id a frbroo:F4_Manifestation_Singleton .
         ?id rdfs:label ?label_id .
@@ -42,6 +42,21 @@ module.exports = {
       }
       GROUP BY ?id ?sdbm_id
       `,
+    'placeQuery': `
+      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+      PREFIX dc: <http://purl.org/dc/elements/1.1/>
+      SELECT DISTINCT ?id ?label ?lat ?long ?source
+      WHERE {
+        VALUES ?id { <ID> }
+        ?id skos:prefLabel ?label .
+        OPTIONAL {
+          ?id wgs84:lat ?lat ;
+              wgs84:long ?long .
+        }
+        OPTIONAL { ?id dc:source ?source . }
+      }
+        `,
     'tgn': {
       // Getty LOD documentation:
       // http://vocab.getty.edu/queries#Places_by_Type
