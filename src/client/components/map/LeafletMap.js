@@ -105,7 +105,7 @@ class LeafletMap extends React.Component {
     // create map
     this.leafletMap = L.map('map', {
       center: [65.184809, 27.314050],
-      zoom: 4,
+      zoom: 1,
       layers: [
         OSMBaseLayer,
         this.resultMarkerLayer,
@@ -204,10 +204,18 @@ class LeafletMap extends React.Component {
     this.resultMarkerLayer.clearLayers();
     this.markers = {};
     results.forEach(result => {
-      const marker = this.createMarker(result);
-      //console.log(result.s);
-      this.markers[result.s] = marker;
-      marker == null ? null : marker.addTo(this.resultMarkerLayer);
+      if (result.creationPlace !== undefined) {
+        if (Array.isArray(result.creationPlace)) {
+          result.creationPlace.forEach(place => {
+            const marker = this.createMarker(place);
+            //this.markers[result.id] = marker;
+            marker.addTo(this.resultMarkerLayer);
+          });
+        } else {
+          const marker = this.createMarker(result.creationPlace);
+          marker == null ? null : marker.addTo(this.resultMarkerLayer);
+        }
+      }
     });
   }
 
@@ -216,9 +224,18 @@ class LeafletMap extends React.Component {
     this.markers = {};
     const clusterer = L.markerClusterGroup();
     results.forEach(result => {
-      const marker = this.createMarker(result);
-      this.markers[result.s] = marker;
-      marker == null ? null : clusterer.addLayer(marker);
+      if (result.creationPlace !== undefined) {
+        if (Array.isArray(result.creationPlace)) {
+          result.creationPlace.forEach(place => {
+            const marker = this.createMarker(place);
+            //this.markers[result.id] = marker;
+            marker == null ? null : clusterer.addLayer(marker);
+          });
+        } else {
+          const marker = this.createMarker(result.creationPlace);
+          marker == null ? null : clusterer.addLayer(marker);
+        }
+      }
     });
     clusterer.addTo(this.resultMarkerLayer);
   }
@@ -238,11 +255,10 @@ class LeafletMap extends React.Component {
   }
 
   createPopUpContent(result) {
+  //  <p>Source: <a target='_blank' rel='noopener noreferrer' href={source}>{source}</a></p>
     const popUpTemplate = `
       <h3>{label}</h3>
-      <p>Type: {typeLabel}</p>
-      <p>Area: {broaderAreaLabel}</p>
-      <p>Source: <a target='_blank' rel='noopener noreferrer' href={s}>{source}</a></p>
+
       `;
     return L.Util.template(popUpTemplate, result);
   }

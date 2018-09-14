@@ -168,6 +168,17 @@ class VirtualizedTable extends React.PureComponent {
       />
     );
 
+    const valueFromArray = (property, rowData) => {
+      if (rowData[property] === undefined) {
+        return 'Undefined';
+      }
+      if (Array.isArray(rowData[property])) {
+        return rowData[property].map((item) => item.label).join(' / ');
+      } else {
+        return rowData[property].label;
+      }
+    };
+
     return (
       <div className={classes.root}>
         <Grid container className={classes.container}>
@@ -219,7 +230,7 @@ class VirtualizedTable extends React.PureComponent {
                     />
                     <Column
                       label="Creation place"
-                      cellDataGetter={({rowData}) => rowData.creationPlace}
+                      cellDataGetter={({rowData}) => valueFromArray('creationPlace', rowData)}
                       dataKey="creationPlace"
                       headerRenderer={headerRenderer}
                       width={columnWidth}

@@ -135,7 +135,7 @@ let MapApp = (props) => {
   // console.log('oneColumnView', oneColumnView)
   // console.log('resultFormat', resultFormat)
   // console.log('mapMode', mapMode)
-  console.log(props.results)
+  //console.log(props.results)
 
   let table = '';
   if ((oneColumnView && options.resultFormat === 'table') || (!oneColumnView)) {
