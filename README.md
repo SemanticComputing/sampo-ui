@@ -9,13 +9,13 @@ npm run dev
 
 ## Deploy with Docker
 
-# Build
+### Build
  `docker build -t mmm-web-app-c .`
 
-# Run
+### Run
  `docker run -d -p 3005:3001 --name mmm-web-app mmm-web-app-c`
 
-# Upgrade
+### Upgrade
 ```
 docker build -t mmm-web-app-c .
 docker stop mmm-web-app
