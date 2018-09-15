@@ -1,15 +1,24 @@
-# Hipla.fi
+# Mapping Manuscript Migrations Web App
+
+## Local development
+
+```
+npm install
+npm run dev
+```
+
+## Deploy with Docker
 
 ## Build
- `docker build -t hipla-full-stack .`
+ `docker build -t mmm-web-app-c .`
 
 ## Run
- `docker run -d -p 3005:3001 --name hipla hipla-full-stack`
+ `docker run -d -p 3005:3001 --name mmm-web-app mmm-web-app-c`
 
 ## Upgrade
 ```
-docker build -t hipla-full-stack .
-docker stop hipla
-docker rm hipla
-docker run -d -p 3005:3001 --name hipla hipla-full-stack
+docker build -t mmm-web-app-c .
+docker stop mmm-web-app
+docker rm mmm-web-app
+docker run -d -p 3005:3001 --name mmm-web-app mmm-web-app-c
 ```
