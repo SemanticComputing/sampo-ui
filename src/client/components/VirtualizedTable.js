@@ -208,7 +208,7 @@ class VirtualizedTable extends React.PureComponent {
                   >
                     <Column
                       label="ID"
-                      cellDataGetter={({rowData}) => rowData.id}
+                      cellDataGetter={({rowData}) => rowData.id.replace('http://ldf.fi/mmm/manifestation_singleton/', '')}
                       dataKey="id"
                       headerRenderer={headerRenderer}
                       cellRenderer={labelRenderer}
