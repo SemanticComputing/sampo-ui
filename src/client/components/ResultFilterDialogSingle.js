@@ -68,7 +68,7 @@ ResultFilterDialogSingle.propTypes = {
   classes: PropTypes.object.isRequired,
   propertyLabel: PropTypes.string.isRequired,
   property: PropTypes.string.isRequired,
-  resultValues: PropTypes.array.isRequired,
+  resultValues: PropTypes.array,
   updateResultsFilter: PropTypes.func.isRequired
 };
 

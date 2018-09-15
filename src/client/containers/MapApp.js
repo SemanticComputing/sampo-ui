@@ -13,7 +13,7 @@ import Pie from '../components/Pie';
 import TopBar from '../components/TopBar';
 
 import {
-  getVisibleResults,
+  //getVisibleResults,
   getVisibleValues
 } from '../selectors';
 
@@ -127,7 +127,7 @@ const styles = theme => ({
 });
 
 let MapApp = (props) => {
-  const { classes, options, browser, search, map, results, resultValues } = props;
+  const { classes, options, browser, search, map, manuscripts, creationPlaces, resultValues } = props;
   //error,
 
   let oneColumnView = browser.lessThan.extraLarge;
@@ -136,13 +136,14 @@ let MapApp = (props) => {
   // console.log('resultFormat', resultFormat)
   // console.log('mapMode', mapMode)
   //console.log(props.results)
+  //console.log(manuscripts)
 
   let table = '';
   if ((oneColumnView && options.resultFormat === 'table') || (!oneColumnView)) {
     table = (
       <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
         <VirtualizedTable
-          list={Immutable.List(results)}
+          list={Immutable.List(manuscripts)}
           resultValues={resultValues}
           search={search}
           sortResults={props.sortResults}
@@ -166,7 +167,7 @@ let MapApp = (props) => {
     if (options.mapMode === 'heatmap') {
       mapElement = (
         <GMap
-          results={props.results}
+          results={props.creationPlaces}
           googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKWw5FjhwLsfp_l2gjVAifPkT3cxGXhA4&v=3.exp&libraries=geometry,drawing,places,visualization"
           loadingElement={<div style={{ height: `100%` }} />}
           containerElement={<div style={{ height: `100%` }} />}
@@ -176,7 +177,7 @@ let MapApp = (props) => {
     } else {
       mapElement = (
         <LeafletMap
-          results={props.results}
+          results={creationPlaces}
           mapMode={options.mapMode}
           geoJSON={map.geoJSON}
           geoJSONKey={map.geoJSONKey}
@@ -194,7 +195,7 @@ let MapApp = (props) => {
   if ((oneColumnView && options.resultFormat === 'statistics') || (!oneColumnView)) {
     statistics = (
       <div className={oneColumnView ? classes.statisticsOneColumn : classes.statistics}>
-        <Pie data={props.results} groupBy={props.search.groupBy} query={props.search.query} />
+        <Pie data={manuscripts} groupBy={props.search.groupBy} query={props.search.query} />
       </div>
     );
   }
@@ -229,7 +230,7 @@ let MapApp = (props) => {
     <div className={classes.root}>
       <div className={classes.appFrame}>
         <TopBar
-          results={results}
+          results={manuscripts}
           oneColumnView={oneColumnView}
           mapMode={options.mapMode}
           resultFormat={options.resultFormat}
@@ -268,8 +269,10 @@ const mapStateToProps = (state) => {
     search: state.search,
     map: state.map,
     // results: getVisibleResults(state.search),
-    results: state.search.results,
-    resultValues: getVisibleValues(state.search),
+    manuscripts: state.search.results.manuscripts,
+    creationPlaces: state.search.results.creationPlaces,
+    //resultValues: getVisibleValues(state.search),
+    resultValues: {},
   };
 };
 
@@ -300,7 +303,8 @@ MapApp.propTypes = {
   options: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
   map: PropTypes.object.isRequired,
-  results: PropTypes.array,
+  manuscripts: PropTypes.array,
+  creationPlaces: PropTypes.object,
   resultValues: PropTypes.object,
 
   updateQuery: PropTypes.func.isRequired,

@@ -104,8 +104,8 @@ class LeafletMap extends React.Component {
 
     // create map
     this.leafletMap = L.map('map', {
-      center: [65.184809, 27.314050],
-      zoom: 1,
+      center: [42.94, 20.57],
+      zoom: 2,
       layers: [
         OSMBaseLayer,
         this.resultMarkerLayer,
@@ -203,19 +203,10 @@ class LeafletMap extends React.Component {
   updateMarkers(results) {
     this.resultMarkerLayer.clearLayers();
     this.markers = {};
-    results.forEach(result => {
-      if (result.creationPlace !== undefined) {
-        if (Array.isArray(result.creationPlace)) {
-          result.creationPlace.forEach(place => {
-            const marker = this.createMarker(place);
-            //this.markers[result.id] = marker;
-            marker.addTo(this.resultMarkerLayer);
-          });
-        } else {
-          const marker = this.createMarker(result.creationPlace);
-          marker == null ? null : marker.addTo(this.resultMarkerLayer);
-        }
-      }
+    Object.values(results).forEach(value => {
+      const marker = this.createMarker(value);
+      this.markers[value.id] = marker;
+      marker == null ? null : marker.addTo(this.resultMarkerLayer);
     });
   }
 
@@ -223,19 +214,10 @@ class LeafletMap extends React.Component {
     this.resultMarkerLayer.clearLayers();
     this.markers = {};
     const clusterer = L.markerClusterGroup();
-    results.forEach(result => {
-      if (result.creationPlace !== undefined) {
-        if (Array.isArray(result.creationPlace)) {
-          result.creationPlace.forEach(place => {
-            const marker = this.createMarker(place);
-            //this.markers[result.id] = marker;
-            marker == null ? null : clusterer.addLayer(marker);
-          });
-        } else {
-          const marker = this.createMarker(result.creationPlace);
-          marker == null ? null : clusterer.addLayer(marker);
-        }
-      }
+    Object.values(results).forEach(value => {
+      const marker = this.createMarker(value);
+      this.markers[value.id] = marker;
+      marker == null ? null : clusterer.addLayer(marker);
     });
     clusterer.addTo(this.resultMarkerLayer);
   }
@@ -311,7 +293,7 @@ class LeafletMap extends React.Component {
 }
 
 LeafletMap.propTypes = {
-  results: PropTypes.array,
+  results: PropTypes.object,
   mapMode: PropTypes.string.isRequired,
   geoJSON: PropTypes.array,
   geoJSONKey: PropTypes.number.isRequired,

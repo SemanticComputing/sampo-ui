@@ -16,7 +16,6 @@ class SparqlSearchEngine {
         if (data.results.bindings.length === 0) {
           return [];
         }
-        // console.log(data.results.bindings)
         return mapper ? mapper(data.results.bindings) : data.results.bindings;
       });
   }
@@ -60,7 +59,10 @@ class SparqlSearchEngine {
             return manuscript;
           }
         });
-        return manuscripts;
+        return {
+          'manuscripts': manuscripts,
+          'creationPlaces': placeDict
+        };
       });
   }
 

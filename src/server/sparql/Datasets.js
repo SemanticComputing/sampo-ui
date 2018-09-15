@@ -41,21 +41,27 @@ module.exports = {
         }
       }
       GROUP BY ?id ?sdbm_id
+      LIMIT 2000
       `,
     'placeQuery': `
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
       PREFIX dc: <http://purl.org/dc/elements/1.1/>
-      SELECT DISTINCT ?id ?label ?lat ?long ?source
+      PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
+      PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+      SELECT ?id ?label ?lat ?long ?source
+      (GROUP_CONCAT(DISTINCT ?manuscript_id; SEPARATOR=",") AS ?manuscript)
       WHERE {
         VALUES ?id { <ID> }
         ?id skos:prefLabel ?label .
+        ?manuscript_id ^frbroo:R18_created/crm:P7_took_place_at ?id .
         OPTIONAL {
           ?id wgs84:lat ?lat ;
               wgs84:long ?long .
         }
         OPTIONAL { ?id dc:source ?source . }
       }
+      GROUP BY ?id ?label ?lat ?long ?source
         `,
     'tgn': {
       // Getty LOD documentation:

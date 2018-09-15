@@ -32,7 +32,10 @@ export const INITIAL_STATE = {
   suggestions: [],
   suggestionsQuery: '',
   fetchingSuggestions: false,
-  results: [],
+  results: {
+    'manuscripts': [],
+    'creationPlaces': {}
+  },
   //results: sampleResults,
   resultsFilter: {
     'id': new Set(),
@@ -88,7 +91,10 @@ const search = (state = INITIAL_STATE, action) => {
     case CLEAR_RESULTS:
       return {
         ...state,
-        results: [],
+        results:  {
+          'manuscripts': [],
+          'creationPlaces': {}
+        },
         resultsQuery: '',
         fetchingResults: false
       };
