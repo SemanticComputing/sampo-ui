@@ -213,7 +213,25 @@ class LeafletMap extends React.Component {
   updateMarkersAndCluster(results) {
     this.resultMarkerLayer.clearLayers();
     this.markers = {};
-    const clusterer = L.markerClusterGroup();
+    const clusterer = new L.MarkerClusterGroup({
+      iconCreateFunction: (cluster) => {
+        //const childCount = cluster.getChildCount();
+        let childCount = 0;
+        cluster.getAllChildMarkers().forEach(marker => {
+          childCount += parseInt(marker.options.manuscriptCount);
+        });
+        let c = ' marker-cluster-';
+        if (childCount < 10) {
+          c += 'small';
+        } else if (childCount < 100) {
+          c += 'medium';
+        } else {
+          c += 'large';
+        }
+        return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+      }
+    });
+    // const clusterer = L.markerClusterGroup();
     Object.values(results).forEach(value => {
       const marker = this.createMarker(value);
       this.markers[value.id] = marker;
@@ -230,7 +248,11 @@ class LeafletMap extends React.Component {
       return null;
     } else {
       const latLng = [+lat, +long];
-      const marker = L.marker(latLng, {icon: icon})
+      const marker = L.marker(latLng, {
+        icon: icon,
+        manuscriptCount: result.manuscriptCount ? result.manuscriptCount : null,
+        manuscript: result.manuscript ? result.manuscript : null
+      })
         .bindPopup(this.createPopUpContent(result));
       return marker;
     }

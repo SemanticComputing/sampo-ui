@@ -51,6 +51,7 @@ module.exports = {
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
       SELECT ?id ?label ?lat ?long ?source
       (GROUP_CONCAT(DISTINCT ?manuscript_id; SEPARATOR=",") AS ?manuscript)
+      (COUNT(DISTINCT ?manuscript_id) as ?manuscriptCount)
       WHERE {
         VALUES ?id { <ID> }
         ?id skos:prefLabel ?label .
