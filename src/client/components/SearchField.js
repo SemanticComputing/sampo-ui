@@ -39,18 +39,19 @@ class SearchField extends React.Component {
     event.preventDefault();
   };
 
-  handleOnKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      this.props.updateQuery(this.state.value);
-      this.props.clearResults();
-      this.props.fetchResults();
-    }
-  };
+  // handleOnKeyDown = (event) => {
+  //   if (event.key === 'Enter') {
+  //     this.props.updateQuery(this.state.value);
+  //     this.props.clearResults();
+  //     this.props.fetchResults();
+  //   }
+  // };
 
   handleClick = () => {
     //this.props.updateQuery(this.state.value);
-    this.props.clearResults();
-    this.props.fetchResults();
+    //this.props.clearResults();
+    //this.props.fetchManuscripts();
+    this.props.fetchPlaces();
   };
 
   render() {
@@ -102,8 +103,10 @@ class SearchField extends React.Component {
 SearchField.propTypes = {
   classes: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
-  fetchResults: PropTypes.func.isRequired,
-  clearResults: PropTypes.func.isRequired,
+  fetchManuscripts: PropTypes.func.isRequired,
+  fetchPlaces: PropTypes.func.isRequired,
+  clearManuscripts: PropTypes.func.isRequired,
+  clearPlaces: PropTypes.func.isRequired,
   updateQuery: PropTypes.func.isRequired
 };
 

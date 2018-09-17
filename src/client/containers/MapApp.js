@@ -152,6 +152,8 @@ let MapApp = (props) => {
           updateQuery={props.updateQuery}
           fetchManuscripts={props.fetchManuscripts}
           clearManuscripts={props.clearManuscripts}
+          fetchPlaces={props.fetchPlaces}
+          clearPlaces={props.clearPlaces}
           fetchSuggestions={props.fetchSuggestions}
           clearSuggestions={props.clearSuggestions}
           bounceMarker={props.bounceMarker}
@@ -304,7 +306,7 @@ MapApp.propTypes = {
   search: PropTypes.object.isRequired,
   map: PropTypes.object.isRequired,
   manuscripts: PropTypes.array,
-  creationPlaces: PropTypes.object,
+  creationPlaces: PropTypes.array,
   resultValues: PropTypes.object,
 
   updateQuery: PropTypes.func.isRequired,

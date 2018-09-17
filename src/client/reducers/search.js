@@ -34,7 +34,7 @@ export const INITIAL_STATE = {
   suggestionsQuery: '',
   fetchingSuggestions: false,
   manuscripts: [],
-  places: {},
+  places: [],
   resultsFilter: {
     'id': new Set(),
     'label': new Set(),

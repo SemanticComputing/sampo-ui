@@ -66,6 +66,19 @@ app.get('/manuscripts', (req, res) => {
     });
 });
 
+app.get('/places', (req, res) => {
+  const queryDatasets = _.castArray(req.query.dataset);
+
+  return sparqlSearchEngine.getFederatedPlaces(queryDatasets).then((data) => {
+    // console.log(data);
+    res.json(data);
+  })
+    .catch((err) => {
+      console.log(err);
+      return res.sendStatus(500);
+    });
+});
+
 app.get('/wfs', (req, res) => {
 
   return getWFSLayers(req.query.layerID).then((data) => {

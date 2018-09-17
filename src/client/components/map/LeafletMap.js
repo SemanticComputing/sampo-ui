@@ -259,11 +259,14 @@ class LeafletMap extends React.Component {
   }
 
   createPopUpContent(result) {
-  //  <p>Source: <a target='_blank' rel='noopener noreferrer' href={source}>{source}</a></p>
-    const popUpTemplate = `
-      <h3>{label}</h3>
-
+  //
+    //console.log(result)
+    let popUpTemplate = `
+      <h3><a target="_blank" rel="noopener noreferrer" href={id}>{label}</a></p></h3>
       `;
+    if (result.source) {
+      popUpTemplate += '<p>Source: <a target="_blank" rel="noopener noreferrer" href={source}>{source}</a></p>';
+    }
     return L.Util.template(popUpTemplate, result);
   }
 
@@ -315,7 +318,7 @@ class LeafletMap extends React.Component {
 }
 
 LeafletMap.propTypes = {
-  results: PropTypes.object,
+  results: PropTypes.array,
   mapMode: PropTypes.string.isRequired,
   geoJSON: PropTypes.array,
   geoJSONKey: PropTypes.number.isRequired,

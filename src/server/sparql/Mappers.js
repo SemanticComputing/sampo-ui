@@ -47,7 +47,7 @@ export const groupBy = (sparqlBindings, group) => Object.values(_.reduce(sparqlB
 
 export const mapAllResults = (results) => groupBy(results, 'id');
 
-export const mergeAllResults = (results) => {
+export const mergeFederatedResults = (results) => {
   // SPARQL query defines the ordering of results of one dataset.
   // Return all merged results subsequentially.
   //console.log(_.flatten(results))

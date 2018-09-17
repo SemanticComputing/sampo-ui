@@ -45,7 +45,6 @@ module.exports = {
         }
       }
       GROUP BY ?id ?sdbm_id
-      LIMIT 2000
       `,
     'placeQuery': `
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -53,11 +52,12 @@ module.exports = {
       PREFIX dc: <http://purl.org/dc/elements/1.1/>
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+      PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
       SELECT ?id ?label ?lat ?long ?source
       (GROUP_CONCAT(DISTINCT ?manuscript_id; SEPARATOR=",") AS ?manuscript)
       (COUNT(DISTINCT ?manuscript_id) as ?manuscriptCount)
       WHERE {
-        VALUES ?id { <ID> }
+        ?id a mmm-schema:Place .
         ?id skos:prefLabel ?label .
         ?manuscript_id ^frbroo:R18_created/crm:P7_took_place_at ?id .
         OPTIONAL {

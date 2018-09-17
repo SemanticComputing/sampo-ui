@@ -88,6 +88,22 @@ const getManuscripts = (action$, store) => {
     });
 };
 
+const getPlaces = (action$, store) => {
+  const searchUrl = hiplaApiUrl + 'places';
+  return action$.ofType(FETCH_PLACES)
+    .switchMap(() => {
+      const { datasets } = store.getState().search;
+      const dsParams = _.map(pickSelectedDatasets(datasets), ds => `dataset=${ds}`).join('&');
+      const requestUrl = `${searchUrl}?${dsParams}`;
+      return ajax.getJSON(requestUrl)
+        .map(response => updatePlaces({ places: response }))
+        .catch(error => Observable.of({
+          type: FETCH_PLACES_FAILED,
+          error: error,
+        }));
+    });
+};
+
 const getGeoJSONEpic = (action$) => {
   const wfsUrl = hiplaApiUrl + 'wfs';
   return action$.ofType(GET_GEOJSON)
@@ -113,6 +129,7 @@ const getGeoJSONEpic = (action$) => {
 const rootEpic = combineEpics(
   getSuggestionsEpic,
   getManuscripts,
+  getPlaces,
   getGeoJSONEpic
 );
 

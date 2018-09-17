@@ -161,9 +161,11 @@ class VirtualizedTable extends React.PureComponent {
     const searchField = (
       <SearchField
         search={this.props.search}
-        fetchResults={this.props.fetchManuscripts}
+        fetchManuscripts={this.props.fetchManuscripts}
+        fetchPlaces={this.props.fetchPlaces}
         updateQuery={this.props.updateQuery}
-        clearResults={this.props.clearManuscripts}
+        clearManuscripts={this.props.clearManuscripts}
+        clearPlaces={this.props.clearPlaces}
       />
     );
 
@@ -295,7 +297,9 @@ VirtualizedTable.propTypes = {
   fetchSuggestions: PropTypes.func.isRequired,
   clearSuggestions: PropTypes.func.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
+  fetchPlaces: PropTypes.func.isRequired,
   clearManuscripts: PropTypes.func.isRequired,
+  clearPlaces: PropTypes.func.isRequired,
   bounceMarker: PropTypes.func.isRequired,
   openMarkerPopup: PropTypes.func.isRequired,
   removeTempMarker: PropTypes.func.isRequired,
