@@ -50,7 +50,7 @@ class SearchField extends React.Component {
   handleClick = () => {
     //this.props.updateQuery(this.state.value);
     this.props.clearResults();
-    this.props.fetchAllResults();
+    this.props.fetchResults();
   };
 
   render() {

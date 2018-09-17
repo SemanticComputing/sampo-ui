@@ -23,7 +23,7 @@ module.exports = {
       (GROUP_CONCAT(DISTINCT ?label_id; SEPARATOR=",") AS ?label)
       (GROUP_CONCAT(DISTINCT ?author_id; SEPARATOR=",") AS ?author)
       (GROUP_CONCAT(DISTINCT ?timespan_id; SEPARATOR=",") AS ?timespan)
-      (GROUP_CONCAT(DISTINCT ?creation_place_id; SEPARATOR=",") AS ?creationPlace)
+      (GROUP_CONCAT(DISTINCT ?creation_place; SEPARATOR=",") AS ?creationPlace)
       (GROUP_CONCAT(DISTINCT ?material_id; SEPARATOR=",") AS ?material)
       (GROUP_CONCAT(DISTINCT ?language_id; SEPARATOR=",") AS ?language)
       WHERE {
@@ -34,7 +34,11 @@ module.exports = {
         ?expression_creation frbroo:R18_created ?id .
         OPTIONAL { ?expression_creation crm:P14_carried_out_by ?author_id . }
         OPTIONAL { ?expression_creation crm:P4_has_time_span ?timespan_id . }
-        OPTIONAL { ?expression_creation crm:P7_took_place_at ?creation_place_id . }
+        OPTIONAL {
+          ?expression_creation crm:P7_took_place_at ?creation_place_id .
+          ?creation_place_id skos:prefLabel ?creation_place_label .
+          BIND(CONCAT(STR(?creation_place_id), ":", STR(?creation_place_label)) AS ?creation_place)
+        }
         OPTIONAL {
           ?id crm:P128_carries ?expression .
           ?expression crm:P72_has_language ?language_id .

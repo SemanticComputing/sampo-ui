@@ -5,13 +5,15 @@ import { combineEpics } from 'redux-observable';
 import { Observable } from 'rxjs/Observable';
 import {
   updateSuggestions,
-  updateResults,
+  updateManuscripts,
+  updatePlaces,
   updateGeoJSON,
   FETCH_SUGGESTIONS,
   FETCH_SUGGESTIONS_FAILED,
-  FETCH_RESULTS,
-  FETCH_ALL_RESULTS,
-  FETCH_RESULTS_FAILED,
+  FETCH_MANUSCRIPTS,
+  FETCH_MANUSCRIPTS_FAILED,
+  FETCH_PLACES,
+  FETCH_PLACES_FAILED,
   GET_GEOJSON,
   GET_GEOJSON_FAILED
 } from '../actions';
@@ -50,37 +52,37 @@ const getSuggestionsEpic = (action$, store) => {
     });
 };
 
-const getResultsEpic = (action$, store) => {
-  const searchUrl = hiplaApiUrl + 'search';
-  return action$.ofType(FETCH_RESULTS)
-    .debounceTime(500)
-    .switchMap(() => {
-      const { query, datasets } = store.getState().search;
-      if (query.length < 3) {
-        return [];
-      }
-      const dsParams = _.map(pickSelectedDatasets(datasets), ds => `dataset=${ds}`).join('&');
-      const requestUrl = `${searchUrl}?q=${query}&${dsParams}`;
-      return ajax.getJSON(requestUrl)
-        .map(response => updateResults({ results: response }))
-        .catch(error => Observable.of({
-          type: FETCH_RESULTS_FAILED,
-          error: error,
-        }));
-    });
-};
+// const getResultsEpic = (action$, store) => {
+//   const searchUrl = hiplaApiUrl + 'search';
+//   return action$.ofType(FETCH_RESULTS)
+//     .debounceTime(500)
+//     .switchMap(() => {
+//       const { query, datasets } = store.getState().search;
+//       if (query.length < 3) {
+//         return [];
+//       }
+//       const dsParams = _.map(pickSelectedDatasets(datasets), ds => `dataset=${ds}`).join('&');
+//       const requestUrl = `${searchUrl}?q=${query}&${dsParams}`;
+//       return ajax.getJSON(requestUrl)
+//         .map(response => updateResults({ results: response }))
+//         .catch(error => Observable.of({
+//           type: FETCH_RESULTS_FAILED,
+//           error: error,
+//         }));
+//     });
+// };
 
-const getAllResultsEpic = (action$, store) => {
-  const searchUrl = hiplaApiUrl + 'all';
-  return action$.ofType(FETCH_ALL_RESULTS)
+const getManuscripts = (action$, store) => {
+  const searchUrl = hiplaApiUrl + 'manuscripts';
+  return action$.ofType(FETCH_MANUSCRIPTS)
     .switchMap(() => {
       const { datasets } = store.getState().search;
       const dsParams = _.map(pickSelectedDatasets(datasets), ds => `dataset=${ds}`).join('&');
       const requestUrl = `${searchUrl}?${dsParams}`;
       return ajax.getJSON(requestUrl)
-        .map(response => updateResults({ results: response }))
+        .map(response => updateManuscripts({ manuscripts: response }))
         .catch(error => Observable.of({
-          type: FETCH_RESULTS_FAILED,
+          type: FETCH_MANUSCRIPTS_FAILED,
           error: error,
         }));
     });
@@ -108,6 +110,10 @@ const getGeoJSONEpic = (action$) => {
 };
 
 
-const rootEpic = combineEpics(getSuggestionsEpic, getResultsEpic, getAllResultsEpic, getGeoJSONEpic);
+const rootEpic = combineEpics(
+  getSuggestionsEpic,
+  getManuscripts,
+  getGeoJSONEpic
+);
 
 export default rootEpic;

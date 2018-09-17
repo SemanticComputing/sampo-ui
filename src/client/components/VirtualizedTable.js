@@ -161,10 +161,9 @@ class VirtualizedTable extends React.PureComponent {
     const searchField = (
       <SearchField
         search={this.props.search}
-        fetchResults={this.props.fetchResults}
-        fetchAllResults={this.props.fetchAllResults}
+        fetchResults={this.props.fetchManuscripts}
         updateQuery={this.props.updateQuery}
-        clearResults={this.props.clearResults}
+        clearResults={this.props.clearManuscripts}
       />
     );
 
@@ -230,7 +229,8 @@ class VirtualizedTable extends React.PureComponent {
                     />
                     <Column
                       label="Creation place"
-                      cellDataGetter={({rowData}) => valueFromArray('creationPlace', rowData)}
+                      // cellDataGetter={({rowData}) => valueFromArray('creationPlace', rowData)}
+                      cellDataGetter={({rowData}) => rowData.creationPlace}
                       dataKey="creationPlace"
                       headerRenderer={headerRenderer}
                       width={columnWidth}
@@ -294,9 +294,8 @@ VirtualizedTable.propTypes = {
   updateQuery: PropTypes.func.isRequired,
   fetchSuggestions: PropTypes.func.isRequired,
   clearSuggestions: PropTypes.func.isRequired,
-  fetchResults: PropTypes.func.isRequired,
-  fetchAllResults: PropTypes.func.isRequired,
-  clearResults: PropTypes.func.isRequired,
+  fetchManuscripts: PropTypes.func.isRequired,
+  clearManuscripts: PropTypes.func.isRequired,
   bounceMarker: PropTypes.func.isRequired,
   openMarkerPopup: PropTypes.func.isRequired,
   removeTempMarker: PropTypes.func.isRequired,

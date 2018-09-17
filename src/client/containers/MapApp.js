@@ -22,9 +22,10 @@ import {
   toggleDataset,
   fetchSuggestions,
   clearSuggestions,
-  fetchResults,
-  fetchAllResults,
-  clearResults,
+  fetchManuscripts,
+  fetchPlaces,
+  clearManuscripts,
+  clearPlaces,
   getGeoJSON,
   updateResultFormat,
   updateMapMode,
@@ -136,7 +137,7 @@ let MapApp = (props) => {
   // console.log('resultFormat', resultFormat)
   // console.log('mapMode', mapMode)
   //console.log(props.results)
-  //console.log(manuscripts)
+  console.log(manuscripts)
 
   let table = '';
   if ((oneColumnView && options.resultFormat === 'table') || (!oneColumnView)) {
@@ -149,9 +150,8 @@ let MapApp = (props) => {
           sortResults={props.sortResults}
           updateResultsFilter={props.updateResultsFilter}
           updateQuery={props.updateQuery}
-          fetchResults={props.fetchResults}
-          fetchAllResults={props.fetchAllResults}
-          clearResults={props.clearResults}
+          fetchManuscripts={props.fetchManuscripts}
+          clearManuscripts={props.clearManuscripts}
           fetchSuggestions={props.fetchSuggestions}
           clearSuggestions={props.clearSuggestions}
           bounceMarker={props.bounceMarker}
@@ -268,8 +268,8 @@ const mapStateToProps = (state) => {
     search: state.search,
     map: state.map,
     // results: getVisibleResults(state.search),
-    manuscripts: state.search.results.manuscripts,
-    creationPlaces: state.search.results.creationPlaces,
+    manuscripts: state.search.manuscripts,
+    creationPlaces: state.search.places,
     //resultValues: getVisibleValues(state.search),
     resultValues: {},
   };
@@ -280,9 +280,10 @@ const mapDispatchToProps = ({
   toggleDataset,
   fetchSuggestions,
   clearSuggestions,
-  fetchResults,
-  fetchAllResults,
-  clearResults,
+  fetchManuscripts,
+  fetchPlaces,
+  clearManuscripts,
+  clearPlaces,
   sortResults,
   getGeoJSON,
   updateResultFormat,
@@ -310,9 +311,10 @@ MapApp.propTypes = {
   toggleDataset: PropTypes.func.isRequired,
   fetchSuggestions: PropTypes.func.isRequired,
   clearSuggestions: PropTypes.func.isRequired,
-  fetchResults: PropTypes.func.isRequired,
-  fetchAllResults: PropTypes.func.isRequired,
-  clearResults: PropTypes.func.isRequired,
+  fetchManuscripts: PropTypes.func.isRequired,
+  fetchPlaces: PropTypes.func.isRequired,
+  clearManuscripts: PropTypes.func.isRequired,
+  clearPlaces: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   getGeoJSON: PropTypes.func.isRequired,
   bounceMarker: PropTypes.func.isRequired,

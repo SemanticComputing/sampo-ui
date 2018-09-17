@@ -2,16 +2,17 @@ import {
   UPDATE_QUERY,
   TOGGLE_DATASET,
   FETCH_SUGGESTIONS,
-  FETCH_RESULTS,
   UPDATE_SUGGESTIONS,
   CLEAR_SUGGESTIONS,
-  UPDATE_RESULTS,
-  CLEAR_RESULTS,
+  FETCH_MANUSCRIPTS,
+  FETCH_PLACES,
+  UPDATE_MANUSCRIPTS,
+  CLEAR_MANUSCRIPTS,
+  UPDATE_PLACES,
+  CLEAR_PLACES,
   UPDATE_RESULTS_FILTER,
   SORT_RESULTS
 } from '../actions';
-
-import sampleResults from './sampleResults';
 
 export const INITIAL_STATE = {
   query: '',
@@ -32,11 +33,8 @@ export const INITIAL_STATE = {
   suggestions: [],
   suggestionsQuery: '',
   fetchingSuggestions: false,
-  results: {
-    'manuscripts': [],
-    'creationPlaces': {}
-  },
-  //results: sampleResults,
+  manuscripts: [],
+  places: {},
   resultsFilter: {
     'id': new Set(),
     'label': new Set(),
@@ -72,7 +70,8 @@ const search = (state = INITIAL_STATE, action) => {
       };
     case FETCH_SUGGESTIONS:
       return { ...state, fetchingSuggestions: true };
-    case FETCH_RESULTS:
+    case FETCH_MANUSCRIPTS:
+    case FETCH_PLACES:
       return { ...state, fetchingResults: true };
     case CLEAR_SUGGESTIONS:
       return {
@@ -88,21 +87,32 @@ const search = (state = INITIAL_STATE, action) => {
         suggestionsQuery: state.query,
         fetchingSuggestions: false
       };
-    case CLEAR_RESULTS:
+    case UPDATE_MANUSCRIPTS:
       return {
         ...state,
-        results:  {
-          'manuscripts': [],
-          'creationPlaces': {}
-        },
+        manuscripts: action.manuscripts,
+        //resultsQuery: state.query,
+        fetchingResults: false
+      };
+    case UPDATE_PLACES:
+      return {
+        ...state,
+        places: action.places,
+        //resultsQuery: state.query,
+        fetchingResults: false
+      };
+    case CLEAR_MANUSCRIPTS:
+      return {
+        ...state,
+        'manuscripts': [],
         resultsQuery: '',
         fetchingResults: false
       };
-    case UPDATE_RESULTS:
+    case CLEAR_PLACES:
       return {
         ...state,
-        results: action.results,
-        resultsQuery: state.query,
+        'places': {},
+        resultsQuery: '',
         fetchingResults: false
       };
     case UPDATE_RESULTS_FILTER:

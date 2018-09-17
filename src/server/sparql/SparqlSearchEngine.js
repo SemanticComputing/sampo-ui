@@ -22,14 +22,15 @@ class SparqlSearchEngine {
 
   getAllManuscripts(datasetId) {
     const { endpoint, allQuery } = datasetConfig[datasetId];
+    console.log(allQuery)
     return this.doSearch(allQuery, endpoint, makeObjectList);
   }
 
   getFederatedManuscripts(datasets) {
     return Promise.all(datasets.map((datasetId) =>
       this.getAllManuscripts(datasetId)))
-      .then(mergeAllResults)
-      .then((manuscripts) => this.getPlaces(manuscripts));
+      .then(mergeAllResults);
+    // .then((manuscripts) => this.getPlaces(manuscripts));
   }
 
   getPlaces(manuscripts) {

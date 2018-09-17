@@ -53,7 +53,7 @@ app.get('/search', (req, res) => {
     });
 });
 
-app.get('/all', (req, res) => {
+app.get('/manuscripts', (req, res) => {
   const queryDatasets = _.castArray(req.query.dataset);
 
   return sparqlSearchEngine.getFederatedManuscripts(queryDatasets).then((data) => {
