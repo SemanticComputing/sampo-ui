@@ -69,7 +69,6 @@
     "leaflet.markercluster": "^1.4.1",
     "leaflet.smooth_marker_bouncing": "^1.2.0",
     "lodash": "^4.17.11",
-    "mui-datatables": "^2.0.0-beta-9",
     "node-fetch": "^2.2.0",
     "react": "^16.5.1",
     "react-alert-template-basic": "^1.0.0",
