@@ -10,6 +10,10 @@ import 'leaflet.markercluster/dist/leaflet.markercluster.js';
 import 'Leaflet.Control.Opacity/dist/L.Control.Opacity.css';
 import 'Leaflet.Control.Opacity/dist/L.Control.Opacity.js';
 import 'leaflet.smooth_marker_bouncing/leaflet.smoothmarkerbouncing.js';
+import 'Leaflet.extra-markers/dist/js/leaflet.extra-markers.min.js';
+import 'Leaflet.extra-markers/dist/css/leaflet.extra-markers.min.css';
+import 'Leaflet.extra-markers/dist/img/markers_default.png';
+import 'Leaflet.extra-markers/dist/img/markers_shadow.png';
 
 const style = {
   width: '100%',
@@ -241,13 +245,22 @@ class LeafletMap extends React.Component {
   }
 
   createMarker(result) {
-    const color = typeof result.markerColor === 'undefined' ? 'grey' : result.markerColor;
-    const icon = new ColorIcon({iconUrl: 'img/markers/marker-icon-' + color + '.png'});
+    // const color = typeof result.markerColor === 'undefined' ? 'grey' : result.markerColor;
+    //const icon = new ColorIcon({iconUrl: 'img/markers/marker-icon-' + color + '.png'});
     const { lat, long } = result;
     if (typeof lat === 'undefined' || typeof long === 'undefined') {
       return null;
     } else {
       const latLng = [+lat, +long];
+
+      const icon = L.ExtraMarkers.icon({
+        icon: 'fa-number',
+        number: result.manuscriptCount,
+        markerColor: 'red',
+        shape: 'circle',
+        prefix: 'fa'
+      });
+
       const marker = L.marker(latLng, {
         icon: icon,
         manuscriptCount: result.manuscriptCount ? result.manuscriptCount : null,

@@ -56,6 +56,7 @@
     "@material-ui/icons": "^3.0.1",
     "@material-ui/lab": "^3.0.0-alpha.16",
     "Leaflet.Control.Opacity": "git+https://github.com/SemanticComputing/Leaflet.Control.Opacity.git",
+    "Leaflet.extra-markers": "git+https://github.com/SemanticComputing/Leaflet.ExtraMarkers.git",
     "autosuggest-highlight": "^3.1.1",
     "babel-preset-stage-2": "^6.24.1",
     "bootstrap": "^4.1.3",
