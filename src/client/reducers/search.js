@@ -46,7 +46,7 @@ export const INITIAL_STATE = {
   },
   sortBy: 'author',
   sortDirection: 'asc',
-  groupBy: 'creationPlace',
+  groupBy: 'label',
   resultsQuery: '',
   fetchingResults: false,
 };

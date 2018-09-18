@@ -44,13 +44,12 @@ const styles = theme => ({
 const combineSmallGroups = (dataArray) => {
   const totalLength = dataArray.length;
   const threshold = 0.1;
-  let other = { x: 'Other', y: 0, values: [] };
+  let other = { x: 'Other', y: 0 };
   let newArray = [];
   for (let item of dataArray) {
     const portion = item.y / totalLength;
     if (portion < threshold) {
       other.y += item.y;
-      other.values.push(item.values);
     } else {
       newArray.push(item);
     }
@@ -69,21 +68,32 @@ let Pie = (props) => {
   if (resultCount < 1) {
     return '';
   }
-  const grouped = _.groupBy(data, groupBy);
-  let dataArray = [];
-  for (let key in grouped) {
-    const length = grouped[key].length;
-    dataArray.push({
-      x: key,
-      y: length,
-      values: grouped[key]
-    });
-  }
+  // const grouped = _.groupBy(data, groupBy);
+  // let dataArray = [];
+  // for (let key in grouped) {
+  //   const length = grouped[key].length;
+  //   dataArray.push({
+  //     x: key,
+  //     y: length,
+  //     values: grouped[key]
+  //   });
+  // }
+  let placeLinks = 0;
+  let dataArray = data.map(item => {
+    const msCount = parseInt(item.manuscriptCount);
+    placeLinks += msCount;
+    return {
+      x: item.label,
+      y: msCount,
+    };
+  });
   dataArray = _.orderBy(dataArray, 'y', 'desc');
-  dataArray = combineSmallGroups(dataArray);
+  dataArray = combineSmallGroups(dataArray, placeLinks);
+
   const legendArray = dataArray.map(group => ({ name: group.x + ' (' + group.y + ')' }));
   const legendHeigth = legendArray.length * 33;
-  const pieTitle = resultCount + ' results for the query "' + query + '"';
+
+  const pieTitle = placeLinks + ' creation place links in total';
 
   return (
     <div className={classes.root}>
@@ -102,14 +112,14 @@ let Pie = (props) => {
             }}
             colorScale={'qualitative'}
             data={dataArray}
-            labelComponent={<PieTooltip resultCount={resultCount} />}
+            labelComponent={<PieTooltip resultCount={placeLinks} />}
           />
         </Grid>
         <Grid className={classes.legend} item xs={12} sm={6}>
           <Paper className={classes.legendPaper}>
             <VictoryLegend
               height={legendHeigth}
-              title={groupBy}
+              title={'Creation place'}
               colorScale={'qualitative'}
               data={legendArray}
               style={{

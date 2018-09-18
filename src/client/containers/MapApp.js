@@ -193,11 +193,12 @@ let MapApp = (props) => {
     }
   }
 
+  //console.log(creationPlaces)
   let statistics = '';
   if ((oneColumnView && options.resultFormat === 'statistics') || (!oneColumnView)) {
     statistics = (
       <div className={oneColumnView ? classes.statisticsOneColumn : classes.statistics}>
-        <Pie data={manuscripts} groupBy={props.search.groupBy} query={props.search.query} />
+        <Pie data={creationPlaces} groupBy={props.search.groupBy} query={props.search.query} />
       </div>
     );
   }
