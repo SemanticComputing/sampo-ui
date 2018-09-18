@@ -2,7 +2,8 @@ import _ from 'lodash';
 import SparqlApi from './SparqlApi';
 import datasetConfig from './Datasets';
 import {
-  mergeFederatedResults
+  mergeFederatedResults,
+  mapPlaces
 } from './Mappers';
 import { makeObjectList } from './SparqlObjectMapper';
 
@@ -28,7 +29,7 @@ class SparqlSearchEngine {
   getAllPlaces(datasetId) {
     const { endpoint, placeQuery } = datasetConfig[datasetId];
     // console.log(allQuery)
-    return this.doSearch(placeQuery, endpoint, makeObjectList);
+    return this.doSearch(placeQuery, endpoint, mapPlaces);
   }
 
   getFederatedManuscripts(datasets) {

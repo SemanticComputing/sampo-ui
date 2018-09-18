@@ -21,65 +21,23 @@ const style = {
 };
 
 // https://github.com/pointhi/leaflet-color-markers
-const ColorIcon = L.Icon.extend({
-  options: {
-    shadowUrl: 'img/markers/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-  }
-});
+// const ColorIcon = L.Icon.extend({
+//   options: {
+//     shadowUrl: 'img/markers/marker-shadow.png',
+//     iconSize: [25, 41],
+//     iconAnchor: [12, 41],
+//     popupAnchor: [1, -34],
+//     shadowSize: [41, 41]
+//   }
+// });
 
 class LeafletMap extends React.Component {
 
   componentDidMount() {
-    // https://avaa.tdata.fi/web/kotus/rajapinta
-    // Ilmiöt:
-    //    kotus:paikkatieto_view
-    // Taustakartan rajat:
-    //   kotus:pitajat
-    //   kotus:rajat-sms-alueosat  murrealueenosat
-    //   kotus:rajat-lansi-ita
-    //   kotus:rajat-sms-alueet    murrealueet
-    this.props.getGeoJSON([
-      'kotus:pitajat',
-      'kotus:rajat-sms-alueet',
-      'kotus:rajat-sms-alueosat',
-      'kotus:rajat-lansi-ita'
-    ]);
 
     // Base layers
     const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    });
-
-    const topographicalMapNLS = L.tileLayer(this.createNLSUrl('maastokartta'), {
-      attribution: 'National Land Survey of Finland'
-    });
-
-    //https://www.maanmittauslaitos.fi/kartat-ja-paikkatieto/asiantuntevalle-kayttajalle/kartta-ja-paikkatietojen-rajapintapalvelut-19
-    const backgroundMapNLS = L.tileLayer(this.createNLSUrl('taustakartta'), {
-      attribution: 'National Land Survey of Finland'
-    });
-
-    // const accessibleMapNLS  = L.tileLayer(this.createNLSUrl('selkokartta'), {
-    //   attribution: 'National Land Survey of Finland'
-    // });
-    //
-    // const aerialPhotoMapNLS = L.tileLayer(this.createNLSUrl('ortokuva'), {
-    //   attribution: 'National Land Survey of Finland'
-    // });
-
-    //console.log(this.createNLSUrl('kiinteistojaotus'));
-
-    // Overlays
-    const realEstateMapNLS = L.tileLayer(this.createNLSUrl('kiinteistojaotus'), {
-      attribution: 'National Land Survey of Finland'
-    });
-
-    const realEstateIdMapNLS = L.tileLayer(this.createNLSUrl('kiinteistotunnukset'), {
-      attribution: 'National Land Survey of Finland'
     });
 
     const karelianMaps = L.tileLayer('http:///mapwarper.onki.fi/mosaics/tile/4/{z}/{x}/{y}.png', {
@@ -120,13 +78,9 @@ class LeafletMap extends React.Component {
     // layer controls
     const baseMaps = {
       'OpenStreetMap': OSMBaseLayer,
-      'Topographical map (National Land Survey of Finland)': topographicalMapNLS,
-      'Background map (National Land Survey of Finland)': backgroundMapNLS,
     };
     const overlayMaps = {
       'Search results': this.resultMarkerLayer,
-      'Real estate boundaries (National Land Survey of Finland)': realEstateMapNLS,
-      'Real estate ids (National Land Survey of Finland)': realEstateIdMapNLS,
       'Karelian maps (MapWarper)': karelianMaps,
       'Senate atlas (MapWarper)': senateAtlas,
       'Western Front July 1917 (MapWarper)': westernFront
@@ -144,14 +98,6 @@ class LeafletMap extends React.Component {
       }).addTo(this.leafletMap);
 
     L.Marker.setBouncingOptions({ exclusive: true });
-
-  //     map.on('fullscreenchange', function () {
-  //     if (map.isFullscreen()) {
-  //         console.log('entered fullscreen');
-  //     } else {
-  //         console.log('exited fullscreen');
-  //     }
-  // });
 
   }
 
@@ -248,7 +194,7 @@ class LeafletMap extends React.Component {
     // const color = typeof result.markerColor === 'undefined' ? 'grey' : result.markerColor;
     //const icon = new ColorIcon({iconUrl: 'img/markers/marker-icon-' + color + '.png'});
     const { lat, long } = result;
-    if (typeof lat === 'undefined' || typeof long === 'undefined') {
+    if (lat === 'Undefined' || long === 'Undefined') {
       return null;
     } else {
       const latLng = [+lat, +long];
@@ -266,44 +212,28 @@ class LeafletMap extends React.Component {
         manuscriptCount: result.manuscriptCount ? result.manuscriptCount : null,
         manuscript: result.manuscript ? result.manuscript : null
       })
-        .bindPopup(this.createPopUpContent(result));
+        .bindPopup(this.createPopUpContent(result), { maxHeight: 300, maxWidth: 350, minWidth: 300 });
       return marker;
     }
   }
 
   createPopUpContent(result) {
-  //
-    //console.log(result)
     let popUpTemplate = `
       <h3><a target="_blank" rel="noopener noreferrer" href={id}>{label}</a></p></h3>
       `;
     if (result.source) {
-      popUpTemplate += '<p>Source: <a target="_blank" rel="noopener noreferrer" href={source}>{source}</a></p>';
+      popUpTemplate += '<p>Place authority: <a target="_blank" rel="noopener noreferrer" href={source}>{source}</a></p>';
     }
+    popUpTemplate += this.createManscriptListing(result.manuscript);
     return L.Util.template(popUpTemplate, result);
   }
 
-  onEachFeature(feature, layer) {
-    let popupContent = '';
-    if (feature.id.startsWith('rajat')) {
-      popupContent =  '<p>ID: ' + feature.id + '</p>';
-    }
-    else if (feature.id.startsWith('pitajat')) {
-      if (feature.properties.NIMI) {
-        popupContent +=  '<p>Nimi: ' + feature.properties.NIMI + '</p>';
-      }
-      popupContent +=  '<p>ID: ' + feature.id + '</p>';
-    }
-    layer.bindPopup(popupContent);
-  }
-
-  createNLSUrl(layerID) {
-    // return 'https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/' +
-    // layerID + '/default/WGS84_Pseudo-Mercator/{z}/{x}/{y}.png';
-
-    return 'https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts?service=WMTS' +
-    '&request=GetTile&version=1.0.0&layer=' + layerID + '&style=default' +
-    '&format=image/png&TileMatrixSet=WGS84_Pseudo-Mercator&TileMatrix={z}&TileRow={y}&TileCol={x}';
+  createManscriptListing(manuscripts) {
+    let html = '';
+    manuscripts.forEach(msId => {
+      html += '<p><a target="_blank" rel="noopener noreferrer" href=' + msId + '>' + msId + '</a></p>';
+    });
+    return html;
   }
 
   createOpacitySlider() {
