@@ -45,6 +45,22 @@ export const groupBy = (sparqlBindings, group) => Object.values(_.reduce(sparqlB
 //   return string.charAt(0).toUpperCase() + string.slice(1);
 // };
 
+export const mapPlaces = (sparqlBindings) => {
+  //console.log(sparqlBindings);
+  const places = sparqlBindings.map(b => {
+    return {
+      id: b.id.value,
+      label: b.label.value,
+      lat: _.has(b, 'lat',) ? b.lat.value : 'Undefined',
+      long: _.has(b, 'long',) ? b.long.value : 'Undefined',
+      source: _.has(b, 'source',) ? b.source.value : 'Undefined',
+      manuscript: _.has(b, 'manuscript',) ? b.manuscript.value.split(',') : 'Undefined',
+      manuscriptCount: _.has(b, 'manuscriptCount',) ? b.manuscriptCount.value : 'Undefined',
+    };
+  });
+  return places;
+};
+
 export const mapAllResults = (results) => groupBy(results, 'id');
 
 export const mergeFederatedResults = (results) => {
