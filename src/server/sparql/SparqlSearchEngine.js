@@ -3,9 +3,10 @@ import SparqlApi from './SparqlApi';
 import datasetConfig from './Datasets';
 import {
   mergeFederatedResults,
-  mapPlaces
+  mapPlaces,
+  mapManuscripts
 } from './Mappers';
-import { makeObjectList } from './SparqlObjectMapper';
+//import { makeObjectList } from './SparqlObjectMapper';
 
 class SparqlSearchEngine {
 
@@ -22,8 +23,7 @@ class SparqlSearchEngine {
 
   getAllManuscripts(datasetId) {
     const { endpoint, allQuery } = datasetConfig[datasetId];
-    // console.log(allQuery)
-    return this.doSearch(allQuery, endpoint, makeObjectList);
+    return this.doSearch(allQuery, endpoint, mapManuscripts);
   }
 
   getAllPlaces(datasetId) {

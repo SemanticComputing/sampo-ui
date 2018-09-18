@@ -170,13 +170,10 @@ class VirtualizedTable extends React.PureComponent {
     );
 
     const valueFromArray = (property, rowData) => {
-      if (rowData[property] === undefined) {
-        return 'Undefined';
-      }
-      if (Array.isArray(rowData[property])) {
-        return rowData[property].map((item) => item.label).join(' / ');
+      if (rowData[property] === 'Undefined') {
+        return rowData[property];
       } else {
-        return rowData[property].label;
+        return rowData[property].map((item => item.split(';')[1])).join(' | ');
       }
     };
 
@@ -224,15 +221,14 @@ class VirtualizedTable extends React.PureComponent {
                     />
                     <Column
                       label="Author"
-                      cellDataGetter={({rowData}) => rowData.author}
+                      cellDataGetter={({rowData}) => valueFromArray('author', rowData)}
                       dataKey="author"
                       headerRenderer={headerRenderer}
                       width={columnWidth}
                     />
                     <Column
                       label="Creation place"
-                      // cellDataGetter={({rowData}) => valueFromArray('creationPlace', rowData)}
-                      cellDataGetter={({rowData}) => rowData.creationPlace}
+                      cellDataGetter={({rowData}) => valueFromArray('creationPlace', rowData)}
                       dataKey="creationPlace"
                       headerRenderer={headerRenderer}
                       width={columnWidth}

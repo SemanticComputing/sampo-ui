@@ -45,9 +45,25 @@ export const groupBy = (sparqlBindings, group) => Object.values(_.reduce(sparqlB
 //   return string.charAt(0).toUpperCase() + string.slice(1);
 // };
 
+export const mapManuscripts = (sparqlBindings) => {
+  //console.log(sparqlBindings);
+  const results = sparqlBindings.map(b => {
+    return {
+      id: b.id.value,
+      prefLabel: b.prefLabel.value.split(','),
+      author: _.has(b, 'author',) ? b.author.value.split('|') : 'Undefined',
+      timespan: _.has(b, 'timespan',) ? b.timespan.value.split('|') : 'Undefined',
+      creationPlace: _.has(b, 'creationPlace',) ? b.creationPlace.value.split('|') : 'Undefined',
+      material: _.has(b, 'material',) ? b.material.value.split('|') : 'Undefined',
+      language: _.has(b, 'language',) ? b.language.value.split('|') : 'Undefined',
+    };
+  });
+  return results;
+};
+
 export const mapPlaces = (sparqlBindings) => {
   //console.log(sparqlBindings);
-  const places = sparqlBindings.map(b => {
+  const results = sparqlBindings.map(b => {
     return {
       id: b.id.value,
       label: b.label.value,
@@ -58,7 +74,7 @@ export const mapPlaces = (sparqlBindings) => {
       manuscriptCount: _.has(b, 'manuscriptCount',) ? b.manuscriptCount.value : 'Undefined',
     };
   });
-  return places;
+  return results;
 };
 
 export const mapAllResults = (results) => groupBy(results, 'id');

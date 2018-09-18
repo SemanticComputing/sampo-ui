@@ -19,41 +19,46 @@ module.exports = {
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX sdbm: <https://sdbm.library.upenn.edu/>
       SELECT
-      ?id ?sdbm_id
-      (GROUP_CONCAT(DISTINCT ?label_id; SEPARATOR=",") AS ?label)
-      (GROUP_CONCAT(DISTINCT ?author_id; SEPARATOR=",") AS ?author)
-      (GROUP_CONCAT(DISTINCT ?timespan_id; SEPARATOR=",") AS ?timespan)
-      (GROUP_CONCAT(DISTINCT ?creation_place; SEPARATOR=",") AS ?creationPlace)
-      (GROUP_CONCAT(DISTINCT ?material_id; SEPARATOR=",") AS ?material)
-      (GROUP_CONCAT(DISTINCT ?language_id; SEPARATOR=",") AS ?language)
+      ?id ?sdbmId
+      (GROUP_CONCAT(DISTINCT ?prefLabel_; SEPARATOR="|") AS ?prefLabel)
+      (GROUP_CONCAT(DISTINCT ?author_; SEPARATOR="|") AS ?author)
+      (GROUP_CONCAT(DISTINCT ?timespan_; SEPARATOR="|") AS ?timespan)
+      (GROUP_CONCAT(DISTINCT ?creationPlace_; SEPARATOR="|") AS ?creationPlace)
+      (GROUP_CONCAT(DISTINCT ?material_; SEPARATOR="|") AS ?material)
+      (GROUP_CONCAT(DISTINCT ?language_; SEPARATOR="|") AS ?language)
       WHERE {
         ?id a frbroo:F4_Manifestation_Singleton .
-        ?id rdfs:label ?label_id .
-        ?id crm:P1_is_identified_by ?sdbm_id .
-        OPTIONAL { ?id crm:P45_consists_of ?material_id . }
+        ?id skos:prefLabel ?prefLabel_ .
+        ?id crm:P1_is_identified_by ?sdbmId .
+        OPTIONAL { ?id crm:P45_consists_of ?material_ . }
         ?expression_creation frbroo:R18_created ?id .
-        OPTIONAL { ?expression_creation crm:P14_carried_out_by ?author_id . }
-        OPTIONAL { ?expression_creation crm:P4_has_time_span ?timespan_id . }
         OPTIONAL {
-          ?expression_creation crm:P7_took_place_at ?creation_place_id .
-          ?creation_place_id skos:prefLabel ?creation_place_label .
-          BIND(CONCAT(STR(?creation_place_id), ":", STR(?creation_place_label)) AS ?creation_place)
+          ?expression_creation crm:P14_carried_out_by ?authorId .
+          ?authorId skos:prefLabel ?authorLabel
+          BIND(CONCAT(STR(?authorId), ";", STR(?authorLabel)) AS ?author_)
+        }
+        OPTIONAL { ?expression_creation crm:P4_has_time_span ?timespan_ . }
+        OPTIONAL {
+          ?expression_creation crm:P7_took_place_at ?creationPlaceId .
+          ?creationPlaceId skos:prefLabel ?creationPlaceLabel .
+          BIND(CONCAT(STR(?creationPlaceId), ";", STR(?creationPlaceLabel)) AS ?creationPlace_)
         }
         OPTIONAL {
           ?id crm:P128_carries ?expression .
-          ?expression crm:P72_has_language ?language_id .
+          ?expression crm:P72_has_language ?language_ .
         }
       }
-      GROUP BY ?id ?sdbm_id
+      GROUP BY ?id ?sdbmId
       `,
     'placeQuery': `
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
       PREFIX dc: <http://purl.org/dc/elements/1.1/>
+      PREFIX owl: <http://www.w3.org/2002/07/owl#>
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
-      SELECT ?id ?label ?lat ?long ?source
+      SELECT ?id ?label ?lat ?long ?source ?parent
       (GROUP_CONCAT(DISTINCT ?manuscript_id; SEPARATOR=",") AS ?manuscript)
       (COUNT(DISTINCT ?manuscript_id) as ?manuscriptCount)
       WHERE {
@@ -64,9 +69,10 @@ module.exports = {
           ?id wgs84:lat ?lat ;
               wgs84:long ?long .
         }
-        OPTIONAL { ?id dc:source ?source . }
+        OPTIONAL { ?id owl:sameAs ?source . }
+        OPTIONAL { ?id mmm-schema:parent ?parent }
       }
-      GROUP BY ?id ?label ?lat ?long ?source
+      GROUP BY ?id ?label ?lat ?long ?source ?parent
         `,
     'tgn': {
       // Getty LOD documentation:
