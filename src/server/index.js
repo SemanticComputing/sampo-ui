@@ -110,4 +110,4 @@ const getWFSLayer = (layerID) => {
   });
 };
 
-app.listen(app.get('port'), () => console.log('Hipla app listening on port ' + app.get('port')));
+app.listen(app.get('port'), () => console.log('MMM API listening on port ' + app.get('port')));
