@@ -119,7 +119,7 @@ let Pie = (props) => {
           <Paper className={classes.legendPaper}>
             <VictoryLegend
               height={legendHeigth}
-              title={'Creation place'}
+              title={'Creation place (manuscript count)'}
               colorScale={'qualitative'}
               data={legendArray}
               style={{
@@ -129,7 +129,7 @@ let Pie = (props) => {
               containerComponent={
                 <VictoryContainer
                   responsive={false}
-                  width={175}
+                  width={250}
                 />
               }
             />
