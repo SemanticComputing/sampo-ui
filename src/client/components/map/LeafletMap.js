@@ -34,6 +34,8 @@ const style = {
 class LeafletMap extends React.Component {
 
   componentDidMount() {
+    this.props.fetchManuscripts();
+    this.props.fetchPlaces();
 
     // Base layers
     const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -261,6 +263,8 @@ class LeafletMap extends React.Component {
 }
 
 LeafletMap.propTypes = {
+  fetchPlaces: PropTypes.func.isRequired,
+  fetchManuscripts: PropTypes.func.isRequired,
   results: PropTypes.array,
   mapMode: PropTypes.string.isRequired,
   geoJSON: PropTypes.array,

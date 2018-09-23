@@ -158,16 +158,16 @@ class VirtualizedTable extends React.PureComponent {
       this.props.removeTempMarker();
     };
 
-    const searchField = (
-      <SearchField
-        search={this.props.search}
-        fetchManuscripts={this.props.fetchManuscripts}
-        fetchPlaces={this.props.fetchPlaces}
-        updateQuery={this.props.updateQuery}
-        clearManuscripts={this.props.clearManuscripts}
-        clearPlaces={this.props.clearPlaces}
-      />
-    );
+    // const searchField = (
+    //   <SearchField
+    //     search={this.props.search}
+    //     fetchManuscripts={this.props.fetchManuscripts}
+    //     fetchPlaces={this.props.fetchPlaces}
+    //     updateQuery={this.props.updateQuery}
+    //     clearManuscripts={this.props.clearManuscripts}
+    //     clearPlaces={this.props.clearPlaces}
+    //   />
+    // );
 
     const valueFromArray = (property, rowData) => {
       if (rowData[property] === 'Undefined') {
@@ -181,9 +181,7 @@ class VirtualizedTable extends React.PureComponent {
       <div className={classes.root}>
         <Grid container className={classes.container}>
           <div className={classes.resultsInfo}>
-            <div className={classes.searchField}>
-              {searchField}
-            </div>
+        
           </div>
           {this.props.list.size > 0 &&
             <div style={{ flex: '1 1 auto' }}>

@@ -179,6 +179,8 @@ let MapApp = (props) => {
     } else {
       mapElement = (
         <LeafletMap
+          fetchPlaces={props.fetchPlaces}
+          fetchManuscripts={props.fetchManuscripts}
           results={creationPlaces}
           mapMode={options.mapMode}
           geoJSON={map.geoJSON}
