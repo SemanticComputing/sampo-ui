@@ -34,7 +34,7 @@ const style = {
 class LeafletMap extends React.Component {
 
   componentDidMount() {
-    this.props.fetchManuscripts();
+    //this.props.fetchManuscripts();
     this.props.fetchPlaces();
 
     // Base layers

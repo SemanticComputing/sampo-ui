@@ -235,7 +235,7 @@ let MapApp = (props) => {
       case 'map': {
         mainResultsView = (
           <div className={classes.fullMap}>
-            {map}
+            {mapElement}
           </div>
         );
         break;
@@ -261,6 +261,7 @@ let MapApp = (props) => {
           resultFormat={options.resultFormat}
           updateMapMode={props.updateMapMode}
           updateResultFormat={props.updateResultFormat}
+          fetchManuscripts={props.fetchManuscripts}
           datasets={search.datasets}
           toggleDataset={props.toggleDataset}
         />

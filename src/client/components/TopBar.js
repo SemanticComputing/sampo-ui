@@ -67,6 +67,10 @@ class TopBar extends React.Component {
     anchorEl: null,
   };
 
+  componentDidMount() {
+    this.props.fetchManuscripts();
+  }
+
   handleClick = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
@@ -160,6 +164,7 @@ TopBar.propTypes = {
   oneColumnView: PropTypes.bool.isRequired,
   mapMode: PropTypes.string.isRequired,
   resultFormat: PropTypes.string.isRequired,
+  fetchManuscripts: PropTypes.func.isRequired,
   updateResultFormat: PropTypes.func.isRequired,
   updateMapMode: PropTypes.func.isRequired,
   datasets: PropTypes.object.isRequired,
