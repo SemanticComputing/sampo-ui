@@ -50,6 +50,7 @@ export const mapManuscripts = (sparqlBindings) => {
   const results = sparqlBindings.map(b => {
     return {
       id: b.id.value,
+      sdbmId: _.has(b, 'sdbmId',) ? b.sdbmId.value : 'Undefined',
       prefLabel: b.prefLabel.value.split(','),
       author: _.has(b, 'author',) ? b.author.value.split('|') : 'Undefined',
       timespan: _.has(b, 'timespan',) ? b.timespan.value.split('|') : 'Undefined',

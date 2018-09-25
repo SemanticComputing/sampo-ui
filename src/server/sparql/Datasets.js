@@ -29,7 +29,7 @@ module.exports = {
       WHERE {
         ?id a frbroo:F4_Manifestation_Singleton .
         ?id skos:prefLabel ?prefLabel_ .
-        ?id crm:P1_is_identified_by ?sdbmId .
+
         OPTIONAL { ?id crm:P45_consists_of ?material_ . }
         ?expression_creation frbroo:R18_created ?id .
         OPTIONAL {
@@ -46,6 +46,9 @@ module.exports = {
         OPTIONAL {
           ?id crm:P128_carries ?expression .
           ?expression crm:P72_has_language ?language_ .
+        }
+        OPTIONAL {
+          ?id mmm-schema:manuscript_record ?sdbmId .
         }
       }
       GROUP BY ?id ?sdbmId
