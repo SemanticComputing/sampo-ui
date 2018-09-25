@@ -93,10 +93,11 @@ class VirtualizedTable extends React.PureComponent {
     const idRenderer = ({cellData, rowData}) => {
       if (cellData == null) return '';
       let sdbmUrl = '';
-      if (rowData.sdbmId) {
-        sdbmUrl = 'https://sdbm.library.upenn.edu/manuscripts/';
-      } else {
+
+      if (rowData.sdbmId == '-') {
         sdbmUrl = 'https://sdbm.library.upenn.edu/entries/';
+      } else {
+        sdbmUrl = 'https://sdbm.library.upenn.edu/manuscripts/';  
       }
       const idLink = <a target='_blank' rel='noopener noreferrer' href={sdbmUrl + cellData}>{cellData}</a>;
       return (
