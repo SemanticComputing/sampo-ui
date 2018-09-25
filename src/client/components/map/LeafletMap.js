@@ -233,7 +233,8 @@ class LeafletMap extends React.Component {
   createManscriptListing(manuscripts) {
     let html = '';
     manuscripts.forEach(msId => {
-      html += '<p><a target="_blank" rel="noopener noreferrer" href=' + msId + '>' + msId + '</a></p>';
+      const sdbmLink = msId.replace('http://ldf.fi/mmm/manifestation_singleton/', 'https://sdbm.library.upenn.edu/manuscripts/');
+      html += '<p><a target="_blank" rel="noopener noreferrer" href=' + sdbmLink + '>' + sdbmLink + '</a></p>';
     });
     return html;
   }

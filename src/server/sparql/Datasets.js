@@ -4,8 +4,8 @@ module.exports = {
     'title': 'MMM',
     'shortTitle': 'MMM',
     'timePeriod': '',
-    //'endpoint': 'http://ldf.fi/mmm-sdbm-cidoc/sparql',
-    'endpoint': 'http://localhost:3034/ds/sparql',
+    'endpoint': 'http://ldf.fi/mmm-sdbm-cidoc/sparql',
+    //'endpoint': 'http://localhost:3034/ds/sparql',
     'allQuery': `
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -48,7 +48,8 @@ module.exports = {
           ?expression crm:P72_has_language ?language_ .
         }
       }
-      GROUP BY ?id ?sdbmId
+      GROUP BY ?id  ?sdbmId
+      ORDER BY DESC(?creationPlace)
       `,
     'placeQuery': `
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -72,7 +73,7 @@ module.exports = {
         OPTIONAL { ?id owl:sameAs ?source . }
         OPTIONAL { ?id mmm-schema:parent ?parent }
       }
-      GROUP BY ?id ?label ?lat ?long ?source ?parent
+      GROUP BY ?id ?label ?lat ?long ?source  ?parent
         `,
     'tgn': {
       // Getty LOD documentation:

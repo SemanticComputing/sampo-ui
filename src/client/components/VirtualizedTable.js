@@ -90,84 +90,16 @@ class VirtualizedTable extends React.PureComponent {
     const { classes, list } = this.props;
     const rowGetter = ({index}) => this._getDatum(list, index);
 
-    const headerRenderer = ({
-      dataKey,
-      label,
-      sortBy,
-      sortDirection,
-    }) => {
-      const showSortIndicator = sortBy === dataKey;
-      const children = [
-        <span
-          className="ReactVirtualized__Table__headerTruncatedText"
-          style={showSortIndicator ? {} : { marginRight: 16 }}
-          key="label"
-          title={label}>
-          {label}
-        </span>,
-      ];
-      if (showSortIndicator) {
-        children.push(
-          <SortIndicator key="SortIndicator" sortDirection={sortDirection} />,
-        );
-      }
-      children.push(
-        <ResultFilterDialogSingle
-          key="resultFilter"
-          propertyLabel={label}
-          property={dataKey}
-          resultValues={this.props.resultValues[dataKey]}
-          updateResultsFilter={this.props.updateResultsFilter}
-        />
-      );
-      return children;
-    };
-
-    const labelRenderer = ({cellData, rowData}) => {
+    const idRenderer = ({cellData, rowData}) => {
       if (cellData == null) return '';
-      const label = <a target='_blank' rel='noopener noreferrer' href={rowData.s}>{cellData}</a>;
-      let  marker = '';
-      if (typeof rowData.lat !== 'undefined' || typeof rowData.long !== 'undefined') {
-        marker = (
-          <IconButton
-            onMouseOver={handleMarkerMouseOver(rowData.s)}
-            onMouseOut={handleMarkerMouseOut(rowData.s)}
-            onClick={handleMarkerClick(rowData.s)}
-            aria-label="Marker"
-          >
-            <PlaceIcon />
-          </IconButton>
-        );
-      }
+      const idLink = <a target='_blank' rel='noopener noreferrer' href={'https://sdbm.library.upenn.edu/manuscripts/' + cellData}>{cellData}</a>;
+
       return (
-        <div key={rowData.s}>
-          {label}{marker}
+        <div key={cellData}>
+          {idLink}
         </div>
       );
     };
-
-    const handleMarkerClick = value => () => {
-      this.props.openMarkerPopup(value);
-    };
-
-    const handleMarkerMouseOver = value => () => {
-      this.props.bounceMarker(value);
-    };
-
-    const handleMarkerMouseOut = () => () => {
-      this.props.removeTempMarker();
-    };
-
-    // const searchField = (
-    //   <SearchField
-    //     search={this.props.search}
-    //     fetchManuscripts={this.props.fetchManuscripts}
-    //     fetchPlaces={this.props.fetchPlaces}
-    //     updateQuery={this.props.updateQuery}
-    //     clearManuscripts={this.props.clearManuscripts}
-    //     clearPlaces={this.props.clearPlaces}
-    //   />
-    // );
 
     const valueFromArray = (property, rowData) => {
       if (rowData[property] === 'Undefined') {
@@ -176,6 +108,7 @@ class VirtualizedTable extends React.PureComponent {
         return rowData[property].map((item => item.split(';')[1])).join(' | ');
       }
     };
+
 
     // sort={this._sort}
     // sortBy={this.props.search.sortBy}
@@ -208,8 +141,7 @@ class VirtualizedTable extends React.PureComponent {
                       label="ID"
                       cellDataGetter={({rowData}) => rowData.id.replace('http://ldf.fi/mmm/manifestation_singleton/', '')}
                       dataKey="id"
-
-                      cellRenderer={labelRenderer}
+                      cellRenderer={idRenderer}
                       width={70}
                     />
                     <Column
