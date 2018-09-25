@@ -87,6 +87,8 @@ class TopBar extends React.Component {
     const { anchorEl } = this.state;
     const { classes } = this.props;
 
+    //  <FormControlLabel value="heatmap" control={<Radio />} label="Heatmap" />
+
     return (
       <AppBar position="absolute">
         <Toolbar className={classes.toolBar}>
@@ -107,26 +109,7 @@ class TopBar extends React.Component {
             onClose={this.handleClose}
           >
             <div className={classes.menuContent}>
-              <FormControl component="fieldset" className={classes.formControl}>
-                <FormLabel component="legend">Source datasets</FormLabel>
-                <FormGroup className={classes.formGroup}>
-                  {Object.keys(this.props.datasets).map(id => (
-                    <FormControlLabel
-                      key={id}
-                      control={
-                        <Checkbox
-                          checked={this.props.datasets[id].selected}
-                          onChange={this.handleToggleDataset(id)}
-                          tabIndex={-1}
-                          disableRipple
-                        />
-                      }
-                      label={this.props.datasets[id].title}
-                    />
 
-                  ))}
-                </FormGroup>
-              </FormControl>
 
               <FormControl component="fieldset" className={classes.formControl}>
                 <FormLabel component="legend">Map mode</FormLabel>
@@ -139,7 +122,7 @@ class TopBar extends React.Component {
                 >
                   <FormControlLabel value="cluster" control={<Radio />} label="Clustered markers" />
                   <FormControlLabel value="noCluster" control={<Radio />} label="Markers" />
-                  <FormControlLabel value="heatmap" control={<Radio />} label="Heatmap" />
+
                 </RadioGroup>
               </FormControl>
 

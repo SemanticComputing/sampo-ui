@@ -74,8 +74,6 @@
     "react-alert-template-basic": "^1.0.0",
     "react-autosuggest": "^9.4.1",
     "react-csv": "^1.0.15",
-    "react-data-grid": "^4.0.8",
-    "react-data-grid-addons": "^4.0.8",
     "react-dom": "^16.5.1",
     "react-google-maps": "^9.4.5",
     "react-redux": "^5.0.7",
