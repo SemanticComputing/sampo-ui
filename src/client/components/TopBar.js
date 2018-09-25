@@ -92,6 +92,13 @@ class TopBar extends React.Component {
     const { classes } = this.props;
 
     //  <FormControlLabel value="heatmap" control={<Radio />} label="Heatmap" />
+    //
+    // <CSVLink data={this.props.results}>
+    //   <Button variant="contained" color="primary" className={classes.button}>
+    //     Results as CSV
+    //     <CloudDownloadIcon className={classes.rightIcon} />
+    //   </Button>
+    // </CSVLink>
 
     return (
       <AppBar position="absolute">
@@ -131,12 +138,7 @@ class TopBar extends React.Component {
               </FormControl>
 
 
-              <CSVLink data={this.props.results}>
-                <Button variant="contained" color="primary" className={classes.button}>
-                  Results as CSV
-                  <CloudDownloadIcon className={classes.rightIcon} />
-                </Button>
-              </CSVLink>
+
             </div>
 
           </Menu>
@@ -160,7 +162,7 @@ class TopBar extends React.Component {
 
 TopBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  results: PropTypes.array.isRequired,
+  //results: PropTypes.array.isRequired,
   oneColumnView: PropTypes.bool.isRequired,
   mapMode: PropTypes.string.isRequired,
   resultFormat: PropTypes.string.isRequired,

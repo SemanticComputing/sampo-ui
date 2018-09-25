@@ -255,7 +255,6 @@ let MapApp = (props) => {
     <div className={classes.root}>
       <div className={classes.appFrame}>
         <TopBar
-          results={manuscripts}
           oneColumnView={oneColumnView}
           mapMode={options.mapMode}
           resultFormat={options.resultFormat}
