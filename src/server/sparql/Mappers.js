@@ -50,13 +50,13 @@ export const mapManuscripts = (sparqlBindings) => {
   const results = sparqlBindings.map(b => {
     return {
       id: b.id.value,
-      sdbmId: _.has(b, 'sdbmId',) ? b.sdbmId.value : 'Undefined',
+      sdbmId: _.has(b, 'sdbmId') ? b.sdbmId.value : '-',
       prefLabel: b.prefLabel.value,
-      author: _.has(b, 'author',) ? b.author.value.split('|') : 'Undefined',
-      timespan: _.has(b, 'timespan',) ? b.timespan.value.split('|') : 'Undefined',
-      creationPlace: _.has(b, 'creationPlace',) ? b.creationPlace.value.split('|') : 'Undefined',
-      material: _.has(b, 'material',) ? b.material.value.split('|') : 'Undefined',
-      language: _.has(b, 'language',) ? b.language.value.split('|') : 'Undefined',
+      author: _.has(b, 'author',) ? b.author.value.split('|') : '-',
+      timespan: _.has(b, 'timespan',) ? b.timespan.value.split('|') : '-',
+      creationPlace: _.has(b, 'creationPlace',) ? b.creationPlace.value.split('|') : '-',
+      material: _.has(b, 'material',) ? b.material.value.split('|') : '-',
+      language: _.has(b, 'language',) ? b.language.value.split('|') : '-',
     };
   });
   return results;

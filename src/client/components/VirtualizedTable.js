@@ -92,8 +92,13 @@ class VirtualizedTable extends React.PureComponent {
 
     const idRenderer = ({cellData, rowData}) => {
       if (cellData == null) return '';
-      const idLink = <a target='_blank' rel='noopener noreferrer' href={'https://sdbm.library.upenn.edu/manuscripts/' + cellData}>{cellData}</a>;
-
+      let sdbmUrl = '';
+      if (rowData.sdbmId) {
+        sdbmUrl = 'https://sdbm.library.upenn.edu/manuscripts/';
+      } else {
+        sdbmUrl = 'https://sdbm.library.upenn.edu/entries/';
+      }
+      const idLink = <a target='_blank' rel='noopener noreferrer' href={sdbmUrl + cellData}>{cellData}</a>;
       return (
         <div key={cellData}>
           {idLink}
@@ -102,7 +107,7 @@ class VirtualizedTable extends React.PureComponent {
     };
 
     const valueFromArray = (property, rowData) => {
-      if (rowData[property] === 'Undefined') {
+      if (rowData[property] === '-') {
         return rowData[property];
       } else {
         return rowData[property].map((item => item.split(';')[1])).join(' | ');
