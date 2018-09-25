@@ -177,11 +177,14 @@ class VirtualizedTable extends React.PureComponent {
       }
     };
 
+    // sort={this._sort}
+    // sortBy={this.props.search.sortBy}
+
     return (
       <div className={classes.root}>
         <Grid container className={classes.container}>
           <div className={classes.resultsInfo}>
-        
+
           </div>
           {this.props.list.size > 0 &&
             <div style={{ flex: '1 1 auto' }}>
@@ -192,8 +195,7 @@ class VirtualizedTable extends React.PureComponent {
                     rowHeight={40}
                     rowGetter={rowGetter}
                     rowCount={this.props.list.size}
-                    sort={this._sort}
-                    sortBy={this.props.search.sortBy}
+
                     sortDirection={this.props.search.sortDirection.toUpperCase()}
                     width={width}
                     height={height}
@@ -206,30 +208,30 @@ class VirtualizedTable extends React.PureComponent {
                       label="ID"
                       cellDataGetter={({rowData}) => rowData.id.replace('http://ldf.fi/mmm/manifestation_singleton/', '')}
                       dataKey="id"
-                      headerRenderer={headerRenderer}
+
                       cellRenderer={labelRenderer}
-                      width={columnWidth}
+                      width={70}
                     />
                     <Column
-                      label="Label"
-                      cellDataGetter={({rowData}) => rowData.label}
-                      dataKey="label"
-                      headerRenderer={headerRenderer}
-                      width={columnWidth}
+                      label="Title"
+                      cellDataGetter={({rowData}) => rowData.prefLabel}
+                      dataKey="prefLabel"
+
+                      width={300}
                     />
                     <Column
                       label="Author"
                       cellDataGetter={({rowData}) => valueFromArray('author', rowData)}
                       dataKey="author"
-                      headerRenderer={headerRenderer}
-                      width={columnWidth}
+
+                      width={300}
                     />
                     <Column
                       label="Creation place"
                       cellDataGetter={({rowData}) => valueFromArray('creationPlace', rowData)}
                       dataKey="creationPlace"
-                      headerRenderer={headerRenderer}
-                      width={columnWidth}
+
+                      width={300}
                     />
                   </Table>
                 )}

@@ -286,6 +286,8 @@ let MapApp = (props) => {
   );
 };
 
+
+
 const mapStateToProps = (state) => {
   return {
     options: state.options,
