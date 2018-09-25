@@ -20,5 +20,5 @@ npm run dev
 docker build -t mmm-web-app-c .
 docker stop mmm-web-app
 docker rm mmm-web-app
-docker run -d -p 3005:3001 --name mmm-web-app mmm-web-app-c
+docker run -d -p 3006:3001 --name mmm-web-app mmm-web-app-c
 ```
