@@ -48,7 +48,8 @@ export const INITIAL_STATE = {
   sortDirection: 'asc',
   groupBy: 'label',
   resultsQuery: '',
-  fetchingResults: false,
+  fetchingPlaces: false,
+  fetchingManuscripts: false
 };
 
 const search = (state = INITIAL_STATE, action) => {
@@ -71,8 +72,9 @@ const search = (state = INITIAL_STATE, action) => {
     case FETCH_SUGGESTIONS:
       return { ...state, fetchingSuggestions: true };
     case FETCH_MANUSCRIPTS:
+      return { ...state, fetchingManuscripts: true };
     case FETCH_PLACES:
-      return { ...state, fetchingResults: true };
+      return { ...state, fetchingPlaces: true };
     case CLEAR_SUGGESTIONS:
       return {
         ...state,
@@ -92,28 +94,28 @@ const search = (state = INITIAL_STATE, action) => {
         ...state,
         manuscripts: action.manuscripts,
         //resultsQuery: state.query,
-        fetchingResults: false
+        fetchingManuscripts: false
       };
     case UPDATE_PLACES:
       return {
         ...state,
         places: action.places,
         //resultsQuery: state.query,
-        fetchingResults: false
+        fetchingPlaces: false
       };
     case CLEAR_MANUSCRIPTS:
       return {
         ...state,
         'manuscripts': [],
         resultsQuery: '',
-        fetchingResults: false
+        fetchingManuscripts: false
       };
     case CLEAR_PLACES:
       return {
         ...state,
         'places': {},
         resultsQuery: '',
-        fetchingResults: false
+        fetchingPlaces: false
       };
     case UPDATE_RESULTS_FILTER:
       return updateResultsFilter(state, action);

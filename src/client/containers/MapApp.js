@@ -11,6 +11,8 @@ import LeafletMap from '../components/map/LeafletMap';
 import GMap from '../components/map/GMap';
 import Pie from '../components/Pie';
 import TopBar from '../components/TopBar';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import purple from '@material-ui/core/colors/purple';
 
 import {
   //getVisibleResults,
@@ -93,6 +95,11 @@ const styles = theme => ({
     width: '100%',
     height: '100%',
   },
+  progress: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   footer: {
     position: 'absolute',
     borderTop: '4px solid' + theme.palette.primary.main,
@@ -137,32 +144,45 @@ let MapApp = (props) => {
   // console.log('resultFormat', resultFormat)
   // console.log('mapMode', mapMode)
   //console.log(props.results)
-  console.log(manuscripts)
+  //console.log(manuscripts)
 
   let table = '';
-  if ((oneColumnView && options.resultFormat === 'table') || (!oneColumnView)) {
+  if (search.fetchingManuscripts) {
+    const tableClass = oneColumnView ? classes.resultTableOneColumn : classes.resultTable;
+
+
     table = (
-      <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
-        <VirtualizedTable
-          list={Immutable.List(manuscripts)}
-          resultValues={resultValues}
-          search={search}
-          sortResults={props.sortResults}
-          updateResultsFilter={props.updateResultsFilter}
-          updateQuery={props.updateQuery}
-          fetchManuscripts={props.fetchManuscripts}
-          clearManuscripts={props.clearManuscripts}
-          fetchPlaces={props.fetchPlaces}
-          clearPlaces={props.clearPlaces}
-          fetchSuggestions={props.fetchSuggestions}
-          clearSuggestions={props.clearSuggestions}
-          bounceMarker={props.bounceMarker}
-          openMarkerPopup={props.openMarkerPopup}
-          removeTempMarker={props.removeTempMarker}
-        />
+      <div className={[tableClass, classes.progress].join(' ')}>
+        <CircularProgress style={{ color: purple[500] }} thickness={7} />
       </div>
     );
+  } else {
+    if ((oneColumnView && options.resultFormat === 'table') || (!oneColumnView)) {
+      table = (
+        <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
+          <VirtualizedTable
+            list={Immutable.List(manuscripts)}
+            resultValues={resultValues}
+            search={search}
+            sortResults={props.sortResults}
+            updateResultsFilter={props.updateResultsFilter}
+            updateQuery={props.updateQuery}
+            fetchManuscripts={props.fetchManuscripts}
+            clearManuscripts={props.clearManuscripts}
+            fetchPlaces={props.fetchPlaces}
+            clearPlaces={props.clearPlaces}
+            fetchSuggestions={props.fetchSuggestions}
+            clearSuggestions={props.clearSuggestions}
+            bounceMarker={props.bounceMarker}
+            openMarkerPopup={props.openMarkerPopup}
+            removeTempMarker={props.removeTempMarker}
+          />
+        </div>
+      );
+    }
   }
+
+
 
   let mapElement = '';
   if ((oneColumnView && options.resultFormat === 'map') || (!oneColumnView)) {
