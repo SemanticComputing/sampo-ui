@@ -19,7 +19,7 @@ module.exports = {
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX sdbm: <https://sdbm.library.upenn.edu/>
       SELECT
-      ?id ?sdbmId
+      ?id ?manuscriptRecord ?entry
       (GROUP_CONCAT(DISTINCT ?prefLabel_; SEPARATOR=" | ") AS ?prefLabel)
       (GROUP_CONCAT(DISTINCT ?author_; SEPARATOR="|") AS ?author)
       (GROUP_CONCAT(DISTINCT ?timespan_; SEPARATOR="|") AS ?timespan)
@@ -47,11 +47,9 @@ module.exports = {
           ?id crm:P128_carries ?expression .
           ?expression crm:P72_has_language ?language_ .
         }
-        OPTIONAL {
-          ?id mmm-schema:manuscript_record ?sdbmId .
-        }
+        OPTIONAL { ?id mmm-schema:manuscript_record ?manuscriptRecord . }
       }
-      GROUP BY ?id  ?sdbmId
+      GROUP BY ?id ?manuscriptRecord ?entry
       ORDER BY DESC(?creationPlace)
       `,
     'placeQuery': `
