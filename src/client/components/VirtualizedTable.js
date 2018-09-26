@@ -68,8 +68,6 @@ const tableStyles = {
   }
 };
 
-const columnWidth = 200;
-
 const calculateRowStyle = ({ index }) => {
   if (index < 0) {
     return tableStyles.headerRow;
@@ -98,9 +96,10 @@ class VirtualizedTable extends React.PureComponent {
         id = cellData.replace('orphan_', '');
         sdbmUrl = 'https://sdbm.library.upenn.edu/entries/' + id;
       } else {
-        id = cellData.replace('part_', '');
+        id = cellData;
         sdbmUrl = rowData.manuscriptRecord;
       }
+      id = id.replace('part_', '');
       const idLink = <a target='_blank' rel='noopener noreferrer' href={sdbmUrl}>{id}</a>;
       return (
         <div key={cellData}>
