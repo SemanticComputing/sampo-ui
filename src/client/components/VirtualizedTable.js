@@ -3,15 +3,14 @@ import Immutable from 'immutable';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
-import SearchField from '../components/SearchField';
-import ResultFilterDialogSingle from './ResultFilterDialogSingle';
-import IconButton from '@material-ui/core/IconButton';
-import PlaceIcon from '@material-ui/icons/Place';
+// import ResultFilterDialogSingle from './ResultFilterDialogSingle';
+// import IconButton from '@material-ui/core/IconButton';
+// import PlaceIcon from '@material-ui/icons/Place';
 import {
   AutoSizer,
   Column,
   Table,
-  SortIndicator
+  //SortIndicator
 } from 'react-virtualized';
 
 // https://github.com/bvaughn/react-virtualized/issues/650
@@ -185,7 +184,7 @@ class VirtualizedTable extends React.PureComponent {
                       cellDataGetter={({rowData}) => rowData.author}
                       dataKey="author"
                       cellRenderer={this.objectListRenderer}
-                      width={300}
+                      width={400}
                     />
                     <Column
                       label="Creation place"
