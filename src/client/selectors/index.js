@@ -3,8 +3,8 @@ import _ from 'lodash';
 
 // https://redux.js.org/recipes/computing-derived-data
 
-const getResultsFilter = (state) => state.resultsFilter;
-const getResults = (state) => state.results;
+const getResultsFilter = (state) => state.manuscriptsFilter;
+const getResults = (state) => state.manuscripts;
 const getSortBy = (state) => state.sortBy;
 const getSortDirection = (state) => state.sortDirection;
 

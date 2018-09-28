@@ -15,7 +15,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 
 import {
-  //getVisibleResults,
+  getVisibleResults,
   getVisibleValues
 } from '../selectors';
 
@@ -71,7 +71,7 @@ const styles = theme => ({
 
   },
   resultTableOneColumn: {
-    width: 1024,
+    width: '100%',
     height: 'calc(100% - 5px)',
   },
   rightColumn: {
@@ -135,16 +135,12 @@ const styles = theme => ({
 });
 
 let MapApp = (props) => {
-  const { classes, options, browser, search, map, manuscripts, creationPlaces, resultValues } = props;
+  const { classes, options, browser, search, map, manuscripts, creationPlaces, manuscriptsPropertyValues } = props;
   //error,
 
-  let oneColumnView = browser.lessThan.extraLarge;
+  let oneColumnView = true;
 
-  // console.log('oneColumnView', oneColumnView)
-  // console.log('resultFormat', resultFormat)
-  // console.log('mapMode', mapMode)
-  //console.log(props.results)
-  //console.log(manuscripts)
+  console.log(manuscripts)
 
   let table = '';
   if (search.fetchingManuscripts) {
@@ -162,7 +158,7 @@ let MapApp = (props) => {
         <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
           <VirtualizedTable
             list={Immutable.List(manuscripts)}
-            resultValues={resultValues}
+            manuscriptsPropertyValues={manuscriptsPropertyValues}
             search={search}
             sortResults={props.sortResults}
             updateResultsFilter={props.updateResultsFilter}
@@ -294,11 +290,9 @@ const mapStateToProps = (state) => {
     browser: state.browser,
     search: state.search,
     map: state.map,
-    // results: getVisibleResults(state.search),
-    manuscripts: state.search.manuscripts,
+    manuscripts: getVisibleResults(state.search),
+    manuscriptsPropertyValues: getVisibleValues(state.search),
     creationPlaces: state.search.places,
-    //resultValues: getVisibleValues(state.search),
-    resultValues: {},
   };
 };
 
@@ -332,7 +326,7 @@ MapApp.propTypes = {
   map: PropTypes.object.isRequired,
   manuscripts: PropTypes.array,
   creationPlaces: PropTypes.array,
-  resultValues: PropTypes.object,
+  manuscriptsPropertyValues: PropTypes.object.isRequired,
 
   updateQuery: PropTypes.func.isRequired,
   toggleDataset: PropTypes.func.isRequired,

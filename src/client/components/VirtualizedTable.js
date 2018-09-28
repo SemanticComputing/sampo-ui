@@ -84,41 +84,64 @@ class VirtualizedTable extends React.PureComponent {
     this._sort = this._sort.bind(this);
   }
 
+  idRenderer = ({cellData, rowData}) => {
+    if (cellData == null) return '';
+    let sdbmUrl = '';
+    let id = '';
+    if (rowData.manuscriptRecord == '-') {
+      id = cellData.replace('orphan_', '');
+      sdbmUrl = 'https://sdbm.library.upenn.edu/entries/' + id;
+    } else {
+      id = cellData;
+      sdbmUrl = rowData.manuscriptRecord;
+    }
+    id = id.replace('part_', '');
+    const idLink = <a target='_blank' rel='noopener noreferrer' href={sdbmUrl}>{id}</a>;
+    return (
+      <div key={cellData}>
+        {idLink}
+      </div>
+    );
+  };
+
+  objectListRenderer = ({cellData}) => {
+    if (cellData == null || cellData === '-' ) {
+      return ( <div key={cellData}>{'-'}</div>
+      );
+    } else {
+      return (
+        <div key={cellData}>
+          {cellData.map((item, i) => <span key={i}>
+            {!!i && <br />}
+            <a target='_blank' rel='noopener noreferrer'
+              href={'https://sdbm.library.upenn.edu/' + item.sdbmType + '/' + item.id}>{item.prefLabel}
+            </a>
+          </span>)}
+        </div>
+      );
+    }
+  };
+
+  stringListRenderer = ({cellData}) => {
+    if (cellData == null || cellData === '-' ) {
+      return ( <div key={cellData}>{'-'}</div>
+      );
+    } else {
+      return (
+        <div key={cellData}>
+          {cellData.map((item, i) => <span key={i}>
+            {!!i && <br />}
+            {item}
+          </span>)}
+        </div>
+      );
+    }
+  };
+
+
   render() {
     const { classes, list } = this.props;
     const rowGetter = ({index}) => this._getDatum(list, index);
-
-    const idRenderer = ({cellData, rowData}) => {
-      if (cellData == null) return '';
-      let sdbmUrl = '';
-      let id = '';
-      if (rowData.manuscriptRecord == '-') {
-        id = cellData.replace('orphan_', '');
-        sdbmUrl = 'https://sdbm.library.upenn.edu/entries/' + id;
-      } else {
-        id = cellData;
-        sdbmUrl = rowData.manuscriptRecord;
-      }
-      id = id.replace('part_', '');
-      const idLink = <a target='_blank' rel='noopener noreferrer' href={sdbmUrl}>{id}</a>;
-      return (
-        <div key={cellData}>
-          {idLink}
-        </div>
-      );
-    };
-
-    const valueFromArray = (property, rowData) => {
-      if (rowData[property] === '-') {
-        return rowData[property];
-      } else {
-        return rowData[property].map((item => item.split(';')[1])).join(' | ');
-      }
-    };
-
-
-    // sort={this._sort}
-    // sortBy={this.props.search.sortBy}
 
     return (
       <div className={classes.root}>
@@ -132,10 +155,9 @@ class VirtualizedTable extends React.PureComponent {
                 {({ height, width }) => (
                   <Table
                     overscanRowCount={10}
-                    rowHeight={40}
+                    rowHeight={150}
                     rowGetter={rowGetter}
                     rowCount={this.props.list.size}
-
                     sortDirection={this.props.search.sortDirection.toUpperCase()}
                     width={width}
                     height={height}
@@ -148,28 +170,28 @@ class VirtualizedTable extends React.PureComponent {
                       label="ID"
                       cellDataGetter={({rowData}) => rowData.id.replace('http://ldf.fi/mmm/manifestation_singleton/', '')}
                       dataKey="id"
-                      cellRenderer={idRenderer}
+                      cellRenderer={this.idRenderer}
                       width={70}
                     />
                     <Column
                       label="Title"
                       cellDataGetter={({rowData}) => rowData.prefLabel}
                       dataKey="prefLabel"
-
-                      width={300}
+                      cellRenderer={this.stringListRenderer}
+                      width={400}
                     />
                     <Column
                       label="Author"
-                      cellDataGetter={({rowData}) => valueFromArray('author', rowData)}
+                      cellDataGetter={({rowData}) => rowData.author}
                       dataKey="author"
-
+                      cellRenderer={this.objectListRenderer}
                       width={300}
                     />
                     <Column
                       label="Creation place"
-                      cellDataGetter={({rowData}) => valueFromArray('creationPlace', rowData)}
+                      cellDataGetter={({rowData}) => rowData.creationPlace}
                       dataKey="creationPlace"
-
+                      cellRenderer={this.objectListRenderer}
                       width={300}
                     />
                   </Table>
@@ -225,7 +247,7 @@ VirtualizedTable.propTypes = {
   classes: PropTypes.object.isRequired,
   list: PropTypes.instanceOf(Immutable.List).isRequired,
   search: PropTypes.object.isRequired,
-  resultValues: PropTypes.object.isRequired,
+  manuscriptsPropertyValues: PropTypes.object.isRequired,
   sortResults: PropTypes.func.isRequired,
   updateResultsFilter: PropTypes.func.isRequired,
   updateQuery: PropTypes.func.isRequired,

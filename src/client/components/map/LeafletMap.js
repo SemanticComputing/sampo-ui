@@ -68,8 +68,8 @@ class LeafletMap extends React.Component {
 
     // create map
     this.leafletMap = L.map('map', {
-      center: [42.94, 20.57],
-      zoom: 2,
+      center: [22.43,10.37],
+      zoom: 3,
       layers: [
         OSMBaseLayer,
         this.resultMarkerLayer,

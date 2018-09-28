@@ -51,15 +51,28 @@ export const mapManuscripts = (sparqlBindings) => {
     return {
       id: b.id.value,
       manuscriptRecord: _.has(b, 'manuscriptRecord') ? b.manuscriptRecord.value : '-',
-      prefLabel: b.prefLabel.value,
-      author: _.has(b, 'author',) ? b.author.value.split('|') : '-',
-      timespan: _.has(b, 'timespan',) ? b.timespan.value.split('|') : '-',
-      creationPlace: _.has(b, 'creationPlace',) ? b.creationPlace.value.split('|') : '-',
+      prefLabel: b.prefLabel.value.split('|'),
+      author: _.has(b, 'author',) ? createObjectList(b.author.value, 'names') : '-',
+      timespan: _.has(b, 'timespan',) ? createObjectList(b.timespan.value) : '-',
+      creationPlace: _.has(b, 'creationPlace',) ? createObjectList(b.creationPlace.value, 'places') : '-',
       material: _.has(b, 'material',) ? b.material.value.split('|') : '-',
       language: _.has(b, 'language',) ? b.language.value.split('|') : '-',
     };
   });
   return results;
+};
+
+const createObjectList = (str, sdbmType) => {
+  const strings = str.split('|');
+  return strings.map(s => {
+    const values = s.split(';');
+    return {
+      id: values[0].substring(values[0].lastIndexOf('/') + 1),
+      //id: values[0],
+      prefLabel: values[1],
+      sdbmType: sdbmType
+    };
+  });
 };
 
 export const mapPlaces = (sparqlBindings) => {

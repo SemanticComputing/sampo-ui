@@ -29,7 +29,6 @@ module.exports = {
       WHERE {
         ?id a frbroo:F4_Manifestation_Singleton .
         ?id skos:prefLabel ?prefLabel_ .
-
         OPTIONAL { ?id crm:P45_consists_of ?material_ . }
         ?expression_creation frbroo:R18_created ?id .
         OPTIONAL {
@@ -37,7 +36,11 @@ module.exports = {
           ?authorId skos:prefLabel ?authorLabel
           BIND(CONCAT(STR(?authorId), ";", STR(?authorLabel)) AS ?author_)
         }
-        OPTIONAL { ?expression_creation crm:P4_has_time_span ?timespan_ . }
+        OPTIONAL {
+          ?expression_creation crm:P4_has_time_span ?timespanId .
+          ?timespanId skos:prefLabel ?timespanLabel .
+          BIND(CONCAT(STR(?timespanId), ";", STR(?timespanLabel)) AS ?timespan_)
+        }
         OPTIONAL {
           ?expression_creation crm:P7_took_place_at ?creationPlaceId .
           ?creationPlaceId skos:prefLabel ?creationPlaceLabel .
@@ -51,6 +54,7 @@ module.exports = {
       }
       GROUP BY ?id ?manuscriptRecord ?entry
       ORDER BY DESC(?creationPlace)
+      LIMIT 2000
       `,
     'placeQuery': `
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
