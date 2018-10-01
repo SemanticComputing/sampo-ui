@@ -8,6 +8,8 @@ import { withStyles } from '@material-ui/core/styles';
 // import PlaceIcon from '@material-ui/icons/Place';
 import {
   AutoSizer,
+  CellMeasurer,
+  CellMeasurerCache,
   Column,
   Table,
   //SortIndicator
@@ -27,15 +29,13 @@ const styles = () => ({
     width: '100%',
     flexDirection: 'column'
   },
-  resultsInfo: {
-    flexGrow: 0
+  tableColumn: {
+    padding: '5px 15px 5px 0'
   },
-  searchField: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 70
-  },
+  valueList: {
+    marginTop: 0,
+    marginBottom: 0,
+  }
 });
 
 const tableStyles = {
@@ -46,45 +46,64 @@ const tableStyles = {
     textTransform: 'none',
     borderBottom: '1px solid rgba(224, 224, 224, 1)'
   },
-  evenRow: {
-    borderBottom: '1px solid rgba(224, 224, 224, 1)',
-    //backgroundColor: '#fafafa'
+  tableRow: {
+    borderBottom: '1px solid rgba(224, 224, 224, 1)'
   },
-  oddRow: {
-    borderBottom: '1px solid rgba(224, 224, 224, 1)',
-  },
-  noRows: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '1em',
-    color: '#bdbdbd',
-  }
-};
-
-const calculateRowStyle = ({ index }) => {
-  if (index < 0) {
-    return tableStyles.headerRow;
-  } else {
-    return index % 2 === 0 ? tableStyles.evenRow : tableStyles.oddRow;
-  }
 };
 
 class VirtualizedTable extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    this._noRowsRenderer = this._noRowsRenderer.bind(this);
-    this._sort = this._sort.bind(this);
   }
 
-  idRenderer = ({cellData, rowData}) => {
-    if (cellData == null) return '';
+  cache = new CellMeasurerCache({
+    fixedWidth: true,
+    minHeight: 40,
+  });
+
+  columnCellRenderer = ({dataKey, parent, rowIndex}) => {
+    const {list} = this.props;
+    const rowData = list.get(rowIndex % list.size);
+    const cellData = rowData[dataKey];
+    let cellContent = '';
+    if (cellData == null | cellData === '-') {
+      cellContent = '-';
+    } else {
+      switch(dataKey) {
+        case 'prefLabel':
+          cellContent = this.stringListRenderer(cellData);
+          break;
+        case 'author':
+          cellContent = this.objectListRenderer(cellData);
+          break;
+      }
+    }
+
+    return (
+      <CellMeasurer
+        cache={this.cache}
+        columnIndex={0}
+        key={dataKey}
+        parent={parent}
+        rowIndex={rowIndex}>
+        <div
+          className={this.props.classes.tableColumn}
+          style={{
+            whiteSpace: 'normal',
+          }}>
+          {cellContent}
+        </div>
+      </CellMeasurer>
+    );
+
+  };
+
+  idRenderer = ({dataKey, parent, rowIndex}) => {
+    const {list} = this.props;
+    const rowData = list.get(rowIndex % list.size);
+    let cellData = rowData[dataKey];
+    cellData = cellData.replace('http://ldf.fi/mmm/manifestation_singleton/', '');
     let sdbmUrl = '';
     let id = '';
     if (rowData.manuscriptRecord == '-') {
@@ -95,103 +114,105 @@ class VirtualizedTable extends React.PureComponent {
       sdbmUrl = rowData.manuscriptRecord;
     }
     id = id.replace('part_', '');
-    const idLink = <a target='_blank' rel='noopener noreferrer' href={sdbmUrl}>{id}</a>;
     return (
-      <div key={cellData}>
-        {idLink}
+      <div className={this.props.classes.tableColumn}>
+        <a target='_blank' rel='noopener noreferrer' href={sdbmUrl}>{id}</a>
       </div>
     );
   };
 
-  objectListRenderer = ({cellData}) => {
-    if (cellData == null || cellData === '-' ) {
-      return ( <div key={cellData}>{'-'}</div>
-      );
-    } else {
-      return (
-        <div key={cellData}>
-          {cellData.map((item, i) => <span key={i}>
-            {!!i && <br />}
-            <a target='_blank' rel='noopener noreferrer'
-              href={'https://sdbm.library.upenn.edu/' + item.sdbmType + '/' + item.id}>{item.prefLabel}
+  objectListRenderer = (cellData) => {
+    return (
+      <ul className={this.props.classes.valueList}>
+        {cellData.map((item, i) =>
+          <li key={i}>
+            <a
+              target='_blank' rel='noopener noreferrer'
+              href={'https://sdbm.library.upenn.edu/' + item.sdbmType + '/' + item.id}
+            >
+              {item.prefLabel}
             </a>
-          </span>)}
-        </div>
-      );
+          </li>
+        )}
+      </ul>
+    );
+  };
+
+  stringListRenderer = (cellData) => {
+    return (
+      <ul className={this.props.classes.valueList}>
+        {cellData.map((item, i) => <li key={i}>{item}</li>)}
+      </ul>
+    );
+  };
+
+  rowGetter = ({index}) => this.getDatum(this.props.list, index);
+
+  getDatum = (list, index) => {
+    return list.get(index % list.size);
+  }
+
+  calculateRowStyle = ({ index }) => {
+    if (index < 0) {
+      return tableStyles.headerRow;
+    } else {
+      return tableStyles.tableRow;
     }
   };
 
-  stringListRenderer = ({cellData}) => {
-    if (cellData == null || cellData === '-' ) {
-      return ( <div key={cellData}>{'-'}</div>
-      );
-    } else {
-      return (
-        <div key={cellData}>
-          {cellData.map((item, i) => <span key={i}>
-            {!!i && <br />}
-            {item}
-          </span>)}
-        </div>
-      );
-    }
-  };
+  // <Column
+  //   label="Creation place"
+  //   dataKey="creationPlace"
+  //   cellRenderer={this.columnCellRenderer}
+  //   width={300}
+  // />
+
+  //
 
 
   render() {
-    const { classes, list } = this.props;
-    const rowGetter = ({index}) => this._getDatum(list, index);
+    const { classes } = this.props;
 
     return (
       <div className={classes.root}>
         <Grid container className={classes.container}>
           <div className={classes.resultsInfo}>
-
           </div>
           {this.props.list.size > 0 &&
             <div style={{ flex: '1 1 auto' }}>
               <AutoSizer>
                 {({ height, width }) => (
                   <Table
+                    deferredMeasurementCache={this.cache}
+                    rowHeight={this.cache.rowHeight}
                     overscanRowCount={10}
-                    rowHeight={150}
-                    rowGetter={rowGetter}
+                    rowClassName={'tableRow'}
+                    rowGetter={this.rowGetter}
                     rowCount={this.props.list.size}
                     sortDirection={this.props.search.sortDirection.toUpperCase()}
                     width={width}
                     height={height}
                     headerHeight={50}
-                    noRowsRenderer={this._noRowsRenderer}
                     style={tableStyles.tableRoot}
-                    rowStyle={calculateRowStyle}
+                    rowStyle={this.calculateRowStyle}
                   >
                     <Column
                       label="ID"
-                      cellDataGetter={({rowData}) => rowData.id.replace('http://ldf.fi/mmm/manifestation_singleton/', '')}
                       dataKey="id"
                       cellRenderer={this.idRenderer}
                       width={70}
                     />
                     <Column
                       label="Title"
-                      cellDataGetter={({rowData}) => rowData.prefLabel}
                       dataKey="prefLabel"
-                      cellRenderer={this.stringListRenderer}
+                      cellRenderer={this.columnCellRenderer}
                       width={400}
                     />
                     <Column
                       label="Author"
-                      cellDataGetter={({rowData}) => rowData.author}
                       dataKey="author"
-                      cellRenderer={this.objectListRenderer}
+                      cellRenderer={this.columnCellRenderer}
                       width={400}
-                    />
-                    <Column
-                      label="Creation place"
-                      cellDataGetter={({rowData}) => rowData.creationPlace}
-                      dataKey="creationPlace"
-                      cellRenderer={this.objectListRenderer}
-                      width={300}
                     />
                   </Table>
                 )}
@@ -201,44 +222,6 @@ class VirtualizedTable extends React.PureComponent {
         </Grid>
       </div>
     );
-  }
-
-  _getDatum(list, index) {
-    return list.get(index % list.size);
-  }
-
-  _getRowHeight({index}) {
-    const list = this.props.list;
-    return this._getDatum(list, index).size;
-  }
-
-  _noRowsRenderer() {
-    return <div className={tableStyles.noRows}>No rows</div>;
-  }
-
-
-  // _onScrollToRowChange(event) {
-  //   const {rowCount} = this.state;
-  //   let scrollToIndex = Math.min(
-  //     rowCount - 1,
-  //     parseInt(event.target.value, 10),
-  //   );
-  //
-  //   if (isNaN(scrollToIndex)) {
-  //     scrollToIndex = undefined;
-  //   }
-  //
-  //   this.setState({scrollToIndex});
-  // }
-
-  // https://stackoverflow.com/questions/40412114/how-to-do-proper-column-filtering-with-react-virtualized-advice-needed
-  _sort({ event, sortBy, sortDirection }) {
-    // console.log(event.target)
-    if (event.target.id.startsWith('filter') || event.target.className.startsWith('Mui')) {
-      event.stopPropagation();
-    } else {
-      this.props.sortResults({ sortBy, sortDirection: sortDirection.toLowerCase() });
-    }
   }
 }
 
