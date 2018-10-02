@@ -85,6 +85,10 @@ class VirtualizedTable extends React.PureComponent {
           cellContent = this.objectListRenderer(cellData);
           columnIndex = 2;
           break;
+        case 'timespan':
+          cellContent = this.stringListRenderer(cellData);
+          columnIndex = 3;
+          break;
       }
     }
     return (
@@ -237,6 +241,12 @@ class VirtualizedTable extends React.PureComponent {
                     <Column
                       label="Creation place"
                       dataKey="creationPlace"
+                      cellRenderer={this.columnCellRenderer}
+                      width={400}
+                    />
+                    <Column
+                      label="Creation date"
+                      dataKey="timespan"
                       cellRenderer={this.columnCellRenderer}
                       width={400}
                     />
