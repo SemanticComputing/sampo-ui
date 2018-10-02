@@ -27,7 +27,7 @@ const styles = () => ({
   container: {
     height: '100%',
     width: '100%',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   tableColumn: {
     padding: '5px 15px 5px 0'
@@ -35,6 +35,7 @@ const styles = () => ({
   valueList: {
     marginTop: 0,
     marginBottom: 0,
+    paddingLeft: 15
   }
 });
 
@@ -67,23 +68,29 @@ class VirtualizedTable extends React.PureComponent {
     const rowData = list.get(rowIndex % list.size);
     const cellData = rowData[dataKey];
     let cellContent = '';
+    let columnIndex = 0;
     if (cellData == null | cellData === '-') {
       cellContent = '-';
     } else {
       switch(dataKey) {
         case 'prefLabel':
           cellContent = this.stringListRenderer(cellData);
+          columnIndex = 0;
           break;
         case 'author':
           cellContent = this.objectListRenderer(cellData);
+          columnIndex = 1;
+          break;
+        case 'creationPlace':
+          cellContent = this.objectListRenderer(cellData);
+          columnIndex = 2;
           break;
       }
     }
-
     return (
       <CellMeasurer
         cache={this.cache}
-        columnIndex={0}
+        columnIndex={columnIndex}
         key={dataKey}
         parent={parent}
         rowIndex={rowIndex}>
@@ -96,10 +103,9 @@ class VirtualizedTable extends React.PureComponent {
         </div>
       </CellMeasurer>
     );
-
   };
 
-  idRenderer = ({dataKey, parent, rowIndex}) => {
+  idRenderer = ({dataKey, rowIndex}) => {
     const {list} = this.props;
     const rowData = list.get(rowIndex % list.size);
     let cellData = rowData[dataKey];
@@ -122,28 +128,45 @@ class VirtualizedTable extends React.PureComponent {
   };
 
   objectListRenderer = (cellData) => {
-    return (
-      <ul className={this.props.classes.valueList}>
-        {cellData.map((item, i) =>
-          <li key={i}>
-            <a
-              target='_blank' rel='noopener noreferrer'
-              href={'https://sdbm.library.upenn.edu/' + item.sdbmType + '/' + item.id}
-            >
-              {item.prefLabel}
-            </a>
-          </li>
-        )}
-      </ul>
-    );
+    if (cellData.length < 2) {
+      const item = cellData[0];
+      return (
+        <a
+          target='_blank' rel='noopener noreferrer'
+          href={'https://sdbm.library.upenn.edu/' + item.sdbmType + '/' + item.id}
+        >
+          {item.prefLabel}
+        </a>
+      );
+    } else {
+      return (
+        <ul className={this.props.classes.valueList}>
+          {cellData.map((item, i) =>
+            <li key={i}>
+              <a
+                target='_blank' rel='noopener noreferrer'
+                href={'https://sdbm.library.upenn.edu/' + item.sdbmType + '/' + item.id}
+              >
+                {item.prefLabel}
+              </a>
+            </li>
+          )}
+        </ul>
+      );
+    }
   };
 
   stringListRenderer = (cellData) => {
-    return (
-      <ul className={this.props.classes.valueList}>
-        {cellData.map((item, i) => <li key={i}>{item}</li>)}
-      </ul>
-    );
+    if (cellData.length < 2) {
+      return <span>{cellData[0]}</span>;
+    } else {
+      return (
+        <ul className={this.props.classes.valueList}>
+          {cellData.map((item, i) => <li key={i}>{item}</li>)}
+        </ul>
+      );
+    }
+
   };
 
   rowGetter = ({index}) => this.getDatum(this.props.list, index);
@@ -160,15 +183,9 @@ class VirtualizedTable extends React.PureComponent {
     }
   };
 
-  // <Column
-  //   label="Creation place"
-  //   dataKey="creationPlace"
-  //   cellRenderer={this.columnCellRenderer}
-  //   width={300}
-  // />
-
-  //
-
+  onResize = () => {
+    this.cache.clearAll();
+  }
 
   render() {
     const { classes } = this.props;
@@ -180,7 +197,9 @@ class VirtualizedTable extends React.PureComponent {
           </div>
           {this.props.list.size > 0 &&
             <div style={{ flex: '1 1 auto' }}>
-              <AutoSizer>
+              <AutoSizer
+                onResize={this.onResize}
+              >
                 {({ height, width }) => (
                   <Table
                     deferredMeasurementCache={this.cache}
@@ -200,6 +219,7 @@ class VirtualizedTable extends React.PureComponent {
                       label="ID"
                       dataKey="id"
                       cellRenderer={this.idRenderer}
+                      minWidth={70}
                       width={70}
                     />
                     <Column
@@ -211,6 +231,12 @@ class VirtualizedTable extends React.PureComponent {
                     <Column
                       label="Author"
                       dataKey="author"
+                      cellRenderer={this.columnCellRenderer}
+                      width={400}
+                    />
+                    <Column
+                      label="Creation place"
+                      dataKey="creationPlace"
                       cellRenderer={this.columnCellRenderer}
                       width={400}
                     />
