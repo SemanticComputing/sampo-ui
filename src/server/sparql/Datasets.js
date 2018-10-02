@@ -38,8 +38,7 @@ module.exports = {
         }
         OPTIONAL {
           ?expression_creation crm:P4_has_time_span ?timespanId .
-          ?timespanId skos:prefLabel ?timespanLabel .
-          BIND(CONCAT(STR(?timespanLabel), ";", STR(?timespanId)) AS ?timespan_)
+          ?timespanId rdfs:label ?timespan_.
         }
         OPTIONAL {
           ?expression_creation crm:P7_took_place_at ?creationPlaceId .
