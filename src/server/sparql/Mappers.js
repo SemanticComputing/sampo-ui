@@ -67,9 +67,9 @@ const createObjectList = (str, sdbmType) => {
   return strings.map(s => {
     const values = s.split(';');
     return {
-      id: values[0].substring(values[0].lastIndexOf('/') + 1),
+      id: values[1].substring(values[1].lastIndexOf('/') + 1),
       //id: values[0],
-      prefLabel: values[1],
+      prefLabel: values[0],
       sdbmType: sdbmType
     };
   });

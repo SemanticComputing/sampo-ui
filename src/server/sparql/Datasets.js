@@ -19,7 +19,7 @@ module.exports = {
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX sdbm: <https://sdbm.library.upenn.edu/>
       SELECT
-      ?id ?manuscriptRecord ?entry
+      ?id ?manuscriptRecord
       (GROUP_CONCAT(DISTINCT ?prefLabel_; SEPARATOR=" | ") AS ?prefLabel)
       (GROUP_CONCAT(DISTINCT ?author_; SEPARATOR="|") AS ?author)
       (GROUP_CONCAT(DISTINCT ?timespan_; SEPARATOR="|") AS ?timespan)
@@ -34,17 +34,17 @@ module.exports = {
         OPTIONAL {
           ?expression_creation crm:P14_carried_out_by ?authorId .
           ?authorId skos:prefLabel ?authorLabel
-          BIND(CONCAT(STR(?authorId), ";", STR(?authorLabel)) AS ?author_)
+          BIND(CONCAT(STR(?authorLabel), ";", STR(?authorId)) AS ?author_)
         }
         OPTIONAL {
           ?expression_creation crm:P4_has_time_span ?timespanId .
           ?timespanId skos:prefLabel ?timespanLabel .
-          BIND(CONCAT(STR(?timespanId), ";", STR(?timespanLabel)) AS ?timespan_)
+          BIND(CONCAT(STR(?timespanLabel), ";", STR(?timespanId)) AS ?timespan_)
         }
         OPTIONAL {
           ?expression_creation crm:P7_took_place_at ?creationPlaceId .
           ?creationPlaceId skos:prefLabel ?creationPlaceLabel .
-          BIND(CONCAT(STR(?creationPlaceId), ";", STR(?creationPlaceLabel)) AS ?creationPlace_)
+          BIND(CONCAT(STR(?creationPlaceLabel), ";", STR(?creationPlaceId)) AS ?creationPlace_)
         }
         OPTIONAL {
           ?id crm:P128_carries ?expression .
@@ -52,7 +52,7 @@ module.exports = {
         }
         OPTIONAL { ?id mmm-schema:manuscript_record ?manuscriptRecord . }
       }
-      GROUP BY ?id ?manuscriptRecord ?entry
+      GROUP BY ?id ?manuscriptRecord
       ORDER BY DESC(?creationPlace)
       LIMIT 2000
       `,
