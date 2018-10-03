@@ -9,15 +9,13 @@
 // #             mmm-schema:entry ?ownerEntry .
 // #   BIND(CONCAT(STR(?ownerLabel), ";", STR(?ownerId), ";", STR(?ownerOrder), ";", STR(?ownerEntry)) AS ?owner_)
 // # }
-
-
 module.exports = {
   'mmm': {
     'title': 'MMM',
     'shortTitle': 'MMM',
     'timePeriod': '',
-    //'endpoint': 'http://ldf.fi/mmm-sdbm-cidoc/sparql',
-    'endpoint': 'http://localhost:3034/ds/sparql',
+    'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
+    //'endpoint': 'http://localhost:3034/ds/sparql',
     'allQuery': `
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -33,7 +31,6 @@ module.exports = {
       SELECT
       ?id ?manuscriptRecord
       (GROUP_CONCAT(DISTINCT ?prefLabel_; SEPARATOR=" | ") AS ?prefLabel)
-
       (GROUP_CONCAT(DISTINCT ?author_; SEPARATOR="|") AS ?author)
       (GROUP_CONCAT(DISTINCT ?timespan_; SEPARATOR="|") AS ?timespan)
       (GROUP_CONCAT(DISTINCT ?creationPlace_; SEPARATOR="|") AS ?creationPlace)
@@ -42,7 +39,6 @@ module.exports = {
       WHERE {
         ?id a frbroo:F4_Manifestation_Singleton .
         ?id skos:prefLabel ?prefLabel_ .
-
         OPTIONAL { ?id crm:P45_consists_of ?material_ . }
         ?expression_creation frbroo:R18_created ?id .
         OPTIONAL {
@@ -66,8 +62,7 @@ module.exports = {
         OPTIONAL { ?id mmm-schema:manuscript_record ?manuscriptRecord . }
       }
       GROUP BY ?id ?manuscriptRecord
-      ORDER BY DESC(?creationPlace)
-      LIMIT 100
+      ORDER BY (!BOUND(?creationPlace)) ?creationPlace
       `,
     'placeQuery': `
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
