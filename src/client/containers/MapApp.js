@@ -12,6 +12,7 @@ import GMap from '../components/map/GMap';
 import Pie from '../components/Pie';
 import TopBar from '../components/TopBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
 import purple from '@material-ui/core/colors/purple';
 
 import {
@@ -100,6 +101,9 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  progressTitle: {
+    marginRight: 15
+  },
   footer: {
     position: 'absolute',
     borderTop: '4px solid' + theme.palette.primary.main,
@@ -149,7 +153,8 @@ let MapApp = (props) => {
 
     table = (
       <div className={[tableClass, classes.progress].join(' ')}>
-        <CircularProgress style={{ color: purple[500] }} thickness={7} />
+        <Typography className={classes.progressTitle} variant="display1">Fetching manuscript data</Typography>
+        <CircularProgress style={{ color: purple[500] }} thickness={5} />
       </div>
     );
   } else {
