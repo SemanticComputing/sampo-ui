@@ -46,7 +46,7 @@ export const groupBy = (sparqlBindings, group) => Object.values(_.reduce(sparqlB
 // };
 
 export const mapManuscripts = (sparqlBindings) => {
-  console.log(sparqlBindings);
+  //console.log(sparqlBindings);
   const results = sparqlBindings.map(b => {
     return {
       id: b.id.value,
