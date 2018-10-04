@@ -9,7 +9,7 @@ const sparqlSearchEngine = new SparqlSearchEngine();
 
 export const getManuscripts = (page) => {
   let { endpoint, allQuery } = datasetConfig['mmm'];
-  allQuery = allQuery.replace('<PAGE>', 'LIMIT 25');
+  allQuery = allQuery.replace('<PAGE>', 'LIMIT 50');
   return sparqlSearchEngine.doSearch(allQuery, endpoint, mapManuscripts);
 };
 
