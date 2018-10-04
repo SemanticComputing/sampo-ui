@@ -68,7 +68,7 @@ class TopBar extends React.Component {
   };
 
   componentDidMount() {
-    this.props.fetchManuscripts();
+    this.props.fetchManuscripts(1);
   }
 
   handleClick = event => {

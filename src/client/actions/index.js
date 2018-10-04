@@ -102,8 +102,9 @@ export const fetchResultsFailed = (error) => ({
 });
 
 // Manuscripts
-export const fetchManuscripts = () => ({
+export const fetchManuscripts = (page) => ({
   type: FETCH_MANUSCRIPTS,
+  page
 });
 
 export const updateManuscripts = ({ manuscripts }) => ({

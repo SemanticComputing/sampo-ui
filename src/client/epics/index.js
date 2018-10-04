@@ -72,13 +72,11 @@ const getSuggestionsEpic = (action$, store) => {
 //     });
 // };
 
-const getManuscripts = (action$, store) => {
+const getManuscripts = (action$) => {
   const searchUrl = hiplaApiUrl + 'manuscripts';
   return action$.ofType(FETCH_MANUSCRIPTS)
-    .switchMap(() => {
-      const { datasets } = store.getState().search;
-      const dsParams = _.map(pickSelectedDatasets(datasets), ds => `dataset=${ds}`).join('&');
-      const requestUrl = `${searchUrl}?${dsParams}`;
+    .switchMap(action => {
+      const requestUrl = `${searchUrl}?page=${action.page}`;
       return ajax.getJSON(requestUrl)
         .map(response => updateManuscripts({ manuscripts: response }))
         .catch(error => Observable.of({

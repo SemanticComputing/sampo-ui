@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import request from 'superagent';
 import _ from 'lodash';
-import sparqlSearchEngine from './sparql/SparqlSearchEngine';
+import { getManuscripts, getPlaces } from './sparql/Manuscripts';
 const DEFAULT_PORT = 3001;
 const app = express();
 //const isDevelopment  = app.get('env') !== 'production';
@@ -19,44 +19,10 @@ app.use(function(req, res, next) {
 
 app.use(express.static(__dirname + './../public/'));
 
-app.get('/suggest', (req, res) => {
-  // https://softwareengineering.stackexchange.com/questions/233164/how-do-searches-fit-into-a-restful-interface
-  // example request: http://localhost:3000/search?dataset=warsa_karelian_places&dataset=pnr&q=viip
-  const queryDatasets = _.castArray(req.query.dataset);
-  const queryTerm = req.query.q;
-  // console.log(queryDatasets);
-
-  return sparqlSearchEngine.getFederatedSuggestions(queryTerm, queryDatasets).then((data) => {
-    // console.log(data);
-    res.json(data);
-  })
-    .catch((err) => {
-      console.log(err);
-      return res.sendStatus(500);
-    });
-});
-
-app.get('/search', (req, res) => {
-  // https://softwareengineering.stackexchange.com/questions/233164/how-do-searches-fit-into-a-restful-interface
-  // example request: http://localhost:3000/search?dataset=warsa_karelian_places&dataset=pnr&q=viip
-  const queryDatasets = _.castArray(req.query.dataset);
-  const queryTerm = req.query.q;
-  // console.log(queryDatasets);
-
-  return sparqlSearchEngine.getFederatedResults(queryTerm, queryDatasets).then((data) => {
-    // console.log(data);
-    res.json(data);
-  })
-    .catch((err) => {
-      console.log(err);
-      return res.sendStatus(500);
-    });
-});
 
 app.get('/manuscripts', (req, res) => {
-  const queryDatasets = _.castArray(req.query.dataset);
-
-  return sparqlSearchEngine.getFederatedManuscripts(queryDatasets).then((data) => {
+  const page = req.query.page || 1;
+  return getManuscripts(page).then((data) => {
     // console.log(data);
     res.json(data);
   })
@@ -67,9 +33,7 @@ app.get('/manuscripts', (req, res) => {
 });
 
 app.get('/places', (req, res) => {
-  const queryDatasets = _.castArray(req.query.dataset);
-
-  return sparqlSearchEngine.getFederatedPlaces(queryDatasets).then((data) => {
+  return getPlaces().then((data) => {
     // console.log(data);
     res.json(data);
   })

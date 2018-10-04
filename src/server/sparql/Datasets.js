@@ -63,6 +63,7 @@ module.exports = {
       }
       GROUP BY ?id ?manuscriptRecord
       ORDER BY (!BOUND(?creationPlace)) ?creationPlace
+      <PAGE>
       `,
     'placeQuery': `
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
