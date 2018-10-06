@@ -6,11 +6,13 @@ import search from './search';
 import error from './error';
 import options from './options';
 import map from './map';
+import facet from './facet';
 
 const reducer = combineReducers({
   options,
   search,
   map,
+  facet,
   error,
   toastr: toastrReducer,
   browser: createResponsiveStateReducer({

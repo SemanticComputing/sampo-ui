@@ -91,6 +91,19 @@ export const mapPlaces = (sparqlBindings) => {
   return results;
 };
 
+export const mapFacet = (sparqlBindings) => {
+  const results = sparqlBindings.map(b => {
+    return {
+      title: b.facet_text.value,
+      id: _.has(b, 'value',) ? b.value.value : 'no_selection',
+      cnt: b.cnt.value,
+      parent: _.has(b, 'parent',) ? b.parent.value : '0',
+    };
+  });
+  return results;
+};
+
+
 export const mapAllResults = (results) => groupBy(results, 'id');
 
 export const mergeFederatedResults = (results) => {

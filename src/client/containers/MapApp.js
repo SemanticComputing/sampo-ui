@@ -7,6 +7,7 @@ import compose from 'recompose/compose';
 import Paper from '@material-ui/core/Paper';
 import Immutable from 'immutable';
 import VirtualizedTable from '../components/VirtualizedTable';
+import ResultTable from '../components/ResultTable';
 import LeafletMap from '../components/map/LeafletMap';
 import GMap from '../components/map/GMap';
 import Pie from '../components/Pie';
@@ -27,8 +28,10 @@ import {
   clearSuggestions,
   fetchManuscripts,
   fetchPlaces,
+  fetchFacet,
   clearManuscripts,
   clearPlaces,
+  clearFacet,
   getGeoJSON,
   updateResultFormat,
   updateMapMode,
@@ -139,12 +142,12 @@ const styles = theme => ({
 });
 
 let MapApp = (props) => {
-  const { classes, options, browser, search, map, manuscripts, creationPlaces, manuscriptsPropertyValues } = props;
+  const { classes, options, browser, search, map, manuscripts, creationPlaces, facetValues } = props;
   //error,
 
   let oneColumnView = true;
 
-  console.log(manuscripts)
+  //console.log(manuscripts)
 
   let table = '';
   if (search.fetchingManuscripts) {
@@ -159,24 +162,13 @@ let MapApp = (props) => {
     );
   } else {
     if ((oneColumnView && options.resultFormat === 'table') || (!oneColumnView)) {
+      //console.log(facetValues)
       table = (
         <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
-          <VirtualizedTable
-            list={Immutable.List(manuscripts)}
-            manuscriptsPropertyValues={manuscriptsPropertyValues}
-            search={search}
-            sortResults={props.sortResults}
-            updateResultsFilter={props.updateResultsFilter}
-            updateQuery={props.updateQuery}
-            fetchManuscripts={props.fetchManuscripts}
-            clearManuscripts={props.clearManuscripts}
-            fetchPlaces={props.fetchPlaces}
-            clearPlaces={props.clearPlaces}
-            fetchSuggestions={props.fetchSuggestions}
-            clearSuggestions={props.clearSuggestions}
-            bounceMarker={props.bounceMarker}
-            openMarkerPopup={props.openMarkerPopup}
-            removeTempMarker={props.removeTempMarker}
+          <ResultTable
+            rows={manuscripts}
+            facetValues={facetValues}
+            fetchFacet={props.fetchFacet}
           />
         </div>
       );
@@ -298,6 +290,7 @@ const mapStateToProps = (state) => {
     manuscripts: getVisibleResults(state.search),
     manuscriptsPropertyValues: getVisibleValues(state.search),
     creationPlaces: state.search.places,
+    facetValues: state.facet.values
   };
 };
 
@@ -308,8 +301,10 @@ const mapDispatchToProps = ({
   clearSuggestions,
   fetchManuscripts,
   fetchPlaces,
+  fetchFacet,
   clearManuscripts,
   clearPlaces,
+  clearFacet,
   sortResults,
   getGeoJSON,
   updateResultFormat,
@@ -332,6 +327,7 @@ MapApp.propTypes = {
   manuscripts: PropTypes.array,
   creationPlaces: PropTypes.array,
   manuscriptsPropertyValues: PropTypes.object.isRequired,
+  facetValues: PropTypes.array.isRequired,
 
   updateQuery: PropTypes.func.isRequired,
   toggleDataset: PropTypes.func.isRequired,
@@ -339,8 +335,10 @@ MapApp.propTypes = {
   clearSuggestions: PropTypes.func.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
   fetchPlaces: PropTypes.func.isRequired,
+  fetchFacet: PropTypes.func.isRequired,
   clearManuscripts: PropTypes.func.isRequired,
   clearPlaces: PropTypes.func.isRequired,
+  clearFacet: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   getGeoJSON: PropTypes.func.isRequired,
   bounceMarker: PropTypes.func.isRequired,

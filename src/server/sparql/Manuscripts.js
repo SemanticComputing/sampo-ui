@@ -2,20 +2,26 @@ import SparqlSearchEngine from './SparqlSearchEngine';
 import datasetConfig from './Datasets';
 import {
   mapPlaces,
-  mapManuscripts
+  mapManuscripts,
+  mapFacet
 } from './Mappers';
 
 const sparqlSearchEngine = new SparqlSearchEngine();
 
 export const getManuscripts = (page) => {
   let { endpoint, allQuery } = datasetConfig['mmm'];
-  allQuery = allQuery.replace('<PAGE>', 'LIMIT 50');
+  allQuery = allQuery.replace('<PAGE>', 'LIMIT 20');
   return sparqlSearchEngine.doSearch(allQuery, endpoint, mapManuscripts);
 };
 
 export const getPlaces = () => {
   const { endpoint, placeQuery } = datasetConfig['mmm'];
   return sparqlSearchEngine.doSearch(placeQuery, endpoint, mapPlaces);
+};
+
+export const getFacet = (property) => {
+  const { endpoint } = datasetConfig['mmm'];
+  return sparqlSearchEngine.doSearch(facetQuery, endpoint, mapFacet);
 };
 
 
@@ -32,7 +38,8 @@ const facetQuery = `
   PREFIX sch: <http://schema.org/>
   PREFIX geosparql: <http://www.opengis.net/ont/geosparql#>
   PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
-  SELECT DISTINCT ?cnt ?facet_text ?value
+  PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
+  SELECT DISTINCT ?cnt ?facet_text ?value ?parent
   WHERE {
     {
       { SELECT DISTINCT (count(DISTINCT ?id) as ?cnt) {
@@ -42,13 +49,15 @@ const facetQuery = `
       } BIND("-- Ei valintaa --" AS ?facet_text) }
     UNION
     {
-      SELECT DISTINCT ?cnt ?value ?facet_text {
-        { SELECT DISTINCT (count(DISTINCT ?id) as ?cnt) ?value {
+      SELECT DISTINCT ?cnt ?value ?facet_text ?parent {
+        { SELECT DISTINCT (count(DISTINCT ?id) as ?cnt) ?value ?parent
+          {
             ?id a frbroo:F4_Manifestation_Singleton .
             ?id skos:prefLabel ?name .
             ?id ^frbroo:R18_created/crm:P7_took_place_at ?value .
+            OPTIONAL { ?value mmm-schema:parent ?parent }
           }
-          GROUP BY ?value
+          GROUP BY ?value ?parent
         }
         FILTER(BOUND(?value)) BIND(COALESCE(?value, <http://ldf.fi/NONEXISTENT_URI>) AS ?labelValue)
         OPTIONAL { ?labelValue skos:prefLabel ?lbl .

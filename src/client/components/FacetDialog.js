@@ -6,24 +6,21 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { withStyles } from '@material-ui/core/styles';
-import CheckboxList from './CheckboxList';
+import Tree from './Tree';
 
 const styles = () => ({
   root: {
     display: 'inline'
   },
-  iconButton: {
-    width: 25,
-    height: 25
-  }
 });
 
-class ResultFilterDialogSingle extends React.Component {
+class FacetDialog extends React.Component {
   state = {
     open: false,
   };
 
   handleClickOpen = () => {
+    this.props.fetchFacet(this.props.property);
     this.setState({ open: true });
   };
 
@@ -32,13 +29,12 @@ class ResultFilterDialogSingle extends React.Component {
   };
 
   render() {
-    const { classes, propertyLabel, property, resultValues } = this.props;
+    const { classes, propertyLabel, facetValues } = this.props;
 
     return (
       <div className={classes.root}>
-        <IconButton className={classes.iconButton}
+        <IconButton
           onClick={this.handleClickOpen}
-          id={'filter' + property}
           aria-label="Filter"
         >
           <FilterListIcon className={classes.iconButton} />
@@ -50,11 +46,7 @@ class ResultFilterDialogSingle extends React.Component {
         >
           <DialogTitle id="form-dialog-title">{propertyLabel}</DialogTitle>
           <DialogContent>
-            <CheckboxList
-              list={resultValues}
-              property={property}
-              updateResultsFilter={this.props.updateResultsFilter}
-            />
+            <Tree data={facetValues} />
           </DialogContent>
 
         </Dialog>
@@ -64,12 +56,12 @@ class ResultFilterDialogSingle extends React.Component {
 }
 
 
-ResultFilterDialogSingle.propTypes = {
+FacetDialog.propTypes = {
   classes: PropTypes.object.isRequired,
-  propertyLabel: PropTypes.string.isRequired,
   property: PropTypes.string.isRequired,
-  resultValues: PropTypes.array,
-  updateResultsFilter: PropTypes.func.isRequired
+  propertyLabel: PropTypes.string.isRequired,
+  fetchFacet: PropTypes.func.isRequired,
+  facetValues: PropTypes.array.isRequired,
 };
 
-export default withStyles(styles)(ResultFilterDialogSingle);
+export default withStyles(styles)(FacetDialog);

@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import request from 'superagent';
 import _ from 'lodash';
-import { getManuscripts, getPlaces } from './sparql/Manuscripts';
+import { getManuscripts, getPlaces, getFacet } from './sparql/Manuscripts';
 const DEFAULT_PORT = 3001;
 const app = express();
 //const isDevelopment  = app.get('env') !== 'production';
@@ -35,6 +35,18 @@ app.get('/manuscripts', (req, res) => {
 app.get('/places', (req, res) => {
   return getPlaces().then((data) => {
     // console.log(data);
+    res.json(data);
+  })
+    .catch((err) => {
+      console.log(err);
+      return res.sendStatus(500);
+    });
+});
+
+app.get('/facet', (req, res) => {
+  const property = req.query.property;
+  return getFacet(property).then((data) => {
+    //console.log(data);
     res.json(data);
   })
     .catch((err) => {

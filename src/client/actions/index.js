@@ -24,6 +24,13 @@ export const UPDATE_PLACES = 'UPDATE_PLACES';
 export const CLEAR_PLACES = 'CLEAR_PLACES';
 export const FETCH_PLACES_FAILED = 'FETCH_PLACES_FAILED';
 
+export const FETCH_FACET = 'FETCH_FACET';
+export const UPDATE_FACET = 'UPDATE_FACET';
+export const CLEAR_FACET = 'CLEAR_FACET';
+export const FETCH_FACET_FAILED = 'FETCH_FACET_FAILED';
+
+
+
 export const UPDATE_RESULTS_FILTER = 'UPDATE_RESULTS_FILTER';
 export const SORT_RESULTS = 'SORT_RESULTS';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
@@ -125,24 +132,34 @@ export const fetchManuscriptsFailed = (error) => ({
 export const fetchPlaces = () => ({
   type: FETCH_PLACES,
 });
-
 export const updatePlaces = ({ places }) => ({
   type: UPDATE_PLACES,
   places
 });
-
 export const clearPlaces = () => ({
   type: CLEAR_PLACES,
 });
-
 export const fetchPlacesFailed = (error) => ({
   type: FETCH_PLACES_FAILED,
   error
 });
 
-
-
-
+// Facet
+export const fetchFacet = (property) => ({
+  type: FETCH_FACET,
+  property
+});
+export const updateFacet = ({ values }) => ({
+  type: UPDATE_FACET,
+  values
+});
+export const clearFacet = () => ({
+  type: CLEAR_FACET,
+});
+export const fetchFacetFailed = (error) => ({
+  type: FETCH_FACET_FAILED,
+  error
+});
 
 
 export const updateResultsFilter = (filter) => ({
