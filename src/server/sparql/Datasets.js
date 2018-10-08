@@ -16,6 +16,51 @@ module.exports = {
     'timePeriod': '',
     'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
     //'endpoint': 'http://localhost:3034/ds/sparql',
+    'manuscriptQuery': `
+      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+      PREFIX dc: <http://purl.org/dc/elements/1.1/>
+      PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
+      PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+      PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+      PREFIX mmm: <http://ldf.fi/mmm/>
+      PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
+      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      PREFIX sdbm: <https://sdbm.library.upenn.edu/>
+      SELECT *
+      WHERE {
+        {
+          SELECT DISTINCT ?id {
+            ?id a frbroo:F4_Manifestation_Singleton .
+          }
+          <PAGE>
+        }
+        FILTER(BOUND(?id))
+        ?id skos:prefLabel ?prefLabel .
+        OPTIONAL { ?id crm:P45_consists_of ?material . }
+        ?expression_creation frbroo:R18_created ?id .
+        OPTIONAL {
+          ?expression_creation crm:P14_carried_out_by ?author__id .
+          ?author__id skos:prefLabel ?author__prefLabel
+          BIND(REPLACE(STR(?author__id), "http://ldf.fi/mmm/person/", "https://sdbm.library.upenn.edu/names/") AS ?author__sdbmLink)
+        }
+        OPTIONAL {
+          ?expression_creation crm:P4_has_time_span ?timespan__id .
+          ?timespan__id rdfs:label ?timespan__prefLabel.
+        }
+        OPTIONAL {
+          ?expression_creation crm:P7_took_place_at ?creationPlace__id .
+          ?creationPlace__id skos:prefLabel ?creationPlace__prefLabel .
+          BIND(REPLACE(STR(?creationPlace__id), "http://ldf.fi/mmm/place/", "https://sdbm.library.upenn.edu/places/") AS ?creationPlace__sdbmLink)
+        }
+        OPTIONAL {
+          ?id crm:P128_carries ?expression .
+          ?expression crm:P72_has_language ?language .
+        }
+        OPTIONAL { ?id mmm-schema:manuscript_record ?manuscriptRecord . }
+      }
+      `,
     'allQuery': `
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>

@@ -147,7 +147,7 @@ let MapApp = (props) => {
 
   let oneColumnView = true;
 
-  //console.log(manuscripts)
+  console.log(manuscripts)
 
   let table = '';
   if (search.fetchingManuscripts) {
@@ -168,6 +168,7 @@ let MapApp = (props) => {
           <ResultTable
             rows={manuscripts}
             facet={facet}
+            fetchManuscripts={props.fetchManuscripts}
             fetchFacet={props.fetchFacet}
           />
         </div>
@@ -269,17 +270,17 @@ let MapApp = (props) => {
           }
         </div>
         <Paper className={classes.footer}>
-          <img className={classes.aaltoLogo} src='img/logos/aalto-logo-white-no-background-small.png' alt='Aalto University logo'/>
-          <img className={classes.uhLogo} src='img/logos/university-of-helsinki-logo-white-no-background-small.png' alt='University of Helsinki logo'/>
-          <img className={classes.secoLogo} src='img/logos/seco-logo-white-no-background-small.png' alt='SeCo logo'/>
-          <img className={classes.heldigLogo} src='img/logos/heldig-logo-small.png' alt='HELDIG logo'/>
+
         </Paper>
       </div>
     </div>
   );
 };
 
-
+// <img className={classes.aaltoLogo} src='img/logos/aalto-logo-white-no-background-small.png' alt='Aalto University logo'/>
+// <img className={classes.uhLogo} src='img/logos/university-of-helsinki-logo-white-no-background-small.png' alt='University of Helsinki logo'/>
+// <img className={classes.secoLogo} src='img/logos/seco-logo-white-no-background-small.png' alt='SeCo logo'/>
+// <img className={classes.heldigLogo} src='img/logos/heldig-logo-small.png' alt='HELDIG logo'/>
 
 const mapStateToProps = (state) => {
   return {

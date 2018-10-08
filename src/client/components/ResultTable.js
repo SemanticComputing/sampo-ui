@@ -5,10 +5,13 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 import ResultTableHead from './ResultTableHead';
+import ResultTablePaginationActions from './ResultTablePaginationActions';
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     width: '100%',
     //marginTop: theme.spacing.unit * 3,
@@ -17,12 +20,31 @@ const styles = theme => ({
   table: {
     minWidth: 700,
   },
+  tableWrapper: {
+    overflowX: 'auto',
+  },
   valueList: {
     paddingLeft: 15
+  },
+  withFilter: {
+    minWidth: 200
   }
 });
 
 class ResultTable extends React.Component {
+  state = {
+    page: 0,
+    rowsPerPage: 5,
+  };
+
+  handleChangePage = (event, page) => {
+    this.props.fetchManuscripts(page + 1);
+    this.setState({ page });
+  };
+
+  handleChangeRowsPerPage = event => {
+    this.setState({ rowsPerPage: event.target.value });
+  };
 
   idRenderer = (row) => {
     let cell = row.id.replace('http://ldf.fi/mmm/manifestation_singleton/', '');
@@ -44,36 +66,29 @@ class ResultTable extends React.Component {
   };
 
   stringListRenderer = (cell) => {
-    if (cell.length < 2) {
-      return <span>{cell[0]}</span>;
-    } else {
+    if (Array.isArray(cell)) {
       return (
         <ul className={this.props.classes.valueList}>
           {cell.map((item, i) => <li key={i}>{item}</li>)}
         </ul>
       );
+    } else {
+      return <span>{cell}</span>;
     }
   };
 
   objectListRenderer = (cell) => {
-    if (cell.length < 2) {
-      const item = cell[0];
-      return (
-        <a
-          target='_blank' rel='noopener noreferrer'
-          href={'https://sdbm.library.upenn.edu/' + item.sdbmType + '/' + item.id}
-        >
-          {item.prefLabel}
-        </a>
-      );
-    } else {
+    if (cell == null){
+      return '-';
+    }
+    else if (Array.isArray(cell)) {
       return (
         <ul className={this.props.classes.valueList}>
           {cell.map((item, i) =>
             <li key={i}>
               <a
                 target='_blank' rel='noopener noreferrer'
-                href={'https://sdbm.library.upenn.edu/' + item.sdbmType + '/' + item.id}
+                href={item.sdbmLink}
               >
                 {item.prefLabel}
               </a>
@@ -81,59 +96,84 @@ class ResultTable extends React.Component {
           )}
         </ul>
       );
+    } else {
+      return (
+        <a
+          target='_blank' rel='noopener noreferrer'
+          href={cell.sdbmLink}
+        >
+          {cell.prefLabel}
+        </a>
+      );
     }
   };
 
   render() {
     const { classes, rows } = this.props;
+    const { rowsPerPage, page } = this.state;
+
     return (
       <Paper className={classes.root}>
-        <Table className={classes.table}>
-          <ResultTableHead
-            facet={this.props.facet}
-            fetchFacet={this.props.fetchFacet}
-          />
-          <TableBody>
-            {rows.map(row => {
-              return (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {this.idRenderer(row)}
-                  </TableCell>
-                  <TableCell>
-                    {this.stringListRenderer(row.prefLabel)}
-                  </TableCell>
-                  <TableCell>
-                    {this.objectListRenderer(row.author)}
-                  </TableCell>
-                  <TableCell>
-                    {this.objectListRenderer(row.creationPlace)}
-                  </TableCell>
-                  <TableCell>
-                    {this.stringListRenderer(row.timespan)}
-                  </TableCell>
-                  <TableCell>
-                    {this.stringListRenderer(row.language)}
-                  </TableCell>
-                  <TableCell>
-                    {this.stringListRenderer(row.material)}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+        <div className={classes.tableWrapper}>
+          <Table className={classes.table}>
+            <ResultTableHead
+              facet={this.props.facet}
+              fetchFacet={this.props.fetchFacet}
+            />
+            <TableBody>
+              {rows.map(row => {
+                return (
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      {this.idRenderer(row)}
+                    </TableCell>
+                    <TableCell>
+                      {this.stringListRenderer(row.prefLabel)}
+                    </TableCell>
+                    <TableCell>
+                      {this.objectListRenderer(row.author)}
+                    </TableCell>
+                    <TableCell className={classes.withFilter}>
+                      {this.objectListRenderer(row.creationPlace)}
+                    </TableCell>
+                    <TableCell>
+                      {this.objectListRenderer(row.timespan)}
+                    </TableCell>
+                    <TableCell>
+                      {this.stringListRenderer(row.language)}
+                    </TableCell>
+                    <TableCell>
+                      {this.stringListRenderer(row.material)}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  colSpan={3}
+                  count={rows.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                  ActionsComponent={ResultTablePaginationActions}
+                />
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </div>
       </Paper>
     );
   }
-
-
 }
 
 ResultTable.propTypes = {
   classes: PropTypes.object.isRequired,
   rows: PropTypes.array.isRequired,
   fetchFacet: PropTypes.func.isRequired,
+  fetchManuscripts: PropTypes.func.isRequired,
   facet: PropTypes.object.isRequired
 };
 

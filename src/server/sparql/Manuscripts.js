@@ -2,16 +2,17 @@ import SparqlSearchEngine from './SparqlSearchEngine';
 import datasetConfig from './Datasets';
 import {
   mapPlaces,
-  mapManuscripts,
-  mapFacet
+  mapFacet,
 } from './Mappers';
+import { makeObjectList } from './SparqlObjectMapper';
 
 const sparqlSearchEngine = new SparqlSearchEngine();
 
 export const getManuscripts = (page) => {
-  let { endpoint, allQuery } = datasetConfig['mmm'];
-  allQuery = allQuery.replace('<PAGE>', 'LIMIT 20');
-  return sparqlSearchEngine.doSearch(allQuery, endpoint, mapManuscripts);
+  let { endpoint, manuscriptQuery } = datasetConfig['mmm'];
+  const pageSize = 5;
+  manuscriptQuery = manuscriptQuery.replace('<PAGE>', `ORDER BY ?id LIMIT ${pageSize} OFFSET ${page * pageSize}`);
+  return sparqlSearchEngine.doSearch(manuscriptQuery, endpoint, makeObjectList);
 };
 
 export const getPlaces = () => {
