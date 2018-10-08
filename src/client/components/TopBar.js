@@ -143,7 +143,7 @@ class TopBar extends React.Component {
 
           </Menu>
           {/* <img className={classes.namesampoLogo} src='img/logos/namesampo.png' alt='NameSampo logo'/> */}
-          <Typography variant="title" color="inherit" className={classes.flex}>
+          <Typography variant="h6" color="inherit" className={classes.flex}>
             Mapping Manuscript Migrations
           </Typography>
           {this.props.oneColumnView &&
