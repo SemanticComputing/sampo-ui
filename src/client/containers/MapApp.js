@@ -29,6 +29,7 @@ import {
   fetchManuscripts,
   fetchPlaces,
   fetchFacet,
+  fetchResults,
   clearManuscripts,
   clearPlaces,
   clearFacet,
@@ -77,6 +78,7 @@ const styles = theme => ({
   resultTableOneColumn: {
     width: '100%',
     height: 'calc(100% - 5px)',
+    overflow: 'auto'
   },
   rightColumn: {
     height: '100%',
@@ -147,16 +149,15 @@ let MapApp = (props) => {
 
   let oneColumnView = true;
 
-  console.log(manuscripts)
+  //console.log(manuscripts)
 
   let table = '';
   if (search.fetchingManuscripts) {
     const tableClass = oneColumnView ? classes.resultTableOneColumn : classes.resultTable;
 
-
+    //<Typography className={classes.progressTitle} variant="h4">Fetching manuscript data</Typography>
     table = (
       <div className={[tableClass, classes.progress].join(' ')}>
-        <Typography className={classes.progressTitle} variant="h4">Fetching manuscript data</Typography>
         <CircularProgress style={{ color: purple[500] }} thickness={5} />
       </div>
     );
@@ -170,6 +171,8 @@ let MapApp = (props) => {
             facet={facet}
             fetchManuscripts={props.fetchManuscripts}
             fetchFacet={props.fetchFacet}
+            results={props.results}
+            page={props.page}
           />
         </div>
       );
@@ -255,6 +258,7 @@ let MapApp = (props) => {
           updateMapMode={props.updateMapMode}
           updateResultFormat={props.updateResultFormat}
           fetchManuscripts={props.fetchManuscripts}
+          fetchResults={props.fetchResults}
           datasets={search.datasets}
           toggleDataset={props.toggleDataset}
         />
@@ -292,6 +296,8 @@ const mapStateToProps = (state) => {
     manuscriptsPropertyValues: getVisibleValues(state.search),
     creationPlaces: state.search.places,
     facet: state.facet,
+    results: state.search.results,
+    page: state.search.page
   };
 };
 
@@ -302,6 +308,7 @@ const mapDispatchToProps = ({
   clearSuggestions,
   fetchManuscripts,
   fetchPlaces,
+  fetchResults,
   fetchFacet,
   clearManuscripts,
   clearPlaces,
@@ -329,6 +336,8 @@ MapApp.propTypes = {
   creationPlaces: PropTypes.array,
   manuscriptsPropertyValues: PropTypes.object.isRequired,
   facet: PropTypes.object.isRequired,
+  results: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
 
   updateQuery: PropTypes.func.isRequired,
   toggleDataset: PropTypes.func.isRequired,
@@ -337,6 +346,7 @@ MapApp.propTypes = {
   fetchManuscripts: PropTypes.func.isRequired,
   fetchPlaces: PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,
+  fetchResults: PropTypes.func.isRequired,
   clearManuscripts: PropTypes.func.isRequired,
   clearPlaces: PropTypes.func.isRequired,
   clearFacet: PropTypes.func.isRequired,

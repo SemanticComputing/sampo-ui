@@ -3,6 +3,7 @@ import datasetConfig from './Datasets';
 import {
   mapPlaces,
   mapFacet,
+  mapCount
 } from './Mappers';
 import { makeObjectList } from './SparqlObjectMapper';
 
@@ -12,7 +13,13 @@ export const getManuscripts = (page) => {
   let { endpoint, manuscriptQuery } = datasetConfig['mmm'];
   const pageSize = 5;
   manuscriptQuery = manuscriptQuery.replace('<PAGE>', `ORDER BY ?id LIMIT ${pageSize} OFFSET ${page * pageSize}`);
+  //console.log(manuscriptQuery)
   return sparqlSearchEngine.doSearch(manuscriptQuery, endpoint, makeObjectList);
+};
+
+export const getManuscriptCount = () => {
+  const { endpoint, countQuery } = datasetConfig['mmm'];
+  return sparqlSearchEngine.doSearch(countQuery, endpoint, mapCount);
 };
 
 export const getPlaces = () => {

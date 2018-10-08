@@ -114,9 +114,9 @@ export const fetchManuscripts = (page) => ({
   page
 });
 
-export const updateManuscripts = ({ manuscripts }) => ({
+export const updateManuscripts = ({ manuscripts, page }) => ({
   type: UPDATE_MANUSCRIPTS,
-  manuscripts
+  manuscripts, page
 });
 
 export const clearManuscripts = () => ({

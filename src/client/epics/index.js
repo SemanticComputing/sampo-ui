@@ -6,12 +6,14 @@ import {
   updateManuscripts,
   updatePlaces,
   updateFacet,
+  updateResults,
   //updateGeoJSON,
   FETCH_FACET,
   //FETCH_FACET_FAILED,
   FETCH_MANUSCRIPTS,
   //FETCH_MANUSCRIPTS_FAILED,
   FETCH_PLACES,
+  FETCH_RESULTS
   //FETCH_PLACES_FAILED,
   //GET_GEOJSON,
   //GET_GEOJSON_FAILED
@@ -27,7 +29,7 @@ const getManuscripts = action$ => action$.pipe(
     const searchUrl = hiplaApiUrl + 'manuscripts';
     const requestUrl = `${searchUrl}?page=${action.page}`;
     return ajax.getJSON(requestUrl).pipe(
-      map(response => updateManuscripts({ manuscripts: response }))
+      map(response => updateManuscripts({ manuscripts: response, page: action.page }))
     );
   })
 );
@@ -50,6 +52,17 @@ const getFacet = action$ => action$.pipe(
     const requestUrl = `${searchUrl}?property=${action.property}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateFacet({ values: response }))
+    );
+  })
+);
+
+const getResultCount = action$ => action$.pipe(
+  ofType(FETCH_RESULTS),
+  mergeMap(() => {
+    const searchUrl = hiplaApiUrl + 'manuscript-count';
+    const requestUrl = `${searchUrl}`;
+    return ajax.getJSON(requestUrl).pipe(
+      map(response => updateResults({ results: response }))
     );
   })
 );
@@ -80,6 +93,7 @@ const rootEpic = combineEpics(
   getManuscripts,
   getPlaces,
   getFacet,
+  getResultCount,
   // getGeoJSONEpic
 );
 

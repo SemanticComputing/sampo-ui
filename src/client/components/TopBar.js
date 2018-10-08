@@ -68,7 +68,8 @@ class TopBar extends React.Component {
   };
 
   componentDidMount() {
-    this.props.fetchManuscripts(1);
+    this.props.fetchResults();
+    this.props.fetchManuscripts(0);
   }
 
   handleClick = event => {
@@ -167,6 +168,7 @@ TopBar.propTypes = {
   mapMode: PropTypes.string.isRequired,
   resultFormat: PropTypes.string.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
+  fetchResults: PropTypes.func.isRequired,
   updateResultFormat: PropTypes.func.isRequired,
   updateMapMode: PropTypes.func.isRequired,
   datasets: PropTypes.object.isRequired,

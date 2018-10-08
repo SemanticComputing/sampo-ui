@@ -21,7 +21,7 @@ const styles = () => ({
     minWidth: 700,
   },
   tableWrapper: {
-    overflowX: 'auto',
+    overflow: 'auto',
   },
   valueList: {
     paddingLeft: 15
@@ -33,13 +33,12 @@ const styles = () => ({
 
 class ResultTable extends React.Component {
   state = {
-    page: 0,
     rowsPerPage: 5,
   };
 
   handleChangePage = (event, page) => {
-    this.props.fetchManuscripts(page + 1);
-    this.setState({ page });
+    //console.log(page)
+    this.props.fetchManuscripts(page);
   };
 
   handleChangeRowsPerPage = event => {
@@ -109,8 +108,8 @@ class ResultTable extends React.Component {
   };
 
   render() {
-    const { classes, rows } = this.props;
-    const { rowsPerPage, page } = this.state;
+    const { classes, rows, page, results } = this.props;
+    const { rowsPerPage } = this.state;
 
     return (
       <Paper className={classes.root}>
@@ -153,8 +152,9 @@ class ResultTable extends React.Component {
               <TableRow>
                 <TablePagination
                   colSpan={3}
-                  count={rows.length}
+                  count={results}
                   rowsPerPage={rowsPerPage}
+                  rowsPerPageOptions={[5]}
                   page={page}
                   onChangePage={this.handleChangePage}
                   onChangeRowsPerPage={this.handleChangeRowsPerPage}
@@ -174,7 +174,9 @@ ResultTable.propTypes = {
   rows: PropTypes.array.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
-  facet: PropTypes.object.isRequired
+  facet: PropTypes.object.isRequired,
+  results: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired
 };
 
 export default withStyles(styles)(ResultTable);

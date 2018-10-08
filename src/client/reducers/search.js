@@ -4,6 +4,9 @@ import {
   FETCH_SUGGESTIONS,
   UPDATE_SUGGESTIONS,
   CLEAR_SUGGESTIONS,
+  FETCH_RESULTS,
+  UPDATE_RESULTS,
+  CLEAR_RESULTS,
   FETCH_MANUSCRIPTS,
   FETCH_PLACES,
   UPDATE_MANUSCRIPTS,
@@ -33,7 +36,10 @@ export const INITIAL_STATE = {
   suggestions: [],
   suggestionsQuery: '',
   fetchingSuggestions: false,
+  results: 0,
+  fetchingResults: false,
   manuscripts: [],
+  page: 0,
   places: [],
   manuscriptsFilter: {
     //'author': new Set(),
@@ -73,6 +79,8 @@ const search = (state = INITIAL_STATE, action) => {
       return { ...state, fetchingManuscripts: true };
     case FETCH_PLACES:
       return { ...state, fetchingPlaces: true };
+    case FETCH_RESULTS:
+      return { ...state, fetchResults: true };
     case CLEAR_SUGGESTIONS:
       return {
         ...state,
@@ -91,8 +99,14 @@ const search = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         manuscripts: action.manuscripts,
-        //resultsQuery: state.query,
+        page: action.page,
         fetchingManuscripts: false
+      };
+    case UPDATE_RESULTS:
+      return {
+        ...state,
+        results: parseInt(action.results.count),
+        fetchingResults: false
       };
     case UPDATE_PLACES:
       return {

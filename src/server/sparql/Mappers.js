@@ -91,6 +91,12 @@ export const mapPlaces = (sparqlBindings) => {
   return results;
 };
 
+export const mapCount = (sparqlBindings) => {
+  return {
+    count: sparqlBindings[0].count.value
+  };
+};
+
 export const mapFacet = (sparqlBindings) => {
   const results = sparqlBindings.map(b => {
     return {
