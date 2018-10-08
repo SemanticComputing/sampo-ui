@@ -142,7 +142,7 @@ const styles = theme => ({
 });
 
 let MapApp = (props) => {
-  const { classes, options, browser, search, map, manuscripts, creationPlaces, facetValues } = props;
+  const { classes, options, browser, search, map, manuscripts, creationPlaces, facet } = props;
   //error,
 
   let oneColumnView = true;
@@ -156,7 +156,7 @@ let MapApp = (props) => {
 
     table = (
       <div className={[tableClass, classes.progress].join(' ')}>
-        <Typography className={classes.progressTitle} variant="display1">Fetching manuscript data</Typography>
+        <Typography className={classes.progressTitle} variant="h4">Fetching manuscript data</Typography>
         <CircularProgress style={{ color: purple[500] }} thickness={5} />
       </div>
     );
@@ -167,7 +167,7 @@ let MapApp = (props) => {
         <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
           <ResultTable
             rows={manuscripts}
-            facetValues={facetValues}
+            facet={facet}
             fetchFacet={props.fetchFacet}
           />
         </div>
@@ -290,7 +290,7 @@ const mapStateToProps = (state) => {
     manuscripts: getVisibleResults(state.search),
     manuscriptsPropertyValues: getVisibleValues(state.search),
     creationPlaces: state.search.places,
-    facetValues: state.facet.values
+    facet: state.facet,
   };
 };
 
@@ -327,7 +327,7 @@ MapApp.propTypes = {
   manuscripts: PropTypes.array,
   creationPlaces: PropTypes.array,
   manuscriptsPropertyValues: PropTypes.object.isRequired,
-  facetValues: PropTypes.array.isRequired,
+  facet: PropTypes.object.isRequired,
 
   updateQuery: PropTypes.func.isRequired,
   toggleDataset: PropTypes.func.isRequired,

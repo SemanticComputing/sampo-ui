@@ -90,7 +90,7 @@ class ResultTable extends React.Component {
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <ResultTableHead
-            facetValues={this.props.facetValues}
+            facet={this.props.facet}
             fetchFacet={this.props.fetchFacet}
           />
           <TableBody>
@@ -134,7 +134,7 @@ ResultTable.propTypes = {
   classes: PropTypes.object.isRequired,
   rows: PropTypes.array.isRequired,
   fetchFacet: PropTypes.func.isRequired,
-  facetValues: PropTypes.array.isRequired
+  facet: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(ResultTable);

@@ -67,7 +67,7 @@ class ResultTableHead extends React.Component {
                       property={column.property}
                       propertyLabel={column.label}
                       fetchFacet={this.props.fetchFacet}
-                      facetValues={this.props.facetValues} />
+                      facet={this.props.facet} />
                   </Tooltip>}
               </TableCell>
             );
@@ -80,7 +80,7 @@ class ResultTableHead extends React.Component {
 
 ResultTableHead.propTypes = {
   fetchFacet: PropTypes.func.isRequired,
-  facetValues: PropTypes.array.isRequired
+  facet: PropTypes.object.isRequired
 };
 
 export default ResultTableHead;

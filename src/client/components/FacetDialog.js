@@ -7,17 +7,37 @@ import IconButton from '@material-ui/core/IconButton';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { withStyles } from '@material-ui/core/styles';
 import Tree from './Tree';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import purple from '@material-ui/core/colors/purple';
 
 const styles = () => ({
   root: {
     display: 'inline'
   },
+  dialogPaper: {
+    minHeight: '80vh',
+    maxHeight: '80vh',
+    minWidth: '60vh',
+  },
 });
 
 class FacetDialog extends React.Component {
-  state = {
-    open: false,
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      isLoading: false,
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.facet.fetchingFacet !== this.props.facet.fetchingFacet) {
+      this.setState({
+        isLoading: this.props.facet.fetchingFacet,
+      });
+    }
+  }
 
   handleClickOpen = () => {
     this.props.fetchFacet(this.props.property);
@@ -29,8 +49,7 @@ class FacetDialog extends React.Component {
   };
 
   render() {
-    const { classes, propertyLabel, facetValues } = this.props;
-
+    const { classes, propertyLabel, facet } = this.props;
     return (
       <div className={classes.root}>
         <IconButton
@@ -40,13 +59,14 @@ class FacetDialog extends React.Component {
           <FilterListIcon className={classes.iconButton} />
         </IconButton>
         <Dialog
+          classes={{ paper: classes.dialogPaper }}
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
           <DialogTitle id="form-dialog-title">{propertyLabel}</DialogTitle>
           <DialogContent>
-            <Tree data={facetValues} />
+            {this.state.isLoading ? <CircularProgress style={{ color: purple[500] }} thickness={5} /> : <Tree data={facet.values} />  }
           </DialogContent>
 
         </Dialog>
@@ -61,7 +81,7 @@ FacetDialog.propTypes = {
   property: PropTypes.string.isRequired,
   propertyLabel: PropTypes.string.isRequired,
   fetchFacet: PropTypes.func.isRequired,
-  facetValues: PropTypes.array.isRequired,
+  facet: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(FacetDialog);
