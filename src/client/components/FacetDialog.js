@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Tree from './Tree';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
+import Typography from '@material-ui/core/Typography';
 
 const styles = () => ({
   root: {
@@ -64,11 +65,12 @@ class FacetDialog extends React.Component {
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">{propertyLabel}</DialogTitle>
+          <DialogTitle disableTypography={true}>
+            <Typography variant="h6">{propertyLabel}</Typography>
+          </DialogTitle>
           <DialogContent>
             {this.state.isLoading ? <CircularProgress style={{ color: purple[500] }} thickness={5} /> : <Tree data={facet.values} />  }
           </DialogContent>
-
         </Dialog>
       </div>
     );
