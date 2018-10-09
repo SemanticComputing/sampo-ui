@@ -8,7 +8,9 @@ import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
-import ResultTableHead from './ResultTableHead';
+import TableHead from '@material-ui/core/TableHead';
+import Tooltip from '@material-ui/core/Tooltip';
+import FacetDialog from './FacetDialog';
 import ResultTablePaginationActions from './ResultTablePaginationActions';
 
 const styles = () => ({
@@ -23,6 +25,9 @@ const styles = () => ({
   tableWrapper: {
     overflow: 'auto',
   },
+  paginationRow: {
+    borderBottom: '1px solid lightgrey'
+  },
   valueList: {
     paddingLeft: 15
   },
@@ -30,6 +35,45 @@ const styles = () => ({
     minWidth: 200
   }
 });
+
+const columns = [
+  {
+    label: 'ID',
+    property: 'id',
+    desc: 'ID description'
+  },
+  {
+    label: 'Title',
+    property: 'prefLabel',
+    desc: 'Title description'
+  },
+  {
+    label: 'Author',
+    property: 'author',
+    desc: 'Author description'
+  },
+  {
+    label: 'Creation place',
+    property: 'creationPlace',
+    desc: 'Creation place description',
+    filter: true
+  },
+  {
+    label: 'Creation date',
+    property: 'timespan',
+    desc: 'Creation date description'
+  },
+  {
+    label: 'Language',
+    property: 'language',
+    desc: 'Language description'
+  },
+  {
+    label: 'Material',
+    property: 'material',
+    desc: 'Material description'
+  },
+];
 
 class ResultTable extends React.Component {
   state = {
@@ -115,10 +159,42 @@ class ResultTable extends React.Component {
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
-            <ResultTableHead
-              facet={this.props.facet}
-              fetchFacet={this.props.fetchFacet}
-            />
+            <TableHead>
+              <TableRow className={classes.paginationRow}>
+                <TablePagination
+                  component="div"
+                  count={results}
+                  rowsPerPage={rowsPerPage}
+                  rowsPerPageOptions={[5]}
+                  page={page}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                  ActionsComponent={ResultTablePaginationActions}
+                />
+              </TableRow>
+              <TableRow>
+                {columns.map(column => {
+                  return (
+                    <TableCell key={column.label}>
+                      <Tooltip
+                        title={column.desc}
+                        enterDelay={200}
+                      >
+                        <span>{column.label}</span>
+                      </Tooltip>
+                      {column.filter &&
+                        <Tooltip title={'Filter ' + column.label}>
+                          <FacetDialog
+                            property={column.property}
+                            propertyLabel={column.label}
+                            fetchFacet={this.props.fetchFacet}
+                            facet={this.props.facet} />
+                        </Tooltip>}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            </TableHead>
             <TableBody>
               {rows.map(row => {
                 return (
@@ -149,18 +225,7 @@ class ResultTable extends React.Component {
               })}
             </TableBody>
             <TableFooter>
-              <TableRow>
-                <TablePagination
-                  component="div"
-                  count={results}
-                  rowsPerPage={rowsPerPage}
-                  rowsPerPageOptions={[5]}
-                  page={page}
-                  onChangePage={this.handleChangePage}
-                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                  ActionsComponent={ResultTablePaginationActions}
-                />
-              </TableRow>
+
             </TableFooter>
           </Table>
         </div>
