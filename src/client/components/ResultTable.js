@@ -120,7 +120,7 @@ class ResultTable extends React.Component {
     }
   };
 
-  objectListRenderer = (cell) => {
+  objectListRenderer = (cell, makeLink) => {
     if (cell == null){
       return '-';
     }
@@ -129,17 +129,20 @@ class ResultTable extends React.Component {
         <ul className={this.props.classes.valueList}>
           {cell.map((item, i) =>
             <li key={i}>
-              <a
-                target='_blank' rel='noopener noreferrer'
-                href={item.sdbmLink}
-              >
-                {item.prefLabel}
-              </a>
+              {makeLink &&
+                <a
+                  target='_blank' rel='noopener noreferrer'
+                  href={item.sdbmLink}
+                >
+                  {item.prefLabel}
+                </a>
+              }
+              {!makeLink && item.prefLabel}
             </li>
           )}
         </ul>
       );
-    } else {
+    } else if (makeLink) {
       return (
         <a
           target='_blank' rel='noopener noreferrer'
@@ -147,6 +150,10 @@ class ResultTable extends React.Component {
         >
           {cell.prefLabel}
         </a>
+      );
+    } else {
+      return (
+        <span>{cell.prefLabel}</span>
       );
     }
   };
@@ -205,13 +212,13 @@ class ResultTable extends React.Component {
                       {this.stringListRenderer(row.prefLabel)}
                     </TableCell>
                     <TableCell>
-                      {this.objectListRenderer(row.author)}
+                      {this.objectListRenderer(row.author, true)}
                     </TableCell>
                     <TableCell className={classes.withFilter}>
-                      {this.objectListRenderer(row.creationPlace)}
+                      {this.objectListRenderer(row.creationPlace, true)}
                     </TableCell>
                     <TableCell>
-                      {this.objectListRenderer(row.timespan)}
+                      {this.objectListRenderer(row.timespan, false)}
                     </TableCell>
                     <TableCell>
                       {this.stringListRenderer(row.language)}
