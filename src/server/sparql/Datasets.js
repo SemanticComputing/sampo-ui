@@ -138,21 +138,21 @@ module.exports = {
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
-      SELECT ?id ?label ?lat ?long ?source ?parent
-      (GROUP_CONCAT(DISTINCT ?manuscript_id; SEPARATOR=",") AS ?manuscript)
-      (COUNT(DISTINCT ?manuscript_id) as ?manuscriptCount)
+      SELECT ?id ?prefLabel ?lat ?long ?source ?parent ?sdbmLink
+      (COUNT(DISTINCT ?manuscript) as ?manuscriptCount)
       WHERE {
         ?id a mmm-schema:Place .
-        ?id skos:prefLabel ?label .
-        ?manuscript_id ^frbroo:R18_created/crm:P7_took_place_at ?id .
+        ?id skos:prefLabel ?prefLabel .
+        ?manuscript ^frbroo:R18_created/crm:P7_took_place_at ?id .
         OPTIONAL {
           ?id wgs84:lat ?lat ;
               wgs84:long ?long .
         }
         OPTIONAL { ?id owl:sameAs ?source . }
         OPTIONAL { ?id mmm-schema:parent ?parent }
+        BIND(REPLACE(STR(?id), "http://ldf.fi/mmm/place/", "https://sdbm.library.upenn.edu/places/") AS ?sdbmLink)
       }
-      GROUP BY ?id ?label ?lat ?long ?source  ?parent
+      GROUP BY ?id ?prefLabel ?lat ?long ?source ?parent ?sdbmLink
         `,
     'tgn': {
       // Getty LOD documentation:

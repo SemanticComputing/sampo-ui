@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
+import { has } from 'lodash';
 import 'leaflet-fullscreen/dist/fullscreen.png';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.min.js';
@@ -195,12 +196,11 @@ class LeafletMap extends React.Component {
   createMarker(result) {
     // const color = typeof result.markerColor === 'undefined' ? 'grey' : result.markerColor;
     //const icon = new ColorIcon({iconUrl: 'img/markers/marker-icon-' + color + '.png'});
-    const { lat, long } = result;
-    if (lat === 'Undefined' || long === 'Undefined') {
+    if (!has(result, 'lat') || !has(result, 'long')) {
       return null;
     } else {
+      const { lat, long } = result;
       const latLng = [+lat, +long];
-
       const icon = L.ExtraMarkers.icon({
         icon: 'fa-number',
         number: result.manuscriptCount,
@@ -212,7 +212,6 @@ class LeafletMap extends React.Component {
       const marker = L.marker(latLng, {
         icon: icon,
         manuscriptCount: result.manuscriptCount ? result.manuscriptCount : null,
-        manuscript: result.manuscript ? result.manuscript : null
       })
         .bindPopup(this.createPopUpContent(result), { maxHeight: 300, maxWidth: 350, minWidth: 300 });
       return marker;
@@ -221,12 +220,13 @@ class LeafletMap extends React.Component {
 
   createPopUpContent(result) {
     let popUpTemplate = `
-      <h3><a target="_blank" rel="noopener noreferrer" href={id}>{label}</a></p></h3>
+      <h3><a target="_blank" rel="noopener noreferrer" href={sdbmLink}>{prefLabel}</a></p></h3>
+      <p>Number of manuscripts created here: {manuscriptCount}</p>
       `;
-    if (result.source) {
+    if (has(result, 'source')) {
       popUpTemplate += '<p>Place authority: <a target="_blank" rel="noopener noreferrer" href={source}>{source}</a></p>';
     }
-    popUpTemplate += this.createManscriptListing(result.manuscript);
+    //popUpTemplate += this.createManscriptListing(result.manuscript);
     return L.Util.template(popUpTemplate, result);
   }
 

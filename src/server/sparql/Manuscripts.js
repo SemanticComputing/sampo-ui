@@ -1,7 +1,6 @@
 import SparqlSearchEngine from './SparqlSearchEngine';
 import datasetConfig from './Datasets';
 import {
-  mapPlaces,
   mapFacet,
   mapCount
 } from './Mappers';
@@ -24,14 +23,13 @@ export const getManuscriptCount = () => {
 
 export const getPlaces = () => {
   const { endpoint, placeQuery } = datasetConfig['mmm'];
-  return sparqlSearchEngine.doSearch(placeQuery, endpoint, mapPlaces);
+  return sparqlSearchEngine.doSearch(placeQuery, endpoint, makeObjectList);
 };
 
 export const getFacet = (property) => {
   const { endpoint } = datasetConfig['mmm'];
   return sparqlSearchEngine.doSearch(facetQuery, endpoint, mapFacet);
 };
-
 
 const facetQuery = `
   PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
