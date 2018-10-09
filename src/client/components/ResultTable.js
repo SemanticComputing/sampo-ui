@@ -162,7 +162,6 @@ class ResultTable extends React.Component {
             <TableHead>
               <TableRow className={classes.paginationRow}>
                 <TablePagination
-                  component="div"
                   count={results}
                   rowsPerPage={rowsPerPage}
                   rowsPerPageOptions={[5]}
