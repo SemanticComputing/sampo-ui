@@ -63,8 +63,11 @@ module.exports = {
           BIND(REPLACE(STR(?author__id), "http://ldf.fi/mmm/person/", "https://sdbm.library.upenn.edu/names/") AS ?author__sdbmLink)
         }
         OPTIONAL {
-          ?expression_creation crm:P4_has_time_span ?timespan__id .
-          ?timespan__id rdfs:label ?timespan__prefLabel.
+          ?expression_creation crm:P4_has_time_span ?timespan .
+          ?timespan rdfs:label ?timespan__id .
+          ?timespan crm:P79_beginning_is_qualified_by ?timespan__start .
+          ?timespan crm:P80_end_is_qualified_by ?timespan__end .
+          BIND (?timespan__id AS ?timespan__prefLabel)
         }
         OPTIONAL {
           ?expression_creation crm:P7_took_place_at ?creationPlace__id .
