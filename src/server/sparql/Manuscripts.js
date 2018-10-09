@@ -49,42 +49,33 @@ const facetQuery = `
   PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
   SELECT DISTINCT ?cnt ?facet_text ?value ?parent
   WHERE {
-    {
-      { SELECT DISTINCT (count(DISTINCT ?id) as ?cnt) {
+    SELECT DISTINCT ?cnt ?value ?facet_text ?parent {
+      { SELECT DISTINCT (count(DISTINCT ?id) as ?cnt) ?value ?parent
+        {
           ?id a frbroo:F4_Manifestation_Singleton .
           ?id skos:prefLabel ?name .
+          ?id ^frbroo:R18_created/crm:P7_took_place_at ?value .
+          OPTIONAL { ?value mmm-schema:parent ?parent }
         }
-      } BIND("-- Ei valintaa --" AS ?facet_text) }
-    UNION
-    {
-      SELECT DISTINCT ?cnt ?value ?facet_text ?parent {
-        { SELECT DISTINCT (count(DISTINCT ?id) as ?cnt) ?value ?parent
-          {
-            ?id a frbroo:F4_Manifestation_Singleton .
-            ?id skos:prefLabel ?name .
-            ?id ^frbroo:R18_created/crm:P7_took_place_at ?value .
-            OPTIONAL { ?value mmm-schema:parent ?parent }
-          }
-          GROUP BY ?value ?parent
-        }
-        FILTER(BOUND(?value)) BIND(COALESCE(?value, <http://ldf.fi/NONEXISTENT_URI>) AS ?labelValue)
-        OPTIONAL { ?labelValue skos:prefLabel ?lbl .
-          FILTER(langMatches(lang(?lbl), "fi")) . }
-        OPTIONAL { ?labelValue rdfs:label ?lbl .
-          FILTER(langMatches(lang(?lbl), "fi")) . }
-        OPTIONAL { ?labelValue skos:prefLabel ?lbl .
-          FILTER(langMatches(lang(?lbl), "en")) . }
-        OPTIONAL { ?labelValue rdfs:label ?lbl .
-          FILTER(langMatches(lang(?lbl), "en")) . }
-        OPTIONAL { ?labelValue skos:prefLabel ?lbl .
-          FILTER(langMatches(lang(?lbl), "sv")) . }
-        OPTIONAL { ?labelValue rdfs:label ?lbl .
-          FILTER(langMatches(lang(?lbl), "sv")) . }
-        OPTIONAL { ?labelValue skos:prefLabel ?lbl .
-          FILTER(langMatches(lang(?lbl), "")) . }
-        OPTIONAL { ?labelValue rdfs:label ?lbl .
-          FILTER(langMatches(lang(?lbl), "")) . }
-        BIND(COALESCE(?lbl, IF(!ISURI(?value), ?value, "")) AS ?facet_text) }
-    }
+        GROUP BY ?value ?parent
+      }
+      FILTER(BOUND(?value)) BIND(COALESCE(?value, <http://ldf.fi/NONEXISTENT_URI>) AS ?labelValue)
+      OPTIONAL { ?labelValue skos:prefLabel ?lbl .
+        FILTER(langMatches(lang(?lbl), "fi")) . }
+      OPTIONAL { ?labelValue rdfs:label ?lbl .
+        FILTER(langMatches(lang(?lbl), "fi")) . }
+      OPTIONAL { ?labelValue skos:prefLabel ?lbl .
+        FILTER(langMatches(lang(?lbl), "en")) . }
+      OPTIONAL { ?labelValue rdfs:label ?lbl .
+        FILTER(langMatches(lang(?lbl), "en")) . }
+      OPTIONAL { ?labelValue skos:prefLabel ?lbl .
+        FILTER(langMatches(lang(?lbl), "sv")) . }
+      OPTIONAL { ?labelValue rdfs:label ?lbl .
+        FILTER(langMatches(lang(?lbl), "sv")) . }
+      OPTIONAL { ?labelValue skos:prefLabel ?lbl .
+        FILTER(langMatches(lang(?lbl), "")) . }
+      OPTIONAL { ?labelValue rdfs:label ?lbl .
+        FILTER(langMatches(lang(?lbl), "")) . }
+      BIND(COALESCE(?lbl, IF(!ISURI(?value), ?value, "")) AS ?facet_text) }
   }
 `;
