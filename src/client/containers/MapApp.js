@@ -164,6 +164,7 @@ let MapApp = (props) => {
   } else {
     if ((oneColumnView && options.resultFormat === 'table') || (!oneColumnView)) {
       //console.log(facetValues)
+      console.log(facet.values)
       table = (
         <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
           <ResultTable
@@ -178,8 +179,6 @@ let MapApp = (props) => {
       );
     }
   }
-
-
 
   let mapElement = '';
   if ((oneColumnView && options.resultFormat === 'map') || (!oneColumnView)) {

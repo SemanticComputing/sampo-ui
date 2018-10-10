@@ -26,8 +26,12 @@
     a, a:visited, a:hover, a:active {
       color: blue;
     }
-    .rst__tree a {
-      color: inherit
+    .tree-node-collapse {
+      overflow: hidden;
+      display: block;
+    }
+    .tree-node-collapse-active {
+      transition: height 0.3s ease-out;
     }
     </style>
     <title><%= htmlWebpackPlugin.options.title %></title>
