@@ -100,15 +100,15 @@ export const mapCount = (sparqlBindings) => {
 export const mapFacet = (sparqlBindings) => {
   const results = sparqlBindings.map(b => {
     return {
+      key: b.value.value,
       title: b.facet_text.value,
-      id: _.has(b, 'value',) ? b.value.value : 'no_selection',
       cnt: b.cnt.value,
       parent: _.has(b, 'parent',) ? b.parent.value : '0',
     };
   });
   const treeData = getTreeFromFlatData({
     flatData: results,
-    getKey: node => node.id, // resolve a node's key
+    getKey: node => node.key, // resolve a node's key
     getParentKey: node => node.parent, // resolve node's parent's key
     rootKey: 0, // The value of the parent key when there is no parent (i.e., at root level)
   });
@@ -162,8 +162,26 @@ const getTreeFromFlatData = ({
     return { ...parent };
   };
 
-  return childrenToParents[rootKey].map(child => trav(child));
+  const comparator = (a, b) => a.title.localeCompare(b.title);
+
+  const recursiveSort = nodes => {
+    nodes.sort(comparator);
+    nodes.forEach(node => {
+      if (_.has(node, 'children')) {
+        recursiveSort(node.children);
+      }
+    });
+    return nodes;
+  };
+
+  const unsortedTreeData = childrenToParents[rootKey].map(child => trav(child));
+
+  return recursiveSort(unsortedTreeData);
 };
+
+
+
+
 
 export const mapAllResults = (results) => groupBy(results, 'id');
 
