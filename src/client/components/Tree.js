@@ -20,6 +20,9 @@ const styles = () => ({
   },
   treeNode: {
     fontFamily: 'Roboto',
+  },
+  formControlRoot: {
+    maxHeight: 24
   }
 });
 
@@ -148,6 +151,9 @@ class Tree extends Component {
                     />
                   }
                   label={node.title}
+                  classes={{
+                    root: classes.formControlRoot
+                  }}
                 />
               ),
             })}
