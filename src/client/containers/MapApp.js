@@ -164,7 +164,7 @@ let MapApp = (props) => {
   } else {
     if ((oneColumnView && options.resultFormat === 'table') || (!oneColumnView)) {
       //console.log(facetValues)
-      console.log(facet.values)
+      //console.log(facet.values)
       table = (
         <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
           <ResultTable

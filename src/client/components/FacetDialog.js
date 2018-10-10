@@ -6,7 +6,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { withStyles } from '@material-ui/core/styles';
-import ReactTree from './ReactTree';
+import Tree from './Tree';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 import Typography from '@material-ui/core/Typography';
@@ -69,7 +69,7 @@ class FacetDialog extends React.Component {
             <Typography variant="h6">{propertyLabel}</Typography>
           </DialogTitle>
           <DialogContent>
-            {this.state.isLoading ? <CircularProgress style={{ color: purple[500] }} thickness={5} /> : <ReactTree data={facet.values} />  }
+            {this.state.isLoading ? <CircularProgress style={{ color: purple[500] }} thickness={5} /> : <Tree data={facet.values} />  }
           </DialogContent>
         </Dialog>
       </div>

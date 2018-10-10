@@ -76,6 +76,7 @@
     "react-google-maps": "^9.4.5",
     "react-redux": "^5.0.7",
     "react-redux-toastr": "^7.4.0",
+    "react-sortable-tree": "^2.2.0",
     "react-sortable-tree-theme-file-explorer": "^2.0.0",
     "react-sortable-tree-theme-minimal": "0.0.14",
     "react-virtualized": "^9.20.1",

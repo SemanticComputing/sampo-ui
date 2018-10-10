@@ -162,7 +162,21 @@ const getTreeFromFlatData = ({
     return { ...parent };
   };
 
-  return childrenToParents[rootKey].map(child => trav(child));
+  const comparator = (a, b) => a.title.localeCompare(b.title);
+
+  const recursiveSort = nodes => {
+    nodes.sort(comparator);
+    nodes.forEach(node => {
+      if (_.has(node, 'children')) {
+        recursiveSort(node.children);
+      }
+    });
+    return nodes;
+  };
+
+  const unsortedTreeData = childrenToParents[rootKey].map(child => trav(child));
+
+  return recursiveSort(unsortedTreeData);
 };
 
 export const mapAllResults = (results) => groupBy(results, 'id');
