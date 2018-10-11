@@ -30,6 +30,7 @@ module.exports = {
       PREFIX sdbm: <https://sdbm.library.upenn.edu/>
       SELECT (COUNT(DISTINCT ?id) as ?count)
       WHERE {
+        <FILTER>
         ?id a frbroo:F4_Manifestation_Singleton .
       }
       `,
@@ -49,6 +50,7 @@ module.exports = {
       WHERE {
         {
           SELECT DISTINCT ?id {
+            <FILTER>
             ?id a frbroo:F4_Manifestation_Singleton .
           }
           <PAGE>

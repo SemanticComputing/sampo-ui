@@ -1,11 +1,21 @@
 import {
   FETCH_FACET,
   UPDATE_FACET,
-  CLEAR_FACET
 } from '../actions';
 
 export const INITIAL_STATE = {
-  values : [],
+  facetOptions : {
+    creationPlace: {
+      hierarchical: true,
+    },
+    author: {
+      hierarchical: false,
+    }
+  },
+  facetValues : {
+    creationPlace: [],
+    author: []
+  },
   fetchingFacet : false
 };
 
@@ -16,17 +26,12 @@ const facet = (state = INITIAL_STATE, action) => {
     case UPDATE_FACET:
       return {
         ...state,
-        values: action.values,
-        fetchingFacet: false
-      };
-    case CLEAR_FACET:
-      return {
-        ...state,
-        values: [],
+        facetValues: action.facetValues,
         fetchingFacet: false
       };
     default:
       return state;
   }
 };
+
 export default facet;

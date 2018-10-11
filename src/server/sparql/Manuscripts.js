@@ -8,16 +8,18 @@ import { makeObjectList } from './SparqlObjectMapper';
 
 const sparqlSearchEngine = new SparqlSearchEngine();
 
-export const getManuscripts = (page) => {
+export const getManuscripts = (page, filterObj) => {
   let { endpoint, manuscriptQuery } = datasetConfig['mmm'];
   const pageSize = 5;
+  manuscriptQuery = manuscriptQuery.replace('<FILTER>', generateFilter(filterObj));
   manuscriptQuery = manuscriptQuery.replace('<PAGE>', `ORDER BY ?id LIMIT ${pageSize} OFFSET ${page * pageSize}`);
-  //console.log(manuscriptQuery)
+  console.log(manuscriptQuery)
   return sparqlSearchEngine.doSearch(manuscriptQuery, endpoint, makeObjectList);
 };
 
-export const getManuscriptCount = () => {
-  const { endpoint, countQuery } = datasetConfig['mmm'];
+export const getManuscriptCount = (filterObj) => {
+  let { endpoint, countQuery } = datasetConfig['mmm'];
+  countQuery = countQuery.replace('<FILTER>', generateFilter(filterObj));
   return sparqlSearchEngine.doSearch(countQuery, endpoint, mapCount);
 };
 
@@ -28,7 +30,19 @@ export const getPlaces = () => {
 
 export const getFacet = (property) => {
   const { endpoint } = datasetConfig['mmm'];
+  console.log(facetQuery)
   return sparqlSearchEngine.doSearch(facetQuery, endpoint, mapFacet);
+};
+
+const generateFilter = (filterObj) => {
+  let filterStr = '';
+  for (let property in filterObj) {
+    filterStr += `
+            ?id ${filterObj[property].predicate} ?${property}Filter
+            VALUES ?${property}Filter { ${filterObj[property].values.join(' ')} }
+      `;
+  }
+  return filterStr;
 };
 
 const facetQuery = `

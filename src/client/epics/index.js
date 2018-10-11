@@ -51,7 +51,7 @@ const getFacet = action$ => action$.pipe(
     const searchUrl = hiplaApiUrl + 'facet';
     const requestUrl = `${searchUrl}?property=${action.property}`;
     return ajax.getJSON(requestUrl).pipe(
-      map(response => updateFacet({ values: response }))
+      map(response => updateFacet({ facetValues: response }))
     );
   })
 );

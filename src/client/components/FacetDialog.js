@@ -51,6 +51,7 @@ class FacetDialog extends React.Component {
 
   render() {
     const { classes, propertyLabel, facet } = this.props;
+    console.log(facet)
     return (
       <div className={classes.root}>
         <IconButton
@@ -69,7 +70,7 @@ class FacetDialog extends React.Component {
             <Typography variant="h6">{propertyLabel}</Typography>
           </DialogTitle>
           <DialogContent>
-            {this.state.isLoading ? <CircularProgress style={{ color: purple[500] }} thickness={5} /> : <Tree data={facet.values} />  }
+            {this.state.isLoading ? <CircularProgress style={{ color: purple[500] }} thickness={5} /> : <Tree data={facet.facetValues.creationPlace} />  }
           </DialogContent>
         </Dialog>
       </div>

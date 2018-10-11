@@ -1,7 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import request from 'superagent';
-import _ from 'lodash';
 import { getManuscripts, getManuscriptCount, getPlaces, getFacet } from './sparql/Manuscripts';
 const DEFAULT_PORT = 3001;
 const app = express();
@@ -19,10 +18,22 @@ app.use(function(req, res, next) {
 
 app.use(express.static(__dirname + './../public/'));
 
+const filterObj = {
+  creationPlace: {
+    predicate: '^<http://erlangen-crm.org/efrbroo/R18_created>/<http://www.cidoc-crm.org/cidoc-crm/P7_took_place_at>',
+    values: ['<http://ldf.fi/mmm/place/7>', '<http://ldf.fi/mmm/place/5>']
+  },
+  author: {
+    predicate: '^<http://erlangen-crm.org/efrbroo/R18_created>/<http://www.cidoc-crm.org/cidoc-crm/P14_carried_out_by>',
+    values: ['<http://ldf.fi/mmm/person/84>', '<http://ldf.fi/mmm/person/894>']
+  }
+};
+//const filterObj = {}
 
 app.get('/manuscripts', (req, res) => {
   const page = req.query.page || 1;
-  return getManuscripts(page).then((data) => {
+
+  return getManuscripts(page, filterObj).then((data) => {
     // console.log(data);
     res.json(data);
   })
@@ -33,7 +44,7 @@ app.get('/manuscripts', (req, res) => {
 });
 
 app.get('/manuscript-count', (req, res) => {
-  return getManuscriptCount().then((data) => {
+  return getManuscriptCount(filterObj).then((data) => {
     // console.log(data);
     res.json(data);
   })
@@ -57,8 +68,12 @@ app.get('/places', (req, res) => {
 app.get('/facet', (req, res) => {
   const property = req.query.property;
   return getFacet(property).then((data) => {
+    const facetValues = {
+      creationPlace: data,
+      author: []
+    };
     //console.log(data);
-    res.json(data);
+    res.json(facetValues);
   })
     .catch((err) => {
       console.log(err);

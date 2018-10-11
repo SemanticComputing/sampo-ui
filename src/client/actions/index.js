@@ -149,9 +149,9 @@ export const fetchFacet = (property) => ({
   type: FETCH_FACET,
   property
 });
-export const updateFacet = ({ values }) => ({
+export const updateFacet = ({ facetValues }) => ({
   type: UPDATE_FACET,
-  values
+  facetValues
 });
 export const clearFacet = () => ({
   type: CLEAR_FACET,
