@@ -24,6 +24,11 @@ export const UPDATE_PLACES = 'UPDATE_PLACES';
 export const CLEAR_PLACES = 'CLEAR_PLACES';
 export const FETCH_PLACES_FAILED = 'FETCH_PLACES_FAILED';
 
+export const FETCH_PLACE = 'FETCH_PLACE';
+export const UPDATE_PLACE = 'UPDATE_PLACE';
+export const CLEAR_PLACE = 'CLEAR_PLACE';
+export const FETCH_PLACE_FAILED = 'FETCH_PLACE_FAILED';
+
 export const FETCH_FACET = 'FETCH_FACET';
 export const UPDATE_FACET = 'UPDATE_FACET';
 export const CLEAR_FACET = 'CLEAR_FACET';
@@ -140,6 +145,22 @@ export const clearPlaces = () => ({
   type: CLEAR_PLACES,
 });
 export const fetchPlacesFailed = (error) => ({
+  type: FETCH_PLACES_FAILED,
+  error
+});
+
+export const fetchPlace = (placeId) => ({
+  type: FETCH_PLACE,
+  placeId
+});
+export const updatePlace = ({ place }) => ({
+  type: UPDATE_PLACE,
+  place
+});
+export const clearPlace = () => ({
+  type: CLEAR_PLACES,
+});
+export const fetchPlaceFailed = (error) => ({
   type: FETCH_PLACES_FAILED,
   error
 });

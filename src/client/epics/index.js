@@ -5,6 +5,7 @@ import { combineEpics, ofType } from 'redux-observable';
 import {
   updateManuscripts,
   updatePlaces,
+  updatePlace,
   updateFacet,
   updateResults,
   //updateGeoJSON,
@@ -13,6 +14,7 @@ import {
   FETCH_MANUSCRIPTS,
   //FETCH_MANUSCRIPTS_FAILED,
   FETCH_PLACES,
+  FETCH_PLACE,
   FETCH_RESULTS
   //FETCH_PLACES_FAILED,
   //GET_GEOJSON,
@@ -41,6 +43,18 @@ const getPlaces = action$ => action$.pipe(
     const requestUrl = `${searchUrl}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updatePlaces({ places: response }))
+    );
+  })
+);
+
+const getPlace = action$ => action$.pipe(
+  ofType(FETCH_PLACE),
+  mergeMap(action => {
+    console.log(action.placeId)
+    const searchUrl = hiplaApiUrl + 'places';
+    const requestUrl = `${searchUrl}/${action.placeId}`;
+    return ajax.getJSON(requestUrl).pipe(
+      map(response => updatePlace({ place: response }))
     );
   })
 );
@@ -92,6 +106,7 @@ const getResultCount = action$ => action$.pipe(
 const rootEpic = combineEpics(
   getManuscripts,
   getPlaces,
+  getPlace,
   getFacet,
   getResultCount,
   // getGeoJSONEpic

@@ -22,7 +22,13 @@ export const getManuscriptCount = () => {
 };
 
 export const getPlaces = () => {
-  const { endpoint, placeQuery } = datasetConfig['mmm'];
+  const { endpoint, placesQuery } = datasetConfig['mmm'];
+  return sparqlSearchEngine.doSearch(placesQuery, endpoint, makeObjectList);
+};
+
+export const getPlace = (id) => {
+  let { endpoint, placeQuery } = datasetConfig['mmm'];
+  placeQuery = placeQuery.replace('<PLACE_ID>', `<http://ldf.fi/mmm/place/${id}>`);
   return sparqlSearchEngine.doSearch(placeQuery, endpoint, makeObjectList);
 };
 

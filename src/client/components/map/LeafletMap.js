@@ -104,7 +104,7 @@ class LeafletMap extends React.Component {
 
   }
 
-  componentDidUpdate({ results, mapMode, geoJSONKey, bouncingMarkerKey, openPopupMarkerKey }) {
+  componentDidUpdate({ results, place, mapMode, geoJSONKey, bouncingMarkerKey, openPopupMarkerKey }) {
     if (this.props.bouncingMarker === '' && this.bouncingMarkerObj !== null) {
       this.leafletMap.removeLayer(this.bouncingMarkerObj);
     }
@@ -142,6 +142,17 @@ class LeafletMap extends React.Component {
       }
     }
 
+    if (this.props.place !== place) {
+      this.markers[this.props.place.id.replace('http://ldf.fi/mmm/place/', '')]
+        .bindPopup(this.createPopUpContent(this.props.place), {
+          maxHeight: 300,
+          maxWidth: 350,
+          minWidth: 350,
+        //closeButton: false,
+        })
+        .openPopup();
+    }
+
     // check if geoJSON has updated
     if (this.props.geoJSONKey !== geoJSONKey) {
       this.props.geoJSON.map(obj => {
@@ -158,7 +169,7 @@ class LeafletMap extends React.Component {
     this.markers = {};
     Object.values(results).forEach(value => {
       const marker = this.createMarker(value);
-      this.markers[value.id] = marker;
+      this.markers[value.id.replace('http://ldf.fi/mmm/place/', '')] = marker;
       marker == null ? null : marker.addTo(this.resultMarkerLayer);
     });
   }
@@ -184,10 +195,9 @@ class LeafletMap extends React.Component {
         return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
       }
     });
-    // const clusterer = L.markerClusterGroup();
-    Object.values(results).forEach(value => {
+    results.forEach(value => {
       const marker = this.createMarker(value);
-      this.markers[value.id] = marker;
+      this.markers[value.id.replace('http://ldf.fi/mmm/place/', '')] = marker;
       marker == null ? null : clusterer.addLayer(marker);
     });
     clusterer.addTo(this.resultMarkerLayer);
@@ -212,30 +222,42 @@ class LeafletMap extends React.Component {
       const marker = L.marker(latLng, {
         icon: icon,
         manuscriptCount: result.manuscriptCount ? result.manuscriptCount : null,
+        id: result.id
       })
-        .bindPopup(this.createPopUpContent(result), { maxHeight: 300, maxWidth: 350, minWidth: 300 });
+        .on('click', this.markerOnClick);
       return marker;
     }
   }
 
+  markerOnClick = (event) => {
+    const placeId = (event.target.options.id.replace('http://ldf.fi/mmm/place/', ''));
+    this.props.fetchPlace(placeId);
+  };
+
   createPopUpContent(result) {
-    let popUpTemplate = `
-      <h3><a target="_blank" rel="noopener noreferrer" href={sdbmLink}>{prefLabel}</a></p></h3>
-      <p>Number of manuscripts created here: {manuscriptCount}</p>
-      `;
+    // console.log(result)
+    let popUpTemplate = `<h3><a target="_blank" rel="noopener noreferrer" href=${result.sdbmLink}>${result.prefLabel}</a></p></h3>`;
     if (has(result, 'source')) {
-      popUpTemplate += '<p>Place authority: <a target="_blank" rel="noopener noreferrer" href={source}>{source}</a></p>';
+      popUpTemplate += `<p>Place authority: <a target="_blank" rel="noopener noreferrer" href=${result.source}>${result.source}</a></p>`;
     }
-    //popUpTemplate += this.createManscriptListing(result.manuscript);
-    return L.Util.template(popUpTemplate, result);
+    popUpTemplate += `<p>Manuscripts created here:</p>`;
+    popUpTemplate += this.createManscriptListing(result.manuscript);
+    return popUpTemplate;
   }
 
   createManscriptListing(manuscripts) {
     let html = '';
-    manuscripts.forEach(msId => {
-      const sdbmLink = msId.replace('http://ldf.fi/mmm/manifestation_singleton/', 'https://sdbm.library.upenn.edu/manuscripts/');
+    if (Array.isArray(manuscripts)) {
+      html += '<ul>';
+      manuscripts.forEach(ms => {
+        let sdbmLink = has(ms, 'manuscriptRecord') ? ms.manuscriptRecord : ms.entry;
+        html += '<li><a target="_blank" rel="noopener noreferrer" href=' + sdbmLink + '>' + sdbmLink + '</a></li>';
+      });
+      html += '</ul>';
+    } else {
+      let sdbmLink = has(manuscripts, 'manuscriptRecord') ? manuscripts.manuscriptRecord : manuscripts.entry;
       html += '<p><a target="_blank" rel="noopener noreferrer" href=' + sdbmLink + '>' + sdbmLink + '</a></p>';
-    });
+    }
     return html;
   }
 
@@ -265,8 +287,10 @@ class LeafletMap extends React.Component {
 
 LeafletMap.propTypes = {
   fetchPlaces: PropTypes.func.isRequired,
+  fetchPlace: PropTypes.func.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
-  results: PropTypes.array,
+  results: PropTypes.array.isRequired,
+  place: PropTypes.object.isRequired,
   mapMode: PropTypes.string.isRequired,
   geoJSON: PropTypes.array,
   geoJSONKey: PropTypes.number.isRequired,

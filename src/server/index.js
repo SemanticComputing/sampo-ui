@@ -1,8 +1,13 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import request from 'superagent';
-import _ from 'lodash';
-import { getManuscripts, getManuscriptCount, getPlaces, getFacet } from './sparql/Manuscripts';
+import {
+  getManuscripts,
+  getManuscriptCount,
+  getPlaces,
+  getPlace,
+  getFacet
+} from './sparql/Manuscripts';
 const DEFAULT_PORT = 3001;
 const app = express();
 //const isDevelopment  = app.get('env') !== 'production';
@@ -43,15 +48,26 @@ app.get('/manuscript-count', (req, res) => {
     });
 });
 
-app.get('/places', (req, res) => {
-  return getPlaces().then((data) => {
-    // console.log(data);
-    res.json(data);
-  })
-    .catch((err) => {
-      console.log(err);
-      return res.sendStatus(500);
-    });
+app.get('/places/:placeId?', (req, res) => {
+  if (req.params.placeId) {
+    return getPlace(req.params.placeId).then(data => {
+      // console.log(data)
+      res.json(data[0]);
+    })
+      .catch((err) => {
+        console.log(err);
+        return res.sendStatus(500);
+      });
+  } else {
+    return getPlaces().then((data) => {
+      // console.log(data);
+      res.json(data);
+    })
+      .catch((err) => {
+        console.log(err);
+        return res.sendStatus(500);
+      });
+  }
 });
 
 app.get('/facet', (req, res) => {

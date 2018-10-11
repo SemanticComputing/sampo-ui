@@ -55,6 +55,8 @@ module.exports = {
         }
         FILTER(BOUND(?id))
         ?id skos:prefLabel ?prefLabel .
+        ?id mmm-schema:entry ?entry .
+        OPTIONAL { ?id mmm-schema:manuscript_record ?manuscriptRecord . }
         OPTIONAL { ?id crm:P45_consists_of ?material . }
         ?expression_creation frbroo:R18_created ?id .
         OPTIONAL {
@@ -78,7 +80,6 @@ module.exports = {
           ?id crm:P128_carries ?expression .
           ?expression crm:P72_has_language ?language .
         }
-        OPTIONAL { ?id mmm-schema:manuscript_record ?manuscriptRecord . }
       }
       `,
     'allQuery': `
@@ -130,7 +131,7 @@ module.exports = {
       ORDER BY (!BOUND(?creationPlace)) ?creationPlace
       <PAGE>
       `,
-    'placeQuery': `
+    'placesQuery': `
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
       PREFIX dc: <http://purl.org/dc/elements/1.1/>
@@ -138,7 +139,7 @@ module.exports = {
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
-      SELECT ?id ?prefLabel ?lat ?long ?source ?parent ?sdbmLink
+      SELECT ?id ?lat ?long ?prefLabel
       (COUNT(DISTINCT ?manuscript) as ?manuscriptCount)
       WHERE {
         ?id a mmm-schema:Place .
@@ -148,11 +149,28 @@ module.exports = {
           ?id wgs84:lat ?lat ;
               wgs84:long ?long .
         }
+      }
+      GROUP BY ?id ?lat ?long ?prefLabel
+        `,
+    'placeQuery': `
+      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+      PREFIX dc: <http://purl.org/dc/elements/1.1/>
+      PREFIX owl: <http://www.w3.org/2002/07/owl#>
+      PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
+      PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+      PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
+      SELECT ?id ?prefLabel ?manuscript__id ?manuscript__entry ?manuscript__manuscriptRecord ?sdbmLink ?source ?parent
+      WHERE {
+        BIND (<PLACE_ID> AS ?id)
+        BIND(REPLACE(STR(?id), "http://ldf.fi/mmm/place/", "https://sdbm.library.upenn.edu/places/") AS ?sdbmLink)
+        ?id skos:prefLabel ?prefLabel .
+        ?manuscript__id ^frbroo:R18_created/crm:P7_took_place_at ?id .
+        ?manuscript__id mmm-schema:entry ?manuscript__entry .
+        OPTIONAL { ?manuscript__id mmm-schema:manuscript_record ?manuscript__manuscriptRecord }
         OPTIONAL { ?id owl:sameAs ?source . }
         OPTIONAL { ?id mmm-schema:parent ?parent }
-        BIND(REPLACE(STR(?id), "http://ldf.fi/mmm/place/", "https://sdbm.library.upenn.edu/places/") AS ?sdbmLink)
       }
-      GROUP BY ?id ?prefLabel ?lat ?long ?source ?parent ?sdbmLink
         `,
     'tgn': {
       // Getty LOD documentation:
