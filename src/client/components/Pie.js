@@ -83,7 +83,7 @@ let Pie = (props) => {
     const msCount = parseInt(item.manuscriptCount);
     placeLinks += msCount;
     return {
-      x: item.label,
+      x: item.prefLabel,
       y: msCount,
     };
   });
