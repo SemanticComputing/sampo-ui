@@ -12,6 +12,7 @@ import TableHead from '@material-ui/core/TableHead';
 import Tooltip from '@material-ui/core/Tooltip';
 import FacetDialog from './FacetDialog';
 import ResultTablePaginationActions from './ResultTablePaginationActions';
+import { has } from 'lodash';
 
 const styles = () => ({
   root: {
@@ -90,20 +91,18 @@ class ResultTable extends React.Component {
   };
 
   idRenderer = (row) => {
-    let cell = row.id.replace('http://ldf.fi/mmm/manifestation_singleton/', '');
-    let sdbmUrl = '';
-    let id = '';
-    if (row.manuscriptRecord == '-') {
-      id = cell.replace('orphan_', '');
-      sdbmUrl = 'https://sdbm.library.upenn.edu/entries/' + id;
+    let sdbmLink = '';
+    let id = row.id.replace('http://ldf.fi/mmm/manifestation_singleton/', '');
+    if (has(row, 'manuscriptRecord')) {
+      sdbmLink = row.manuscriptRecord;
     } else {
-      id = cell;
-      sdbmUrl = row.manuscriptRecord;
+      sdbmLink = row.entry;
+      id = id.replace('orphan_', '');
     }
     id = id.replace('part_', '');
     return (
       <div className={this.props.classes.tableColumn}>
-        <a target='_blank' rel='noopener noreferrer' href={sdbmUrl}>{id}</a>
+        <a target='_blank' rel='noopener noreferrer' href={sdbmLink}>{id}</a>
       </div>
     );
   };

@@ -8,10 +8,12 @@ import {
   UPDATE_RESULTS,
   FETCH_MANUSCRIPTS,
   FETCH_PLACES,
+  FETCH_PLACE,
   UPDATE_MANUSCRIPTS,
   CLEAR_MANUSCRIPTS,
   UPDATE_PLACES,
   CLEAR_PLACES,
+  UPDATE_PLACE,
   UPDATE_RESULTS_FILTER,
   SORT_RESULTS
 } from '../actions';
@@ -40,6 +42,7 @@ export const INITIAL_STATE = {
   manuscripts: [],
   page: 0,
   places: [],
+  place: {},
   manuscriptsFilter: {
     //'author': new Set(),
     //'timespan': new Set(),
@@ -78,6 +81,8 @@ const search = (state = INITIAL_STATE, action) => {
       return { ...state, fetchingManuscripts: true };
     case FETCH_PLACES:
       return { ...state, fetchingPlaces: true };
+    case FETCH_PLACE:
+      return { ...state, fetchingPlaces: true };
     case FETCH_RESULTS:
       return { ...state, fetchResults: true };
     case CLEAR_SUGGESTIONS:
@@ -111,7 +116,12 @@ const search = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         places: action.places,
-        //resultsQuery: state.query,
+        fetchingPlaces: false
+      };
+    case UPDATE_PLACE:
+      return {
+        ...state,
+        place: action.place,
         fetchingPlaces: false
       };
     case CLEAR_MANUSCRIPTS:
@@ -128,6 +138,8 @@ const search = (state = INITIAL_STATE, action) => {
         resultsQuery: '',
         fetchingPlaces: false
       };
+
+
     case UPDATE_RESULTS_FILTER:
       return updateResultsFilter(state, action);
     case SORT_RESULTS:

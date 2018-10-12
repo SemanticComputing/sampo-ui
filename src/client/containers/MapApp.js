@@ -13,7 +13,7 @@ import GMap from '../components/map/GMap';
 import Pie from '../components/Pie';
 import TopBar from '../components/TopBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
+//import Typography from '@material-ui/core/Typography';
 import purple from '@material-ui/core/colors/purple';
 
 import {
@@ -28,6 +28,7 @@ import {
   clearSuggestions,
   fetchManuscripts,
   fetchPlaces,
+  fetchPlace,
   fetchFacet,
   fetchResults,
   clearManuscripts,
@@ -144,12 +145,13 @@ const styles = theme => ({
 });
 
 let MapApp = (props) => {
-  const { classes, options, browser, search, map, manuscripts, creationPlaces, facet } = props;
+  const { classes, options, browser, search, map, manuscripts, creationPlaces, place, facet } = props;
   //error,
 
   let oneColumnView = true;
 
   //console.log(manuscripts)
+  //console.log(place)
 
   let table = '';
   if (search.fetchingManuscripts) {
@@ -196,8 +198,10 @@ let MapApp = (props) => {
       mapElement = (
         <LeafletMap
           fetchPlaces={props.fetchPlaces}
+          fetchPlace={props.fetchPlace}
           fetchManuscripts={props.fetchManuscripts}
           results={creationPlaces}
+          place={place}
           mapMode={options.mapMode}
           geoJSON={map.geoJSON}
           geoJSONKey={map.geoJSONKey}
@@ -294,6 +298,7 @@ const mapStateToProps = (state) => {
     manuscripts: getVisibleResults(state.search),
     manuscriptsPropertyValues: getVisibleValues(state.search),
     creationPlaces: state.search.places,
+    place: state.search.place,
     facet: state.facet,
     results: state.search.results,
     page: state.search.page
@@ -307,6 +312,7 @@ const mapDispatchToProps = ({
   clearSuggestions,
   fetchManuscripts,
   fetchPlaces,
+  fetchPlace,
   fetchResults,
   fetchFacet,
   clearManuscripts,
@@ -332,7 +338,8 @@ MapApp.propTypes = {
   search: PropTypes.object.isRequired,
   map: PropTypes.object.isRequired,
   manuscripts: PropTypes.array,
-  creationPlaces: PropTypes.array,
+  creationPlaces: PropTypes.array.isRequired,
+  place: PropTypes.object.isRequired,
   manuscriptsPropertyValues: PropTypes.object.isRequired,
   facet: PropTypes.object.isRequired,
   results: PropTypes.number.isRequired,
@@ -344,6 +351,7 @@ MapApp.propTypes = {
   clearSuggestions: PropTypes.func.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
   fetchPlaces: PropTypes.func.isRequired,
+  fetchPlace:  PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
   clearManuscripts: PropTypes.func.isRequired,
