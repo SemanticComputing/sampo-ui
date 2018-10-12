@@ -84,7 +84,6 @@
     "redux": "^4.0.0",
     "redux-observable": "^0.18.0",
     "redux-responsive": "^4.3.8",
-    "reselect": "^3.0.1",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
     "superagent": "^3.8.3",

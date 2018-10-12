@@ -43,16 +43,8 @@ export const INITIAL_STATE = {
   page: 0,
   places: [],
   place: {},
-  manuscriptsFilter: {
-    //'author': new Set(),
-    //'timespan': new Set(),
-    'creationPlace': new Set(),
-    //'material': new Set(),
-    //'language': new Set(),
-  },
   sortBy: 'author',
   sortDirection: 'asc',
-  groupBy: 'label',
   resultsQuery: '',
   fetchingPlaces: false,
   fetchingManuscripts: false
@@ -128,17 +120,14 @@ const search = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         'manuscripts': [],
-        resultsQuery: '',
         fetchingManuscripts: false
       };
     case CLEAR_PLACES:
       return {
         ...state,
         'places': {},
-        resultsQuery: '',
         fetchingPlaces: false
       };
-
 
     case UPDATE_RESULTS_FILTER:
       return updateResultsFilter(state, action);
