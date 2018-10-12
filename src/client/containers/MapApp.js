@@ -13,11 +13,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 
 import {
-  getVisibleResults,
-  getVisibleValues
-} from '../selectors';
-
-import {
   updateQuery,
   toggleDataset,
   fetchSuggestions,
@@ -39,6 +34,9 @@ import {
   openMarkerPopup,
   removeTempMarker
 } from '../actions';
+
+const logoPadding = 50;
+const logoHeight = 52;
 
 const styles = theme => ({
   root: {
@@ -118,25 +116,29 @@ const styles = theme => ({
     background: theme.palette.primary.main,
     borderRadius: 0,
   },
-  aaltoLogo: {
+  oxfordLogo: {
     //paddingLeft: 24,
-    height: 37
+    height: logoHeight
+  },
+  pennLogo: {
+    paddingLeft: logoPadding,
+    height: logoHeight - 8
+  },
+  aaltoLogo: {
+    paddingLeft: logoPadding,
+    height: logoHeight - 8
   },
   uhLogo: {
-    paddingLeft: 44,
-    height: 52
+    paddingLeft: logoPadding,
+    height: logoHeight
   },
   secoLogo: {
-    paddingLeft: 44,
-    height: 52
+    paddingLeft: logoPadding,
+    height: logoHeight - 5
   },
   heldigLogo: {
-    paddingLeft: 44,
-    height: 37
-  },
-  kotusLogo: {
-    paddingLeft: 44,
-    height: 50
+    paddingLeft: logoPadding,
+    height: logoHeight - 10
   },
 });
 
@@ -261,17 +263,19 @@ let MapApp = (props) => {
           }
         </div>
         <Paper className={classes.footer}>
-
+          <img className={classes.oxfordLogo} src='img/logos/oxford-logo-white.png' alt='Oxford University logo'/>
+          <img className={classes.pennLogo} src='img/logos/penn-logo-white.png' alt='Oxford University logo'/>
+          <img className={classes.aaltoLogo} src='img/logos/aalto-logo-white-no-background-small.png' alt='Aalto University logo'/>
+          <img className={classes.uhLogo} src='img/logos/university-of-helsinki-logo-white-no-background-small.png' alt='University of Helsinki logo'/>
+          <img className={classes.secoLogo} src='img/logos/seco-logo-white-no-background-small.png' alt='SeCo logo'/>
+          <img className={classes.heldigLogo} src='img/logos/heldig-logo-small.png' alt='HELDIG logo'/>
         </Paper>
       </div>
     </div>
   );
 };
 
-// <img className={classes.aaltoLogo} src='img/logos/aalto-logo-white-no-background-small.png' alt='Aalto University logo'/>
-// <img className={classes.uhLogo} src='img/logos/university-of-helsinki-logo-white-no-background-small.png' alt='University of Helsinki logo'/>
-// <img className={classes.secoLogo} src='img/logos/seco-logo-white-no-background-small.png' alt='SeCo logo'/>
-// <img className={classes.heldigLogo} src='img/logos/heldig-logo-small.png' alt='HELDIG logo'/>
+
 
 const mapStateToProps = (state) => {
   return {
@@ -279,8 +283,7 @@ const mapStateToProps = (state) => {
     browser: state.browser,
     search: state.search,
     map: state.map,
-    manuscripts: getVisibleResults(state.search),
-    manuscriptsPropertyValues: getVisibleValues(state.search),
+    manuscripts:state.search.manuscripts,
     creationPlaces: state.search.places,
     place: state.search.place,
     facet: state.facet,
