@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
-import { has } from 'lodash';
+import { has, orderBy } from 'lodash';
 import 'leaflet-fullscreen/dist/fullscreen.png';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.min.js';
@@ -146,8 +146,8 @@ class LeafletMap extends React.Component {
       this.markers[this.props.place.id.replace('http://ldf.fi/mmm/place/', '')]
         .bindPopup(this.createPopUpContent(this.props.place), {
           maxHeight: 300,
-          maxWidth: 350,
-          minWidth: 350,
+          maxWidth: 400,
+          minWidth: 400,
         //closeButton: false,
         })
         .openPopup();
@@ -248,6 +248,7 @@ class LeafletMap extends React.Component {
   createManscriptListing(manuscripts) {
     let html = '';
     if (Array.isArray(manuscripts)) {
+      manuscripts = orderBy(manuscripts, 'id');
       html += '<ul>';
       manuscripts.forEach(ms => {
         let sdbmLink = has(ms, 'manuscriptRecord') ? ms.manuscriptRecord : ms.entry;

@@ -21,14 +21,14 @@ import {
   //GET_GEOJSON_FAILED
 } from '../actions';
 
-const hiplaApiUrl = (process.env.NODE_ENV === 'development')
+const apiUrl = (process.env.NODE_ENV === 'development')
   ? 'http://localhost:3001/'
   : 'http://193.166.25.181:3006/';
 
 const getManuscripts = action$ => action$.pipe(
   ofType(FETCH_MANUSCRIPTS),
   mergeMap(action => {
-    const searchUrl = hiplaApiUrl + 'manuscripts';
+    const searchUrl = apiUrl + 'manuscripts';
     const requestUrl = `${searchUrl}?page=${action.page}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateManuscripts({ manuscripts: response, page: action.page }))
@@ -39,7 +39,7 @@ const getManuscripts = action$ => action$.pipe(
 const getPlaces = action$ => action$.pipe(
   ofType(FETCH_PLACES),
   mergeMap(() => {
-    const searchUrl = hiplaApiUrl + 'places';
+    const searchUrl = apiUrl + 'places';
     const requestUrl = `${searchUrl}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updatePlaces({ places: response }))
@@ -50,8 +50,7 @@ const getPlaces = action$ => action$.pipe(
 const getPlace = action$ => action$.pipe(
   ofType(FETCH_PLACE),
   mergeMap(action => {
-    console.log(action.placeId)
-    const searchUrl = hiplaApiUrl + 'places';
+    const searchUrl = apiUrl + 'places';
     const requestUrl = `${searchUrl}/${action.placeId}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updatePlace({ place: response }))
@@ -62,7 +61,7 @@ const getPlace = action$ => action$.pipe(
 const getFacet = action$ => action$.pipe(
   ofType(FETCH_FACET),
   mergeMap((action) => {
-    const searchUrl = hiplaApiUrl + 'facet';
+    const searchUrl = apiUrl + 'facet';
     const requestUrl = `${searchUrl}?property=${action.property}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateFacet({ values: response }))
@@ -73,7 +72,7 @@ const getFacet = action$ => action$.pipe(
 const getResultCount = action$ => action$.pipe(
   ofType(FETCH_RESULTS),
   mergeMap(() => {
-    const searchUrl = hiplaApiUrl + 'manuscript-count';
+    const searchUrl = apiUrl + 'manuscript-count';
     const requestUrl = `${searchUrl}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResults({ results: response }))
@@ -82,7 +81,7 @@ const getResultCount = action$ => action$.pipe(
 );
 
 // const getGeoJSONEpic = (action$) => {
-//   const wfsUrl = hiplaApiUrl + 'wfs';
+//   const wfsUrl = apiUrl + 'wfs';
 //   return action$.ofType(GET_GEOJSON)
 //     .switchMap(action => {
 //       let s = '';
