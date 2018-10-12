@@ -13,7 +13,7 @@ export const getManuscripts = (page, filterObj) => {
   const pageSize = 5;
   manuscriptQuery = manuscriptQuery.replace('<FILTER>', generateFilter(filterObj));
   manuscriptQuery = manuscriptQuery.replace('<PAGE>', `ORDER BY ?id LIMIT ${pageSize} OFFSET ${page * pageSize}`);
-  console.log(manuscriptQuery)
+  // console.log(manuscriptQuery)
   return sparqlSearchEngine.doSearch(manuscriptQuery, endpoint, makeObjectList);
 };
 
@@ -36,7 +36,7 @@ export const getPlace = (id) => {
 
 export const getFacet = (property) => {
   const { endpoint } = datasetConfig['mmm'];
-  console.log(facetQuery)
+  // console.log(facetQuery)
   return sparqlSearchEngine.doSearch(facetQuery, endpoint, mapFacet);
 };
 
