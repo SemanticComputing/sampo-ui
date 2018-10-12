@@ -153,7 +153,7 @@ let MapApp = (props) => {
 
   let oneColumnView = true;
 
-  //console.log(manuscripts)
+  console.log(manuscripts)
   //console.log(place)
 
   let table = '';

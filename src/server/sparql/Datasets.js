@@ -61,6 +61,15 @@ module.exports = {
         ?id mmm-schema:entry ?entry .
         OPTIONAL { ?id mmm-schema:manuscript_record ?manuscriptRecord . }
         OPTIONAL { ?id crm:P45_consists_of ?material . }
+        OPTIONAL {
+          ?id crm:P51_has_former_or_current_owner ?owner__id .
+          ?owner__id skos:prefLabel ?owner__label .
+          ?rei rdf:subject ?id ;
+               rdf:predicate crm:P51_has_former_or_current_owner ;
+               rdf:object ?owner__id ;
+               mmm-schema:entry ?owner__entry ;
+               mmm-schema:order ?owner__order .
+        }
         ?expression_creation frbroo:R18_created ?id .
         OPTIONAL {
           ?expression_creation crm:P14_carried_out_by ?author__id .
