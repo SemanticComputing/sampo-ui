@@ -124,22 +124,26 @@ const styles = theme => ({
     paddingLeft: logoPadding,
     height: logoHeight - 8
   },
-  aaltoLogo: {
-    paddingLeft: logoPadding,
-    height: logoHeight - 8
-  },
-  uhLogo: {
+  cnrsLogo: {
     paddingLeft: logoPadding,
     height: logoHeight
   },
-  secoLogo: {
-    paddingLeft: logoPadding,
-    height: logoHeight - 5
-  },
-  heldigLogo: {
+  aaltoLogo: {
     paddingLeft: logoPadding,
     height: logoHeight - 10
   },
+  // uhLogo: {
+  //   paddingLeft: logoPadding,
+  //   height: logoHeight
+  // },
+  // secoLogo: {
+  //   paddingLeft: logoPadding,
+  //   height: logoHeight - 5
+  // },
+  // heldigLogo: {
+  //   paddingLeft: logoPadding,
+  //   height: logoHeight - 10
+  // },
 });
 
 let MapApp = (props) => {
@@ -265,16 +269,20 @@ let MapApp = (props) => {
         <Paper className={classes.footer}>
           <img className={classes.oxfordLogo} src='img/logos/oxford-logo-white.png' alt='Oxford University logo'/>
           <img className={classes.pennLogo} src='img/logos/penn-logo-white.png' alt='Oxford University logo'/>
+          <img className={classes.cnrsLogo} src='img/logos/cnrs-logo-white-small.png' alt='CNRS logo'/>
           <img className={classes.aaltoLogo} src='img/logos/aalto-logo-white-no-background-small.png' alt='Aalto University logo'/>
-          <img className={classes.uhLogo} src='img/logos/university-of-helsinki-logo-white-no-background-small.png' alt='University of Helsinki logo'/>
-          <img className={classes.secoLogo} src='img/logos/seco-logo-white-no-background-small.png' alt='SeCo logo'/>
-          <img className={classes.heldigLogo} src='img/logos/heldig-logo-small.png' alt='HELDIG logo'/>
+
+
         </Paper>
       </div>
     </div>
   );
 };
 
+
+//<img className={classes.secoLogo} src='img/logos/seco-logo-white-no-background-small.png' alt='SeCo logo'/>
+// <img className={classes.heldigLogo} src='img/logos/heldig-logo-small.png' alt='HELDIG logo'/>
+//  <img className={classes.uhLogo} src='img/logos/university-of-helsinki-logo-white-no-background-small.png' alt='University of Helsinki logo'/>
 
 
 const mapStateToProps = (state) => {
