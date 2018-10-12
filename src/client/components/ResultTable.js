@@ -12,7 +12,7 @@ import TableHead from '@material-ui/core/TableHead';
 import Tooltip from '@material-ui/core/Tooltip';
 import FacetDialog from './FacetDialog';
 import ResultTablePaginationActions from './ResultTablePaginationActions';
-import { has } from 'lodash';
+import { has, orderBy } from 'lodash';
 
 const styles = () => ({
   root: {
@@ -109,6 +109,7 @@ class ResultTable extends React.Component {
 
   stringListRenderer = (cell) => {
     if (Array.isArray(cell)) {
+      cell = cell.sort();
       return (
         <ul className={this.props.classes.valueList}>
           {cell.map((item, i) => <li key={i}>{item}</li>)}
@@ -124,6 +125,7 @@ class ResultTable extends React.Component {
       return '-';
     }
     else if (Array.isArray(cell)) {
+      cell = orderBy(cell, 'prefLabel');
       return (
         <ul className={this.props.classes.valueList}>
           {cell.map((item, i) =>
