@@ -43,17 +43,17 @@ class LeafletMap extends React.Component {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     });
 
-    const karelianMaps = L.tileLayer('http:///mapwarper.onki.fi/mosaics/tile/4/{z}/{x}/{y}.png', {
-      attribution: 'SeCo'
-    });
-
-    const senateAtlas = L.tileLayer('http:///mapwarper.onki.fi/mosaics/tile/5/{z}/{x}/{y}.png', {
-      attribution: 'SeCo'
-    });
-
-    const westernFront = L.tileLayer('http://mapwarper.net/mosaics/tile/844/{z}/{x}/{y}.png', {
-      attribution: 'SeCo'
-    });
+    // const karelianMaps = L.tileLayer('http:///mapwarper.onki.fi/mosaics/tile/4/{z}/{x}/{y}.png', {
+    //   attribution: 'SeCo'
+    // });
+    //
+    // const senateAtlas = L.tileLayer('http:///mapwarper.onki.fi/mosaics/tile/5/{z}/{x}/{y}.png', {
+    //   attribution: 'SeCo'
+    // });
+    //
+    // const westernFront = L.tileLayer('http://mapwarper.net/mosaics/tile/844/{z}/{x}/{y}.png', {
+    //   attribution: 'SeCo'
+    // });
 
     // Marker layers
     this.resultMarkerLayer = L.layerGroup();
@@ -79,26 +79,26 @@ class LeafletMap extends React.Component {
     });
 
     // layer controls
-    const baseMaps = {
-      'OpenStreetMap': OSMBaseLayer,
-    };
-    const overlayMaps = {
-      'Search results': this.resultMarkerLayer,
-      'Karelian maps (MapWarper)': karelianMaps,
-      'Senate atlas (MapWarper)': senateAtlas,
-      'Western Front July 1917 (MapWarper)': westernFront
-    };
+    // const baseMaps = {
+    //   'OpenStreetMap': OSMBaseLayer,
+    // };
+    // const overlayMaps = {
+    //   'Search results': this.resultMarkerLayer,
+    //   'Karelian maps (MapWarper)': karelianMaps,
+    //   'Senate atlas (MapWarper)': senateAtlas,
+    //   'Western Front July 1917 (MapWarper)': westernFront
+    // };
 
-    this.layerControl = L.control.layers(
-      baseMaps,
-      overlayMaps,
-    ).addTo(this.leafletMap);
+    // this.layerControl = L.control.layers(
+    //   baseMaps,
+    //   overlayMaps,
+    // ).addTo(this.leafletMap);
 
-    L.control.opacity(
-      overlayMaps, {
-        collapsed: true,
-        position: 'bottomleft'
-      }).addTo(this.leafletMap);
+    // L.control.opacity(
+    //   overlayMaps, {
+    //     collapsed: true,
+    //     position: 'bottomleft'
+    //   }).addTo(this.leafletMap);
 
     L.Marker.setBouncingOptions({ exclusive: true });
 

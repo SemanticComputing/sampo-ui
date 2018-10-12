@@ -5,15 +5,11 @@ import { withStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
 import compose from 'recompose/compose';
 import Paper from '@material-ui/core/Paper';
-// import Immutable from 'immutable';
-// import VirtualizedTable from '../components/VirtualizedTable';
 import ResultTable from '../components/ResultTable';
-import LeafletMap from '../components/map/LeafletMap';
-import GMap from '../components/map/GMap';
+import LeafletMap from '../components/LeafletMap';
 import Pie from '../components/Pie';
 import TopBar from '../components/TopBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
-//import Typography from '@material-ui/core/Typography';
 import purple from '@material-ui/core/colors/purple';
 
 import {
@@ -145,7 +141,8 @@ const styles = theme => ({
 });
 
 let MapApp = (props) => {
-  const { classes, options, browser, search, map, manuscripts, creationPlaces, place, facet } = props;
+  const { classes, options, search, map, manuscripts, creationPlaces, place, facet } = props;
+  // browser
   //error,
 
   let oneColumnView = true;
@@ -166,7 +163,6 @@ let MapApp = (props) => {
   } else {
     if ((oneColumnView && options.resultFormat === 'table') || (!oneColumnView)) {
       //console.log(facetValues)
-      //console.log(facet.values)
       table = (
         <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
           <ResultTable
@@ -184,35 +180,23 @@ let MapApp = (props) => {
 
   let mapElement = '';
   if ((oneColumnView && options.resultFormat === 'map') || (!oneColumnView)) {
-    if (options.mapMode === 'heatmap') {
-      mapElement = (
-        <GMap
-          results={props.creationPlaces}
-          googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKWw5FjhwLsfp_l2gjVAifPkT3cxGXhA4&v=3.exp&libraries=geometry,drawing,places,visualization"
-          loadingElement={<div style={{ height: `100%` }} />}
-          containerElement={<div style={{ height: `100%` }} />}
-          mapElement={<div style={{ height: `100%` }} />}
-        />
-      );
-    } else {
-      mapElement = (
-        <LeafletMap
-          fetchPlaces={props.fetchPlaces}
-          fetchPlace={props.fetchPlace}
-          fetchManuscripts={props.fetchManuscripts}
-          results={creationPlaces}
-          place={place}
-          mapMode={options.mapMode}
-          geoJSON={map.geoJSON}
-          geoJSONKey={map.geoJSONKey}
-          getGeoJSON={props.getGeoJSON}
-          bouncingMarker={map.bouncingMarker}
-          popupMarker={map.popupMarker}
-          bouncingMarkerKey={map.bouncingMarkerKey}
-          openPopupMarkerKey={map.openPopupMarkerKey}
-        />
-      );
-    }
+    mapElement = (
+      <LeafletMap
+        fetchPlaces={props.fetchPlaces}
+        fetchPlace={props.fetchPlace}
+        fetchManuscripts={props.fetchManuscripts}
+        results={creationPlaces}
+        place={place}
+        mapMode={options.mapMode}
+        geoJSON={map.geoJSON}
+        geoJSONKey={map.geoJSONKey}
+        getGeoJSON={props.getGeoJSON}
+        bouncingMarker={map.bouncingMarker}
+        popupMarker={map.popupMarker}
+        bouncingMarkerKey={map.bouncingMarkerKey}
+        openPopupMarkerKey={map.openPopupMarkerKey}
+      />
+    );
   }
 
   //console.log(creationPlaces)
