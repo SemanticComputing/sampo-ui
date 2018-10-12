@@ -53,6 +53,7 @@ module.exports = {
             <FILTER>
             ?id a frbroo:F4_Manifestation_Singleton .
           }
+          <ORDER_BY>
           <PAGE>
         }
         FILTER(BOUND(?id))

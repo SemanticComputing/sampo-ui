@@ -24,17 +24,17 @@ app.use(function(req, res, next) {
 
 app.use(express.static(__dirname + './../public/'));
 
-const filterObj = {
-  creationPlace: {
-    predicate: '^<http://erlangen-crm.org/efrbroo/R18_created>/<http://www.cidoc-crm.org/cidoc-crm/P7_took_place_at>',
-    values: ['<http://ldf.fi/mmm/place/7>', '<http://ldf.fi/mmm/place/5>']
-  },
-  author: {
-    predicate: '^<http://erlangen-crm.org/efrbroo/R18_created>/<http://www.cidoc-crm.org/cidoc-crm/P14_carried_out_by>',
-    values: ['<http://ldf.fi/mmm/person/84>', '<http://ldf.fi/mmm/person/894>']
-  }
-};
-//const filterObj = {}
+// const filterObj = {
+//   creationPlace: {
+//     predicate: '^<http://erlangen-crm.org/efrbroo/R18_created>/<http://www.cidoc-crm.org/cidoc-crm/P7_took_place_at>',
+//     values: ['<http://ldf.fi/mmm/place/7>', '<http://ldf.fi/mmm/place/5>']
+//   },
+//   author: {
+//     predicate: '^<http://erlangen-crm.org/efrbroo/R18_created>/<http://www.cidoc-crm.org/cidoc-crm/P14_carried_out_by>',
+//     values: ['<http://ldf.fi/mmm/person/84>', '<http://ldf.fi/mmm/person/894>']
+//   }
+// };
+const filterObj = {}
 
 app.get('/manuscripts', (req, res) => {
   const page = req.query.page || 1;
