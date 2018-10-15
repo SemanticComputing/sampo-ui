@@ -46,33 +46,47 @@ export const groupBy = (sparqlBindings, group) => Object.values(_.reduce(sparqlB
 // };
 
 export const mapManuscripts = (sparqlBindings) => {
-  //console.log(sparqlBindings);
+  console.log(sparqlBindings);
   const results = sparqlBindings.map(b => {
     return {
       id: b.id.value,
-      manuscriptRecord: _.has(b, 'manuscriptRecord') ? b.manuscriptRecord.value : '-',
-      prefLabel: b.prefLabel.value.split('|'),
+      prefLabel: createStringList(b.prefLabel.value),
+      //entry: createStringList(b.entry.value),
+      manuscriptRecord: _.has(b, 'manuscriptRecord') ? createStringList(b.manuscriptRecord.value) : '-',
       author: _.has(b, 'author',) ? createObjectList(b.author.value, 'names') : '-',
-      timespan: _.has(b, 'timespan',) ? b.timespan.value.split('|') : '-',
+      // owner: _.has(b, 'owner',) ? createObjectList(b.owner.value, 'names') : '-',
+      timespan: _.has(b, 'timespan',) ? createStringList(b.timespan.value) : '-',
       creationPlace: _.has(b, 'creationPlace',) ? createObjectList(b.creationPlace.value, 'places') : '-',
-      material: _.has(b, 'material',) ? b.material.value.split('|') : '-',
-      language: _.has(b, 'language',) ? b.language.value.split('|') : '-',
+      material: _.has(b, 'material',) ? createStringList(b.material.value) : '-',
+      language: _.has(b, 'language',) ? createStringList(b.language.value) : '-',
     };
   });
   return results;
 };
 
+const createStringList = (str) => {
+  const list = str.split('|');
+  return list.length < 2 ? list[0] : list;
+};
+
 const createObjectList = (str, sdbmType) => {
-  const strings = str.split('|');
-  return strings.map(s => {
-    const values = s.split(';');
-    return {
-      id: values[1].substring(values[1].lastIndexOf('/') + 1),
-      //id: values[0],
-      prefLabel: values[0],
-      sdbmType: sdbmType
-    };
-  });
+  const list = str.split('|');
+  if (list.length < 2) {
+    return createObject(list[0], sdbmType);
+  } else {
+    return list.map(item => {
+      return createObject(item, sdbmType);
+    });
+  }
+};
+
+const createObject = (str, sdbmType) => {
+  const values = str.split(';');
+  return {
+    id: values[1],
+    prefLabel: values[0],
+    sdbmLink: `https://sdbm.library.upenn.edu/${sdbmType}/${values[1].substring(values[1].lastIndexOf('/') + 1)}`
+  };
 };
 
 export const mapPlaces = (sparqlBindings) => {

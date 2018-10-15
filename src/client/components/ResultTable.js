@@ -98,7 +98,7 @@ class ResultTable extends React.Component {
   idRenderer = (row) => {
     let sdbmLink = '';
     let id = row.id.replace('http://ldf.fi/mmm/manifestation_singleton/', '');
-    if (has(row, 'manuscriptRecord')) {
+    if (has(row, 'manuscriptRecord') && row.manuscriptRecord !== '-') {
       sdbmLink = row.manuscriptRecord;
     } else {
       sdbmLink = row.entry;
@@ -242,7 +242,7 @@ class ResultTable extends React.Component {
                       {this.objectListRenderer(row.creationPlace, true)}
                     </TableCell>
                     <TableCell>
-                      {this.objectListRenderer(row.timespan, false)}
+                      {this.stringListRenderer(row.timespan)}
                     </TableCell>
                     <TableCell>
                       {this.stringListRenderer(row.language)}

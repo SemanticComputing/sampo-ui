@@ -95,7 +95,7 @@ module.exports = {
         }
       }
       `,
-    'allQuery': `
+    'manuscriptQuery2': `
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
       PREFIX foaf: <http://xmlns.com/foaf/0.1/>
@@ -109,15 +109,27 @@ module.exports = {
       PREFIX sdbm: <https://sdbm.library.upenn.edu/>
       SELECT
       ?id ?manuscriptRecord
+      #(GROUP_CONCAT(DISTINCT ?entry_; SEPARATOR=" | ") AS ?entry)
       (GROUP_CONCAT(DISTINCT ?prefLabel_; SEPARATOR=" | ") AS ?prefLabel)
       (GROUP_CONCAT(DISTINCT ?author_; SEPARATOR="|") AS ?author)
+      #(GROUP_CONCAT(DISTINCT ?owner_; SEPARATOR="|") AS ?owner)
       (GROUP_CONCAT(DISTINCT ?timespan_; SEPARATOR="|") AS ?timespan)
       (GROUP_CONCAT(DISTINCT ?creationPlace_; SEPARATOR="|") AS ?creationPlace)
       (GROUP_CONCAT(DISTINCT ?material_; SEPARATOR="|") AS ?material)
       (GROUP_CONCAT(DISTINCT ?language_; SEPARATOR="|") AS ?language)
       WHERE {
-        ?id a frbroo:F4_Manifestation_Singleton .
+        {
+          SELECT DISTINCT ?id {
+            <FILTER>
+            ?id a frbroo:F4_Manifestation_Singleton .
+          }
+          <ORDER_BY>
+          <PAGE>
+        }
+        FILTER(BOUND(?id))
+        #?id mmm-schema:entry ?entry_ .
         ?id skos:prefLabel ?prefLabel_ .
+        OPTIONAL { ?id mmm-schema:manuscript_record ?manuscriptRecord . }
         OPTIONAL { ?id crm:P45_consists_of ?material_ . }
         ?expression_creation frbroo:R18_created ?id .
         OPTIONAL {
@@ -125,6 +137,17 @@ module.exports = {
           ?authorId skos:prefLabel ?authorLabel
           BIND(CONCAT(STR(?authorLabel), ";", STR(?authorId)) AS ?author_)
         }
+        #OPTIONAL {
+        #  ?id crm:P51_has_former_or_current_owner ?ownerId .
+        #  ?ownerId skos:prefLabel ?ownerLabel .
+          #?rei a rdf:Statement ;
+          #     rdf:subject ?id ;
+          #     rdf:predicate crm:P51_has_former_or_current_owner ;
+          #     rdf:object ?ownerId ;
+          #     mmm-schema:entry ?owner__entry ;
+          #     mmm-schema:order ?owner__order .
+        #  BIND(CONCAT(STR(?ownerLabel), ";", STR(?ownerId)) AS ?owner_)
+        #}
         OPTIONAL {
           ?expression_creation crm:P4_has_time_span ?timespanId .
           ?timespanId rdfs:label ?timespan_.
@@ -138,11 +161,9 @@ module.exports = {
           ?id crm:P128_carries ?expression .
           ?expression crm:P72_has_language ?language_ .
         }
-        OPTIONAL { ?id mmm-schema:manuscript_record ?manuscriptRecord . }
+
       }
       GROUP BY ?id ?manuscriptRecord
-      ORDER BY (!BOUND(?creationPlace)) ?creationPlace
-      <PAGE>
       `,
     'placesQuery': `
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
