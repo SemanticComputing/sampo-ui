@@ -153,7 +153,7 @@ let MapApp = (props) => {
 
   let oneColumnView = true;
 
-  console.log(manuscripts)
+  console.log(manuscripts);
   //console.log(place)
 
   let table = '';
@@ -335,7 +335,6 @@ MapApp.propTypes = {
   manuscripts: PropTypes.array,
   creationPlaces: PropTypes.array.isRequired,
   place: PropTypes.object.isRequired,
-  manuscriptsPropertyValues: PropTypes.object.isRequired,
   facet: PropTypes.object.isRequired,
   results: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,

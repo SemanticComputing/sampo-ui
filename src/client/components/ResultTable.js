@@ -74,6 +74,11 @@ const columns = [
     property: 'material',
     desc: 'Material description'
   },
+  {
+    label: 'Owner',
+    property: 'owner',
+    desc: 'Former or current owner description'
+  },
 ];
 
 class ResultTable extends React.Component {
@@ -120,29 +125,47 @@ class ResultTable extends React.Component {
     }
   };
 
-  objectListRenderer = (cell, makeLink) => {
+  objectListRenderer = (cell, makeLink, customSort, ordered) => {
     if (cell == null){
       return '-';
     }
     else if (Array.isArray(cell)) {
-      cell = orderBy(cell, 'prefLabel');
-      return (
-        <ul className={this.props.classes.valueList}>
-          {cell.map((item, i) =>
-            <li key={i}>
-              {makeLink &&
-                <a
-                  target='_blank' rel='noopener noreferrer'
-                  href={item.sdbmLink}
-                >
-                  {item.prefLabel}
-                </a>
-              }
-              {!makeLink && item.prefLabel}
-            </li>
-          )}
-        </ul>
+      if (customSort) {
+        cell.sort((a, b) =>
+        {
+          if (Array.isArray(a.order)) { a.order = a.order[0]; }
+          if (Array.isArray(b.order)) { b.order = b.order[0]; }
+          return a.order - b.order;
+        });
+      } else {
+        cell = orderBy(cell, 'prefLabel');
+      }
+      const listItems = cell.map((item, i) =>
+        <li key={i}>
+          {makeLink &&
+            <a
+              target='_blank' rel='noopener noreferrer'
+              href={item.sdbmLink}
+            >
+              {item.prefLabel}
+            </a>
+          }
+          {!makeLink && item.prefLabel}
+        </li>
       );
+      if (ordered) {
+        return (
+          <ol className={this.props.classes.valueList}>
+            {listItems}
+          </ol>
+        );
+      } else {
+        return (
+          <ul className={this.props.classes.valueList}>
+            {listItems}
+          </ul>
+        );
+      }
     } else if (makeLink) {
       return (
         <a
@@ -226,6 +249,9 @@ class ResultTable extends React.Component {
                     </TableCell>
                     <TableCell>
                       {this.stringListRenderer(row.material)}
+                    </TableCell>
+                    <TableCell>
+                      {this.objectListRenderer(row.owner, true, true, true)}
                     </TableCell>
                   </TableRow>
                 );

@@ -62,13 +62,14 @@ module.exports = {
         OPTIONAL { ?id mmm-schema:manuscript_record ?manuscriptRecord . }
         OPTIONAL { ?id crm:P45_consists_of ?material . }
         OPTIONAL {
-          ?id crm:P51_has_former_or_current_owner ?owner__id .
-          ?owner__id skos:prefLabel ?owner__label .
-          ?rei rdf:subject ?id ;
-               rdf:predicate crm:P51_has_former_or_current_owner ;
-               rdf:object ?owner__id ;
-               mmm-schema:entry ?owner__entry ;
-               mmm-schema:order ?owner__order .
+         ?id crm:P51_has_former_or_current_owner ?owner__id .
+         ?owner__id skos:prefLabel ?owner__prefLabel .
+         ?reifi rdf:subject ?id ;
+              rdf:predicate crm:P51_has_former_or_current_owner ;
+              rdf:object ?owner__id ;
+              mmm-schema:entry ?owner__entry ;
+              mmm-schema:order ?owner__order .
+         BIND(REPLACE(STR(?owner__id), "http://ldf.fi/mmm/person/", "https://sdbm.library.upenn.edu/names/") AS ?owner__sdbmLink)
         }
         ?expression_creation frbroo:R18_created ?id .
         OPTIONAL {
