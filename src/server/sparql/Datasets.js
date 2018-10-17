@@ -137,17 +137,17 @@ module.exports = {
           ?authorId skos:prefLabel ?authorLabel
           BIND(CONCAT(STR(?authorLabel), ";", STR(?authorId)) AS ?author_)
         }
-        #OPTIONAL {
-        #  ?id crm:P51_has_former_or_current_owner ?ownerId .
-        #  ?ownerId skos:prefLabel ?ownerLabel .
-          #?rei a rdf:Statement ;
-          #     rdf:subject ?id ;
-          #     rdf:predicate crm:P51_has_former_or_current_owner ;
-          #     rdf:object ?ownerId ;
-          #     mmm-schema:entry ?owner__entry ;
-          #     mmm-schema:order ?owner__order .
-        #  BIND(CONCAT(STR(?ownerLabel), ";", STR(?ownerId)) AS ?owner_)
-        #}
+        OPTIONAL {
+         ?id crm:P51_has_former_or_current_owner ?ownerId .
+         ?ownerId skos:prefLabel ?ownerLabel .
+          ?rei a rdf:Statement ;
+              rdf:subject ?id ;
+              rdf:predicate crm:P51_has_former_or_current_owner ;
+              rdf:object ?ownerId ;
+              mmm-schema:entry ?owner__entry ;
+              mmm-schema:order ?owner__order .
+         BIND(CONCAT(STR(?ownerLabel), ";", STR(?ownerId)) AS ?owner_)
+        }
         OPTIONAL {
           ?expression_creation crm:P4_has_time_span ?timespanId .
           ?timespanId rdfs:label ?timespan_.

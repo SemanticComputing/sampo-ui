@@ -126,7 +126,7 @@ class ResultTable extends React.Component {
   };
 
   objectListRenderer = (cell, makeLink, customSort, ordered) => {
-    if (cell == null){
+    if (cell == null || cell === '-'){
       return '-';
     }
     else if (Array.isArray(cell)) {

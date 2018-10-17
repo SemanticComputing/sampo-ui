@@ -51,7 +51,7 @@ class FacetDialog extends React.Component {
 
   render() {
     const { classes, propertyLabel, facet } = this.props;
-    console.log(facet)
+    // console.log(facet)
     return (
       <div className={classes.root}>
         <IconButton

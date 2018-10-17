@@ -46,7 +46,7 @@ export const groupBy = (sparqlBindings, group) => Object.values(_.reduce(sparqlB
 // };
 
 export const mapManuscripts = (sparqlBindings) => {
-  console.log(sparqlBindings);
+  // console.log(sparqlBindings);
   const results = sparqlBindings.map(b => {
     return {
       id: b.id.value,
@@ -54,7 +54,7 @@ export const mapManuscripts = (sparqlBindings) => {
       //entry: createStringList(b.entry.value),
       manuscriptRecord: _.has(b, 'manuscriptRecord') ? createStringList(b.manuscriptRecord.value) : '-',
       author: _.has(b, 'author',) ? createObjectList(b.author.value, 'names') : '-',
-      // owner: _.has(b, 'owner',) ? createObjectList(b.owner.value, 'names') : '-',
+      owner: _.has(b, 'owner',) ? createObjectList(b.owner.value, 'names') : '-',
       timespan: _.has(b, 'timespan',) ? createStringList(b.timespan.value) : '-',
       creationPlace: _.has(b, 'creationPlace',) ? createObjectList(b.creationPlace.value, 'places') : '-',
       material: _.has(b, 'material',) ? createStringList(b.material.value) : '-',
