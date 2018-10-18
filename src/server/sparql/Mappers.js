@@ -82,11 +82,21 @@ const createObjectList = (str, sdbmType) => {
 
 const createObject = (str, sdbmType) => {
   const values = str.split(';');
-  return {
-    id: values[1],
-    prefLabel: values[0],
-    sdbmLink: `https://sdbm.library.upenn.edu/${sdbmType}/${values[1].substring(values[1].lastIndexOf('/') + 1)}`
-  };
+  if (values.length > 2) {
+    return {
+      id: values[1],
+      prefLabel: values[0],
+      order: values[2],
+      entry: values[3],
+      sdbmLink: `https://sdbm.library.upenn.edu/${sdbmType}/${values[1].substring(values[1].lastIndexOf('/') + 1)}`
+    };
+  } else {
+    return {
+      id: values[1],
+      prefLabel: values[0],
+      sdbmLink: `https://sdbm.library.upenn.edu/${sdbmType}/${values[1].substring(values[1].lastIndexOf('/') + 1)}`
+    };
+  }
 };
 
 export const mapPlaces = (sparqlBindings) => {

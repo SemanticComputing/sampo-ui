@@ -58,7 +58,7 @@ module.exports = {
         }
         FILTER(BOUND(?id))
         ?id skos:prefLabel ?prefLabel .
-        ?id mmm-schema:entry ?entry .
+        #?id mmm-schema:entry ?entry .
         OPTIONAL { ?id mmm-schema:manuscript_record ?manuscriptRecord . }
         OPTIONAL { ?id crm:P45_consists_of ?material . }
         OPTIONAL {
@@ -112,7 +112,7 @@ module.exports = {
       #(GROUP_CONCAT(DISTINCT ?entry_; SEPARATOR=" | ") AS ?entry)
       (GROUP_CONCAT(DISTINCT ?prefLabel_; SEPARATOR=" | ") AS ?prefLabel)
       (GROUP_CONCAT(DISTINCT ?author_; SEPARATOR="|") AS ?author)
-      #(GROUP_CONCAT(DISTINCT ?owner_; SEPARATOR="|") AS ?owner)
+      (GROUP_CONCAT(DISTINCT ?owner_; SEPARATOR="|") AS ?owner)
       (GROUP_CONCAT(DISTINCT ?timespan_; SEPARATOR="|") AS ?timespan)
       (GROUP_CONCAT(DISTINCT ?creationPlace_; SEPARATOR="|") AS ?creationPlace)
       (GROUP_CONCAT(DISTINCT ?material_; SEPARATOR="|") AS ?material)
@@ -140,13 +140,13 @@ module.exports = {
         OPTIONAL {
          ?id crm:P51_has_former_or_current_owner ?ownerId .
          ?ownerId skos:prefLabel ?ownerLabel .
-          ?rei a rdf:Statement ;
+         ?rei a rdf:Statement ;
               rdf:subject ?id ;
               rdf:predicate crm:P51_has_former_or_current_owner ;
               rdf:object ?ownerId ;
-              mmm-schema:entry ?owner__entry ;
-              mmm-schema:order ?owner__order .
-         BIND(CONCAT(STR(?ownerLabel), ";", STR(?ownerId)) AS ?owner_)
+              mmm-schema:entry ?ownerEntry ;
+              mmm-schema:order ?ownerOrder .
+         BIND(CONCAT(STR(?ownerLabel), ";", STR(?ownerId), ";", STR(?ownerOrder), ";", STR(?ownerEntry)) AS ?owner_)
         }
         OPTIONAL {
           ?expression_creation crm:P4_has_time_span ?timespanId .

@@ -33,25 +33,27 @@ const styles = () => ({
     paddingLeft: 15
   },
   withFilter: {
-    minWidth: 200
+    minWidth: 170
   }
 });
 
 const columns = [
-  {
-    label: 'ID',
-    property: 'id',
-    desc: 'ID description'
-  },
+  // {
+  //   label: 'ID',
+  //   property: 'id',
+  //   desc: 'ID description'
+  // },
   {
     label: 'Title',
     property: 'prefLabel',
-    desc: 'Title description'
+    desc: 'Title description',
+    filter: true
   },
   {
     label: 'Author',
     property: 'author',
-    desc: 'Author description'
+    desc: 'Author description',
+    filter: true
   },
   {
     label: 'Creation place',
@@ -62,22 +64,26 @@ const columns = [
   {
     label: 'Creation date',
     property: 'timespan',
-    desc: 'Creation date description'
+    desc: 'Creation date description',
+    filter: true
   },
-  {
-    label: 'Language',
-    property: 'language',
-    desc: 'Language description'
-  },
-  {
-    label: 'Material',
-    property: 'material',
-    desc: 'Material description'
-  },
+  // {
+  //   label: 'Language',
+  //   property: 'language',
+  //   desc: 'Language description',
+  //   filter: true
+  // },
+  // {
+  //   label: 'Material',
+  //   property: 'material',
+  //   desc: 'Material description',
+  //   filter: true
+  // },
   {
     label: 'Owner',
     property: 'owner',
-    desc: 'Former or current owner description'
+    desc: 'Former or current owner description',
+    filter: true
   },
 ];
 
@@ -229,28 +235,28 @@ class ResultTable extends React.Component {
               {rows.map(row => {
                 return (
                   <TableRow key={row.id}>
-                    <TableCell component="th" scope="row">
+                    {/* <TableCell component="th" scope="row" >
                       {this.idRenderer(row)}
-                    </TableCell>
-                    <TableCell>
+                    </TableCell> */}
+                    <TableCell className={classes.withFilter} >
                       {this.stringListRenderer(row.prefLabel)}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className={classes.withFilter}>
                       {this.objectListRenderer(row.author, true)}
                     </TableCell>
                     <TableCell className={classes.withFilter}>
                       {this.objectListRenderer(row.creationPlace, true)}
                     </TableCell>
-                    <TableCell>
-                      {this.stringListRenderer(row.timespan)}
+                    <TableCell className={classes.withFilter}>
+                      {this.objectListRenderer(row.timespan)}
                     </TableCell>
-                    <TableCell>
+                    {/* <TableCell className={classes.withFilter}>
                       {this.stringListRenderer(row.language)}
-                    </TableCell>
-                    <TableCell>
+                    </TableCell> */}
+                    {/* <TableCell className={classes.withFilter}>
                       {this.stringListRenderer(row.material)}
-                    </TableCell>
-                    <TableCell>
+                    </TableCell> */}
+                    <TableCell className={classes.withFilter}>
                       {this.objectListRenderer(row.owner, true, true, true)}
                     </TableCell>
                   </TableRow>
