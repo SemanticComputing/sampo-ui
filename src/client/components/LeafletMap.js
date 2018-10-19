@@ -55,6 +55,10 @@ class LeafletMap extends React.Component {
     //   attribution: 'SeCo'
     // });
 
+    const test = L.tileLayer('http://mapwarper.net/maps/tile/28345/{z}/{x}/{y}.png', {
+      attribution: 'SeCo'
+    });
+
     // Marker layers
     this.resultMarkerLayer = L.layerGroup();
 
@@ -82,17 +86,17 @@ class LeafletMap extends React.Component {
     // const baseMaps = {
     //   'OpenStreetMap': OSMBaseLayer,
     // };
-    // const overlayMaps = {
-    //   'Search results': this.resultMarkerLayer,
-    //   'Karelian maps (MapWarper)': karelianMaps,
-    //   'Senate atlas (MapWarper)': senateAtlas,
-    //   'Western Front July 1917 (MapWarper)': westernFront
-    // };
+    const overlayMaps = {
+      // 'Search results': this.resultMarkerLayer,
+      // 'Karelian maps (MapWarper)': karelianMaps,
+      // 'Senate atlas (MapWarper)': senateAtlas,
+      'Paris': test
+    };
 
-    // this.layerControl = L.control.layers(
-    //   baseMaps,
-    //   overlayMaps,
-    // ).addTo(this.leafletMap);
+    this.layerControl = L.control.layers(
+      //baseMaps,
+      overlayMaps,
+    ).addTo(this.leafletMap);
 
     // L.control.opacity(
     //   overlayMaps, {
