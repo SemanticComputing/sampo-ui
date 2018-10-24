@@ -32,6 +32,10 @@ const styles = () => ({
   valueList: {
     paddingLeft: 15
   },
+  valueListCustomSort: {
+    listStyle: 'none',
+    paddingLeft: 0
+  },
   withFilter: {
     minWidth: 170
   }
@@ -137,17 +141,16 @@ class ResultTable extends React.Component {
     }
     else if (Array.isArray(cell)) {
       if (customSort) {
-        cell.sort((a, b) =>
-        {
-          if (Array.isArray(a.order)) { a.order = a.order[0]; }
-          if (Array.isArray(b.order)) { b.order = b.order[0]; }
-          return a.order - b.order;
+        cell.map(item => {
+          Array.isArray(item.order) ? item.earliestOrder = item.order[0] : item.earliestOrder = item.order;
         });
+        cell.sort((a, b) => a.earliestOrder - b.earliestOrder);
       } else {
         cell = orderBy(cell, 'prefLabel');
       }
       const listItems = cell.map((item, i) =>
         <li key={i}>
+          {customSort && <span>{Array.isArray(item.order) ? item.order.toString() : item.order}. </span>}
           {makeLink &&
             <a
               target='_blank' rel='noopener noreferrer'
@@ -159,15 +162,16 @@ class ResultTable extends React.Component {
           {!makeLink && item.prefLabel}
         </li>
       );
+      const listClass = customSort ? this.props.classes.valueListCustomSort : this.props.classes.valueList;
       if (ordered) {
         return (
-          <ol className={this.props.classes.valueList}>
+          <ol className={listClass}>
             {listItems}
           </ol>
         );
       } else {
         return (
-          <ul className={this.props.classes.valueList}>
+          <ul className={listClass}>
             {listItems}
           </ul>
         );
@@ -257,7 +261,7 @@ class ResultTable extends React.Component {
                       {this.stringListRenderer(row.material)}
                     </TableCell>
                     <TableCell className={classes.withFilter}>
-                      {this.objectListRenderer(row.owner, true, true, true)}
+                      {this.objectListRenderer(row.owner, true, true, false)}
                     </TableCell>
                   </TableRow>
                 );
