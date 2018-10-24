@@ -38,22 +38,22 @@ const styles = () => ({
 });
 
 const columns = [
-  // {
-  //   label: 'ID',
-  //   property: 'id',
-  //   desc: 'ID description'
-  // },
+  {
+    label: 'ID',
+    property: 'id',
+    desc: 'ID description'
+  },
   {
     label: 'Title',
     property: 'prefLabel',
     desc: 'Title description',
-    filter: true
+    filter: false
   },
   {
     label: 'Author',
     property: 'author',
     desc: 'Author description',
-    filter: true
+    filter: false
   },
   {
     label: 'Creation place',
@@ -65,25 +65,25 @@ const columns = [
     label: 'Creation date',
     property: 'timespan',
     desc: 'Creation date description',
-    filter: true
+    filter: false
   },
-  // {
-  //   label: 'Language',
-  //   property: 'language',
-  //   desc: 'Language description',
-  //   filter: true
-  // },
-  // {
-  //   label: 'Material',
-  //   property: 'material',
-  //   desc: 'Material description',
-  //   filter: true
-  // },
+  {
+    label: 'Language',
+    property: 'language',
+    desc: 'Language description',
+    filter: false
+  },
+  {
+    label: 'Material',
+    property: 'material',
+    desc: 'Material description',
+    filter: false
+  },
   {
     label: 'Owner',
     property: 'owner',
     desc: 'Former or current owner description',
-    filter: true
+    filter: false
   },
 ];
 
@@ -235,9 +235,9 @@ class ResultTable extends React.Component {
               {rows.map(row => {
                 return (
                   <TableRow key={row.id}>
-                    {/* <TableCell component="th" scope="row" >
+                    <TableCell component="th" scope="row" >
                       {this.idRenderer(row)}
-                    </TableCell> */}
+                    </TableCell>
                     <TableCell className={classes.withFilter} >
                       {this.stringListRenderer(row.prefLabel)}
                     </TableCell>
@@ -250,12 +250,12 @@ class ResultTable extends React.Component {
                     <TableCell className={classes.withFilter}>
                       {this.objectListRenderer(row.timespan)}
                     </TableCell>
-                    {/* <TableCell className={classes.withFilter}>
+                    <TableCell className={classes.withFilter}>
                       {this.stringListRenderer(row.language)}
-                    </TableCell> */}
-                    {/* <TableCell className={classes.withFilter}>
+                    </TableCell>
+                    <TableCell className={classes.withFilter}>
                       {this.stringListRenderer(row.material)}
-                    </TableCell> */}
+                    </TableCell>
                     <TableCell className={classes.withFilter}>
                       {this.objectListRenderer(row.owner, true, true, true)}
                     </TableCell>
