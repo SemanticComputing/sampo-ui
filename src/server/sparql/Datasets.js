@@ -14,8 +14,8 @@ module.exports = {
     'title': 'MMM',
     'shortTitle': 'MMM',
     'timePeriod': '',
-    'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
-    //'endpoint': 'http://localhost:3034/ds/sparql',
+    //'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
+    'endpoint': 'http://localhost:3050/ds/sparql',
     'countQuery': `
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -102,8 +102,10 @@ module.exports = {
           OPTIONAL { ?acquisition__id crm:P23_transferred_title_from ?acquisition__seller . }
           OPTIONAL { ?acquisition__id crm:P22_transferred_title_to ?acquisition__buyer . }
           OPTIONAL { ?acquisition__id crm:P14_carried_out_by ?acquisition__selling_agent . }
-          BIND(?acquisition__id AS ?acquisition__prefLabel)
-          BIND(?acquisition__id AS ?acquisition__sdbmLink)                   
+          OPTIONAL { ?acquisition__id mmm-schema:catalog_title ?acquisition__prefLabel . }
+          OPTIONAL { ?acquisition__id mmm-schema:catalog_location ?acquisition__location . }
+          OPTIONAL { ?acquisition__id mmm-schema:catalog_date ?acquisition__date . }
+          BIND(?acquisition__id AS ?acquisition__sdbmLink)
         }
       }
       `,
@@ -197,6 +199,24 @@ module.exports = {
         }
       }
       GROUP BY ?id ?lat ?long ?prefLabel
+        `,
+    'migrationsQuery': `
+      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+      PREFIX dc: <http://purl.org/dc/elements/1.1/>
+      PREFIX owl: <http://www.w3.org/2002/07/owl#>
+      PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
+      PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+      PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
+      SELECT DISTINCT ?from__id ?from__name ?from__coordinates
+      WHERE {
+        # https://github.com/uber/deck.gl/blob/master/docs/layers/arc-layer.md
+        ?manuscript ^frbroo:R18_created/crm:P7_took_place_at ?from__id .
+        ?from__id skos:prefLabel ?from__name .
+        ?from__id wgs84:lat ?from_lat ;
+                  wgs84:long ?from_long .
+        BIND("[" + STR(?from_lat) + "," + STR(?from_long) + "]" AS ?from__coordinates)
+      }
         `,
     'placeQuery': `
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
