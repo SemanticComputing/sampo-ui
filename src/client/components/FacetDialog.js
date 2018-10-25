@@ -58,7 +58,7 @@ class FacetDialog extends React.Component {
           onClick={this.handleClickOpen}
           aria-label="Filter"
         >
-          <FilterListIcon className={classes.iconButton} />
+          <FilterListIcon />
         </IconButton>
         <Dialog
           classes={{ paper: classes.dialogPaper }}

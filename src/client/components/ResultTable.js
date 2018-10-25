@@ -6,12 +6,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
-import TableHead from '@material-ui/core/TableHead';
-import Tooltip from '@material-ui/core/Tooltip';
-import FacetDialog from './FacetDialog';
-import ResultTablePaginationActions from './ResultTablePaginationActions';
+import ResultTableHead from './ResultTableHead';
 import { has, orderBy } from 'lodash';
 
 const styles = () => ({
@@ -38,72 +34,13 @@ const styles = () => ({
   },
   withFilter: {
     minWidth: 170
+  },
+  infoIcon: {
+    paddingTop: 15
   }
 });
 
-const columns = [
-  {
-    label: 'ID',
-    property: 'id',
-    desc: 'ID description'
-  },
-  {
-    label: 'Title',
-    property: 'prefLabel',
-    desc: 'Title description',
-    filter: false
-  },
-  {
-    label: 'Author',
-    property: 'author',
-    desc: 'Author description',
-    filter: false
-  },
-  {
-    label: 'Creation place',
-    property: 'creationPlace',
-    desc: 'Creation place description',
-    filter: true
-  },
-  {
-    label: 'Creation date',
-    property: 'timespan',
-    desc: 'Creation date description',
-    filter: false
-  },
-  {
-    label: 'Language',
-    property: 'language',
-    desc: 'Language description',
-    filter: false
-  },
-  {
-    label: 'Material',
-    property: 'material',
-    desc: 'Material description',
-    filter: false
-  },
-  {
-    label: 'Owner',
-    property: 'owner',
-    desc: 'Former or current owner description',
-    filter: false
-  },
-];
-
 class ResultTable extends React.Component {
-  state = {
-    rowsPerPage: 5,
-  };
-
-  handleChangePage = (event, page) => {
-    //console.log(page)
-    this.props.fetchManuscripts(page);
-  };
-
-  handleChangeRowsPerPage = event => {
-    this.setState({ rowsPerPage: event.target.value });
-  };
 
   idRenderer = (row) => {
     let sdbmLink = '';
@@ -194,48 +131,19 @@ class ResultTable extends React.Component {
   };
 
   render() {
-    const { classes, rows, page, results } = this.props;
-    const { rowsPerPage } = this.state;
+    const { classes, rows } = this.props;
 
     return (
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
-            <TableHead>
-              <TableRow className={classes.paginationRow}>
-                <TablePagination
-                  count={results}
-                  rowsPerPage={rowsPerPage}
-                  rowsPerPageOptions={[5]}
-                  page={page}
-                  onChangePage={this.handleChangePage}
-                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                  ActionsComponent={ResultTablePaginationActions}
-                />
-              </TableRow>
-              <TableRow>
-                {columns.map(column => {
-                  return (
-                    <TableCell key={column.label}>
-                      <Tooltip
-                        title={column.desc}
-                        enterDelay={200}
-                      >
-                        <span>{column.label}</span>
-                      </Tooltip>
-                      {column.filter &&
-                        <Tooltip title={'Filter ' + column.label}>
-                          <FacetDialog
-                            property={column.property}
-                            propertyLabel={column.label}
-                            fetchFacet={this.props.fetchFacet}
-                            facet={this.props.facet} />
-                        </Tooltip>}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            </TableHead>
+            <ResultTableHead
+              fetchFacet={this.props.fetchFacet}
+              fetchManuscripts={this.props.fetchManuscripts}
+              facet={this.props.facet}
+              results={this.props.results}
+              page={this.props.page}
+            />
             <TableBody>
               {rows.map(row => {
                 return (
@@ -268,9 +176,6 @@ class ResultTable extends React.Component {
                 );
               })}
             </TableBody>
-            <TableFooter>
-
-            </TableFooter>
           </Table>
         </div>
       </Paper>
