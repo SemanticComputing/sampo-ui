@@ -58,7 +58,7 @@ module.exports = {
         }
         FILTER(BOUND(?id))
         ?id skos:prefLabel ?prefLabel .
-        #?id mmm-schema:entry ?entry .
+        ?id mmm-schema:entry ?entry .
         OPTIONAL { ?id mmm-schema:manuscript_record ?manuscriptRecord . }
         OPTIONAL { ?id crm:P45_consists_of ?material . }
         OPTIONAL {
