@@ -7,11 +7,12 @@ const NavTabs = (props) => {
   const handleChange = (event, value) => {
     props.updateResultFormat(value);
   };
+  // <Tab value="migrationMap" label="migrations" />
   return (
     <Tabs value={props.resultFormat} onChange={handleChange}>
       <Tab value="table" label="Table" />
       <Tab value="creationPlaceMap" label="creation places" />
-      <Tab value="migrationMap" label="migrations" />
+
       <Tab value="statistics" label="Statistics" />
     </Tabs>
   );
