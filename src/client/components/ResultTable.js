@@ -108,13 +108,14 @@ class ResultTable extends React.Component {
   idRenderer = (row) => {
     let sdbmLink = '';
     let id = row.id.replace('http://ldf.fi/mmm/manifestation_singleton/', '');
+    id = id.replace('orphan_', '');
+    id = id.replace('part_', '');
     if (has(row, 'manuscriptRecord') && row.manuscriptRecord !== '-') {
       sdbmLink = row.manuscriptRecord;
     } else {
-      sdbmLink = row.entry;
-      id = id.replace('orphan_', '');
+      sdbmLink = 'https://sdbm.library.upenn.edu/entries/' + id;
     }
-    id = id.replace('part_', '');
+
     return (
       <div className={this.props.classes.tableColumn}>
         <a target='_blank' rel='noopener noreferrer' href={sdbmLink}>{id}</a>

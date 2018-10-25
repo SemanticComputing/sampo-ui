@@ -46,30 +46,34 @@ module.exports = {
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX sdbm: <https://sdbm.library.upenn.edu/>
+      PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
       SELECT *
       WHERE {
         {
           SELECT DISTINCT ?id {
             <FILTER>
             ?id a frbroo:F4_Manifestation_Singleton .
+            #?id ^<http://erlangen-crm.org/efrbroo/R18_created>/<http://www.cidoc-crm.org/cidoc-crm/P7_took_place_at> ?orderBy .
           }
-          <ORDER_BY>
+          ORDER BY ?id
+          #ORDER BY (!BOUND(?orderBy)) ?orderBy
           <PAGE>
         }
         FILTER(BOUND(?id))
         ?id skos:prefLabel ?prefLabel .
-        ?id mmm-schema:entry ?entry .
+        # ?id mmm-schema:entry ?entry .
         OPTIONAL { ?id mmm-schema:manuscript_record ?manuscriptRecord . }
         OPTIONAL { ?id crm:P45_consists_of ?material . }
         OPTIONAL {
-         ?id crm:P51_has_former_or_current_owner ?owner__id .
-         ?owner__id skos:prefLabel ?owner__prefLabel .
-         ?reifi rdf:subject ?id ;
-              rdf:predicate crm:P51_has_former_or_current_owner ;
-              rdf:object ?owner__id ;
-              mmm-schema:entry ?owner__entry ;
-              mmm-schema:order ?owner__order .
-         BIND(REPLACE(STR(?owner__id), "http://ldf.fi/mmm/person/", "https://sdbm.library.upenn.edu/names/") AS ?owner__sdbmLink)
+          ?id crm:P51_has_former_or_current_owner ?owner__id .
+          ?owner__id skos:prefLabel ?owner__prefLabel .
+          ?reifi rdf:subject ?id ;
+            rdf:predicate crm:P51_has_former_or_current_owner ;
+            rdf:object ?owner__id ;
+            mmm-schema:entry ?owner__entry ;
+            mmm-schema:order ?order .
+          BIND(xsd:integer(?order) + 1 AS ?owner__order)
+          BIND(REPLACE(STR(?owner__id), "http://ldf.fi/mmm/person/", "https://sdbm.library.upenn.edu/names/") AS ?owner__sdbmLink)
         }
         ?expression_creation frbroo:R18_created ?id .
         OPTIONAL {

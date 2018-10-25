@@ -11,6 +11,7 @@ import Pie from '../components/Pie';
 import TopBar from '../components/TopBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
+import Typography from '@material-ui/core/Typography';
 
 import {
   updateQuery,
@@ -163,6 +164,7 @@ let MapApp = (props) => {
     //<Typography className={classes.progressTitle} variant="h4">Fetching manuscript data</Typography>
     table = (
       <div className={[tableClass, classes.progress].join(' ')}>
+        <Typography className={classes.progressTitle} variant="h4" color='primary'>Fetching manuscript data</Typography>
         <CircularProgress style={{ color: purple[500] }} thickness={5} />
       </div>
     );
