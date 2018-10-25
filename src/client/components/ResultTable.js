@@ -170,6 +170,9 @@ class ResultTable extends React.Component {
                       {this.stringListRenderer(row.material)}
                     </TableCell>
                     <TableCell className={classes.withFilter}>
+                      {this.objectListRenderer(row.acquisition, true)}
+                    </TableCell>
+                    <TableCell className={classes.withFilter}>
                       {this.objectListRenderer(row.owner, true, true, false)}
                     </TableCell>
                   </TableRow>

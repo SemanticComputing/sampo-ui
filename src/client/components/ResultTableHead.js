@@ -55,6 +55,11 @@ const columns = [
     desc: 'Material description'
   },
   {
+    label: 'Transaction',
+    property: 'acquisition',
+    desc: 'Transaction description'
+  },
+  {
     label: 'Owner',
     property: 'owner',
     desc: 'Material description'

@@ -97,6 +97,14 @@ module.exports = {
           ?id crm:P128_carries ?expression .
           ?expression crm:P72_has_language ?language .
         }
+        OPTIONAL {
+          ?acquisition__id crm:P24_transferred_title_of ?id ;
+          OPTIONAL { ?acquisition__id crm:P23_transferred_title_from ?acquisition__seller . }
+          OPTIONAL { ?acquisition__id crm:P22_transferred_title_to ?acquisition__buyer . }
+          OPTIONAL { ?acquisition__id crm:P14_carried_out_by ?acquisition__selling_agent . }
+          BIND(?acquisition__id AS ?acquisition__prefLabel)
+          BIND(?acquisition__id AS ?acquisition__sdbmLink)                   
+        }
       }
       `,
     'manuscriptQuery2': `
