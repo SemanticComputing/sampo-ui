@@ -12,6 +12,7 @@ import TopBar from '../components/TopBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 import Typography from '@material-ui/core/Typography';
+import Deck from '../components/Deck';
 
 import {
   updateQuery,
@@ -155,7 +156,8 @@ let MapApp = (props) => {
   let oneColumnView = true;
 
   console.log(manuscripts);
-  //console.log(place)
+  //console.log(options.resultFormat)
+  //console.log(creationPlaces)
 
   let table = '';
   if (search.fetchingManuscripts) {
@@ -187,7 +189,7 @@ let MapApp = (props) => {
   }
 
   let mapElement = '';
-  if ((oneColumnView && options.resultFormat === 'map') || (!oneColumnView)) {
+  if ((oneColumnView && options.resultFormat === 'creationPlaceMap') || (!oneColumnView)) {
     mapElement = (
       <LeafletMap
         fetchPlaces={props.fetchPlaces}
@@ -205,6 +207,9 @@ let MapApp = (props) => {
         openPopupMarkerKey={map.openPopupMarkerKey}
       />
     );
+  }
+  if ((oneColumnView && options.resultFormat === 'migrationMap') || (!oneColumnView)) {
+    mapElement = <Deck />;
   }
 
   //console.log(creationPlaces)
@@ -224,7 +229,15 @@ let MapApp = (props) => {
         mainResultsView = table;
         break;
       }
-      case 'map': {
+      case 'creationPlaceMap': {
+        mainResultsView = (
+          <div className={classes.fullMap}>
+            {mapElement}
+          </div>
+        );
+        break;
+      }
+      case 'migrationMap': {
         mainResultsView = (
           <div className={classes.fullMap}>
             {mapElement}

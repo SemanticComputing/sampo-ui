@@ -10,7 +10,8 @@ const NavTabs = (props) => {
   return (
     <Tabs value={props.resultFormat} onChange={handleChange}>
       <Tab value="table" label="Table" />
-      <Tab value="map" label="Map" />
+      <Tab value="creationPlaceMap" label="creation places" />
+      <Tab value="migrationMap" label="migrations" />
       <Tab value="statistics" label="Statistics" />
     </Tabs>
   );

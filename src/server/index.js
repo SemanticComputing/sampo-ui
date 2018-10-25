@@ -72,7 +72,7 @@ app.get('/places/:placeId?', (req, res) => {
       });
   } else {
     return getPlaces().then((data) => {
-      // console.log(data);
+       // console.log(data);
       res.json(data);
     })
       .catch((err) => {
