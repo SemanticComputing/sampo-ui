@@ -12,7 +12,7 @@ import TopBar from '../components/TopBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 import Typography from '@material-ui/core/Typography';
-import Deck from '../components/Deck';
+//import Deck from '../components/Deck';
 
 import {
   updateQuery,
@@ -208,9 +208,9 @@ let MapApp = (props) => {
       />
     );
   }
-  if ((oneColumnView && options.resultFormat === 'migrationMap') || (!oneColumnView)) {
-    mapElement = <Deck />;
-  }
+  // if ((oneColumnView && options.resultFormat === 'migrationMap') || (!oneColumnView)) {
+  //   mapElement = <Deck />;
+  // }
 
   //console.log(creationPlaces)
   let statistics = '';
@@ -237,14 +237,14 @@ let MapApp = (props) => {
         );
         break;
       }
-      case 'migrationMap': {
-        mainResultsView = (
-          <div className={classes.fullMap}>
-            {mapElement}
-          </div>
-        );
-        break;
-      }
+      // case 'migrationMap': {
+      //   mainResultsView = (
+      //     <div className={classes.fullMap}>
+      //       {mapElement}
+      //     </div>
+      //   );
+      //   break;
+      // }
       case 'statistics': {
         mainResultsView = statistics;
         break;
