@@ -23,7 +23,7 @@ import {
 
 const apiUrl = (process.env.NODE_ENV === 'development')
   ? 'http://localhost:3001/'
-  : 'http://193.166.25.181:3006/';
+  : 'http://dev.ui.mappingmanuscriptmigrations.org/';
 
 const getManuscripts = action$ => action$.pipe(
   ofType(FETCH_MANUSCRIPTS),
