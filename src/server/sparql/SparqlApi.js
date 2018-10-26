@@ -1,5 +1,6 @@
-import request from 'superagent';
+//import request from 'superagent';
 import fetch from 'node-fetch';
+const { URLSearchParams } = require('url');
 
 const defaultSelectHeaders = {
   'Content-Type': 'application/x-www-form-urlencoded',
@@ -18,26 +19,38 @@ class SparqlApi {
 
   query(query, { headers }) {
     return new Promise((resolve, reject) => {
-
-      if (this.endpoint === 'http://vocab.getty.edu/sparql.json') {
-        const url = this.endpoint + '?query=' + query;
-        fetch(url)
-          .then(response => {
-            return response.json();
-          })
-          .then(responseData => {
-            return resolve(responseData);
-          })
-          .catch(error => console.log('error is', error));
-      } else {
-        request.post(this.endpoint)
-          .send({ query })
-          .set(headers)
-          .end((err, res) => {
-            if (err || !res.ok) return reject(err);
-            return resolve(res.text);
-          });
-      }
+      const params = new URLSearchParams();
+      params.append('query', query);
+      fetch(this.endpoint, {
+        method: 'post',
+        body:    params,
+        headers: headers,
+      })
+        .then(res => res.text())
+        .then(data => {
+          return resolve(data);
+        })
+        .catch(error => console.log('error is', error));
+      // if (this.endpoint === 'http://vocab.getty.edu/sparql.json') {
+      //   const url = this.endpoint + '?query=' + query;
+      //   fetch(url)
+      //     .then(response => {
+      //       return response.json();
+      //     })
+      //     .then(responseData => {
+      //       return resolve(responseData);
+      //     })
+      //     .catch(error => console.log('error is', error));
+      // } else {
+      //   const body = { query: query};
+      //   request.post(this.endpoint)
+      //     .send(body)
+      //     .set(headers)
+      //     .end((err, res) => {
+      //       if (err || !res.ok) return reject(err);
+      //       return resolve(res.text);
+      //     });
+      // }
     });
   }
 
@@ -54,7 +67,6 @@ class SparqlApi {
   constructQuery(query, params = { headers: defaultConstructHeaders }) {
     return this.query(query, params);
   }
-
 }
 
 export default SparqlApi;
