@@ -14,8 +14,8 @@ module.exports = {
     'title': 'MMM',
     'shortTitle': 'MMM',
     'timePeriod': '',
-    //'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
-    'endpoint': 'http://localhost:3050/ds/sparql',
+    'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
+    //'endpoint': 'http://localhost:3050/ds/sparql',
     'countQuery': `
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -63,10 +63,14 @@ module.exports = {
         ?id skos:prefLabel ?prefLabel .
         # ?id mmm-schema:entry ?entry .
         OPTIONAL { ?id mmm-schema:manuscript_record ?manuscriptRecord . }
-        OPTIONAL { ?id crm:P45_consists_of ?material . }
+        # OPTIONAL { ?id crm:P45_consists_of ?material . }
         OPTIONAL {
           ?id crm:P51_has_former_or_current_owner ?owner__id .
           ?owner__id skos:prefLabel ?owner__prefLabel .
+          #OPTIONAL {
+          #  ?owner__id mmm-schema:person_place ?owner__place .
+          #  ?owner__place skos:prefLabel ?owner__placeLabel .
+          #}
           ?reifi rdf:subject ?id ;
             rdf:predicate crm:P51_has_former_or_current_owner ;
             rdf:object ?owner__id ;
@@ -98,14 +102,19 @@ module.exports = {
           ?expression crm:P72_has_language ?language .
         }
         OPTIONAL {
-          ?acquisition__id crm:P24_transferred_title_of ?id ;
-          OPTIONAL { ?acquisition__id crm:P23_transferred_title_from ?acquisition__seller . }
-          OPTIONAL { ?acquisition__id crm:P22_transferred_title_to ?acquisition__buyer . }
-          OPTIONAL { ?acquisition__id crm:P14_carried_out_by ?acquisition__selling_agent . }
-          OPTIONAL { ?acquisition__id mmm-schema:catalog_title ?acquisition__prefLabel . }
-          OPTIONAL { ?acquisition__id mmm-schema:catalog_location ?acquisition__location . }
+          ?acquisition__id crm:P24_transferred_title_of ?id .
+          ?acquisition__id mmm-schema:catalog_title ?acquisition__prefLabel .
+          ?acquisition__id dc:source ?source .
           OPTIONAL { ?acquisition__id mmm-schema:catalog_date ?acquisition__date . }
-          BIND(?acquisition__id AS ?acquisition__sdbmLink)
+          BIND(REPLACE(STR(?source), "http://ldf.fi/mmm/source/", "https://sdbm.library.upenn.edu/sources/") AS ?acquisition__sdbmLink)
+          #?acquisition__sdbmLink skos:prefLabel ?acquisition__prefLabel .
+          # OPTIONAL { ?acquisition__id crm:P23_transferred_title_from ?acquisition__seller . }
+          # OPTIONAL { ?acquisition__id crm:P22_transferred_title_to ?acquisition__buyer . }
+          # OPTIONAL { ?acquisition__id crm:P14_carried_out_by ?acquisition__selling_agent . }
+          # OPTIONAL { ?acquisition__id mmm-schema:catalog_title ?acquisition__prefLabel . }
+          #OPTIONAL { ?acquisition__id mmm-schema:catalog_location ?acquisition__location . }
+          #OPTIONAL { ?acquisition__id mmm-schema:catalog_date ?acquisition__date . }
+          #BIND(?acquisition__id AS ?acquisition__sdbmLink)
         }
       }
       `,
