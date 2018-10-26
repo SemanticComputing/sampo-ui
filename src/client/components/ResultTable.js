@@ -5,7 +5,6 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import TableFooter from '@material-ui/core/TableFooter';
 import Paper from '@material-ui/core/Paper';
 import ResultTableHead from './ResultTableHead';
 import { has, orderBy } from 'lodash';
@@ -28,7 +27,7 @@ const styles = () => ({
   valueList: {
     paddingLeft: 15
   },
-  valueListCustomSort: {
+  valueListNoBullets: {
     listStyle: 'none',
     paddingLeft: 0
   },
@@ -73,22 +72,14 @@ class ResultTable extends React.Component {
     }
   };
 
-  objectListRenderer = (cell, makeLink, customSort, ordered) => {
+  objectListRenderer = (cell, makeLink, ordered) => {
     if (cell == null || cell === '-'){
       return '-';
     }
     else if (Array.isArray(cell)) {
-      if (customSort) {
-        cell.map(item => {
-          Array.isArray(item.order) ? item.earliestOrder = item.order[0] : item.earliestOrder = item.order;
-        });
-        cell.sort((a, b) => a.earliestOrder - b.earliestOrder);
-      } else {
-        cell = orderBy(cell, 'prefLabel');
-      }
+      cell = orderBy(cell, 'prefLabel');
       const listItems = cell.map((item, i) =>
         <li key={i}>
-          {customSort && <span>{Array.isArray(item.order) ? item.order.toString() : item.order}. </span>}
           {makeLink &&
             <a
               target='_blank' rel='noopener noreferrer'
@@ -100,16 +91,15 @@ class ResultTable extends React.Component {
           {!makeLink && item.prefLabel}
         </li>
       );
-      const listClass = customSort ? this.props.classes.valueListCustomSort : this.props.classes.valueList;
       if (ordered) {
         return (
-          <ol className={listClass}>
+          <ol className={this.props.classes.valueList}>
             {listItems}
           </ol>
         );
       } else {
         return (
-          <ul className={listClass}>
+          <ul className={this.props.classes.valueList}>
             {listItems}
           </ul>
         );
@@ -126,6 +116,77 @@ class ResultTable extends React.Component {
     } else {
       return (
         <span>{cell.prefLabel}</span>
+      );
+    }
+  };
+
+  transactionRenderer = cell => {
+    if (Array.isArray(cell)) {
+      cell = orderBy(cell, 'date');
+      const items = cell.map((item, i) => {
+        return (
+          <li key={i}>
+            {item.date}
+            {' '}
+            <a
+              target='_blank' rel='noopener noreferrer'
+              href={item.sdbmLink}
+            >
+              {item.prefLabel}
+            </a>
+          </li>
+        );
+      });
+      return (
+        <ul className={this.props.classes.valueList}>
+          {items}
+        </ul>
+      );
+    } else {
+      return (
+        <span>
+          {cell.date}
+          {' '}
+          <a
+            target='_blank' rel='noopener noreferrer'
+            href={cell.sdbmLink}
+          >
+            {cell.prefLabel}
+          </a>
+        </span>
+
+      );
+    }
+  };
+
+  ownerRenderer = cell => {
+    if (Array.isArray(cell)) {
+      cell.map(item => {
+        Array.isArray(item.order) ? item.earliestOrder = item.order[0] : item.earliestOrder = item.order;
+      });
+      cell.sort((a, b) => a.earliestOrder - b.earliestOrder);
+
+      const items = cell.map((item, i) => {
+        return (
+          <li key={i}>
+            <span>{Array.isArray(item.order) ? item.order.toString() : item.order}. </span>
+            <a
+              target='_blank' rel='noopener noreferrer'
+              href={item.sdbmLink}
+            >
+              {item.prefLabel}
+            </a>
+          </li>
+        );
+      });
+      return (
+        <ul className={this.props.classes.valueListNoBullets}>
+          {items}
+        </ul>
+      );
+    } else {
+      return (
+        <span>{cell.date}<br />{cell.location}</span>
       );
     }
   };
@@ -166,14 +227,14 @@ class ResultTable extends React.Component {
                     <TableCell className={classes.withFilter}>
                       {this.stringListRenderer(row.language)}
                     </TableCell>
-                    <TableCell className={classes.withFilter}>
+                    {/*<TableCell className={classes.withFilter}>
                       {this.stringListRenderer(row.material)}
+                    </TableCell>*/}
+                    <TableCell className={classes.withFilter}>
+                      {this.transactionRenderer(row.acquisition)}
                     </TableCell>
                     <TableCell className={classes.withFilter}>
-                      {this.objectListRenderer(row.acquisition, true)}
-                    </TableCell>
-                    <TableCell className={classes.withFilter}>
-                      {this.objectListRenderer(row.owner, true, true, false)}
+                      {this.ownerRenderer(row.owner)}
                     </TableCell>
                   </TableRow>
                 );

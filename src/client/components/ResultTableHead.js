@@ -49,13 +49,13 @@ const columns = [
     property: 'language',
     desc: 'Language description'
   },
+  // {
+  //   label: 'Material',
+  //   property: 'material',
+  //   desc: 'Material description'
+  // },
   {
-    label: 'Material',
-    property: 'material',
-    desc: 'Material description'
-  },
-  {
-    label: 'Transaction',
+    label: 'Observation',
     property: 'acquisition',
     desc: 'Transaction description'
   },
