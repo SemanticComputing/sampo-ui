@@ -2,19 +2,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
 import { has, orderBy } from 'lodash';
+import LeafletSidebar from './LeafletSidebar';
+
+import 'leaflet-sidebar-v2/js/leaflet-sidebar.min.js';
+import 'leaflet-sidebar-v2/css/leaflet-sidebar.min.css';
+
 import 'leaflet-fullscreen/dist/fullscreen.png';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.min.js';
+
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster/dist/leaflet.markercluster.js';
+
 import 'Leaflet.Control.Opacity/dist/L.Control.Opacity.css';
 import 'Leaflet.Control.Opacity/dist/L.Control.Opacity.js';
+
 import 'leaflet.smooth_marker_bouncing/leaflet.smoothmarkerbouncing.js';
+
 import 'Leaflet.extra-markers/dist/js/leaflet.extra-markers.min.js';
 import 'Leaflet.extra-markers/dist/css/leaflet.extra-markers.min.css';
 import 'Leaflet.extra-markers/dist/img/markers_default.png';
 import 'Leaflet.extra-markers/dist/img/markers_shadow.png';
+
+
 
 const style = {
   width: '100%',
@@ -106,6 +117,8 @@ class LeafletMap extends React.Component {
 
     L.Marker.setBouncingOptions({ exclusive: true });
 
+    L.control.sidebar({ container: 'sidebar' }).addTo(this.leafletMap).open('home');
+
   }
 
   componentDidUpdate({ results, place, mapMode, geoJSONKey, bouncingMarkerKey, openPopupMarkerKey }) {
@@ -188,14 +201,14 @@ class LeafletMap extends React.Component {
         cluster.getAllChildMarkers().forEach(marker => {
           childCount += parseInt(marker.options.manuscriptCount);
         });
-        let c = ' marker-cluster-';
-        if (childCount < 10) {
-          c += 'small';
-        } else if (childCount < 100) {
-          c += 'medium';
-        } else {
-          c += 'large';
-        }
+        let c = ' marker-cluster-large';
+        // if (childCount < 10) {
+        //   c += 'small';
+        // } else if (childCount < 100) {
+        //   c += 'medium';
+        // } else {
+        //   c += 'large';
+        // }
         return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
       }
     });
@@ -215,6 +228,7 @@ class LeafletMap extends React.Component {
     } else {
       const { lat, long } = result;
       const latLng = [+lat, +long];
+      // https://github.com/coryasilva/Leaflet.ExtraMarkers
       const icon = L.ExtraMarkers.icon({
         icon: 'fa-number',
         number: result.manuscriptCount,
@@ -286,7 +300,12 @@ class LeafletMap extends React.Component {
   }
 
   render() {
-    return <div id="map" style={style} />;
+    return (
+      <div className="leaflet-container">
+        <LeafletSidebar />
+        <div id="map" style={style} />
+      </div>
+    );
   }
 }
 

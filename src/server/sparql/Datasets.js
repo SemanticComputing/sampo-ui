@@ -227,6 +227,7 @@ module.exports = {
         BIND("[" + STR(?from_lat) + "," + STR(?from_long) + "]" AS ?from__coordinates)
       }
         `,
+    // http://vocab.getty.edu/doc/queries/#Places_by_Direct_and_Hierarchical_Type
     'placeQuery': `
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
@@ -245,6 +246,9 @@ module.exports = {
         OPTIONAL { ?manuscript__id mmm-schema:manuscript_record ?manuscript__manuscriptRecord }
         OPTIONAL { ?id owl:sameAs ?source . }
         OPTIONAL { ?id mmm-schema:parent ?parent }
+        #SERVICE <http://sparql.org/books> {
+        #  ?source dc:title ?title . ?s dc:creator ?a
+        #}
       }
         `,
     'tgn': {
