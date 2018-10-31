@@ -7,16 +7,16 @@ import NavTabs from '../components/NavTabs';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
-import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+// import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-import { CSVLink } from 'react-csv';
-import Button from '@material-ui/core/Button';
-import FormGroup from '@material-ui/core/FormGroup';
-import Checkbox from '@material-ui/core/Checkbox';
+// import { CSVLink } from 'react-csv';
+// import Button from '@material-ui/core/Button';
+// import FormGroup from '@material-ui/core/FormGroup';
+// import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
@@ -68,8 +68,7 @@ class TopBar extends React.Component {
   };
 
   componentDidMount() {
-    this.props.fetchResults();
-    this.props.fetchManuscripts(0);
+    //this.props.fetchManuscripts(0);
   }
 
   handleClick = event => {
@@ -163,12 +162,10 @@ class TopBar extends React.Component {
 
 TopBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  //results: PropTypes.array.isRequired,
   oneColumnView: PropTypes.bool.isRequired,
   mapMode: PropTypes.string.isRequired,
   resultFormat: PropTypes.string.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
-  fetchResults: PropTypes.func.isRequired,
   updateResultFormat: PropTypes.func.isRequired,
   updateMapMode: PropTypes.func.isRequired,
   datasets: PropTypes.object.isRequired,

@@ -210,6 +210,8 @@ module.exports = {
       GROUP BY ?id ?lat ?long ?prefLabel
         `,
     'migrationsQuery': `
+      PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
       PREFIX dc: <http://purl.org/dc/elements/1.1/>
@@ -217,15 +219,33 @@ module.exports = {
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
-      SELECT DISTINCT ?from__id ?from__name ?from__coordinates
+      SELECT DISTINCT ?id ?from__id ?from__name ?from__lat ?from__long ?to__id ?to__name ?to__lat ?to__long
+      (COUNT(DISTINCT ?manuscript) as ?manuscriptCount)
       WHERE {
         # https://github.com/uber/deck.gl/blob/master/docs/layers/arc-layer.md
-        ?manuscript ^frbroo:R18_created/crm:P7_took_place_at ?from__id .
-        ?from__id skos:prefLabel ?from__name .
-        ?from__id wgs84:lat ?from_lat ;
-                  wgs84:long ?from_long .
-        BIND("[" + STR(?from_lat) + "," + STR(?from_long) + "]" AS ?from__coordinates)
+        #?id ^frbroo:R18_created/crm:P7_took_place_at ?from__id .
+        ?manuscript ^frbroo:R18_created/crm:P7_took_place_at ?id .
+        BIND(?id AS ?from__id)
+
+        ?id skos:prefLabel ?from__name .
+        ?from__id wgs84:lat ?from__lat ;
+                  wgs84:long ?from__long .
+        ?manuscript crm:P51_has_former_or_current_owner ?owner .
+        ?rei rdf:subject ?manuscript ;
+             rdf:predicate crm:P51_has_former_or_current_owner ;
+             rdf:object ?owner ;
+             mmm-schema:order ?order .
+        ?owner mmm-schema:person_place ?to__id .
+        ?to__id skos:prefLabel ?to__name .
+        ?to__id wgs84:lat ?to__lat ;
+                wgs84:long ?to__long .
+        FILTER NOT EXISTS {
+          ?rei mmm-schema:order ?order2 .
+          filter (?order2 > ?order)
+        }
       }
+      GROUP BY ?id ?from__id ?from__name ?from__lat ?from__long ?to__id ?to__name ?to__lat ?to__long
+      # ORDER BY desc(xsd:integer(?manuscriptCount))
         `,
     // http://vocab.getty.edu/doc/queries/#Places_by_Direct_and_Hierarchical_Type
     'placeQuery': `

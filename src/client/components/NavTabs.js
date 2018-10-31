@@ -10,10 +10,10 @@ const NavTabs = (props) => {
   // <Tab value="migrationMap" label="migrations" />
   return (
     <Tabs value={props.resultFormat} onChange={handleChange}>
-      <Tab value="table" label="Table" />
-      <Tab value="creationPlaceMap" label="creation places" />
-
-      <Tab value="statistics" label="Statistics" />
+      { /* <Tab value="table" label="Table" />
+      <Tab value="creationPlaceMap" label="creation places" /> */}
+      <Tab value="migrationMap" label="migrations" />
+      { /* <Tab value="statistics" label="Statistics" /> */}
     </Tabs>
   );
 };

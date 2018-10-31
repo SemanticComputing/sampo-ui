@@ -8,6 +8,7 @@ import _ from 'lodash';
 * id are merged into one object.
 */
 export const makeObjectList = (objects) => {
+  // console.log(objects)
   let objList = _.transform(objects, function(result, obj) {
     if (!obj.id) {
       return null;

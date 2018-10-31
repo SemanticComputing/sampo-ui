@@ -1,176 +1,88 @@
-import React, {Component} from 'react';
-import {StaticMap} from 'react-map-gl';
-import DeckGL, {GeoJsonLayer, ArcLayer} from 'deck.gl';
-import {scaleQuantile} from 'd3-scale';
+import React from 'react';
+import PropTypes from 'prop-types';
+import DeckGL, { ArcLayer } from 'deck.gl';
+import { StaticMap } from 'react-map-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
-// Set your mapbox token here
-const MAPBOX_TOKEN = process.env.MapboxAccessToken; // eslint-disable-line
+// https://deck.gl/#/documentation/getting-started/using-with-react?section=adding-a-base-map
+// https://github.com/uber/deck.gl/blob/6.2-release/examples/website/arc/app.js
+// https://raw.githubusercontent.com/uber-common/deck.gl-data/master/website/bart-segments.json
+// http://deck.gl/#/documentation/deckgl-api-reference/layers/arc-layer
 
-// Source data GeoJSON
-const DATA_URL =
-  'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/examples/arc/counties.json'; // eslint-disable-line
 
-export const inFlowColors = [
-  [255, 255, 204],
-  [199, 233, 180],
-  [127, 205, 187],
-  [65, 182, 196],
-  [29, 145, 192],
-  [34, 94, 168],
-  [12, 44, 132]
-];
+// https://github.com/uber/deck.gl/blob/6.2-release/examples/website/arc/app.js
 
-export const outFlowColors = [
-  [255, 255, 178],
-  [254, 217, 118],
-  [254, 178, 76],
-  [253, 141, 60],
-  [252, 78, 42],
-  [227, 26, 28],
-  [177, 0, 38]
-];
+// Set your mapbox access token here
+const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZWtrb25lbiIsImEiOiJjam5vampzZ28xd2dyM3BzNXR0Zzg4azl4In0.eozyF-bBaZbA3ibhvJlJpQ';
 
-export const INITIAL_VIEW_STATE = {
-  longitude: -100,
-  latitude: 40.7,
-  zoom: 3,
-  maxZoom: 15,
-  pitch: 30,
-  bearing: 30
+
+// Initial viewport settings
+const initialViewState = {
+  longitude: 10.37,
+  latitude: 22.43,
+  zoom: 2,
+  pitch: 0,
+  bearing: 0
 };
 
-/* eslint-disable react/no-deprecated */
-export class Deck extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hoveredCounty: null,
-      // Set default selection to San Francisco
-      selectedCounty: null
-    };
-    this._onHoverCounty = this._onHoverCounty.bind(this);
-    this._onSelectCounty = this._onSelectCounty.bind(this);
-    this._renderTooltip = this._renderTooltip.bind(this);
-
-    this._recalculateArcs(this.props.data);
+class Deck extends React.Component {
+  componentDidMount() {
+    this.props.fetchPlaces();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data !== this.props.data) {
-      this._recalculateArcs(nextProps.data);
-    }
+  parseCoordinates = (coords) => {
+    if (Array.isArray(coords)) { coords = coords[0]; }
+    const arr = [ +coords.long, +coords.lat ];
+    return arr;
   }
 
-  _onHoverCounty({x, y, object}) {
-    this.setState({x, y, hoveredCounty: object});
-  }
-
-  _onSelectCounty({object}) {
-    this._recalculateArcs(this.props.data, object);
-  }
-
-  _renderTooltip() {
-    const {x, y, hoveredCounty} = this.state;
-    return (
-      hoveredCounty && (
-        <div className="tooltip" style={{left: x, top: y}}>
-          {hoveredCounty.properties.name}
-        </div>
-      )
-    );
-  }
-
-  _recalculateArcs(data, selectedCounty = this.state.selectedCounty) {
-    if (!data) {
-      return;
-    }
-    if (!selectedCounty) {
-      selectedCounty = data.find(f => f.properties.name === 'Los Angeles, CA');
-    }
-    const {flows, centroid} = selectedCounty.properties;
-
-    const arcs = Object.keys(flows).map(toId => {
-      const f = data[toId];
-      return {
-        source: centroid,
-        target: f.properties.centroid,
-        value: flows[toId]
-      };
-    });
-
-    const scale = scaleQuantile()
-      .domain(arcs.map(a => Math.abs(a.value)))
-      .range(inFlowColors.map((c, i) => i));
-
-    arcs.forEach(a => {
-      a.gain = Math.sign(a.value);
-      a.quantile = scale(Math.abs(a.value));
-    });
-
-    if (this.props.onSelectCounty) {
-      this.props.onSelectCounty(selectedCounty);
-    }
-
-    this.setState({arcs, selectedCounty});
-  }
-
-  _renderLayers() {
-    const {data, strokeWidth = 2} = this.props;
-
-    return [
-      new GeoJsonLayer({
-        id: 'geojson',
-        data,
-        stroked: false,
-        filled: true,
-        getFillColor: [0, 0, 0, 0],
-        onHover: this._onHoverCounty,
-        onClick: this._onSelectCounty,
-        pickable: true
-      }),
-      new ArcLayer({
-        id: 'arc',
-        data: this.state.arcs,
-        getSourcePosition: d => d.source,
-        getTargetPosition: d => d.target,
-        getSourceColor: d => (d.gain > 0 ? inFlowColors : outFlowColors)[d.quantile],
-        getTargetColor: d => (d.gain > 0 ? outFlowColors : inFlowColors)[d.quantile],
-        strokeWidth
-      })
-    ];
-  }
+  // getStrokeWidth = manuscriptCount => {
+  //   //console.log(manuscriptCount)
+  //   if (Array.isArray(manuscriptCount)) {
+  //     manuscriptCount = manuscriptCount[0];
+  //   }
+  //   const min = 1;
+  //   const max = 3333;
+  //   const minAllowed = 1;
+  //   const maxAllowed = 10;
+  //   //console.log(this.scaleBetween(manuscriptCount, minAllowed, maxAllowed, min, max))
+  //   return this.scaleBetween(parseInt(manuscriptCount), minAllowed, maxAllowed, min, max);
+  // }
+  //
+  // // https://stackoverflow.com/a/31687097
+  // scaleBetween = (unscaledNum, minAllowed, maxAllowed, min, max) => {
+  //   return (maxAllowed - minAllowed) * (unscaledNum - min) / (max - min) + minAllowed;
+  // }
 
   render() {
-    const {viewState, controller = true, baseMap = true} = this.props;
+    // console.log(this.props.data)
+    const layer = new ArcLayer({
+      id: 'arc-layer',
+      data: this.props.data,
+      pickable: true,
+      //getStrokeWidth: d => this.getStrokeWidth(d.manuscriptCount),
+      getSourceColor: [0, 0, 255, 255],
+      getTargetColor: [255, 0, 0, 255],
+      getSourcePosition: d => this.parseCoordinates(d.from),
+      getTargetPosition: d => this.parseCoordinates(d.to),
+      //onHover: ({object}) => console.log(object)
+    });
 
     return (
       <DeckGL
-        layers={this._renderLayers()}
-        initialViewState={INITIAL_VIEW_STATE}
-        viewState={viewState}
-        controller={controller}
+        initialViewState={initialViewState}
+        controller={true}
+        layers={[layer]}
       >
-        {baseMap && (
-          <StaticMap
-            reuseMaps
-            mapStyle="mapbox://styles/mapbox/light-v9"
-            preventStyleDiffing={true}
-            mapboxApiAccessToken={MAPBOX_TOKEN}
-          />
-        )}
-
-        {this._renderTooltip}
+        <StaticMap mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} />
       </DeckGL>
     );
   }
 }
 
-export function renderToDOM(container) {
-  render(<App />, container);
+Deck.propTypes = {
+  fetchPlaces: PropTypes.func.isRequired,
+  data: PropTypes.array.isRequired
+};
 
-  fetch(DATA_URL)
-    .then(response => response.json())
-    .then(({features}) => {
-      render(<App data={features} />, container);
-    });
-}
+export default Deck;

@@ -12,7 +12,7 @@ import TopBar from '../components/TopBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 import Typography from '@material-ui/core/Typography';
-//import Deck from '../components/Deck';
+import Deck from '../components/Deck';
 
 import {
   updateQuery,
@@ -23,7 +23,6 @@ import {
   fetchPlaces,
   fetchPlace,
   fetchFacet,
-  fetchResults,
   clearManuscripts,
   clearPlaces,
   clearFacet,
@@ -155,9 +154,9 @@ let MapApp = (props) => {
 
   let oneColumnView = true;
 
-  console.log(manuscripts);
-  //console.log(options.resultFormat)
-  //console.log(creationPlaces)
+  // console.log(manuscripts);
+  // console.log(options.resultFormat)
+  // console.log(creationPlaces)
 
   let table = '';
   if (search.fetchingManuscripts) {
@@ -208,9 +207,9 @@ let MapApp = (props) => {
       />
     );
   }
-  // if ((oneColumnView && options.resultFormat === 'migrationMap') || (!oneColumnView)) {
-  //   mapElement = <Deck />;
-  // }
+  if ((oneColumnView && options.resultFormat === 'migrationMap') || (!oneColumnView)) {
+    mapElement = <Deck data={creationPlaces} fetchPlaces={props.fetchPlaces} />;
+  }
 
   //console.log(creationPlaces)
   let statistics = '';
@@ -237,14 +236,14 @@ let MapApp = (props) => {
         );
         break;
       }
-      // case 'migrationMap': {
-      //   mainResultsView = (
-      //     <div className={classes.fullMap}>
-      //       {mapElement}
-      //     </div>
-      //   );
-      //   break;
-      // }
+      case 'migrationMap': {
+        mainResultsView = (
+          <div className={classes.fullMap}>
+            {mapElement}
+          </div>
+        );
+        break;
+      }
       case 'statistics': {
         mainResultsView = statistics;
         break;
@@ -266,7 +265,6 @@ let MapApp = (props) => {
           updateMapMode={props.updateMapMode}
           updateResultFormat={props.updateResultFormat}
           fetchManuscripts={props.fetchManuscripts}
-          fetchResults={props.fetchResults}
           datasets={search.datasets}
           toggleDataset={props.toggleDataset}
         />
@@ -323,7 +321,6 @@ const mapDispatchToProps = ({
   fetchManuscripts,
   fetchPlaces,
   fetchPlace,
-  fetchResults,
   fetchFacet,
   clearManuscripts,
   clearPlaces,
@@ -362,7 +359,6 @@ MapApp.propTypes = {
   fetchPlaces: PropTypes.func.isRequired,
   fetchPlace:  PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,
-  fetchResults: PropTypes.func.isRequired,
   clearManuscripts: PropTypes.func.isRequired,
   clearPlaces: PropTypes.func.isRequired,
   clearFacet: PropTypes.func.isRequired,

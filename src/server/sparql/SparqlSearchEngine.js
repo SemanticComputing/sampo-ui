@@ -7,6 +7,7 @@ class SparqlSearchEngine {
     const sparqlApi = new SparqlApi({ endpoint });
     return sparqlApi.selectQuery(sparqlQuery)
       .then((data) => {
+        // console.log(data)
         if (data.results.bindings.length === 0) {
           return [];
         }
