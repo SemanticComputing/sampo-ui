@@ -219,19 +219,17 @@ module.exports = {
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
-      SELECT DISTINCT ?id ?from__id ?from__name ?from__lat ?from__long ?to__id ?to__name ?to__lat ?to__long
-      (COUNT(DISTINCT ?manuscript) as ?manuscriptCount)
+      SELECT DISTINCT ?id ?manuscript__id ?manuscript__url ?from__id ?from__name ?from__lat ?from__long ?to__id ?to__name ?to__lat ?to__long
       WHERE {
         # https://github.com/uber/deck.gl/blob/master/docs/layers/arc-layer.md
         #?id ^frbroo:R18_created/crm:P7_took_place_at ?from__id .
-        ?manuscript ^frbroo:R18_created/crm:P7_took_place_at ?id .
-        BIND(?id AS ?from__id)
-
-        ?id skos:prefLabel ?from__name .
+        ?manuscript__id ^frbroo:R18_created/crm:P7_took_place_at ?from__id .
+        ?manuscript__id mmm-schema:data_provider_url ?manuscript__url .
+        ?from__id skos:prefLabel ?from__name .
         ?from__id wgs84:lat ?from__lat ;
                   wgs84:long ?from__long .
-        ?manuscript crm:P51_has_former_or_current_owner ?owner .
-        ?rei rdf:subject ?manuscript ;
+        ?manuscript__id crm:P51_has_former_or_current_owner ?owner .
+        ?rei rdf:subject ?manuscript__id ;
              rdf:predicate crm:P51_has_former_or_current_owner ;
              rdf:object ?owner ;
              mmm-schema:order ?order .
@@ -243,9 +241,8 @@ module.exports = {
           ?rei mmm-schema:order ?order2 .
           filter (?order2 > ?order)
         }
+        BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/mmm/place/", ""))) as ?id)
       }
-      GROUP BY ?id ?from__id ?from__name ?from__lat ?from__long ?to__id ?to__name ?to__lat ?to__long
-      # ORDER BY desc(xsd:integer(?manuscriptCount))
         `,
     // http://vocab.getty.edu/doc/queries/#Places_by_Direct_and_Hierarchical_Type
     'placeQuery': `
