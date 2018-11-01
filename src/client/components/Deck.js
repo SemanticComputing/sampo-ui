@@ -8,17 +8,25 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 // https://github.com/uber/deck.gl/blob/6.2-release/examples/website/arc/app.js
 
-// https://raw.githubusercontent.com/uber-common/deck.gl-data/master/website/bart-segments.json
-
 // http://deck.gl/#/documentation/deckgl-api-reference/layers/arc-layer
 
 
 // Set your mapbox access token here
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZWtrb25lbiIsImEiOiJjam5vampzZ28xd2dyM3BzNXR0Zzg4azl4In0.eozyF-bBaZbA3ibhvJlJpQ';
 
+const tooltipStyle = {
+  position: 'absolute',
+  padding: '4px',
+  background: 'rgba(0, 0, 0, 0.8)',
+  color: '#fff',
+  maxWidth: '300px',
+  fontSize: '10px',
+  zIndex: 9,
+  pointerEvents: 'none'
+};
+
 class Deck extends React.Component {
   state = {
-
     viewport: {
       longitude: 10.37,
       latitude: 22.43,
@@ -27,7 +35,8 @@ class Deck extends React.Component {
       bearing: 0,
       width: 100,
       height: 100
-    }
+    },
+    tooltip: null
   }
 
   componentDidMount() {
@@ -56,7 +65,29 @@ class Deck extends React.Component {
     });
   };
 
+  setTooltip(object) {
+    this.setState({tooltip: object});
+  }
+
  _onViewportChange = viewport => this.setState({viewport});
+
+ _renderTooltip() {
+   if(this.state.tooltip) {
+     const { x, y, object } = this.state.tooltip;
+     if (object) {
+       if (Array.isArray(object.to)) {
+         object.to = object.to[0];
+       }
+       return object && (
+         <div style={{...tooltipStyle, top: y, left: x}}>
+           <p>Creation place: {object.from.name}</p>
+           <p>Last known location: {object.to.name}</p>
+         </div>
+       );
+     }
+   }
+   return null;
+ }
 
   // getStrokeWidth = manuscriptCount => {
   //   //console.log(manuscriptCount)
@@ -83,11 +114,12 @@ class Deck extends React.Component {
      data: this.props.data,
      pickable: true,
      //getStrokeWidth: d => this.getStrokeWidth(d.manuscriptCount),
+     getStrokeWidth: 2,
      getSourceColor: [0, 0, 255, 255],
      getTargetColor: [255, 0, 0, 255],
      getSourcePosition: d => this.parseCoordinates(d.from),
      getTargetPosition: d => this.parseCoordinates(d.to),
-     //onHover: ({object}) => console.log(object)
+     onHover: (object) => this.setTooltip(object)
    });
 
    return (
@@ -99,6 +131,7 @@ class Deck extends React.Component {
          viewState={this.state.viewport}
          layers={[layer]}
        />
+       {this._renderTooltip()}
      </MapGL>
    );
  }
