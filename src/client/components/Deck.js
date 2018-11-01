@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import DeckGL, { ArcLayer } from 'deck.gl';
 import MapGL from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import InfoDialog from './InfoDialog';
 
 // https://deck.gl/#/documentation/getting-started/using-with-react?section=adding-a-base-map
 
@@ -36,7 +37,11 @@ class Deck extends React.Component {
       width: 100,
       height: 100
     },
-    tooltip: null
+    tooltip: null,
+    dialog: {
+      open: false,
+      data: {}
+    }
   }
 
   componentDidMount() {
@@ -67,6 +72,24 @@ class Deck extends React.Component {
 
   setTooltip(object) {
     this.setState({tooltip: object});
+  }
+
+  setDialog(info) {
+    this.setState({
+      dialog: {
+        open: true,
+        data: info.object
+      }
+    });
+  }
+
+  closeDialog() {
+    this.setState({
+      dialog: {
+        open: false,
+        data: {}
+      }
+    });
   }
 
  _onViewportChange = viewport => this.setState({viewport});
@@ -114,12 +137,13 @@ class Deck extends React.Component {
      data: this.props.data,
      pickable: true,
      //getStrokeWidth: d => this.getStrokeWidth(d.manuscriptCount),
-     getStrokeWidth: 2,
+     getStrokeWidth: 1,
      getSourceColor: [0, 0, 255, 255],
      getTargetColor: [255, 0, 0, 255],
      getSourcePosition: d => this.parseCoordinates(d.from),
      getTargetPosition: d => this.parseCoordinates(d.to),
-     onHover: (object) => this.setTooltip(object)
+     onHover: info => this.setTooltip(info),
+     onClick: info => this.setDialog(info),
    });
 
    return (
@@ -132,6 +156,11 @@ class Deck extends React.Component {
          layers={[layer]}
        />
        {this._renderTooltip()}
+       <InfoDialog
+         open={this.state.dialog.open}
+         onClose={this.closeDialog.bind(this)}
+         data={this.state.dialog.data}
+       />
      </MapGL>
    );
  }
