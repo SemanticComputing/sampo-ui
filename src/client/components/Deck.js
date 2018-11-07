@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DeckGL, { ArcLayer } from 'deck.gl';
-import MapGL from 'react-map-gl';
+import ReactMapGL, { NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import InfoDialog from './InfoDialog';
 
@@ -147,21 +147,26 @@ class Deck extends React.Component {
    });
 
    return (
-     <MapGL
+     <ReactMapGL
        {...this.state.viewport}
        onViewportChange={this._onViewportChange}
-       mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} >
+       mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
+     >
        <DeckGL
          viewState={this.state.viewport}
          layers={[layer]}
        />
+       <div style={{position: 'absolute', left: 10, top: 10}}>
+         <NavigationControl onViewportChange={this._onViewportChange} />
+       </div>
+
        {this._renderTooltip()}
        <InfoDialog
          open={this.state.dialog.open}
          onClose={this.closeDialog.bind(this)}
          data={this.state.dialog.data}
        />
-     </MapGL>
+     </ReactMapGL>
    );
  }
 }
