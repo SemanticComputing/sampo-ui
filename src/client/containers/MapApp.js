@@ -61,7 +61,7 @@ const styles = theme => ({
     display: 'flex',
     width: '100%',
     marginTop: 64,
-    height: 'calc(100% - 128px)',
+    height: 'calc(100% - 132px)',
     borderRight: '4px solid' + theme.palette.primary.main,
     borderLeft: '4px solid' + theme.palette.primary.main,
   },
@@ -208,7 +208,11 @@ let MapApp = (props) => {
     );
   }
   if ((oneColumnView && options.resultFormat === 'migrationMap') || (!oneColumnView)) {
-    mapElement = <Deck data={creationPlaces} fetchPlaces={props.fetchPlaces} />;
+    mapElement = <Deck
+      data={creationPlaces}
+      fetchPlaces={props.fetchPlaces}
+      fetchingPlaces={search.fetchingPlaces}
+    />;
   }
 
   //console.log(creationPlaces)

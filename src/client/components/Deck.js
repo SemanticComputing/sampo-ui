@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import DeckGL, { ArcLayer } from 'deck.gl';
 import ReactMapGL, { NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import InfoDialog from './InfoDialog';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import purple from '@material-ui/core/colors/purple';
 
 // https://deck.gl/#/documentation/getting-started/using-with-react?section=adding-a-base-map
 
@@ -11,27 +14,49 @@ import InfoDialog from './InfoDialog';
 
 // http://deck.gl/#/documentation/deckgl-api-reference/layers/arc-layer
 
+// https://blog.mapbox.com/mapbox-gl-js-react-764da6cc074a
 
 // Set your mapbox access token here
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZWtrb25lbiIsImEiOiJjam5vampzZ28xd2dyM3BzNXR0Zzg4azl4In0.eozyF-bBaZbA3ibhvJlJpQ';
 
-const tooltipStyle = {
-  position: 'absolute',
-  padding: '4px',
-  background: 'rgba(0, 0, 0, 0.8)',
-  color: '#fff',
-  maxWidth: '300px',
-  fontSize: '10px',
-  zIndex: 9,
-  pointerEvents: 'none'
-};
+const styles = () => ({
+  tooltip: {
+    position: 'absolute',
+    padding: '4px',
+    background: 'rgba(0, 0, 0, 0.8)',
+    color: '#fff',
+    maxWidth: '300px',
+    fontSize: '10px',
+    zIndex: 9,
+    pointerEvents: 'none'
+  },
+  spinner: {
+    height: 40,
+    width: 40,
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%,-50%)'
+  }
+});
+
+// const tooltipStyle = {
+//   position: 'absolute',
+//   padding: '4px',
+//   background: 'rgba(0, 0, 0, 0.8)',
+//   color: '#fff',
+//   maxWidth: '300px',
+//   fontSize: '10px',
+//   zIndex: 9,
+//   pointerEvents: 'none'
+// };
 
 class Deck extends React.Component {
   state = {
     viewport: {
       longitude: 10.37,
       latitude: 22.43,
-      zoom: 2,
+      zoom: 1,
       pitch: 0,
       bearing: 0,
       width: 100,
@@ -64,8 +89,8 @@ class Deck extends React.Component {
     this.setState({
       viewport: {
         ...this.state.viewport,
-        width: this.props.width || window.innerWidth,
-        height: this.props.height || window.innerHeight
+        width: this.props.width || window.innerWidth - 8,
+        height: this.props.height || window.innerHeight - 132
       }
     });
   };
@@ -94,7 +119,7 @@ class Deck extends React.Component {
 
  _onViewportChange = viewport => this.setState({viewport});
 
- _renderTooltip() {
+ _renderTooltip = () => {
    if(this.state.tooltip) {
      const { x, y, object } = this.state.tooltip;
      if (object) {
@@ -102,12 +127,23 @@ class Deck extends React.Component {
          object.to = object.to[0];
        }
        return object && (
-         <div style={{...tooltipStyle, top: y, left: x}}>
+         <div className={this.props.classes.tooltip} style={{top: y, left: x}}>
            <p>Creation place: {object.from.name}</p>
            <p>Last known location: {object.to.name}</p>
          </div>
        );
      }
+   }
+   return null;
+ }
+
+ _renderSpinner() {
+   if(this.props.fetchingPlaces) {
+     return (
+       <div className={this.props.classes.spinner}>
+         <CircularProgress style={{ color: purple[500] }} thickness={5} />
+       </div>
+     );
    }
    return null;
  }
@@ -159,7 +195,7 @@ class Deck extends React.Component {
        <div style={{position: 'absolute', left: 10, top: 10}}>
          <NavigationControl onViewportChange={this._onViewportChange} />
        </div>
-
+       {this._renderSpinner()}
        {this._renderTooltip()}
        <InfoDialog
          open={this.state.dialog.open}
@@ -173,7 +209,8 @@ class Deck extends React.Component {
 
 Deck.propTypes = {
   fetchPlaces: PropTypes.func.isRequired,
+  fetchingPlaces: PropTypes.bool.isRequired,
   data: PropTypes.array.isRequired
 };
 
-export default Deck;
+export default withStyles(styles)(Deck);

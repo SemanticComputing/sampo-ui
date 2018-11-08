@@ -20,7 +20,7 @@ const styles = () => ({
 
 const InfoDialog = (props) => {
   const { classes, open, onClose, data } = props;
-  console.log(data)
+  //console.log(data)
 
   let content = '';
   if (data.from) {
