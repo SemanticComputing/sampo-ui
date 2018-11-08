@@ -134,8 +134,9 @@ export const fetchManuscriptsFailed = (error) => ({
 });
 
 // Places
-export const fetchPlaces = () => ({
+export const fetchPlaces = variant => ({
   type: FETCH_PLACES,
+  variant
 });
 export const updatePlaces = ({ places }) => ({
   type: UPDATE_PLACES,

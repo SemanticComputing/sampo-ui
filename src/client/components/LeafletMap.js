@@ -47,7 +47,7 @@ class LeafletMap extends React.Component {
 
   componentDidMount() {
     //this.props.fetchManuscripts();
-    this.props.fetchPlaces();
+    this.props.fetchPlaces('creationPlaces');
 
     // Base layers
     const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -117,7 +117,7 @@ class LeafletMap extends React.Component {
 
     L.Marker.setBouncingOptions({ exclusive: true });
 
-    L.control.sidebar({ container: 'sidebar' }).addTo(this.leafletMap).open('home');
+    //L.control.sidebar({ container: 'sidebar' }).addTo(this.leafletMap).open('home');
 
   }
 
@@ -302,7 +302,7 @@ class LeafletMap extends React.Component {
   render() {
     return (
       <div className="leaflet-container">
-        <LeafletSidebar />
+        {/*<LeafletSidebar />*/}
         <div id="map" style={style} />
       </div>
     );

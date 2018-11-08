@@ -188,7 +188,7 @@ let MapApp = (props) => {
   }
 
   let mapElement = '';
-  if ((oneColumnView && options.resultFormat === 'creationPlaceMap') || (!oneColumnView)) {
+  if ((oneColumnView && options.resultFormat === 'creationPlaces') || (!oneColumnView)) {
     mapElement = (
       <LeafletMap
         fetchPlaces={props.fetchPlaces}
@@ -207,7 +207,7 @@ let MapApp = (props) => {
       />
     );
   }
-  if ((oneColumnView && options.resultFormat === 'migrationMap') || (!oneColumnView)) {
+  if ((oneColumnView && options.resultFormat === 'migrations') || (!oneColumnView)) {
     mapElement = <Deck
       data={creationPlaces}
       fetchPlaces={props.fetchPlaces}
@@ -232,7 +232,7 @@ let MapApp = (props) => {
         mainResultsView = table;
         break;
       }
-      case 'creationPlaceMap': {
+      case 'creationPlaces': {
         mainResultsView = (
           <div className={classes.fullMap}>
             {mapElement}
@@ -240,7 +240,7 @@ let MapApp = (props) => {
         );
         break;
       }
-      case 'migrationMap': {
+      case 'migrations': {
         mainResultsView = (
           <div className={classes.fullMap}>
             {mapElement}

@@ -38,9 +38,9 @@ const getManuscripts = action$ => action$.pipe(
 
 const getPlaces = action$ => action$.pipe(
   ofType(FETCH_PLACES),
-  mergeMap(() => {
+  mergeMap(action => {
     const searchUrl = apiUrl + 'places';
-    const requestUrl = `${searchUrl}`;
+    const requestUrl = `${searchUrl}?variant=${action.variant}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updatePlaces({ places: response }))
     );

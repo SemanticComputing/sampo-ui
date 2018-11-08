@@ -5,7 +5,7 @@ import {
 } from '../actions';
 
 const DEFAULT_LANGUAGE = 'en';
-const DEFAULT_RESULT_FORMAT = 'migrationMap';
+const DEFAULT_RESULT_FORMAT = 'creationPlaces';
 const DEFAULT_MAP_MODE = 'cluster';
 
 export const INITIAL_STATE = {

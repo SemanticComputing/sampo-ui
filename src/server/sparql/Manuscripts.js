@@ -25,12 +25,10 @@ export const getManuscriptCount = (filterObj) => {
   return sparqlSearchEngine.doSearch(countQuery, endpoint, mapCount);
 };
 
-export const getPlaces = () => {
-  const { endpoint, migrationsQuery } = datasetConfig['mmm'];
-  //const { endpoint, placesQuery } = datasetConfig['mmm'];
-  //console.log(migrationsQuery)
-  return sparqlSearchEngine.doSearch(migrationsQuery, endpoint, makeObjectList);
-  //return sparqlSearchEngine.doSearch(placesQuery, endpoint, makeObjectList);
+export const getPlaces = variant => {
+  console.log(variant)
+  const config = datasetConfig['mmm'];
+  return sparqlSearchEngine.doSearch(config[`${variant}Query`], config.endpoint, makeObjectList);
 };
 
 export const getPlace = (id) => {

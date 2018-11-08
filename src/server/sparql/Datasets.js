@@ -188,7 +188,7 @@ module.exports = {
       }
       GROUP BY ?id ?manuscriptRecord
       `,
-    'placesQuery': `
+    'creationPlacesQuery': `
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
       PREFIX dc: <http://purl.org/dc/elements/1.1/>

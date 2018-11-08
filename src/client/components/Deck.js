@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { has } from 'lodash';
 import DeckGL, { ArcLayer } from 'deck.gl';
 import ReactMapGL, { NavigationControl, HTMLOverlay } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -78,7 +79,7 @@ class Deck extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchPlaces();
+    this.props.fetchPlaces('migrations');
   }
 
   parseCoordinates = (coords) => {
@@ -172,9 +173,14 @@ class Deck extends React.Component {
 
  render() {
    // console.log(this.props.data)
+   let arcData = [];
+   if (has(this.props.data[0], 'to')) {
+     arcData = this.props.data;
+   }
+
    const layer = new ArcLayer({
      id: 'arc-layer',
-     data: this.props.data,
+     data: arcData,
      pickable: true,
      //getStrokeWidth: d => this.getStrokeWidth(d.manuscriptCount),
      getStrokeWidth: 1,

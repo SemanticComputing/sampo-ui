@@ -71,7 +71,8 @@ app.get('/places/:placeId?', (req, res) => {
         return res.sendStatus(500);
       });
   } else {
-    return getPlaces().then((data) => {
+    const variant = req.query.variant ? req.query.variant : 'creationPlaces';
+    return getPlaces(variant).then((data) => {
       // console.log(data);
       res.json(data);
     })
