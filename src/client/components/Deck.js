@@ -2,11 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import DeckGL, { ArcLayer } from 'deck.gl';
-import ReactMapGL, { NavigationControl } from 'react-map-gl';
+import ReactMapGL, { NavigationControl, HTMLOverlay } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import InfoDialog from './InfoDialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import purple from '@material-ui/core/colors/purple';
+import { purple } from '@material-ui/core/colors';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 
 // https://deck.gl/#/documentation/getting-started/using-with-react?section=adding-a-base-map
 
@@ -19,7 +22,7 @@ import purple from '@material-ui/core/colors/purple';
 // Set your mapbox access token here
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZWtrb25lbiIsImEiOiJjam5vampzZ28xd2dyM3BzNXR0Zzg4azl4In0.eozyF-bBaZbA3ibhvJlJpQ';
 
-const styles = () => ({
+const styles = theme => ({
   tooltip: {
     position: 'absolute',
     padding: '4px',
@@ -37,6 +40,22 @@ const styles = () => ({
     left: '50%',
     top: '50%',
     transform: 'translate(-50%,-50%)'
+  },
+  mapControls: {
+    position: 'absolute',
+    left: theme.spacing.unit,
+    top: theme.spacing.unit
+  },
+  legend: {
+    position: 'absolute',
+    right: theme.spacing.unit,
+    top: theme.spacing.unit,
+  },
+  red: {
+    color: 'rgba(255,0,0,255)'
+  },
+  blue: {
+    color: 'rgba(0,0,255,255)'
   }
 });
 
@@ -121,6 +140,18 @@ class Deck extends React.Component {
    return null;
  }
 
+ _renderLegend() {
+   return (
+     <Card className={this.props.classes.legend}>
+       <CardContent>
+         <Typography variant="h6" gutterBottom>Arc colouring:</Typography>
+         <Typography className={this.props.classes.blue} variant="body1" gutterBottom>Creation place</Typography>
+         <Typography className={this.props.classes.red} variant="body1" gutterBottom>Most recent owner</Typography>
+       </CardContent>
+     </Card>
+   );
+ }
+
   // getStrokeWidth = manuscriptCount => {
   //   //console.log(manuscriptCount)
   //   if (Array.isArray(manuscriptCount)) {
@@ -163,11 +194,13 @@ class Deck extends React.Component {
        onViewportChange={this._onViewportChange}
        mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
      >
+       <HTMLOverlay redraw={this._renderLegend.bind(this)} />
        <DeckGL
          viewState={this.state.viewport}
          layers={[layer]}
        />
-       <div style={{position: 'absolute', left: 10, top: 10}}>
+
+       <div className={this.props.classes.mapControls}>
          <NavigationControl onViewportChange={this._onViewportChange} />
        </div>
        {this._renderSpinner()}
@@ -177,6 +210,7 @@ class Deck extends React.Component {
          onClose={this.closeDialog.bind(this)}
          data={this.state.dialog.data}
        />
+
      </ReactMapGL>
    );
  }
