@@ -40,17 +40,6 @@ const styles = () => ({
   }
 });
 
-// const tooltipStyle = {
-//   position: 'absolute',
-//   padding: '4px',
-//   background: 'rgba(0, 0, 0, 0.8)',
-//   color: '#fff',
-//   maxWidth: '300px',
-//   fontSize: '10px',
-//   zIndex: 9,
-//   pointerEvents: 'none'
-// };
-
 class Deck extends React.Component {
   state = {
     viewport: {
@@ -70,13 +59,7 @@ class Deck extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this._resize);
-    this._resize();
     this.props.fetchPlaces();
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this._resize);
   }
 
   parseCoordinates = (coords) => {
@@ -84,16 +67,6 @@ class Deck extends React.Component {
     const arr = [ +coords.long, +coords.lat ];
     return arr;
   }
-
-  _resize = () => {
-    this.setState({
-      viewport: {
-        ...this.state.viewport,
-        width: this.props.width || window.innerWidth - 8,
-        height: this.props.height || window.innerHeight - 132
-      }
-    });
-  };
 
   setTooltip(object) {
     this.setState({tooltip: object});
@@ -185,6 +158,8 @@ class Deck extends React.Component {
    return (
      <ReactMapGL
        {...this.state.viewport}
+       width='100%'
+       height='100%'
        onViewportChange={this._onViewportChange}
        mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
      >
