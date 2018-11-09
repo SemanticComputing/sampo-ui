@@ -12,19 +12,12 @@ import purple from '@material-ui/core/colors/purple';
 import ResultTableHead from './ResultTableHead';
 import { has, orderBy } from 'lodash';
 
-const styles = () => ({
-  root: {
-    width: '100%',
-    height: '100%',
-    //marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-
-  },
+const styles = (theme) => ({
   table: {
+    marginTop: 72,
     minWidth: 700,
-  },
-  tableWrapper: {
-    overflow: 'auto',
+    overflowX: 'auto',
+    backgroundColor: theme.palette.background.paper
   },
   paginationRow: {
     borderBottom: '1px solid lightgrey'
@@ -43,6 +36,7 @@ const styles = () => ({
     paddingTop: 15
   },
   progressContainer: {
+    width: '100%',
     height: '100%',
     display: 'flex',
     alignItems: 'center',
@@ -212,70 +206,61 @@ class ResultTable extends React.Component {
 
   render() {
     const { classes, rows } = this.props;
-    let table = '';
     if (this.props.fetchingManuscripts   ) {
-      table = (
-        <div className={classes.progressContainer}>
+      return (
+        <Paper className={classes.progressContainer}>
           <Typography className={classes.progressTitle} variant="h4" color='primary'>Fetching manuscript data</Typography>
           <CircularProgress style={{ color: purple[500] }} thickness={5} />
-        </div>
+        </Paper>
       );
     } else {
-      table = (
-        <div className={classes.tableWrapper}>
-          <Table className={classes.table}>
-            <ResultTableHead
-              fetchFacet={this.props.fetchFacet}
-              fetchManuscripts={this.props.fetchManuscripts}
-              facet={this.props.facet}
-              results={this.props.results}
-              page={this.props.page}
-            />
-            <TableBody>
-              {rows.map(row => {
-                return (
-                  <TableRow key={row.id}>
-                    <TableCell component="th" scope="row" >
-                      {this.idRenderer(row)}
-                    </TableCell>
-                    <TableCell className={classes.withFilter} >
-                      {this.stringListRenderer(row.prefLabel)}
-                    </TableCell>
-                    <TableCell className={classes.withFilter}>
-                      {this.objectListRenderer(row.author, true)}
-                    </TableCell>
-                    <TableCell className={classes.withFilter}>
-                      {this.objectListRenderer(row.creationPlace, true)}
-                    </TableCell>
-                    <TableCell className={classes.withFilter}>
-                      {this.objectListRenderer(row.timespan)}
-                    </TableCell>
-                    <TableCell className={classes.withFilter}>
-                      {this.stringListRenderer(row.language)}
-                    </TableCell>
-                    {/*<TableCell className={classes.withFilter}>
-                        {this.stringListRenderer(row.material)}
-                      </TableCell>*/}
-                    <TableCell className={classes.withFilter}>
-                      {this.transactionRenderer(row.acquisition)}
-                    </TableCell>
-                    <TableCell className={classes.withFilter}>
-                      {this.ownerRenderer(row.owner)}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </div>
+      return (
+        <Table className={classes.table}>
+          <ResultTableHead
+            fetchFacet={this.props.fetchFacet}
+            fetchManuscripts={this.props.fetchManuscripts}
+            facet={this.props.facet}
+            results={this.props.results}
+            page={this.props.page}
+          />
+          <TableBody>
+            {rows.map(row => {
+              return (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row" >
+                    {this.idRenderer(row)}
+                  </TableCell>
+                  <TableCell className={classes.withFilter} >
+                    {this.stringListRenderer(row.prefLabel)}
+                  </TableCell>
+                  <TableCell className={classes.withFilter}>
+                    {this.objectListRenderer(row.author, true)}
+                  </TableCell>
+                  <TableCell className={classes.withFilter}>
+                    {this.objectListRenderer(row.creationPlace, true)}
+                  </TableCell>
+                  <TableCell className={classes.withFilter}>
+                    {this.objectListRenderer(row.timespan)}
+                  </TableCell>
+                  <TableCell className={classes.withFilter}>
+                    {this.stringListRenderer(row.language)}
+                  </TableCell>
+                  {/*<TableCell className={classes.withFilter}>
+                          {this.stringListRenderer(row.material)}
+                        </TableCell>*/}
+                  <TableCell className={classes.withFilter}>
+                    {this.transactionRenderer(row.acquisition)}
+                  </TableCell>
+                  <TableCell className={classes.withFilter}>
+                    {this.ownerRenderer(row.owner)}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
       );
     }
-
-    return (
-      <Paper className={classes.root}>
-        {table}
-      </Paper>
-    );
   }
 }
 

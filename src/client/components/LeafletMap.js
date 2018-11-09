@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
 import { has, orderBy } from 'lodash';
-import LeafletSidebar from './LeafletSidebar';
+// import LeafletSidebar from './LeafletSidebar';
 
 import 'leaflet-sidebar-v2/js/leaflet-sidebar.min.js';
 import 'leaflet-sidebar-v2/css/leaflet-sidebar.min.css';
@@ -46,6 +46,7 @@ const style = {
 class LeafletMap extends React.Component {
 
   componentDidMount() {
+    console.log('mounted')
     //this.props.fetchManuscripts();
     this.props.fetchPlaces('creationPlaces');
 
@@ -75,6 +76,7 @@ class LeafletMap extends React.Component {
 
     this.bouncingMarkerObj = null;
     this.popupMarkerObj = null;
+
 
     if (this.props.mapMode === 'cluster') {
       this.updateMarkersAndCluster(this.props.results);
@@ -121,34 +123,7 @@ class LeafletMap extends React.Component {
 
   }
 
-  componentDidUpdate({ results, place, mapMode, geoJSONKey, bouncingMarkerKey, openPopupMarkerKey }) {
-    if (this.props.bouncingMarker === '' && this.bouncingMarkerObj !== null) {
-      this.leafletMap.removeLayer(this.bouncingMarkerObj);
-    }
-
-    if (this.props.bouncingMarkerKey !== bouncingMarkerKey) {
-      if (this.props.mapMode === 'cluster') {
-        const m = this.markers[this.props.bouncingMarker];
-        const latlng = m.getLatLng();
-        // create a new marker so that the temporary popup can be left open
-        this.bouncingMarkerObj = L.marker(latlng);
-        this.bouncingMarkerObj.addTo(this.leafletMap).bounce(1);
-      } else {
-        this.markers[this.props.bouncingMarker].bounce(1);
-      }
-    }
-
-    if (this.props.openPopupMarkerKey !== openPopupMarkerKey) {
-      if (this.props.mapMode === 'cluster') {
-        if (this.popupMarkerObj !== null) {
-          this.leafletMap.removeLayer(this.popupMarkerObj);
-        }
-        this.popupMarkerObj = this.markers[this.props.popupMarker];
-        this.popupMarkerObj.addTo(this.leafletMap).openPopup();
-      } else {
-        this.markers[this.props.popupMarker].openPopup();
-      }
-    }
+  componentDidUpdate({ results, mapMode }) {
 
     // check if results data or mapMode have changed
     if (this.props.results !== results || this.props.mapMode !== mapMode) {
@@ -157,27 +132,6 @@ class LeafletMap extends React.Component {
       } else {
         this.updateMarkers(this.props.results);
       }
-    }
-
-    if (this.props.place !== place) {
-      this.markers[this.props.place.id.replace('http://ldf.fi/mmm/place/', '')]
-        .bindPopup(this.createPopUpContent(this.props.place), {
-          maxHeight: 300,
-          maxWidth: 400,
-          minWidth: 400,
-        //closeButton: false,
-        })
-        .openPopup();
-    }
-
-    // check if geoJSON has updated
-    if (this.props.geoJSONKey !== geoJSONKey) {
-      this.props.geoJSON.map(obj => {
-        const layer = L.geoJSON(obj.geoJSON, {
-          onEachFeature: this.onEachFeature
-        });
-        this.layerControl.addOverlay(layer, obj.layerID);
-      });
     }
   }
 
@@ -301,7 +255,7 @@ class LeafletMap extends React.Component {
 
   render() {
     return (
-      <div className="leaflet-container">
+      <div className="leaflet-outer-container">
         {/*<LeafletSidebar />*/}
         <div id="map" style={style} />
       </div>
@@ -314,15 +268,7 @@ LeafletMap.propTypes = {
   fetchPlace: PropTypes.func.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
   results: PropTypes.array.isRequired,
-  place: PropTypes.object.isRequired,
-  mapMode: PropTypes.string.isRequired,
-  geoJSON: PropTypes.array,
-  geoJSONKey: PropTypes.number.isRequired,
-  getGeoJSON: PropTypes.func.isRequired,
-  bouncingMarker: PropTypes.string.isRequired,
-  popupMarker: PropTypes.string.isRequired,
-  bouncingMarkerKey: PropTypes.number.isRequired,
-  openPopupMarkerKey: PropTypes.number.isRequired,
+  mapMode: PropTypes.string.isRequired
 };
 
 export default LeafletMap;

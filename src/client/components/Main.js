@@ -38,7 +38,7 @@ const styles = theme => ({
     maxWidth: 340,
   },
   media: {
-    height: 110,
+    height: 100,
   },
 });
 

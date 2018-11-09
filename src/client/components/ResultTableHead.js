@@ -14,6 +14,10 @@ import ResultTablePaginationActions from './ResultTablePaginationActions';
 const styles = () => ({
   paginationRow: {
     borderBottom: '1px solid lightgrey'
+  },
+  paginationRoot: {
+    display: 'flex',
+    justifyContent: 'flex-start'
   }
 });
 
@@ -75,7 +79,7 @@ class ResultTableHead extends React.Component {
   };
 
   handleChangePage = (event, page) => {
-    console.log(page)
+    // console.log(page)
     this.props.fetchManuscripts(page);
   };
 
@@ -115,6 +119,7 @@ class ResultTableHead extends React.Component {
             onChangePage={this.handleChangePage}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
             ActionsComponent={ResultTablePaginationActions}
+            classes={{root: classes.paginationRoot}}
           />
         </TableRow>
         <TableRow>

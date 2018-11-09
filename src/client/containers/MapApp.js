@@ -54,46 +54,6 @@ const styles = theme => ({
     borderLeft: '4px solid' + theme.palette.primary.main,
     backgroundColor: 'rgb(238, 238, 238)'
   },
-  // resultTable: {
-  //   width: 1024,
-  //   height: 'calc(100% - 5px)',
-  //   borderRight: '4px solid' + theme.palette.primary.main,
-  //
-  // },
-  // resultTableOneColumn: {
-  //   width: '100%',
-  //   height: 'calc(100% - 5px)',
-  //   overflow: 'auto'
-  // },
-  // rightColumn: {
-  //   height: '100%',
-  //   width: 'calc(100% - 1024px)',
-  // },
-  // map: {
-  //   width: '100%',
-  //   height: '50%',
-  //   borderBottom: '4px solid' + theme.palette.primary.main,
-  // },
-  // fullMap: {
-  //   width: '100%',
-  //   height: '100%',
-  // },
-  // statistics: {
-  //   width: '100%',
-  //   height: '50%',
-  // },
-  // statisticsOneColumn: {
-  //   width: '100%',
-  //   height: '100%',
-  // },
-  // progress: {
-  //   display: 'flex',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
-  // progressTitle: {
-  //   marginRight: 15
-  // },
   footer: {
     position: 'absolute',
     borderTop: '4px solid' + theme.palette.primary.main,
@@ -151,6 +111,7 @@ let MapApp = (props) => {
                   fetchPlace={props.fetchPlace}
                   fetchFacet={props.fetchFacet}
                   fetchResults={props.fetchResults}
+                  match={props.match}
                 />}
             />
           </Switch>
@@ -198,7 +159,8 @@ MapApp.propTypes = {
   fetchPlaces: PropTypes.func.isRequired,
   fetchPlace:  PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,
-  fetchResults: PropTypes.func.isRequired
+  fetchResults: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 export default compose(

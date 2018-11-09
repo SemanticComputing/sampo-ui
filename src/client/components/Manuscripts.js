@@ -1,20 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Route, Switch } from 'react-router-dom';
+import ViewTabs from './ViewTabs';
 import ResultTable from './ResultTable';
+import LeafletMap from './LeafletMap';
 
 let Manuscripts = props => {
-
   return (
-    <ResultTable
-      rows={props.search.manuscripts}
-      facet={props.facet}
-      fetchManuscripts={props.fetchManuscripts}
-      fetchingManuscripts={props.search.fetchingManuscripts}
-      fetchFacet={props.fetchFacet}
-      results={props.search.results}
-      fetchResults={props.fetchResults}
-      page={props.search.page}
-    />
+    <React.Fragment>
+      <ViewTabs />
+      <Switch>
+        <Route
+          path={props.match.url + '/table'}
+          render={() =>
+            <ResultTable
+              rows={props.search.manuscripts}
+              facet={props.facet}
+              fetchManuscripts={props.fetchManuscripts}
+              fetchingManuscripts={props.search.fetchingManuscripts}
+              fetchFacet={props.fetchFacet}
+              results={props.search.results}
+              fetchResults={props.fetchResults}
+              page={props.search.page}
+            />}
+        />
+        <Route
+          path={props.match.url + '/creation_places'}
+          render={() =>
+            <LeafletMap
+              fetchPlaces={props.fetchPlaces}
+              fetchPlace={props.fetchPlace}
+              fetchManuscripts={props.fetchManuscripts}
+              results={props.search.places}
+              mapMode='cluster'
+            />}
+        />
+      </Switch>
+    </React.Fragment>
   );
 };
 
@@ -26,7 +48,8 @@ Manuscripts.propTypes = {
   fetchPlaces: PropTypes.func.isRequired,
   fetchPlace:  PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,
-  fetchResults: PropTypes.func.isRequired
+  fetchResults: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 export default Manuscripts;
