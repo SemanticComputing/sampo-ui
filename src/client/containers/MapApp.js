@@ -3,37 +3,20 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
+import { withRouter } from 'react-router-dom';
 import compose from 'recompose/compose';
 import Paper from '@material-ui/core/Paper';
-import ResultTable from '../components/ResultTable';
-import LeafletMap from '../components/LeafletMap';
-import Pie from '../components/Pie';
 import TopBar from '../components/TopBar';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import purple from '@material-ui/core/colors/purple';
-import Typography from '@material-ui/core/Typography';
-import Deck from '../components/Deck';
+import { Route, Switch } from 'react-router-dom';
+import Manuscripts from '../components/Manuscripts';
+import Main from '../components/Main';
 
 import {
-  updateQuery,
-  toggleDataset,
-  fetchSuggestions,
-  clearSuggestions,
   fetchManuscripts,
   fetchPlaces,
   fetchPlace,
   fetchFacet,
-  clearManuscripts,
-  clearPlaces,
-  clearFacet,
-  getGeoJSON,
-  updateResultFormat,
-  updateMapMode,
-  updateResultsFilter,
-  sortResults,
-  bounceMarker,
-  openMarkerPopup,
-  removeTempMarker
+  fetchResults,
 } from '../actions';
 
 const logoPadding = 50;
@@ -54,57 +37,63 @@ const styles = theme => ({
     position: 'relative',
     display: 'flex',
     width: '100%',
-    minWidth: 640,
-    minHeight: 700
+    minWidth: 300,
+    //minHeight: 700
   },
   mainContainer: {
+    overflow: 'auto',
     display: 'flex',
     width: '100%',
     marginTop: 64,
-    height: 'calc(100% - 132px)',
+    height: 'calc(100% - 128px)',
+    [theme.breakpoints.down(600)]: {
+      marginTop: 56,
+      height: 'calc(100% - 122px)',
+    },
     borderRight: '4px solid' + theme.palette.primary.main,
     borderLeft: '4px solid' + theme.palette.primary.main,
+    backgroundColor: 'rgb(238, 238, 238)'
   },
-  resultTable: {
-    width: 1024,
-    height: 'calc(100% - 5px)',
-    borderRight: '4px solid' + theme.palette.primary.main,
-
-  },
-  resultTableOneColumn: {
-    width: '100%',
-    height: 'calc(100% - 5px)',
-    overflow: 'auto'
-  },
-  rightColumn: {
-    height: '100%',
-    width: 'calc(100% - 1024px)',
-  },
-  map: {
-    width: '100%',
-    height: '50%',
-    borderBottom: '4px solid' + theme.palette.primary.main,
-  },
-  fullMap: {
-    width: '100%',
-    height: '100%',
-  },
-  statistics: {
-    width: '100%',
-    height: '50%',
-  },
-  statisticsOneColumn: {
-    width: '100%',
-    height: '100%',
-  },
-  progress: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  progressTitle: {
-    marginRight: 15
-  },
+  // resultTable: {
+  //   width: 1024,
+  //   height: 'calc(100% - 5px)',
+  //   borderRight: '4px solid' + theme.palette.primary.main,
+  //
+  // },
+  // resultTableOneColumn: {
+  //   width: '100%',
+  //   height: 'calc(100% - 5px)',
+  //   overflow: 'auto'
+  // },
+  // rightColumn: {
+  //   height: '100%',
+  //   width: 'calc(100% - 1024px)',
+  // },
+  // map: {
+  //   width: '100%',
+  //   height: '50%',
+  //   borderBottom: '4px solid' + theme.palette.primary.main,
+  // },
+  // fullMap: {
+  //   width: '100%',
+  //   height: '100%',
+  // },
+  // statistics: {
+  //   width: '100%',
+  //   height: '50%',
+  // },
+  // statisticsOneColumn: {
+  //   width: '100%',
+  //   height: '100%',
+  // },
+  // progress: {
+  //   display: 'flex',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
+  // progressTitle: {
+  //   marginRight: 15
+  // },
   footer: {
     position: 'absolute',
     borderTop: '4px solid' + theme.palette.primary.main,
@@ -133,250 +122,87 @@ const styles = theme => ({
     paddingLeft: logoPadding,
     height: logoHeight - 10
   },
-  // uhLogo: {
-  //   paddingLeft: logoPadding,
-  //   height: logoHeight
-  // },
-  // secoLogo: {
-  //   paddingLeft: logoPadding,
-  //   height: logoHeight - 5
-  // },
-  // heldigLogo: {
-  //   paddingLeft: logoPadding,
-  //   height: logoHeight - 10
-  // },
 });
 
 let MapApp = (props) => {
-  const { classes, options, search, map, manuscripts, creationPlaces, place, facet } = props;
+  const { classes, facet, map, search } = props;
   // browser
-  //error,
-
-  let oneColumnView = true;
-
-  // console.log(manuscripts);
-  // console.log(options.resultFormat)
-  // console.log(creationPlaces)
-
-  let table = '';
-  if (search.fetchingManuscripts) {
-    const tableClass = oneColumnView ? classes.resultTableOneColumn : classes.resultTable;
-
-    //<Typography className={classes.progressTitle} variant="h4">Fetching manuscript data</Typography>
-    table = (
-      <div className={[tableClass, classes.progress].join(' ')}>
-        <Typography className={classes.progressTitle} variant="h4" color='primary'>Fetching manuscript data</Typography>
-        <CircularProgress style={{ color: purple[500] }} thickness={5} />
-      </div>
-    );
-  } else {
-    if ((oneColumnView && options.resultFormat === 'table') || (!oneColumnView)) {
-      //console.log(facetValues)
-      table = (
-        <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
-          <ResultTable
-            rows={manuscripts}
-            facet={facet}
-            fetchManuscripts={props.fetchManuscripts}
-            fetchFacet={props.fetchFacet}
-            results={props.results}
-            page={props.page}
-          />
-        </div>
-      );
-    }
-  }
-
-  let mapElement = '';
-  if ((oneColumnView && options.resultFormat === 'creationPlaces') || (!oneColumnView)) {
-    mapElement = (
-      <LeafletMap
-        fetchPlaces={props.fetchPlaces}
-        fetchPlace={props.fetchPlace}
-        fetchManuscripts={props.fetchManuscripts}
-        results={creationPlaces}
-        place={place}
-        mapMode={options.mapMode}
-        geoJSON={map.geoJSON}
-        geoJSONKey={map.geoJSONKey}
-        getGeoJSON={props.getGeoJSON}
-        bouncingMarker={map.bouncingMarker}
-        popupMarker={map.popupMarker}
-        bouncingMarkerKey={map.bouncingMarkerKey}
-        openPopupMarkerKey={map.openPopupMarkerKey}
-      />
-    );
-  }
-  if ((oneColumnView && options.resultFormat === 'migrations') || (!oneColumnView)) {
-    mapElement = <Deck
-      data={creationPlaces}
-      fetchPlaces={props.fetchPlaces}
-      fetchingPlaces={search.fetchingPlaces}
-    />;
-  }
-
-  //console.log(creationPlaces)
-  let statistics = '';
-  if ((oneColumnView && options.resultFormat === 'statistics') || (!oneColumnView)) {
-    statistics = (
-      <div className={oneColumnView ? classes.statisticsOneColumn : classes.statistics}>
-        <Pie data={creationPlaces} groupBy={props.search.groupBy} query={props.search.query} />
-      </div>
-    );
-  }
-
-  let mainResultsView = '';
-  if (oneColumnView) {
-    switch(options.resultFormat) {
-      case 'table': {
-        mainResultsView = table;
-        break;
-      }
-      case 'creationPlaces': {
-        mainResultsView = (
-          <div className={classes.fullMap}>
-            {mapElement}
-          </div>
-        );
-        break;
-      }
-      case 'migrations': {
-        mainResultsView = (
-          <div className={classes.fullMap}>
-            {mapElement}
-          </div>
-        );
-        break;
-      }
-      case 'statistics': {
-        mainResultsView = statistics;
-        break;
-      }
-    }
-  } else {
-    mainResultsView = table;
-  }
-
-  // map = '';
+  // error,
 
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
-        <TopBar
-          oneColumnView={oneColumnView}
-          mapMode={options.mapMode}
-          resultFormat={options.resultFormat}
-          updateMapMode={props.updateMapMode}
-          updateResultFormat={props.updateResultFormat}
-          fetchManuscripts={props.fetchManuscripts}
-          datasets={search.datasets}
-          toggleDataset={props.toggleDataset}
-        />
+        <TopBar />
         <div className={classes.mainContainer}>
-          {mainResultsView}
-          {!oneColumnView &&
-            <div className={classes.rightColumn}>
-              <div className={classes.map}>
-                {mapElement}
-              </div>
-              {statistics}
-            </div>
-          }
+          <Switch>
+            <Route
+              exact path="/"
+              component={Main}
+            />
+            <Route
+              path="/manuscripts"
+              render={() =>
+                <Manuscripts
+                  facet={facet}
+                  map={map}
+                  search={search}
+                  fetchManuscripts={props.fetchManuscripts}
+                  fetchPlaces={props.fetchPlaces}
+                  fetchPlace={props.fetchPlace}
+                  fetchFacet={props.fetchFacet}
+                  fetchResults={props.fetchResults}
+                />}
+            />
+          </Switch>
         </div>
         <Paper className={classes.footer}>
           <img className={classes.oxfordLogo} src='img/logos/oxford-logo-white.png' alt='Oxford University logo'/>
           <img className={classes.pennLogo} src='img/logos/penn-logo-white.png' alt='Oxford University logo'/>
           <img className={classes.cnrsLogo} src='img/logos/cnrs-logo-white-small.png' alt='CNRS logo'/>
           <img className={classes.aaltoLogo} src='img/logos/aalto-logo-white-no-background-small.png' alt='Aalto University logo'/>
-
-
         </Paper>
       </div>
     </div>
   );
 };
-
-
-//<img className={classes.secoLogo} src='img/logos/seco-logo-white-no-background-small.png' alt='SeCo logo'/>
+// <img className={classes.secoLogo} src='img/logos/seco-logo-white-no-background-small.png' alt='SeCo logo'/>
 // <img className={classes.heldigLogo} src='img/logos/heldig-logo-small.png' alt='HELDIG logo'/>
-//  <img className={classes.uhLogo} src='img/logos/university-of-helsinki-logo-white-no-background-small.png' alt='University of Helsinki logo'/>
-
+// <img className={classes.uhLogo} src='img/logos/university-of-helsinki-logo-white-no-background-small.png' alt='University of Helsinki logo'/>
 
 const mapStateToProps = (state) => {
   return {
-    options: state.options,
-    browser: state.browser,
-    search: state.search,
-    map: state.map,
-    manuscripts:state.search.manuscripts,
-    creationPlaces: state.search.places,
-    place: state.search.place,
     facet: state.facet,
-    results: state.search.results,
-    page: state.search.page
+    map: state.map,
+    search: state.search,
+    //browser: state.browser,
   };
 };
 
 const mapDispatchToProps = ({
-  updateQuery,
-  toggleDataset,
-  fetchSuggestions,
-  clearSuggestions,
   fetchManuscripts,
   fetchPlaces,
   fetchPlace,
   fetchFacet,
-  clearManuscripts,
-  clearPlaces,
-  clearFacet,
-  sortResults,
-  getGeoJSON,
-  updateResultFormat,
-  updateMapMode,
-  updateResultsFilter,
-  bounceMarker,
-  openMarkerPopup,
-  removeTempMarker
+  fetchResults
 });
 
 MapApp.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
-  //error: PropTypes.object.isRequired,
-  browser: PropTypes.object.isRequired,
-
-  options: PropTypes.object.isRequired,
-  search: PropTypes.object.isRequired,
-  map: PropTypes.object.isRequired,
-  manuscripts: PropTypes.array,
-  creationPlaces: PropTypes.array.isRequired,
-  place: PropTypes.object.isRequired,
+  // error: PropTypes.object.isRequired,
+  // browser: PropTypes.object.isRequired,
   facet: PropTypes.object.isRequired,
-  results: PropTypes.number.isRequired,
-  page: PropTypes.number.isRequired,
-
-  updateQuery: PropTypes.func.isRequired,
-  toggleDataset: PropTypes.func.isRequired,
-  fetchSuggestions: PropTypes.func.isRequired,
-  clearSuggestions: PropTypes.func.isRequired,
+  map: PropTypes.object.isRequired,
+  search: PropTypes.object.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
   fetchPlaces: PropTypes.func.isRequired,
   fetchPlace:  PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,
-  clearManuscripts: PropTypes.func.isRequired,
-  clearPlaces: PropTypes.func.isRequired,
-  clearFacet: PropTypes.func.isRequired,
-  sortResults: PropTypes.func.isRequired,
-  getGeoJSON: PropTypes.func.isRequired,
-  bounceMarker: PropTypes.func.isRequired,
-  openMarkerPopup: PropTypes.func.isRequired,
-  removeTempMarker: PropTypes.func.isRequired,
-  updateResultFormat: PropTypes.func.isRequired,
-  updateMapMode: PropTypes.func.isRequired,
-  updateResultsFilter: PropTypes.func.isRequired,
+  fetchResults: PropTypes.func.isRequired
 };
 
 export default compose(
+  withRouter,
   connect(
     mapStateToProps,
     mapDispatchToProps

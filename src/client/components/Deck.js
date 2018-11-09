@@ -146,8 +146,8 @@ class Deck extends React.Component {
      <Card className={this.props.classes.legend}>
        <CardContent>
          <Typography variant="h6" gutterBottom>Arc colouring:</Typography>
-         <Typography className={this.props.classes.blue} variant="body1" gutterBottom>Creation place</Typography>
-         <Typography className={this.props.classes.red} variant="body1" gutterBottom>Most recent owner</Typography>
+         <Typography className={this.props.classes.blue} variant="body2" gutterBottom>Creation place</Typography>
+         <Typography className={this.props.classes.red} variant="body2" gutterBottom>Most recent owner</Typography>
        </CardContent>
      </Card>
    );

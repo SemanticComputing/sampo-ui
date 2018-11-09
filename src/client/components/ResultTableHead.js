@@ -8,8 +8,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import FacetDialog from './FacetDialog';
 import TablePagination from '@material-ui/core/TablePagination';
 import ResultTablePaginationActions from './ResultTablePaginationActions';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
+// import InfoIcon from '@material-ui/icons/InfoOutlined';
+// import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 const styles = () => ({
   paginationRow: {
@@ -75,7 +75,7 @@ class ResultTableHead extends React.Component {
   };
 
   handleChangePage = (event, page) => {
-    //console.log(page)
+    console.log(page)
     this.props.fetchManuscripts(page);
   };
 

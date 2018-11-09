@@ -12,6 +12,9 @@ const theme = createMuiTheme({
   palette: {
     primary: deepPurple,
   },
+  typography: {
+    useNextVariants: true,
+  },
 });
 
 const App = () => (

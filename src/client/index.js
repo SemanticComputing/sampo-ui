@@ -9,6 +9,7 @@ import rootEpic from './epics';
 import ReduxToastr from 'react-redux-toastr';
 import { bindActionCreators } from 'redux';
 import { actions as toastrActions } from 'react-redux-toastr';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import App from './components/App';
 
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
@@ -27,7 +28,9 @@ bindActionCreators(toastrActions, store.dispatch);
 render(
   <Provider store={store}>
     <div id='app'>
-      <App />
+      <Router>
+        <Route path="/:filter?" component={App} />
+      </Router>
       <ReduxToastr
         timeOut={4000}
         newestOnTop={false}

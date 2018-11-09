@@ -79,6 +79,7 @@
     "react-map-gl": "^4.0.0",
     "react-redux": "^5.1.0",
     "react-redux-toastr": "^7.4.1",
+    "react-router-dom": "^4.3.1",
     "react-sortable-tree": "^2.3.0",
     "react-sortable-tree-theme-file-explorer": "^2.0.0",
     "react-sortable-tree-theme-minimal": "0.0.14",

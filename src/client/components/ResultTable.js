@@ -6,14 +6,19 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import purple from '@material-ui/core/colors/purple';
 import ResultTableHead from './ResultTableHead';
 import { has, orderBy } from 'lodash';
 
 const styles = () => ({
   root: {
     width: '100%',
+    height: '100%',
     //marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
+
   },
   table: {
     minWidth: 700,
@@ -36,10 +41,24 @@ const styles = () => ({
   },
   infoIcon: {
     paddingTop: 15
-  }
+  },
+  progressContainer: {
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  progressTitle: {
+    marginRight: 15
+  },
 });
 
 class ResultTable extends React.Component {
+
+  componentDidMount = () => {
+    this.props.fetchResults();
+    this.props.fetchManuscripts(0);
+  }
 
   idRenderer = (row) => {
     let sdbmLink = '';
@@ -193,9 +212,16 @@ class ResultTable extends React.Component {
 
   render() {
     const { classes, rows } = this.props;
-
-    return (
-      <Paper className={classes.root}>
+    let table = '';
+    if (this.props.fetchingManuscripts   ) {
+      table = (
+        <div className={classes.progressContainer}>
+          <Typography className={classes.progressTitle} variant="h4" color='primary'>Fetching manuscript data</Typography>
+          <CircularProgress style={{ color: purple[500] }} thickness={5} />
+        </div>
+      );
+    } else {
+      table = (
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
             <ResultTableHead
@@ -228,8 +254,8 @@ class ResultTable extends React.Component {
                       {this.stringListRenderer(row.language)}
                     </TableCell>
                     {/*<TableCell className={classes.withFilter}>
-                      {this.stringListRenderer(row.material)}
-                    </TableCell>*/}
+                        {this.stringListRenderer(row.material)}
+                      </TableCell>*/}
                     <TableCell className={classes.withFilter}>
                       {this.transactionRenderer(row.acquisition)}
                     </TableCell>
@@ -242,6 +268,12 @@ class ResultTable extends React.Component {
             </TableBody>
           </Table>
         </div>
+      );
+    }
+
+    return (
+      <Paper className={classes.root}>
+        {table}
       </Paper>
     );
   }
@@ -252,8 +284,10 @@ ResultTable.propTypes = {
   rows: PropTypes.array.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
+  fetchingManuscripts: PropTypes.bool.isRequired,
   facet: PropTypes.object.isRequired,
   results: PropTypes.number.isRequired,
+  fetchResults: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired
 };
 
