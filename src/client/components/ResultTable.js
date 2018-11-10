@@ -13,10 +13,15 @@ import ResultTableHead from './ResultTableHead';
 import { has, orderBy } from 'lodash';
 
 const styles = (theme) => ({
-  table: {
+  tableContainer: {
     marginTop: 72,
+    overflow: 'auto',
+    width: '100% - 8px'
+  },
+  table: {
+    //marginTop: 72,
     minWidth: 700,
-    overflowX: 'auto',
+    //overflowX: 'auto',
     backgroundColor: theme.palette.background.paper
   },
   paginationRow: {
@@ -215,50 +220,52 @@ class ResultTable extends React.Component {
       );
     } else {
       return (
-        <Table className={classes.table}>
-          <ResultTableHead
-            fetchFacet={this.props.fetchFacet}
-            fetchManuscripts={this.props.fetchManuscripts}
-            facet={this.props.facet}
-            results={this.props.results}
-            page={this.props.page}
-          />
-          <TableBody>
-            {rows.map(row => {
-              return (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row" >
-                    {this.idRenderer(row)}
-                  </TableCell>
-                  <TableCell className={classes.withFilter} >
-                    {this.stringListRenderer(row.prefLabel)}
-                  </TableCell>
-                  <TableCell className={classes.withFilter}>
-                    {this.objectListRenderer(row.author, true)}
-                  </TableCell>
-                  <TableCell className={classes.withFilter}>
-                    {this.objectListRenderer(row.creationPlace, true)}
-                  </TableCell>
-                  <TableCell className={classes.withFilter}>
-                    {this.objectListRenderer(row.timespan)}
-                  </TableCell>
-                  <TableCell className={classes.withFilter}>
-                    {this.stringListRenderer(row.language)}
-                  </TableCell>
-                  {/*<TableCell className={classes.withFilter}>
+        <div className={classes.tableContainer}>
+          <Table className={classes.table}>
+            <ResultTableHead
+              fetchFacet={this.props.fetchFacet}
+              fetchManuscripts={this.props.fetchManuscripts}
+              facet={this.props.facet}
+              results={this.props.results}
+              page={this.props.page}
+            />
+            <TableBody>
+              {rows.map(row => {
+                return (
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row" >
+                      {this.idRenderer(row)}
+                    </TableCell>
+                    <TableCell className={classes.withFilter} >
+                      {this.stringListRenderer(row.prefLabel)}
+                    </TableCell>
+                    <TableCell className={classes.withFilter}>
+                      {this.objectListRenderer(row.author, true)}
+                    </TableCell>
+                    <TableCell className={classes.withFilter}>
+                      {this.objectListRenderer(row.creationPlace, true)}
+                    </TableCell>
+                    <TableCell className={classes.withFilter}>
+                      {this.objectListRenderer(row.timespan)}
+                    </TableCell>
+                    <TableCell className={classes.withFilter}>
+                      {this.stringListRenderer(row.language)}
+                    </TableCell>
+                    {/*<TableCell className={classes.withFilter}>
                           {this.stringListRenderer(row.material)}
                         </TableCell>*/}
-                  <TableCell className={classes.withFilter}>
-                    {this.transactionRenderer(row.acquisition)}
-                  </TableCell>
-                  <TableCell className={classes.withFilter}>
-                    {this.ownerRenderer(row.owner)}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+                    <TableCell className={classes.withFilter}>
+                      {this.transactionRenderer(row.acquisition)}
+                    </TableCell>
+                    <TableCell className={classes.withFilter}>
+                      {this.ownerRenderer(row.owner)}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </div>
       );
     }
   }

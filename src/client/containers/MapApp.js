@@ -41,7 +41,6 @@ const styles = theme => ({
     //minHeight: 700
   },
   mainContainer: {
-    overflow: 'auto',
     display: 'flex',
     width: '100%',
     marginTop: 64,
