@@ -8,7 +8,6 @@ import {
   updatePlace,
   updateFacet,
   updateResults,
-  //updateGeoJSON,
   FETCH_FACET,
   //FETCH_FACET_FAILED,
   FETCH_MANUSCRIPTS,
@@ -17,8 +16,6 @@ import {
   FETCH_PLACE,
   FETCH_RESULTS
   //FETCH_PLACES_FAILED,
-  //GET_GEOJSON,
-  //GET_GEOJSON_FAILED
 } from '../actions';
 
 const apiUrl = (process.env.NODE_ENV === 'development')
@@ -80,35 +77,12 @@ const getResultCount = action$ => action$.pipe(
   })
 );
 
-// const getGeoJSONEpic = (action$) => {
-//   const wfsUrl = apiUrl + 'wfs';
-//   return action$.ofType(GET_GEOJSON)
-//     .switchMap(action => {
-//       let s = '';
-//       action.layerIDs.map(layerID => {
-//         s += `&layerID=${layerID}`;
-//       });
-//       const requestUrl = `${wfsUrl}?${s}`;
-//       return ajax.getJSON(requestUrl)
-//         // .map(response => {
-//         //   console.log(response)
-//         // })
-//         .map(response => updateGeoJSON({ geoJSON: response }))
-//         .catch(error => Observable.of({
-//           type: GET_GEOJSON_FAILED,
-//           error: error,
-//         }));
-//     });
-// };
-
-
 const rootEpic = combineEpics(
   getManuscripts,
   getPlaces,
   getPlace,
   getFacet,
   getResultCount,
-  // getGeoJSONEpic
 );
 
 export default rootEpic;

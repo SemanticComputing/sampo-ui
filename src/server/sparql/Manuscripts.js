@@ -26,7 +26,7 @@ export const getManuscriptCount = (filterObj) => {
 };
 
 export const getPlaces = variant => {
-  console.log(variant)
+  // console.log(variant)
   const config = datasetConfig['mmm'];
   return sparqlSearchEngine.doSearch(config[`${variant}Query`], config.endpoint, makeObjectList);
 };
