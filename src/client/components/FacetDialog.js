@@ -70,7 +70,13 @@ class FacetDialog extends React.Component {
             <Typography variant="h6">{propertyLabel}</Typography>
           </DialogTitle>
           <DialogContent>
-            {this.state.isLoading ? <CircularProgress style={{ color: purple[500] }} thickness={5} /> : <Tree data={facet.facetValues.creationPlace} />  }
+            {this.state.isLoading ?
+              <CircularProgress style={{ color: purple[500] }} thickness={5} />
+              :
+              <Tree
+                data={facet.facetValues.creationPlace}
+                updateFilter={this.props.updateFilter}
+              />}
           </DialogContent>
         </Dialog>
       </div>
@@ -85,6 +91,7 @@ FacetDialog.propTypes = {
   propertyLabel: PropTypes.string.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   facet: PropTypes.object.isRequired,
+  updateFilter: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(FacetDialog);

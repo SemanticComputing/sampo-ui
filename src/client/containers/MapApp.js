@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import compose from 'recompose/compose';
 import Paper from '@material-ui/core/Paper';
 import TopBar from '../components/TopBar';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Manuscripts from '../components/Manuscripts';
 import Main from '../components/Main';
 
@@ -16,6 +16,7 @@ import {
   fetchPlaces,
   fetchPlace,
   fetchFacet,
+  updateFilter,
   fetchResults,
 } from '../actions';
 
@@ -109,6 +110,7 @@ let MapApp = (props) => {
                 fetchPlace={props.fetchPlace}
                 fetchFacet={props.fetchFacet}
                 fetchResults={props.fetchResults}
+                updateFilter={props.updateFilter}
                 match={props.match}
               />}
           />
@@ -141,7 +143,8 @@ const mapDispatchToProps = ({
   fetchPlaces,
   fetchPlace,
   fetchFacet,
-  fetchResults
+  fetchResults,
+  updateFilter,
 });
 
 MapApp.propTypes = {
@@ -157,6 +160,7 @@ MapApp.propTypes = {
   fetchPlace:  PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
+  updateFilter: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired
 };
 

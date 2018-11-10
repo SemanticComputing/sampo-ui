@@ -33,10 +33,8 @@ export const FETCH_FACET = 'FETCH_FACET';
 export const UPDATE_FACET = 'UPDATE_FACET';
 export const CLEAR_FACET = 'CLEAR_FACET';
 export const FETCH_FACET_FAILED = 'FETCH_FACET_FAILED';
+export const UPDATE_FILTER = 'UPDATE_FILTER';
 
-
-
-export const UPDATE_RESULTS_FILTER = 'UPDATE_RESULTS_FILTER';
 export const SORT_RESULTS = 'SORT_RESULTS';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const UPDATE_LANGUAGE = 'UPDATE_LANGUAGE';
@@ -70,26 +68,19 @@ export const removeTempMarker = () => ({
   type: REMOVE_TEMP_MARKER,
 });
 
-export const startSpinner = () => ({
-  type: START_SPINNER,
-});
 
+// Suggestions
 export const fetchSuggestions = () => ({
   type: FETCH_SUGGESTIONS,
 });
-
 export const fetchSuggestionsFailed = (error) => ({
   type: FETCH_SUGGESTIONS_FAILED,
   error
 });
-
-
-
 export const updateSuggestions = ({ suggestions }) => ({
   type: UPDATE_SUGGESTIONS,
   suggestions
 });
-
 export const clearSuggestions = () => ({
   type: CLEAR_SUGGESTIONS,
 });
@@ -98,16 +89,13 @@ export const clearSuggestions = () => ({
 export const fetchResults = () => ({
   type: FETCH_RESULTS,
 });
-
 export const updateResults = ({ results }) => ({
   type: UPDATE_RESULTS,
   results
 });
-
 export const clearResults = () => ({
   type: CLEAR_RESULTS,
 });
-
 export const fetchResultsFailed = (error) => ({
   type: FETCH_RESULTS_FAILED,
   error
@@ -118,16 +106,13 @@ export const fetchManuscripts = (page) => ({
   type: FETCH_MANUSCRIPTS,
   page
 });
-
 export const updateManuscripts = ({ manuscripts, page }) => ({
   type: UPDATE_MANUSCRIPTS,
   manuscripts, page
 });
-
 export const clearManuscripts = () => ({
   type: CLEAR_MANUSCRIPTS,
 });
-
 export const fetchManuscriptsFailed = (error) => ({
   type: FETCH_MANUSCRIPTS_FAILED,
   error
@@ -149,7 +134,6 @@ export const fetchPlacesFailed = (error) => ({
   type: FETCH_PLACES_FAILED,
   error
 });
-
 export const fetchPlace = (placeId) => ({
   type: FETCH_PLACE,
   placeId
@@ -182,10 +166,8 @@ export const fetchFacetFailed = (error) => ({
   type: FETCH_FACET_FAILED,
   error
 });
-
-
-export const updateResultsFilter = (filter) => ({
-  type: UPDATE_RESULTS_FILTER,
+export const updateFilter = (filter) => ({
+  type: UPDATE_FILTER,
   filter
 });
 

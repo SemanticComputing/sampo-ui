@@ -40,6 +40,9 @@ class Tree extends Component {
   handleCheckboxChange = name => event => {
     console.log(name)
     console.log(event.target.checked)
+    // this.props.updateFilter({
+    //
+    // })
   };
 
   render() {
@@ -166,7 +169,8 @@ class Tree extends Component {
 
 Tree.propTypes = {
   classes: PropTypes.object.isRequired,
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
+  updateFilter: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(Tree);

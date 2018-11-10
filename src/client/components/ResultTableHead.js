@@ -106,7 +106,8 @@ class ResultTableHead extends React.Component {
 
   render() {
     const { classes, page, results } = this.props;
-    const { rowsPerPage, order, orderBy } = this.state;
+    const { rowsPerPage } = this.state;
+    //order, orderBy
 
     return (
       <TableHead>
@@ -135,6 +136,7 @@ class ResultTableHead extends React.Component {
                       property={column.property}
                       propertyLabel={column.label}
                       fetchFacet={this.props.fetchFacet}
+                      updateFilter={this.props.updateFilter}
                       facet={this.props.facet} />
                   </Tooltip>}
               </TableCell>
@@ -150,6 +152,7 @@ ResultTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
+  updateFilter: PropTypes.func.isRequired,
   facet: PropTypes.object.isRequired,
   results: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired

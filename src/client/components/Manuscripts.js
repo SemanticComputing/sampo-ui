@@ -21,8 +21,9 @@ let Manuscripts = props => {
               fetchManuscripts={props.fetchManuscripts}
               fetchingManuscripts={props.search.fetchingManuscripts}
               fetchFacet={props.fetchFacet}
-              results={props.search.results}
               fetchResults={props.fetchResults}
+              results={props.search.results}
+              updateFilter={props.updateFilter}
               page={props.search.page}
             />}
         />
@@ -68,6 +69,7 @@ Manuscripts.propTypes = {
   fetchPlace:  PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
+  updateFilter: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired
 };
 

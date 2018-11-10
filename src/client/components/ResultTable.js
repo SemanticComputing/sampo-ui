@@ -225,6 +225,7 @@ class ResultTable extends React.Component {
             <ResultTableHead
               fetchFacet={this.props.fetchFacet}
               fetchManuscripts={this.props.fetchManuscripts}
+              updateFilter={this.props.updateFilter}
               facet={this.props.facet}
               results={this.props.results}
               page={this.props.page}
@@ -280,6 +281,7 @@ ResultTable.propTypes = {
   facet: PropTypes.object.isRequired,
   results: PropTypes.number.isRequired,
   fetchResults: PropTypes.func.isRequired,
+  updateFilter: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired
 };
 

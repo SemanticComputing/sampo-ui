@@ -14,8 +14,8 @@ import {
   UPDATE_PLACES,
   CLEAR_PLACES,
   UPDATE_PLACE,
-  UPDATE_RESULTS_FILTER,
-  SORT_RESULTS
+  SORT_RESULTS,
+  UPDATE_FILTER
 } from '../actions';
 
 export const INITIAL_STATE = {
@@ -33,6 +33,10 @@ export const INITIAL_STATE = {
       'timePeriod': '?',
       'selected': false
     },
+  },
+  filters: {
+    creationPlace: new Set(),
+    author: new Set(),
   },
   suggestions: [],
   suggestionsQuery: '',
@@ -128,9 +132,8 @@ const search = (state = INITIAL_STATE, action) => {
         'places': {},
         fetchingPlaces: false
       };
-
-    case UPDATE_RESULTS_FILTER:
-      return updateResultsFilter(state, action);
+    case UPDATE_FILTER:
+      return updateFilter(state, action);
     case SORT_RESULTS:
       //console.log(action)
       return {
@@ -143,16 +146,16 @@ const search = (state = INITIAL_STATE, action) => {
   }
 };
 
-const updateResultsFilter = (state, action) => {
+const updateFilter = (state, action) => {
   const { property, value } = action.filter;
-  let nSet = state.resultsFilter[property];
+  let nSet = state.filters[property];
   if (nSet.has(value)) {
     nSet.delete(value);
   } else {
     nSet.add(value);
   }
-  const newFilter = updateObject(state.resultsFilter, { [property]: nSet });
-  return updateObject(state, { resultsFilter: newFilter });
+  const newFilter = updateObject(state.filters, { [property]: nSet });
+  return updateObject(state, { filters: newFilter });
 };
 
 const updateObject = (oldObject, newValues) => {
