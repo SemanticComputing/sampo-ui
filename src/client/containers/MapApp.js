@@ -93,27 +93,25 @@ let MapApp = (props) => {
       <div className={classes.appFrame}>
         <TopBar />
         <div className={classes.mainContainer}>
-          <Switch>
-            <Route
-              exact path="/"
-              component={Main}
-            />
-            <Route
-              path="/manuscripts"
-              render={() =>
-                <Manuscripts
-                  facet={facet}
-                  map={map}
-                  search={search}
-                  fetchManuscripts={props.fetchManuscripts}
-                  fetchPlaces={props.fetchPlaces}
-                  fetchPlace={props.fetchPlace}
-                  fetchFacet={props.fetchFacet}
-                  fetchResults={props.fetchResults}
-                  match={props.match}
-                />}
-            />
-          </Switch>
+          <Route
+            exact path="/"
+            component={Main}
+          />
+          <Route
+            path="/manuscripts"
+            render={() =>
+              <Manuscripts
+                facet={facet}
+                map={map}
+                search={search}
+                fetchManuscripts={props.fetchManuscripts}
+                fetchPlaces={props.fetchPlaces}
+                fetchPlace={props.fetchPlace}
+                fetchFacet={props.fetchFacet}
+                fetchResults={props.fetchResults}
+                match={props.match}
+              />}
+          />
         </div>
         <Paper className={classes.footer}>
           {/*<img className={classes.oxfordLogo} src='img/logos/oxford-logo-white.png' alt='Oxford University logo'/>

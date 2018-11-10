@@ -170,13 +170,14 @@ class TopBar extends React.Component {
       </Menu>
     );
 
-    const ManuscriptLink = props =>
+    const ManuscriptLink = props => (
       <NavLink
         to="/manuscripts/table"
         className={classes.appBarButton}
+        isActive={(match, location) => location.pathname.startsWith('/manuscripts')}
         activeClassName={classes.appBarButtonActive}
         {...props}
-      />;
+      />);
 
     const MainLink = props =>
       <NavLink
