@@ -46,8 +46,6 @@ const style = {
 class LeafletMap extends React.Component {
 
   componentDidMount() {
-    console.log('mounted')
-    //this.props.fetchManuscripts();
     this.props.fetchPlaces('creationPlaces');
 
     // Base layers
@@ -55,19 +53,7 @@ class LeafletMap extends React.Component {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     });
 
-    // const karelianMaps = L.tileLayer('http:///mapwarper.onki.fi/mosaics/tile/4/{z}/{x}/{y}.png', {
-    //   attribution: 'SeCo'
-    // });
-    //
-    // const senateAtlas = L.tileLayer('http:///mapwarper.onki.fi/mosaics/tile/5/{z}/{x}/{y}.png', {
-    //   attribution: 'SeCo'
-    // });
-    //
-    // const westernFront = L.tileLayer('http://mapwarper.net/mosaics/tile/844/{z}/{x}/{y}.png', {
-    //   attribution: 'SeCo'
-    // });
-
-    const test = L.tileLayer('http://mapwarper.net/maps/tile/28345/{z}/{x}/{y}.png', {
+    const parisTest = L.tileLayer('http://mapwarper.net/maps/tile/28345/{z}/{x}/{y}.png', {
       attribution: 'SeCo'
     });
 
@@ -103,7 +89,7 @@ class LeafletMap extends React.Component {
       // 'Search results': this.resultMarkerLayer,
       // 'Karelian maps (MapWarper)': karelianMaps,
       // 'Senate atlas (MapWarper)': senateAtlas,
-      'Paris': test
+      'Paris': parisTest
     };
 
     this.layerControl = L.control.layers(
@@ -266,7 +252,6 @@ class LeafletMap extends React.Component {
 LeafletMap.propTypes = {
   fetchPlaces: PropTypes.func.isRequired,
   fetchPlace: PropTypes.func.isRequired,
-  fetchManuscripts: PropTypes.func.isRequired,
   results: PropTypes.array.isRequired,
   mapMode: PropTypes.string.isRequired
 };

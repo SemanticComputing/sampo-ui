@@ -11,6 +11,6 @@ module.exports = merge(common, {
     open: true,
     historyApiFallback: true,
     publicPath: '/',
-    contentBase: path.join(__dirname, 'dist/public')
+    //contentBase: path.join(__dirname, 'dist/public')
   }
 });

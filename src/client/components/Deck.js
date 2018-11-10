@@ -24,6 +24,9 @@ import Typography from '@material-ui/core/Typography';
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZWtrb25lbiIsImEiOiJjam5vampzZ28xd2dyM3BzNXR0Zzg4azl4In0.eozyF-bBaZbA3ibhvJlJpQ';
 
 const styles = theme => ({
+  mapGLContainer: {
+    marginTop: 72
+  },
   tooltip: {
     position: 'absolute',
     padding: '4px',
@@ -195,8 +198,10 @@ class Deck extends React.Component {
    return (
      <ReactMapGL
        {...this.state.viewport}
+       className={this.props.classes.root}
        width='100%'
-       height='100%'
+       height='calc(100% - 72px)'
+       style={{marginTop: 72}}
        onViewportChange={this._onViewportChange}
        mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
      >
@@ -205,7 +210,6 @@ class Deck extends React.Component {
          viewState={this.state.viewport}
          layers={[layer]}
        />
-
        <div className={this.props.classes.mapControls}>
          <NavigationControl onViewportChange={this._onViewportChange} />
        </div>
@@ -216,7 +220,6 @@ class Deck extends React.Component {
          onClose={this.closeDialog.bind(this)}
          data={this.state.dialog.data}
        />
-
      </ReactMapGL>
    );
  }

@@ -43,7 +43,7 @@ class ViewTabs extends React.Component {
         >
           <Tab icon={<CalendarViewDayIcon />} label="table" component={Link} to="/manuscripts/table" />
           <Tab icon={<AddLocationIcon />} label="creation places" component={Link} to="/manuscripts/creation_places" />
-          <Tab icon={<RedoIcon />} label="migrations" />
+          <Tab icon={<RedoIcon />} label="migrations" component={Link} to="/manuscripts/migrations" />
           <Tab icon={<PieChartIcon />} label="statistics" />
         </Tabs>
       </Paper>

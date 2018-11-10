@@ -4,6 +4,8 @@ import { Route, Switch } from 'react-router-dom';
 import ViewTabs from './ViewTabs';
 import ResultTable from './ResultTable';
 import LeafletMap from './LeafletMap';
+import Deck from './Deck';
+import Pie from './Pie';
 
 let Manuscripts = props => {
   return (
@@ -30,9 +32,26 @@ let Manuscripts = props => {
             <LeafletMap
               fetchPlaces={props.fetchPlaces}
               fetchPlace={props.fetchPlace}
-              fetchManuscripts={props.fetchManuscripts}
               results={props.search.places}
               mapMode='cluster'
+            />}
+        />
+        <Route
+          path={props.match.url + '/migrations'}
+          render={() =>
+            <Deck
+              fetchPlaces={props.fetchPlaces}
+              fetchingPlaces={props.search.fetchingPlaces}
+              data={props.search.places}
+            />}
+        />
+        <Route
+          path={props.match.url + '/statistics'}
+          render={() =>
+            <Pie
+              fetchPlaces={props.fetchPlaces}
+              fetchingPlaces={props.search.fetchingPlaces}
+              data={props.search.places}
             />}
         />
       </Switch>
