@@ -14,8 +14,8 @@ module.exports = {
     'title': 'MMM',
     'shortTitle': 'MMM',
     'timePeriod': '',
-    //'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
-    'endpoint': 'http://localhost:3050/ds/sparql',
+    'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
+    //'endpoint': 'http://localhost:3050/ds/sparql',
     'countQuery': `
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
