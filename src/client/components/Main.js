@@ -8,6 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import { NavLink } from 'react-router-dom';
 
 const styles = theme => ({
   root: {
@@ -45,6 +46,8 @@ const styles = theme => ({
 let Main = props => {
   const { classes } = props;
 
+  const ManuscriptLink = props => <NavLink to="/manuscripts/table" {...props}/>;
+
   return (
     <div className={classes.root}>
       {/* Hero unit */}
@@ -66,7 +69,7 @@ let Main = props => {
 
           <Grid item sm={6} md={4} lg={4}>
             <Card className={classes.card}>
-              <CardActionArea>
+              <CardActionArea component={ManuscriptLink}>
                 <CardMedia
                   className={classes.media}
                   image="img/thumb.png"
@@ -86,7 +89,7 @@ let Main = props => {
 
           <Grid item sm={6} md={4} lg={4}>
             <Card className={classes.card}>
-              <CardActionArea>
+              <CardActionArea disabled>
                 <CardMedia
                   className={classes.media}
                   image="img/thumb.png"
@@ -106,7 +109,7 @@ let Main = props => {
 
           <Grid item sm={6} md={4} lg={4}>
             <Card className={classes.card}>
-              <CardActionArea>
+              <CardActionArea disabled>
                 <CardMedia
                   className={classes.media}
                   image="img/thumb.png"
@@ -126,7 +129,7 @@ let Main = props => {
 
           <Grid item sm={6} md={4} lg={4}>
             <Card className={classes.card}>
-              <CardActionArea>
+              <CardActionArea disabled>
                 <CardMedia
                   className={classes.media}
                   image="img/thumb.png"
@@ -146,7 +149,7 @@ let Main = props => {
 
           <Grid item sm={6} md={4} lg={4}>
             <Card className={classes.card}>
-              <CardActionArea>
+              <CardActionArea disabled>
                 <CardMedia
                   className={classes.media}
                   image="img/thumb.png"

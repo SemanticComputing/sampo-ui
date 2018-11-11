@@ -216,10 +216,10 @@ class TopBar extends React.Component {
                 component={ManuscriptLink}>
                 Manuscripts
               </Button>
-              <Button className={classes.appBarButton}>Observations</Button>
-              <Button className={classes.appBarButton}>Persons</Button>
-              <Button className={classes.appBarButton}>Organizations</Button>
-              <Button className={classes.appBarButton}>Places</Button>
+              <Button disabled className={classes.appBarButton}>Observations</Button>
+              <Button disabled className={classes.appBarButton}>Persons</Button>
+              <Button disabled className={classes.appBarButton}>Organizations</Button>
+              <Button disabled className={classes.appBarButton}>Places</Button>
             </div>
             <div className={classes.sectionMobile}>
               <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">

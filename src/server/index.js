@@ -1,4 +1,5 @@
 import express from 'express';
+const path = require('path');
 import bodyParser from 'body-parser';
 import request from 'superagent';
 import {
@@ -10,7 +11,6 @@ import {
 } from './sparql/Manuscripts';
 const DEFAULT_PORT = 3001;
 const app = express();
-//const isDevelopment  = app.get('env') !== 'production';
 
 app.set('port', process.env.PORT || DEFAULT_PORT);
 app.use(bodyParser.json());
@@ -22,7 +22,8 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(express.static(__dirname + './../public/'));
+// Serve the static files from the React app
+app.use(express.static(path.join(__dirname, './../public/')));
 
 // const filterObj = {
 //   creationPlace: {
@@ -111,6 +112,12 @@ app.get('/wfs', (req, res) => {
     });
 });
 
+/*  Routes are matched to a url in order of their definition
+    Redirect all the the rest for react-router to handle */
+app.get('*', function(request, response) {
+  response.sendFile(path.resolve(__dirname, './../public/', 'index.html'));
+});
+
 const getWFSLayers = (layerIDs) => {
   return Promise.all(layerIDs.map((layerID) => getWFSLayer(layerID)));
 };
@@ -129,5 +136,7 @@ const getWFSLayer = (layerID) => {
       });
   });
 };
+
+
 
 app.listen(app.get('port'), () => console.log('MMM API listening on port ' + app.get('port')));
