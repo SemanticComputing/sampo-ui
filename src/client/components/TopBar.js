@@ -202,6 +202,7 @@ class TopBar extends React.Component {
                 <SearchIcon />
               </div>
               <InputBase
+                disabled
                 placeholder="Search…"
                 classes={{
                   root: classes.inputRoot,
