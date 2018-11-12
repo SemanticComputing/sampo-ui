@@ -150,8 +150,15 @@ class Deck extends React.Component {
        <CardContent>
          <Typography variant="h6" gutterBottom>Arc colouring:</Typography>
          <Typography className={this.props.classes.blue} variant="body2" gutterBottom>Creation place</Typography>
-         <Typography variant="body2" gutterBottom><span className={this.props.classes.red}>Most recently observed location</span><br />(calculated as: Most recent transaction -&gt; Selling agent -&gt; Place)</Typography>
-
+         <Typography variant="body2" gutterBottom>
+           <span className={this.props.classes.red}>
+            Most recently observed location
+           </span><br />
+           calculated as: <br />
+           Most recent transaction <br />
+          -&gt; Selling agent <br />
+          -&gt; Place
+         </Typography>
        </CardContent>
      </Card>
    );
@@ -201,16 +208,16 @@ class Deck extends React.Component {
        {...this.state.viewport}
        className={this.props.classes.root}
        width='100%'
-       height='calc(100% - 72px)'
+       height='calc(100% - 76px)'
        style={{marginTop: 72}}
        onViewportChange={this._onViewportChange}
        mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
      >
-       <HTMLOverlay redraw={this._renderLegend.bind(this)} />
        <DeckGL
          viewState={this.state.viewport}
          layers={[layer]}
        />
+       <HTMLOverlay redraw={this._renderLegend.bind(this)} />
        <div className={this.props.classes.mapControls}>
          <NavigationControl onViewportChange={this._onViewportChange} />
        </div>
