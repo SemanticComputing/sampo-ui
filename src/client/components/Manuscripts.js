@@ -34,6 +34,7 @@ let Manuscripts = props => {
               fetchPlaces={props.fetchPlaces}
               fetchPlace={props.fetchPlace}
               results={props.search.places}
+              place={props.search.place}
               mapMode='cluster'
             />}
         />

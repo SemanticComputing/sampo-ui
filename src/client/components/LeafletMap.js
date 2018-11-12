@@ -109,7 +109,7 @@ class LeafletMap extends React.Component {
 
   }
 
-  componentDidUpdate({ results, mapMode }) {
+  componentDidUpdate({ results, place, mapMode }) {
 
     // check if results data or mapMode have changed
     if (this.props.results !== results || this.props.mapMode !== mapMode) {
@@ -119,7 +119,20 @@ class LeafletMap extends React.Component {
         this.updateMarkers(this.props.results);
       }
     }
+
+    if (this.props.place !== place) {
+      this.markers[this.props.place.id.replace('http://ldf.fi/mmm/place/', '')]
+        .bindPopup(this.createPopUpContent(this.props.place), {
+          maxHeight: 300,
+          maxWidth: 400,
+          minWidth: 400,
+        //closeButton: false,
+        })
+        .openPopup();
+    }
+
   }
+
 
   updateMarkers(results) {
     this.resultMarkerLayer.clearLayers();
@@ -193,7 +206,6 @@ class LeafletMap extends React.Component {
   };
 
   createPopUpContent(result) {
-    // console.log(result)
     let popUpTemplate = `<h3><a target="_blank" rel="noopener noreferrer" href=${result.sdbmLink}>${result.prefLabel}</a></p></h3>`;
     if (has(result, 'source')) {
       popUpTemplate += `<p>Place authority: <a target="_blank" rel="noopener noreferrer" href=${result.source}>${result.source}</a></p>`;
@@ -253,7 +265,8 @@ LeafletMap.propTypes = {
   fetchPlaces: PropTypes.func.isRequired,
   fetchPlace: PropTypes.func.isRequired,
   results: PropTypes.array.isRequired,
-  mapMode: PropTypes.string.isRequired
+  mapMode: PropTypes.string.isRequired,
+  place: PropTypes.object.isRequired,
 };
 
 export default LeafletMap;
