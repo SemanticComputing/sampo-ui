@@ -213,11 +213,11 @@ class Deck extends React.Component {
        onViewportChange={this._onViewportChange}
        mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
      >
+       <HTMLOverlay redraw={this._renderLegend.bind(this)} />
        <DeckGL
          viewState={this.state.viewport}
          layers={[layer]}
        />
-       <HTMLOverlay redraw={this._renderLegend.bind(this)} />
        <div className={this.props.classes.mapControls}>
          <NavigationControl onViewportChange={this._onViewportChange} />
        </div>
