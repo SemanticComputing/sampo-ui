@@ -228,6 +228,43 @@ module.exports = {
         ?from__id skos:prefLabel ?from__name .
         ?from__id wgs84:lat ?from__lat ;
                   wgs84:long ?from__long .
+        ?acquisition__id crm:P24_transferred_title_of ?manuscript__id .
+        ?acquisition__id mmm-schema:catalog_title ?acquisition__prefLabel .
+        ?acquisition__id dc:source ?source .
+        ?acquisition__id mmm-schema:catalog_date ?acquisition__date .
+        ?acquisition__id crm:P14_carried_out_by ?acquisition__selling_agent .
+        BIND(REPLACE(STR(?source), "http://ldf.fi/mmm/source/", "https://sdbm.library.upenn.edu/sources/") AS ?acquisition__sdbmLink)
+        ?acquisition__selling_agent mmm-schema:person_place ?to__id .
+        ?to__id skos:prefLabel ?to__name .
+        ?to__id wgs84:lat ?to__lat ;
+                wgs84:long ?to__long .
+        BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/mmm/place/", ""))) as ?id)
+        FILTER NOT EXISTS {
+          ?acquisition__id2 crm:P24_transferred_title_of ?manuscript__id .
+          ?acquisition__id2 mmm-schema:catalog_date ?acquisition__date2 .
+          filter (?acquisition__date2 > ?acquisition__date)
+        }
+      }
+        `,
+    'migrationsQuery2': `
+      PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+      PREFIX dc: <http://purl.org/dc/elements/1.1/>
+      PREFIX owl: <http://www.w3.org/2002/07/owl#>
+      PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
+      PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+      PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
+      SELECT DISTINCT ?id ?manuscript__id ?manuscript__url ?from__id ?from__name ?from__lat ?from__long ?to__id ?to__name ?to__lat ?to__long
+      WHERE {
+        # https://github.com/uber/deck.gl/blob/master/docs/layers/arc-layer.md
+        #?id ^frbroo:R18_created/crm:P7_took_place_at ?from__id .
+        ?manuscript__id ^frbroo:R18_created/crm:P7_took_place_at ?from__id .
+        ?manuscript__id mmm-schema:data_provider_url ?manuscript__url .
+        ?from__id skos:prefLabel ?from__name .
+        ?from__id wgs84:lat ?from__lat ;
+                  wgs84:long ?from__long .
         ?manuscript__id crm:P51_has_former_or_current_owner ?owner .
         ?rei rdf:subject ?manuscript__id ;
              rdf:predicate crm:P51_has_former_or_current_owner ;
