@@ -25,7 +25,7 @@ import 'Leaflet.extra-markers/dist/css/leaflet.extra-markers.min.css';
 import 'Leaflet.extra-markers/dist/img/markers_default.png';
 import 'Leaflet.extra-markers/dist/img/markers_shadow.png';
 
-
+const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZWtrb25lbiIsImEiOiJjam5vampzZ28xd2dyM3BzNXR0Zzg4azl4In0.eozyF-bBaZbA3ibhvJlJpQ';
 
 const style = {
   width: '100%',
@@ -49,13 +49,19 @@ class LeafletMap extends React.Component {
     this.props.fetchPlaces('creationPlaces');
 
     // Base layers
-    const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    // const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    //   attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    // });
+
+    const mapboxLight = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/{z}/{x}/{y}?access_token=' + MAPBOX_ACCESS_TOKEN, {
+      attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      tileSize: 512,
+      zoomOffset: -1
     });
 
-    const parisTest = L.tileLayer('http://mapwarper.net/maps/tile/28345/{z}/{x}/{y}.png', {
-      attribution: 'SeCo'
-    });
+    // const parisTest = L.tileLayer('http://mapwarper.net/maps/tile/28345/{z}/{x}/{y}.png', {
+    //   attribution: 'SeCo'
+    // });
 
     // Marker layers
     this.resultMarkerLayer = L.layerGroup();
@@ -73,9 +79,10 @@ class LeafletMap extends React.Component {
     // create map
     this.leafletMap = L.map('map', {
       center: [22.43,10.37],
-      zoom: 3,
+      zoom: 2,
       layers: [
-        OSMBaseLayer,
+        //OSMBaseLayer,
+        mapboxLight,
         this.resultMarkerLayer,
       ],
       fullscreenControl: true,
@@ -85,17 +92,17 @@ class LeafletMap extends React.Component {
     // const baseMaps = {
     //   'OpenStreetMap': OSMBaseLayer,
     // };
-    const overlayMaps = {
-      // 'Search results': this.resultMarkerLayer,
-      // 'Karelian maps (MapWarper)': karelianMaps,
-      // 'Senate atlas (MapWarper)': senateAtlas,
-      'Paris': parisTest
-    };
+    // const overlayMaps = {
+    //   // 'Search results': this.resultMarkerLayer,
+    //   // 'Karelian maps (MapWarper)': karelianMaps,
+    //   // 'Senate atlas (MapWarper)': senateAtlas,
+    //   'Paris': parisTest
+    // };
 
-    this.layerControl = L.control.layers(
-      //baseMaps,
-      overlayMaps,
-    ).addTo(this.leafletMap);
+    // this.layerControl = L.control.layers(
+    //   //baseMaps,
+    //   overlayMaps,
+    // ).addTo(this.leafletMap);
 
     // L.control.opacity(
     //   overlayMaps, {
@@ -154,14 +161,14 @@ class LeafletMap extends React.Component {
         cluster.getAllChildMarkers().forEach(marker => {
           childCount += parseInt(marker.options.manuscriptCount);
         });
-        let c = ' marker-cluster-large';
-        // if (childCount < 10) {
-        //   c += 'small';
-        // } else if (childCount < 100) {
-        //   c += 'medium';
-        // } else {
-        //   c += 'large';
-        // }
+        let c = ' marker-cluster-';
+        if (childCount < 10) {
+          c += 'small';
+        } else if (childCount < 100) {
+          c += 'medium';
+        } else {
+          c += 'large';
+        }
         return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
       }
     });

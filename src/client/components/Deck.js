@@ -202,7 +202,7 @@ class Deck extends React.Component {
      onHover: info => this.setTooltip(info),
      onClick: info => this.setDialog(info),
    });
-
+   // https://www.mapbox.com/mapbox-gl-js/api#map
    return (
      <ReactMapGL
        {...this.state.viewport}
@@ -212,6 +212,9 @@ class Deck extends React.Component {
        style={{marginTop: 72}}
        onViewportChange={this._onViewportChange}
        mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
+       mapOptions={{
+         style: 'mapbox://styles/mapbox/light-v9'
+       }}
      >
        <HTMLOverlay redraw={this._renderLegend.bind(this)} />
        <DeckGL
