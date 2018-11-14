@@ -1,6 +1,6 @@
 
 import { ajax } from 'rxjs/ajax';
-import { mergeMap, map } from 'rxjs/operators';
+import { mergeMap, map, withLatestFrom } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
 import {
   updateManuscripts,
@@ -57,9 +57,10 @@ const getPlace = action$ => action$.pipe(
 
 const getFacet = action$ => action$.pipe(
   ofType(FETCH_FACET),
-  mergeMap((action) => {
-    const searchUrl = apiUrl + 'facet';
-    const requestUrl = `${searchUrl}?property=${action.property}`;
+  mergeMap(() => {
+    const requestUrl = `${apiUrl}facet`;
+    //const facetFilters = state$.getState().facet.facetFilters;
+    //let str = Object.entries(facetFilters).map(([key, set]) => `${key}=${Array.from(set)}`).join('&');
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateFacet({ facetValues: response }))
     );

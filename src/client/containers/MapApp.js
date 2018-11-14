@@ -89,6 +89,8 @@ let MapApp = (props) => {
   // browser
   // error,
 
+  // console.log(props.facet)
+
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>

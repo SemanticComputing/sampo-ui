@@ -151,9 +151,8 @@ export const fetchPlaceFailed = (error) => ({
 });
 
 // Facet
-export const fetchFacet = (property) => ({
+export const fetchFacet = () => ({
   type: FETCH_FACET,
-  property
 });
 export const updateFacet = ({ facetValues }) => ({
   type: UPDATE_FACET,

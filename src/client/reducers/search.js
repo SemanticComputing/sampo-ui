@@ -15,7 +15,6 @@ import {
   CLEAR_PLACES,
   UPDATE_PLACE,
   SORT_RESULTS,
-  UPDATE_FILTER
 } from '../actions';
 
 export const INITIAL_STATE = {
@@ -33,10 +32,6 @@ export const INITIAL_STATE = {
       'timePeriod': '?',
       'selected': false
     },
-  },
-  filters: {
-    creationPlace: new Set(),
-    author: new Set(),
   },
   suggestions: [],
   suggestionsQuery: '',
@@ -132,10 +127,7 @@ const search = (state = INITIAL_STATE, action) => {
         'places': {},
         fetchingPlaces: false
       };
-    case UPDATE_FILTER:
-      return updateFilter(state, action);
     case SORT_RESULTS:
-      //console.log(action)
       return {
         ...state,
         sortBy: action.options.sortBy,
@@ -144,25 +136,6 @@ const search = (state = INITIAL_STATE, action) => {
     default:
       return state;
   }
-};
-
-const updateFilter = (state, action) => {
-  const { property, value } = action.filter;
-  let nSet = state.filters[property];
-  if (nSet.has(value)) {
-    nSet.delete(value);
-  } else {
-    nSet.add(value);
-  }
-  const newFilter = updateObject(state.filters, { [property]: nSet });
-  return updateObject(state, { filters: newFilter });
-};
-
-const updateObject = (oldObject, newValues) => {
-  // Encapsulate the idea of passing a new object as the first parameter
-  // to Object.assign to ensure we correctly copy data instead of mutating
-  //console.log(Object.assign({}, oldObject, newValues));
-  return Object.assign({}, oldObject, newValues);
 };
 
 export default search;

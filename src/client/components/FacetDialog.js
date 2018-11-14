@@ -40,14 +40,9 @@ class FacetDialog extends React.Component {
     }
   }
 
-  handleClickOpen = () => {
-    this.props.fetchFacet(this.props.property);
-    this.setState({ open: true });
-  };
+  handleClickOpen = () => this.setState({ open: true });
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
+  handleClose = () => this.setState({ open: false });
 
   render() {
     const { classes, propertyLabel, facet } = this.props;
@@ -75,6 +70,7 @@ class FacetDialog extends React.Component {
               :
               <Tree
                 data={facet.facetValues.creationPlace}
+                fetchFacet={this.props.fetchFacet}
                 updateFilter={this.props.updateFilter}
               />}
           </DialogContent>

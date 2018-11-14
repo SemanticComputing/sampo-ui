@@ -37,12 +37,14 @@ class Tree extends Component {
     };
   }
 
-  handleCheckboxChange = name => event => {
-    console.log(name)
-    console.log(event.target.checked)
-    // this.props.updateFilter({
-    //
-    // })
+  handleCheckboxChange = name => () => {
+    //console.log(name)
+    //console.log(event.target.checked)
+    this.props.updateFilter({
+      property: 'creationPlace',
+      value: name
+    });
+    this.props.fetchFacet();
   };
 
   render() {
@@ -170,6 +172,7 @@ class Tree extends Component {
 Tree.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
+  fetchFacet: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
 };
 

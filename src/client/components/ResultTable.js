@@ -57,6 +57,7 @@ class ResultTable extends React.Component {
   componentDidMount = () => {
     this.props.fetchResults();
     this.props.fetchManuscripts(0);
+    this.props.fetchFacet();
   }
 
   idRenderer = (row) => {

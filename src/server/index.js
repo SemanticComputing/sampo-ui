@@ -85,13 +85,12 @@ app.get('/places/:placeId?', (req, res) => {
 });
 
 app.get('/facet', (req, res) => {
-  const property = req.query.property;
-  return getFacet(property).then((data) => {
+  return getFacet().then((data) => {
     const facetValues = {
       creationPlace: data,
       author: []
     };
-    //console.log(data);
+    // console.log(data);
     res.json(facetValues);
   })
     .catch((err) => {
