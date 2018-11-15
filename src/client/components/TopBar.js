@@ -17,7 +17,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const styles = theme => ({
   root: {
@@ -179,12 +179,12 @@ class TopBar extends React.Component {
         {...props}
       />);
 
-    const MainLink = props =>
-      <NavLink
-        to="/"
-        className={classes.appBarButton}
-        {...props}
-      />;
+    // const MainLink = props =>
+    //   <NavLink
+    //     to="/"
+    //     className={classes.appBarButton}
+    //     {...props}
+    //   />;
 
     return (
       <div className={classes.root}>
@@ -192,7 +192,9 @@ class TopBar extends React.Component {
           <Toolbar>
             <Button
               className={classes.appBarButton}
-              component={MainLink}>
+              component={Link}
+              to='/'
+            >
               <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                 MMM
               </Typography>

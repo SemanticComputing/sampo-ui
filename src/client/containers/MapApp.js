@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import compose from 'recompose/compose';
 import Paper from '@material-ui/core/Paper';
 import TopBar from '../components/TopBar';
-import { Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Manuscripts from '../components/Manuscripts';
 import Main from '../components/Main';
 
@@ -88,35 +88,37 @@ let MapApp = (props) => {
   const { classes, facet, map, search } = props;
   // browser
   // error,
-
   // console.log(props.facet)
-
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
-        <TopBar />
-        <div className={classes.mainContainer}>
-          <Route
-            exact path="/"
-            component={Main}
-          />
-          <Route
-            path="/manuscripts"
-            render={() =>
-              <Manuscripts
-                facet={facet}
-                map={map}
-                search={search}
-                fetchManuscripts={props.fetchManuscripts}
-                fetchPlaces={props.fetchPlaces}
-                fetchPlace={props.fetchPlace}
-                fetchFacet={props.fetchFacet}
-                fetchResults={props.fetchResults}
-                updateFilter={props.updateFilter}
-                match={props.match}
-              />}
-          />
-        </div>
+        <Router>
+          <React.Fragment>
+            <TopBar />
+            <div className={classes.mainContainer}>
+              <Switch>
+                <Route exact path="/" component={Main} />
+                <Route
+                  path="/manuscripts"
+                  render={() =>
+                    <Manuscripts
+                      facet={facet}
+                      map={map}
+                      search={search}
+                      fetchManuscripts={props.fetchManuscripts}
+                      fetchPlaces={props.fetchPlaces}
+                      fetchPlace={props.fetchPlace}
+                      fetchFacet={props.fetchFacet}
+                      fetchResults={props.fetchResults}
+                      updateFilter={props.updateFilter}
+                      match={props.match}
+                      pathname={props.pathname}
+                    />}
+                />
+              </Switch>
+            </div>
+          </React.Fragment>
+        </Router>
         <Paper className={classes.footer}>
           <img className={classes.oxfordLogo} src='img/logos/oxford-logo-white.png' alt='Oxford University logo'/>
           <img className={classes.pennLogo} src='img/logos/penn-logo-white.png' alt='Oxford University logo'/>
@@ -136,6 +138,8 @@ const mapStateToProps = (state) => {
     facet: state.facet,
     map: state.map,
     search: state.search,
+    pathname: state.router.location.pathname,
+    urlQueryString: state.router.location.search
     //browser: state.browser,
   };
 };
@@ -163,7 +167,8 @@ MapApp.propTypes = {
   fetchFacet: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  pathname: PropTypes.string.isRequired
 };
 
 export default compose(

@@ -21,9 +21,24 @@ const styles = {
 };
 
 class ViewTabs extends React.Component {
-  state = {
-    value: 0,
-  };
+  constructor(props) {
+    super(props);
+    let value = 0;
+    switch (this.props.pathname) {
+      case '/manuscripts/creation_places':
+        value = 1;
+        break;
+      case '/manuscripts/migrations':
+        value = 2;
+        break;
+      case '/manuscripts/statistics':
+        value = 3;
+        break;
+      default:
+        value = 0;
+    }
+    this.state = { value };
+  }
 
   handleChange = (event, value) => {
     this.setState({ value });
@@ -31,6 +46,7 @@ class ViewTabs extends React.Component {
 
   render() {
     const { classes } = this.props;
+
 
     return (
       <Paper square className={classes.root}>
@@ -53,6 +69,7 @@ class ViewTabs extends React.Component {
 
 ViewTabs.propTypes = {
   classes: PropTypes.object.isRequired,
+  pathname: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(ViewTabs);
