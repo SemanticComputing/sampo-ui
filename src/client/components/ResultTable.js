@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 import ResultTableHead from './ResultTableHead';
-import { has, orderBy } from 'lodash';
+import { orderBy } from 'lodash';
 
 const styles = (theme) => ({
   tableContainer: {
@@ -61,19 +61,21 @@ class ResultTable extends React.Component {
   }
 
   idRenderer = (row) => {
-    let sdbmLink = '';
-    let id = row.id.replace('http://ldf.fi/mmm/manifestation_singleton/', '');
-    id = id.replace('orphan_', '');
-    id = id.replace('part_', '');
-    if (has(row, 'manuscriptRecord') && row.manuscriptRecord !== '-') {
-      sdbmLink = row.manuscriptRecord;
-    } else {
-      sdbmLink = 'https://sdbm.library.upenn.edu/entries/' + id;
-    }
+    // let sdbmLink = '';
+    // let id = row.id.replace('http://ldf.fi/mmm/manifestation_singleton/', '');
+    // id = id.replace('orphan_', '');
+    // id = id.replace('part_', '');
+    // if (has(row, 'manuscriptRecord') && row.manuscriptRecord !== '-') {
+    //   sdbmLink = row.manuscriptRecord;
+    // } else {
+    //   sdbmLink = 'https://sdbm.library.upenn.edu/entries/' + id;
+    // }
+    const sdbmLink = row.sdbmLink;
+    const id = sdbmLink.substring(sdbmLink.lastIndexOf('/') + 1);
 
     return (
       <div className={this.props.classes.tableColumn}>
-        <a target='_blank' rel='noopener noreferrer' href={sdbmLink}>{id}</a>
+        <a target='_blank' rel='noopener noreferrer' href={row.sdbmLink}>{id}</a>
       </div>
     );
   };
@@ -139,7 +141,7 @@ class ResultTable extends React.Component {
     }
   };
 
-  transactionRenderer = cell => {
+  observationRenderer = cell => {
     if (Array.isArray(cell)) {
       cell = orderBy(cell, 'date');
       const items = cell.map((item, i) => {
@@ -179,6 +181,9 @@ class ResultTable extends React.Component {
   };
 
   ownerRenderer = cell => {
+    if (cell == null || cell === '-'){
+      return '-';
+    }
     if (Array.isArray(cell)) {
       cell.map(item => {
         Array.isArray(item.order) ? item.earliestOrder = item.order[0] : item.earliestOrder = item.order;
@@ -257,7 +262,7 @@ class ResultTable extends React.Component {
                           {this.stringListRenderer(row.material)}
                         </TableCell>*/}
                     <TableCell className={classes.withFilter}>
-                      {this.transactionRenderer(row.acquisition)}
+                      {this.observationRenderer(row.observation)}
                     </TableCell>
                     <TableCell className={classes.withFilter}>
                       {this.ownerRenderer(row.owner)}

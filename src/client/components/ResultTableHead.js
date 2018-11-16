@@ -59,9 +59,9 @@ const columns = [
   //   desc: 'Material description'
   // },
   {
-    label: 'Transaction',
-    property: 'acquisition',
-    desc: 'Transaction description'
+    label: 'Observation',
+    property: 'observation',
+    desc: 'Observation description'
   },
   {
     label: 'Owner',
