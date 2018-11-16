@@ -61,60 +61,53 @@ module.exports = {
         }
         FILTER(BOUND(?id))
         ?id skos:prefLabel ?prefLabel .
-        # ?id mmm-schema:entry ?entry .
-        OPTIONAL { ?id mmm-schema:manuscript_record ?manuscriptRecord . }
-        # OPTIONAL { ?id crm:P45_consists_of ?material . }
-        OPTIONAL {
+        ?id mmm-schema:data_provider_url ?sdbmLink .
+        {
           ?id crm:P51_has_former_or_current_owner ?owner__id .
           ?owner__id skos:prefLabel ?owner__prefLabel .
-          #OPTIONAL {
-          #  ?owner__id mmm-schema:person_place ?owner__place .
-          #  ?owner__place skos:prefLabel ?owner__placeLabel .
-          #}
-          ?reifi rdf:subject ?id ;
-            rdf:predicate crm:P51_has_former_or_current_owner ;
-            rdf:object ?owner__id ;
-            mmm-schema:entry ?owner__entry ;
-            mmm-schema:order ?order .
+          [] rdf:subject ?id ;
+             rdf:predicate crm:P51_has_former_or_current_owner ;
+             rdf:object ?owner__id ;
+             mmm-schema:order ?order .
           BIND(xsd:integer(?order) + 1 AS ?owner__order)
           BIND(REPLACE(STR(?owner__id), "http://ldf.fi/mmm/person/", "https://sdbm.library.upenn.edu/names/") AS ?owner__sdbmLink)
         }
-        ?expression_creation frbroo:R18_created ?id .
-        OPTIONAL {
+        UNION
+        {
+          ?expression_creation frbroo:R18_created ?id .
           ?expression_creation crm:P14_carried_out_by ?author__id .
           ?author__id skos:prefLabel ?author__prefLabel
           BIND(REPLACE(STR(?author__id), "http://ldf.fi/mmm/person/", "https://sdbm.library.upenn.edu/names/") AS ?author__sdbmLink)
         }
-        OPTIONAL {
-          ?expression_creation crm:P4_has_time_span ?timespan .
+        UNION
+        {
+          ?expression_creation frbroo:R18_created ?id .
+          ?expression_creation crm:P4_has_time-span ?timespan .
           ?timespan rdfs:label ?timespan__id .
           ?timespan crm:P79_beginning_is_qualified_by ?timespan__start .
           ?timespan crm:P80_end_is_qualified_by ?timespan__end .
           BIND (?timespan__id AS ?timespan__prefLabel)
         }
-        OPTIONAL {
+        UNION
+        {
+          ?expression_creation frbroo:R18_created ?id .
           ?expression_creation crm:P7_took_place_at ?creationPlace__id .
           ?creationPlace__id skos:prefLabel ?creationPlace__prefLabel .
           BIND(REPLACE(STR(?creationPlace__id), "http://ldf.fi/mmm/place/", "https://sdbm.library.upenn.edu/places/") AS ?creationPlace__sdbmLink)
         }
-        OPTIONAL {
+        UNION
+        {
           ?id crm:P128_carries ?expression .
           ?expression crm:P72_has_language ?language .
         }
-        OPTIONAL {
-          ?acquisition__id crm:P24_transferred_title_of ?id .
-          ?acquisition__id mmm-schema:catalog_title ?acquisition__prefLabel .
-          ?acquisition__id dc:source ?source .
-          OPTIONAL { ?acquisition__id mmm-schema:catalog_date ?acquisition__date . }
-          BIND(REPLACE(STR(?source), "http://ldf.fi/mmm/source/", "https://sdbm.library.upenn.edu/sources/") AS ?acquisition__sdbmLink)
-          #?acquisition__sdbmLink skos:prefLabel ?acquisition__prefLabel .
-          # OPTIONAL { ?acquisition__id crm:P23_transferred_title_from ?acquisition__seller . }
-          # OPTIONAL { ?acquisition__id crm:P22_transferred_title_to ?acquisition__buyer . }
-          # OPTIONAL { ?acquisition__id crm:P14_carried_out_by ?acquisition__selling_agent . }
-          # OPTIONAL { ?acquisition__id mmm-schema:catalog_title ?acquisition__prefLabel . }
-          #OPTIONAL { ?acquisition__id mmm-schema:catalog_location ?acquisition__location . }
-          #OPTIONAL { ?acquisition__id mmm-schema:catalog_date ?acquisition__date . }
-          #BIND(?acquisition__id AS ?acquisition__sdbmLink)
+        UNION
+        {
+          ?observation__id crm:P24_transferred_title_of|mmm-schema:observed_manuscript ?id .
+          ?observation__id skos:prefLabel ?observation__prefLabel .
+          OPTIONAL { ?observation__id crm:P4_has_time-span ?observation__date. }
+          OPTIONAL { ?observation__id crm:P7_took_place_at ?observation__place. }
+          #OPTIONAL { ?observation__id mmm-schema: ?observation__placeLiteral. }
+          OPTIONAL { ?observation__id  mmm-schema:data_provider_url ?observation__sdbmLink }
         }
       }
       `,
