@@ -222,19 +222,16 @@ module.exports = {
         ?from__id wgs84:lat ?from__lat ;
                   wgs84:long ?from__long .
         ?acquisition__id crm:P24_transferred_title_of ?manuscript__id .
-        ?acquisition__id mmm-schema:catalog_title ?acquisition__prefLabel .
-        ?acquisition__id dc:source ?source .
-        ?acquisition__id mmm-schema:catalog_date ?acquisition__date .
-        ?acquisition__id crm:P14_carried_out_by ?acquisition__selling_agent .
-        BIND(REPLACE(STR(?source), "http://ldf.fi/mmm/source/", "https://sdbm.library.upenn.edu/sources/") AS ?acquisition__sdbmLink)
-        ?acquisition__selling_agent mmm-schema:person_place ?to__id .
+        ?acquisition__id skos:prefLabel ?acquisition__prefLabel .
+        ?acquisition__id crm:P4_has_time-span ?acquisition__date .
+        ?acquisition__id crm:P7_took_place_at ?to__id .
         ?to__id skos:prefLabel ?to__name .
         ?to__id wgs84:lat ?to__lat ;
                 wgs84:long ?to__long .
         BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/mmm/place/", ""))) as ?id)
         FILTER NOT EXISTS {
           ?acquisition__id2 crm:P24_transferred_title_of ?manuscript__id .
-          ?acquisition__id2 mmm-schema:catalog_date ?acquisition__date2 .
+          ?acquisition__id2 crm:P4_has_time-span ?acquisition__date2 .
           filter (?acquisition__date2 > ?acquisition__date)
         }
       }
