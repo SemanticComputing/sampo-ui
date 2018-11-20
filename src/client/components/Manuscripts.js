@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import ViewTabs from './ViewTabs';
 import ResultTable from './ResultTable';
 import LeafletMap from './LeafletMap';
@@ -8,27 +8,31 @@ import Deck from './Deck';
 import Pie from './Pie';
 
 let Manuscripts = props => {
-  //path={props.match.url + '/table'}
+  //console.log(props.routeProps)
   return (
     <React.Fragment>
-      <ViewTabs pathname={props.pathname} />
+      <ViewTabs routeProps={props.routeProps} />
       <Switch>
         <Route
+          exact path='/manuscripts'
+          render={() => <Redirect to='manuscripts/table' />}
+        />
+        <Route
           path={'/manuscripts/table'}
-          render={() =>
-            <React.Fragment>
-              <ResultTable
-                rows={props.search.manuscripts}
-                facet={props.facet}
-                fetchManuscripts={props.fetchManuscripts}
-                fetchingManuscripts={props.search.fetchingManuscripts}
-                fetchFacet={props.fetchFacet}
-                fetchResults={props.fetchResults}
-                results={props.search.results}
-                updateFilter={props.updateFilter}
-                page={props.search.page}
-              />
-            </React.Fragment>
+          render={routeProps =>
+            <ResultTable
+              rows={props.search.manuscripts}
+              facet={props.facet}
+              fetchManuscripts={props.fetchManuscripts}
+              fetchingManuscripts={props.search.fetchingManuscripts}
+              fetchFacet={props.fetchFacet}
+              fetchResults={props.fetchResults}
+              results={props.search.results}
+              updateFilter={props.updateFilter}
+              page={props.search.page}
+              updatePage={props.updatePage}
+              routeProps={routeProps}
+            />
           }
         />
         <Route
@@ -75,8 +79,8 @@ Manuscripts.propTypes = {
   fetchFacet: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired,
-  pathname: PropTypes.string.isRequired
+  updatePage: PropTypes.func.isRequired,
+  routeProps: PropTypes.object.isRequired
 };
 
 export default Manuscripts;

@@ -79,8 +79,7 @@ class ResultTableHead extends React.Component {
   };
 
   handleChangePage = (event, page) => {
-    // console.log(page)
-    this.props.fetchManuscripts(page);
+    this.props.updatePage(page);
   };
 
   handleChangeRowsPerPage = event => {
@@ -155,7 +154,9 @@ ResultTableHead.propTypes = {
   updateFilter: PropTypes.func.isRequired,
   facet: PropTypes.object.isRequired,
   results: PropTypes.number.isRequired,
-  page: PropTypes.number.isRequired
+  page: PropTypes.number.isRequired,
+  updatePage: PropTypes.func.isRequired,
+  routeProps: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(ResultTableHead);

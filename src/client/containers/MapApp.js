@@ -18,6 +18,7 @@ import {
   fetchFacet,
   updateFilter,
   fetchResults,
+  updatePage,
 } from '../actions';
 
 const logoPadding = 50;
@@ -100,7 +101,7 @@ let MapApp = (props) => {
                 <Route exact path="/" component={Main} />
                 <Route
                   path="/manuscripts"
-                  render={() =>
+                  render={routeProps =>
                     <Manuscripts
                       facet={facet}
                       map={map}
@@ -111,8 +112,8 @@ let MapApp = (props) => {
                       fetchFacet={props.fetchFacet}
                       fetchResults={props.fetchResults}
                       updateFilter={props.updateFilter}
-                      match={props.match}
-                      pathname={props.pathname}
+                      updatePage={props.updatePage}
+                      routeProps={routeProps}
                     />}
                 />
               </Switch>
@@ -138,8 +139,6 @@ const mapStateToProps = (state) => {
     facet: state.facet,
     map: state.map,
     search: state.search,
-    pathname: state.router.location.pathname,
-    urlQueryString: state.router.location.search
     //browser: state.browser,
   };
 };
@@ -151,6 +150,7 @@ const mapDispatchToProps = ({
   fetchFacet,
   fetchResults,
   updateFilter,
+  updatePage,
 });
 
 MapApp.propTypes = {
@@ -167,8 +167,7 @@ MapApp.propTypes = {
   fetchFacet: PropTypes.func.isRequired,
   fetchResults: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired,
-  pathname: PropTypes.string.isRequired
+  updatePage: PropTypes.func.isRequired,
 };
 
 export default compose(

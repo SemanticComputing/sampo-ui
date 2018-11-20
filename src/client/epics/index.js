@@ -22,13 +22,15 @@ const apiUrl = (process.env.NODE_ENV === 'development')
   ? 'http://localhost:3001/'
   : 'http://test.ui.mappingmanuscriptmigrations.org/';
 
-const getManuscripts = action$ => action$.pipe(
+const getManuscripts = (action$, state$) => action$.pipe(
   ofType(FETCH_MANUSCRIPTS),
-  mergeMap(action => {
+  withLatestFrom(state$),
+  mergeMap(([, state]) => {
     const searchUrl = apiUrl + 'manuscripts';
-    const requestUrl = `${searchUrl}?page=${action.page}`;
+    console.log(state.search.page)
+    const requestUrl = `${searchUrl}?page=${state.search.page}`;
     return ajax.getJSON(requestUrl).pipe(
-      map(response => updateManuscripts({ manuscripts: response, page: action.page }))
+      map(response => updateManuscripts({ manuscripts: response }))
     );
   })
 );

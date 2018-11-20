@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 import ResultTableHead from './ResultTableHead';
 import { orderBy } from 'lodash';
+import { parse } from 'query-string';
 
 const styles = (theme) => ({
   tableContainer: {
@@ -55,24 +56,35 @@ const styles = (theme) => ({
 class ResultTable extends React.Component {
 
   componentDidMount = () => {
+    let page;
+    if (this.props.routeProps.location.search === '') {
+      page = this.props.page === -1 ? 0 : this.props.page;
+      this.props.routeProps.history.push({
+        pathname: '/manuscripts/table',
+        search: `?page=${page}`,
+      });
+    } else {
+      page = parseInt(parse(this.props.routeProps.location.search).page);
+    }
+    this.props.updatePage(page);
     this.props.fetchResults();
-    this.props.fetchManuscripts(0);
+    this.props.fetchManuscripts();
     this.props.fetchFacet();
   }
 
+  componentDidUpdate = prevProps => {
+    if (prevProps.page != this.props.page) {
+      this.props.routeProps.history.push({
+        pathname: '/manuscripts/table',
+        search: `?page=${this.props.page}`,
+      });
+      this.props.fetchManuscripts();
+    }
+  }
+
   idRenderer = (row) => {
-    // let sdbmLink = '';
-    // let id = row.id.replace('http://ldf.fi/mmm/manifestation_singleton/', '');
-    // id = id.replace('orphan_', '');
-    // id = id.replace('part_', '');
-    // if (has(row, 'manuscriptRecord') && row.manuscriptRecord !== '-') {
-    //   sdbmLink = row.manuscriptRecord;
-    // } else {
-    //   sdbmLink = 'https://sdbm.library.upenn.edu/entries/' + id;
-    // }
     const sdbmLink = row.sdbmLink;
     const id = sdbmLink.substring(sdbmLink.lastIndexOf('/') + 1);
-
     return (
       <div className={this.props.classes.tableColumn}>
         <a target='_blank' rel='noopener noreferrer' href={row.sdbmLink}>{id}</a>
@@ -235,6 +247,8 @@ class ResultTable extends React.Component {
               facet={this.props.facet}
               results={this.props.results}
               page={this.props.page}
+              updatePage={this.props.updatePage}
+              routeProps={this.props.routeProps}
             />
             <TableBody>
               {rows.map(row => {
@@ -288,7 +302,9 @@ ResultTable.propTypes = {
   results: PropTypes.number.isRequired,
   fetchResults: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
-  page: PropTypes.number.isRequired
+  page: PropTypes.number.isRequired,
+  updatePage: PropTypes.func.isRequired,
+  routeProps: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(ResultTable);

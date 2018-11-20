@@ -46,7 +46,7 @@ const styles = theme => ({
 let Main = props => {
   const { classes } = props;
 
-  const ManuscriptLink = props => <NavLink to="/manuscripts/table" {...props}/>;
+  const ManuscriptLink = props => <NavLink to="/manuscripts" {...props}/>;
 
   return (
     <div className={classes.root}>

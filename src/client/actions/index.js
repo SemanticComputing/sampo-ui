@@ -19,6 +19,8 @@ export const UPDATE_MANUSCRIPTS = 'UPDATE_MANUSCRIPTS';
 export const CLEAR_MANUSCRIPTS = 'CLEAR_MANUSCRIPTS';
 export const FETCH_MANUSCRIPTS_FAILED = 'FETCH_MANUSCRIPTS_FAILED';
 
+export const UPDATE_PAGE = 'UPDATE_PAGE';
+
 export const FETCH_PLACES = 'FETCH_PLACES';
 export const UPDATE_PLACES = 'UPDATE_PLACES';
 export const CLEAR_PLACES = 'CLEAR_PLACES';
@@ -102,13 +104,12 @@ export const fetchResultsFailed = (error) => ({
 });
 
 // Manuscripts
-export const fetchManuscripts = (page) => ({
+export const fetchManuscripts = () => ({
   type: FETCH_MANUSCRIPTS,
-  page
 });
-export const updateManuscripts = ({ manuscripts, page }) => ({
+export const updateManuscripts = ({ manuscripts }) => ({
   type: UPDATE_MANUSCRIPTS,
-  manuscripts, page
+  manuscripts
 });
 export const clearManuscripts = () => ({
   type: CLEAR_MANUSCRIPTS,
@@ -116,6 +117,11 @@ export const clearManuscripts = () => ({
 export const fetchManuscriptsFailed = (error) => ({
   type: FETCH_MANUSCRIPTS_FAILED,
   error
+});
+
+export const updatePage = page => ({
+  type: UPDATE_PAGE,
+  page
 });
 
 // Places

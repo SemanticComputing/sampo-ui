@@ -15,6 +15,7 @@ import {
   CLEAR_PLACES,
   UPDATE_PLACE,
   SORT_RESULTS,
+  UPDATE_PAGE,
 } from '../actions';
 
 export const INITIAL_STATE = {
@@ -39,7 +40,7 @@ export const INITIAL_STATE = {
   results: 0,
   fetchingResults: false,
   manuscripts: [],
-  page: 0,
+  page: -1,
   places: [],
   place: {},
   sortBy: 'author',
@@ -94,8 +95,12 @@ const search = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         manuscripts: action.manuscripts,
-        page: action.page,
         fetchingManuscripts: false
+      };
+    case UPDATE_PAGE:
+      return {
+        ...state,
+        page: action.page
       };
     case UPDATE_RESULTS:
       return {

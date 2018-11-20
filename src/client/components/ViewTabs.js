@@ -10,7 +10,6 @@ import RedoIcon from '@material-ui/icons/Redo';
 import PieChartIcon from '@material-ui/icons/PieChart';
 import { Link } from 'react-router-dom';
 
-
 const styles = {
   root: {
     width: 'calc(100% - 8px)',
@@ -23,8 +22,21 @@ const styles = {
 class ViewTabs extends React.Component {
   constructor(props) {
     super(props);
-    let value = 0;
-    switch (this.props.pathname) {
+    let value = this.pathnameToValue(this.props.routeProps.location.pathname);
+    this.state = { value };
+  }
+
+  componentDidUpdate = prevProps => {
+    const newPath = this.props.routeProps.location.pathname;
+    const oldPath = prevProps.routeProps.location.pathname;
+    if (newPath != oldPath) {
+      this.setState({ value: this.pathnameToValue(newPath) });
+    }
+  }
+
+  pathnameToValue = pathname => {
+    let value;
+    switch (pathname) {
       case '/manuscripts/creation_places':
         value = 1;
         break;
@@ -37,7 +49,7 @@ class ViewTabs extends React.Component {
       default:
         value = 0;
     }
-    this.state = { value };
+    return value;
   }
 
   handleChange = (event, value) => {
@@ -46,8 +58,6 @@ class ViewTabs extends React.Component {
 
   render() {
     const { classes } = this.props;
-
-
     return (
       <Paper square className={classes.root}>
         <Tabs
@@ -57,7 +67,7 @@ class ViewTabs extends React.Component {
           indicatorColor="secondary"
           textColor="secondary"
         >
-          <Tab icon={<CalendarViewDayIcon />} label="table" component={Link} to="/manuscripts/table" />
+          <Tab icon={<CalendarViewDayIcon />} label="table" component={Link} to="/manuscripts" />
           <Tab icon={<AddLocationIcon />} label="creation places" component={Link} to="/manuscripts/creation_places" />
           <Tab icon={<RedoIcon />} label="migrations" component={Link} to="/manuscripts/migrations" />
           <Tab icon={<PieChartIcon />} label="statistics" component={Link} to="/manuscripts/statistics"/>
@@ -69,7 +79,7 @@ class ViewTabs extends React.Component {
 
 ViewTabs.propTypes = {
   classes: PropTypes.object.isRequired,
-  pathname: PropTypes.string.isRequired
+  routeProps: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(ViewTabs);
