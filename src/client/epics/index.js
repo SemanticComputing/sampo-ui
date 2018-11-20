@@ -2,6 +2,7 @@
 import { ajax } from 'rxjs/ajax';
 import { mergeMap, map, withLatestFrom } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
+import { stringify } from 'query-string';
 import {
   updateManuscripts,
   updatePlaces,
@@ -26,9 +27,22 @@ const getManuscripts = (action$, state$) => action$.pipe(
   ofType(FETCH_MANUSCRIPTS),
   withLatestFrom(state$),
   mergeMap(([, state]) => {
+    let params = { page: state.search.page };
+    let filters = {};
+    //console.log(state.facet.facetFilters)
+    let activeFilters = false;
+    for (const [key, value] of Object.entries(state.facet.facetFilters)) {
+      if (value.size != 0) {
+        activeFilters = true;
+        filters[key] = Array.from(value);
+      }
+    }
+    if (activeFilters) {
+      params.filters = JSON.stringify(filters);
+    }
+    //console.log(params)
     const searchUrl = apiUrl + 'manuscripts';
-    console.log(state.search.page)
-    const requestUrl = `${searchUrl}?page=${state.search.page}`;
+    const requestUrl = `${searchUrl}?${stringify(params)}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateManuscripts({ manuscripts: response }))
     );
@@ -61,10 +75,8 @@ const getFacet = (action$, state$) => action$.pipe(
   ofType(FETCH_FACET),
   withLatestFrom(state$),
   mergeMap(([, state]) => {
-    const requestUrl = `${apiUrl}facet`;
-    //console.log(state.facet)
-    //const facetFilters = state$.getState().facet.facetFilters;
-    //let str = Object.entries(facetFilters).map(([key, set]) => `${key}=${Array.from(set)}`).join('&');
+    const filterStr = stringify(state.facet.facetFilters);
+    const requestUrl = `${apiUrl}facet?filters=${filterStr}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateFacet({ facetValues: response }))
     );

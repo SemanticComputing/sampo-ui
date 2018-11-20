@@ -80,6 +80,15 @@ class ResultTable extends React.Component {
       });
       this.props.fetchManuscripts();
     }
+    if (prevProps.facet.facetFilters != this.props.facet.facetFilters) {
+      // this.props.routeProps.history.push({
+      //   pathname: '/manuscripts/table',
+      //   search: `?page=${this.props.page}`,
+      // });
+      this.props.fetchManuscripts();
+    }
+
+
   }
 
   idRenderer = (row) => {

@@ -39,8 +39,9 @@ const filterObj = {};
 
 app.get('/manuscripts', (req, res) => {
   const page = parseInt(req.query.page) || 0;
-  //console.log(page)
-  return getManuscripts(page, filterObj).then((data) => {
+  const filters = req.query.filters == null ? {} : JSON.parse(req.query.filters);
+  // console.log(filters)
+  return getManuscripts(page, filters).then((data) => {
     // console.log(data);
     res.json(data);
   })

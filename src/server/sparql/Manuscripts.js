@@ -43,12 +43,18 @@ export const getFacet = () => {
   return sparqlSearchEngine.doSearch(facetQuery, endpoint, mapFacet);
 };
 
-const generateFilter = (filterObj) => {
+const generateFilter = filterObj => {
+  if (Object.keys(filterObj).length === 0 && filterObj.constructor === Object) {
+    return '';
+  }
+  filterObj.creationPlace.predicate = '^<http://erlangen-crm.org/efrbroo/R18_created>/<http://www.cidoc-crm.org/cidoc-crm/P7_took_place_at>';
   let filterStr = '';
+
   for (let property in filterObj) {
+    //console.log(filterObj[property])
     filterStr += `
             ?id ${filterObj[property].predicate} ?${property}Filter
-            VALUES ?${property}Filter { ${filterObj[property].values.join(' ')} }
+            VALUES ?${property}Filter { <${filterObj[property].join('> <')}> }
       `;
   }
   return filterStr;
