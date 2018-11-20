@@ -55,10 +55,12 @@ const getPlace = action$ => action$.pipe(
   })
 );
 
-const getFacet = action$ => action$.pipe(
+const getFacet = (action$, state$) => action$.pipe(
   ofType(FETCH_FACET),
-  mergeMap(() => {
+  withLatestFrom(state$),
+  mergeMap(([, state]) => {
     const requestUrl = `${apiUrl}facet`;
+    //console.log(state.facet)
     //const facetFilters = state$.getState().facet.facetFilters;
     //let str = Object.entries(facetFilters).map(([key, set]) => `${key}=${Array.from(set)}`).join('&');
     return ajax.getJSON(requestUrl).pipe(

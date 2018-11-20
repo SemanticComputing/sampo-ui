@@ -87,7 +87,7 @@
     "react-virtualized": "^9.21.0",
     "recompose": "^0.28.2",
     "redux": "^4.0.1",
-    "redux-observable": "^0.18.0",
+    "redux-observable": "^1.0.0",
     "redux-responsive": "^4.3.8",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",

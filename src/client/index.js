@@ -17,17 +17,20 @@ import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import 'react-virtualized/styles.css';
 
 const history = createBrowserHistory();
+const epicMiddleware = createEpicMiddleware();
 
 const store = createStore(
   createRootReducer(history), // root reducer with router state
   compose(
     responsiveStoreEnhancer,
     applyMiddleware(
-      createEpicMiddleware(rootEpic),
+      epicMiddleware,
       routerMiddleware(history)
     )
   )
 );
+
+epicMiddleware.run(rootEpic);
 
 bindActionCreators(toastrActions, store.dispatch);
 
