@@ -12,11 +12,14 @@ const sparqlSearchEngine = new SparqlSearchEngine();
 export const getManuscripts = (page, filterObj) => {
   let { endpoint, manuscriptQuery } = datasetConfig['mmm'];
   const pageSize = 5;
-  manuscriptQuery = manuscriptQuery.replace('<FILTER>', generateFilter(filterObj));
+  if (filterObj == null) {
+    manuscriptQuery = manuscriptQuery.replace('<FILTER>', '');
+  } else {
+    manuscriptQuery = manuscriptQuery.replace('<FILTER>', generateFilter(filterObj));
+  }
   manuscriptQuery = manuscriptQuery.replace('<PAGE>', `LIMIT ${pageSize} OFFSET ${page * pageSize}`);
   // console.log(manuscriptQuery)
   return sparqlSearchEngine.doSearch(manuscriptQuery, endpoint, makeObjectList);
-  //return sparqlSearchEngine.doSearch(manuscriptQuery, endpoint, mapManuscripts);
 };
 
 export const getManuscriptCount = (filterObj) => {
@@ -44,16 +47,24 @@ export const getFacet = () => {
 };
 
 const generateFilter = filterObj => {
-  if (Object.keys(filterObj).length === 0 && filterObj.constructor === Object) {
-    return '';
-  }
-  filterObj.creationPlace.predicate = '^<http://erlangen-crm.org/efrbroo/R18_created>/<http://www.cidoc-crm.org/cidoc-crm/P7_took_place_at>';
+  const facetOptions = {
+    creationPlace: {
+      predicate: '^frbroo:R18_created/crm:P7_took_place_at',
+      hierarchical: true,
+    },
+    author: {
+      hierarchical: false,
+      predicate: '^frbroo:R18_created/crm:P14_carried_out_by',
+    }
+  };
+
+  //filterObj.creationPlace.predicate = '^<http://erlangen-crm.org/efrbroo/R18_created>/<http://www.cidoc-crm.org/cidoc-crm/P7_took_place_at>';
   let filterStr = '';
 
   for (let property in filterObj) {
     //console.log(filterObj[property])
     filterStr += `
-            ?id ${filterObj[property].predicate} ?${property}Filter
+            ?id ${facetOptions[property].predicate} ?${property}Filter
             VALUES ?${property}Filter { <${filterObj[property].join('> <')}> }
       `;
   }

@@ -25,21 +25,9 @@ app.use(function(req, res, next) {
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, './../public/')));
 
-// const filterObj = {
-//   creationPlace: {
-//     predicate: '^<http://erlangen-crm.org/efrbroo/R18_created>/<http://www.cidoc-crm.org/cidoc-crm/P7_took_place_at>',
-//     values: ['<http://ldf.fi/mmm/place/7>', '<http://ldf.fi/mmm/place/5>']
-//   },
-//   author: {
-//     predicate: '^<http://erlangen-crm.org/efrbroo/R18_created>/<http://www.cidoc-crm.org/cidoc-crm/P14_carried_out_by>',
-//     values: ['<http://ldf.fi/mmm/person/84>', '<http://ldf.fi/mmm/person/894>']
-//   }
-// };
-const filterObj = {};
-
 app.get('/manuscripts', (req, res) => {
   const page = parseInt(req.query.page) || 0;
-  const filters = req.query.filters == null ? {} : JSON.parse(req.query.filters);
+  const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
   // console.log(filters)
   return getManuscripts(page, filters).then((data) => {
     // console.log(data);
@@ -52,7 +40,7 @@ app.get('/manuscripts', (req, res) => {
 });
 
 app.get('/manuscript-count', (req, res) => {
-  return getManuscriptCount(filterObj).then((data) => {
+  return getManuscriptCount({}).then((data) => {
     // console.log(data);
     res.json(data);
   })

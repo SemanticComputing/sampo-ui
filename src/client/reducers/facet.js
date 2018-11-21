@@ -7,10 +7,12 @@ import {
 export const INITIAL_STATE = {
   facetOptions : {
     creationPlace: {
+      predicate: '^frbroo:R18_created/crm:P7_took_place_at',
       hierarchical: true,
     },
     author: {
       hierarchical: false,
+      predicate: '^frbroo:R18_created/crm:P14_carried_out_by',
     }
   },
   facetValues : {
