@@ -67,7 +67,6 @@ class ResultTable extends React.Component {
       page = parseInt(parse(this.props.routeProps.location.search).page);
     }
     this.props.updatePage(page);
-    this.props.fetchResults();
     this.props.fetchManuscripts();
     this.props.fetchFacet();
   }
@@ -254,7 +253,7 @@ class ResultTable extends React.Component {
               fetchManuscripts={this.props.fetchManuscripts}
               updateFilter={this.props.updateFilter}
               facet={this.props.facet}
-              results={this.props.results}
+              resultCount={this.props.resultCount}
               page={this.props.page}
               updatePage={this.props.updatePage}
               routeProps={this.props.routeProps}
@@ -308,8 +307,7 @@ ResultTable.propTypes = {
   fetchManuscripts: PropTypes.func.isRequired,
   fetchingManuscripts: PropTypes.bool.isRequired,
   facet: PropTypes.object.isRequired,
-  results: PropTypes.number.isRequired,
-  fetchResults: PropTypes.func.isRequired,
+  resultCount: PropTypes.number.isRequired,
   updateFilter: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   updatePage: PropTypes.func.isRequired,

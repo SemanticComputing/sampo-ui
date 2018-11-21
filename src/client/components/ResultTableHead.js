@@ -104,7 +104,7 @@ class ResultTableHead extends React.Component {
   // </TableSortLabel>
 
   render() {
-    const { classes, page, results } = this.props;
+    const { classes, page, resultCount } = this.props;
     const { rowsPerPage } = this.state;
     //order, orderBy
 
@@ -112,7 +112,7 @@ class ResultTableHead extends React.Component {
       <TableHead>
         <TableRow className={classes.paginationRow}>
           <TablePagination
-            count={results}
+            count={resultCount}
             rowsPerPage={rowsPerPage}
             rowsPerPageOptions={[5]}
             page={page}
@@ -153,7 +153,7 @@ ResultTableHead.propTypes = {
   fetchManuscripts: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
   facet: PropTypes.object.isRequired,
-  results: PropTypes.number.isRequired,
+  resultCount: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
   updatePage: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired

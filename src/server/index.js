@@ -4,7 +4,6 @@ import bodyParser from 'body-parser';
 import request from 'superagent';
 import {
   getManuscripts,
-  getManuscriptCount,
   getPlaces,
   getPlace,
   getFacet
@@ -28,8 +27,9 @@ app.use(express.static(path.join(__dirname, './../public/')));
 app.get('/manuscripts', (req, res) => {
   const page = parseInt(req.query.page) || 0;
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
+  const pagesize = 5;
   // console.log(filters)
-  return getManuscripts(page, filters).then((data) => {
+  return getManuscripts(page, pagesize, filters).then(data => {
     // console.log(data);
     res.json(data);
   })
@@ -39,16 +39,16 @@ app.get('/manuscripts', (req, res) => {
     });
 });
 
-app.get('/manuscript-count', (req, res) => {
-  return getManuscriptCount({}).then((data) => {
-    // console.log(data);
-    res.json(data);
-  })
-    .catch((err) => {
-      console.log(err);
-      return res.sendStatus(500);
-    });
-});
+// app.get('/manuscript-count', (req, res) => {
+//   return getManuscriptCount({}).then((data) => {
+//     // console.log(data);
+//     res.json(data);
+//   })
+//     .catch((err) => {
+//       console.log(err);
+//       return res.sendStatus(500);
+//     });
+// });
 
 app.get('/places/:placeId?', (req, res) => {
   if (req.params.placeId) {

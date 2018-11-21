@@ -4,8 +4,6 @@ import {
   FETCH_SUGGESTIONS,
   UPDATE_SUGGESTIONS,
   CLEAR_SUGGESTIONS,
-  FETCH_RESULTS,
-  UPDATE_RESULTS,
   FETCH_MANUSCRIPTS,
   FETCH_PLACES,
   FETCH_PLACE,
@@ -14,7 +12,6 @@ import {
   UPDATE_PLACES,
   CLEAR_PLACES,
   UPDATE_PLACE,
-  SORT_RESULTS,
   UPDATE_PAGE,
 } from '../actions';
 
@@ -37,8 +34,8 @@ export const INITIAL_STATE = {
   suggestions: [],
   suggestionsQuery: '',
   fetchingSuggestions: false,
-  results: 0,
   fetchingResults: false,
+  manuscriptCount: 0,
   manuscripts: [],
   page: -1,
   places: [],
@@ -75,8 +72,6 @@ const search = (state = INITIAL_STATE, action) => {
       return { ...state, fetchingPlaces: true };
     case FETCH_PLACE:
       return { ...state, fetchingPlaces: true };
-    case FETCH_RESULTS:
-      return { ...state, fetchResults: true };
     case CLEAR_SUGGESTIONS:
       return {
         ...state,
@@ -94,19 +89,14 @@ const search = (state = INITIAL_STATE, action) => {
     case UPDATE_MANUSCRIPTS:
       return {
         ...state,
-        manuscripts: action.manuscripts,
+        manuscriptCount: parseInt(action.data.manuscriptCount),
+        manuscripts: action.data.manuscriptData,
         fetchingManuscripts: false
       };
     case UPDATE_PAGE:
       return {
         ...state,
         page: action.page
-      };
-    case UPDATE_RESULTS:
-      return {
-        ...state,
-        results: parseInt(action.results.count),
-        fetchingResults: false
       };
     case UPDATE_PLACES:
       return {
@@ -131,12 +121,6 @@ const search = (state = INITIAL_STATE, action) => {
         ...state,
         'places': {},
         fetchingPlaces: false
-      };
-    case SORT_RESULTS:
-      return {
-        ...state,
-        sortBy: action.options.sortBy,
-        sortDirection: action.options.sortDirection,
       };
     default:
       return state;

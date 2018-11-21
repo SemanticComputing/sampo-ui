@@ -8,15 +8,10 @@ import {
   updatePlaces,
   updatePlace,
   updateFacet,
-  updateResults,
   FETCH_FACET,
-  //FETCH_FACET_FAILED,
   FETCH_MANUSCRIPTS,
-  //FETCH_MANUSCRIPTS_FAILED,
   FETCH_PLACES,
   FETCH_PLACE,
-  FETCH_RESULTS
-  //FETCH_PLACES_FAILED,
 } from '../actions';
 
 const apiUrl = (process.env.NODE_ENV === 'development')
@@ -29,7 +24,6 @@ const getManuscripts = (action$, state$) => action$.pipe(
   mergeMap(([, state]) => {
     let params = { page: state.search.page };
     let filters = {};
-    //console.log(state.facet.facetFilters)
     let activeFilters = false;
     for (const [key, value] of Object.entries(state.facet.facetFilters)) {
       if (value.size != 0) {
@@ -40,11 +34,10 @@ const getManuscripts = (action$, state$) => action$.pipe(
     if (activeFilters) {
       params.filters = JSON.stringify(filters);
     }
-    //console.log(params)
     const searchUrl = apiUrl + 'manuscripts';
     const requestUrl = `${searchUrl}?${stringify(params)}`;
     return ajax.getJSON(requestUrl).pipe(
-      map(response => updateManuscripts({ manuscripts: response }))
+      map(data => updateManuscripts({ data }))
     );
   })
 );
@@ -83,23 +76,11 @@ const getFacet = (action$, state$) => action$.pipe(
   })
 );
 
-const getResultCount = action$ => action$.pipe(
-  ofType(FETCH_RESULTS),
-  mergeMap(() => {
-    const searchUrl = apiUrl + 'manuscript-count';
-    const requestUrl = `${searchUrl}`;
-    return ajax.getJSON(requestUrl).pipe(
-      map(response => updateResults({ results: response }))
-    );
-  })
-);
-
 const rootEpic = combineEpics(
   getManuscripts,
   getPlaces,
   getPlace,
   getFacet,
-  getResultCount,
 );
 
 export default rootEpic;

@@ -26,8 +26,7 @@ let Manuscripts = props => {
               fetchManuscripts={props.fetchManuscripts}
               fetchingManuscripts={props.search.fetchingManuscripts}
               fetchFacet={props.fetchFacet}
-              fetchResults={props.fetchResults}
-              results={props.search.results}
+              resultCount={props.search.manuscriptCount}
               updateFilter={props.updateFilter}
               page={props.search.page}
               updatePage={props.updatePage}

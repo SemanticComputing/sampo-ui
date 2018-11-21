@@ -9,20 +9,34 @@ import { makeObjectList } from './SparqlObjectMapper';
 
 const sparqlSearchEngine = new SparqlSearchEngine();
 
-export const getManuscripts = (page, filterObj) => {
+
+export const getManuscripts = (page, pagesize, filterObj) => {
+  return Promise.all([
+    getManuscriptCount(filterObj),
+    getManuscriptData(page, pagesize, filterObj),
+  ]).then(data => {
+    return {
+      manuscriptCount: data[0].count,
+      pagesize: pagesize,
+      page: page,
+      manuscriptData: data[1]
+    };
+  });
+};
+
+const getManuscriptData = (page, pagesize, filterObj) => {
   let { endpoint, manuscriptQuery } = datasetConfig['mmm'];
-  const pageSize = 5;
   if (filterObj == null) {
     manuscriptQuery = manuscriptQuery.replace('<FILTER>', '');
   } else {
     manuscriptQuery = manuscriptQuery.replace('<FILTER>', generateFilter(filterObj));
   }
-  manuscriptQuery = manuscriptQuery.replace('<PAGE>', `LIMIT ${pageSize} OFFSET ${page * pageSize}`);
+  manuscriptQuery = manuscriptQuery.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`);
   // console.log(manuscriptQuery)
   return sparqlSearchEngine.doSearch(manuscriptQuery, endpoint, makeObjectList);
 };
 
-export const getManuscriptCount = (filterObj) => {
+const getManuscriptCount = filterObj => {
   let { endpoint, countQuery } = datasetConfig['mmm'];
   countQuery = countQuery.replace('<FILTER>', generateFilter(filterObj));
   return sparqlSearchEngine.doSearch(countQuery, endpoint, mapCount);
