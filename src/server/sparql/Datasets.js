@@ -14,8 +14,8 @@ module.exports = {
     'title': 'MMM',
     'shortTitle': 'MMM',
     'timePeriod': '',
-    'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
-    //'endpoint': 'http://localhost:3050/ds/sparql',
+    //'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
+    'endpoint': 'http://localhost:3050/ds/sparql',
     'countQuery': `
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -61,7 +61,7 @@ module.exports = {
         }
         FILTER(BOUND(?id))
         ?id skos:prefLabel ?prefLabel .
-        ?id mmm-schema:data_provider_url ?sdbmLink .
+        ?id mmm-schema:data_provider_url ?dataProviderUrl .
         {
           ?id crm:P51_has_former_or_current_owner ?owner__id .
           ?owner__id skos:prefLabel ?owner__prefLabel .
@@ -70,14 +70,14 @@ module.exports = {
              rdf:object ?owner__id ;
              mmm-schema:order ?order .
           BIND(xsd:integer(?order) + 1 AS ?owner__order)
-          BIND(REPLACE(STR(?owner__id), "http://ldf.fi/mmm/person/", "https://sdbm.library.upenn.edu/names/") AS ?owner__sdbmLink)
+          BIND(REPLACE(STR(?owner__id), "http://ldf.fi/mmm/actor/", "https://sdbm.library.upenn.edu/names/") AS ?owner__sdbmLink)
         }
         UNION
         {
           ?expression_creation frbroo:R18_created ?id .
-          ?expression_creation crm:P14_carried_out_by ?author__id .
+          ?expression_creation mmm-schema:carried_out_by_as_author ?author__id .
           ?author__id skos:prefLabel ?author__prefLabel
-          BIND(REPLACE(STR(?author__id), "http://ldf.fi/mmm/person/", "https://sdbm.library.upenn.edu/names/") AS ?author__sdbmLink)
+          BIND(REPLACE(STR(?author__id), "http://ldf.fi/mmm/actor/", "https://sdbm.library.upenn.edu/names/") AS ?author__sdbmLink)
         }
         UNION
         {
@@ -102,12 +102,14 @@ module.exports = {
         }
         UNION
         {
-          ?observation__id crm:P24_transferred_title_of|mmm-schema:observed_manuscript ?id .
-          ?observation__id skos:prefLabel ?observation__prefLabel .
-          OPTIONAL { ?observation__id crm:P4_has_time-span ?observation__date. }
-          OPTIONAL { ?observation__id crm:P7_took_place_at ?observation__place. }
+          ?event__id crm:P24_transferred_title_of|mmm-schema:observed_manuscript ?id .
+          ?event__id a ?event__type .
+          OPTIONAL { ?event__id skos:prefLabel ?event__prefLabel . }
+          #BIND(COALESCE(?observation_prefLabel, STR(?observation__id)) as ?observation__prefLabel)
+          OPTIONAL { ?event__id crm:P4_has_time-span|mmm-schema:observed_time-span ?event__date. }
+          OPTIONAL { ?event__id crm:P7_took_place_at ?event__place. }
           #OPTIONAL { ?observation__id mmm-schema: ?observation__placeLiteral. }
-          OPTIONAL { ?observation__id  mmm-schema:data_provider_url ?observation__sdbmLink }
+          OPTIONAL { ?event__id  mmm-schema:data_provider_url ?event__dataProviderUrl }
         }
       }
       `,

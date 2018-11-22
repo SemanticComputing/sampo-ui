@@ -90,17 +90,19 @@ class ResultTable extends React.Component {
 
   }
 
-  idRenderer = (row) => {
-    const sdbmLink = row.sdbmLink;
-    const id = sdbmLink.substring(sdbmLink.lastIndexOf('/') + 1);
+  idRenderer = id => {
+    const plainId = id.substring(id.lastIndexOf('/') + 1);
     return (
       <div className={this.props.classes.tableColumn}>
-        <a target='_blank' rel='noopener noreferrer' href={row.sdbmLink}>{id}</a>
+        <a target='_blank' rel='noopener noreferrer' href={id}>{plainId}</a>
       </div>
     );
   };
 
-  stringListRenderer = (cell) => {
+  stringListRenderer = cell => {
+    if (cell == null || cell === '-'){
+      return '-';
+    }
     if (Array.isArray(cell)) {
       cell = cell.sort();
       return (
@@ -161,19 +163,25 @@ class ResultTable extends React.Component {
     }
   };
 
-  observationRenderer = cell => {
+  eventRenderer = cell => {
     if (Array.isArray(cell)) {
       cell = orderBy(cell, 'date');
       const items = cell.map((item, i) => {
+        let eventType;
+        if (item.type === 'http://www.cidoc-crm.org/cidoc-crm/E8_Acquisition') {
+          eventType = 'Acquisition';
+        } else {
+          eventType = 'Observation';
+        }
         return (
           <li key={i}>
             {item.date}
             {' '}
             <a
               target='_blank' rel='noopener noreferrer'
-              href={item.sdbmLink}
+              href={item.dataProviderUrl}
             >
-              {item.prefLabel}
+              {eventType}
             </a>
           </li>
         );
@@ -184,15 +192,21 @@ class ResultTable extends React.Component {
         </ul>
       );
     } else {
+      let eventType;
+      if (cell.type === 'http://www.cidoc-crm.org/cidoc-crm/E8_Acquisition') {
+        eventType = 'Acquisition';
+      } else {
+        eventType = 'Observation';
+      }
       return (
         <span>
           {cell.date}
           {' '}
           <a
             target='_blank' rel='noopener noreferrer'
-            href={cell.sdbmLink}
+            href={cell.dataProviderUrl}
           >
-            {cell.prefLabel}
+            {eventType}
           </a>
         </span>
 
@@ -237,6 +251,7 @@ class ResultTable extends React.Component {
 
   render() {
     const { classes, rows } = this.props;
+    // console.log(rows)
     if (this.props.fetchingManuscripts   ) {
       return (
         <Paper className={classes.progressContainer}>
@@ -263,7 +278,7 @@ class ResultTable extends React.Component {
                 return (
                   <TableRow key={row.id}>
                     <TableCell component="th" scope="row" >
-                      {this.idRenderer(row)}
+                      {this.idRenderer(row.dataProviderUrl)}
                     </TableCell>
                     <TableCell className={classes.withFilter} >
                       {this.stringListRenderer(row.prefLabel)}
@@ -284,7 +299,7 @@ class ResultTable extends React.Component {
                           {this.stringListRenderer(row.material)}
                         </TableCell>*/}
                     <TableCell className={classes.withFilter}>
-                      {this.observationRenderer(row.observation)}
+                      {this.eventRenderer(row.event)}
                     </TableCell>
                     <TableCell className={classes.withFilter}>
                       {this.ownerRenderer(row.owner)}
