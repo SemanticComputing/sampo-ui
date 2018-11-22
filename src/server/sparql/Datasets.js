@@ -83,7 +83,7 @@ module.exports = {
         {
           ?expression_creation frbroo:R18_created ?id .
           ?expression_creation crm:P4_has_time-span ?timespan .
-          ?timespan rdfs:label ?timespan__id .
+          ?timespan skos:prefLabel ?timespan__id .
           ?timespan crm:P79_beginning_is_qualified_by ?timespan__start .
           ?timespan crm:P80_end_is_qualified_by ?timespan__end .
           BIND (?timespan__id AS ?timespan__prefLabel)
