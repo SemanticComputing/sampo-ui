@@ -150,13 +150,14 @@ class Deck extends React.Component {
        <CardContent>
          <Typography variant="h6" gutterBottom>Arc colouring:</Typography>
          <Typography className={this.props.classes.blue} variant="body2" gutterBottom>Creation place</Typography>
+         <br />
          <Typography variant="body2" gutterBottom>
            <span className={this.props.classes.red}>
             Most recently observed location
            </span><br />
            calculated as: <br />
-           Most recent transaction <br />
-          -&gt; Selling agent <br />
+          Most recent acquisition/observation <br />
+          -&gt; Source agent <br />
           -&gt; Place
          </Typography>
        </CardContent>

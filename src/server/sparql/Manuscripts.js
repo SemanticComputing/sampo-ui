@@ -45,7 +45,9 @@ const getManuscriptCount = filterObj => {
 export const getPlaces = variant => {
   // console.log(variant)
   const config = datasetConfig['mmm'];
-  return sparqlSearchEngine.doSearch(config[`${variant}Query`], config.endpoint, makeObjectList);
+  const query = config[`${variant}Query`];
+  // console.log(query) 
+  return sparqlSearchEngine.doSearch(query, config.endpoint, makeObjectList);
 };
 
 export const getPlace = (id) => {
