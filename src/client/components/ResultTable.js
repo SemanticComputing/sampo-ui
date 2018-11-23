@@ -51,6 +51,9 @@ const styles = (theme) => ({
   progressTitle: {
     marginRight: 15
   },
+  noDate: {
+    marginRight: 20
+  }
 });
 
 class ResultTable extends React.Component {
@@ -167,21 +170,15 @@ class ResultTable extends React.Component {
     if (Array.isArray(cell)) {
       cell = orderBy(cell, 'date');
       const items = cell.map((item, i) => {
-        let eventType;
-        if (item.type === 'http://www.cidoc-crm.org/cidoc-crm/E8_Acquisition') {
-          eventType = 'Acquisition';
-        } else {
-          eventType = 'Observation';
-        }
         return (
           <li key={i}>
-            {item.date}
+            {item.date == null ? <span className={this.props.classes.noDate}>No date</span> : item.date}
             {' '}
             <a
               target='_blank' rel='noopener noreferrer'
               href={item.dataProviderUrl}
             >
-              {eventType}
+              {item.type === 'http://www.cidoc-crm.org/cidoc-crm/E8_Acquisition' ? 'Acquisition' : 'Observation'}
             </a>
           </li>
         );
@@ -301,9 +298,9 @@ class ResultTable extends React.Component {
                     <TableCell className={classes.withFilter}>
                       {this.eventRenderer(row.event)}
                     </TableCell>
-                    <TableCell className={classes.withFilter}>
+                    {/* <TableCell className={classes.withFilter}>
                       {this.ownerRenderer(row.owner)}
-                    </TableCell>
+                    </TableCell> */}
                   </TableRow>
                 );
               })}

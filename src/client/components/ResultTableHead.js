@@ -63,11 +63,11 @@ const columns = [
     property: 'event',
     desc: 'Event description'
   },
-  {
-    label: 'Owner',
-    property: 'owner',
-    desc: 'Material description'
-  },
+  // {
+  //   label: 'Owner',
+  //   property: 'owner',
+  //   desc: 'Material description'
+  // },
 ];
 
 
