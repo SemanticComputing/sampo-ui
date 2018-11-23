@@ -71,7 +71,10 @@ class FacetDialog extends React.Component {
               <Tree
                 data={facet.facetValues.creationPlace}
                 fetchFacet={this.props.fetchFacet}
+                fetchManuscripts={this.props.fetchManuscripts}
+                fetchPlaces={this.props.fetchPlaces}
                 updateFilter={this.props.updateFilter}
+                updatePage={this.props.updatePage}
               />}
           </DialogContent>
         </Dialog>
@@ -86,6 +89,9 @@ FacetDialog.propTypes = {
   property: PropTypes.string.isRequired,
   propertyLabel: PropTypes.string.isRequired,
   fetchFacet: PropTypes.func.isRequired,
+  fetchManuscripts: PropTypes.func.isRequired,
+  fetchPlaces: PropTypes.func.isRequired,
+  updatePage: PropTypes.func.isRequired,
   facet: PropTypes.object.isRequired,
   updateFilter: PropTypes.func.isRequired
 };

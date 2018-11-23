@@ -24,6 +24,7 @@ let Manuscripts = props => {
               rows={props.search.manuscripts}
               facet={props.facet}
               fetchManuscripts={props.fetchManuscripts}
+              fetchPlaces={props.fetchPlaces}
               fetchingManuscripts={props.search.fetchingManuscripts}
               fetchFacet={props.fetchFacet}
               resultCount={props.search.manuscriptCount}

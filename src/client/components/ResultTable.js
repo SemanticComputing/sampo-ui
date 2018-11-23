@@ -80,17 +80,7 @@ class ResultTable extends React.Component {
         pathname: '/manuscripts/table',
         search: `?page=${this.props.page}`,
       });
-      this.props.fetchManuscripts();
     }
-    if (prevProps.facet.facetFilters != this.props.facet.facetFilters) {
-      // this.props.routeProps.history.push({
-      //   pathname: '/manuscripts/table',
-      //   search: `?page=${this.props.page}`,
-      // });
-      this.props.fetchManuscripts();
-    }
-
-
   }
 
   idRenderer = id => {
@@ -189,21 +179,15 @@ class ResultTable extends React.Component {
         </ul>
       );
     } else {
-      let eventType;
-      if (cell.type === 'http://www.cidoc-crm.org/cidoc-crm/E8_Acquisition') {
-        eventType = 'Acquisition';
-      } else {
-        eventType = 'Observation';
-      }
       return (
         <span>
-          {cell.date}
+          {cell.date == null ? <span className={this.props.classes.noDate}>No date</span> : cell.date}
           {' '}
           <a
             target='_blank' rel='noopener noreferrer'
             href={cell.dataProviderUrl}
           >
-            {eventType}
+            {cell.type === 'http://www.cidoc-crm.org/cidoc-crm/E8_Acquisition' ? 'Acquisition' : 'Observation'}
           </a>
         </span>
 
@@ -249,6 +233,7 @@ class ResultTable extends React.Component {
   render() {
     const { classes, rows } = this.props;
     // console.log(rows)
+
     if (this.props.fetchingManuscripts   ) {
       return (
         <Paper className={classes.progressContainer}>
@@ -263,11 +248,12 @@ class ResultTable extends React.Component {
             <ResultTableHead
               fetchFacet={this.props.fetchFacet}
               fetchManuscripts={this.props.fetchManuscripts}
+              fetchPlaces={this.props.fetchPlaces}
               updateFilter={this.props.updateFilter}
+              updatePage={this.props.updatePage}
               facet={this.props.facet}
               resultCount={this.props.resultCount}
               page={this.props.page}
-              updatePage={this.props.updatePage}
               routeProps={this.props.routeProps}
             />
             <TableBody>
@@ -317,6 +303,7 @@ ResultTable.propTypes = {
   rows: PropTypes.array.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
+  fetchPlaces: PropTypes.func.isRequired,
   fetchingManuscripts: PropTypes.bool.isRequired,
   facet: PropTypes.object.isRequired,
   resultCount: PropTypes.number.isRequired,

@@ -80,6 +80,7 @@ class ResultTableHead extends React.Component {
 
   handleChangePage = (event, page) => {
     this.props.updatePage(page);
+    this.props.fetchManuscripts();
   };
 
   handleChangeRowsPerPage = event => {
@@ -135,7 +136,10 @@ class ResultTableHead extends React.Component {
                       property={column.property}
                       propertyLabel={column.label}
                       fetchFacet={this.props.fetchFacet}
+                      fetchManuscripts={this.props.fetchManuscripts}
+                      fetchPlaces={this.props.fetchPlaces}
                       updateFilter={this.props.updateFilter}
+                      updatePage={this.props.updatePage}
                       facet={this.props.facet} />
                   </Tooltip>}
               </TableCell>
@@ -151,6 +155,7 @@ ResultTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
+  fetchPlaces: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
   facet: PropTypes.object.isRequired,
   resultCount: PropTypes.number.isRequired,
