@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { getTreeFromFlatData } from 'react-sortable-tree';
 
 //https://github.com/SemanticComputing/angular-paging-sparql-service/blob/master/src/sparql.object-mapper-service.js
 
@@ -130,77 +131,37 @@ export const mapFacet = (sparqlBindings) => {
       parent: _.has(b, 'parent',) ? b.parent.value : '0',
     };
   });
-  const treeData = getTreeFromFlatData({
+  let treeData = getTreeFromFlatData({
     flatData: results,
     getKey: node => node.id, // resolve a node's key
     getParentKey: node => node.parent, // resolve node's parent's key
     rootKey: 0, // The value of the parent key when there is no parent (i.e., at root level)
   });
+  treeData = recursiveSort(treeData);
+  treeData.forEach(node => sumUp(node));
   return treeData;
 };
 
-/**
- * Generate a tree structure from flat data.
- *
- * @param {!Object[]} flatData
- * @param {!function=} getKey - Function to get the key from the nodeData
- * @param {!function=} getParentKey - Function to get the parent key from the nodeData
- * @param {string|number=} rootKey - The value returned by `getParentKey` that corresponds to the root node.
- *                                  For example, if your nodes have id 1-99, you might use rootKey = 0
- *
- * @return {Object[]} treeData - The flat data represented as a tree
- */
-const getTreeFromFlatData = ({
-  flatData,
-  getKey = node => node.id,
-  getParentKey = node => node.parentId,
-  rootKey = '0',
-}) => {
-  if (!flatData) {
-    return [];
+const comparator = (a, b) => a.title.localeCompare(b.title);
+
+const sumUp = node => {
+  node.totalCnt = parseInt(node.cnt);
+  if (_.has(node, 'children')) {
+    for (let child of node.children) {
+      node.totalCnt += sumUp(child);
+    }
   }
+  return node.totalCnt;
+};
 
-  const childrenToParents = {};
-  flatData.forEach(child => {
-    const parentKey = getParentKey(child);
-
-    if (parentKey in childrenToParents) {
-      childrenToParents[parentKey].push(child);
-    } else {
-      childrenToParents[parentKey] = [child];
+const recursiveSort = nodes => {
+  nodes.sort(comparator);
+  nodes.forEach(node => {
+    if (_.has(node, 'children')) {
+      recursiveSort(node.children);
     }
   });
-
-  if (!(rootKey in childrenToParents)) {
-    return [];
-  }
-
-  const trav = parent => {
-    const parentKey = getKey(parent);
-    if (parentKey in childrenToParents) {
-      return {
-        ... parent,
-        children: childrenToParents[parentKey].map(child => trav(child)),
-      };
-    }
-    return { ...parent };
-  };
-
-  const comparator = (a, b) => a.title.localeCompare(b.title);
-
-  const recursiveSort = nodes => {
-    nodes.sort(comparator);
-    nodes.forEach(node => {
-      if (_.has(node, 'children')) {
-        recursiveSort(node.children);
-      }
-    });
-    return nodes;
-  };
-
-  const unsortedTreeData = childrenToParents[rootKey].map(child => trav(child));
-
-  return recursiveSort(unsortedTreeData);
+  return nodes;
 };
 
 export const mapAllResults = (results) => groupBy(results, 'id');

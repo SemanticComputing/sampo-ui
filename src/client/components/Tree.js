@@ -157,7 +157,7 @@ class Tree extends Component {
                       color="primary"
                     />
                   }
-                  label={node.title}
+                  label={`${node.title} (${node.totalCnt == 0 ? node.cnt : node.totalCnt})`}
                   classes={{
                     root: classes.formControlRoot
                   }}
