@@ -21,15 +21,12 @@ let Manuscripts = props => {
         render={routeProps =>
           <ResultTable
             rows={props.search.manuscripts}
-            facet={props.facet}
             fetchManuscripts={props.fetchManuscripts}
-            fetchPlaces={props.fetchPlaces}
             fetchingManuscripts={props.search.fetchingManuscripts}
-            fetchFacet={props.fetchFacet}
             resultCount={props.search.manuscriptCount}
-            updateFilter={props.updateFilter}
             page={props.search.page}
             updatePage={props.updatePage}
+            openFacetDialog={props.openFacetDialog}
             routeProps={routeProps}
           />
         }
@@ -68,16 +65,13 @@ let Manuscripts = props => {
 };
 
 Manuscripts.propTypes = {
-  facet: PropTypes.object.isRequired,
   map: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
   fetchPlaces: PropTypes.func.isRequired,
   fetchPlace:  PropTypes.func.isRequired,
-  fetchFacet: PropTypes.func.isRequired,
-  fetchResults: PropTypes.func.isRequired,
-  updateFilter: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
+  openFacetDialog: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired
 };
 

@@ -1,7 +1,9 @@
 import {
   FETCH_FACET,
   UPDATE_FACET,
-  UPDATE_FILTER
+  UPDATE_FILTER,
+  OPEN_FACET_DIALOG,
+  CLOSE_FACET_DIALOG,
 } from '../actions';
 
 export const INITIAL_STATE = {
@@ -23,11 +25,16 @@ export const INITIAL_STATE = {
     creationPlace: new Set(),
     author: new Set(),
   },
-  fetchingFacet : false
+  fetchingFacet : false,
+  facetDialogOpen: false
 };
 
 const facet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case OPEN_FACET_DIALOG:
+      return { ...state, facetDialogOpen: true };
+    case CLOSE_FACET_DIALOG:
+      return { ...state, facetDialogOpen: false };
     case FETCH_FACET:
       return { ...state, fetchingFacet: true };
     case UPDATE_FACET:

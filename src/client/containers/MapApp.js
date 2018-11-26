@@ -7,9 +7,10 @@ import { withRouter } from 'react-router-dom';
 import compose from 'recompose/compose';
 import Paper from '@material-ui/core/Paper';
 import TopBar from '../components/TopBar';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Manuscripts from '../components/Manuscripts';
 import Main from '../components/Main';
+import FacetDialog from '../components/FacetDialog';
 
 import {
   fetchManuscripts,
@@ -19,6 +20,8 @@ import {
   updateFilter,
   fetchResults,
   updatePage,
+  openFacetDialog,
+  closeFacetDialog
 } from '../actions';
 
 const logoPadding = 50;
@@ -87,10 +90,9 @@ const styles = theme => ({
 });
 
 let MapApp = (props) => {
-  const { classes, facet, map, search } = props;
+  const { classes } = props;
   // browser
   // error,
-  // console.log(props.facet)
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
@@ -103,22 +105,28 @@ let MapApp = (props) => {
                 path="/manuscripts"
                 render={routeProps =>
                   <Manuscripts
-                    facet={facet}
-                    map={map}
-                    search={search}
+                    map={props.map}
+                    search={props.search}
                     fetchManuscripts={props.fetchManuscripts}
                     fetchPlaces={props.fetchPlaces}
                     fetchPlace={props.fetchPlace}
-                    fetchFacet={props.fetchFacet}
-                    fetchResults={props.fetchResults}
-                    updateFilter={props.updateFilter}
                     updatePage={props.updatePage}
+                    openFacetDialog={props.openFacetDialog}
                     routeProps={routeProps}
                   />}
               />
             </div>
           </React.Fragment>
         </Router>
+        <FacetDialog
+          property='creationPlace'
+          propertyLabel='Creation place'
+          facet={props.facet}
+          fetchFacet={props.fetchFacet}
+          updateFilter={props.updateFilter}
+          updatePage={props.updatePage}
+          closeFacetDialog={props.closeFacetDialog}
+        />
         <Paper className={classes.footer}>
           <img className={classes.oxfordLogo} src='img/logos/oxford-logo-white.png' alt='Oxford University logo'/>
           <img className={classes.pennLogo} src='img/logos/penn-logo-white.png' alt='Oxford University logo'/>
@@ -150,6 +158,8 @@ const mapDispatchToProps = ({
   fetchResults,
   updateFilter,
   updatePage,
+  openFacetDialog,
+  closeFacetDialog
 });
 
 MapApp.propTypes = {
@@ -167,6 +177,8 @@ MapApp.propTypes = {
   fetchResults: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
+  openFacetDialog: PropTypes.func.isRequired,
+  closeFacetDialog: PropTypes.func.isRequired
 };
 
 export default compose(

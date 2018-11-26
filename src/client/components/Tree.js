@@ -38,15 +38,10 @@ class Tree extends Component {
   }
 
   handleCheckboxChange = name => () => {
-    //console.log(name)
-    //console.log(event.target.checked)
     this.props.updateFilter({
       property: 'creationPlace',
       value: name
     });
-    this.props.updatePage(0);
-    this.props.fetchManuscripts();
-    //this.props.fetchFacet();
   };
 
   render() {
@@ -175,10 +170,7 @@ Tree.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
   fetchFacet: PropTypes.func.isRequired,
-  fetchManuscripts: PropTypes.func.isRequired,
-  fetchPlaces: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
-  updatePage: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(Tree);

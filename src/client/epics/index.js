@@ -71,7 +71,6 @@ const getFacet = (action$, state$) => action$.pipe(
     let params = {};
     let filters = {};
     let activeFilters = false;
-    console.log(state.facet.facetFilters)
     for (const [key, value] of Object.entries(state.facet.facetFilters)) {
       if (value.size != 0) {
         activeFilters = true;
@@ -83,7 +82,6 @@ const getFacet = (action$, state$) => action$.pipe(
     }
     const searchUrl = apiUrl + 'facets';
     const requestUrl = `${searchUrl}?${stringify(params)}`;
-    console.log(requestUrl)
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateFacet({ facetValues: response }))
     );

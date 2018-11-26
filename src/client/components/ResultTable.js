@@ -17,7 +17,7 @@ const styles = (theme) => ({
   tableContainer: {
     marginTop: 72,
     overflow: 'auto',
-    width: '100% - 8px'
+    width: 'calc(100% - 8px)'
   },
   table: {
     //marginTop: 72,
@@ -70,9 +70,8 @@ class ResultTable extends React.Component {
       page = parseInt(parse(this.props.routeProps.location.search).page);
     }
     this.props.updatePage(page);
-    console.log('mounted, fetching manuscripts')
+    // console.log('mounted, fetching manuscripts')
     this.props.fetchManuscripts();
-    //this.props.fetchFacet();
   }
 
   componentDidUpdate = prevProps => {
@@ -247,14 +246,11 @@ class ResultTable extends React.Component {
         <div className={classes.tableContainer}>
           <Table className={classes.table}>
             <ResultTableHead
-              fetchFacet={this.props.fetchFacet}
               fetchManuscripts={this.props.fetchManuscripts}
-              fetchPlaces={this.props.fetchPlaces}
-              updateFilter={this.props.updateFilter}
               updatePage={this.props.updatePage}
-              facet={this.props.facet}
               resultCount={this.props.resultCount}
               page={this.props.page}
+              openFacetDialog={this.props.openFacetDialog}
               routeProps={this.props.routeProps}
             />
             <TableBody>
@@ -302,15 +298,12 @@ class ResultTable extends React.Component {
 ResultTable.propTypes = {
   classes: PropTypes.object.isRequired,
   rows: PropTypes.array.isRequired,
-  fetchFacet: PropTypes.func.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
-  fetchPlaces: PropTypes.func.isRequired,
   fetchingManuscripts: PropTypes.bool.isRequired,
-  facet: PropTypes.object.isRequired,
   resultCount: PropTypes.number.isRequired,
-  updateFilter: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   updatePage: PropTypes.func.isRequired,
+  openFacetDialog: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired
 };
 

@@ -36,6 +36,8 @@ export const UPDATE_FACET = 'UPDATE_FACET';
 export const CLEAR_FACET = 'CLEAR_FACET';
 export const FETCH_FACET_FAILED = 'FETCH_FACET_FAILED';
 export const UPDATE_FILTER = 'UPDATE_FILTER';
+export const OPEN_FACET_DIALOG = 'OPEN_FACET_DIALOG';
+export const CLOSE_FACET_DIALOG = 'OPEN_FACET_DIALOG';
 
 export const SORT_RESULTS = 'SORT_RESULTS';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
@@ -157,6 +159,12 @@ export const fetchPlaceFailed = (error) => ({
 });
 
 // Facet
+export const openFacetDialog = () => ({
+  type: OPEN_FACET_DIALOG,
+});
+export const closeFacetDialog = () => ({
+  type: CLOSE_FACET_DIALOG,
+});
 export const fetchFacet = () => ({
   type: FETCH_FACET,
 });

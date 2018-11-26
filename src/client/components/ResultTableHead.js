@@ -5,7 +5,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Tooltip from '@material-ui/core/Tooltip';
-import FacetDialog from './FacetDialog';
+import IconButton from '@material-ui/core/IconButton';
+import FilterListIcon from '@material-ui/icons/FilterList';
 import TablePagination from '@material-ui/core/TablePagination';
 import ResultTablePaginationActions from './ResultTablePaginationActions';
 // import InfoIcon from '@material-ui/icons/InfoOutlined';
@@ -96,6 +97,10 @@ class ResultTableHead extends React.Component {
     this.setState({ order, orderBy });
   };
 
+  handleFacetButtonOnClick = () => {
+    this.props.openFacetDialog();
+  }
+
   // <TableSortLabel
   //   active={orderBy === column.property}
   //   direction={order}
@@ -132,15 +137,12 @@ class ResultTableHead extends React.Component {
                 {column.label}
                 {column.filter &&
                   <Tooltip title={'Filter ' + column.label}>
-                    <FacetDialog
-                      property={column.property}
-                      propertyLabel={column.label}
-                      fetchFacet={this.props.fetchFacet}
-                      fetchManuscripts={this.props.fetchManuscripts}
-                      fetchPlaces={this.props.fetchPlaces}
-                      updateFilter={this.props.updateFilter}
-                      updatePage={this.props.updatePage}
-                      facet={this.props.facet} />
+                    <IconButton
+                      onClick={this.handleFacetButtonOnClick}
+                      aria-label="Filter"
+                    >
+                      <FilterListIcon />
+                    </IconButton>
                   </Tooltip>}
               </TableCell>
             );
@@ -153,15 +155,12 @@ class ResultTableHead extends React.Component {
 
 ResultTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
-  fetchFacet: PropTypes.func.isRequired,
-  fetchManuscripts: PropTypes.func.isRequired,
-  fetchPlaces: PropTypes.func.isRequired,
-  updateFilter: PropTypes.func.isRequired,
-  facet: PropTypes.object.isRequired,
   resultCount: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
   updatePage: PropTypes.func.isRequired,
-  routeProps: PropTypes.object.isRequired
+  fetchManuscripts: PropTypes.func.isRequired,
+  routeProps: PropTypes.object.isRequired,
+  openFacetDialog: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(ResultTableHead);
