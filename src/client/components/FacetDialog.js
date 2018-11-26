@@ -24,6 +24,7 @@ class FacetDialog extends React.Component {
     this.props.fetchFacet();
   }
 
+  handleClose = () => this.props.closeFacetDialog();
 
   render() {
     const { classes } = this.props;
@@ -31,7 +32,7 @@ class FacetDialog extends React.Component {
       <Dialog
         classes={{ paper: classes.dialogPaper }}
         open={this.props.facet.facetDialogOpen}
-        onClose={this.props.closeFacetDialog}
+        onClose={this.handleClose}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle disableTypography={true}>
