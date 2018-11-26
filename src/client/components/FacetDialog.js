@@ -34,6 +34,7 @@ class FacetDialog extends React.Component {
         open={this.props.facet.facetDialogOpen}
         onClose={this.handleClose}
         aria-labelledby="form-dialog-title"
+        keepMounted={true}
       >
         <DialogTitle disableTypography={true}>
           <Typography variant="h6">{this.props.propertyLabel}</Typography>

@@ -128,6 +128,7 @@ export const mapFacet = sparqlBindings => {
       title: b.facet_text.value,
       id: _.has(b, 'value',) ? b.value.value : 'no_selection',
       cnt: b.cnt.value,
+      selected: false
     };
   });
   return results;
@@ -140,6 +141,7 @@ export const mapHierarchicalFacet = sparqlBindings => {
       id: _.has(b, 'value',) ? b.value.value : 'no_selection',
       cnt: b.cnt.value,
       parent: _.has(b, 'parent',) ? b.parent.value : '0',
+      selected: false
     };
   });
   let treeData = getTreeFromFlatData({

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import SortableTree from 'react-sortable-tree';
+import SortableTree, { changeNodeAtPath } from 'react-sortable-tree';
 import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app
 import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -37,17 +37,26 @@ class Tree extends Component {
     };
   }
 
-  handleCheckboxChange = name => () => {
+  handleCheckboxChange = treeObj => event => {
+    const newTreeData = changeNodeAtPath({
+      treeData: this.state.treeData,
+      getNodeKey: ({ treeIndex }) =>  treeIndex,
+      path: treeObj.path,
+      newNode: {
+        ...treeObj.node,
+        selected: event.target.checked
+      },
+    });
+    this.setState({ treeData: newTreeData });
     this.props.updateFilter({
       property: 'creationPlace',
-      value: name
+      value: treeObj.node.id
     });
   };
 
   render() {
     const { classes } = this.props;
     const { searchString, searchFocusIndex, searchFoundCount } = this.state;
-    //console.log(this.state.treeData)
 
     // Case insensitive search of `node.title`
     const customSearchMethod = ({ node, searchQuery }) =>
@@ -115,7 +124,6 @@ class Tree extends Component {
         <div className={classes.treeContainer}>
           <SortableTree
             treeData={this.state.treeData}
-            getNodeKey={({ node }) => node.id}
             onChange={treeData => this.setState({ treeData })}
             canDrag={false}
             // Custom comparison for matching during search.
@@ -141,18 +149,18 @@ class Tree extends Component {
             }
             onlyExpandSearchedNodes={true}
             theme={FileExplorerTheme}
-            generateNodeProps={({ node }) => ({
+            generateNodeProps={n => ({
               title: (
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={false}
-                      onChange={this.handleCheckboxChange(node.id)}
-                      value={node.id}
+                      checked={n.node.selected}
+                      onChange={this.handleCheckboxChange(n)}
+                      value={n.node.id}
                       color="primary"
                     />
                   }
-                  label={`${node.title} (${node.totalCnt == 0 ? node.cnt : node.totalCnt})`}
+                  label={`${n.node.title} (${n.node.totalCnt == 0 ? n.node.cnt : n.node.totalCnt})`}
                   classes={{
                     root: classes.formControlRoot
                   }}
