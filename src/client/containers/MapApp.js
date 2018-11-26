@@ -53,7 +53,8 @@ const styles = theme => ({
     },
     borderRight: '4px solid' + theme.palette.primary.main,
     borderLeft: '4px solid' + theme.palette.primary.main,
-    backgroundColor: 'rgb(238, 238, 238)'
+    //backgroundColor: 'rgb(238, 238, 238)'
+    backgroundColor: theme.palette.background.paper
   },
   footer: {
     position: 'absolute',
@@ -97,26 +98,24 @@ let MapApp = (props) => {
           <React.Fragment>
             <TopBar />
             <div className={classes.mainContainer}>
-              <Switch>
-                <Route exact path="/" component={Main} />
-                <Route
-                  path="/manuscripts"
-                  render={routeProps =>
-                    <Manuscripts
-                      facet={facet}
-                      map={map}
-                      search={search}
-                      fetchManuscripts={props.fetchManuscripts}
-                      fetchPlaces={props.fetchPlaces}
-                      fetchPlace={props.fetchPlace}
-                      fetchFacet={props.fetchFacet}
-                      fetchResults={props.fetchResults}
-                      updateFilter={props.updateFilter}
-                      updatePage={props.updatePage}
-                      routeProps={routeProps}
-                    />}
-                />
-              </Switch>
+              <Route exact path="/" component={Main} />
+              <Route
+                path="/manuscripts"
+                render={routeProps =>
+                  <Manuscripts
+                    facet={facet}
+                    map={map}
+                    search={search}
+                    fetchManuscripts={props.fetchManuscripts}
+                    fetchPlaces={props.fetchPlaces}
+                    fetchPlace={props.fetchPlace}
+                    fetchFacet={props.fetchFacet}
+                    fetchResults={props.fetchResults}
+                    updateFilter={props.updateFilter}
+                    updatePage={props.updatePage}
+                    routeProps={routeProps}
+                  />}
+              />
             </div>
           </React.Fragment>
         </Router>

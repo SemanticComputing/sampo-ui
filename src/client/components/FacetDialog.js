@@ -32,6 +32,11 @@ class FacetDialog extends React.Component {
     };
   }
 
+  componentDidMount = () => {
+    console.log('facet dialog mounted, fetch facet')
+    this.props.fetchFacet();
+  }
+
   componentDidUpdate(prevProps) {
     if (prevProps.facet.fetchingFacet !== this.props.facet.fetchingFacet) {
       this.setState({
@@ -40,13 +45,14 @@ class FacetDialog extends React.Component {
     }
   }
 
+
   handleClickOpen = () => this.setState({ open: true });
 
   handleClose = () => this.setState({ open: false });
 
   render() {
     const { classes, propertyLabel, facet } = this.props;
-    // console.log(facet)
+    //console.log(facet)
     return (
       <div className={classes.root}>
         <IconButton

@@ -211,8 +211,8 @@ module.exports = {
               { SELECT DISTINCT (count(DISTINCT ?id) as ?cnt) ?value ?parent
                 {
                   ?id a frbroo:F4_Manifestation_Singleton .
-                  ?id skos:prefLabel ?name .
-                  ?id ^frbroo:R18_created/crm:P7_took_place_at ?value .
+                  <FILTER>
+                  ?id <PREDICATE> ?value .
                   OPTIONAL { ?value mmm-schema:parent ?parent }
                 }
                 GROUP BY ?value ?parent

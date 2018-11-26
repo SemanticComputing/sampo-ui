@@ -62,7 +62,7 @@ class ResultTable extends React.Component {
     let page;
     if (this.props.routeProps.location.search === '') {
       page = this.props.page === -1 ? 0 : this.props.page;
-      this.props.routeProps.history.push({
+      this.props.routeProps.history.replace({
         pathname: '/manuscripts/table',
         search: `?page=${page}`,
       });
@@ -70,8 +70,9 @@ class ResultTable extends React.Component {
       page = parseInt(parse(this.props.routeProps.location.search).page);
     }
     this.props.updatePage(page);
+    console.log('mounted, fetching manuscripts')
     this.props.fetchManuscripts();
-    this.props.fetchFacet();
+    //this.props.fetchFacet();
   }
 
   componentDidUpdate = prevProps => {

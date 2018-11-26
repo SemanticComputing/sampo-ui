@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import ViewTabs from './ViewTabs';
 import ResultTable from './ResultTable';
 import LeafletMap from './LeafletMap';
@@ -12,59 +12,57 @@ let Manuscripts = props => {
   return (
     <React.Fragment>
       <ViewTabs routeProps={props.routeProps} />
-      <Switch>
-        <Route
-          exact path='/manuscripts'
-          render={() => <Redirect to='manuscripts/table' />}
-        />
-        <Route
-          path={'/manuscripts/table'}
-          render={routeProps =>
-            <ResultTable
-              rows={props.search.manuscripts}
-              facet={props.facet}
-              fetchManuscripts={props.fetchManuscripts}
-              fetchPlaces={props.fetchPlaces}
-              fetchingManuscripts={props.search.fetchingManuscripts}
-              fetchFacet={props.fetchFacet}
-              resultCount={props.search.manuscriptCount}
-              updateFilter={props.updateFilter}
-              page={props.search.page}
-              updatePage={props.updatePage}
-              routeProps={routeProps}
-            />
-          }
-        />
-        <Route
-          path={'/manuscripts/creation_places'}
-          render={() =>
-            <LeafletMap
-              fetchPlaces={props.fetchPlaces}
-              fetchPlace={props.fetchPlace}
-              results={props.search.places}
-              place={props.search.place}
-              mapMode='cluster'
-            />}
-        />
-        <Route
-          path={'/manuscripts/migrations'}
-          render={() =>
-            <Deck
-              fetchPlaces={props.fetchPlaces}
-              fetchingPlaces={props.search.fetchingPlaces}
-              data={props.search.places}
-            />}
-        />
-        <Route
-          path={'/manuscripts/statistics'}
-          render={() =>
-            <Pie
-              fetchPlaces={props.fetchPlaces}
-              fetchingPlaces={props.search.fetchingPlaces}
-              data={props.search.places}
-            />}
-        />
-      </Switch>
+      <Route
+        exact path='/manuscripts'
+        render={() => <Redirect to='manuscripts/table' />}
+      />
+      <Route
+        path={'/manuscripts/table'}
+        render={routeProps =>
+          <ResultTable
+            rows={props.search.manuscripts}
+            facet={props.facet}
+            fetchManuscripts={props.fetchManuscripts}
+            fetchPlaces={props.fetchPlaces}
+            fetchingManuscripts={props.search.fetchingManuscripts}
+            fetchFacet={props.fetchFacet}
+            resultCount={props.search.manuscriptCount}
+            updateFilter={props.updateFilter}
+            page={props.search.page}
+            updatePage={props.updatePage}
+            routeProps={routeProps}
+          />
+        }
+      />
+      <Route
+        path={'/manuscripts/creation_places'}
+        render={() =>
+          <LeafletMap
+            fetchPlaces={props.fetchPlaces}
+            fetchPlace={props.fetchPlace}
+            results={props.search.places}
+            place={props.search.place}
+            mapMode='cluster'
+          />}
+      />
+      <Route
+        path={'/manuscripts/migrations'}
+        render={() =>
+          <Deck
+            fetchPlaces={props.fetchPlaces}
+            fetchingPlaces={props.search.fetchingPlaces}
+            data={props.search.places}
+          />}
+      />
+      <Route
+        path={'/manuscripts/statistics'}
+        render={() =>
+          <Pie
+            fetchPlaces={props.fetchPlaces}
+            fetchingPlaces={props.search.fetchingPlaces}
+            data={props.search.places}
+          />}
+      />
     </React.Fragment>
   );
 };

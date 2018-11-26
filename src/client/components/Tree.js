@@ -46,7 +46,7 @@ class Tree extends Component {
     });
     this.props.updatePage(0);
     this.props.fetchManuscripts();
-    this.props.fetchFacet();
+    //this.props.fetchFacet();
   };
 
   render() {

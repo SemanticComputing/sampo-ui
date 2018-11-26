@@ -6,7 +6,7 @@ import {
   getManuscripts,
   getPlaces,
   getPlace,
-  getFacet
+  getFacets
 } from './sparql/Manuscripts';
 const DEFAULT_PORT = 3001;
 const app = express();
@@ -28,7 +28,7 @@ app.get('/manuscripts', (req, res) => {
   const page = parseInt(req.query.page) || 0;
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
   const pagesize = 5;
-  // console.log(filters)
+  //console.log(filters)
   return getManuscripts(page, pagesize, filters).then(data => {
     // console.log(data);
     res.json(data);
@@ -38,17 +38,6 @@ app.get('/manuscripts', (req, res) => {
       return res.sendStatus(500);
     });
 });
-
-// app.get('/manuscript-count', (req, res) => {
-//   return getManuscriptCount({}).then((data) => {
-//     // console.log(data);
-//     res.json(data);
-//   })
-//     .catch((err) => {
-//       console.log(err);
-//       return res.sendStatus(500);
-//     });
-// });
 
 app.get('/places/:placeId?', (req, res) => {
   if (req.params.placeId) {
@@ -73,14 +62,11 @@ app.get('/places/:placeId?', (req, res) => {
   }
 });
 
-app.get('/facet', (req, res) => {
-  return getFacet().then((data) => {
-    const facetValues = {
-      creationPlace: data,
-      author: []
-    };
-    // console.log(data);
-    res.json(facetValues);
+app.get('/facets', (req, res) => {
+  const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
+  console.log(filters)
+  return getFacets(filters).then((data) => {
+    res.json(data);
   })
     .catch((err) => {
       console.log(err);

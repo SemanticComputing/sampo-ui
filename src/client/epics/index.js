@@ -68,8 +68,22 @@ const getFacet = (action$, state$) => action$.pipe(
   ofType(FETCH_FACET),
   withLatestFrom(state$),
   mergeMap(([, state]) => {
-    const filterStr = stringify(state.facet.facetFilters);
-    const requestUrl = `${apiUrl}facet?filters=${filterStr}`;
+    let params = {};
+    let filters = {};
+    let activeFilters = false;
+    console.log(state.facet.facetFilters)
+    for (const [key, value] of Object.entries(state.facet.facetFilters)) {
+      if (value.size != 0) {
+        activeFilters = true;
+        filters[key] = Array.from(value);
+      }
+    }
+    if (activeFilters) {
+      params.filters = JSON.stringify(filters);
+    }
+    const searchUrl = apiUrl + 'facets';
+    const requestUrl = `${searchUrl}?${stringify(params)}`;
+    console.log(requestUrl)
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateFacet({ facetValues: response }))
     );

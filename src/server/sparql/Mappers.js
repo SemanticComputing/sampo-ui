@@ -122,7 +122,18 @@ export const mapCount = (sparqlBindings) => {
   };
 };
 
-export const mapFacet = (sparqlBindings) => {
+export const mapFacet = sparqlBindings => {
+  const results = sparqlBindings.map(b => {
+    return {
+      title: b.facet_text.value,
+      id: _.has(b, 'value',) ? b.value.value : 'no_selection',
+      cnt: b.cnt.value,
+    };
+  });
+  return results;
+};
+
+export const mapHierarchicalFacet = sparqlBindings => {
   const results = sparqlBindings.map(b => {
     return {
       title: b.facet_text.value,
