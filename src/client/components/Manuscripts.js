@@ -21,6 +21,7 @@ let Manuscripts = props => {
         render={routeProps =>
           <ResultTable
             rows={props.search.manuscripts}
+            facetFilters={props.facetFilters}
             fetchManuscripts={props.fetchManuscripts}
             fetchingManuscripts={props.search.fetchingManuscripts}
             resultCount={props.search.manuscriptCount}
@@ -67,6 +68,7 @@ let Manuscripts = props => {
 Manuscripts.propTypes = {
   map: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
+  facetFilters: PropTypes.object.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
   fetchPlaces: PropTypes.func.isRequired,
   fetchPlace:  PropTypes.func.isRequired,

@@ -107,6 +107,7 @@ let MapApp = (props) => {
                   <Manuscripts
                     map={props.map}
                     search={props.search}
+                    facetFilters={props.facet.facetFilters}
                     fetchManuscripts={props.fetchManuscripts}
                     fetchPlaces={props.fetchPlaces}
                     fetchPlace={props.fetchPlace}

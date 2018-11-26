@@ -81,6 +81,12 @@ class ResultTable extends React.Component {
         search: `?page=${this.props.page}`,
       });
     }
+    if (prevProps.facetFilters != this.props.facetFilters) {
+      // console.log('filters updated')
+      this.props.updatePage(0);
+      this.props.fetchManuscripts();
+    }
+
   }
 
   idRenderer = id => {
@@ -298,6 +304,7 @@ class ResultTable extends React.Component {
 ResultTable.propTypes = {
   classes: PropTypes.object.isRequired,
   rows: PropTypes.array.isRequired,
+  facetFilters: PropTypes.object.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
   fetchingManuscripts: PropTypes.bool.isRequired,
   resultCount: PropTypes.number.isRequired,
