@@ -136,7 +136,7 @@ class ResultTableHead extends React.Component {
               >
                 {column.label}
                 {column.filter &&
-                  <Tooltip title={'Filter ' + column.label}>
+                  <Tooltip title={'Filter ' + column.label.toLowerCase()}>
                     <IconButton
                       onClick={this.handleFacetButtonOnClick}
                       aria-label="Filter"
