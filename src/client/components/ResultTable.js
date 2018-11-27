@@ -287,9 +287,9 @@ class ResultTable extends React.Component {
                     <TableCell className={classes.withFilter}>
                       {this.eventRenderer(row.event)}
                     </TableCell>
-                    {/* <TableCell className={classes.withFilter}>
+                    <TableCell className={classes.withFilter}>
                       {this.ownerRenderer(row.owner)}
-                    </TableCell> */}
+                    </TableCell> 
                   </TableRow>
                 );
               })}
