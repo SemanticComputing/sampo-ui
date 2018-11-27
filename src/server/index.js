@@ -1,7 +1,6 @@
 import express from 'express';
 const path = require('path');
 import bodyParser from 'body-parser';
-import request from 'superagent';
 import {
   getManuscripts,
   getPlaces,
@@ -64,20 +63,8 @@ app.get('/places/:placeId?', (req, res) => {
 
 app.get('/facets', (req, res) => {
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
-  console.log(filters)
+  // console.log(filters)
   return getFacets(filters).then((data) => {
-    res.json(data);
-  })
-    .catch((err) => {
-      console.log(err);
-      return res.sendStatus(500);
-    });
-});
-
-app.get('/wfs', (req, res) => {
-
-  return getWFSLayers(req.query.layerID).then((data) => {
-    //console.log(data);
     res.json(data);
   })
     .catch((err) => {
@@ -91,26 +78,5 @@ app.get('/wfs', (req, res) => {
 app.get('*', function(request, response) {
   response.sendFile(path.resolve(__dirname, './../public/', 'index.html'));
 });
-
-const getWFSLayers = (layerIDs) => {
-  return Promise.all(layerIDs.map((layerID) => getWFSLayer(layerID)));
-};
-
-const getWFSLayer = (layerID) => {
-  return new Promise((resolve, reject) => {
-    // https://avaa.tdata.fi/web/kotus/rajapinta
-    const url = 'http://avaa.tdata.fi/geoserver/kotus/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=' + layerID + '&srsName=EPSG:4326&outputformat=json';
-    request
-      .get(url)
-      .then(function(data) {
-        return resolve({ layerID: layerID, geoJSON: data.body });
-      })
-      .catch(function(err) {
-        return reject(err.message, err.response);
-      });
-  });
-};
-
-
 
 app.listen(app.get('port'), () => console.log('MMM API listening on port ' + app.get('port')));
