@@ -22,7 +22,13 @@ const styles = () => ({
     fontFamily: 'Roboto',
   },
   formControlRoot: {
-    maxHeight: 24
+    //maxHeight: 24
+  },
+  checkbox: {
+    width: 24,
+    height: 24,
+    marginRight: 3,
+    marginLeft: 10
   }
 });
 
@@ -155,6 +161,7 @@ class Tree extends Component {
                 <FormControlLabel
                   control={
                     <Checkbox
+                      className={classes.checkbox}
                       checked={n.node.selected}
                       onChange={this.handleCheckboxChange(n)}
                       value={n.node.id}
