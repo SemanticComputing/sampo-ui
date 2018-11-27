@@ -126,6 +126,7 @@ class Tree extends Component {
             treeData={this.state.treeData}
             onChange={treeData => this.setState({ treeData })}
             canDrag={false}
+            rowHeight={30}
             // Custom comparison for matching during search.
             // This is optional, and defaults to a case sensitive search of
             // the title and subtitle values.
