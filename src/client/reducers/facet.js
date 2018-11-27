@@ -9,12 +9,16 @@ import {
 export const INITIAL_STATE = {
   facetOptions : {
     creationPlace: {
+      id: 'creationPlace',
+      label: 'Creation place',
       predicate: '^frbroo:R18_created/crm:P7_took_place_at',
       hierarchical: true,
     },
     author: {
-      hierarchical: false,
+      id: 'author',
+      label: 'Author',
       predicate: '^frbroo:R18_created/crm:P14_carried_out_by',
+      hierarchical: false
     }
   },
   facetValues : {
@@ -26,13 +30,18 @@ export const INITIAL_STATE = {
     author: new Set(),
   },
   fetchingFacet : false,
-  facetDialogOpen: false
+  facetDialogOpen: false,
+  activeFacet: ''
 };
 
 const facet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case OPEN_FACET_DIALOG:
-      return { ...state, facetDialogOpen: true };
+      return {
+        ...state,
+        facetDialogOpen: true,
+        activeFacet: action.property
+      };
     case CLOSE_FACET_DIALOG:
       return { ...state, facetDialogOpen: false };
     case FETCH_FACET:

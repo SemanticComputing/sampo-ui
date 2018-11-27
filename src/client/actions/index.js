@@ -159,8 +159,9 @@ export const fetchPlaceFailed = (error) => ({
 });
 
 // Facet
-export const openFacetDialog = () => ({
+export const openFacetDialog = property => ({
   type: OPEN_FACET_DIALOG,
+  property
 });
 export const closeFacetDialog = () => ({
   type: CLOSE_FACET_DIALOG,

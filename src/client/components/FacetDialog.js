@@ -27,7 +27,9 @@ class FacetDialog extends React.Component {
   handleClose = () => this.props.closeFacetDialog();
 
   render() {
-    const { classes } = this.props;
+    const { classes, facet } = this.props;
+    const label = facet.facetOptions[facet.activeFacet] == null ? '' : facet.facetOptions[facet.activeFacet].label;
+    const facetValues = facet.facetValues[facet.activeFacet] == null ? [] : facet.facetValues[facet.activeFacet];
     return (
       <Dialog
         classes={{ paper: classes.dialogPaper }}
@@ -38,14 +40,14 @@ class FacetDialog extends React.Component {
         disableRestoreFocus={true}
       >
         <DialogTitle disableTypography={true}>
-          <Typography variant="h6">{this.props.propertyLabel}</Typography>
+          <Typography variant="h6">{label}</Typography>
         </DialogTitle>
         <DialogContent>
-          {this.props.facet.fetchingFacet ?
+          {this.props.facet.fetchingFacet || facetValues.length == 0 ?
             <CircularProgress style={{ color: purple[500] }} thickness={5} />
             :
             <Tree
-              data={this.props.facet.facetValues.creationPlace}
+              data={facetValues}
               fetchFacet={this.props.fetchFacet}
               updateFilter={this.props.updateFilter}
             />}
@@ -57,8 +59,6 @@ class FacetDialog extends React.Component {
 
 FacetDialog.propTypes = {
   classes: PropTypes.object.isRequired,
-  property: PropTypes.string.isRequired,
-  propertyLabel: PropTypes.string.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   facet: PropTypes.object.isRequired,
   updateFilter: PropTypes.func.isRequired,

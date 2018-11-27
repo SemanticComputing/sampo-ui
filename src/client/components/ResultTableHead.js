@@ -97,8 +97,8 @@ class ResultTableHead extends React.Component {
     this.setState({ order, orderBy });
   };
 
-  handleFacetButtonOnClick = () => {
-    this.props.openFacetDialog();
+  handleFacetButtonOnClick = property => () => {
+    this.props.openFacetDialog(property);
   }
 
   // <TableSortLabel
@@ -138,7 +138,7 @@ class ResultTableHead extends React.Component {
                 {column.filter &&
                   <Tooltip title={'Filter ' + column.label.toLowerCase()}>
                     <IconButton
-                      onClick={this.handleFacetButtonOnClick}
+                      onClick={this.handleFacetButtonOnClick(column.property)}
                       aria-label="Filter"
                     >
                       <FilterListIcon />

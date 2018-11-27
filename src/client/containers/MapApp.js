@@ -120,8 +120,6 @@ let MapApp = (props) => {
           </React.Fragment>
         </Router>
         <FacetDialog
-          property='creationPlace'
-          propertyLabel='Creation place'
           facet={props.facet}
           fetchFacet={props.fetchFacet}
           updateFilter={props.updateFilter}
