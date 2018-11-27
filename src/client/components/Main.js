@@ -41,6 +41,9 @@ const styles = theme => ({
   media: {
     height: 100,
   },
+  cardContent: {
+    height: 85
+  }
 });
 
 let Main = props => {
@@ -75,12 +78,12 @@ let Main = props => {
                   image="img/thumb.png"
                   title="Manuscripts"
                 />
-                <CardContent>
+                <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
                     Manuscripts
                   </Typography>
                   <Typography component="p">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -95,12 +98,12 @@ let Main = props => {
                   image="img/thumb.png"
                   title="Manuscripts"
                 />
-                <CardContent>
+                <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Observations
+                    Events
                   </Typography>
                   <Typography component="p">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                    Events related to manuscripts (e.g. production, acquisition, observation).
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -115,12 +118,12 @@ let Main = props => {
                   image="img/thumb.png"
                   title="Manuscripts"
                 />
-                <CardContent>
+                <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
                     Persons
                   </Typography>
                   <Typography component="p">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                    Explore people connected with manuscripts.
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -135,12 +138,12 @@ let Main = props => {
                   image="img/thumb.png"
                   title="Manuscripts"
                 />
-                <CardContent>
+                <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
                     Organizations
                   </Typography>
                   <Typography component="p">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                    Explore organisations connected with manuscripts.
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -155,12 +158,12 @@ let Main = props => {
                   image="img/thumb.png"
                   title="Manuscripts"
                 />
-                <CardContent>
+                <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
                     Places
                   </Typography>
                   <Typography component="p">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                    Explore places connected with manuscripts.
                   </Typography>
                 </CardContent>
               </CardActionArea>

@@ -219,7 +219,7 @@ class TopBar extends React.Component {
                 component={ManuscriptLink}>
                 Manuscripts
               </Button>
-              <Button disabled className={classes.appBarButton}>Observations</Button>
+              <Button disabled className={classes.appBarButton}>Events</Button>
               <Button disabled className={classes.appBarButton}>Persons</Button>
               <Button disabled className={classes.appBarButton}>Organizations</Button>
               <Button disabled className={classes.appBarButton}>Places</Button>
