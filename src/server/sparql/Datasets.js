@@ -31,6 +31,7 @@ module.exports = {
       SELECT (COUNT(DISTINCT ?id) as ?count)
       WHERE {
         <FILTER>
+
         ?id a frbroo:F4_Manifestation_Singleton .
       }
       `,
@@ -38,7 +39,7 @@ module.exports = {
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
       PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-      PREFIX dc: <http://purl.org/dc/elements/1.1/>
+      PREFIX dct: <http://purl.org/dc/terms/>
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
@@ -62,22 +63,23 @@ module.exports = {
         FILTER(BOUND(?id))
         ?id skos:prefLabel ?prefLabel .
         ?id mmm-schema:data_provider_url ?dataProviderUrl .
+        ?id dct:source ?source .
         {
           ?id crm:P51_has_former_or_current_owner ?owner__id .
           ?owner__id skos:prefLabel ?owner__prefLabel .
+          ?owner__id mmm-schema:data_provider_url ?owner__dataProviderUrl .
           [] rdf:subject ?id ;
              rdf:predicate crm:P51_has_former_or_current_owner ;
              rdf:object ?owner__id ;
              mmm-schema:order ?order .
           BIND(xsd:integer(?order) + 1 AS ?owner__order)
-          BIND(REPLACE(STR(?owner__id), "http://ldf.fi/mmm/actor/", "https://sdbm.library.upenn.edu/names/") AS ?owner__sdbmLink)
         }
         UNION
         {
           ?expression_creation frbroo:R18_created ?id .
           ?expression_creation mmm-schema:carried_out_by_as_author ?author__id .
           ?author__id skos:prefLabel ?author__prefLabel
-          BIND(REPLACE(STR(?author__id), "http://ldf.fi/mmm/actor/", "https://sdbm.library.upenn.edu/names/") AS ?author__sdbmLink)
+          ?author__id mmm-schema:data_provider_url ?author__dataProviderUrl .
         }
         UNION
         {
@@ -93,7 +95,7 @@ module.exports = {
           ?expression_creation frbroo:R18_created ?id .
           ?expression_creation crm:P7_took_place_at ?creationPlace__id .
           ?creationPlace__id skos:prefLabel ?creationPlace__prefLabel .
-          BIND(REPLACE(STR(?creationPlace__id), "http://ldf.fi/mmm/place/", "https://sdbm.library.upenn.edu/places/") AS ?creationPlace__sdbmLink)
+          ?creationPlace__id mmm-schema:data_provider_url ?creationPlace__dataProviderUrl .
         }
         UNION
         {
@@ -105,10 +107,8 @@ module.exports = {
           ?event__id crm:P24_transferred_title_of|mmm-schema:observed_manuscript ?id .
           ?event__id a ?event__type .
           OPTIONAL { ?event__id skos:prefLabel ?event__prefLabel . }
-          #BIND(COALESCE(?observation_prefLabel, STR(?observation__id)) as ?observation__prefLabel)
           OPTIONAL { ?event__id crm:P4_has_time-span|mmm-schema:observed_time-span ?event__date. }
           OPTIONAL { ?event__id crm:P7_took_place_at|mmm-schema:observed_location ?event__place. }
-          #OPTIONAL { ?observation__id mmm-schema: ?observation__placeLiteral. }
           OPTIONAL { ?event__id  mmm-schema:data_provider_url ?event__dataProviderUrl }
         }
       }
