@@ -44,7 +44,7 @@ const getManuscriptData = (page, pagesize, filters) => {
     manuscriptQuery = manuscriptQuery.replace('<FILTER>', generateResultFilter(filters));
   }
   manuscriptQuery = manuscriptQuery.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`);
-  // console.log(manuscriptQuery)
+  //console.log(manuscriptQuery)
   return sparqlSearchEngine.doSearch(manuscriptQuery, endpoint, makeObjectList);
 };
 
@@ -89,7 +89,6 @@ const getFacet = (facetConfig, filters) => {
     facetQuery = facetQuery.replace('<FILTER>', generateFacetFilter(facetConfig, filters));
   }
   facetQuery = facetQuery.replace('<PREDICATE>', facetConfig.predicate);
-  console.log(filters)
   let mapper = facetConfig.hierarchical ? mapHierarchicalFacet : mapFacet;
   return sparqlSearchEngine.doSearch(facetQuery, endpoint, mapper);
 };

@@ -20,7 +20,7 @@ module.exports = {
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
       PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-      PREFIX dc: <http://purl.org/dc/elements/1.1/>
+      PREFIX dct: <http://purl.org/dc/terms/>
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
@@ -31,8 +31,8 @@ module.exports = {
       SELECT (COUNT(DISTINCT ?id) as ?count)
       WHERE {
         <FILTER>
-
-        ?id a frbroo:F4_Manifestation_Singleton .
+        ?id a  frbroo:F4_Manifestation_Singleton .
+        #?id dct:source mmm-schema:Bodley .
       }
       `,
     'manuscriptQuery': `
@@ -54,6 +54,7 @@ module.exports = {
           SELECT DISTINCT ?id {
             <FILTER>
             ?id a frbroo:F4_Manifestation_Singleton .
+            #?id dct:source mmm-schema:Bodley .
             #?id ^<http://erlangen-crm.org/efrbroo/R18_created>/<http://www.cidoc-crm.org/cidoc-crm/P7_took_place_at> ?orderBy .
           }
           ORDER BY ?id
@@ -63,22 +64,25 @@ module.exports = {
         FILTER(BOUND(?id))
         ?id skos:prefLabel ?prefLabel .
         ?id mmm-schema:data_provider_url ?dataProviderUrl .
-        ?id dct:source ?source .
+        ?id dct:source ?source__id .
+        ?source__id skos:prefLabel ?source__prefLabel .
         {
           ?id crm:P51_has_former_or_current_owner ?owner__id .
           ?owner__id skos:prefLabel ?owner__prefLabel .
           ?owner__id mmm-schema:data_provider_url ?owner__dataProviderUrl .
-          [] rdf:subject ?id ;
+          OPTIONAL {
+            [] rdf:subject ?id ;
              rdf:predicate crm:P51_has_former_or_current_owner ;
              rdf:object ?owner__id ;
              mmm-schema:order ?order .
           BIND(xsd:integer(?order) + 1 AS ?owner__order)
+          }
         }
         UNION
         {
           ?expression_creation frbroo:R18_created ?id .
           ?expression_creation mmm-schema:carried_out_by_as_author ?author__id .
-          ?author__id skos:prefLabel ?author__prefLabel
+          ?author__id skos:prefLabel ?author__prefLabel .
           ?author__id mmm-schema:data_provider_url ?author__dataProviderUrl .
         }
         UNION

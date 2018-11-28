@@ -289,7 +289,10 @@ class ResultTable extends React.Component {
                     </TableCell>
                     <TableCell className={classes.withFilter}>
                       {this.ownerRenderer(row.owner)}
-                    </TableCell> 
+                    </TableCell>
+                    <TableCell className={classes.withFilter}>
+                      {this.objectListRenderer(row.source)}
+                    </TableCell>
                   </TableRow>
                 );
               })}
