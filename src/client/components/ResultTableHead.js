@@ -24,11 +24,6 @@ const styles = () => ({
 
 const columns = [
   {
-    label: 'ID',
-    property: 'id',
-    desc: 'ID description'
-  },
-  {
     label: 'Title',
     property: 'prefLabel',
     desc: 'Title description'

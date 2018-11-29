@@ -13,9 +13,9 @@ module.exports = {
   'mmm': {
     'title': 'MMM',
     'shortTitle': 'MMM',
-    'timePeriod': '',
-    'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
-    //'endpoint': 'http://localhost:3050/ds/sparql',
+    //'timePeriod': '',
+    //'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
+    'endpoint': 'http://localhost:3050/ds/sparql',
     'countQuery': `
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -63,20 +63,17 @@ module.exports = {
         }
         FILTER(BOUND(?id))
         ?id skos:prefLabel ?prefLabel .
-        ?id mmm-schema:data_provider_url ?dataProviderUrl .
-        ?id dct:source ?source__id .
-        ?source__id skos:prefLabel ?source__prefLabel .
         {
-          ?id crm:P51_has_former_or_current_owner ?owner__id .
-          ?owner__id skos:prefLabel ?owner__prefLabel .
-          ?owner__id mmm-schema:data_provider_url ?owner__dataProviderUrl .
-          OPTIONAL {
-            [] rdf:subject ?id ;
-             rdf:predicate crm:P51_has_former_or_current_owner ;
-             rdf:object ?owner__id ;
-             mmm-schema:order ?order .
-          BIND(xsd:integer(?order) + 1 AS ?owner__order)
-          }
+          ?id dct:source ?source__id .
+          ?source__id skos:prefLabel ?source__prefLabel .
+          OPTIONAL { ?id mmm-schema:data_provider_url ?source__dataProviderUrl }
+        }
+        UNION
+        {
+          ?production crm:P108_has_produced ?id .
+          ?production mmm-schema:carried_out_by_as_author ?author__id .
+          ?author__id skos:prefLabel ?author__prefLabel .
+          ?author__id mmm-schema:data_provider_url ?author__dataProviderUrl .
         }
         UNION
         {
@@ -87,8 +84,21 @@ module.exports = {
         }
         UNION
         {
-          ?expression_creation frbroo:R18_created ?id .
-          ?expression_creation crm:P4_has_time-span ?timespan .
+          ?id crm:P51_has_former_or_current_owner ?owner__id .
+          ?owner__id skos:prefLabel ?owner__prefLabel .
+          ?owner__id mmm-schema:data_provider_url ?owner__dataProviderUrl .
+          OPTIONAL {
+            [] rdf:subject ?id ;
+              rdf:predicate crm:P51_has_former_or_current_owner ;
+              rdf:object ?owner__id ;
+              mmm-schema:order ?order .
+            BIND(xsd:integer(?order) + 1 AS ?owner__order)
+          }
+        }
+        UNION
+        {
+          ?production frbroo:R18_created|crm:P108_has_produced ?id .
+          ?production crm:P4_has_time-span ?timespan .
           ?timespan skos:prefLabel ?timespan__id .
           ?timespan crm:P79_beginning_is_qualified_by ?timespan__start .
           ?timespan crm:P80_end_is_qualified_by ?timespan__end .
@@ -97,9 +107,24 @@ module.exports = {
         UNION
         {
           ?expression_creation frbroo:R18_created ?id .
-          ?expression_creation crm:P7_took_place_at ?creationPlace__id .
-          ?creationPlace__id skos:prefLabel ?creationPlace__prefLabel .
-          ?creationPlace__id mmm-schema:data_provider_url ?creationPlace__dataProviderUrl .
+          ?expression_creation crm:P7_took_place_at ?productionPlace__id .
+          ?productionPlace__id skos:prefLabel ?productionPlace__prefLabel .
+          OPTIONAL { ?productionPlace__id mmm-schema:data_provider_url ?productionPlace__dataProviderUrl }
+          FILTER NOT EXISTS {
+            ?expression_creation crm:P7_took_place_at ?productionPlace__id2 .
+            ?productionPlace__id2 crm:P89_falls_within+ ?productionPlace__id .
+          }
+        }
+        UNION
+        {
+          ?production crm:P108_has_produced ?id .
+          ?production crm:P7_took_place_at ?productionPlace__id .
+          ?productionPlace__id skos:prefLabel ?productionPlace__prefLabel .
+          OPTIONAL { ?productionPlace__id mmm-schema:data_provider_url ?productionPlace__dataProviderUrl }
+          FILTER NOT EXISTS {
+            ?production crm:P7_took_place_at ?productionPlace__id2 .
+            ?productionPlace__id2 crm:P89_falls_within+ ?productionPlace__id .
+          }
         }
         UNION
         {
@@ -115,6 +140,7 @@ module.exports = {
           OPTIONAL { ?event__id crm:P7_took_place_at|mmm-schema:observed_location ?event__place. }
           OPTIONAL { ?event__id  mmm-schema:data_provider_url ?event__dataProviderUrl }
         }
+
       }
       `,
     'creationPlacesQuery': `

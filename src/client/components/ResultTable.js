@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 import ResultTableHead from './ResultTableHead';
-import { orderBy } from 'lodash';
+import { orderBy, has } from 'lodash';
 import { parse } from 'query-string';
 
 const styles = (theme) => ({
@@ -89,14 +89,14 @@ class ResultTable extends React.Component {
 
   }
 
-  idRenderer = id => {
-    const plainId = id.substring(id.lastIndexOf('/') + 1);
-    return (
-      <div className={this.props.classes.tableColumn}>
-        <a target='_blank' rel='noopener noreferrer' href={id}>{plainId}</a>
-      </div>
-    );
-  };
+  // idRenderer = id => {
+  //   const plainId = id.substring(id.lastIndexOf('/') + 1);
+  //   return (
+  //     <div className={this.props.classes.tableColumn}>
+  //       <a target='_blank' rel='noopener noreferrer' href={id}>{plainId}</a>
+  //     </div>
+  //   );
+  // };
 
   stringListRenderer = cell => {
     if (cell == null || cell === '-'){
@@ -125,7 +125,7 @@ class ResultTable extends React.Component {
           {makeLink &&
             <a
               target='_blank' rel='noopener noreferrer'
-              href={item.sdbmLink}
+              href={item.dataProviderUrl}
             >
               {item.prefLabel}
             </a>
@@ -150,7 +150,7 @@ class ResultTable extends React.Component {
       return (
         <a
           target='_blank' rel='noopener noreferrer'
-          href={cell.sdbmLink}
+          href={cell.dataProviderUrl}
         >
           {cell.prefLabel}
         </a>
@@ -163,6 +163,9 @@ class ResultTable extends React.Component {
   };
 
   eventRenderer = cell => {
+    if (cell == null || cell === '-'){
+      return '-';
+    }
     if (Array.isArray(cell)) {
       cell = orderBy(cell, 'date');
       const items = cell.map((item, i) => {
@@ -206,6 +209,9 @@ class ResultTable extends React.Component {
       return '-';
     }
     if (Array.isArray(cell)) {
+      if (!has(cell[0], 'order')) {
+        return this.objectListRenderer(cell, true, false);
+      }
       cell.map(item => {
         Array.isArray(item.order) ? item.earliestOrder = item.order[0] : item.earliestOrder = item.order;
       });
@@ -230,6 +236,9 @@ class ResultTable extends React.Component {
         </ul>
       );
     } else {
+      if (!has(cell, 'order')) {
+        return this.objectListRenderer(cell, true, false);
+      }
       return (
         <span>{cell.date}<br />{cell.location}</span>
       );
@@ -238,7 +247,7 @@ class ResultTable extends React.Component {
 
   render() {
     const { classes, rows } = this.props;
-    // console.log(rows)
+    console.log(rows)
 
     if (this.props.fetchingManuscripts   ) {
       return (
@@ -263,9 +272,6 @@ class ResultTable extends React.Component {
               {rows.map(row => {
                 return (
                   <TableRow key={row.id}>
-                    <TableCell component="th" scope="row" >
-                      {this.idRenderer(row.dataProviderUrl)}
-                    </TableCell>
                     <TableCell className={classes.withFilter} >
                       {this.stringListRenderer(row.prefLabel)}
                     </TableCell>
@@ -273,7 +279,7 @@ class ResultTable extends React.Component {
                       {this.objectListRenderer(row.author, true)}
                     </TableCell>
                     <TableCell className={classes.withFilter}>
-                      {this.objectListRenderer(row.creationPlace, true)}
+                      {this.objectListRenderer(row.productionPlace, true)}
                     </TableCell>
                     <TableCell className={classes.withFilter}>
                       {this.objectListRenderer(row.timespan)}
@@ -291,7 +297,7 @@ class ResultTable extends React.Component {
                       {this.ownerRenderer(row.owner)}
                     </TableCell>
                     <TableCell className={classes.withFilter}>
-                      {this.objectListRenderer(row.source)}
+                      {this.objectListRenderer(row.source, true)}
                     </TableCell>
                   </TableRow>
                 );
