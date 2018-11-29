@@ -26,14 +26,16 @@ export const getManuscripts = (page, pagesize, filters) => {
   return Promise.all([
     getManuscriptCount(filters),
     getManuscriptData(page, pagesize, filters),
-  ]).then(data => {
-    return {
-      manuscriptCount: data[0].count,
-      pagesize: pagesize,
-      page: page,
-      manuscriptData: data[1]
-    };
-  });
+  ])
+    .then(data => {
+      return {
+        manuscriptCount: data[0].count,
+        pagesize: pagesize,
+        page: page,
+        manuscriptData: data[1]
+      };
+    })
+    .catch(err => console.log(err));
 };
 
 const getManuscriptData = (page, pagesize, filters) => {
