@@ -28,14 +28,10 @@ class SparqlApi {
       })
         .then(res => {
           if (res.ok) { // res.status >= 200 && res.status < 300
-            return res;
+            return resolve(res.text());
           } else {
             return reject(res.statusText);
           }
-        })
-        .then(res => res.text())
-        .then(data => {
-          return resolve(data);
         })
         .catch(err => console.log(err));
     });
