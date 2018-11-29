@@ -31,7 +31,7 @@ const InfoDialog = (props) => {
     const toSdbm = data.to.id.replace('http://ldf.fi/mmm/place/', 'https://sdbm.library.upenn.edu/places/');
     content = (
       <DialogContent>
-        <p>Creation place: <a target="_blank" rel="noopener noreferrer" href={fromSdbm}>{data.from.name}</a></p>
+        <p>Production place: <a target="_blank" rel="noopener noreferrer" href={fromSdbm}>{data.from.name}</a></p>
         <p>Most recently observed location: <a target="_blank" rel="noopener noreferrer" href={toSdbm}>{data.to.name}</a></p>
         <ManuscriptList manuscripts={data.manuscript} />
       </DialogContent>

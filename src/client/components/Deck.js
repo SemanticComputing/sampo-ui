@@ -115,24 +115,6 @@ class Deck extends React.Component {
 
  _onViewportChange = viewport => this.setState({viewport});
 
- _renderTooltip = () => {
-   if(this.state.tooltip) {
-     const { x, y, object } = this.state.tooltip;
-     if (object) {
-       if (Array.isArray(object.to)) {
-         object.to = object.to[0];
-       }
-       return object && (
-         <div className={this.props.classes.tooltip} style={{top: y, left: x}}>
-           <p>Creation place: {object.from.name}</p>
-           <p>Last known location: {object.to.name}</p>
-         </div>
-       );
-     }
-   }
-   return null;
- }
-
  _renderSpinner() {
    if(this.props.fetchingPlaces) {
      return (
@@ -149,7 +131,7 @@ class Deck extends React.Component {
      <Card className={this.props.classes.legend}>
        <CardContent>
          <Typography variant="h6" gutterBottom>Arc colouring:</Typography>
-         <Typography className={this.props.classes.blue} variant="body2" gutterBottom>Creation place</Typography>
+         <Typography className={this.props.classes.blue} variant="body2" gutterBottom>Manuscript production place</Typography>
          <br />
          <Typography variant="body2" gutterBottom>
            <span className={this.props.classes.red}>
@@ -226,7 +208,7 @@ class Deck extends React.Component {
          <NavigationControl onViewportChange={this._onViewportChange} />
        </div>
        {this._renderSpinner()}
-       {this._renderTooltip()}
+
        <InfoDialog
          open={this.state.dialog.open}
          onClose={this.closeDialog.bind(this)}
