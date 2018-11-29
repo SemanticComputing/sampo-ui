@@ -70,30 +70,10 @@ module.exports = {
         }
         UNION
         {
-          ?production crm:P108_has_produced ?id .
+          ?production frbroo:R18_created|crm:P108_has_produced ?id .
           ?production mmm-schema:carried_out_by_as_author ?author__id .
           ?author__id skos:prefLabel ?author__prefLabel .
           ?author__id mmm-schema:data_provider_url ?author__dataProviderUrl .
-        }
-        UNION
-        {
-          ?expression_creation frbroo:R18_created ?id .
-          ?expression_creation mmm-schema:carried_out_by_as_author ?author__id .
-          ?author__id skos:prefLabel ?author__prefLabel .
-          ?author__id mmm-schema:data_provider_url ?author__dataProviderUrl .
-        }
-        UNION
-        {
-          ?id crm:P51_has_former_or_current_owner ?owner__id .
-          ?owner__id skos:prefLabel ?owner__prefLabel .
-          ?owner__id mmm-schema:data_provider_url ?owner__dataProviderUrl .
-          OPTIONAL {
-            [] rdf:subject ?id ;
-              rdf:predicate crm:P51_has_former_or_current_owner ;
-              rdf:object ?owner__id ;
-              mmm-schema:order ?order .
-            BIND(xsd:integer(?order) + 1 AS ?owner__order)
-          }
         }
         UNION
         {
@@ -106,24 +86,26 @@ module.exports = {
         }
         UNION
         {
-          ?expression_creation frbroo:R18_created ?id .
-          ?expression_creation crm:P7_took_place_at ?productionPlace__id .
-          ?productionPlace__id skos:prefLabel ?productionPlace__prefLabel .
-          OPTIONAL { ?productionPlace__id mmm-schema:data_provider_url ?productionPlace__dataProviderUrl }
-          FILTER NOT EXISTS {
-            ?expression_creation crm:P7_took_place_at ?productionPlace__id2 .
-            ?productionPlace__id2 crm:P89_falls_within+ ?productionPlace__id .
-          }
-        }
-        UNION
-        {
-          ?production crm:P108_has_produced ?id .
+          ?production frbroo:R18_created|crm:P108_has_produced ?id .
           ?production crm:P7_took_place_at ?productionPlace__id .
           ?productionPlace__id skos:prefLabel ?productionPlace__prefLabel .
           OPTIONAL { ?productionPlace__id mmm-schema:data_provider_url ?productionPlace__dataProviderUrl }
           FILTER NOT EXISTS {
             ?production crm:P7_took_place_at ?productionPlace__id2 .
             ?productionPlace__id2 crm:P89_falls_within+ ?productionPlace__id .
+          }
+        }
+        UNION
+        {
+          ?id crm:P51_has_former_or_current_owner ?owner__id .
+          ?owner__id skos:prefLabel ?owner__prefLabel .
+          ?owner__id mmm-schema:data_provider_url ?owner__dataProviderUrl .
+          OPTIONAL {
+            [] rdf:subject ?id ;
+              rdf:predicate crm:P51_has_former_or_current_owner ;
+              rdf:object ?owner__id ;
+              mmm-schema:order ?order .
+            BIND(xsd:integer(?order) + 1 AS ?owner__order)
           }
         }
         UNION
