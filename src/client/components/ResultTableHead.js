@@ -39,15 +39,15 @@ const columns = [
     desc: 'Author description'
   },
   {
-    label: 'Creation place',
-    property: 'creationPlace',
-    desc: 'Creation place description',
+    label: 'Production place',
+    property: 'productionPlace',
+    desc: 'Production place description',
     filter: true
   },
   {
-    label: 'Creation date',
-    property: 'timespan',
-    desc: 'Creation date description'
+    label: 'Production date',
+    property: 'productionTimespan',
+    desc: 'Production date description'
   },
   {
     label: 'Language',
