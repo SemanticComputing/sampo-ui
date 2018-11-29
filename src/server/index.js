@@ -32,7 +32,7 @@ app.get('/manuscripts', (req, res) => {
     // console.log(data);
     res.json(data);
   })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       return res.sendStatus(500);
     });

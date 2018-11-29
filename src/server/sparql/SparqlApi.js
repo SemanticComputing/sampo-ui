@@ -26,31 +26,18 @@ class SparqlApi {
         body:    params,
         headers: headers,
       })
+        .then(res => {
+          if (res.ok) { // res.status >= 200 && res.status < 300
+            return res;
+          } else {
+            return reject(res.statusText);
+          }
+        })
         .then(res => res.text())
         .then(data => {
           return resolve(data);
         })
-        .catch(error => console.log('error is', error));
-      // if (this.endpoint === 'http://vocab.getty.edu/sparql.json') {
-      //   const url = this.endpoint + '?query=' + query;
-      //   fetch(url)
-      //     .then(response => {
-      //       return response.json();
-      //     })
-      //     .then(responseData => {
-      //       return resolve(responseData);
-      //     })
-      //     .catch(error => console.log('error is', error));
-      // } else {
-      //   const body = { query: query};
-      //   request.post(this.endpoint)
-      //     .send(body)
-      //     .set(headers)
-      //     .end((err, res) => {
-      //       if (err || !res.ok) return reject(err);
-      //       return resolve(res.text);
-      //     });
-      // }
+        .catch(err => console.log(err));
     });
   }
 
