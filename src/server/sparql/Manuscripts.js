@@ -93,7 +93,7 @@ const getFacet = (facetConfig, filters) => {
     facetQuery = facetQuery.replace('<FILTER>', generateFacetFilter(facetConfig, filters));
   }
   facetQuery = facetQuery.replace('<PREDICATE>', facetConfig.predicate);
-  console.log(facetQuery)
+  // console.log(facetQuery)
   let mapper = facetConfig.hierarchical ? mapHierarchicalFacet : mapFacet;
   return sparqlSearchEngine.doSearch(facetQuery, endpoint, mapper);
 };
