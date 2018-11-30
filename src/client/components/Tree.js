@@ -55,7 +55,7 @@ class Tree extends Component {
     });
     this.setState({ treeData: newTreeData });
     this.props.updateFilter({
-      property: 'creationPlace',
+      property: 'productionPlace',
       value: treeObj.node.id
     });
   };

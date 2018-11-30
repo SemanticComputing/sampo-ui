@@ -10,16 +10,18 @@ import { makeObjectList } from './SparqlObjectMapper';
 const sparqlSearchEngine = new SparqlSearchEngine();
 
 const facetConfigs = {
-  creationPlace: {
-    id: 'creationPlace',
+  productionPlace: {
+    id: 'productionPlace',
+    label: 'Production place',
     predicate: '^frbroo:R18_created/crm:P7_took_place_at',
     hierarchical: true,
   },
-  author: {
-    id: 'author',
-    predicate: '^frbroo:R18_created/mmm-schema:carried_out_by_as_author',
-    hierarchical: false,
-  }
+  // author: {
+  //   id: 'author',
+  //   label: 'Author',
+  //   predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/crm:P14_carried_out_by',
+  //   hierarchical: false
+  // }
 };
 
 export const getManuscripts = (page, pagesize, filters) => {
@@ -91,6 +93,7 @@ const getFacet = (facetConfig, filters) => {
     facetQuery = facetQuery.replace('<FILTER>', generateFacetFilter(facetConfig, filters));
   }
   facetQuery = facetQuery.replace('<PREDICATE>', facetConfig.predicate);
+  console.log(facetQuery)
   let mapper = facetConfig.hierarchical ? mapHierarchicalFacet : mapFacet;
   return sparqlSearchEngine.doSearch(facetQuery, endpoint, mapper);
 };

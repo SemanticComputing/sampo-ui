@@ -76,7 +76,7 @@ class ResultTableHead extends React.Component {
   state = {
     rowsPerPage: 5,
     order: 'asc',
-    orderBy: 'creationPlace',
+    orderBy: 'productionPlace',
   };
 
   handleChangePage = (event, page) => {

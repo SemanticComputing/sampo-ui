@@ -64,7 +64,7 @@ const combineSmallGroups = (dataArray) => {
 class Pie extends React.Component {
 
   componentDidMount = () => {
-    this.props.fetchPlaces('creationPlaces');
+    this.props.fetchPlaces('productionPlaces');
   }
 
   render() {
@@ -98,7 +98,7 @@ class Pie extends React.Component {
     const legendArray = dataArray.map(group => ({ name: group.x + ' (' + group.y + ')' }));
     const legendHeigth = legendArray.length * 33;
 
-    const pieTitle = placeLinks + ' creation place links in total';
+    const pieTitle = placeLinks + ' production place links in total';
 
     return (
       <div className={classes.root}>
@@ -124,7 +124,7 @@ class Pie extends React.Component {
             <Paper className={classes.legendPaper}>
               <VictoryLegend
                 height={legendHeigth}
-                title={'Creation place (manuscript count)'}
+                title={'Production place (manuscript count)'}
                 colorScale={'qualitative'}
                 data={legendArray}
                 style={{

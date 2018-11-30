@@ -174,6 +174,7 @@ module.exports = {
       WHERE {
         # https://github.com/uber/deck.gl/blob/master/docs/layers/arc-layer.md
         ?manuscript__id ^frbroo:R18_created/crm:P7_took_place_at ?from__id .
+
         ?manuscript__id mmm-schema:data_provider_url ?manuscript__url .
         ?from__id skos:prefLabel ?from__name .
         ?from__id wgs84:lat ?from__lat ;
@@ -246,7 +247,8 @@ module.exports = {
                   ?id a frbroo:F4_Manifestation_Singleton .
                   <FILTER>
                   ?id <PREDICATE> ?value .
-                  OPTIONAL { ?value mmm-schema:parent ?parent }
+                  OPTIONAL { ?value crm:P89_falls_within ?parent }
+                  ?value dct:source mmm-schema:Bodley .
                 }
                 GROUP BY ?value ?parent
               }

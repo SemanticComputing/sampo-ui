@@ -8,25 +8,25 @@ import {
 
 export const INITIAL_STATE = {
   facetOptions : {
-    creationPlace: {
-      id: 'creationPlace',
-      label: 'Creation place',
-      predicate: '^frbroo:R18_created/crm:P7_took_place_at',
+    productionPlace: {
+      id: 'productionPlace',
+      label: 'Production place',
+      predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/crm:P7_took_place_at',
       hierarchical: true,
     },
     author: {
       id: 'author',
       label: 'Author',
-      predicate: '^frbroo:R18_created/crm:P14_carried_out_by',
+      predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/crm:P14_carried_out_by',
       hierarchical: false
     }
   },
   facetValues : {
-    creationPlace: [],
+    productionPlace: [],
     author: []
   },
   facetFilters: {
-    creationPlace: new Set(),
+    productionPlace: new Set(),
     author: new Set(),
   },
   fetchingFacet : false,
