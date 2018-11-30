@@ -66,7 +66,7 @@ export const getPlaces = variant => {
 
 export const getPlace = id => {
   let { endpoint, placeQuery } = datasetConfig['mmm'];
-  placeQuery = placeQuery.replace('<PLACE_ID>', `<http://ldf.fi/mmm/place/${id}>`);
+  placeQuery = placeQuery.replace('<PLACE_ID>', `<${id}>`);
   return sparqlSearchEngine.doSearch(placeQuery, endpoint, makeObjectList);
 };
 

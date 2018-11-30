@@ -1,6 +1,7 @@
 import express from 'express';
 const path = require('path');
 import bodyParser from 'body-parser';
+
 import {
   getManuscripts,
   getPlaces,
@@ -41,7 +42,6 @@ app.get('/manuscripts', (req, res) => {
 app.get('/places/:placeId?', (req, res) => {
   if (req.params.placeId) {
     return getPlace(req.params.placeId).then(data => {
-      // console.log(data)
       res.json(data[0]);
     })
       .catch((err) => {
@@ -49,7 +49,7 @@ app.get('/places/:placeId?', (req, res) => {
         return res.sendStatus(500);
       });
   } else {
-    const variant = req.query.variant ? req.query.variant : 'creationPlaces';
+    const variant = req.query.variant ? req.query.variant : 'productionPlaces';
     return getPlaces(variant).then((data) => {
       // console.log(data);
       res.json(data);

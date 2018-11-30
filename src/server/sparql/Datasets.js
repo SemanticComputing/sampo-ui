@@ -125,33 +125,47 @@ module.exports = {
 
       }
       `,
-    'creationPlacesQuery': `
+    'productionPlacesQuery': `
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-      PREFIX dc: <http://purl.org/dc/elements/1.1/>
+      PREFIX dct: <http://purl.org/dc/terms/>
       PREFIX owl: <http://www.w3.org/2002/07/owl#>
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
-      SELECT ?id ?lat ?long ?prefLabel
+      SELECT ?id ?lat ?long ?prefLabel ?dataProviderUrl
       (COUNT(DISTINCT ?manuscript) as ?manuscriptCount)
       WHERE {
-        ?id a mmm-schema:Place .
-        ?id skos:prefLabel ?prefLabel .
-        ?manuscript ^frbroo:R18_created/crm:P7_took_place_at ?id .
-        OPTIONAL {
-          ?id wgs84:lat ?lat ;
-              wgs84:long ?long .
+        {
+          ?id a mmm-schema:Place .
+          ?id skos:prefLabel ?prefLabel .
+          OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
+          ?manuscript ^frbroo:R18_created/crm:P7_took_place_at ?id .
+          OPTIONAL {
+            ?id wgs84:lat ?lat ;
+                wgs84:long ?long .
+          }
+        }
+        UNION
+        {
+          ?id a mmm-schema:Place .
+          ?id skos:prefLabel ?prefLabel .
+          OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
+          ?manuscript ^crm:P108_has_produced/crm:P7_took_place_at ?id .
+          OPTIONAL {
+            ?id wgs84:lat ?lat ;
+                wgs84:long ?long .
+          }
         }
       }
-      GROUP BY ?id ?lat ?long ?prefLabel
+      GROUP BY ?id ?lat ?long ?prefLabel ?dataProviderUrl
         `,
     'migrationsQuery': `
       PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-      PREFIX dc: <http://purl.org/dc/elements/1.1/>
+      PREFIX dct: <http://purl.org/dc/terms/>
       PREFIX owl: <http://www.w3.org/2002/07/owl#>
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
@@ -183,24 +197,31 @@ module.exports = {
     'placeQuery': `
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-      PREFIX dc: <http://purl.org/dc/elements/1.1/>
+      PREFIX dct: <http://purl.org/dc/terms/>
       PREFIX owl: <http://www.w3.org/2002/07/owl#>
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
-      SELECT ?id ?prefLabel ?manuscript__id ?manuscript__entry ?manuscript__manuscriptRecord ?sdbmLink ?source ?parent
+      SELECT *
       WHERE {
         BIND (<PLACE_ID> AS ?id)
-        BIND(REPLACE(STR(?id), "http://ldf.fi/mmm/place/", "https://sdbm.library.upenn.edu/places/") AS ?sdbmLink)
         ?id skos:prefLabel ?prefLabel .
-        ?manuscript__id ^frbroo:R18_created/crm:P7_took_place_at ?id .
-        ?manuscript__id mmm-schema:entry ?manuscript__entry .
-        OPTIONAL { ?manuscript__id mmm-schema:manuscript_record ?manuscript__manuscriptRecord }
-        OPTIONAL { ?id owl:sameAs ?source . }
-        OPTIONAL { ?id mmm-schema:parent ?parent }
-        #SERVICE <http://sparql.org/books> {
-        #  ?source dc:title ?title . ?s dc:creator ?a
-        #}
+        OPTIONAL {
+          ?id crm:P89_falls_within ?parent__id .
+          ?parent__id skos:prefLabel ?parent__prefLabel .
+          ?parent__id mmm-schema:data_provider_url ?parent__dataProviderUrl .
+        }
+        OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
+        OPTIONAL { ?id owl:sameAs ?sameAs }
+        {
+          ?manuscript__id ^frbroo:R18_created/crm:P7_took_place_at ?id .
+          ?manuscript__id mmm-schema:data_provider_url ?manuscript__dataProviderUrl .
+        }
+        UNION
+        {
+          ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?id .
+          ?manuscript__id mmm-schema:data_provider_url ?manuscript__dataProviderUrl .
+        }
       }
         `,
     'facetQuery': `

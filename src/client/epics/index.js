@@ -57,7 +57,7 @@ const getPlace = action$ => action$.pipe(
   ofType(FETCH_PLACE),
   mergeMap(action => {
     const searchUrl = apiUrl + 'places';
-    const requestUrl = `${searchUrl}/${action.placeId}`;
+    const requestUrl = `${searchUrl}/${encodeURIComponent(action.placeId)}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updatePlace({ place: response }))
     );

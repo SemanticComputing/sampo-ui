@@ -37,7 +37,7 @@ class ViewTabs extends React.Component {
   pathnameToValue = pathname => {
     let value;
     switch (pathname) {
-      case '/manuscripts/creation_places':
+      case '/manuscripts/production_places':
         value = 1;
         break;
       case '/manuscripts/migrations':
@@ -67,8 +67,8 @@ class ViewTabs extends React.Component {
           indicatorColor="secondary"
           textColor="secondary"
         >
-          <Tab icon={<CalendarViewDayIcon />} label="table" component={Link} to="/manuscripts" />
-          <Tab icon={<AddLocationIcon />} label="creation places" component={Link} to="/manuscripts/creation_places" />
+          <Tab icon={<CalendarViewDayIcon />} label="manuscripts table" component={Link} to="/manuscripts" />
+          <Tab icon={<AddLocationIcon />} label="production places" component={Link} to="/manuscripts/production_places" />
           <Tab icon={<RedoIcon />} label="migrations" component={Link} to="/manuscripts/migrations" />
           <Tab icon={<PieChartIcon />} label="statistics" component={Link} to="/manuscripts/statistics"/>
         </Tabs>

@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import L from 'leaflet';
 import { has, orderBy } from 'lodash';
 // import LeafletSidebar from './LeafletSidebar';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { purple } from '@material-ui/core/colors';
 
 import 'leaflet-sidebar-v2/js/leaflet-sidebar.min.js';
 import 'leaflet-sidebar-v2/css/leaflet-sidebar.min.css';
@@ -32,6 +35,18 @@ const style = {
   height: '100%'
 };
 
+const styles = () => ({
+  spinner: {
+    height: 40,
+    width: 40,
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%,-50%)',
+    zIndex: 500
+  },
+});
+
 // https://github.com/pointhi/leaflet-color-markers
 // const ColorIcon = L.Icon.extend({
 //   options: {
@@ -46,7 +61,7 @@ const style = {
 class LeafletMap extends React.Component {
 
   componentDidMount() {
-    this.props.fetchPlaces('creationPlaces');
+    this.props.fetchPlaces(this.props.variant);
 
     // Base layers
     // const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -128,7 +143,7 @@ class LeafletMap extends React.Component {
     }
 
     if (this.props.place !== place) {
-      this.markers[this.props.place.id.replace('http://ldf.fi/mmm/place/', '')]
+      this.markers[this.props.place.id]
         .bindPopup(this.createPopUpContent(this.props.place), {
           maxHeight: 300,
           maxWidth: 400,
@@ -140,13 +155,24 @@ class LeafletMap extends React.Component {
 
   }
 
+  renderSpinner() {
+    if(this.props.fetchingPlaces) {
+      return (
+        <div className={this.props.classes.spinner}>
+          <CircularProgress style={{ color: purple[500] }} thickness={5} />
+        </div>
+      );
+    }
+    return null;
+  }
+
 
   updateMarkers(results) {
     this.resultMarkerLayer.clearLayers();
     this.markers = {};
     Object.values(results).forEach(value => {
       const marker = this.createMarker(value);
-      this.markers[value.id.replace('http://ldf.fi/mmm/place/', '')] = marker;
+      this.markers[value.id] = marker;
       marker == null ? null : marker.addTo(this.resultMarkerLayer);
     });
   }
@@ -174,7 +200,7 @@ class LeafletMap extends React.Component {
     });
     results.forEach(value => {
       const marker = this.createMarker(value);
-      this.markers[value.id.replace('http://ldf.fi/mmm/place/', '')] = marker;
+      this.markers[value.id] = marker;
       marker == null ? null : clusterer.addLayer(marker);
     });
     clusterer.addTo(this.resultMarkerLayer);
@@ -207,17 +233,16 @@ class LeafletMap extends React.Component {
     }
   }
 
-  markerOnClick = (event) => {
-    const placeId = (event.target.options.id.replace('http://ldf.fi/mmm/place/', ''));
-    this.props.fetchPlace(placeId);
+  markerOnClick = event => {
+    this.props.fetchPlace(event.target.options.id);
   };
 
   createPopUpContent(result) {
-    let popUpTemplate = `<h3><a target="_blank" rel="noopener noreferrer" href=${result.sdbmLink}>${result.prefLabel}</a></p></h3>`;
-    if (has(result, 'source')) {
-      popUpTemplate += `<p>Place authority: <a target="_blank" rel="noopener noreferrer" href=${result.source}>${result.source}</a></p>`;
+    let popUpTemplate = `<h3><a target="_blank" rel="noopener noreferrer" href=${result.dataProviderUrl}>${result.prefLabel}</a></p></h3>`;
+    if (has(result, 'sameAs')) {
+      popUpTemplate += `<p>Place authority: <a target="_blank" rel="noopener noreferrer" href=${result.sameAs}>${result.sameAs}</a></p>`;
     }
-    popUpTemplate += `<p>Manuscripts created here:</p>`;
+    popUpTemplate += `<p>Manuscripts produced here:</p>`;
     popUpTemplate += this.createManscriptListing(result.manuscript);
     return popUpTemplate;
   }
@@ -228,13 +253,11 @@ class LeafletMap extends React.Component {
       manuscripts = orderBy(manuscripts, 'id');
       html += '<ul>';
       manuscripts.forEach(ms => {
-        let sdbmLink = has(ms, 'manuscriptRecord') ? ms.manuscriptRecord : ms.entry;
-        html += '<li><a target="_blank" rel="noopener noreferrer" href=' + sdbmLink + '>' + sdbmLink + '</a></li>';
+        html += '<li><a target="_blank" rel="noopener noreferrer" href=' + ms.dataProviderUrl + '>' + ms.dataProviderUrl + '</a></li>';
       });
       html += '</ul>';
     } else {
-      let sdbmLink = has(manuscripts, 'manuscriptRecord') ? manuscripts.manuscriptRecord : manuscripts.entry;
-      html += '<p><a target="_blank" rel="noopener noreferrer" href=' + sdbmLink + '>' + sdbmLink + '</a></p>';
+      html += '<p><a target="_blank" rel="noopener noreferrer" href=' + manuscripts.dataProviderUrl + '>' + manuscripts.dataProviderUrl + '</a></p>';
     }
     return html;
   }
@@ -260,20 +283,26 @@ class LeafletMap extends React.Component {
 
   render() {
     return (
-      <div className="leaflet-outer-container">
-        {/*<LeafletSidebar />*/}
-        <div id="map" style={style} />
-      </div>
+      <React.Fragment>
+        <div className="leaflet-outer-container">
+          {/*<LeafletSidebar />*/}
+          <div id="map" style={style} />
+        </div>
+        {this.renderSpinner()}
+      </React.Fragment>
     );
   }
 }
 
 LeafletMap.propTypes = {
+  classes: PropTypes.object.isRequired,
   fetchPlaces: PropTypes.func.isRequired,
+  fetchingPlaces: PropTypes.bool.isRequired,
   fetchPlace: PropTypes.func.isRequired,
   results: PropTypes.array.isRequired,
   mapMode: PropTypes.string.isRequired,
+  variant: PropTypes.string.isRequired,
   place: PropTypes.object.isRequired,
 };
 
-export default LeafletMap;
+export default withStyles(styles)(LeafletMap);

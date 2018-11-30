@@ -247,7 +247,7 @@ class ResultTable extends React.Component {
 
   render() {
     const { classes, rows } = this.props;
-    console.log(rows)
+    //console.log(rows)
 
     if (this.props.fetchingManuscripts   ) {
       return (

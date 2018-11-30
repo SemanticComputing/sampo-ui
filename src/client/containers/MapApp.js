@@ -143,7 +143,6 @@ let MapApp = (props) => {
 const mapStateToProps = (state) => {
   return {
     facet: state.facet,
-    map: state.map,
     search: state.search,
     //browser: state.browser,
   };
@@ -167,7 +166,6 @@ MapApp.propTypes = {
   // error: PropTypes.object.isRequired,
   // browser: PropTypes.object.isRequired,
   facet: PropTypes.object.isRequired,
-  map: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
   fetchPlaces: PropTypes.func.isRequired,

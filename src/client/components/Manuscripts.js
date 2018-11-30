@@ -8,7 +8,6 @@ import Deck from './Deck';
 import Pie from './Pie';
 
 let Manuscripts = props => {
-  //console.log(props.routeProps)
   return (
     <React.Fragment>
       <ViewTabs routeProps={props.routeProps} />
@@ -33,14 +32,16 @@ let Manuscripts = props => {
         }
       />
       <Route
-        path={'/manuscripts/creation_places'}
+        path={'/manuscripts/production_places'}
         render={() =>
           <LeafletMap
             fetchPlaces={props.fetchPlaces}
+            fetchingPlaces={props.search.fetchingPlaces}
             fetchPlace={props.fetchPlace}
             results={props.search.places}
             place={props.search.place}
             mapMode='cluster'
+            variant='productionPlaces'
           />}
       />
       <Route
@@ -66,7 +67,6 @@ let Manuscripts = props => {
 };
 
 Manuscripts.propTypes = {
-  map: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
   facetFilters: PropTypes.object.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,

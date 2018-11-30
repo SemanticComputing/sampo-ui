@@ -208,7 +208,6 @@ class Deck extends React.Component {
          <NavigationControl onViewportChange={this._onViewportChange} />
        </div>
        {this._renderSpinner()}
-
        <InfoDialog
          open={this.state.dialog.open}
          onClose={this.closeDialog.bind(this)}
