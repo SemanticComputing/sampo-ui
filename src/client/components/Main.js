@@ -83,7 +83,27 @@ let Main = props => {
                     Manuscripts
                   </Typography>
                   <Typography component="p">
+                      [ Result set: instances of the FRBRoo class <i>F4 Manifestation Singleton</i> ]
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
 
+          <Grid item sm={6} md={4} lg={4}>
+            <Card className={classes.card}>
+              <CardActionArea disabled>
+                <CardMedia
+                  className={classes.media}
+                  image="img/thumb.png"
+                  title="Manuscripts"
+                />
+                <CardContent className={classes.cardContent}>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Works
+                  </Typography>
+                  <Typography component="p">
+                      [ Result set: instances of the FRBRoo class <i>F1 Work</i> ]
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -123,7 +143,7 @@ let Main = props => {
                     Persons
                   </Typography>
                   <Typography component="p">
-                    Explore people connected with manuscripts.
+                    People connected with manuscripts.
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -143,7 +163,7 @@ let Main = props => {
                     Organizations
                   </Typography>
                   <Typography component="p">
-                    Explore organisations connected with manuscripts.
+                    Organisations connected with manuscripts.
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -163,7 +183,7 @@ let Main = props => {
                     Places
                   </Typography>
                   <Typography component="p">
-                    Explore places connected with manuscripts.
+                    Places connected with manuscripts.
                   </Typography>
                 </CardContent>
               </CardActionArea>
