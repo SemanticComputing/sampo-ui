@@ -5,8 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
 import { withRouter } from 'react-router-dom';
 import compose from 'recompose/compose';
-import Paper from '@material-ui/core/Paper';
 import TopBar from '../components/TopBar';
+import Footer from '../components/Footer';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Manuscripts from '../components/Manuscripts';
 import Main from '../components/Main';
@@ -23,9 +23,6 @@ import {
   openFacetDialog,
   closeFacetDialog
 } from '../actions';
-
-const logoPadding = 50;
-const logoHeight = 52;
 
 const styles = theme => ({
   root: {
@@ -58,35 +55,7 @@ const styles = theme => ({
     borderLeft: '4px solid' + theme.palette.primary.main,
     //backgroundColor: 'rgb(238, 238, 238)'
     backgroundColor: theme.palette.background.paper
-  },
-  footer: {
-    position: 'absolute',
-    borderTop: '4px solid' + theme.palette.primary.main,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    bottom: 0,
-    width: '100%',
-    height: 64,
-    background: theme.palette.primary.main,
-    borderRadius: 0,
-  },
-  oxfordLogo: {
-    //paddingLeft: 24,
-    height: logoHeight
-  },
-  pennLogo: {
-    paddingLeft: logoPadding,
-    height: logoHeight - 8
-  },
-  cnrsLogo: {
-    paddingLeft: logoPadding,
-    height: logoHeight
-  },
-  aaltoLogo: {
-    paddingLeft: logoPadding,
-    height: logoHeight - 10
-  },
+  }
 });
 
 let MapApp = (props) => {
@@ -105,7 +74,6 @@ let MapApp = (props) => {
                 path="/manuscripts"
                 render={routeProps =>
                   <Manuscripts
-                    map={props.map}
                     search={props.search}
                     facetFilters={props.facet.facetFilters}
                     fetchManuscripts={props.fetchManuscripts}
@@ -126,12 +94,7 @@ let MapApp = (props) => {
           updatePage={props.updatePage}
           closeFacetDialog={props.closeFacetDialog}
         />
-        <Paper className={classes.footer}>
-          <img className={classes.oxfordLogo} src='img/logos/oxford-logo-white.png' alt='Oxford University logo'/>
-          <img className={classes.pennLogo} src='img/logos/penn-logo-white.png' alt='Oxford University logo'/>
-          <img className={classes.cnrsLogo} src='img/logos/cnrs-logo-white-small.png' alt='CNRS logo'/>
-          <img className={classes.aaltoLogo} src='img/logos/aalto-logo-white-no-background-small.png' alt='Aalto University logo'/>
-        </Paper>
+        <Footer />
       </div>
     </div>
   );

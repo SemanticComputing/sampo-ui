@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom';
+import thumbImage from '../img/thumb.png';
 
 const styles = theme => ({
   root: {
@@ -75,7 +76,7 @@ let Main = props => {
               <CardActionArea component={ManuscriptLink}>
                 <CardMedia
                   className={classes.media}
-                  image="img/thumb.png"
+                  image={thumbImage}
                   title="Manuscripts"
                 />
                 <CardContent className={classes.cardContent}>
@@ -95,7 +96,7 @@ let Main = props => {
               <CardActionArea disabled>
                 <CardMedia
                   className={classes.media}
-                  image="img/thumb.png"
+                  image={thumbImage}
                   title="Manuscripts"
                 />
                 <CardContent className={classes.cardContent}>
@@ -115,7 +116,7 @@ let Main = props => {
               <CardActionArea disabled>
                 <CardMedia
                   className={classes.media}
-                  image="img/thumb.png"
+                  image={thumbImage}
                   title="Manuscripts"
                 />
                 <CardContent className={classes.cardContent}>
@@ -135,7 +136,7 @@ let Main = props => {
               <CardActionArea disabled>
                 <CardMedia
                   className={classes.media}
-                  image="img/thumb.png"
+                  image={thumbImage}
                   title="Manuscripts"
                 />
                 <CardContent className={classes.cardContent}>
@@ -155,7 +156,7 @@ let Main = props => {
               <CardActionArea disabled>
                 <CardMedia
                   className={classes.media}
-                  image="img/thumb.png"
+                  image={thumbImage}
                   title="Manuscripts"
                 />
                 <CardContent className={classes.cardContent}>
@@ -175,7 +176,7 @@ let Main = props => {
               <CardActionArea disabled>
                 <CardMedia
                   className={classes.media}
-                  image="img/thumb.png"
+                  image={thumbImage}
                   title="Manuscripts"
                 />
                 <CardContent className={classes.cardContent}>
