@@ -248,7 +248,7 @@ module.exports = {
                   <FILTER>
                   ?id <PREDICATE> ?value .
                   OPTIONAL { ?value crm:P89_falls_within ?parent }
-                  ?value dct:source mmm-schema:Bodley .
+                  #?value dct:source mmm-schema:Bodley .
                 }
                 GROUP BY ?value ?parent
               }
