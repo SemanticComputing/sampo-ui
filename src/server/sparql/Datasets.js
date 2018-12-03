@@ -32,7 +32,8 @@ module.exports = {
       WHERE {
         <FILTER>
         ?id a  frbroo:F4_Manifestation_Singleton .
-        #?id dct:source mmm-schema:Bodley .
+        # ?id dct:source mmm-schema:Bodley .
+        # ?id dct:source mmm-schema:SDBM .
       }
       `,
     'manuscriptQuery': `
@@ -54,8 +55,9 @@ module.exports = {
           SELECT DISTINCT ?id {
             <FILTER>
             ?id a frbroo:F4_Manifestation_Singleton .
-            #?id dct:source mmm-schema:Bodley .
-            #?id ^<http://erlangen-crm.org/efrbroo/R18_created>/<http://www.cidoc-crm.org/cidoc-crm/P7_took_place_at> ?orderBy .
+            # ?id dct:source mmm-schema:Bodley .
+            # ?id dct:source mmm-schema:SDBM .
+            # ?id ^<http://erlangen-crm.org/efrbroo/R18_created>/<http://www.cidoc-crm.org/cidoc-crm/P7_took_place_at> ?orderBy .
           }
           ORDER BY ?id
           #ORDER BY (!BOUND(?orderBy)) ?orderBy
@@ -251,6 +253,7 @@ module.exports = {
                   #?value dct:source mmm-schema:Bodley .
                 }
                 GROUP BY ?value ?parent
+                ORDER BY DESC(?cnt)
               }
               FILTER(BOUND(?value)) BIND(COALESCE(?value, <http://ldf.fi/NONEXISTENT_URI>) AS ?labelValue)
               OPTIONAL { ?labelValue skos:prefLabel ?lbl .

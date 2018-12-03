@@ -223,7 +223,7 @@ class ResultTable extends React.Component {
             <span>{Array.isArray(item.order) ? item.order.toString() : item.order}. </span>
             <a
               target='_blank' rel='noopener noreferrer'
-              href={item.sdbmLink}
+              href={item.dataProviderUrl}
             >
               {item.prefLabel}
             </a>
@@ -247,8 +247,7 @@ class ResultTable extends React.Component {
 
   render() {
     const { classes, rows } = this.props;
-    //console.log(rows)
-
+    // console.log(rows)
     if (this.props.fetchingManuscripts   ) {
       return (
         <Paper className={classes.progressContainer}>

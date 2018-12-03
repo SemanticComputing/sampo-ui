@@ -16,12 +16,12 @@ const facetConfigs = {
     predicate: '^frbroo:R18_created/crm:P7_took_place_at',
     hierarchical: true,
   },
-  // author: {
-  //   id: 'author',
-  //   label: 'Author',
-  //   predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/crm:P14_carried_out_by',
-  //   hierarchical: false
-  // }
+  author: {
+    id: 'author',
+    label: 'Author',
+    predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/mmm-schema:carried_out_by_as_author',
+    hierarchical: false
+  }
 };
 
 export const getManuscripts = (page, pagesize, filters) => {

@@ -5,6 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { withStyles } from '@material-ui/core/styles';
 import Tree from './Tree';
+import EnhancedTable from './EnhancedTable';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 import Typography from '@material-ui/core/Typography';
@@ -14,6 +15,7 @@ const styles = () => ({
     minHeight: '80vh',
     maxHeight: '80vh',
     minWidth: '60vh',
+    maxWidth: '100vh',
   },
 });
 
@@ -26,10 +28,29 @@ class FacetDialog extends React.Component {
 
   handleClose = () => this.props.closeFacetDialog();
 
+  facetRenderer = facetValues => {
+    const { activeFacet, facetOptions } = this.props.facet;
+    const hierarchical = facetOptions[activeFacet] == null ? null : facetOptions[activeFacet].hierarchical;
+    if (activeFacet != '' && hierarchical) {
+      return (
+        <Tree
+          data={facetValues}
+          fetchFacet={this.props.fetchFacet}
+          updateFilter={this.props.updateFilter}
+        />
+      );
+    } else if (activeFacet != '') {
+      return <EnhancedTable data={facetValues} />;
+    } else {
+      return '';
+    }
+  }
+
   render() {
     const { classes, facet } = this.props;
     const label = facet.facetOptions[facet.activeFacet] == null ? '' : facet.facetOptions[facet.activeFacet].label;
     const facetValues = facet.facetValues[facet.activeFacet] == null ? [] : facet.facetValues[facet.activeFacet];
+
     return (
       <Dialog
         classes={{ paper: classes.dialogPaper }}
@@ -44,13 +65,9 @@ class FacetDialog extends React.Component {
         </DialogTitle>
         <DialogContent>
           {this.props.facet.fetchingFacet || facetValues.length == 0 ?
-            <CircularProgress style={{ color: purple[500] }} thickness={5} />
-            :
-            <Tree
-              data={facetValues}
-              fetchFacet={this.props.fetchFacet}
-              updateFilter={this.props.updateFilter}
-            />}
+            <CircularProgress style={{ color: purple[500] }} thickness={5} /> :
+            this.facetRenderer(facetValues)
+          }
         </DialogContent>
       </Dialog>
     );
