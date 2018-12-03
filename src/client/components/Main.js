@@ -141,7 +141,7 @@ let Main = props => {
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Persons
+                    People
                   </Typography>
                   <Typography component="p">
                     People connected with manuscripts.

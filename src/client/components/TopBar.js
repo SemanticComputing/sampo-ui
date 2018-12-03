@@ -221,7 +221,7 @@ class TopBar extends React.Component {
               </Button>
               <Button disabled className={classes.appBarButton}>Works</Button>
               <Button disabled className={classes.appBarButton}>Events</Button>
-              <Button disabled className={classes.appBarButton}>Persons</Button>
+              <Button disabled className={classes.appBarButton}>People</Button>
               <Button disabled className={classes.appBarButton}>Organizations</Button>
               <Button disabled className={classes.appBarButton}>Places</Button>
             </div>
