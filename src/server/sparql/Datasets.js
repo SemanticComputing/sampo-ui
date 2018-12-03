@@ -176,7 +176,6 @@ module.exports = {
       WHERE {
         # https://github.com/uber/deck.gl/blob/master/docs/layers/arc-layer.md
         ?manuscript__id ^frbroo:R18_created/crm:P7_took_place_at ?from__id .
-
         ?manuscript__id mmm-schema:data_provider_url ?manuscript__url .
         ?from__id skos:prefLabel ?from__name .
         ?from__id wgs84:lat ?from__lat ;
@@ -228,52 +227,38 @@ module.exports = {
       }
         `,
     'facetQuery': `
-          PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-          PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-          PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-          PREFIX owl: <http://www.w3.org/2002/07/owl#>
-          PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-          PREFIX text: <http://jena.apache.org/text#>
-          PREFIX dct: <http://purl.org/dc/terms/>
-          PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-          PREFIX sch: <http://schema.org/>
-          PREFIX geosparql: <http://www.opengis.net/ont/geosparql#>
-          PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
-          PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
-          SELECT DISTINCT ?cnt ?facet_text ?value ?parent
-          WHERE {
-            SELECT DISTINCT ?cnt ?value ?facet_text ?parent {
-              { SELECT DISTINCT (count(DISTINCT ?id) as ?cnt) ?value ?parent
-                {
-                  ?id a frbroo:F4_Manifestation_Singleton .
-                  <FILTER>
-                  ?id <PREDICATE> ?value .
-                  OPTIONAL { ?value crm:P89_falls_within ?parent }
-                  #?value dct:source mmm-schema:Bodley .
-                }
-                GROUP BY ?value ?parent
-                ORDER BY DESC(?cnt)
-              }
-              FILTER(BOUND(?value)) BIND(COALESCE(?value, <http://ldf.fi/NONEXISTENT_URI>) AS ?labelValue)
-              OPTIONAL { ?labelValue skos:prefLabel ?lbl .
-                FILTER(langMatches(lang(?lbl), "fi")) . }
-              OPTIONAL { ?labelValue rdfs:label ?lbl .
-                FILTER(langMatches(lang(?lbl), "fi")) . }
-              OPTIONAL { ?labelValue skos:prefLabel ?lbl .
-                FILTER(langMatches(lang(?lbl), "en")) . }
-              OPTIONAL { ?labelValue rdfs:label ?lbl .
-                FILTER(langMatches(lang(?lbl), "en")) . }
-              OPTIONAL { ?labelValue skos:prefLabel ?lbl .
-                FILTER(langMatches(lang(?lbl), "sv")) . }
-              OPTIONAL { ?labelValue rdfs:label ?lbl .
-                FILTER(langMatches(lang(?lbl), "sv")) . }
-              OPTIONAL { ?labelValue skos:prefLabel ?lbl .
-                FILTER(langMatches(lang(?lbl), "")) . }
-              OPTIONAL { ?labelValue rdfs:label ?lbl .
-                FILTER(langMatches(lang(?lbl), "")) . }
-              BIND(COALESCE(?lbl, IF(!ISURI(?value), ?value, "")) AS ?facet_text) }
+      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+      PREFIX owl: <http://www.w3.org/2002/07/owl#>
+      PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+      PREFIX text: <http://jena.apache.org/text#>
+      PREFIX dct: <http://purl.org/dc/terms/>
+      PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+      PREFIX sch: <http://schema.org/>
+      PREFIX geosparql: <http://www.opengis.net/ont/geosparql#>
+      PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
+      PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
+      SELECT DISTINCT ?cnt ?facet_text ?value ?parent
+      WHERE {
+        SELECT DISTINCT ?cnt ?value ?facet_text ?parent {
+          { SELECT DISTINCT (count(DISTINCT ?id) as ?cnt) ?value ?parent
+            {
+              ?id a frbroo:F4_Manifestation_Singleton .
+              <FILTER>
+              ?id <PREDICATE> ?value .
+              OPTIONAL { ?value crm:P89_falls_within ?parent }
+              #?value dct:source mmm-schema:Bodley .
+            }
+            GROUP BY ?value ?parent
+            ORDER BY DESC(?cnt)
           }
+          FILTER(BOUND(?value))
+          ?value skos:prefLabel ?facet_text_
+          BIND(STR(?facet_text_) AS ?facet_text)
+        }
+      }
     `,
     'tgn': {
       // Getty LOD documentation:

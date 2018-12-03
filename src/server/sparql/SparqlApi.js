@@ -38,12 +38,8 @@ class SparqlApi {
   }
 
   selectQuery(query, params = { headers: defaultSelectHeaders }) {
-    return this.query(query, params).then((data) => {
-      if (this.endpoint === 'http://vocab.getty.edu/sparql.json') {
-        return(data);
-      } else {
-        return JSON.parse(data);
-      }
+    return this.query(query, params).then(data => {
+      return JSON.parse(data);
     });
   }
 
