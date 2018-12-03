@@ -57,10 +57,9 @@ module.exports = {
             ?id a frbroo:F4_Manifestation_Singleton .
             # ?id dct:source mmm-schema:Bodley .
             # ?id dct:source mmm-schema:SDBM .
-            # ?id ^<http://erlangen-crm.org/efrbroo/R18_created>/<http://www.cidoc-crm.org/cidoc-crm/P7_took_place_at> ?orderBy .
+            ?id (^frbroo:R18_created|^crm:P108_has_produced)/crm:P7_took_place_at/skos:prefLabel ?orderBy .
           }
-          ORDER BY ?id
-          #ORDER BY (!BOUND(?orderBy)) ?orderBy
+          ORDER BY (!BOUND(?orderBy)) ?orderBy
           <PAGE>
         }
         FILTER(BOUND(?id))
