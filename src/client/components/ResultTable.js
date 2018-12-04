@@ -82,7 +82,7 @@ class ResultTable extends React.Component {
       });
     }
     if (prevProps.facetFilters != this.props.facetFilters) {
-      // console.log('filters updated')
+      console.log('filters updated')
       this.props.updatePage(0);
       this.props.fetchManuscripts();
     }

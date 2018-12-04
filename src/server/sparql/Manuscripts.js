@@ -1,7 +1,6 @@
 import SparqlSearchEngine from './SparqlSearchEngine';
 import datasetConfig from './Datasets';
 import {
-  mapFacet,
   mapHierarchicalFacet,
   mapCount,
 } from './Mappers';
@@ -13,7 +12,8 @@ const facetConfigs = {
   productionPlace: {
     id: 'productionPlace',
     label: 'Production place',
-    predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/crm:P7_took_place_at',
+    predicate: '^frbroo:R18_created/crm:P7_took_place_at',
+    //predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/crm:P7_took_place_at',
     hierarchical: true,
   },
   author: {
@@ -87,14 +87,15 @@ export const getFacets = filters => {
 
 const getFacet = (facetConfig, filters) => {
   let { endpoint, facetQuery } = datasetConfig['mmm'];
+  //console.log(filters)
   if (filters == null) {
     facetQuery = facetQuery.replace('<FILTER>', '');
   } else {
     facetQuery = facetQuery.replace('<FILTER>', generateFacetFilter(facetConfig, filters));
   }
   facetQuery = facetQuery.replace('<PREDICATE>', facetConfig.predicate);
-  // console.log(facetQuery)
-  let mapper = facetConfig.hierarchical ? mapHierarchicalFacet : mapFacet;
+  //console.log(facetQuery)
+  let mapper = facetConfig.hierarchical ? mapHierarchicalFacet : makeObjectList;
   return sparqlSearchEngine.doSearch(facetQuery, endpoint, mapper);
 };
 
@@ -103,10 +104,11 @@ const generateFacetFilter = (facetConfig, filters) => {
   let filterStr = '';
   for (let property in filters) {
     filterStr += `
-            ?id ${facetConfigs[property].predicate} ?${property}Filter
             VALUES ?${property}Filter { <${filters[property].join('> <')}> }
-      `;
+            ?id ${facetConfigs[property].predicate} ?${property}Filter .
+    `;
   }
+  // console.log(filterStr)
   return filterStr;
 };
 
@@ -115,9 +117,9 @@ const generateResultFilter = filters => {
   let filterStr = '';
   for (let property in filters) {
     filterStr += `
-            ?id ${facetConfigs[property].predicate} ?${property}Filter
             VALUES ?${property}Filter { <${filters[property].join('> <')}> }
-      `;
+            ?id ${facetConfigs[property].predicate} ?${property}Filter .
+    `;
   }
   //console.log(filterStr)
   return filterStr;

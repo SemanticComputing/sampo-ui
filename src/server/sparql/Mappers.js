@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { getTreeFromFlatData } from 'react-sortable-tree';
+import { makeObjectList } from './SparqlObjectMapper';
 
 export const mapPlaces = (sparqlBindings) => {
   //console.log(sparqlBindings);
@@ -23,28 +24,8 @@ export const mapCount = (sparqlBindings) => {
   };
 };
 
-export const mapFacet = sparqlBindings => {
-  const results = sparqlBindings.map(b => {
-    return {
-      title: b.facet_text.value,
-      id: _.has(b, 'value',) ? b.value.value : 'no_selection',
-      cnt: b.cnt.value,
-      selected: false
-    };
-  });
-  return results;
-};
-
 export const mapHierarchicalFacet = sparqlBindings => {
-  const results = sparqlBindings.map(b => {
-    return {
-      title: b.facet_text.value,
-      id: _.has(b, 'value',) ? b.value.value : 'no_selection',
-      cnt: b.cnt.value,
-      parent: _.has(b, 'parent',) ? b.parent.value : '0',
-      selected: false
-    };
-  });
+  const results = makeObjectList(sparqlBindings);
   let treeData = getTreeFromFlatData({
     flatData: results,
     getKey: node => node.id, // resolve a node's key
@@ -56,16 +37,16 @@ export const mapHierarchicalFacet = sparqlBindings => {
   return treeData;
 };
 
-const comparator = (a, b) => a.title.localeCompare(b.title);
+const comparator = (a, b) => a.prefLabel.localeCompare(b.prefLabel);
 
 const sumUp = node => {
-  node.totalCnt = parseInt(node.cnt);
+  node.totalInstanceCount = parseInt(node.instanceCount);
   if (_.has(node, 'children')) {
     for (let child of node.children) {
-      node.totalCnt += sumUp(child);
+      node.totalInstanceCount += sumUp(child);
     }
   }
-  return node.totalCnt;
+  return node.totalInstanceCount;
 };
 
 const recursiveSort = nodes => {
