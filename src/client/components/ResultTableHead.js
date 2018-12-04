@@ -32,7 +32,7 @@ const columns = [
     label: 'Author',
     property: 'author',
     desc: 'Author description',
-    filter: true
+    //filter: true
   },
   {
     label: 'Production place',
