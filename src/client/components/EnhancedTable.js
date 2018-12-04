@@ -44,7 +44,7 @@ function getSorting(order, orderBy) {
 
 const rows = [
   { id: 'title', numeric: false, disablePadding: true, label: 'Name' },
-  { id: 'count', numeric: true, disablePadding: false, label: 'Count' },
+  { id: 'count', numeric: true, disablePadding: false, label: 'Manuscript count' },
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -171,10 +171,10 @@ EnhancedTableToolbar.propTypes = {
 
 EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    //marginTop: theme.spacing.unit * 3,
   },
   table: {
     minWidth: 1020,
@@ -248,7 +248,7 @@ class EnhancedTable extends React.Component {
     const { classes } = this.props;
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-    console.log(data)
+    // console.log(data)
 
     return (
       <Paper className={classes.root}>
@@ -282,9 +282,9 @@ class EnhancedTable extends React.Component {
                         <Checkbox checked={isSelected} />
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
-                        {n.title}
+                        {n.prefLabel}
                       </TableCell>
-                      <TableCell numeric>{n.cnt}</TableCell>
+                      <TableCell numeric>{n.instanceCount}</TableCell>
                     </TableRow>
                   );
                 })}

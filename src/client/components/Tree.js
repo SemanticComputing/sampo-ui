@@ -168,7 +168,7 @@ class Tree extends Component {
                       color="primary"
                     />
                   }
-                  label={`${n.node.title} (${n.node.totalCnt == 0 ? n.node.cnt : n.node.totalCnt})`}
+                  label={`${n.node.prefLabel} (source: ${n.node.source.substring(n.node.source.lastIndexOf('/') + 1)}, ms count: ${n.node.totalInstanceCount == 0 ? n.node.instanceCount : n.node.totalInstanceCount})`}
                   classes={{
                     root: classes.formControlRoot
                   }}

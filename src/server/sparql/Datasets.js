@@ -14,8 +14,8 @@ module.exports = {
     'title': 'MMM',
     'shortTitle': 'MMM',
     //'timePeriod': '',
-    'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
-    //'endpoint': 'http://localhost:3050/ds/sparql',
+    //'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
+    'endpoint': 'http://localhost:3050/ds/sparql',
     'countQuery': `
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -57,9 +57,10 @@ module.exports = {
             ?id a frbroo:F4_Manifestation_Singleton .
             # ?id dct:source mmm-schema:Bodley .
             # ?id dct:source mmm-schema:SDBM .
-            ?id (^frbroo:R18_created|^crm:P108_has_produced)/crm:P7_took_place_at/skos:prefLabel ?orderBy .
+            # ?id (^frbroo:R18_created|^crm:P108_has_produced)/crm:P7_took_place_at/skos:prefLabel ?orderBy .
           }
-          ORDER BY (!BOUND(?orderBy)) ?orderBy
+          #ORDER BY (!BOUND(?orderBy)) ?orderBy
+          ORDER BY ?id
           <PAGE>
         }
         FILTER(BOUND(?id))
@@ -239,24 +240,25 @@ module.exports = {
       PREFIX geosparql: <http://www.opengis.net/ont/geosparql#>
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
-      SELECT DISTINCT ?cnt ?facet_text ?value ?parent
-      WHERE {
-        SELECT DISTINCT ?cnt ?value ?facet_text ?parent {
-          { SELECT DISTINCT (count(DISTINCT ?id) as ?cnt) ?value ?parent
-            {
-              ?id a frbroo:F4_Manifestation_Singleton .
-              <FILTER>
-              ?id <PREDICATE> ?value .
-              OPTIONAL { ?value crm:P89_falls_within ?parent }
-              #?value dct:source mmm-schema:Bodley .
-            }
-            GROUP BY ?value ?parent
-            ORDER BY DESC(?cnt)
+      SELECT DISTINCT ?id ?prefLabel ?source ?parent ?instanceCount {
+        { SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?parent ?source
+          {
+            ?instance a frbroo:F4_Manifestation_Singleton .
+            <FILTER>
+            #?value dct:source mmm-schema:Bodley .
+            ?instance <PREDICATE> ?id .
+            ?id dct:source ?source .
+            OPTIONAL { ?id crm:P89_falls_within ?parent_ }
+            BIND(COALESCE(?parent_, '0') as ?parent)
           }
-          FILTER(BOUND(?value))
-          ?value skos:prefLabel ?facet_text_
-          BIND(STR(?facet_text_) AS ?facet_text)
+          GROUP BY ?id ?source ?parent
+          ORDER BY DESC(?instanceCount)
         }
+        FILTER(BOUND(?id))
+        #<SELECTED_VALUES>
+        #VALUES ?selectedValues { <http://ldf.fi/mmm/place/926> }
+        ?id skos:prefLabel ?prefLabel_
+        BIND(STR(?prefLabel_) AS ?prefLabel)
       }
     `,
     'tgn': {
