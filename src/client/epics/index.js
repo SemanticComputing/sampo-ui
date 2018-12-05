@@ -14,8 +14,8 @@ import {
 } from '../actions';
 
 const apiUrl = (process.env.NODE_ENV === 'development')
-  ? 'http://localhost:3001/'
-  : location.hostname;
+  ? 'http://localhost:3001'
+  : location.href;
 
 const getManuscripts = (action$, state$) => action$.pipe(
   ofType(FETCH_MANUSCRIPTS),
@@ -33,7 +33,7 @@ const getManuscripts = (action$, state$) => action$.pipe(
     if (activeFilters) {
       params.filters = JSON.stringify(filters);
     }
-    const searchUrl = apiUrl + 'manuscripts';
+    const searchUrl = apiUrl + '/manuscripts';
     const requestUrl = `${searchUrl}?${stringify(params)}`;
     return ajax.getJSON(requestUrl).pipe(
       map(data => updateManuscripts({ data }))
@@ -44,7 +44,7 @@ const getManuscripts = (action$, state$) => action$.pipe(
 const getPlaces = action$ => action$.pipe(
   ofType(FETCH_PLACES),
   mergeMap(action => {
-    const searchUrl = apiUrl + 'places';
+    const searchUrl = apiUrl + '/places';
     const requestUrl = `${searchUrl}?variant=${action.variant}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updatePlaces({ places: response }))
@@ -55,7 +55,7 @@ const getPlaces = action$ => action$.pipe(
 const getPlace = action$ => action$.pipe(
   ofType(FETCH_PLACE),
   mergeMap(action => {
-    const searchUrl = apiUrl + 'places';
+    const searchUrl = apiUrl + '/places';
     const requestUrl = `${searchUrl}/${encodeURIComponent(action.placeId)}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updatePlace({ place: response }))
@@ -79,9 +79,8 @@ const getFacet = (action$, state$) => action$.pipe(
     if (activeFilters) {
       params.filters = JSON.stringify(filters);
     }
-    const searchUrl = apiUrl + 'facets';
+    const searchUrl = apiUrl + '/facets';
     const requestUrl = `${searchUrl}?${stringify(params)}`;
-    console.log(requestUrl)
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateFacet({ facetValues: response }))
     );
