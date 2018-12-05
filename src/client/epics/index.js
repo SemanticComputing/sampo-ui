@@ -81,6 +81,7 @@ const getFacet = (action$, state$) => action$.pipe(
     }
     const searchUrl = apiUrl + 'facets';
     const requestUrl = `${searchUrl}?${stringify(params)}`;
+    console.log(requestUrl)
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateFacet({ facetValues: response }))
     );
