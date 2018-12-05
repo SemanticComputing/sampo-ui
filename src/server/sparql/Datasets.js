@@ -61,7 +61,7 @@ module.exports = {
           }
           #ORDER BY (!BOUND(?orderBy)) ?orderBy
           ORDER BY ?id
-          
+
           <PAGE>
         }
         FILTER(BOUND(?id))
@@ -140,10 +140,9 @@ module.exports = {
       (COUNT(DISTINCT ?manuscript) as ?manuscriptCount)
       WHERE {
         {
-          ?id a mmm-schema:Place .
-          ?id skos:prefLabel ?prefLabel .
-          OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
           ?manuscript ^frbroo:R18_created/crm:P7_took_place_at ?id .
+          ?id skos:prefLabel ?prefLabel .
+          OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }  
           OPTIONAL {
             ?id wgs84:lat ?lat ;
                 wgs84:long ?long .
@@ -151,10 +150,9 @@ module.exports = {
         }
         UNION
         {
-          ?id a mmm-schema:Place .
+          ?manuscript ^crm:P108_has_produced/crm:P7_took_place_at ?id .
           ?id skos:prefLabel ?prefLabel .
           OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
-          ?manuscript ^crm:P108_has_produced/crm:P7_took_place_at ?id .
           OPTIONAL {
             ?id wgs84:lat ?lat ;
                 wgs84:long ?long .
