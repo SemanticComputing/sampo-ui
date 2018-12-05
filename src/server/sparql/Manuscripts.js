@@ -12,7 +12,7 @@ const facetConfigs = {
   productionPlace: {
     id: 'productionPlace',
     label: 'Production place',
-    predicate: '^frbroo:R18_created/crm:P7_took_place_at',
+    predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/crm:P7_took_place_at',
     //predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/crm:P7_took_place_at',
     hierarchical: true,
   },
