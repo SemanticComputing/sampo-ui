@@ -14,8 +14,8 @@ const styles = () => ({
   dialogPaper: {
     minHeight: '80vh',
     maxHeight: '80vh',
-    minWidth: '60vh',
-    maxWidth: '100vh',
+    //minWidth: '90vh',
+    maxWidth: 'calc(100% - 30px)',
   },
 });
 
@@ -35,12 +35,14 @@ class FacetDialog extends React.Component {
       return (
         <Tree
           data={facetValues}
-          fetchFacet={this.props.fetchFacet}
           updateFilter={this.props.updateFilter}
         />
       );
     } else if (activeFacet != '') {
-      return <EnhancedTable data={facetValues} />;
+      return <EnhancedTable
+        data={facetValues}
+        updateFilter={this.props.updateFilter}
+      />;
     } else {
       return '';
     }

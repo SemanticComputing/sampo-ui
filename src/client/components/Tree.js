@@ -10,6 +10,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 const styles = () => ({
   root: {
     height: '100%',
+    width: 600
   },
   searchForm: {
     display: 'inline-block',
@@ -185,7 +186,6 @@ class Tree extends Component {
 Tree.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
-  fetchFacet: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
 };
 
