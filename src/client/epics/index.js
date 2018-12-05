@@ -1,4 +1,3 @@
-
 import { ajax } from 'rxjs/ajax';
 import { mergeMap, map, withLatestFrom } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
@@ -16,7 +15,7 @@ import {
 
 const apiUrl = (process.env.NODE_ENV === 'development')
   ? 'http://localhost:3001/'
-  : 'http://test.ui.mappingmanuscriptmigrations.org/';
+  : location.hostname;
 
 const getManuscripts = (action$, state$) => action$.pipe(
   ofType(FETCH_MANUSCRIPTS),
