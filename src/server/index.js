@@ -1,7 +1,6 @@
 import express from 'express';
 const path = require('path');
 import bodyParser from 'body-parser';
-
 import {
   getManuscripts,
   getPlaces,
@@ -10,6 +9,7 @@ import {
 } from './sparql/Manuscripts';
 const DEFAULT_PORT = 3001;
 const app = express();
+const apiPath = '/api';
 
 app.set('port', process.env.PORT || DEFAULT_PORT);
 app.use(bodyParser.json());
@@ -24,7 +24,7 @@ app.use(function(req, res, next) {
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, './../public/')));
 
-app.get('/manuscripts', (req, res) => {
+app.get(`${apiPath}/manuscripts`, (req, res) => {
   const page = parseInt(req.query.page) || 0;
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
   const pagesize = 5;
@@ -39,7 +39,7 @@ app.get('/manuscripts', (req, res) => {
     });
 });
 
-app.get('/places/:placeId?', (req, res) => {
+app.get(`${apiPath}/places/:placeId?`, (req, res) => {
   if (req.params.placeId) {
     return getPlace(req.params.placeId).then(data => {
       res.json(data[0]);
@@ -61,7 +61,7 @@ app.get('/places/:placeId?', (req, res) => {
   }
 });
 
-app.get('/facets', (req, res) => {
+app.get(`${apiPath}/facets`, (req, res) => {
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
   // console.log(filters)
   return getFacets(filters).then((data) => {
