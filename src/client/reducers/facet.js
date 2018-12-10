@@ -11,13 +11,13 @@ export const INITIAL_STATE = {
     productionPlace: {
       id: 'productionPlace',
       label: 'Production place',
-      predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/crm:P7_took_place_at',
+      //predicate: defined in backend
       hierarchical: true,
     },
     author: {
       id: 'author',
       label: 'Author',
-      predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/crm:P14_carried_out_by',
+      // predicate: defined in backend
       hierarchical: false
     }
   },

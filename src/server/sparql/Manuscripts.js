@@ -12,14 +12,15 @@ const facetConfigs = {
   productionPlace: {
     id: 'productionPlace',
     label: 'Production place',
-    predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/crm:P7_took_place_at',
-    //predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/crm:P7_took_place_at',
+    // predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/crm:P7_took_place_at',
+    predicate: '^frbroo:R18_created/crm:P7_took_place_at',
     hierarchical: true,
   },
   author: {
     id: 'author',
     label: 'Author',
-    predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/mmm-schema:carried_out_by_as_author',
+    // predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/mmm-schema:carried_out_by_as_author',
+    predicate: '^frbroo:R18_created/mmm-schema:carried_out_by_as_author',
     hierarchical: false
   }
 };
@@ -48,7 +49,7 @@ const getManuscriptData = (page, pagesize, filters) => {
     manuscriptQuery = manuscriptQuery.replace('<FILTER>', generateResultFilter(filters));
   }
   manuscriptQuery = manuscriptQuery.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`);
-  //console.log(manuscriptQuery)
+  // console.log(manuscriptQuery)
   return sparqlSearchEngine.doSearch(manuscriptQuery, endpoint, makeObjectList);
 };
 

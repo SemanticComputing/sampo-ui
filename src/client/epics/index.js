@@ -21,20 +21,8 @@ const getManuscripts = (action$, state$) => action$.pipe(
   ofType(FETCH_MANUSCRIPTS),
   withLatestFrom(state$),
   mergeMap(([, state]) => {
-    let params = { page: state.search.page };
-    let filters = {};
-    let activeFilters = false;
-    for (const [key, value] of Object.entries(state.facet.facetFilters)) {
-      if (value.size != 0) {
-        activeFilters = true;
-        filters[key] = Array.from(value);
-      }
-    }
-    if (activeFilters) {
-      params.filters = JSON.stringify(filters);
-    }
     const searchUrl = apiUrl + 'manuscripts';
-    const requestUrl = `${searchUrl}?${stringify(params)}`;
+    const requestUrl = `${searchUrl}?${facetStateToUrl(state.search.page, state.facet.facetFilters)}`;
     return ajax.getJSON(requestUrl).pipe(
       map(data => updateManuscripts({ data }))
     );
@@ -86,6 +74,24 @@ const getFacet = (action$, state$) => action$.pipe(
     );
   })
 );
+
+export const facetStateToUrl = (page, facetFilters) => {
+  let params = { page: page };
+  let filters = {};
+  let activeFilters = false;
+  for (const [key, value] of Object.entries(facetFilters)) {
+    if (value.size != 0) {
+      activeFilters = true;
+      filters[key] = Array.from(value);
+    }
+  }
+  if (activeFilters) {
+    params.filters = JSON.stringify(filters);
+  }
+  // console.log(params)
+  return stringify(params);
+
+};
 
 const rootEpic = combineEpics(
   getManuscripts,

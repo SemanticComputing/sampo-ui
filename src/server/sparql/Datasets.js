@@ -14,8 +14,8 @@ module.exports = {
     'title': 'MMM',
     'shortTitle': 'MMM',
     //'timePeriod': '',
-    'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
-    //'endpoint': 'http://localhost:3050/ds/sparql',
+    //'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
+    'endpoint': 'http://localhost:3050/ds/sparql',
     'countQuery': `
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -142,7 +142,7 @@ module.exports = {
         {
           ?manuscript ^frbroo:R18_created/crm:P7_took_place_at ?id .
           ?id skos:prefLabel ?prefLabel .
-          OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }  
+          OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
           OPTIONAL {
             ?id wgs84:lat ?lat ;
                 wgs84:long ?long .
