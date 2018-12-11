@@ -68,7 +68,8 @@ const columns = [
   {
     label: 'Source',
     property: 'source',
-    desc: 'Source description'
+    desc: 'Source description',
+    filter: true
   },
 ];
 

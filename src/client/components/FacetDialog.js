@@ -9,6 +9,7 @@ import EnhancedTable from './EnhancedTable';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 import Typography from '@material-ui/core/Typography';
+import CheckboxesGroup from './CheckboxesGroup';
 
 const styles = () => ({
   dialogPaper: {
@@ -30,19 +31,27 @@ class FacetDialog extends React.Component {
 
   facetRenderer = facetValues => {
     const { activeFacet, facetOptions } = this.props.facet;
-    const hierarchical = facetOptions[activeFacet] == null ? null : facetOptions[activeFacet].hierarchical;
-    if (activeFacet != '' && hierarchical) {
-      return (
-        <Tree
-          data={facetValues}
-          updateFilter={this.props.updateFilter}
-        />
-      );
-    } else if (activeFacet != '') {
-      return <EnhancedTable
-        data={facetValues}
-        updateFilter={this.props.updateFilter}
-      />;
+    const facetType = facetOptions[activeFacet] == null ? null : facetOptions[activeFacet].type;
+    if (activeFacet != '') {
+      switch(facetType) {
+        case 'hierarchical':
+          return (
+            <Tree
+              data={facetValues}
+              updateFilter={this.props.updateFilter}
+            />
+          );
+        case 'table':
+          return <EnhancedTable
+            data={facetValues}
+            updateFilter={this.props.updateFilter}
+          />;
+        case 'checkboxes':
+          return <CheckboxesGroup
+            data={facetValues}
+            updateFilter={this.props.updateFilter}
+          />;
+      }
     } else {
       return '';
     }
@@ -52,7 +61,6 @@ class FacetDialog extends React.Component {
     const { classes, facet } = this.props;
     const label = facet.facetOptions[facet.activeFacet] == null ? '' : facet.facetOptions[facet.activeFacet].label;
     const facetValues = facet.facetValues[facet.activeFacet] == null ? [] : facet.facetValues[facet.activeFacet];
-
     return (
       <Dialog
         classes={{ paper: classes.dialogPaper }}

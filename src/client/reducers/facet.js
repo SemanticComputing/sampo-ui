@@ -12,22 +12,30 @@ export const INITIAL_STATE = {
       id: 'productionPlace',
       label: 'Production place',
       //predicate: defined in backend
-      hierarchical: true,
+      type: 'hierarchical',
     },
     author: {
       id: 'author',
       label: 'Author',
       // predicate: defined in backend
-      hierarchical: false
+      type: 'table'
+    },
+    source: {
+      id: 'source',
+      label: 'Source',
+      // predicate: defined in backend
+      type: 'checkboxes'
     }
   },
   facetValues : {
     productionPlace: [],
-    author: []
+    author: [],
+    source: []
   },
   facetFilters: {
     productionPlace: new Set(),
     author: new Set(),
+    source: new Set(),
   },
   fetchingFacet : false,
   facetDialogOpen: false,

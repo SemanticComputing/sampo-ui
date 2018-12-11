@@ -218,9 +218,8 @@ module.exports = {
           {
             ?instance a frbroo:F4_Manifestation_Singleton .
             <FILTER>
-            #?value dct:source mmm-schema:Bodley .
             ?instance <PREDICATE> ?id .
-            ?id dct:source ?source .
+            OPTIONAL { ?id dct:source ?source }
             OPTIONAL { ?id crm:P89_falls_within ?parent_ }
             BIND(COALESCE(?parent_, '0') as ?parent)
           }
@@ -228,8 +227,6 @@ module.exports = {
           ORDER BY DESC(?instanceCount)
         }
         FILTER(BOUND(?id))
-        #<SELECTED_VALUES>
-        #VALUES ?selectedValues { <http://ldf.fi/mmm/place/926> }
         ?id skos:prefLabel ?prefLabel_
         BIND(STR(?prefLabel_) AS ?prefLabel)
       }
