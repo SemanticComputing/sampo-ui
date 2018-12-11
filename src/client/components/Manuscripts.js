@@ -10,11 +10,11 @@ import Pie from './Pie';
 let Manuscripts = props => {
   return (
     <React.Fragment>
-      <ViewTabs routeProps={props.routeProps} />
       <Route
         exact path='/manuscripts'
         render={() => <Redirect to='manuscripts/table' />}
       />
+      <ViewTabs routeProps={props.routeProps} />
       <Route
         path={'/manuscripts/table'}
         render={routeProps =>

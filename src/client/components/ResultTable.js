@@ -15,9 +15,10 @@ import { parse } from 'query-string';
 
 const styles = (theme) => ({
   tableContainer: {
-    marginTop: 72,
+    //marginTop: 72,
     overflow: 'auto',
-    width: 'calc(100% - 8px)'
+    width: '100%',
+    height: '100%'
   },
   table: {
     //marginTop: 72,
@@ -87,7 +88,7 @@ class ResultTable extends React.Component {
       this.props.fetchManuscripts();
     }
   }
-  
+
   stringListRenderer = cell => {
     if (cell == null || cell === '-'){
       return '-';

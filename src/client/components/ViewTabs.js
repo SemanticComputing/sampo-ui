@@ -12,9 +12,9 @@ import { Link } from 'react-router-dom';
 
 const styles = {
   root: {
-    width: 'calc(100% - 8px)',
-    position: 'absolute',
-    top: 64,
+    flexGrow: 1,
+    //position: 'absolute',
+    //top: 64,
     //backgroundColor: 'rgb(238, 238, 238)',
   },
 };
@@ -63,9 +63,9 @@ class ViewTabs extends React.Component {
         <Tabs
           value={this.state.value}
           onChange={this.handleChange}
-          fullWidth
           indicatorColor="secondary"
           textColor="secondary"
+          fullWidth
         >
           <Tab icon={<CalendarViewDayIcon />} label="manuscripts table" component={Link} to="/manuscripts" />
           <Tab icon={<AddLocationIcon />} label="production places" component={Link} to="/manuscripts/production_places" />
