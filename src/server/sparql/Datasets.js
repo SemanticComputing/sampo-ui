@@ -1,14 +1,3 @@
-// # (GROUP_CONCAT(DISTINCT ?owner_; SEPARATOR=" | ") AS ?owner)
-// # OPTIONAL {
-// #   ?id crm:P51_has_former_or_current_owner ?ownerId .
-// #   ?ownerId skos:prefLabel ?ownerLabel .
-// #   ?ownerRei rdf:subject ?id ;
-// #             rdf:predicate crm:P51_has_former_or_current_owner ;
-// #             rdf:object ?ownerId ;
-// #             mmm-schema:order ?ownerOrder ;
-// #             mmm-schema:entry ?ownerEntry .
-// #   BIND(CONCAT(STR(?ownerLabel), ";", STR(?ownerId), ";", STR(?ownerOrder), ";", STR(?ownerEntry)) AS ?owner_)
-// # }
 module.exports = {
   'mmm': {
     'title': 'MMM',
@@ -32,8 +21,6 @@ module.exports = {
       WHERE {
         <FILTER>
         ?id a  frbroo:F4_Manifestation_Singleton .
-        # ?id dct:source mmm-schema:Bodley .
-        # ?id dct:source mmm-schema:SDBM .
       }
       `,
     'manuscriptQuery': `
@@ -57,11 +44,11 @@ module.exports = {
             ?id a frbroo:F4_Manifestation_Singleton .
             # ?id dct:source mmm-schema:Bodley .
             # ?id dct:source mmm-schema:SDBM .
+            # ?id dct:source mmm-schema:Bibale .
             # ?id (^frbroo:R18_created|^crm:P108_has_produced)/crm:P7_took_place_at/skos:prefLabel ?orderBy .
           }
           #ORDER BY (!BOUND(?orderBy)) ?orderBy
           ORDER BY ?id
-
           <PAGE>
         }
         FILTER(BOUND(?id))
@@ -73,23 +60,23 @@ module.exports = {
         }
         UNION
         {
-          ?production frbroo:R18_created|crm:P108_has_produced ?id .
-          ?production mmm-schema:carried_out_by_as_author ?author__id .
+          ?id crm:P128_carries/^frbroo:R17_created/frbroo:R19_created_a_realisation_of/^frbroo:R16_initiated ?workConception .
+          ?workConception mmm-schema:carried_out_by_as_author ?author__id .
           ?author__id skos:prefLabel ?author__prefLabel .
-          ?author__id mmm-schema:data_provider_url ?author__dataProviderUrl .
+          OPTIONAL { ?author__id mmm-schema:data_provider_url ?author__dataProviderUrl }
         }
         UNION
         {
-          ?production frbroo:R18_created|crm:P108_has_produced ?id .
+          ?production crm:P108_has_produced ?id .
           ?production crm:P4_has_time-span ?timespan .
           ?timespan skos:prefLabel ?timespan__id .
-          ?timespan crm:P79_beginning_is_qualified_by ?timespan__start .
-          ?timespan crm:P80_end_is_qualified_by ?timespan__end .
+          OPTIONAL { ?timespan crm:P79_beginning_is_qualified_by ?timespan__start }
+          OPTIONAL { ?timespan crm:P80_end_is_qualified_by ?timespan__end }
           BIND (?timespan__id AS ?timespan__prefLabel)
         }
         UNION
         {
-          ?production frbroo:R18_created|crm:P108_has_produced ?id .
+          ?production crm:P108_has_produced ?id .
           ?production crm:P7_took_place_at ?productionPlace__id .
           ?productionPlace__id skos:prefLabel ?productionPlace__prefLabel .
           OPTIONAL { ?productionPlace__id mmm-schema:data_provider_url ?productionPlace__dataProviderUrl }
@@ -102,7 +89,7 @@ module.exports = {
         {
           ?id crm:P51_has_former_or_current_owner ?owner__id .
           ?owner__id skos:prefLabel ?owner__prefLabel .
-          ?owner__id mmm-schema:data_provider_url ?owner__dataProviderUrl .
+          OPTIONAL { ?owner__id mmm-schema:data_provider_url ?owner__dataProviderUrl }
           OPTIONAL {
             [] rdf:subject ?id ;
               rdf:predicate crm:P51_has_former_or_current_owner ;
@@ -125,7 +112,6 @@ module.exports = {
           OPTIONAL { ?event__id crm:P7_took_place_at|mmm-schema:observed_location ?event__place. }
           OPTIONAL { ?event__id  mmm-schema:data_provider_url ?event__dataProviderUrl }
         }
-
       }
       `,
     'productionPlacesQuery': `
@@ -139,24 +125,12 @@ module.exports = {
       SELECT ?id ?lat ?long ?prefLabel ?dataProviderUrl
       (COUNT(DISTINCT ?manuscript) as ?manuscriptCount)
       WHERE {
-        {
-          ?manuscript ^frbroo:R18_created/crm:P7_took_place_at ?id .
-          ?id skos:prefLabel ?prefLabel .
-          OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
-          OPTIONAL {
-            ?id wgs84:lat ?lat ;
-                wgs84:long ?long .
-          }
-        }
-        UNION
-        {
-          ?manuscript ^crm:P108_has_produced/crm:P7_took_place_at ?id .
-          ?id skos:prefLabel ?prefLabel .
-          OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
-          OPTIONAL {
-            ?id wgs84:lat ?lat ;
-                wgs84:long ?long .
-          }
+        ?manuscript ^crm:P108_has_produced/crm:P7_took_place_at ?id .
+        ?id skos:prefLabel ?prefLabel .
+        OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
+        OPTIONAL {
+          ?id wgs84:lat ?lat ;
+              wgs84:long ?long .
         }
       }
       GROUP BY ?id ?lat ?long ?prefLabel ?dataProviderUrl

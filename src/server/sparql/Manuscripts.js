@@ -12,15 +12,13 @@ const facetConfigs = {
   productionPlace: {
     id: 'productionPlace',
     label: 'Production place',
-    // predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/crm:P7_took_place_at',
-    predicate: '^frbroo:R18_created/crm:P7_took_place_at',
+    predicate: '^crm:P108_has_produced/crm:P7_took_place_at',
     hierarchical: true,
   },
   author: {
     id: 'author',
     label: 'Author',
-    // predicate: '(^frbroo:R18_created|^crm:P108_has_produced)/mmm-schema:carried_out_by_as_author',
-    predicate: '^frbroo:R18_created/mmm-schema:carried_out_by_as_author',
+    predicate: 'crm:P128_carries/^frbroo:R17_created/frbroo:R19_created_a_realisation_of/^frbroo:R16_initiated/mmm-schema:carried_out_by_as_author',
     hierarchical: false
   }
 };
