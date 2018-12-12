@@ -26,11 +26,19 @@ class FacetDialog extends React.Component {
     this.props.fetchFacet();
   }
 
+<<<<<<< HEAD
   // componentDidUpdate = prevProps => {
   //   if (prevProps.facet.facetFilters != this.props.facet.facetFilters) {
   //     this.props.fetchFacet();
   //   }
   // }
+=======
+  componentDidUpdate = prevProps => {
+    if (prevProps.facet.facetFilters != this.props.facet.facetFilters) {
+      this.props.fetchFacet();
+    }
+  }
+>>>>>>> 467c1d7b0260ffc7ff809f4a630fa873a05f66dc
 
   handleClose = () => this.props.closeFacetDialog();
 
