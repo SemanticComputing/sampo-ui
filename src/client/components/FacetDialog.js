@@ -23,9 +23,14 @@ const styles = () => ({
 class FacetDialog extends React.Component {
 
   componentDidMount = () => {
-    // console.log('facet dialog mounted, fetch facet');
     this.props.fetchFacet();
   }
+
+  // componentDidUpdate = prevProps => {
+  //   if (prevProps.facet.facetFilters != this.props.facet.facetFilters) {
+  //     this.props.fetchFacet();
+  //   }
+  // }
 
   handleClose = () => this.props.closeFacetDialog();
 

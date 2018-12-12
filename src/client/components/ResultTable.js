@@ -82,22 +82,12 @@ class ResultTable extends React.Component {
       });
     }
     if (prevProps.facetFilters != this.props.facetFilters) {
-      console.log('filters updated')
+      // console.log('filters updated')
       this.props.updatePage(0);
       this.props.fetchManuscripts();
     }
-
   }
-
-  // idRenderer = id => {
-  //   const plainId = id.substring(id.lastIndexOf('/') + 1);
-  //   return (
-  //     <div className={this.props.classes.tableColumn}>
-  //       <a target='_blank' rel='noopener noreferrer' href={id}>{plainId}</a>
-  //     </div>
-  //   );
-  // };
-
+  
   stringListRenderer = cell => {
     if (cell == null || cell === '-'){
       return '-';
