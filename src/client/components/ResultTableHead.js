@@ -99,9 +99,9 @@ class ResultTableHead extends React.Component {
     this.setState({ order, orderBy });
   };
 
-  handleFacetButtonOnClick = property => () => {
-    this.props.openFacetDialog(property);
-  }
+  // handleFacetButtonOnClick = property => () => {
+  //   this.props.openFacetDialog(property);
+  // }
 
   // <TableSortLabel
   //   active={orderBy === column.property}
@@ -162,7 +162,6 @@ ResultTableHead.propTypes = {
   updatePage: PropTypes.func.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired,
-  openFacetDialog: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(ResultTableHead);

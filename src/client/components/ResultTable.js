@@ -309,7 +309,6 @@ ResultTable.propTypes = {
   resultCount: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
   updatePage: PropTypes.func.isRequired,
-  openFacetDialog: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired
 };
 

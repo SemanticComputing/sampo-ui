@@ -73,7 +73,6 @@ Manuscripts.propTypes = {
   fetchPlaces: PropTypes.func.isRequired,
   fetchPlace:  PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
-  openFacetDialog: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired
 };
 
