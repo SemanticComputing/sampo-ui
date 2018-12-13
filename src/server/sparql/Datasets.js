@@ -148,7 +148,7 @@ module.exports = {
       SELECT DISTINCT ?id ?manuscript__id ?manuscript__url ?from__id ?from__name ?from__lat ?from__long ?to__id ?to__name ?to__lat ?to__long
       WHERE {
         # https://github.com/uber/deck.gl/blob/master/docs/layers/arc-layer.md
-        ?manuscript__id ^frbroo:R18_created/crm:P7_took_place_at ?from__id .
+        ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?from__id .
         ?manuscript__id mmm-schema:data_provider_url ?manuscript__url .
         ?from__id skos:prefLabel ?from__name .
         ?from__id wgs84:lat ?from__lat ;
