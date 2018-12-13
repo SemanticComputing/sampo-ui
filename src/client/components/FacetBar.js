@@ -5,19 +5,35 @@ import Tree from './Tree';
 // import EnhancedTable from './EnhancedTable';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
-import Paper from '@material-ui/core/Paper';
-//import Typography from '@material-ui/core/Typography';
+
+import Typography from '@material-ui/core/Typography';
 // import CheckboxesGroup from './CheckboxesGroup';
+import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
   root: {
     width: '100%',
     height: '100%'
   },
+  headingContainer: {
+    paddingTop: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+  },
   facetContainer: {
     height: 350,
-    borderBottom: '4px solid' + theme.palette.primary.main,
-  }
+    marginBottom: theme.spacing.unit,
+  },
+  facetContainerLast: {
+    height: 350,
+    marginBottom: 2,
+  },
+  facetValuesContainer: {
+    height: 288,
+    padding: theme.spacing.unit,
+  },
 });
 
 class FacetBar extends React.Component {
@@ -32,6 +48,8 @@ class FacetBar extends React.Component {
   //   }
   // }
 
+  //
+
   render() {
     const { classes, facet } = this.props;
 
@@ -39,12 +57,35 @@ class FacetBar extends React.Component {
       <div className={classes.root}>
         {this.props.facet.fetchingFacet ?
           <CircularProgress style={{ color: purple[500] }} thickness={5} /> :
-          <Paper className={classes.facetContainer}>
-            <Tree
-              data={facet.facetValues.productionPlace}
-              updateFilter={this.props.updateFilter}
-            />
-          </Paper>
+          <React.Fragment>
+            <Paper className={classes.facetContainer}>
+              <Paper className={classes.headingContainer}>
+                <Typography variant="h6">Title</Typography>
+              </Paper>
+              <div className={classes.facetValues}>
+
+              </div>
+            </Paper>
+            <Paper className={classes.facetContainer}>
+              <Paper className={classes.headingContainer}>
+                <Typography variant="h6">Author</Typography>
+              </Paper>
+              <div className={classes.facetValues}>
+
+              </div>
+            </Paper>
+            <Paper className={classes.facetContainerLast}>
+              <Paper className={classes.headingContainer}>
+                <Typography variant="h6">Production place</Typography>
+              </Paper>
+              <div className={classes.facetValuesContainer}>
+                <Tree
+                  data={facet.facetValues.productionPlace}
+                  updateFilter={this.props.updateFilter}
+                />
+              </div>
+            </Paper>
+          </React.Fragment>
         }
       </div>
     );

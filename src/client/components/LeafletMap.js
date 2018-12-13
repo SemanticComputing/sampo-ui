@@ -36,6 +36,9 @@ const style = {
 };
 
 const styles = () => ({
+  leafletContainer: {
+    height: 'calc(100% - 72px)'
+  },
   spinner: {
     height: 40,
     width: 40,
@@ -284,7 +287,7 @@ class LeafletMap extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="leaflet-outer-container">
+        <div className={this.props.classes.leafletContainer}>
           {/*<LeafletSidebar />*/}
           <div id="map" style={style} />
         </div>

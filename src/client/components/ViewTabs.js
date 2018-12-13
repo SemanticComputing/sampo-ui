@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -9,15 +8,16 @@ import AddLocationIcon from '@material-ui/icons/AddLocation';
 import RedoIcon from '@material-ui/icons/Redo';
 import PieChartIcon from '@material-ui/icons/PieChart';
 import { Link } from 'react-router-dom';
+import Paper from '@material-ui/core/Paper';
 
-const styles = {
+
+const styles = () => ({
   root: {
     flexGrow: 1,
-    //position: 'absolute',
-    //top: 64,
-    //backgroundColor: 'rgb(238, 238, 238)',
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
   },
-};
+});
 
 class ViewTabs extends React.Component {
   constructor(props) {
@@ -56,10 +56,12 @@ class ViewTabs extends React.Component {
     this.setState({ value });
   };
 
+
+
   render() {
     const { classes } = this.props;
     return (
-      <Paper square className={classes.root}>
+      <Paper className={classes.root}>
         <Tabs
           value={this.state.value}
           onChange={this.handleChange}
@@ -67,7 +69,7 @@ class ViewTabs extends React.Component {
           textColor="secondary"
           fullWidth
         >
-          <Tab icon={<CalendarViewDayIcon />} label="manuscripts table" component={Link} to="/manuscripts" />
+          <Tab icon={<CalendarViewDayIcon />} label="table" component={Link} to="/manuscripts" />
           <Tab icon={<AddLocationIcon />} label="production places" component={Link} to="/manuscripts/production_places" />
           <Tab icon={<RedoIcon />} label="migrations" component={Link} to="/manuscripts/migrations" />
           <Tab icon={<PieChartIcon />} label="statistics" component={Link} to="/manuscripts/statistics"/>

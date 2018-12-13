@@ -5,7 +5,6 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
@@ -13,18 +12,18 @@ import ResultTableHead from './ResultTableHead';
 import { orderBy, has } from 'lodash';
 import { parse } from 'query-string';
 
-const styles = (theme) => ({
+const styles = () => ({
   tableContainer: {
     //marginTop: 72,
     overflow: 'auto',
     width: '100%',
-    height: '100%'
+    height: 'calc(100% - 72px)'
   },
   table: {
     //marginTop: 72,
-    minWidth: 700,
+    //minWidth: 700,
     //overflowX: 'auto',
-    backgroundColor: theme.palette.background.paper
+    //backgroundColor: theme.palette.background.paper
   },
   paginationRow: {
     borderBottom: '1px solid lightgrey'
@@ -44,7 +43,7 @@ const styles = (theme) => ({
   },
   progressContainer: {
     width: '100%',
-    height: '100%',
+    height: 'calc(100% - 72px)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -241,10 +240,10 @@ class ResultTable extends React.Component {
     // console.log(rows)
     if (this.props.fetchingManuscripts   ) {
       return (
-        <Paper className={classes.progressContainer}>
+        <div className={classes.progressContainer}>
           <Typography className={classes.progressTitle} variant="h4" color='primary'>Fetching manuscript data</Typography>
           <CircularProgress style={{ color: purple[500] }} thickness={5} />
-        </Paper>
+        </div>
       );
     } else {
       return (
@@ -255,7 +254,6 @@ class ResultTable extends React.Component {
               updatePage={this.props.updatePage}
               resultCount={this.props.resultCount}
               page={this.props.page}
-              openFacetDialog={this.props.openFacetDialog}
               routeProps={this.props.routeProps}
             />
             <TableBody>

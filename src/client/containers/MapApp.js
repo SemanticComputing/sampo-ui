@@ -12,6 +12,7 @@ import Manuscripts from '../components/Manuscripts';
 import Main from '../components/Main';
 import FacetBar from '../components/FacetBar';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 
 import {
@@ -51,13 +52,24 @@ const styles = theme => ({
       marginTop: 56,
       height: 'calc(100% - 122px)',
     },
-    backgroundColor: '#E0E0E0',
-    // paddingLeft: 8,
-    // paddingRight: 8,
-    // paddingTop: 4
+    backgroundColor: '#bdbdbd',
+    padding: theme.spacing.unit,
   },
-  gridItem: {
-    borderRight: '4px solid' + theme.palette.primary.main,
+  facetBarContainer: {
+    height: '100%',
+    overflow: 'auto',
+    paddingTop: '0px !important',
+    paddingBottom: '0px !important'
+  },
+  resultsContainer: {
+    height: '100%',
+    overflow: 'auto',
+    paddingTop: '0px !important',
+    paddingBottom: '0px !important'
+  },
+  resultsContainerPaper: {
+    height: '100%'
+
   }
 });
 
@@ -72,13 +84,13 @@ let MapApp = (props) => {
         <Router>
           <React.Fragment>
             <TopBar />
-            <Grid container className={classes.mainContainer}>
+            <Grid container spacing={8} className={classes.mainContainer}>
               <Route exact path="/" component={Main} />
               <Route
                 path="/manuscripts"
                 render={routeProps =>
                   <React.Fragment>
-                    <Grid item sm={12} md={4} className={classes.gridItem} >
+                    <Grid item sm={12} md={3} className={classes.facetBarContainer}>
                       <FacetBar
                         facet={props.facet}
                         fetchFacet={props.fetchFacet}
@@ -86,16 +98,18 @@ let MapApp = (props) => {
                         updatePage={props.updatePage}
                       />
                     </Grid>
-                    <Grid item sm={12} md={8}>
-                      <Manuscripts
-                        search={props.search}
-                        facetFilters={props.facet.facetFilters}
-                        fetchManuscripts={props.fetchManuscripts}
-                        fetchPlaces={props.fetchPlaces}
-                        fetchPlace={props.fetchPlace}
-                        updatePage={props.updatePage}
-                        routeProps={routeProps}
-                      />
+                    <Grid item sm={12} md={9} className={classes.resultsContainer}>
+                      <Paper className={classes.resultsContainerPaper}>
+                        <Manuscripts
+                          search={props.search}
+                          facetFilters={props.facet.facetFilters}
+                          fetchManuscripts={props.fetchManuscripts}
+                          fetchPlaces={props.fetchPlaces}
+                          fetchPlace={props.fetchPlace}
+                          updatePage={props.updatePage}
+                          routeProps={routeProps}
+                        />
+                      </Paper>
                     </Grid>
                   </React.Fragment>
                 }

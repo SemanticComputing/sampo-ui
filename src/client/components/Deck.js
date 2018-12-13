@@ -24,9 +24,6 @@ import Typography from '@material-ui/core/Typography';
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZWtrb25lbiIsImEiOiJjam5vampzZ28xd2dyM3BzNXR0Zzg4azl4In0.eozyF-bBaZbA3ibhvJlJpQ';
 
 const styles = theme => ({
-  mapGLContainer: {
-    marginTop: 72
-  },
   tooltip: {
     position: 'absolute',
     padding: '4px',
@@ -186,13 +183,14 @@ class Deck extends React.Component {
      onClick: info => this.setDialog(info),
    });
    // https://www.mapbox.com/mapbox-gl-js/api#map
+   { /* style={{marginTop: 72}} */}
    return (
      <ReactMapGL
        {...this.state.viewport}
        className={this.props.classes.root}
        width='100%'
-       height='calc(100% - 76px)'
-       style={{marginTop: 72}}
+       height='calc(100% - 72px)'
+
        onViewportChange={this._onViewportChange}
        mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
        mapOptions={{

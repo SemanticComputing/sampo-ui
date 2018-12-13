@@ -26,7 +26,6 @@ let Manuscripts = props => {
             resultCount={props.search.manuscriptCount}
             page={props.search.page}
             updatePage={props.updatePage}
-            openFacetDialog={props.openFacetDialog}
             routeProps={routeProps}
           />
         }
