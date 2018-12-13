@@ -10,7 +10,10 @@ import Footer from '../components/Footer';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Manuscripts from '../components/Manuscripts';
 import Main from '../components/Main';
-import FacetDialog from '../components/FacetDialog';
+import FacetBar from '../components/FacetBar';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+
 
 import {
   fetchManuscripts,
@@ -43,18 +46,30 @@ const styles = theme => ({
     //minHeight: 700
   },
   mainContainer: {
-    display: 'flex',
-    width: '100%',
     marginTop: 64,
     height: 'calc(100% - 128px)',
     [theme.breakpoints.down(600)]: {
       marginTop: 56,
       height: 'calc(100% - 122px)',
     },
-    borderRight: '4px solid' + theme.palette.primary.main,
-    borderLeft: '4px solid' + theme.palette.primary.main,
-    //backgroundColor: 'rgb(238, 238, 238)'
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: '#bdbdbd',
+    padding: theme.spacing.unit,
+  },
+  facetBarContainer: {
+    height: '100%',
+    overflow: 'auto',
+    paddingTop: '0px !important',
+    paddingBottom: '0px !important'
+  },
+  resultsContainer: {
+    height: '100%',
+    overflow: 'auto',
+    paddingTop: '0px !important',
+    paddingBottom: '0px !important'
+  },
+  resultsContainerPaper: {
+    height: '100%'
+
   }
 });
 
@@ -69,32 +84,39 @@ let MapApp = (props) => {
         <Router>
           <React.Fragment>
             <TopBar />
-            <div className={classes.mainContainer}>
+            <Grid container spacing={8} className={classes.mainContainer}>
               <Route exact path="/" component={Main} />
               <Route
                 path="/manuscripts"
                 render={routeProps =>
-                  <Manuscripts
-                    search={props.search}
-                    facetFilters={props.facet.facetFilters}
-                    fetchManuscripts={props.fetchManuscripts}
-                    fetchPlaces={props.fetchPlaces}
-                    fetchPlace={props.fetchPlace}
-                    updatePage={props.updatePage}
-                    openFacetDialog={props.openFacetDialog}
-                    routeProps={routeProps}
-                  />}
+                  <React.Fragment>
+                    <Grid item sm={12} md={3} className={classes.facetBarContainer}>
+                      <FacetBar
+                        facet={props.facet}
+                        fetchFacet={props.fetchFacet}
+                        updateFilter={props.updateFilter}
+                        updatePage={props.updatePage}
+                      />
+                    </Grid>
+                    <Grid item sm={12} md={9} className={classes.resultsContainer}>
+                      <Paper className={classes.resultsContainerPaper}>
+                        <Manuscripts
+                          search={props.search}
+                          facetFilters={props.facet.facetFilters}
+                          fetchManuscripts={props.fetchManuscripts}
+                          fetchPlaces={props.fetchPlaces}
+                          fetchPlace={props.fetchPlace}
+                          updatePage={props.updatePage}
+                          routeProps={routeProps}
+                        />
+                      </Paper>
+                    </Grid>
+                  </React.Fragment>
+                }
               />
-            </div>
+            </Grid>
           </React.Fragment>
         </Router>
-        <FacetDialog
-          facet={props.facet}
-          fetchFacet={props.fetchFacet}
-          updateFilter={props.updateFilter}
-          updatePage={props.updatePage}
-          closeFacetDialog={props.closeFacetDialog}
-        />
         <Footer />
       </div>
     </div>

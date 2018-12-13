@@ -4,9 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import TablePagination from '@material-ui/core/TablePagination';
 import ResultTablePaginationActions from './ResultTablePaginationActions';
 // import InfoIcon from '@material-ui/icons/InfoOutlined';
@@ -14,11 +11,11 @@ import ResultTablePaginationActions from './ResultTablePaginationActions';
 
 const styles = () => ({
   paginationRow: {
-    borderBottom: '1px solid lightgrey'
+    //borderBottom: '1px solid lightgrey'
   },
   paginationRoot: {
     display: 'flex',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   }
 });
 
@@ -99,9 +96,9 @@ class ResultTableHead extends React.Component {
     this.setState({ order, orderBy });
   };
 
-  handleFacetButtonOnClick = property => () => {
-    this.props.openFacetDialog(property);
-  }
+  // handleFacetButtonOnClick = property => () => {
+  //   this.props.openFacetDialog(property);
+  // }
 
   // <TableSortLabel
   //   active={orderBy === column.property}
@@ -137,15 +134,6 @@ class ResultTableHead extends React.Component {
                 key={column.property}
               >
                 {column.label}
-                {column.filter &&
-                  <Tooltip title={'Filter ' + column.label.toLowerCase()}>
-                    <IconButton
-                      onClick={this.handleFacetButtonOnClick(column.property)}
-                      aria-label="Filter"
-                    >
-                      <FilterListIcon />
-                    </IconButton>
-                  </Tooltip>}
               </TableCell>
             );
           })}
@@ -162,7 +150,6 @@ ResultTableHead.propTypes = {
   updatePage: PropTypes.func.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired,
-  openFacetDialog: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(ResultTableHead);

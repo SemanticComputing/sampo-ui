@@ -13,7 +13,7 @@ const logoHeight = 52;
 const styles = theme => ({
   root: {
     position: 'absolute',
-    borderTop: '4px solid' + theme.palette.primary.main,
+    //borderTop: '4px solid' + theme.palette.primary.main,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

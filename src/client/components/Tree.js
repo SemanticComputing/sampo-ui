@@ -10,14 +10,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 const styles = () => ({
   root: {
     height: '100%',
-    width: 600
   },
   searchForm: {
     display: 'inline-block',
     height: 50,
   },
   treeContainer: {
-    height: 'calc(100% - 50px)',
+    height: '100%',
   },
   treeNode: {
     fontFamily: 'Roboto',
@@ -70,64 +69,67 @@ class Tree extends Component {
       searchQuery &&
       node.title.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1;
 
-    const selectPrevMatch = () =>
-      this.setState({
-        searchFocusIndex:
-          searchFocusIndex !== null
-            ? (searchFoundCount + searchFocusIndex - 1) % searchFoundCount
-            : searchFoundCount - 1,
-      });
+    // const selectPrevMatch = () =>
+    //   this.setState({
+    //     searchFocusIndex:
+    //       searchFocusIndex !== null
+    //         ? (searchFoundCount + searchFocusIndex - 1) % searchFoundCount
+    //         : searchFoundCount - 1,
+    //   });
+    //
+    // const selectNextMatch = () =>
+    //   this.setState({
+    //     searchFocusIndex:
+    //       searchFocusIndex !== null
+    //         ? (searchFocusIndex + 1) % searchFoundCount
+    //         : 0,
+    //   });
 
-    const selectNextMatch = () =>
-      this.setState({
-        searchFocusIndex:
-          searchFocusIndex !== null
-            ? (searchFocusIndex + 1) % searchFoundCount
-            : 0,
-      });
+      // <form
+      //   className={classes.searchForm}
+      //   onSubmit={event => {
+      //     event.preventDefault();
+      //   }}
+      // >
+      //   <input
+      //     id="find-box"
+      //     type="text"
+      //     placeholder="Search..."
+      //     style={{ fontSize: '1rem' }}
+      //     value={searchString}
+      //     onChange={event =>
+      //       this.setState({ searchString: event.target.value })
+      //     }
+      //   />
+      //
+      //   <button
+      //     type="button"
+      //     disabled={!searchFoundCount}
+      //     onClick={selectPrevMatch}
+      //   >
+      //     &lt;
+      //   </button>
+      //
+      //   <button
+      //     type="submit"
+      //     disabled={!searchFoundCount}
+      //     onClick={selectNextMatch}
+      //   >
+      //     &gt;
+      //   </button>
+      //
+      //   <span>
+      //     &nbsp;
+      //     {searchFoundCount > 0 ? searchFocusIndex + 1 : 0}
+      //     &nbsp;/&nbsp;
+      //     {searchFoundCount || 0}
+      //   </span>
+      // </form>
+
 
     return (
       <div className={classes.root}>
-        <form
-          className={classes.searchForm}
-          onSubmit={event => {
-            event.preventDefault();
-          }}
-        >
-          <input
-            id="find-box"
-            type="text"
-            placeholder="Search..."
-            style={{ fontSize: '1rem' }}
-            value={searchString}
-            onChange={event =>
-              this.setState({ searchString: event.target.value })
-            }
-          />
 
-          <button
-            type="button"
-            disabled={!searchFoundCount}
-            onClick={selectPrevMatch}
-          >
-            &lt;
-          </button>
-
-          <button
-            type="submit"
-            disabled={!searchFoundCount}
-            onClick={selectNextMatch}
-          >
-            &gt;
-          </button>
-
-          <span>
-            &nbsp;
-            {searchFoundCount > 0 ? searchFocusIndex + 1 : 0}
-            &nbsp;/&nbsp;
-            {searchFoundCount || 0}
-          </span>
-        </form>
         <div className={classes.treeContainer}>
           <SortableTree
             treeData={this.state.treeData}

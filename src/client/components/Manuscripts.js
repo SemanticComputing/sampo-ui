@@ -10,11 +10,11 @@ import Pie from './Pie';
 let Manuscripts = props => {
   return (
     <React.Fragment>
-      <ViewTabs routeProps={props.routeProps} />
       <Route
         exact path='/manuscripts'
         render={() => <Redirect to='manuscripts/table' />}
       />
+      <ViewTabs routeProps={props.routeProps} />
       <Route
         path={'/manuscripts/table'}
         render={routeProps =>
@@ -26,7 +26,6 @@ let Manuscripts = props => {
             resultCount={props.search.manuscriptCount}
             page={props.search.page}
             updatePage={props.updatePage}
-            openFacetDialog={props.openFacetDialog}
             routeProps={routeProps}
           />
         }
@@ -73,7 +72,6 @@ Manuscripts.propTypes = {
   fetchPlaces: PropTypes.func.isRequired,
   fetchPlace:  PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
-  openFacetDialog: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired
 };
 
