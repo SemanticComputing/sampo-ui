@@ -5,7 +5,8 @@ import {
   getManuscripts,
   getPlaces,
   getPlace,
-  getFacets
+  getFacets,
+  getFacet
 } from './sparql/Manuscripts';
 const DEFAULT_PORT = 3001;
 const app = express();
@@ -65,6 +66,18 @@ app.get(`${apiPath}/facets`, (req, res) => {
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
   // console.log(filters)
   return getFacets(filters).then((data) => {
+    res.json(data);
+  })
+    .catch((err) => {
+      console.log(err);
+      return res.sendStatus(500);
+    });
+});
+
+app.get(`${apiPath}/facet/:id`, (req, res) => {
+  const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
+  // console.log(filters)
+  return getFacet(req.params.id, filters).then((data) => {
     res.json(data);
   })
     .catch((err) => {

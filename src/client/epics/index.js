@@ -54,7 +54,7 @@ const getPlace = action$ => action$.pipe(
 const getFacet = (action$, state$) => action$.pipe(
   ofType(FETCH_FACET),
   withLatestFrom(state$),
-  mergeMap(([, state]) => {
+  mergeMap(([action, state]) => {
     let params = {};
     let filters = {};
     let activeFilters = false;
@@ -67,10 +67,12 @@ const getFacet = (action$, state$) => action$.pipe(
     if (activeFilters) {
       params.filters = JSON.stringify(filters);
     }
-    const searchUrl = apiUrl + 'facets';
-    const requestUrl = `${searchUrl}?${stringify(params)}`;
+    const requestUrl = `${apiUrl}facet/${action.id}${stringify(params)}`;
     return ajax.getJSON(requestUrl).pipe(
-      map(response => updateFacet({ facetValues: response }))
+      map(response => updateFacet({
+        id: action.id,
+        facetValues: response,
+      }))
     );
   })
 );

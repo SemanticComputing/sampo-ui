@@ -7,12 +7,15 @@ import {
 } from '../actions';
 
 export const INITIAL_STATE = {
+  source: [],
+  productionPlace: [],
+  author: [],
   facetOptions : {
     productionPlace: {
       id: 'productionPlace',
       label: 'Production place',
       //predicate: defined in backend
-      type: 'hierarchical',
+      values: []
     },
     author: {
       id: 'author',
@@ -27,11 +30,11 @@ export const INITIAL_STATE = {
       type: 'checkboxes'
     }
   },
-  facetValues : {
-    productionPlace: [],
-    author: [],
-    source: []
-  },
+  // facetValues : {
+  //   productionPlace: [],
+  //   author: [],
+  //   source: []
+  // },
   facetFilters: {
     productionPlace: new Set(),
     author: new Set(),
@@ -58,7 +61,7 @@ const facet = (state = INITIAL_STATE, action) => {
     case UPDATE_FACET:
       return {
         ...state,
-        facetValues: action.facetValues,
+        [ action.id ]: action.facetValues,
         fetchingFacet: false
       };
     case UPDATE_FILTER:

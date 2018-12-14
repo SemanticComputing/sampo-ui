@@ -78,7 +78,7 @@ export const getPlace = id => {
 };
 
 export const getFacets = filters => {
-  return Promise.all(Object.values(facetConfigs).map(value => getFacet(value, filters)))
+  return Promise.all(Object.keys(facetConfigs).map(id => getFacet(id, filters)))
     .then(data => {
       let results = {};
       let i = 0;
@@ -90,9 +90,9 @@ export const getFacets = filters => {
     });
 };
 
-const getFacet = (facetConfig, filters) => {
+export const getFacet = (id, filters) => {
   let { endpoint, facetQuery } = datasetConfig['mmm'];
-  //console.log(filters)
+  const facetConfig = facetConfigs[id];
   if (filters == null) {
     facetQuery = facetQuery.replace('<FILTER>', '');
   } else {
@@ -113,12 +113,10 @@ const generateFacetFilter = (facetConfig, filters) => {
             ?id ${facetConfigs[property].predicate} ?${property}Filter .
     `;
   }
-  // console.log(filterStr)
   return filterStr;
 };
 
 const generateResultFilter = filters => {
-  //console.log(filters)
   let filterStr = '';
   for (let property in filters) {
     filterStr += `
@@ -126,6 +124,5 @@ const generateResultFilter = filters => {
             ?id ${facetConfigs[property].predicate} ?${property}Filter .
     `;
   }
-  //console.log(filterStr)
   return filterStr;
 };

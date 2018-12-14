@@ -92,7 +92,10 @@ let MapApp = (props) => {
                   <React.Fragment>
                     <Grid item sm={12} md={3} className={classes.facetBarContainer}>
                       <FacetBar
-                        facet={props.facet}
+                        fetchingFacet={props.facet.fetchingFacet}
+                        lastUpdatedFacet={props.facet.lastUpdatedFacet}
+                        source={props.facet.source}
+                        productionPlace={props.facet.productionPlace}
                         fetchFacet={props.fetchFacet}
                         updateFilter={props.updateFilter}
                         updatePage={props.updatePage}

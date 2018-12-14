@@ -38,7 +38,7 @@ const styles = theme => ({
 class FacetBar extends React.Component {
 
   componentDidMount = () => {
-    this.props.fetchFacet();
+    //this.props.fetchFacet('source');
   }
 
   // componentDidUpdate = prevProps => {
@@ -50,11 +50,11 @@ class FacetBar extends React.Component {
   //
 
   render() {
-    const { classes, facet } = this.props;
+    const { classes, source, productionPlace, lastUpdatedFacet } = this.props;
     //console.log(facet)
     return (
       <div className={classes.root}>
-        {this.props.facet.fetchingFacet ?
+        {this.props.fetchingFacet ?
           <CircularProgress style={{ color: purple[500] }} thickness={5} /> :
           <React.Fragment>
             <Paper className={classes.facetContainer}>
@@ -63,9 +63,11 @@ class FacetBar extends React.Component {
               </Paper>
               <div className={classes.facetValuesContainerThree}>
                 <Tree
+                  key='source'
                   property='source'
-                  lastUpdatedFacet={facet.lastUpdatedFacet}
-                  data={facet.facetValues.source}
+                  lastUpdatedFacet={lastUpdatedFacet}
+                  data={source}
+                  fetchFacet={this.props.fetchFacet}
                   updateFilter={this.props.updateFilter}
                 />
               </div>
@@ -89,9 +91,11 @@ class FacetBar extends React.Component {
               </Paper>
               <div className={classes.facetValuesContainerTen}>
                 <Tree
+                  key='productionPlace'
                   property='productionPlace'
-                  lastUpdatedFacet={facet.lastUpdatedFacet}
-                  data={facet.facetValues.productionPlace}
+                  lastUpdatedFacet={lastUpdatedFacet}
+                  data={productionPlace}
+                  fetchFacet={this.props.fetchFacet}
                   updateFilter={this.props.updateFilter}
                 />
               </div>
@@ -111,7 +115,10 @@ class FacetBar extends React.Component {
 FacetBar.propTypes = {
   classes: PropTypes.object.isRequired,
   fetchFacet: PropTypes.func.isRequired,
-  facet: PropTypes.object.isRequired,
+  fetchingFacet: PropTypes.bool.isRequired,
+  lastUpdatedFacet: PropTypes.string.isRequired,
+  source: PropTypes.array.isRequired,
+  productionPlace: PropTypes.array.isRequired,
   updateFilter: PropTypes.func.isRequired,
 };
 

@@ -30,16 +30,20 @@ class Tree extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      treeData: this.props.data,
+      treeData: [],
       searchString: '',
       searchFocusIndex: 0,
       searchFoundCount: null,
     };
   }
 
+  componentDidMount = () => {
+    console.log('tree mounted')
+    //this.props.fetchFacet(this.props.property);
+  }
+
   // componentDidUpdate = prevProps => {
-  //   console.log(this.props.lastUpdatedFacet);
-  //   //if (prevProps.facetFilters[this.props.property] != this.props.facetFilters  )
+  //   if (prevProps.  )
   // };
 
   handleCheckboxChange = treeObj => event => {
@@ -191,6 +195,7 @@ Tree.propTypes = {
   property: PropTypes.string.isRequired,
   lastUpdatedFacet: PropTypes.string.isRequired,
   data: PropTypes.array.isRequired,
+  fetchFacet: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
 };
 

@@ -160,12 +160,13 @@ export const openFacetDialog = property => ({
 export const closeFacetDialog = () => ({
   type: CLOSE_FACET_DIALOG,
 });
-export const fetchFacet = () => ({
+export const fetchFacet = id => ({
   type: FETCH_FACET,
+  id
 });
-export const updateFacet = ({ facetValues }) => ({
+export const updateFacet = ({ id, facetValues }) => ({
   type: UPDATE_FACET,
-  facetValues
+  id, facetValues
 });
 export const clearFacet = () => ({
   type: CLEAR_FACET,
