@@ -37,6 +37,11 @@ class Tree extends Component {
     };
   }
 
+  // componentDidUpdate = prevProps => {
+  //   console.log(this.props.lastUpdatedFacet);
+  //   //if (prevProps.facetFilters[this.props.property] != this.props.facetFilters  )
+  // };
+
   handleCheckboxChange = treeObj => event => {
     const newTreeData = changeNodeAtPath({
       treeData: this.state.treeData,
@@ -49,7 +54,7 @@ class Tree extends Component {
     });
     this.setState({ treeData: newTreeData });
     this.props.updateFilter({
-      property: 'productionPlace',
+      property: this.props.property,
       value: treeObj.node.id
     });
   };
@@ -183,6 +188,8 @@ class Tree extends Component {
 
 Tree.propTypes = {
   classes: PropTypes.object.isRequired,
+  property: PropTypes.string.isRequired,
+  lastUpdatedFacet: PropTypes.string.isRequired,
   data: PropTypes.array.isRequired,
   updateFilter: PropTypes.func.isRequired,
 };

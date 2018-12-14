@@ -39,7 +39,8 @@ export const INITIAL_STATE = {
   },
   fetchingFacet : false,
   facetDialogOpen: false,
-  activeFacet: ''
+  activeFacet: '',
+  lastUpdatedFacet: ''
 };
 
 const facet = (state = INITIAL_STATE, action) => {

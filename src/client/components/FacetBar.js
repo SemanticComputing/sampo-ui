@@ -30,7 +30,7 @@ const styles = theme => ({
     padding: theme.spacing.unit,
   },
   facetValuesContainerThree: {
-    height: 95,
+    height: 108,
     padding: theme.spacing.unit,
   },
 });
@@ -51,7 +51,7 @@ class FacetBar extends React.Component {
 
   render() {
     const { classes, facet } = this.props;
-
+    //console.log(facet)
     return (
       <div className={classes.root}>
         {this.props.facet.fetchingFacet ?
@@ -63,6 +63,8 @@ class FacetBar extends React.Component {
               </Paper>
               <div className={classes.facetValuesContainerThree}>
                 <Tree
+                  property='source'
+                  lastUpdatedFacet={facet.lastUpdatedFacet}
                   data={facet.facetValues.source}
                   updateFilter={this.props.updateFilter}
                 />
@@ -87,6 +89,8 @@ class FacetBar extends React.Component {
               </Paper>
               <div className={classes.facetValuesContainerTen}>
                 <Tree
+                  property='productionPlace'
+                  lastUpdatedFacet={facet.lastUpdatedFacet}
                   data={facet.facetValues.productionPlace}
                   updateFilter={this.props.updateFilter}
                 />

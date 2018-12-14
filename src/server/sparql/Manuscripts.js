@@ -53,7 +53,7 @@ const getManuscriptData = (page, pagesize, filters) => {
     manuscriptQuery = manuscriptQuery.replace('<FILTER>', generateResultFilter(filters));
   }
   manuscriptQuery = manuscriptQuery.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`);
-  // console.log(manuscriptQuery)
+  //console.log(manuscriptQuery)
   return sparqlSearchEngine.doSearch(manuscriptQuery, endpoint, makeObjectList);
 };
 
