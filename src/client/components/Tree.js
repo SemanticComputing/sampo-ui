@@ -54,6 +54,13 @@ class Tree extends Component {
     });
   };
 
+  generateLabel = node => {
+    //let source = node.source == null ? '' : `(source: ${node.source.substring(node.source.lastIndexOf('/') + 1)}`;
+    //console.log(node)
+    let count = node.totalInstanceCount == null || node.totalInstanceCount == 0 ? node.instanceCount : node.totalInstanceCount;
+    return `${node.prefLabel} (${count})`;
+  }
+
   render() {
     const { classes } = this.props;
     const { searchString, searchFocusIndex, /*searchFoundCount*/ } = this.state;
@@ -162,7 +169,7 @@ class Tree extends Component {
                   color="primary"
                 />
               }
-              label={`${n.node.prefLabel} (source: ${n.node.source.substring(n.node.source.lastIndexOf('/') + 1)}, ms count: ${n.node.totalInstanceCount == 0 ? n.node.instanceCount : n.node.totalInstanceCount})`}
+              label={this.generateLabel(n.node)}
               classes={{
                 root: classes.formControlRoot
               }}

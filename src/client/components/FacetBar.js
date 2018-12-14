@@ -2,12 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Tree from './Tree';
-// import EnhancedTable from './EnhancedTable';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
-
 import Typography from '@material-ui/core/Typography';
-// import CheckboxesGroup from './CheckboxesGroup';
 import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
@@ -23,15 +20,17 @@ const styles = theme => ({
     borderBottomRightRadius: 0,
   },
   facetContainer: {
-    height: 350,
     marginBottom: theme.spacing.unit,
   },
   facetContainerLast: {
-    height: 350,
     marginBottom: 2,
   },
-  facetValuesContainer: {
-    height: 288,
+  facetValuesContainerTen: {
+    height: 295,
+    padding: theme.spacing.unit,
+  },
+  facetValuesContainerThree: {
+    height: 95,
     padding: theme.spacing.unit,
   },
 });
@@ -60,11 +59,19 @@ class FacetBar extends React.Component {
           <React.Fragment>
             <Paper className={classes.facetContainer}>
               <Paper className={classes.headingContainer}>
-                <Typography variant="h6">Title</Typography>
+                <Typography variant="h6">Source</Typography>
               </Paper>
-              <div className={classes.facetValues}>
-
+              <div className={classes.facetValuesContainerThree}>
+                <Tree
+                  data={facet.facetValues.source}
+                  updateFilter={this.props.updateFilter}
+                />
               </div>
+            </Paper>
+            <Paper className={classes.facetContainer}>
+              <Paper className={classes.headingContainer}>
+                <Typography variant="h6">Work</Typography>
+              </Paper>
             </Paper>
             <Paper className={classes.facetContainer}>
               <Paper className={classes.headingContainer}>
@@ -74,16 +81,21 @@ class FacetBar extends React.Component {
 
               </div>
             </Paper>
-            <Paper className={classes.facetContainerLast}>
+            <Paper className={classes.facetContainer}>
               <Paper className={classes.headingContainer}>
                 <Typography variant="h6">Production place</Typography>
               </Paper>
-              <div className={classes.facetValuesContainer}>
+              <div className={classes.facetValuesContainerTen}>
                 <Tree
                   data={facet.facetValues.productionPlace}
                   updateFilter={this.props.updateFilter}
                 />
               </div>
+            </Paper>
+            <Paper className={classes.facetContainerLast}>
+              <Paper className={classes.headingContainer}>
+                <Typography variant="h6">Production date</Typography>
+              </Paper>
             </Paper>
           </React.Fragment>
         }
