@@ -8,15 +8,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const styles = () => ({
-  root: {
-    height: '100%',
-  },
   searchForm: {
     display: 'inline-block',
     height: 50,
-  },
-  treeContainer: {
-    height: '100%',
   },
   treeNode: {
     fontFamily: 'Roboto',
@@ -62,7 +56,7 @@ class Tree extends Component {
 
   render() {
     const { classes } = this.props;
-    const { searchString, searchFocusIndex, searchFoundCount } = this.state;
+    const { searchString, searchFocusIndex, /*searchFoundCount*/ } = this.state;
 
     // Case insensitive search of `node.title`
     const customSearchMethod = ({ node, searchQuery }) =>
@@ -128,59 +122,54 @@ class Tree extends Component {
 
 
     return (
-      <div className={classes.root}>
-
-        <div className={classes.treeContainer}>
-          <SortableTree
-            treeData={this.state.treeData}
-            onChange={treeData => this.setState({ treeData })}
-            canDrag={false}
-            rowHeight={30}
-            // Custom comparison for matching during search.
-            // This is optional, and defaults to a case sensitive search of
-            // the title and subtitle values.
-            // see `defaultSearchMethod` in https://github.com/frontend-collective/react-sortable-tree/blob/master/src/utils/default-handlers.js
-            searchMethod={customSearchMethod}
-            searchQuery={searchString}
-            // When matches are found, this property lets you highlight a specific
-            // match and scroll to it. This is optional.
-            searchFocusOffset={searchFocusIndex}
-            // This callback returns the matches from the search,
-            // including their `node`s, `treeIndex`es, and `path`s
-            // Here I just use it to note how many matches were found.
-            // This is optional, but without it, the only thing searches
-            // do natively is outline the matching nodes.
-            searchFinishCallback={matches =>
-              this.setState({
-                searchFoundCount: matches.length,
-                searchFocusIndex:
+      <SortableTree
+        treeData={this.state.treeData}
+        onChange={treeData => this.setState({ treeData })}
+        canDrag={false}
+        rowHeight={30}
+        // Custom comparison for matching during search.
+        // This is optional, and defaults to a case sensitive search of
+        // the title and subtitle values.
+        // see `defaultSearchMethod` in https://github.com/frontend-collective/react-sortable-tree/blob/master/src/utils/default-handlers.js
+        searchMethod={customSearchMethod}
+        searchQuery={searchString}
+        // When matches are found, this property lets you highlight a specific
+        // match and scroll to it. This is optional.
+        searchFocusOffset={searchFocusIndex}
+        // This callback returns the matches from the search,
+        // including their `node`s, `treeIndex`es, and `path`s
+        // Here I just use it to note how many matches were found.
+        // This is optional, but without it, the only thing searches
+        // do natively is outline the matching nodes.
+        searchFinishCallback={matches =>
+          this.setState({
+            searchFoundCount: matches.length,
+            searchFocusIndex:
                 matches.length > 0 ? searchFocusIndex % matches.length : 0,
-              })
-            }
-            onlyExpandSearchedNodes={true}
-            theme={FileExplorerTheme}
-            generateNodeProps={n => ({
-              title: (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      className={classes.checkbox}
-                      checked={n.node.selected}
-                      onChange={this.handleCheckboxChange(n)}
-                      value={n.node.id}
-                      color="primary"
-                    />
-                  }
-                  label={`${n.node.prefLabel} (source: ${n.node.source.substring(n.node.source.lastIndexOf('/') + 1)}, ms count: ${n.node.totalInstanceCount == 0 ? n.node.instanceCount : n.node.totalInstanceCount})`}
-                  classes={{
-                    root: classes.formControlRoot
-                  }}
+          })
+        }
+        onlyExpandSearchedNodes={true}
+        theme={FileExplorerTheme}
+        generateNodeProps={n => ({
+          title: (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  className={classes.checkbox}
+                  checked={n.node.selected}
+                  onChange={this.handleCheckboxChange(n)}
+                  value={n.node.id}
+                  color="primary"
                 />
-              ),
-            })}
-          />
-        </div>
-      </div>
+              }
+              label={`${n.node.prefLabel} (source: ${n.node.source.substring(n.node.source.lastIndexOf('/') + 1)}, ms count: ${n.node.totalInstanceCount == 0 ? n.node.instanceCount : n.node.totalInstanceCount})`}
+              classes={{
+                root: classes.formControlRoot
+              }}
+            />
+          ),
+        })}
+      />
     );
   }
 }
