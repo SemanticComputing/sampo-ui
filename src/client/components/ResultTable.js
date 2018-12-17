@@ -36,6 +36,9 @@ const styles = () => ({
     paddingLeft: 0
   },
   withFilter: {
+    //minWidth: 170
+  },
+  wideColumn: {
     minWidth: 170
   },
   infoIcon: {
@@ -260,6 +263,9 @@ class ResultTable extends React.Component {
               {rows.map(row => {
                 return (
                   <TableRow key={row.id}>
+                    <TableCell className={classes.withFilter}>
+                      {this.objectListRenderer(row.source, true)}
+                    </TableCell>
                     <TableCell className={classes.withFilter} >
                       {this.stringListRenderer(row.prefLabel)}
                     </TableCell>
@@ -269,7 +275,7 @@ class ResultTable extends React.Component {
                     <TableCell className={classes.withFilter}>
                       {this.objectListRenderer(row.productionPlace, true)}
                     </TableCell>
-                    <TableCell className={classes.withFilter}>
+                    <TableCell className={classes.wideColumn}>
                       {this.objectListRenderer(row.timespan)}
                     </TableCell>
                     <TableCell className={classes.withFilter}>
@@ -278,15 +284,13 @@ class ResultTable extends React.Component {
                     {/*<TableCell className={classes.withFilter}>
                           {this.stringListRenderer(row.material)}
                         </TableCell>*/}
-                    <TableCell className={classes.withFilter}>
+                    <TableCell className={classes.wideColumn}>
                       {this.eventRenderer(row.event)}
                     </TableCell>
-                    <TableCell className={classes.withFilter}>
+                    <TableCell className={classes.wideColumn}>
                       {this.ownerRenderer(row.owner)}
                     </TableCell>
-                    <TableCell className={classes.withFilter}>
-                      {this.objectListRenderer(row.source, true)}
-                    </TableCell>
+
                   </TableRow>
                 );
               })}
