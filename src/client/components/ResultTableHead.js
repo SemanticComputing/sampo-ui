@@ -21,6 +21,12 @@ const styles = () => ({
 
 const columns = [
   {
+    label: 'Source',
+    property: 'source',
+    desc: 'Source description',
+    //filter: true
+  },
+  {
     label: 'Title',
     property: 'prefLabel',
     desc: 'Title description'
@@ -61,12 +67,6 @@ const columns = [
     label: 'Owner',
     property: 'owner',
     desc: 'Material description'
-  },
-  {
-    label: 'Source',
-    property: 'source',
-    desc: 'Source description',
-    //filter: true
   },
 ];
 

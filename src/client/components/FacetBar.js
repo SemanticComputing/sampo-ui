@@ -87,7 +87,7 @@ class FacetBar extends React.Component {
               <Paper className={classes.headingContainer}>
                 <Typography variant="h6">Production place</Typography>
               </Paper>
-              <div className={classes.facetValuesContainerTen}>
+              { /* <div className={classes.facetValuesContainerTen}>
                 <Tree
                   property='productionPlace'
                   lastUpdatedFacet={facet.lastUpdatedFacet}
@@ -95,6 +95,7 @@ class FacetBar extends React.Component {
                   updateFilter={this.props.updateFilter}
                 />
               </div>
+              */ }
             </Paper>
             <Paper className={classes.facetContainerLast}>
               <Paper className={classes.headingContainer}>
