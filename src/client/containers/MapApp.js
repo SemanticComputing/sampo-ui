@@ -94,6 +94,7 @@ let MapApp = (props) => {
                       <FacetBar
                         fetchingFacet={props.facet.fetchingFacet}
                         lastUpdatedFacet={props.facet.lastUpdatedFacet}
+                        facetFilters={props.facet.facetFilters}
                         source={props.facet.source}
                         productionPlace={props.facet.productionPlace}
                         fetchFacet={props.fetchFacet}

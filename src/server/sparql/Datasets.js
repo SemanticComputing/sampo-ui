@@ -3,8 +3,8 @@ module.exports = {
     'title': 'MMM',
     'shortTitle': 'MMM',
     //'timePeriod': '',
-    'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
-    //'endpoint': 'http://localhost:3050/ds/sparql',
+    //'endpoint': 'http://ldf.fi/mmm-cidoc/sparql',
+    'endpoint': 'http://localhost:3050/ds/sparql',
     'countQuery': `
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -216,6 +216,11 @@ module.exports = {
             ?instance a frbroo:F4_Manifestation_Singleton .
             <FILTER>
             ?instance <PREDICATE> ?id .
+            # OPTIONAL {
+            #   FILTER(?id IN ( <http://ldf.fi/mmm/schema/Bodley> ))
+            #   BIND(true AS ?is_selected)
+            # }
+            # BIND(COALESCE(?is_selected, false) as ?selected)
             OPTIONAL { ?id dct:source ?source }
             OPTIONAL { ?id crm:P89_falls_within ?parent_ }
             BIND(COALESCE(?parent_, '0') as ?parent)

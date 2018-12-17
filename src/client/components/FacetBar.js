@@ -38,20 +38,20 @@ const styles = theme => ({
 class FacetBar extends React.Component {
 
   componentDidMount = () => {
-    //this.props.fetchFacet('source');
+    this.props.fetchFacet('source');
   }
 
-  // componentDidUpdate = prevProps => {
-  //   if (prevProps.facet.facetFilters != this.props.facet.facetFilters) {
-  //     this.props.fetchFacet();
-  //   }
-  // }
+  componentDidUpdate = prevProps => {
+    if (prevProps.facetFilters != this.props.facetFilters) {
+      this.props.fetchFacet('source');
+    }
+  }
 
   //
 
   render() {
     const { classes, source, productionPlace, lastUpdatedFacet } = this.props;
-    //console.log(facet)
+    //console.log(source)
     return (
       <div className={classes.root}>
         {this.props.fetchingFacet ?
@@ -118,6 +118,7 @@ FacetBar.propTypes = {
   fetchFacet: PropTypes.func.isRequired,
   fetchingFacet: PropTypes.bool.isRequired,
   lastUpdatedFacet: PropTypes.string.isRequired,
+  facetFilters: PropTypes.object.isRequired,
   source: PropTypes.array.isRequired,
   productionPlace: PropTypes.array.isRequired,
   updateFilter: PropTypes.func.isRequired,

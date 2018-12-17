@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import SortableTree, { changeNodeAtPath } from 'react-sortable-tree';
+import SortableTree /* { changeNodeAtPath } */ from 'react-sortable-tree';
 import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app
 import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -30,33 +30,24 @@ class Tree extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      treeData: [],
+      treeData: this.props.data,
       searchString: '',
       searchFocusIndex: 0,
       searchFoundCount: null,
     };
   }
 
-  componentDidMount = () => {
-    console.log('tree mounted')
-    //this.props.fetchFacet(this.props.property);
-  }
-
-  // componentDidUpdate = prevProps => {
-  //   if (prevProps.  )
-  // };
-
-  handleCheckboxChange = treeObj => event => {
-    const newTreeData = changeNodeAtPath({
-      treeData: this.state.treeData,
-      getNodeKey: ({ treeIndex }) =>  treeIndex,
-      path: treeObj.path,
-      newNode: {
-        ...treeObj.node,
-        selected: event.target.checked
-      },
-    });
-    this.setState({ treeData: newTreeData });
+  handleCheckboxChange = treeObj => () => {
+    // const newTreeData = changeNodeAtPath({
+    //   treeData: this.state.treeData,
+    //   getNodeKey: ({ treeIndex }) =>  treeIndex,
+    //   path: treeObj.path,
+    //   newNode: {
+    //     ...treeObj.node,
+    //     selected: event.target.checked
+    //   },
+    // });
+    // this.setState({ treeData: newTreeData });
     this.props.updateFilter({
       property: this.props.property,
       value: treeObj.node.id

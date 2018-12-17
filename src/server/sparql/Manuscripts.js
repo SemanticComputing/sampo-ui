@@ -19,13 +19,13 @@ const facetConfigs = {
     id: 'author',
     label: 'Author',
     predicate: 'crm:P128_carries/^frbroo:R17_created/frbroo:R19_created_a_realisation_of/^frbroo:R16_initiated/mmm-schema:carried_out_by_as_author',
-    type: 'table'
+    type: 'hierarchical'
   },
   source: {
     id: 'source',
     label: 'Source',
     predicate: 'dct:source',
-    type: 'checkboxes',
+    type: 'hierarchical',
   },
 };
 
@@ -96,16 +96,21 @@ export const getFacet = (id, filters) => {
   if (filters == null) {
     facetQuery = facetQuery.replace('<FILTER>', '');
   } else {
+    //console.log(filters)
+
     facetQuery = facetQuery.replace('<FILTER>', generateFacetFilter(facetConfig, filters));
   }
+  //console.log(facetConfig)
   facetQuery = facetQuery.replace('<PREDICATE>', facetConfig.predicate);
-  // console.log(facetQuery)
+  console.log(facetQuery)
   let mapper = facetConfig.type === 'hierarchical' ? mapHierarchicalFacet : makeObjectList;
   return sparqlSearchEngine.doSearch(facetQuery, endpoint, mapper);
 };
 
 const generateFacetFilter = (facetConfig, filters) => {
+  //console.log(filters[facetConfig.id])
   delete filters[facetConfig.id]; // apply filters only from other facets
+
   let filterStr = '';
   for (let property in filters) {
     filterStr += `

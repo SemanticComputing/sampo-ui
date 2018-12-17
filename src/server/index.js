@@ -64,7 +64,6 @@ app.get(`${apiPath}/places/:placeId?`, (req, res) => {
 
 app.get(`${apiPath}/facets`, (req, res) => {
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
-  // console.log(filters)
   return getFacets(filters).then((data) => {
     res.json(data);
   })
@@ -76,7 +75,6 @@ app.get(`${apiPath}/facets`, (req, res) => {
 
 app.get(`${apiPath}/facet/:id`, (req, res) => {
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
-  // console.log(filters)
   return getFacet(req.params.id, filters).then((data) => {
     res.json(data);
   })
