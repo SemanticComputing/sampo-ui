@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { has } from 'lodash';
 import { getTreeFromFlatData } from 'react-sortable-tree';
 import { makeObjectList } from './SparqlObjectMapper';
 
@@ -8,11 +8,11 @@ export const mapPlaces = (sparqlBindings) => {
     return {
       id: b.id.value,
       label: b.label.value,
-      lat: _.has(b, 'lat',) ? b.lat.value : 'Undefined',
-      long: _.has(b, 'long',) ? b.long.value : 'Undefined',
-      source: _.has(b, 'source',) ? b.source.value : 'Undefined',
-      manuscript: _.has(b, 'manuscript',) ? b.manuscript.value.split(',') : 'Undefined',
-      manuscriptCount: _.has(b, 'manuscriptCount',) ? b.manuscriptCount.value : 'Undefined',
+      lat: has(b, 'lat',) ? b.lat.value : 'Undefined',
+      long: has(b, 'long',) ? b.long.value : 'Undefined',
+      source: has(b, 'source',) ? b.source.value : 'Undefined',
+      manuscript: has(b, 'manuscript',) ? b.manuscript.value.split(',') : 'Undefined',
+      manuscriptCount: has(b, 'manuscriptCount',) ? b.manuscriptCount.value : 'Undefined',
     };
   });
   return results;
@@ -41,7 +41,7 @@ const comparator = (a, b) => a.prefLabel.localeCompare(b.prefLabel);
 
 const sumUp = node => {
   node.totalInstanceCount = parseInt(node.instanceCount);
-  if (_.has(node, 'children')) {
+  if (has(node, 'children')) {
     for (let child of node.children) {
       node.totalInstanceCount += sumUp(child);
     }
@@ -52,7 +52,7 @@ const sumUp = node => {
 const recursiveSort = nodes => {
   nodes.sort(comparator);
   nodes.forEach(node => {
-    if (_.has(node, 'children')) {
+    if (has(node, 'children')) {
       recursiveSort(node.children);
     }
   });

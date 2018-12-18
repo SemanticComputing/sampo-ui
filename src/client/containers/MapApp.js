@@ -77,7 +77,6 @@ let MapApp = (props) => {
   const { classes } = props;
   // browser
   // error,
-  //console.log(props.facet)
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
@@ -92,14 +91,16 @@ let MapApp = (props) => {
                   <React.Fragment>
                     <Grid item sm={12} md={3} className={classes.facetBarContainer}>
                       <FacetBar
-                        fetchingFacet={props.facet.fetchingFacet}
-                        lastUpdatedFacet={props.facet.lastUpdatedFacet}
                         facetFilters={props.facet.facetFilters}
                         source={props.facet.source}
+                        author={props.facet.author}
                         productionPlace={props.facet.productionPlace}
+                        sourceIsFetching={props.facet.sourceIsFetching}
+                        authorIsFetching={props.facet.authorIsFetching}
+                        productionPlaceIsFetching={props.facet.productionPlaceIsFetching}
                         fetchFacet={props.fetchFacet}
                         updateFilter={props.updateFilter}
-                        updatePage={props.updatePage}
+                        updatedFacet={props.facet.updatedFacet}
                       />
                     </Grid>
                     <Grid item sm={12} md={9} className={classes.resultsContainer}>

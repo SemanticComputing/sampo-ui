@@ -57,8 +57,9 @@ module.exports = {
         }
         UNION
         {
-          ?id crm:P128_carries/^frbroo:R17_created/frbroo:R19_created_a_realisation_of/^frbroo:R16_initiated ?workConception .
-          ?workConception mmm-schema:carried_out_by_as_author ?author__id .
+          #?id crm:P128_carries/^frbroo:R17_created/frbroo:R19_created_a_realisation_of/^frbroo:R16_initiated ?workConception .
+          #?workConception mmm-schema:carried_out_by_as_author ?author__id .
+          ?id mmm-schema:author ?author__id .
           ?author__id skos:prefLabel ?author__prefLabel .
           OPTIONAL { ?author__id mmm-schema:data_provider_url ?author__dataProviderUrl }
         }
@@ -210,22 +211,19 @@ module.exports = {
       PREFIX geosparql: <http://www.opengis.net/ont/geosparql#>
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
-      SELECT DISTINCT ?id ?prefLabel ?source ?parent ?instanceCount {
-        { SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?parent ?source
+      SELECT DISTINCT ?id ?prefLabel ?selected ?source ?parent ?instanceCount {
+        { SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?parent ?source
           {
             ?instance a frbroo:F4_Manifestation_Singleton .
             <FILTER>
             ?instance <PREDICATE> ?id .
-            # OPTIONAL {
-            #   FILTER(?id IN ( <http://ldf.fi/mmm/schema/Bodley> ))
-            #   BIND(true AS ?is_selected)
-            # }
-            # BIND(COALESCE(?is_selected, false) as ?selected)
+            <SELECTED_VALUES>
+            BIND(COALESCE(?selected_, false) as ?selected)
             OPTIONAL { ?id dct:source ?source }
             OPTIONAL { ?id crm:P89_falls_within ?parent_ }
             BIND(COALESCE(?parent_, '0') as ?parent)
           }
-          GROUP BY ?id ?source ?parent
+          GROUP BY ?id ?selected ?source ?parent
           ORDER BY DESC(?instanceCount)
         }
         FILTER(BOUND(?id))

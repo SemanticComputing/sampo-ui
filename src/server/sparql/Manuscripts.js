@@ -1,3 +1,4 @@
+import { has } from 'lodash';
 import SparqlSearchEngine from './SparqlSearchEngine';
 import datasetConfig from './Datasets';
 import {
@@ -18,7 +19,8 @@ const facetConfigs = {
   author: {
     id: 'author',
     label: 'Author',
-    predicate: 'crm:P128_carries/^frbroo:R17_created/frbroo:R19_created_a_realisation_of/^frbroo:R16_initiated/mmm-schema:carried_out_by_as_author',
+    //predicate: 'crm:P128_carries/^frbroo:R17_created/frbroo:R19_created_a_realisation_of/^frbroo:R16_initiated/mmm-schema:carried_out_by_as_author',
+    predicate: 'mmm-schema:author',
     type: 'hierarchical'
   },
   source: {
@@ -92,31 +94,40 @@ export const getFacets = filters => {
 
 export const getFacet = (id, filters) => {
   let { endpoint, facetQuery } = datasetConfig['mmm'];
+  //console.log(id, filters)
   const facetConfig = facetConfigs[id];
-  if (filters == null) {
-    facetQuery = facetQuery.replace('<FILTER>', '');
-  } else {
-    //console.log(filters)
-
-    facetQuery = facetQuery.replace('<FILTER>', generateFacetFilter(facetConfig, filters));
+  let selectedBlock = '# no selections';
+  let filterBlock = '# no filters';
+  if (filters !== null) {
+    filterBlock = generateFacetFilter(id, facetConfig, filters);
+    if (has(filters, id)) {
+      selectedBlock = `
+            OPTIONAL {
+               FILTER(?id IN ( <${filters[id].join('>, <')}> ))
+               BIND(true AS ?selected_)
+            }
+      `;
+    }
   }
-  //console.log(facetConfig)
+  facetQuery = facetQuery.replace('<FILTER>', filterBlock );
   facetQuery = facetQuery.replace('<PREDICATE>', facetConfig.predicate);
-  console.log(facetQuery)
+  facetQuery = facetQuery.replace('<SELECTED_VALUES>', selectedBlock);
+  if (id == 'productionPlace') {
+    console.log(facetQuery)
+  }
   let mapper = facetConfig.type === 'hierarchical' ? mapHierarchicalFacet : makeObjectList;
   return sparqlSearchEngine.doSearch(facetQuery, endpoint, mapper);
 };
 
-const generateFacetFilter = (facetConfig, filters) => {
-  //console.log(filters[facetConfig.id])
-  delete filters[facetConfig.id]; // apply filters only from other facets
-
+const generateFacetFilter = (facetId, facetConfig, filters) => {
   let filterStr = '';
   for (let property in filters) {
-    filterStr += `
+    if (property !== facetId) {
+      filterStr += `
             VALUES ?${property}Filter { <${filters[property].join('> <')}> }
-            ?id ${facetConfigs[property].predicate} ?${property}Filter .
-    `;
+            ?instance ${facetConfigs[property].predicate} ?${property}Filter .
+      `;
+    }
   }
   return filterStr;
 };

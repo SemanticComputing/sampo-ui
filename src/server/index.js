@@ -76,6 +76,9 @@ app.get(`${apiPath}/facets`, (req, res) => {
 app.get(`${apiPath}/facet/:id`, (req, res) => {
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
   return getFacet(req.params.id, filters).then((data) => {
+    // if (req.params.id == 'productionPlace') {
+    //   console.log(data)
+    // }
     res.json(data);
   })
     .catch((err) => {

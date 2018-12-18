@@ -10,40 +10,32 @@ export const INITIAL_STATE = {
   source: [],
   productionPlace: [],
   author: [],
+  sourceIsFetching: false,
+  productionPlaceIsFetching: false,
+  authorIsFetching: false,
   facetOptions : {
     productionPlace: {
       id: 'productionPlace',
       label: 'Production place',
       //predicate: defined in backend
-      values: []
     },
     author: {
       id: 'author',
       label: 'Author',
       // predicate: defined in backend
-      type: 'table'
     },
     source: {
       id: 'source',
       label: 'Source',
       // predicate: defined in backend
-      type: 'checkboxes'
     }
   },
-  // facetValues : {
-  //   productionPlace: [],
-  //   author: [],
-  //   source: []
-  // },
   facetFilters: {
     productionPlace: new Set(),
     author: new Set(),
     source: new Set(),
   },
-  fetchingFacet : false,
-  facetDialogOpen: false,
-  activeFacet: '',
-  lastUpdatedFacet: ''
+  updatedFacet: ''
 };
 
 const facet = (state = INITIAL_STATE, action) => {
@@ -57,12 +49,16 @@ const facet = (state = INITIAL_STATE, action) => {
     case CLOSE_FACET_DIALOG:
       return { ...state, facetDialogOpen: false };
     case FETCH_FACET:
-      return { ...state, fetchingFacet: true };
+      return {
+        ...state,
+        [ `${action.id}IsFetching` ]: true
+      };
     case UPDATE_FACET:
+      console.log(action.facetValues)
       return {
         ...state,
         [ action.id ]: action.facetValues,
-        fetchingFacet: false
+        [ `${action.id}IsFetching` ]: false
       };
     case UPDATE_FILTER:
       return updateFilter(state, action);
@@ -79,8 +75,13 @@ const updateFilter = (state, action) => {
   } else {
     nSet.add(value);
   }
-  const newFilter = updateObject(state.filters, { [property]: nSet });
-  return updateObject(state, { facetFilters: newFilter });
+  const newFilter = updateObject(state.filters, {
+    [property]: nSet,
+  });
+  return updateObject(state, {
+    facetFilters: newFilter,
+    updatedFacet: property
+  });
 };
 
 const updateObject = (oldObject, newValues) => {

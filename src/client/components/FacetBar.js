@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Tree from './Tree';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import purple from '@material-ui/core/colors/purple';
+import HierarchicalFacet from './HierarchicalFacet';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 
@@ -35,79 +33,77 @@ const styles = theme => ({
   },
 });
 
+// <HierarchicalFacet
+//   key='source'
+//   property='source'
+//   data={this.props.source}
+//   fetchFacet={this.props.fetchFacet}
+//   facetFilters={this.props.facetFilters}
+//   updateFilter={this.props.updateFilter}
+//   updatedFacet={this.props.updatedFacet}
+// />
+
 class FacetBar extends React.Component {
 
-  componentDidMount = () => {
-    this.props.fetchFacet('source');
-  }
-
-  componentDidUpdate = prevProps => {
-    if (prevProps.facetFilters != this.props.facetFilters) {
-      this.props.fetchFacet('source');
-    }
-  }
-
-  //
-
   render() {
-    const { classes, source, productionPlace, lastUpdatedFacet } = this.props;
-    //console.log(source)
+    const { classes } = this.props;
+    //console.log(this.props.productionPlace)
     return (
       <div className={classes.root}>
-        {this.props.fetchingFacet ?
-          <CircularProgress style={{ color: purple[500] }} thickness={5} /> :
-          <React.Fragment>
-            <Paper className={classes.facetContainer}>
-              <Paper className={classes.headingContainer}>
-                <Typography variant="h6">Source</Typography>
-              </Paper>
-              <div className={classes.facetValuesContainerThree}>
-                <Tree
-                  key='source'
-                  property='source'
-                  lastUpdatedFacet={lastUpdatedFacet}
-                  data={source}
-                  fetchFacet={this.props.fetchFacet}
-                  updateFilter={this.props.updateFilter}
-                />
-              </div>
+        <React.Fragment>
+          <Paper className={classes.facetContainer}>
+            <Paper className={classes.headingContainer}>
+              <Typography variant="h6">Source</Typography>
             </Paper>
-            <Paper className={classes.facetContainer}>
-              <Paper className={classes.headingContainer}>
-                <Typography variant="h6">Work</Typography>
-              </Paper>
-            </Paper>
-            <Paper className={classes.facetContainer}>
-              <Paper className={classes.headingContainer}>
-                <Typography variant="h6">Author</Typography>
-              </Paper>
-              <div className={classes.facetValues}>
+            <div className={classes.facetValuesContainerThree}>
 
-              </div>
+            </div>
+          </Paper>
+          <Paper className={classes.facetContainer}>
+            <Paper className={classes.headingContainer}>
+              <Typography variant="h6">Work</Typography>
             </Paper>
-            <Paper className={classes.facetContainer}>
-              <Paper className={classes.headingContainer}>
-                <Typography variant="h6">Production place</Typography>
-              </Paper>
-              { /* <div className={classes.facetValuesContainerTen}>
-                <Tree
-                  key='productionPlace'
-                  property='productionPlace'
-                  lastUpdatedFacet={lastUpdatedFacet}
-                  data={productionPlace}
-                  fetchFacet={this.props.fetchFacet}
-                  updateFilter={this.props.updateFilter}
-                />
-              </div>
-              */ }
+          </Paper>
+          <Paper className={classes.facetContainer}>
+            <Paper className={classes.headingContainer}>
+              <Typography variant="h6">Author</Typography>
             </Paper>
-            <Paper className={classes.facetContainerLast}>
-              <Paper className={classes.headingContainer}>
-                <Typography variant="h6">Production date</Typography>
-              </Paper>
+            <div className={classes.facetValuesContainerTen}>
+              <HierarchicalFacet
+                key='author'
+                property='author'
+                data={this.props.author}
+                fetchFacet={this.props.fetchFacet}
+                fetchingFacet={this.props.authorIsFetching}
+                facetFilters={this.props.facetFilters}
+                updateFilter={this.props.updateFilter}
+                updatedFacet={this.props.updatedFacet}
+              />
+            </div>
+          </Paper>
+          <Paper className={classes.facetContainer}>
+            <Paper className={classes.headingContainer}>
+              <Typography variant="h6">Production place</Typography>
             </Paper>
-          </React.Fragment>
-        }
+            <div className={classes.facetValuesContainerTen}>
+              <HierarchicalFacet
+                key='productionPlace'
+                property='productionPlace'
+                data={this.props.productionPlace}
+                fetchFacet={this.props.fetchFacet}
+                fetchingFacet={this.props.productionPlaceIsFetching}
+                facetFilters={this.props.facetFilters}
+                updateFilter={this.props.updateFilter}
+                updatedFacet={this.props.updatedFacet}
+              />
+            </div>
+          </Paper>
+          <Paper className={classes.facetContainerLast}>
+            <Paper className={classes.headingContainer}>
+              <Typography variant="h6">Production date</Typography>
+            </Paper>
+          </Paper>
+        </React.Fragment>
       </div>
     );
   }
@@ -116,12 +112,15 @@ class FacetBar extends React.Component {
 FacetBar.propTypes = {
   classes: PropTypes.object.isRequired,
   fetchFacet: PropTypes.func.isRequired,
-  fetchingFacet: PropTypes.bool.isRequired,
-  lastUpdatedFacet: PropTypes.string.isRequired,
   facetFilters: PropTypes.object.isRequired,
   source: PropTypes.array.isRequired,
   productionPlace: PropTypes.array.isRequired,
+  author: PropTypes.array.isRequired,
+  sourceIsFetching: PropTypes.bool.isRequired,
+  authorIsFetching: PropTypes.bool.isRequired,
+  productionPlaceIsFetching: PropTypes.bool.isRequired,
   updateFilter: PropTypes.func.isRequired,
+  updatedFacet: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(FacetBar);

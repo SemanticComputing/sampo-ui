@@ -263,22 +263,22 @@ class ResultTable extends React.Component {
               {rows.map(row => {
                 return (
                   <TableRow key={row.id}>
-                    <TableCell className={classes.withFilter}>
+                    <TableCell>
                       {this.objectListRenderer(row.source, true)}
                     </TableCell>
-                    <TableCell className={classes.withFilter} >
+                    <TableCell className={classes.wideColumn} >
                       {this.stringListRenderer(row.prefLabel)}
                     </TableCell>
-                    <TableCell className={classes.withFilter}>
+                    <TableCell>
                       {this.objectListRenderer(row.author, true)}
                     </TableCell>
-                    <TableCell className={classes.withFilter}>
+                    <TableCell>
                       {this.objectListRenderer(row.productionPlace, true)}
                     </TableCell>
                     <TableCell className={classes.wideColumn}>
                       {this.objectListRenderer(row.timespan)}
                     </TableCell>
-                    <TableCell className={classes.withFilter}>
+                    <TableCell>
                       {this.stringListRenderer(row.language)}
                     </TableCell>
                     {/*<TableCell className={classes.withFilter}>
