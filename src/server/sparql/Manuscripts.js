@@ -20,8 +20,7 @@ const facetConfigs = {
   author: {
     id: 'author',
     label: 'Author',
-    //predicate: 'crm:P128_carries/^frbroo:R17_created/frbroo:R19_created_a_realisation_of/^frbroo:R16_initiated/mmm-schema:carried_out_by_as_author',
-    predicate: 'mmm-schema:author',
+    predicate: 'mmm-schema:manuscript_author',
     type: 'list'
   },
   source: {
