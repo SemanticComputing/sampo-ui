@@ -52,7 +52,11 @@ class Tree extends Component {
         treeData: this.props.data
       });
     }
-    if (prevProps.facetFilters != this.props.facetFilters && this.props.updatedFacet != this.props.property) {
+    // if (this.props.property == 'productionPlace') {
+    //   //console.log(this.props.facetFilters[this.props.property])
+    //   console.log(this.props.updatedFacet)
+    // }
+    if (this.props.updatedFacet !== '' && this.props.updatedFacet !== this.props.property && prevProps.facetFilters != this.props.facetFilters) {
       console.log(`fetching new values for ${this.props.property}`)
       this.props.fetchFacet(this.props.property);
     }

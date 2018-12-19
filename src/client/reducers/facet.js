@@ -54,7 +54,6 @@ const facet = (state = INITIAL_STATE, action) => {
         [ `${action.id}IsFetching` ]: true
       };
     case UPDATE_FACET:
-      console.log(action.facetValues)
       return {
         ...state,
         [ action.id ]: action.facetValues,
@@ -69,26 +68,21 @@ const facet = (state = INITIAL_STATE, action) => {
 
 const updateFilter = (state, action) => {
   const { property, value } = action.filter;
-  let nSet = state.facetFilters[property];
-  if (nSet.has(value)) {
-    nSet.delete(value);
+  let valueSet = state.facetFilters[property];
+  if (valueSet.has(value)) {
+    valueSet.delete(value);
   } else {
-    nSet.add(value);
+    valueSet.add(value);
   }
-  const newFilter = updateObject(state.filters, {
-    [property]: nSet,
-  });
-  return updateObject(state, {
-    facetFilters: newFilter,
+  const newFacetFilters = {
+    ...state.facetFilters,
+    [ property ] : valueSet
+  };
+  return {
+    ...state,
+    facetFilters: newFacetFilters,
     updatedFacet: property
-  });
-};
-
-const updateObject = (oldObject, newValues) => {
-  // Encapsulate the idea of passing a new object as the first parameter
-  // to Object.assign to ensure we correctly copy data instead of mutating
-  //console.log(Object.assign({}, oldObject, newValues));
-  return Object.assign({}, oldObject, newValues);
+  };
 };
 
 export default facet;

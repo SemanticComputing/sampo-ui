@@ -14,6 +14,7 @@ const facetConfigs = {
     id: 'productionPlace',
     label: 'Production place',
     predicate: '^crm:P108_has_produced/crm:P7_took_place_at',
+    //predicate: '^crm:P108_has_produced/crm:P7_took_place_at|^crm:P108_has_produced/crm:P7_took_place_at/crm:P89_falls_within*',
     type: 'hierarchical',
   },
   author: {
@@ -112,9 +113,10 @@ export const getFacet = (id, filters) => {
   facetQuery = facetQuery.replace('<FILTER>', filterBlock );
   facetQuery = facetQuery.replace('<PREDICATE>', facetConfig.predicate);
   facetQuery = facetQuery.replace('<SELECTED_VALUES>', selectedBlock);
-  if (id == 'productionPlace') {
-    console.log(facetQuery)
-  }
+  // if (id == 'author') {
+  //   console.log(filters)
+  //   console.log(facetQuery)
+  // }
   let mapper = facetConfig.type === 'hierarchical' ? mapHierarchicalFacet : makeObjectList;
   return sparqlSearchEngine.doSearch(facetQuery, endpoint, mapper);
 };

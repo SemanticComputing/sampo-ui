@@ -33,16 +33,6 @@ const styles = theme => ({
   },
 });
 
-// <HierarchicalFacet
-//   key='source'
-//   property='source'
-//   data={this.props.source}
-//   fetchFacet={this.props.fetchFacet}
-//   facetFilters={this.props.facetFilters}
-//   updateFilter={this.props.updateFilter}
-//   updatedFacet={this.props.updatedFacet}
-// />
-
 class FacetBar extends React.Component {
 
   render() {
@@ -56,14 +46,23 @@ class FacetBar extends React.Component {
               <Typography variant="h6">Source</Typography>
             </Paper>
             <div className={classes.facetValuesContainerThree}>
-
+              <HierarchicalFacet
+                key='source'
+                property='source'
+                data={this.props.source}
+                fetchFacet={this.props.fetchFacet}
+                fetchingFacet={this.props.sourceIsFetching}
+                facetFilters={this.props.facetFilters}
+                updateFilter={this.props.updateFilter}
+                updatedFacet={this.props.updatedFacet}
+              />
             </div>
           </Paper>
-          <Paper className={classes.facetContainer}>
+          { /* <Paper className={classes.facetContainer}>
             <Paper className={classes.headingContainer}>
               <Typography variant="h6">Work</Typography>
             </Paper>
-          </Paper>
+          </Paper> */}
           <Paper className={classes.facetContainer}>
             <Paper className={classes.headingContainer}>
               <Typography variant="h6">Author</Typography>
@@ -98,11 +97,11 @@ class FacetBar extends React.Component {
               />
             </div>
           </Paper>
-          <Paper className={classes.facetContainerLast}>
+          { /* <Paper className={classes.facetContainerLast}>
             <Paper className={classes.headingContainer}>
               <Typography variant="h6">Production date</Typography>
             </Paper>
-          </Paper>
+          </Paper> */ }
         </React.Fragment>
       </div>
     );
