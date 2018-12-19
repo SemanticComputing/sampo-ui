@@ -14,6 +14,13 @@ const styles = () => ({
     display: 'inline-block',
     height: 50,
   },
+  spinnerContainer: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   treeNode: {
     fontFamily: 'Roboto',
   },
@@ -28,7 +35,7 @@ const styles = () => ({
   }
 });
 
-class Tree extends Component {
+class HierarchicalFacet extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -157,7 +164,10 @@ class Tree extends Component {
     return (
       <React.Fragment>
         {this.props.fetchingFacet ?
-          <CircularProgress style={{ color: purple[500] }} thickness={5} /> :
+          <div className={classes.spinnerContainer}>
+            <CircularProgress style={{ color: purple[500] }} thickness={5} />
+          </div>
+          :
           <SortableTree
             treeData={this.state.treeData}
             onChange={treeData => this.setState({ treeData })}
@@ -212,7 +222,7 @@ class Tree extends Component {
   }
 }
 
-Tree.propTypes = {
+HierarchicalFacet.propTypes = {
   classes: PropTypes.object.isRequired,
   property: PropTypes.string.isRequired,
   data: PropTypes.array.isRequired,
@@ -223,4 +233,4 @@ Tree.propTypes = {
   updatedFacet: PropTypes.string.isRequired,
 };
 
-export default withStyles(styles)(Tree);
+export default withStyles(styles)(HierarchicalFacet);
