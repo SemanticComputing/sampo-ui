@@ -69,7 +69,7 @@ class HierarchicalFacet extends Component {
     }
   }
 
-  handleCheckboxChange = treeObj => () => {
+  handleCheckboxChange = treeObj => event => {
     const newTreeData = changeNodeAtPath({
       treeData: this.state.treeData,
       getNodeKey: ({ treeIndex }) =>  treeIndex,
