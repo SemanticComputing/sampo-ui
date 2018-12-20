@@ -87,8 +87,8 @@ const search = (state = INITIAL_STATE, action) => {
         fetchingSuggestions: false
       };
     case UPDATE_MANUSCRIPTS:
-      console.log('updating manuscripts:');
-      console.log(action);
+      // console.log('updating manuscripts in reducer:');
+      // console.log(action);
       return {
         ...state,
         manuscriptCount: parseInt(action.data.manuscriptCount),

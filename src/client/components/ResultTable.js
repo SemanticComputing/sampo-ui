@@ -65,29 +65,42 @@ class ResultTable extends React.Component {
     let page;
     if (this.props.routeProps.location.search === '') {
       page = this.props.page === -1 ? 0 : this.props.page;
-      this.props.routeProps.history.replace({
+      this.props.routeProps.history.push({
         pathname: '/manuscripts/table',
-        search: `?page=${page}`,
+        search: `?page=${this.props.page}`,
       });
+      //console.log(`result table mounted WITHOUT page parameter, set page to ${page}`);
     } else {
+      //console.log(this.props.routeProps.location.search)
       page = parseInt(parse(this.props.routeProps.location.search).page);
+      // console.log(`result table mounted with page parameter, set page to ${page}`);
     }
     this.props.updatePage(page);
-    // console.log('mounted, fetching manuscripts')
-    this.props.fetchManuscripts();
+
   }
 
   componentDidUpdate = prevProps => {
     if (prevProps.page != this.props.page) {
+      // console.log(`previous page: ${prevProps.page}`)
+      // console.log(`page updated to ${this.props.page}, fetch manuscripts`)
+      this.props.fetchManuscripts();
       this.props.routeProps.history.push({
         pathname: '/manuscripts/table',
         search: `?page=${this.props.page}`,
       });
     }
     if (prevProps.facetFilters != this.props.facetFilters) {
-      // console.log('filters updated')
+      // console.log('filters updated, to page 0')
       this.props.updatePage(0);
-      this.props.fetchManuscripts();
+      if (this.props.page == 0) {
+        this.props.fetchManuscripts();
+      }
+    }
+  }
+
+  handleChangePage = (event, page) => {
+    if (event != null) {
+      this.props.updatePage(page);
     }
   }
 
@@ -254,7 +267,7 @@ class ResultTable extends React.Component {
           <Table className={classes.table}>
             <ResultTableHead
               fetchManuscripts={this.props.fetchManuscripts}
-              updatePage={this.props.updatePage}
+              onChangePage={this.handleChangePage}
               resultCount={this.props.resultCount}
               page={this.props.page}
               routeProps={this.props.routeProps}

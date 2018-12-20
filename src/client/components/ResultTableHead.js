@@ -78,11 +78,6 @@ class ResultTableHead extends React.Component {
     orderBy: 'productionPlace',
   };
 
-  handleChangePage = (event, page) => {
-    this.props.updatePage(page);
-    this.props.fetchManuscripts();
-  };
-
   handleChangeRowsPerPage = event => {
     this.setState({ rowsPerPage: event.target.value });
   };
@@ -121,7 +116,7 @@ class ResultTableHead extends React.Component {
             rowsPerPage={rowsPerPage}
             rowsPerPageOptions={[5]}
             page={page}
-            onChangePage={this.handleChangePage}
+            onChangePage={this.props.onChangePage}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
             ActionsComponent={ResultTablePaginationActions}
             classes={{root: classes.paginationRoot}}
@@ -147,7 +142,7 @@ ResultTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
   resultCount: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
-  updatePage: PropTypes.func.isRequired,
+  onChangePage: PropTypes.func.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired,
 };

@@ -77,7 +77,7 @@ let MapApp = (props) => {
   const { classes } = props;
   // browser
   // error,
-  console.log(props.search)
+  ///console.log(props.search)
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
