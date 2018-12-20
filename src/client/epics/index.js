@@ -15,7 +15,7 @@ import {
 
 const apiUrl = (process.env.NODE_ENV === 'development')
   ? 'http://localhost:3001/api/'
-  : `${location.href}api/`;
+  : `${location.hostname}/api/`;
 
 const getManuscripts = (action$, state$) => action$.pipe(
   ofType(FETCH_MANUSCRIPTS),
@@ -55,6 +55,7 @@ const getFacet = (action$, state$) => action$.pipe(
   ofType(FETCH_FACET),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
+    console.log(location.hostname)
     let requestUrl = '';
     let params = {};
     let filters = {};
