@@ -59,7 +59,7 @@ module.exports = {
         {
           #?id crm:P128_carries/^frbroo:R17_created/frbroo:R19_created_a_realisation_of/^frbroo:R16_initiated ?workConception .
           #?workConception mmm-schema:carried_out_by_as_author ?author__id .
-          ?id mmm-schema:author ?author__id .
+          ?id mmm-schema:manuscript_author ?author__id .
           ?author__id skos:prefLabel ?author__prefLabel .
           OPTIONAL { ?author__id mmm-schema:data_provider_url ?author__dataProviderUrl }
         }
