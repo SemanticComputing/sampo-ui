@@ -132,10 +132,10 @@ export const getFacet = (id, filters) => {
   facetQuery = facetQuery.replace('<PREDICATE>', facetConfig.predicate);
   facetQuery = facetQuery.replace('<SELECTED_VALUES>', selectedBlock);
   facetQuery = facetQuery.replace('<PARENTS>', parentBlock);
-  if (id == 'productionPlace') {
-    //console.log(filters)
-    console.log(facetQuery)
-  }
+  // if (id == 'productionPlace') {
+  //   //console.log(filters)
+  //   console.log(facetQuery)
+  // }
   return sparqlSearchEngine.doSearch(facetQuery, endpoint, mapper);
 };
 
