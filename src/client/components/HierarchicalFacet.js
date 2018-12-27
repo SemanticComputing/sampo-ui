@@ -203,6 +203,7 @@ class HierarchicalFacet extends Component {
                     <Checkbox
                       className={classes.checkbox}
                       checked={n.node.selected == 'true' ? true : false}
+                      disabled={n.node.instanceCount > 0 ? false : true}
                       onChange={this.handleCheckboxChange(n)}
                       value={n.node.id}
                       color="primary"

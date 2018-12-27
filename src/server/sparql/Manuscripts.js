@@ -13,8 +13,9 @@ const facetConfigs = {
   productionPlace: {
     id: 'productionPlace',
     label: 'Production place',
+    //predicate: '^crm:P108_has_produced/crm:P7_took_place_at',
     predicate: '^crm:P108_has_produced/crm:P7_took_place_at',
-    //predicate: '^crm:P108_has_produced/crm:P7_took_place_at|^crm:P108_has_produced/crm:P7_took_place_at/crm:P89_falls_within*',
+    parentPredicate: '^crm:P108_has_produced/crm:P7_took_place_at/crm:P89_falls_within*',
     type: 'hierarchical',
   },
   author: {
@@ -98,8 +99,10 @@ export const getFacet = (id, filters) => {
   const facetConfig = facetConfigs[id];
   let selectedBlock = '# no selections';
   let filterBlock = '# no filters';
+  let parentBlock = '# no parents';
+  let mapper = makeObjectList;
   if (filters !== null) {
-    filterBlock = generateFacetFilter(id, facetConfig, filters);
+    filterBlock = generateFacetFilter(id, filters);
     if (has(filters, id)) {
       selectedBlock = `
             OPTIONAL {
@@ -109,24 +112,53 @@ export const getFacet = (id, filters) => {
       `;
     }
   }
+  if (facetConfig.type === 'hierarchical') {
+    mapper = mapHierarchicalFacet;
+    if (filters !== null) {
+      parentBlock = `
+            UNION
+            {
+              ${generateFacetFilterParents(id, filters)}
+              ?parentInstance ${facetConfig.parentPredicate} ?id .
+              BIND(COALESCE(?selected_, false) as ?selected)
+              OPTIONAL { ?id dct:source ?source }
+              OPTIONAL { ?id crm:P89_falls_within ?parent_ }
+              BIND(COALESCE(?parent_, '0') as ?parent)
+            }
+      `;
+    }
+  }
   facetQuery = facetQuery.replace('<FILTER>', filterBlock );
   facetQuery = facetQuery.replace('<PREDICATE>', facetConfig.predicate);
   facetQuery = facetQuery.replace('<SELECTED_VALUES>', selectedBlock);
-  // if (id == 'author') {
-  //   console.log(filters)
-  //   console.log(facetQuery)
-  // }
-  let mapper = facetConfig.type === 'hierarchical' ? mapHierarchicalFacet : makeObjectList;
+  facetQuery = facetQuery.replace('<PARENTS>', parentBlock);
+  if (id == 'productionPlace') {
+    //console.log(filters)
+    console.log(facetQuery)
+  }
   return sparqlSearchEngine.doSearch(facetQuery, endpoint, mapper);
 };
 
-const generateFacetFilter = (facetId, facetConfig, filters) => {
+const generateFacetFilter = (facetId, filters) => {
   let filterStr = '';
   for (let property in filters) {
     if (property !== facetId) {
       filterStr += `
             VALUES ?${property}Filter { <${filters[property].join('> <')}> }
             ?instance ${facetConfigs[property].predicate} ?${property}Filter .
+      `;
+    }
+  }
+  return filterStr;
+};
+
+const generateFacetFilterParents = (facetId, filters) => {
+  let filterStr = '';
+  for (let property in filters) {
+    if (property !== facetId) {
+      filterStr += `
+              VALUES ?${property}FilterParents { <${filters[property].join('> <')}> }
+              ?parentInstance ${facetConfigs[property].predicate} ?${property}FilterParents .
       `;
     }
   }

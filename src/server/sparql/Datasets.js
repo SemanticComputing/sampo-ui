@@ -78,10 +78,10 @@ module.exports = {
           ?production crm:P7_took_place_at ?productionPlace__id .
           ?productionPlace__id skos:prefLabel ?productionPlace__prefLabel .
           OPTIONAL { ?productionPlace__id mmm-schema:data_provider_url ?productionPlace__dataProviderUrl }
-          FILTER NOT EXISTS {
-            ?production crm:P7_took_place_at ?productionPlace__id2 .
-            ?productionPlace__id2 crm:P89_falls_within+ ?productionPlace__id .
-          }
+          # FILTER NOT EXISTS {
+          #   ?production crm:P7_took_place_at ?productionPlace__id2 .
+          #   ?productionPlace__id2 crm:P89_falls_within+ ?productionPlace__id .
+          # }
         }
         UNION
         {
@@ -214,14 +214,17 @@ module.exports = {
       SELECT DISTINCT ?id ?prefLabel ?selected ?source ?parent ?instanceCount {
         { SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?parent ?source
           {
-            ?instance a frbroo:F4_Manifestation_Singleton .
-            <FILTER>
-            ?instance <PREDICATE> ?id .
-            <SELECTED_VALUES>
-            BIND(COALESCE(?selected_, false) as ?selected)
-            OPTIONAL { ?id dct:source ?source }
-            OPTIONAL { ?id crm:P89_falls_within ?parent_ }
-            BIND(COALESCE(?parent_, '0') as ?parent)
+            {
+              ?instance a frbroo:F4_Manifestation_Singleton .
+              <FILTER>
+              ?instance <PREDICATE> ?id
+              <SELECTED_VALUES>
+              BIND(COALESCE(?selected_, false) as ?selected)
+              OPTIONAL { ?id dct:source ?source }
+              OPTIONAL { ?id crm:P89_falls_within ?parent_ }
+              BIND(COALESCE(?parent_, '0') as ?parent)
+            }
+            <PARENTS>
           }
           GROUP BY ?id ?selected ?source ?parent
           ORDER BY DESC(?instanceCount)
