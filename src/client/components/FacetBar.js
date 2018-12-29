@@ -58,11 +58,6 @@ class FacetBar extends React.Component {
               />
             </div>
           </Paper>
-          { /* <Paper className={classes.facetContainer}>
-            <Paper className={classes.headingContainer}>
-              <Typography variant="h6">Work</Typography>
-            </Paper>
-          </Paper> */}
           <Paper className={classes.facetContainer}>
             <Paper className={classes.headingContainer}>
               <Typography variant="h6">Author</Typography>
@@ -96,12 +91,24 @@ class FacetBar extends React.Component {
                 updatedFacet={this.props.updatedFacet}
               />
             </div>
-          </Paper> 
-          { /* <Paper className={classes.facetContainerLast}>
+          </Paper>
+          { /*  <Paper className={classes.facetContainerLast}>
             <Paper className={classes.headingContainer}>
-              <Typography variant="h6">Production date</Typography>
+              <Typography variant="h6">Language</Typography>
             </Paper>
-          </Paper> */ }
+            <div className={classes.facetValuesContainerTen}>
+              <HierarchicalFacet
+                key='language'
+                property='language'
+                data={this.props.language}
+                fetchFacet={this.props.fetchFacet}
+                fetchingFacet={this.props.languageIsFetching}
+                facetFilters={this.props.facetFilters}
+                updateFilter={this.props.updateFilter}
+                updatedFacet={this.props.updatedFacet}
+              />
+            </div>
+          </Paper> */}
         </React.Fragment>
       </div>
     );
@@ -115,9 +122,11 @@ FacetBar.propTypes = {
   source: PropTypes.array.isRequired,
   productionPlace: PropTypes.array.isRequired,
   author: PropTypes.array.isRequired,
+  language: PropTypes.array.isRequired,
   sourceIsFetching: PropTypes.bool.isRequired,
   authorIsFetching: PropTypes.bool.isRequired,
   productionPlaceIsFetching: PropTypes.bool.isRequired,
+  languageIsFetching: PropTypes.bool.isRequired,
   updateFilter: PropTypes.func.isRequired,
   updatedFacet: PropTypes.string.isRequired,
 };

@@ -10,9 +10,11 @@ export const INITIAL_STATE = {
   source: [],
   productionPlace: [],
   author: [],
+  language: [],
   sourceIsFetching: false,
   productionPlaceIsFetching: false,
   authorIsFetching: false,
+  languageIsFetching: false,
   facetOptions : {
     productionPlace: {
       id: 'productionPlace',
@@ -28,12 +30,18 @@ export const INITIAL_STATE = {
       id: 'source',
       label: 'Source',
       // predicate: defined in backend
+    },
+    language: {
+      id: 'language',
+      label: 'Language',
+      // predicate: defined in backend
     }
   },
   facetFilters: {
     productionPlace: new Set(),
     author: new Set(),
     source: new Set(),
+    language: new Set(),
   },
   updatedFacet: ''
 };

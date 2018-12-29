@@ -30,6 +30,12 @@ const facetConfigs = {
     predicate: 'dct:source',
     type: 'list',
   },
+  language: {
+    id: 'language',
+    label: 'Language',
+    predicate: 'crm:P128_carries/crm:P72_has_language',
+    type: 'list',
+  },
 };
 
 export const getManuscripts = (page, pagesize, filters) => {
@@ -132,7 +138,7 @@ export const getFacet = (id, filters) => {
   facetQuery = facetQuery.replace('<PREDICATE>', facetConfig.predicate);
   facetQuery = facetQuery.replace('<SELECTED_VALUES>', selectedBlock);
   facetQuery = facetQuery.replace('<PARENTS>', parentBlock);
-  // if (id == 'productionPlace') {
+  // if (id == 'author') {
   //   //console.log(filters)
   //   console.log(facetQuery)
   // }

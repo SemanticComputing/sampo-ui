@@ -230,8 +230,8 @@ module.exports = {
           ORDER BY DESC(?instanceCount)
         }
         FILTER(BOUND(?id))
-        ?id skos:prefLabel ?prefLabel_
-        BIND(STR(?prefLabel_) AS ?prefLabel)
+        OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
+        BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
       }
     `,
     'tgn': {
