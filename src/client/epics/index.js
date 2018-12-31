@@ -22,7 +22,7 @@ const getManuscripts = (action$, state$) => action$.pipe(
   withLatestFrom(state$),
   mergeMap(([, state]) => {
     const searchUrl = apiUrl + 'manuscripts';
-    const requestUrl = `${searchUrl}?${facetStateToUrl(state.search.page, state.facet.facetFilters)}`;
+    const requestUrl = `${searchUrl}?${resultStateToUrl(state.search, state.facet)}`;
     return ajax.getJSON(requestUrl).pipe(
       map(data => updateManuscripts({ data }))
     );
@@ -80,11 +80,16 @@ const getFacet = (action$, state$) => action$.pipe(
   })
 );
 
-export const facetStateToUrl = (page, facetFilters) => {
-  let params = { page: page };
+export const resultStateToUrl = (search, facet) => {
+  let params = {
+    page: search.page,
+    pagesize: search.pagesize,
+    sortBy: search.sortBy,
+    sortDirection: search.sortDirection
+  };
   let filters = {};
   let activeFilters = false;
-  for (const [key, value] of Object.entries(facetFilters)) {
+  for (const [key, value] of Object.entries(facet.facetFilters)) {
     if (value.size != 0) {
       activeFilters = true;
       filters[key] = Array.from(value);

@@ -27,11 +27,11 @@ app.use(express.static(path.join(__dirname, './../public/')));
 
 app.get(`${apiPath}/manuscripts`, (req, res) => {
   const page = parseInt(req.query.page) || 0;
+  const pagesize = parseInt(req.query.pagesize) || 5;
+  const sortBy = req.query.sortBy;
+  const sortDirection = req.query.sortDirection;
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
-  const pagesize = 5;
-  //console.log(filters)
-  return getManuscripts(page, pagesize, filters).then(data => {
-    // console.log(data);
+  return getManuscripts(page, pagesize, filters, sortBy, sortDirection).then(data => {
     res.json(data);
   })
     .catch(err => {

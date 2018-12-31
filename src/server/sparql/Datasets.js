@@ -42,10 +42,9 @@ module.exports = {
           SELECT DISTINCT ?id {
             <FILTER>
             ?id a frbroo:F4_Manifestation_Singleton .
-            # ?id (^frbroo:R18_created|^crm:P108_has_produced)/crm:P7_took_place_at/skos:prefLabel ?orderBy .
+            ?id <ORDER_BY_PREDICATE> ?orderBy .
           }
-          #ORDER BY (!BOUND(?orderBy)) ?orderBy
-          ORDER BY ?id
+          ORDER BY (!BOUND(?orderBy)) <SORT_DIRECTION>(?orderBy)
           <PAGE>
         }
         FILTER(BOUND(?id))

@@ -13,7 +13,7 @@ const facetConfigs = {
   productionPlace: {
     id: 'productionPlace',
     label: 'Production place',
-    //predicate: '^crm:P108_has_produced/crm:P7_took_place_at',
+    labelPath: '^crm:P108_has_produced/crm:P7_took_place_at/skos:prefLabel',
     predicate: '^crm:P108_has_produced/crm:P7_took_place_at',
     parentPredicate: '^crm:P108_has_produced/crm:P7_took_place_at/crm:P89_falls_within*',
     type: 'hierarchical',
@@ -21,27 +21,48 @@ const facetConfigs = {
   author: {
     id: 'author',
     label: 'Author',
+    labelPath: 'mmm-schema:manuscript_author/skos:prefLabel',
     predicate: 'mmm-schema:manuscript_author',
     type: 'list'
   },
   source: {
     id: 'source',
     label: 'Source',
+    labelPath: 'dct:source/skos:prefLabel',
     predicate: 'dct:source',
     type: 'list',
   },
   language: {
     id: 'language',
     label: 'Language',
+    labelPath: 'crm:P128_carries/crm:P72_has_language',
     predicate: 'crm:P128_carries/crm:P72_has_language',
+    type: 'list',
+  },
+  productionTimespan: {
+    id: 'productionTimespan',
+    label: 'Production Date',
+    labelPath: '^crm:P108_has_produced/crm:P4_has_time-span/skos:prefLabel',
+    type: 'list',
+  },
+  prefLabel: {
+    id: 'prefLabel',
+    label: 'Title',
+    labelPath: 'skos:prefLabel',
+    type: 'list',
+  },
+  event: {
+    id: 'event',
+    label: 'Event',
+    labelPath: '^mmm-schema:observed_manuscript/mmm-schema:observed_time-span',
     type: 'list',
   },
 };
 
-export const getManuscripts = (page, pagesize, filters) => {
+export const getManuscripts = (page, pagesize, filters, sortBy, sortDirection) => {
   return Promise.all([
     getManuscriptCount(filters),
-    getManuscriptData(page, pagesize, filters),
+    getManuscriptData(page, pagesize, filters, sortBy, sortDirection),
   ])
     .then(data => {
       return {
@@ -54,15 +75,17 @@ export const getManuscripts = (page, pagesize, filters) => {
     .catch(err => console.log(err));
 };
 
-const getManuscriptData = (page, pagesize, filters) => {
+const getManuscriptData = (page, pagesize, filters, sortBy, sortDirection) => {
   let { endpoint, manuscriptQuery } = datasetConfig['mmm'];
   if (filters == null) {
     manuscriptQuery = manuscriptQuery.replace('<FILTER>', '');
   } else {
     manuscriptQuery = manuscriptQuery.replace('<FILTER>', generateResultFilter(filters));
   }
+  manuscriptQuery = manuscriptQuery.replace('<ORDER_BY_PREDICATE>', facetConfigs[sortBy].labelPath);
+  manuscriptQuery = manuscriptQuery.replace('<SORT_DIRECTION>', sortDirection);
   manuscriptQuery = manuscriptQuery.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`);
-  //console.log(manuscriptQuery)
+  console.log(manuscriptQuery)
   return sparqlSearchEngine.doSearch(manuscriptQuery, endpoint, makeObjectList);
 };
 

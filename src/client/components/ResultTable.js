@@ -64,10 +64,10 @@ class ResultTable extends React.Component {
   componentDidMount = () => {
     let page;
     if (this.props.routeProps.location.search === '') {
-      page = this.props.page === -1 ? 0 : this.props.page;
+      page = this.props.search.page === -1 ? 0 : this.props.search.page;
       this.props.routeProps.history.push({
         pathname: '/manuscripts/table',
-        search: `?page=${this.props.page}`,
+        search: `?page=${this.props.search.page}`,
       });
       //console.log(`result table mounted WITHOUT page parameter, set page to ${page}`);
     } else {
@@ -80,27 +80,48 @@ class ResultTable extends React.Component {
   }
 
   componentDidUpdate = prevProps => {
-    if (prevProps.page != this.props.page) {
+    if (prevProps.search.page != this.props.search.page) {
       // console.log(`previous page: ${prevProps.page}`)
       // console.log(`page updated to ${this.props.page}, fetch manuscripts`)
       this.props.fetchManuscripts();
       this.props.routeProps.history.push({
         pathname: '/manuscripts/table',
-        search: `?page=${this.props.page}`,
+        search: `?page=${this.props.search.page}`,
       });
     }
     if (prevProps.facetFilters != this.props.facetFilters) {
       // console.log('filters updated, to page 0')
       this.props.updatePage(0);
-      if (this.props.page == 0) {
+      if (this.props.search.page == 0) {
         this.props.fetchManuscripts();
       }
+    }
+    if (prevProps.search.sortBy != this.props.search.sortBy) {
+      this.props.updatePage(0);
+      if (this.props.search.page == 0) {
+        this.props.fetchManuscripts();
+      }
+    }
+    if (prevProps.search.sortDirection != this.props.search.sortDirection) {
+      this.props.fetchManuscripts();
     }
   }
 
   handleChangePage = (event, page) => {
     if (event != null) {
       this.props.updatePage(page);
+    }
+  }
+
+  handleOnChangeRowsPerPage = (event, rowsPerPage) => {
+    if (event != null) {
+      console.log(rowsPerPage)
+    }
+  }
+
+  handleSortBy = sortBy => event => {
+    if (event != null) {
+      this.props.sortResults(sortBy);
     }
   }
 
@@ -252,9 +273,11 @@ class ResultTable extends React.Component {
   };
 
   render() {
-    const { classes, rows } = this.props;
-    // console.log(rows)
-    if (this.props.fetchingManuscripts   ) {
+    const { classes } = this.props;
+    const rows = this.props.search.manuscripts;
+    const { fetchingManuscripts, page, pagesize, sortBy, sortDirection, manuscriptCount } = this.props.search;
+
+    if (fetchingManuscripts) {
       return (
         <div className={classes.progressContainer}>
           <Typography className={classes.progressTitle} variant="h4" color='primary'>Fetching manuscript data</Typography>
@@ -266,10 +289,14 @@ class ResultTable extends React.Component {
         <div className={classes.tableContainer}>
           <Table className={classes.table}>
             <ResultTableHead
-              fetchManuscripts={this.props.fetchManuscripts}
               onChangePage={this.handleChangePage}
-              resultCount={this.props.resultCount}
-              page={this.props.page}
+              onSortBy={this.handleSortBy}
+              onChangeRowsPerPage={this.handleOnChangeRowsPerPage}
+              resultCount={manuscriptCount}
+              page={page}
+              pagesize={pagesize}
+              sortBy={sortBy}
+              sortDirection={sortDirection}
               routeProps={this.props.routeProps}
             />
             <TableBody>
@@ -317,13 +344,11 @@ class ResultTable extends React.Component {
 
 ResultTable.propTypes = {
   classes: PropTypes.object.isRequired,
-  rows: PropTypes.array.isRequired,
+  search: PropTypes.object.isRequired,
   facetFilters: PropTypes.object.isRequired,
   fetchManuscripts: PropTypes.func.isRequired,
-  fetchingManuscripts: PropTypes.bool.isRequired,
-  resultCount: PropTypes.number.isRequired,
-  page: PropTypes.number.isRequired,
   updatePage: PropTypes.func.isRequired,
+  sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired
 };
 

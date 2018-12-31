@@ -20,8 +20,8 @@ import {
   fetchPlaces,
   fetchPlace,
   fetchFacet,
+  sortResults,
   updateFilter,
-  fetchResults,
   updatePage,
   openFacetDialog,
   closeFacetDialog
@@ -115,6 +115,7 @@ let MapApp = (props) => {
                           fetchPlaces={props.fetchPlaces}
                           fetchPlace={props.fetchPlace}
                           updatePage={props.updatePage}
+                          sortResults={props.sortResults}
                           routeProps={routeProps}
                         />
                       </Paper>
@@ -147,7 +148,7 @@ const mapDispatchToProps = ({
   fetchPlaces,
   fetchPlace,
   fetchFacet,
-  fetchResults,
+  sortResults,
   updateFilter,
   updatePage,
   openFacetDialog,
@@ -165,7 +166,7 @@ MapApp.propTypes = {
   fetchPlaces: PropTypes.func.isRequired,
   fetchPlace:  PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,
-  fetchResults: PropTypes.func.isRequired,
+  sortResults: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
   openFacetDialog: PropTypes.func.isRequired,

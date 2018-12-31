@@ -1,18 +1,12 @@
 import {
-  UPDATE_QUERY,
-  TOGGLE_DATASET,
-  FETCH_SUGGESTIONS,
-  UPDATE_SUGGESTIONS,
-  CLEAR_SUGGESTIONS,
   FETCH_MANUSCRIPTS,
   FETCH_PLACES,
   FETCH_PLACE,
   UPDATE_MANUSCRIPTS,
-  CLEAR_MANUSCRIPTS,
   UPDATE_PLACES,
-  CLEAR_PLACES,
   UPDATE_PLACE,
   UPDATE_PAGE,
+  SORT_RESULTS,
 } from '../actions';
 
 export const INITIAL_STATE = {
@@ -31,16 +25,13 @@ export const INITIAL_STATE = {
       'selected': false
     },
   },
-  suggestions: [],
-  suggestionsQuery: '',
-  fetchingSuggestions: false,
-  fetchingResults: false,
   manuscriptCount: 0,
   manuscripts: [],
-  page: -1,
   places: [],
   place: {},
-  sortBy: 'author',
+  page: -1,
+  pagesize: 5,
+  sortBy: 'productionPlace',
   sortDirection: 'asc',
   resultsQuery: '',
   fetchingPlaces: false,
@@ -49,43 +40,14 @@ export const INITIAL_STATE = {
 
 const search = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case UPDATE_QUERY:
-      return { ...state, query: action.query || '' };
-    case TOGGLE_DATASET:
-      return {
-        ...state,
-        suggestions: [],
-        results: [],
-        datasets: {
-          ...state.datasets,
-          [action.dataset]: {
-            ...state.datasets[action.dataset],
-            selected: state.datasets[action.dataset].selected ? false : true
-          }
-        }
-      };
-    case FETCH_SUGGESTIONS:
-      return { ...state, fetchingSuggestions: true };
     case FETCH_MANUSCRIPTS:
       return { ...state, fetchingManuscripts: true };
     case FETCH_PLACES:
       return { ...state, fetchingPlaces: true };
     case FETCH_PLACE:
       return { ...state, fetchingPlaces: true };
-    case CLEAR_SUGGESTIONS:
-      return {
-        ...state,
-        suggestions: [],
-        suggestionsQuery: '',
-        fetchingSuggestions: false
-      };
-    case UPDATE_SUGGESTIONS:
-      return {
-        ...state,
-        suggestions: action.suggestions,
-        suggestionsQuery: state.query,
-        fetchingSuggestions: false
-      };
+    case SORT_RESULTS:
+      return updateSortBy(state, action);
     case UPDATE_MANUSCRIPTS:
       // console.log('updating manuscripts in reducer:');
       // console.log(action);
@@ -112,20 +74,24 @@ const search = (state = INITIAL_STATE, action) => {
         place: action.place,
         fetchingPlaces: false
       };
-    case CLEAR_MANUSCRIPTS:
-      return {
-        ...state,
-        'manuscripts': [],
-        fetchingManuscripts: false
-      };
-    case CLEAR_PLACES:
-      return {
-        ...state,
-        'places': {},
-        fetchingPlaces: false
-      };
     default:
       return state;
+  }
+};
+
+const updateSortBy = (state, action) => {
+  if (state.sortBy === action.sortBy) {
+    return {
+      ...state,
+      sortDirection: state.sortDirection === 'asc' ? 'desc' : 'asc'
+    };
+  } else {
+    console.log(action)
+    return {
+      ...state,
+      sortBy: action.sortBy,
+      sortDirection: 'asc'
+    };
   }
 };
 

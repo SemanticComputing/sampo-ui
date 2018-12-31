@@ -1,7 +1,7 @@
 import {
-  FETCH_SUGGESTIONS_FAILED,
+  //FETCH_SUGGESTIONS_FAILED,
   CLEAR_ERROR,
-  FETCH_SUGGESTIONS,
+  //FETCH_SUGGESTIONS,
 } from '../actions';
 
 export const INITIAL_STATE = {
@@ -9,18 +9,18 @@ export const INITIAL_STATE = {
   message: {},
 };
 
-const search = (state = INITIAL_STATE, action) => {
+const error = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case FETCH_SUGGESTIONS_FAILED:
-      return {
-        ...state,
-        hasError: true,
-        message: {
-          text: action.error.xhr.statusText,
-          title: 'Error',
-        },
-      };
-    case FETCH_SUGGESTIONS:
+    // case FETCH_SUGGESTIONS_FAILED:
+    //   return {
+    //     ...state,
+    //     hasError: true,
+    //     message: {
+    //       text: action.error.xhr.statusText,
+    //       title: 'Error',
+    //     },
+    //   };
+    // case FETCH_SUGGESTIONS:
     case CLEAR_ERROR:
       return {
         ...state,
@@ -32,4 +32,4 @@ const search = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default search;
+export default error;

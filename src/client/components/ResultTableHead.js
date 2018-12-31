@@ -6,8 +6,10 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TablePagination from '@material-ui/core/TablePagination';
 import ResultTablePaginationActions from './ResultTablePaginationActions';
+import Tooltip from '@material-ui/core/Tooltip';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 // import InfoIcon from '@material-ui/icons/InfoOutlined';
-// import TableSortLabel from '@material-ui/core/TableSortLabel';
+
 
 const styles = () => ({
   paginationRow: {
@@ -72,52 +74,33 @@ const columns = [
 
 
 class ResultTableHead extends React.Component {
-  state = {
-    rowsPerPage: 5,
-    order: 'asc',
-    orderBy: 'productionPlace',
-  };
 
-  handleChangeRowsPerPage = event => {
-    this.setState({ rowsPerPage: event.target.value });
-  };
-
-  handleRequestSort  = property => () => {
-    const orderBy = property;
-    let order = 'desc';
-    if (this.state.orderBy === property && this.state.order === 'desc') {
-      order = 'asc';
-    }
-    this.setState({ order, orderBy });
-  };
-
-  // handleFacetButtonOnClick = property => () => {
-  //   this.props.openFacetDialog(property);
-  // }
-
-  // <TableSortLabel
-  //   active={orderBy === column.property}
-  //   direction={order}
-  //   onClick={this.handleRequestSort(column.property)}
-  // >
-  //   {column.label}
-  // </TableSortLabel>
+  // handleChangeRowsPerPage = event => {
+  //   this.setState({ rowsPerPage: event.target.value });
+  // };
+  //
+  // handleRequestSort  = property => () => {
+  //   const orderBy = property;
+  //   let order = 'desc';
+  //   if (this.state.orderBy === property && this.state.order === 'desc') {
+  //     order = 'asc';
+  //   }
+  //   this.setState({ order, orderBy });
+  // };
 
   render() {
-    const { classes, page, resultCount } = this.props;
-    const { rowsPerPage } = this.state;
-    //order, orderBy
+    const { classes, page, resultCount, pagesize, sortBy, sortDirection } = this.props;
 
     return (
       <TableHead>
         <TableRow className={classes.paginationRow}>
           <TablePagination
             count={resultCount}
-            rowsPerPage={rowsPerPage}
+            rowsPerPage={pagesize}
             rowsPerPageOptions={[5]}
             page={page}
             onChangePage={this.props.onChangePage}
-            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            onChangeRowsPerPage={this.props.onChangeRowsPerPage}
             ActionsComponent={ResultTablePaginationActions}
             classes={{root: classes.paginationRoot}}
           />
@@ -127,8 +110,20 @@ class ResultTableHead extends React.Component {
             return (
               <TableCell
                 key={column.property}
+                sortDirection={sortBy === column.property ? sortDirection : false}
               >
-                {column.label}
+                <Tooltip
+                  title="Sort"
+                  enterDelay={300}
+                >
+                  <TableSortLabel
+                    active={sortBy === column.property}
+                    direction={sortDirection}
+                    onClick={this.props.onSortBy(column.property)}
+                  >
+                    {column.label}
+                  </TableSortLabel>
+                </Tooltip>
               </TableCell>
             );
           })}
@@ -140,10 +135,14 @@ class ResultTableHead extends React.Component {
 
 ResultTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
+  onChangePage: PropTypes.func.isRequired,
+  onSortBy: PropTypes.func.isRequired,
+  onChangeRowsPerPage: PropTypes.func.isRequired,
   resultCount: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
-  onChangePage: PropTypes.func.isRequired,
-  fetchManuscripts: PropTypes.func.isRequired,
+  pagesize: PropTypes.number.isRequired,
+  sortBy: PropTypes.string.isRequired,
+  sortDirection: PropTypes.string.isRequired,
   routeProps: PropTypes.object.isRequired,
 };
 

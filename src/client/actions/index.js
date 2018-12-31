@@ -4,15 +4,6 @@ export const BOUNCE_MARKER = 'BOUNCE_MARKER';
 export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP';
 export const REMOVE_TEMP_MARKER = 'REMOVE_TEMP_MARKER';
 export const START_SPINNER = 'START_SPINNER';
-export const FETCH_SUGGESTIONS = 'FETCH_SUGGESTIONS';
-export const FETCH_SUGGESTIONS_FAILED = 'FETCH_SUGGESTIONS_FAILED';
-export const UPDATE_SUGGESTIONS = 'UPDATE_SUGGESTIONS';
-export const CLEAR_SUGGESTIONS = 'CLEAR_SUGGESTIONS';
-
-export const FETCH_RESULTS = 'FETCH_RESULTS';
-export const UPDATE_RESULTS = 'UPDATE_RESULTS';
-export const CLEAR_RESULTS = 'CLEAR_RESULTS';
-export const FETCH_RESULTS_FAILED = 'FETCH_RESULTS_FAILED';
 
 export const FETCH_MANUSCRIPTS = 'FETCH_MANUSCRIPTS';
 export const UPDATE_MANUSCRIPTS = 'UPDATE_MANUSCRIPTS';
@@ -42,61 +33,28 @@ export const CLOSE_FACET_DIALOG = 'CLOSE_FACET_DIALOG';
 export const SORT_RESULTS = 'SORT_RESULTS';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 
-export const updateQuery = (query) => ({
+export const updateQuery = query => ({
   type: UPDATE_QUERY,
   query
 });
 
-export const toggleDataset = (dataset) => ({
+export const toggleDataset = dataset => ({
   type: TOGGLE_DATASET,
   dataset
 });
 
-export const bounceMarker = (uri) => ({
+export const bounceMarker = uri => ({
   type: BOUNCE_MARKER,
   uri
 });
 
-export const openMarkerPopup = (uri) => ({
+export const openMarkerPopup = uri => ({
   type: OPEN_MARKER_POPUP,
   uri
 });
 
 export const removeTempMarker = () => ({
   type: REMOVE_TEMP_MARKER,
-});
-
-
-// Suggestions
-export const fetchSuggestions = () => ({
-  type: FETCH_SUGGESTIONS,
-});
-export const fetchSuggestionsFailed = (error) => ({
-  type: FETCH_SUGGESTIONS_FAILED,
-  error
-});
-export const updateSuggestions = ({ suggestions }) => ({
-  type: UPDATE_SUGGESTIONS,
-  suggestions
-});
-export const clearSuggestions = () => ({
-  type: CLEAR_SUGGESTIONS,
-});
-
-// Results
-export const fetchResults = () => ({
-  type: FETCH_RESULTS,
-});
-export const updateResults = ({ results }) => ({
-  type: UPDATE_RESULTS,
-  results
-});
-export const clearResults = () => ({
-  type: CLEAR_RESULTS,
-});
-export const fetchResultsFailed = (error) => ({
-  type: FETCH_RESULTS_FAILED,
-  error
 });
 
 // Manuscripts
@@ -110,7 +68,7 @@ export const updateManuscripts = ({ data }) => ({
 export const clearManuscripts = () => ({
   type: CLEAR_MANUSCRIPTS,
 });
-export const fetchManuscriptsFailed = (error) => ({
+export const fetchManuscriptsFailed = error => ({
   type: FETCH_MANUSCRIPTS_FAILED,
   error
 });
@@ -132,11 +90,11 @@ export const updatePlaces = ({ places }) => ({
 export const clearPlaces = () => ({
   type: CLEAR_PLACES,
 });
-export const fetchPlacesFailed = (error) => ({
+export const fetchPlacesFailed = error => ({
   type: FETCH_PLACES_FAILED,
   error
 });
-export const fetchPlace = (placeId) => ({
+export const fetchPlace = placeId => ({
   type: FETCH_PLACE,
   placeId
 });
@@ -147,7 +105,7 @@ export const updatePlace = ({ place }) => ({
 export const clearPlace = () => ({
   type: CLEAR_PLACES,
 });
-export const fetchPlaceFailed = (error) => ({
+export const fetchPlaceFailed = error => ({
   type: FETCH_PLACES_FAILED,
   error
 });
@@ -171,18 +129,18 @@ export const updateFacet = ({ id, facetValues }) => ({
 export const clearFacet = () => ({
   type: CLEAR_FACET,
 });
-export const fetchFacetFailed = (error) => ({
+export const fetchFacetFailed = error => ({
   type: FETCH_FACET_FAILED,
   error
 });
-export const updateFilter = (filter) => ({
+export const updateFilter = filter => ({
   type: UPDATE_FILTER,
   filter
 });
 
-export const sortResults = (options) => ({
+export const sortResults = sortBy => ({
   type: SORT_RESULTS,
-  options
+  sortBy
 });
 
 export const clearError = () => ({
