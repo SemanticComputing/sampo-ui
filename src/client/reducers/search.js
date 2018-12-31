@@ -86,7 +86,6 @@ const updateSortBy = (state, action) => {
       sortDirection: state.sortDirection === 'asc' ? 'desc' : 'asc'
     };
   } else {
-    console.log(action)
     return {
       ...state,
       sortBy: action.sortBy,

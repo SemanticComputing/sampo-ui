@@ -85,7 +85,7 @@ const getManuscriptData = (page, pagesize, filters, sortBy, sortDirection) => {
   manuscriptQuery = manuscriptQuery.replace('<ORDER_BY_PREDICATE>', facetConfigs[sortBy].labelPath);
   manuscriptQuery = manuscriptQuery.replace('<SORT_DIRECTION>', sortDirection);
   manuscriptQuery = manuscriptQuery.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`);
-  console.log(manuscriptQuery)
+  //console.log(manuscriptQuery)
   return sparqlSearchEngine.doSearch(manuscriptQuery, endpoint, makeObjectList);
 };
 
