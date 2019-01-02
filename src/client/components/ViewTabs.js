@@ -6,7 +6,6 @@ import Tab from '@material-ui/core/Tab';
 import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
 import RedoIcon from '@material-ui/icons/Redo';
-import PieChartIcon from '@material-ui/icons/PieChart';
 import { Link } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 
@@ -43,9 +42,6 @@ class ViewTabs extends React.Component {
       case '/manuscripts/migrations':
         value = 2;
         break;
-      case '/manuscripts/statistics':
-        value = 3;
-        break;
       default:
         value = 0;
     }
@@ -72,7 +68,6 @@ class ViewTabs extends React.Component {
           <Tab icon={<CalendarViewDayIcon />} label="table" component={Link} to="/manuscripts" />
           <Tab icon={<AddLocationIcon />} label="production places" component={Link} to="/manuscripts/production_places" />
           <Tab icon={<RedoIcon />} label="migrations" component={Link} to="/manuscripts/migrations" />
-          <Tab icon={<PieChartIcon />} label="statistics" component={Link} to="/manuscripts/statistics"/>
         </Tabs>
       </Paper>
     );
