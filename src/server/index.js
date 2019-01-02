@@ -52,7 +52,6 @@ app.get(`${apiPath}/places/:placeId?`, (req, res) => {
   } else {
     const variant = req.query.variant ? req.query.variant : 'productionPlaces';
     return getPlaces(variant).then((data) => {
-      // console.log(data);
       res.json(data);
     })
       .catch((err) => {
@@ -62,23 +61,12 @@ app.get(`${apiPath}/places/:placeId?`, (req, res) => {
   }
 });
 
-app.get(`${apiPath}/facets`, (req, res) => {
-  const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
-  return getFacets(filters).then((data) => {
-    res.json(data);
-  })
-    .catch((err) => {
-      console.log(err);
-      return res.sendStatus(500);
-    });
-});
-
 app.get(`${apiPath}/facet/:id`, (req, res) => {
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
-  return getFacet(req.params.id, filters).then((data) => {
-    // if (req.params.id == 'productionPlace') {
-    //   console.log(data)
-    // }
+  return getFacet(req.params.id, filters).then(data => {
+    if (req.params.id == 'source') {
+      console.log(data)
+    }
     res.json(data);
   })
     .catch((err) => {

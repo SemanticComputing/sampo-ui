@@ -72,9 +72,10 @@ const getFacet = (action$, state$) => action$.pipe(
       requestUrl = `${apiUrl}facet/${action.id}`;
     }
     return ajax.getJSON(requestUrl).pipe(
-      map(response => updateFacet({
+      map(res => updateFacet({
         id: action.id,
-        facetValues: response,
+        distinctValueCount: res.distinctValueCount,
+        values: res.values,
       }))
     );
   })

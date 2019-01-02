@@ -125,6 +125,7 @@ class HierarchicalFacet extends Component {
   render() {
     const { classes } = this.props;
     const { searchString, searchFocusIndex, /*searchFoundCount*/ } = this.state;
+    //console.log(this.props.data)
 
     // Case insensitive search of `node.title`
     const customSearchMethod = ({ node, searchQuery }) =>

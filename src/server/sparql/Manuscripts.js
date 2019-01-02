@@ -2,6 +2,7 @@ import { has } from 'lodash';
 import SparqlSearchEngine from './SparqlSearchEngine';
 import datasetConfig from './Datasets';
 import {
+  mapFacet,
   mapHierarchicalFacet,
   mapCount,
 } from './Mappers';
@@ -129,7 +130,7 @@ export const getFacet = (id, filters) => {
   let selectedBlock = '# no selections';
   let filterBlock = '# no filters';
   let parentBlock = '# no parents';
-  let mapper = makeObjectList;
+  let mapper = mapFacet;
   if (filters !== null) {
     filterBlock = generateFacetFilter(id, filters);
     if (has(filters, id)) {
@@ -157,8 +158,8 @@ export const getFacet = (id, filters) => {
       `;
     }
   }
-  facetQuery = facetQuery.replace('<FILTER>', filterBlock );
-  facetQuery = facetQuery.replace('<PREDICATE>', facetConfig.predicate);
+  facetQuery = facetQuery.replace(/<FILTER>/g, filterBlock );
+  facetQuery = facetQuery.replace(/<PREDICATE>/g, facetConfig.predicate);
   facetQuery = facetQuery.replace('<SELECTED_VALUES>', selectedBlock);
   facetQuery = facetQuery.replace('<PARENTS>', parentBlock);
   // if (id == 'author') {

@@ -43,15 +43,15 @@ class FacetBar extends React.Component {
         <React.Fragment>
           <Paper className={classes.facetContainer}>
             <Paper className={classes.headingContainer}>
-              <Typography variant="h6">Source</Typography>
+              <Typography variant="h6">Source ({this.props.source.distinctValueCount})</Typography>
             </Paper>
             <div className={classes.facetValuesContainerThree}>
               <HierarchicalFacet
                 key='source'
                 property='source'
-                data={this.props.source}
+                data={this.props.source.values}
                 fetchFacet={this.props.fetchFacet}
-                fetchingFacet={this.props.sourceIsFetching}
+                fetchingFacet={this.props.source.isFetching}
                 facetFilters={this.props.facetFilters}
                 updateFilter={this.props.updateFilter}
                 updatedFacet={this.props.updatedFacet}
@@ -60,15 +60,15 @@ class FacetBar extends React.Component {
           </Paper>
           <Paper className={classes.facetContainer}>
             <Paper className={classes.headingContainer}>
-              <Typography variant="h6">Author</Typography>
+              <Typography variant="h6">Author ({this.props.author.distinctValueCount})</Typography>
             </Paper>
             <div className={classes.facetValuesContainerTen}>
               <HierarchicalFacet
                 key='author'
                 property='author'
-                data={this.props.author}
+                data={this.props.author.values}
                 fetchFacet={this.props.fetchFacet}
-                fetchingFacet={this.props.authorIsFetching}
+                fetchingFacet={this.props.author.isFetching}
                 facetFilters={this.props.facetFilters}
                 updateFilter={this.props.updateFilter}
                 updatedFacet={this.props.updatedFacet}
@@ -77,15 +77,15 @@ class FacetBar extends React.Component {
           </Paper>
           <Paper className={classes.facetContainer}>
             <Paper className={classes.headingContainer}>
-              <Typography variant="h6">Production place</Typography>
+              <Typography variant="h6">Production place ({this.props.productionPlace.distinctValueCount})</Typography>
             </Paper>
             <div className={classes.facetValuesContainerTen}>
               <HierarchicalFacet
                 key='productionPlace'
                 property='productionPlace'
-                data={this.props.productionPlace}
+                data={this.props.productionPlace.values}
                 fetchFacet={this.props.fetchFacet}
-                fetchingFacet={this.props.productionPlaceIsFetching}
+                fetchingFacet={this.props.productionPlace.isFetching}
                 facetFilters={this.props.facetFilters}
                 updateFilter={this.props.updateFilter}
                 updatedFacet={this.props.updatedFacet}
@@ -119,14 +119,10 @@ FacetBar.propTypes = {
   classes: PropTypes.object.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   facetFilters: PropTypes.object.isRequired,
-  source: PropTypes.array.isRequired,
-  productionPlace: PropTypes.array.isRequired,
-  author: PropTypes.array.isRequired,
-  language: PropTypes.array.isRequired,
-  sourceIsFetching: PropTypes.bool.isRequired,
-  authorIsFetching: PropTypes.bool.isRequired,
-  productionPlaceIsFetching: PropTypes.bool.isRequired,
-  languageIsFetching: PropTypes.bool.isRequired,
+  source: PropTypes.object.isRequired,
+  productionPlace: PropTypes.object.isRequired,
+  author: PropTypes.object.isRequired,
+  language: PropTypes.object.isRequired,
   updateFilter: PropTypes.func.isRequired,
   updatedFacet: PropTypes.string.isRequired,
 };

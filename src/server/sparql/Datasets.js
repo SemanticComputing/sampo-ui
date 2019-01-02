@@ -211,26 +211,43 @@ module.exports = {
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
       SELECT DISTINCT ?id ?prefLabel ?selected ?source ?parent ?instanceCount {
-        { SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?parent ?source
+        {
           {
-            {
+            SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?parent ?source {
+              {
+                ?instance a frbroo:F4_Manifestation_Singleton .
+                <FILTER>
+                ?instance <PREDICATE> ?id
+                <SELECTED_VALUES>
+                BIND(COALESCE(?selected_, false) as ?selected)
+                OPTIONAL { ?id dct:source ?source }
+                OPTIONAL { ?id crm:P89_falls_within ?parent_ }
+                BIND(COALESCE(?parent_, '0') as ?parent)
+              }
+              <PARENTS>
+            }
+            GROUP BY ?id ?selected ?source ?parent
+            ORDER BY DESC(?instanceCount)
+          }
+          FILTER(BOUND(?id))
+          OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
+          BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
+        }
+        UNION
+        {
+          {
+            SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) {
               ?instance a frbroo:F4_Manifestation_Singleton .
               <FILTER>
-              ?instance <PREDICATE> ?id
-              <SELECTED_VALUES>
-              BIND(COALESCE(?selected_, false) as ?selected)
-              OPTIONAL { ?id dct:source ?source }
-              OPTIONAL { ?id crm:P89_falls_within ?parent_ }
-              BIND(COALESCE(?parent_, '0') as ?parent)
+              FILTER NOT EXISTS {
+                ?instance <PREDICATE> ?value .
+              }
             }
-            <PARENTS>
           }
-          GROUP BY ?id ?selected ?source ?parent
-          ORDER BY DESC(?instanceCount)
+          BIND(IRI("http://ldf.fi/MISSING_VALUE") AS ?id)
+          BIND("_missing value" AS ?prefLabel)
+          BIND('0' as ?parent)
         }
-        FILTER(BOUND(?id))
-        OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
-        BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
       }
     `,
     'tgn': {

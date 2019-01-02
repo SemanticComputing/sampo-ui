@@ -7,14 +7,32 @@ import {
 } from '../actions';
 
 export const INITIAL_STATE = {
-  source: [],
-  productionPlace: [],
-  author: [],
-  language: [],
-  sourceIsFetching: false,
-  productionPlaceIsFetching: false,
-  authorIsFetching: false,
-  languageIsFetching: false,
+  productionPlace: {
+    distinctValueCount: 0,
+    values: [],
+    isFetching: false,
+  },
+  author: {
+    distinctValueCount: 0,
+    values: [],
+    isFetching: false,
+  },
+  source: {
+    distinctValueCount: 0,
+    values: [],
+    isFetching: false,
+  },
+  language: {
+    distinctValueCount: 0,
+    values: [],
+    isFetching: false,
+  },
+  facetFilters: {
+    productionPlace: new Set(),
+    author: new Set(),
+    source: new Set(),
+    language: new Set(),
+  },
   facetOptions : {
     productionPlace: {
       id: 'productionPlace',
@@ -37,12 +55,6 @@ export const INITIAL_STATE = {
       // predicate: defined in backend
     }
   },
-  facetFilters: {
-    productionPlace: new Set(),
-    author: new Set(),
-    source: new Set(),
-    language: new Set(),
-  },
   updatedFacet: ''
 };
 
@@ -59,13 +71,20 @@ const facet = (state = INITIAL_STATE, action) => {
     case FETCH_FACET:
       return {
         ...state,
-        [ `${action.id}IsFetching` ]: true
+        [ action.id ]: {
+          distinctValueCount: 0,
+          values: [],
+          isFetching: true
+        }
       };
     case UPDATE_FACET:
       return {
         ...state,
-        [ action.id ]: action.facetValues,
-        [ `${action.id}IsFetching` ]: false
+        [ action.id ]: {
+          distinctValueCount: action.distinctValueCount,
+          values: action.values,
+          isFetching: false
+        }
       };
     case UPDATE_FILTER:
       return updateFilter(state, action);

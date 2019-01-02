@@ -97,10 +97,6 @@ let MapApp = (props) => {
                         author={props.facet.author}
                         language={props.facet.language}
                         productionPlace={props.facet.productionPlace}
-                        sourceIsFetching={props.facet.sourceIsFetching}
-                        authorIsFetching={props.facet.authorIsFetching}
-                        languageIsFetching={props.facet.languageIsFetching}
-                        productionPlaceIsFetching={props.facet.productionPlaceIsFetching}
                         fetchFacet={props.fetchFacet}
                         updateFilter={props.updateFilter}
                         updatedFacet={props.facet.updatedFacet}

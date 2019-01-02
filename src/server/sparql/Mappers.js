@@ -24,6 +24,17 @@ export const mapCount = (sparqlBindings) => {
   };
 };
 
+export const mapFacet = sparqlBindings => {
+  const results = makeObjectList(sparqlBindings);
+  if (results[results.length - 1].instanceCount == 0) {
+    results.pop();
+  }
+  return {
+    distinctValueCount: results.length,
+    values: results
+  };
+};
+
 export const mapHierarchicalFacet = sparqlBindings => {
   const results = makeObjectList(sparqlBindings);
   let treeData = getTreeFromFlatData({
@@ -34,7 +45,10 @@ export const mapHierarchicalFacet = sparqlBindings => {
   });
   treeData = recursiveSort(treeData);
   treeData.forEach(node => sumUp(node));
-  return treeData;
+  return {
+    distinctValueCount: results.length,
+    values: treeData
+  };
 };
 
 const comparator = (a, b) => a.prefLabel.localeCompare(b.prefLabel);
