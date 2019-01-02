@@ -32,7 +32,20 @@ const styles = () => ({
     height: 24,
     marginRight: 3,
     marginLeft: 10
+  },
+  label: {
+
+  },
+  sdbmLabel: {
+    color: '#00796B'
+  },
+  bodleyLabel: {
+    color: '#F50057'
+  },
+  bibaleLabel: {
+    color: '#F57F17'
   }
+
 });
 
 class HierarchicalFacet extends Component {
@@ -91,6 +104,22 @@ class HierarchicalFacet extends Component {
     //console.log(node)
     let count = node.totalInstanceCount == null || node.totalInstanceCount == 0 ? node.instanceCount : node.totalInstanceCount;
     return `${node.prefLabel} (${count})`;
+  }
+
+  generateLabelClass = (classes, node) => {
+    let labelClass = classes.label;
+    if (this.props.property === 'author' || this.props.property === 'productionPlace' || this.props.property === 'source') {
+      if (node.source === 'http://ldf.fi/mmm/schema/SDBM' || node.id === 'http://ldf.fi/mmm/schema/SDBM') {
+        labelClass = classes.sdbmLabel;
+      }
+      if (node.source === 'http://ldf.fi/mmm/schema/Bodley' || node.id === 'http://ldf.fi/mmm/schema/Bodley') {
+        labelClass = classes.bodleyLabel;
+      }
+      if (node.source === 'http://ldf.fi/mmm/schema/Bibale' || node.id === 'http://ldf.fi/mmm/schema/Bibale') {
+        labelClass = classes.bibaleLabel;
+      }
+    }
+    return labelClass;
   }
 
   render() {
@@ -211,7 +240,8 @@ class HierarchicalFacet extends Component {
                   }
                   label={this.generateLabel(n.node)}
                   classes={{
-                    root: classes.formControlRoot
+                    root: classes.formControlRoot,
+                    label: this.generateLabelClass(classes, n.node)
                   }}
                 />
               ),
