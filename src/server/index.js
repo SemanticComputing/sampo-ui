@@ -5,7 +5,6 @@ import {
   getManuscripts,
   getPlaces,
   getPlace,
-  getFacets,
   getFacet
 } from './sparql/Manuscripts';
 const DEFAULT_PORT = 3001;

@@ -10,21 +10,6 @@ import {
 } from '../actions';
 
 export const INITIAL_STATE = {
-  query: '',
-  datasets: {
-    'mmm': {
-      'title': 'MMM',
-      'shortTitle': 'MMM',
-      'timePeriod': '',
-      'selected': true
-    },
-    'tgn': {
-      'title': 'The Getty Thesaurus of Geographic Names',
-      'shortTitle': 'TGN',
-      'timePeriod': '?',
-      'selected': false
-    },
-  },
   manuscriptCount: 0,
   manuscripts: [],
   places: [],
@@ -33,7 +18,6 @@ export const INITIAL_STATE = {
   pagesize: 5,
   sortBy: 'productionPlace',
   sortDirection: 'asc',
-  resultsQuery: '',
   fetchingPlaces: false,
   fetchingManuscripts: false
 };
