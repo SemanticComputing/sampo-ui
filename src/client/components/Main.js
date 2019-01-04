@@ -51,6 +51,7 @@ let Main = props => {
   const { classes } = props;
 
   const ManuscriptLink = props => <NavLink to="/manuscripts" {...props}/>;
+//const WorkLink = props => <NavLink to="/works" {...props}/>;
 
   return (
     <div className={classes.root}>
@@ -97,7 +98,7 @@ let Main = props => {
                 <CardMedia
                   className={classes.media}
                   image={thumbImage}
-                  title="Manuscripts"
+                  title="Works"
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">

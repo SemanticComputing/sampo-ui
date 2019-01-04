@@ -3,43 +3,22 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
+import ResultTableCell from './ResultTableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 import ResultTableHead from './ResultTableHead';
-import { orderBy, has } from 'lodash';
 import { parse } from 'query-string';
 
 const styles = () => ({
   tableContainer: {
-    //marginTop: 72,
     overflow: 'auto',
     width: '100%',
     height: 'calc(100% - 72px)'
   },
-  table: {
-    //marginTop: 72,
-    //minWidth: 700,
-    //overflowX: 'auto',
-    //backgroundColor: theme.palette.background.paper
-  },
   paginationRow: {
     borderBottom: '1px solid lightgrey'
-  },
-  valueList: {
-    paddingLeft: 15
-  },
-  valueListNoBullets: {
-    listStyle: 'none',
-    paddingLeft: 0
-  },
-  withFilter: {
-    //minWidth: 170
-  },
-  wideColumn: {
-    minWidth: 170
   },
   infoIcon: {
     paddingTop: 15
@@ -66,7 +45,7 @@ class ResultTable extends React.Component {
     if (this.props.routeProps.location.search === '') {
       page = this.props.search.page === -1 ? 0 : this.props.search.page;
       this.props.routeProps.history.push({
-        pathname: '/manuscripts/table',
+        pathname: `/${this.props.resultClass}/table`,
         search: `?page=${this.props.search.page}`,
       });
       //console.log(`result table mounted WITHOUT page parameter, set page to ${page}`);
@@ -80,26 +59,26 @@ class ResultTable extends React.Component {
 
   componentDidUpdate = prevProps => {
     if (prevProps.search.page != this.props.search.page) {
-      this.props.fetchResults('manuscripts');
+      this.props.fetchResults(this.props.resultClass);
       this.props.routeProps.history.push({
-        pathname: '/manuscripts/table',
+        pathname: `/${this.props.resultClass}/table`,
         search: `?page=${this.props.search.page}`,
       });
     }
     if (prevProps.facetFilters != this.props.facetFilters) {
       this.props.updatePage(0);
       if (this.props.search.page == 0) {
-        this.props.fetchResults('manuscripts');
+        this.props.fetchResults(this.props.resultClass);
       }
     }
     if (prevProps.search.sortBy != this.props.search.sortBy) {
       this.props.updatePage(0);
       if (this.props.search.page == 0) {
-        this.props.fetchResults('manuscripts');
+        this.props.fetchResults(this.props.resultClass);
       }
     }
     if (prevProps.search.sortDirection != this.props.search.sortDirection) {
-      this.props.fetchResults('manuscripts');
+      this.props.fetchResults(this.props.resultClass);
     }
   }
 
@@ -121,152 +100,24 @@ class ResultTable extends React.Component {
     }
   }
 
-  stringListRenderer = cell => {
-    if (cell == null || cell === '-'){
-      return '-';
-    }
-    if (Array.isArray(cell)) {
-      cell = cell.sort();
-      return (
-        <ul className={this.props.classes.valueList}>
-          {cell.map((item, i) => <li key={i}>{item}</li>)}
-        </ul>
-      );
-    } else {
-      return <span>{cell}</span>;
-    }
-  };
-
-  objectListRenderer = (cell, makeLink, ordered) => {
-    if (cell == null || cell === '-'){
-      return '-';
-    }
-    else if (Array.isArray(cell)) {
-      cell = orderBy(cell, 'prefLabel');
-      const listItems = cell.map((item, i) =>
-        <li key={i}>
-          {makeLink &&
-            <a
-              target='_blank' rel='noopener noreferrer'
-              href={item.dataProviderUrl}
-            >
-              {item.prefLabel}
-            </a>
-          }
-          {!makeLink && item.prefLabel}
-        </li>
-      );
-      if (ordered) {
-        return (
-          <ol className={this.props.classes.valueList}>
-            {listItems}
-          </ol>
-        );
-      } else {
-        return (
-          <ul className={this.props.classes.valueList}>
-            {listItems}
-          </ul>
-        );
-      }
-    } else if (makeLink) {
-      return (
-        <a
-          target='_blank' rel='noopener noreferrer'
-          href={cell.dataProviderUrl}
-        >
-          {cell.prefLabel}
-        </a>
-      );
-    } else {
-      return (
-        <span>{cell.prefLabel}</span>
-      );
-    }
-  };
-
-  eventRenderer = cell => {
-    if (cell == null || cell === '-'){
-      return '-';
-    }
-    if (Array.isArray(cell)) {
-      cell = orderBy(cell, 'date');
-      const items = cell.map((item, i) => {
-        return (
-          <li key={i}>
-            {item.date == null ? <span className={this.props.classes.noDate}>No date</span> : item.date}
-            {' '}
-            <a
-              target='_blank' rel='noopener noreferrer'
-              href={item.dataProviderUrl}
-            >
-              {item.type === 'http://www.cidoc-crm.org/cidoc-crm/E8_Acquisition' ? 'Acquisition' : 'Observation'}
-            </a>
-          </li>
-        );
-      });
-      return (
-        <ul className={this.props.classes.valueList}>
-          {items}
-        </ul>
-      );
-    } else {
-      return (
-        <span>
-          {cell.date == null ? <span className={this.props.classes.noDate}>No date</span> : cell.date}
-          {' '}
-          <a
-            target='_blank' rel='noopener noreferrer'
-            href={cell.dataProviderUrl}
-          >
-            {cell.type === 'http://www.cidoc-crm.org/cidoc-crm/E8_Acquisition' ? 'Acquisition' : 'Observation'}
-          </a>
-        </span>
-
-      );
-    }
-  };
-
-  ownerRenderer = cell => {
-    if (cell == null || cell === '-'){
-      return '-';
-    }
-    if (Array.isArray(cell)) {
-      if (!has(cell[0], 'order')) {
-        return this.objectListRenderer(cell, true, false);
-      }
-      cell.map(item => {
-        Array.isArray(item.order) ? item.earliestOrder = item.order[0] : item.earliestOrder = item.order;
-      });
-      cell.sort((a, b) => a.earliestOrder - b.earliestOrder);
-
-      const items = cell.map((item, i) => {
-        return (
-          <li key={i}>
-            <span>{Array.isArray(item.order) ? item.order.toString() : item.order}. </span>
-            <a
-              target='_blank' rel='noopener noreferrer'
-              href={item.dataProviderUrl}
-            >
-              {item.prefLabel}
-            </a>
-          </li>
-        );
-      });
-      return (
-        <ul className={this.props.classes.valueListNoBullets}>
-          {items}
-        </ul>
-      );
-    } else {
-      if (!has(cell, 'order')) {
-        return this.objectListRenderer(cell, true, false);
-      }
-      return (
-        <span>{cell.date}<br />{cell.location}</span>
-      );
-    }
-  };
+  rowRenderer = row => {
+    //console.log(this.props.columns)
+    return (
+      <TableRow key={row.id}>
+        {this.props.columns.map(column => {
+          return (
+            <ResultTableCell
+              key={column.id}
+              data={row[column.id] == null ? '-' : row[column.id]}
+              valueType={column.valueType}
+              makeLink={column.makeLink}
+              sortValues={column.sortValues}
+            />
+          );
+        })}
+      </TableRow>
+    );
+  }
 
   render() {
     const { classes } = this.props;
@@ -275,7 +126,7 @@ class ResultTable extends React.Component {
     if (fetchingResults) {
       return (
         <div className={classes.progressContainer}>
-          <Typography className={classes.progressTitle} variant="h4" color='primary'>Fetching manuscript data</Typography>
+          <Typography className={classes.progressTitle} variant="h4" color='primary'>Fetching data</Typography>
           <CircularProgress style={{ color: purple[500] }} thickness={5} />
         </div>
       );
@@ -295,40 +146,7 @@ class ResultTable extends React.Component {
               routeProps={this.props.routeProps}
             />
             <TableBody>
-              {results.map(row => {
-                return (
-                  <TableRow key={row.id}>
-                    <TableCell>
-                      {this.objectListRenderer(row.source, true)}
-                    </TableCell>
-                    <TableCell className={classes.wideColumn} >
-                      {this.stringListRenderer(row.prefLabel)}
-                    </TableCell>
-                    <TableCell>
-                      {this.objectListRenderer(row.author, true)}
-                    </TableCell>
-                    <TableCell>
-                      {this.objectListRenderer(row.productionPlace, true)}
-                    </TableCell>
-                    <TableCell className={classes.wideColumn}>
-                      {this.objectListRenderer(row.timespan)}
-                    </TableCell>
-                    <TableCell>
-                      {this.stringListRenderer(row.language)}
-                    </TableCell>
-                    {/*<TableCell className={classes.withFilter}>
-                          {this.stringListRenderer(row.material)}
-                        </TableCell>*/}
-                    <TableCell className={classes.wideColumn}>
-                      {this.eventRenderer(row.event)}
-                    </TableCell>
-                    <TableCell className={classes.wideColumn}>
-                      {this.ownerRenderer(row.owner)}
-                    </TableCell>
-
-                  </TableRow>
-                );
-              })}
+              {results.map(row => this.rowRenderer(row))}
             </TableBody>
           </Table>
         </div>
@@ -339,6 +157,8 @@ class ResultTable extends React.Component {
 
 ResultTable.propTypes = {
   classes: PropTypes.object.isRequired,
+  resultClass: PropTypes.string.isRequired,
+  columns: PropTypes.array.isRequired,
   search: PropTypes.object.isRequired,
   facetFilters: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,

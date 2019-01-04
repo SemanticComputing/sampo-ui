@@ -12,6 +12,62 @@ import {
 export const INITIAL_STATE = {
   resultCount: 0,
   results: [],
+  resultTableColumns: [
+    {
+      id: 'source',
+      valueType: 'object',
+      makeLink: true,
+      sortValues: false
+    },
+    {
+      id: 'prefLabel',
+      valueType: 'string',
+      makeLink: false,
+      sortValues: true
+    },
+    {
+      id: 'author',
+      valueType: 'object',
+      makeLink: true,
+      sortValues: true
+    },
+    {
+      id: 'productionPlace',
+      valueType: 'object',
+      makeLink: true,
+      sortValues: true
+    },
+    {
+      id: 'timespan',
+      valueType: 'object',
+      makeLink: true,
+      sortValues: false
+    },
+    {
+      id: 'language',
+      valueType: 'string',
+      makeLink: true,
+      sortValues: true
+    },
+    // {
+    //   id: 'material',
+    //   valueType: 'string',
+    //   makeLink: true,
+    //   sortValues: true
+    // },
+    {
+      id: 'event',
+      valueType: 'event',
+      makeLink: true,
+      sortValues: true
+    },
+    {
+      id: 'owner',
+      valueType: 'owner',
+      makeLink: true,
+      sortValues: true
+    }
+  ],
   places: [],
   place: {},
   page: -1,

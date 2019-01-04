@@ -9,6 +9,7 @@ import TopBar from '../components/TopBar';
 import Footer from '../components/Footer';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Manuscripts from '../components/Manuscripts';
+import Works from '../components/Works';
 import Main from '../components/Main';
 import FacetBar from '../components/FacetBar';
 import Grid from '@material-ui/core/Grid';
@@ -119,6 +120,40 @@ let MapApp = (props) => {
                   </React.Fragment>
                 }
               />
+              <Route
+                path="/works"
+                render={routeProps =>
+                  <React.Fragment>
+                    <Grid item sm={12} md={3} className={classes.facetBarContainer}>
+                      <FacetBar
+                        facetFilters={props.facet.facetFilters}
+                        source={props.facet.source}
+                        author={props.facet.author}
+                        language={props.facet.language}
+                        productionPlace={props.facet.productionPlace}
+                        fetchFacet={props.fetchFacet}
+                        updateFilter={props.updateFilter}
+                        updatedFacet={props.facet.updatedFacet}
+                      />
+                    </Grid>
+                    <Grid item sm={12} md={9} className={classes.resultsContainer}>
+                      <Paper className={classes.resultsContainerPaper}>
+                        <Works
+                          search={props.search}
+                          facetFilters={props.facet.facetFilters}
+                          fetchResults={props.fetchResults}
+                          fetchPlaces={props.fetchPlaces}
+                          fetchPlace={props.fetchPlace}
+                          updatePage={props.updatePage}
+                          sortResults={props.sortResults}
+                          routeProps={routeProps}
+                        />
+                      </Paper>
+                    </Grid>
+                  </React.Fragment>
+                }
+              />
+
             </Grid>
           </React.Fragment>
         </Router>
