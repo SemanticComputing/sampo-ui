@@ -16,7 +16,7 @@ import Paper from '@material-ui/core/Paper';
 
 
 import {
-  fetchManuscripts,
+  fetchResults,
   fetchPlaces,
   fetchPlace,
   fetchFacet,
@@ -107,7 +107,7 @@ let MapApp = (props) => {
                         <Manuscripts
                           search={props.search}
                           facetFilters={props.facet.facetFilters}
-                          fetchManuscripts={props.fetchManuscripts}
+                          fetchResults={props.fetchResults}
                           fetchPlaces={props.fetchPlaces}
                           fetchPlace={props.fetchPlace}
                           updatePage={props.updatePage}
@@ -140,7 +140,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = ({
-  fetchManuscripts,
+  fetchResults,
   fetchPlaces,
   fetchPlace,
   fetchFacet,
@@ -158,7 +158,7 @@ MapApp.propTypes = {
   // browser: PropTypes.object.isRequired,
   facet: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
-  fetchManuscripts: PropTypes.func.isRequired,
+  fetchResults: PropTypes.func.isRequired,
   fetchPlaces: PropTypes.func.isRequired,
   fetchPlace:  PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,

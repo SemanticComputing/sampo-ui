@@ -3,12 +3,12 @@ import { mergeMap, map, withLatestFrom } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
 import { stringify } from 'query-string';
 import {
-  updateManuscripts,
+  updateResults,
   updatePlaces,
   updatePlace,
   updateFacet,
   FETCH_FACET,
-  FETCH_MANUSCRIPTS,
+  FETCH_RESULTS,
   FETCH_PLACES,
   FETCH_PLACE,
 } from '../actions';
@@ -17,14 +17,13 @@ const apiUrl = (process.env.NODE_ENV === 'development')
   ? 'http://localhost:3001/api/'
   : `http://${location.hostname}/api/`;
 
-const getManuscripts = (action$, state$) => action$.pipe(
-  ofType(FETCH_MANUSCRIPTS),
+const getResults = (action$, state$) => action$.pipe(
+  ofType(FETCH_RESULTS),
   withLatestFrom(state$),
-  mergeMap(([, state]) => {
-    const searchUrl = apiUrl + 'manuscripts';
-    const requestUrl = `${searchUrl}?${resultStateToUrl(state.search, state.facet)}`;
+  mergeMap(([action, state]) => {
+    const requestUrl = `${apiUrl + action.resultClass}?${resultStateToUrl(state.search, state.facet)}`;
     return ajax.getJSON(requestUrl).pipe(
-      map(data => updateManuscripts({ data }))
+      map(data => updateResults({ data }))
     );
   })
 );
@@ -105,7 +104,7 @@ export const resultStateToUrl = (search, facet) => {
 };
 
 const rootEpic = combineEpics(
-  getManuscripts,
+  getResults,
   getPlaces,
   getPlace,
   getFacet,

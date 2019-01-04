@@ -21,8 +21,7 @@ let Manuscripts = props => {
           <ResultTable
             search={props.search}
             facetFilters={props.facetFilters}
-            fetchManuscripts={props.fetchManuscripts}
-            fetchingManuscripts={props.search.fetchingManuscripts}
+            fetchResults={props.fetchResults}
             updatePage={props.updatePage}
             sortResults={props.sortResults}
             routeProps={routeProps}
@@ -67,7 +66,7 @@ let Manuscripts = props => {
 Manuscripts.propTypes = {
   search: PropTypes.object.isRequired,
   facetFilters: PropTypes.object.isRequired,
-  fetchManuscripts: PropTypes.func.isRequired,
+  fetchResults: PropTypes.func.isRequired,
   fetchPlaces: PropTypes.func.isRequired,
   fetchPlace:  PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,

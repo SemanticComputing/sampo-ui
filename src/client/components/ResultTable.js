@@ -76,34 +76,30 @@ class ResultTable extends React.Component {
       // console.log(`result table mounted with page parameter, set page to ${page}`);
     }
     this.props.updatePage(page);
-
   }
 
   componentDidUpdate = prevProps => {
     if (prevProps.search.page != this.props.search.page) {
-      // console.log(`previous page: ${prevProps.page}`)
-      // console.log(`page updated to ${this.props.page}, fetch manuscripts`)
-      this.props.fetchManuscripts();
+      this.props.fetchResults('manuscripts');
       this.props.routeProps.history.push({
         pathname: '/manuscripts/table',
         search: `?page=${this.props.search.page}`,
       });
     }
     if (prevProps.facetFilters != this.props.facetFilters) {
-      // console.log('filters updated, to page 0')
       this.props.updatePage(0);
       if (this.props.search.page == 0) {
-        this.props.fetchManuscripts();
+        this.props.fetchResults('manuscripts');
       }
     }
     if (prevProps.search.sortBy != this.props.search.sortBy) {
       this.props.updatePage(0);
       if (this.props.search.page == 0) {
-        this.props.fetchManuscripts();
+        this.props.fetchResults('manuscripts');
       }
     }
     if (prevProps.search.sortDirection != this.props.search.sortDirection) {
-      this.props.fetchManuscripts();
+      this.props.fetchResults('manuscripts');
     }
   }
 
@@ -274,10 +270,9 @@ class ResultTable extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const rows = this.props.search.manuscripts;
-    const { fetchingManuscripts, page, pagesize, sortBy, sortDirection, manuscriptCount } = this.props.search;
+    const { resultCount, results, page, pagesize, sortBy, sortDirection, fetchingResults } = this.props.search;
 
-    if (fetchingManuscripts) {
+    if (fetchingResults) {
       return (
         <div className={classes.progressContainer}>
           <Typography className={classes.progressTitle} variant="h4" color='primary'>Fetching manuscript data</Typography>
@@ -292,7 +287,7 @@ class ResultTable extends React.Component {
               onChangePage={this.handleChangePage}
               onSortBy={this.handleSortBy}
               onChangeRowsPerPage={this.handleOnChangeRowsPerPage}
-              resultCount={manuscriptCount}
+              resultCount={resultCount}
               page={page}
               pagesize={pagesize}
               sortBy={sortBy}
@@ -300,7 +295,7 @@ class ResultTable extends React.Component {
               routeProps={this.props.routeProps}
             />
             <TableBody>
-              {rows.map(row => {
+              {results.map(row => {
                 return (
                   <TableRow key={row.id}>
                     <TableCell>
@@ -346,7 +341,7 @@ ResultTable.propTypes = {
   classes: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
   facetFilters: PropTypes.object.isRequired,
-  fetchManuscripts: PropTypes.func.isRequired,
+  fetchResults: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired

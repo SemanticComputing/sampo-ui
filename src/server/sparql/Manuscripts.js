@@ -67,10 +67,10 @@ export const getManuscripts = (page, pagesize, filters, sortBy, sortDirection) =
   ])
     .then(data => {
       return {
-        manuscriptCount: data[0].count,
+        resultCount: data[0].count,
         pagesize: pagesize,
         page: page,
-        manuscriptData: data[1]
+        results: data[1]
       };
     })
     .catch(err => console.log(err));

@@ -1,8 +1,8 @@
 import {
-  FETCH_MANUSCRIPTS,
+  FETCH_RESULTS,
   FETCH_PLACES,
   FETCH_PLACE,
-  UPDATE_MANUSCRIPTS,
+  UPDATE_RESULTS,
   UPDATE_PLACES,
   UPDATE_PLACE,
   UPDATE_PAGE,
@@ -10,8 +10,8 @@ import {
 } from '../actions';
 
 export const INITIAL_STATE = {
-  manuscriptCount: 0,
-  manuscripts: [],
+  resultCount: 0,
+  results: [],
   places: [],
   place: {},
   page: -1,
@@ -19,27 +19,25 @@ export const INITIAL_STATE = {
   sortBy: 'productionPlace',
   sortDirection: 'asc',
   fetchingPlaces: false,
-  fetchingManuscripts: false
+  fetchingResults: false
 };
 
 const search = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case FETCH_MANUSCRIPTS:
-      return { ...state, fetchingManuscripts: true };
+    case FETCH_RESULTS:
+      return { ...state, fetchingResults: true };
     case FETCH_PLACES:
       return { ...state, fetchingPlaces: true };
     case FETCH_PLACE:
       return { ...state, fetchingPlaces: true };
     case SORT_RESULTS:
       return updateSortBy(state, action);
-    case UPDATE_MANUSCRIPTS:
-      // console.log('updating manuscripts in reducer:');
-      // console.log(action);
+    case UPDATE_RESULTS:
       return {
         ...state,
-        manuscriptCount: parseInt(action.data.manuscriptCount),
-        manuscripts: action.data.manuscriptData,
-        fetchingManuscripts: false
+        resultCount: parseInt(action.data.resultCount),
+        results: action.data.results,
+        fetchingResults: false
       };
     case UPDATE_PAGE:
       return {

@@ -1,14 +1,7 @@
-export const UPDATE_QUERY = 'UPDATE_QUERY';
-export const TOGGLE_DATASET = 'TOGGLE_DATASET';
-export const BOUNCE_MARKER = 'BOUNCE_MARKER';
-export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP';
-export const REMOVE_TEMP_MARKER = 'REMOVE_TEMP_MARKER';
-export const START_SPINNER = 'START_SPINNER';
-
-export const FETCH_MANUSCRIPTS = 'FETCH_MANUSCRIPTS';
-export const UPDATE_MANUSCRIPTS = 'UPDATE_MANUSCRIPTS';
-export const CLEAR_MANUSCRIPTS = 'CLEAR_MANUSCRIPTS';
-export const FETCH_MANUSCRIPTS_FAILED = 'FETCH_MANUSCRIPTS_FAILED';
+export const FETCH_RESULTS = 'FETCH_RESULTS';
+export const UPDATE_RESULTS = 'UPDATE_RESULTS';
+export const FETCH_RESULTS_FAILED = 'FETCH_RESULTS_FAILED';
+export const SORT_RESULTS = 'SORT_RESULTS';
 
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 
@@ -26,51 +19,35 @@ export const FETCH_FACET = 'FETCH_FACET';
 export const UPDATE_FACET = 'UPDATE_FACET';
 export const CLEAR_FACET = 'CLEAR_FACET';
 export const FETCH_FACET_FAILED = 'FETCH_FACET_FAILED';
+
 export const UPDATE_FILTER = 'UPDATE_FILTER';
+
 export const OPEN_FACET_DIALOG = 'OPEN_FACET_DIALOG';
 export const CLOSE_FACET_DIALOG = 'CLOSE_FACET_DIALOG';
 
-export const SORT_RESULTS = 'SORT_RESULTS';
+export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP';
+
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 
-export const updateQuery = query => ({
-  type: UPDATE_QUERY,
-  query
+// Results
+export const fetchResults = resultClass => ({
+  type: FETCH_RESULTS,
+  resultClass
 });
 
-export const toggleDataset = dataset => ({
-  type: TOGGLE_DATASET,
-  dataset
-});
-
-export const bounceMarker = uri => ({
-  type: BOUNCE_MARKER,
-  uri
-});
-
-export const openMarkerPopup = uri => ({
-  type: OPEN_MARKER_POPUP,
-  uri
-});
-
-export const removeTempMarker = () => ({
-  type: REMOVE_TEMP_MARKER,
-});
-
-// Manuscripts
-export const fetchManuscripts = () => ({
-  type: FETCH_MANUSCRIPTS,
-});
-export const updateManuscripts = ({ data }) => ({
-  type: UPDATE_MANUSCRIPTS,
+export const updateResults = ({ data }) => ({
+  type: UPDATE_RESULTS,
   data
 });
-export const clearManuscripts = () => ({
-  type: CLEAR_MANUSCRIPTS,
-});
-export const fetchManuscriptsFailed = error => ({
-  type: FETCH_MANUSCRIPTS_FAILED,
+
+export const fetchResultsFailed = error => ({
+  type: FETCH_RESULTS_FAILED,
   error
+});
+
+export const sortResults = sortBy => ({
+  type: SORT_RESULTS,
+  sortBy
 });
 
 export const updatePage = page => ({
@@ -138,9 +115,9 @@ export const updateFilter = filter => ({
   filter
 });
 
-export const sortResults = sortBy => ({
-  type: SORT_RESULTS,
-  sortBy
+export const openMarkerPopup = uri => ({
+  type: OPEN_MARKER_POPUP,
+  uri
 });
 
 export const clearError = () => ({
