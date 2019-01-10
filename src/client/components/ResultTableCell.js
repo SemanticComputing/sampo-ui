@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { orderBy, has } from 'lodash';
+import { sortBy, orderBy, has } from 'lodash';
 import TableCell from '@material-ui/core/TableCell';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -68,8 +68,12 @@ const ResultTableCell = props => {
       return '-';
     }
     else if (Array.isArray(cell)) {
-      cell = sortValues ? orderBy(cell, 'prefLabel') : cell;
-
+      if (props.columnId == 'timespan') {
+        cell = sortValues ? sortBy(cell, obj => Number(obj.start)) : cell;
+      } else {
+        cell = sortValues ? orderBy(cell, 'prefLabel') : cell;
+      }
+  
       const listItems = cell.map((item, i) =>
         <li key={i}>
           {makeLink &&
@@ -222,6 +226,7 @@ const ResultTableCell = props => {
 
 ResultTableCell.propTypes = {
   classes: PropTypes.object.isRequired,
+  columnId: PropTypes.string.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.string]).isRequired,
   valueType: PropTypes.string.isRequired,
   makeLink: PropTypes.bool.isRequired,

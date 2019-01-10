@@ -108,6 +108,7 @@ class ResultTable extends React.Component {
           return (
             <ResultTableCell
               key={column.id}
+              columnId={column.id}
               data={row[column.id] == null ? '-' : row[column.id]}
               valueType={column.valueType}
               makeLink={column.makeLink}
