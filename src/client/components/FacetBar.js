@@ -52,10 +52,10 @@ class FacetBar extends React.Component {
             <Paper className={classes.headingContainer}>
               <Typography variant="h6">Source {this.props.source.distinctValueCount > 0 ? `(${this.props.source.distinctValueCount})` : ''}</Typography>
               <div className={classes.facetHeaderButtons}>
-                <IconButton aria-label="Statistics">
+                <IconButton disabled aria-label="Statistics">
                   <PieChart />
                 </IconButton>
-                <IconButton aria-label="Expand">
+                <IconButton disabled aria-label="Expand">
                   <ExpandLess />
                 </IconButton>
               </div>
@@ -77,10 +77,10 @@ class FacetBar extends React.Component {
             <Paper className={classes.headingContainer}>
               <Typography variant="h6">Author {this.props.author.distinctValueCount > 0 ? `(${this.props.author.distinctValueCount})` : ''}</Typography>
               <div className={classes.facetHeaderButtons}>
-                <IconButton aria-label="Statistics">
+                <IconButton disabled aria-label="Statistics">
                   <PieChart />
                 </IconButton>
-                <IconButton aria-label="Expand">
+                <IconButton disabled aria-label="Expand">
                   <ExpandLess />
                 </IconButton>
               </div>
@@ -102,10 +102,10 @@ class FacetBar extends React.Component {
             <Paper className={classes.headingContainer}>
               <Typography variant="h6">Production place {this.props.productionPlace.distinctValueCount > 0 ? `(${this.props.productionPlace.distinctValueCount})` : ''}</Typography>
               <div className={classes.facetHeaderButtons}>
-                <IconButton aria-label="Statistics">
+                <IconButton disabled aria-label="Statistics">
                   <PieChart />
                 </IconButton>
-                <IconButton aria-label="Expand">
+                <IconButton disabled aria-label="Expand">
                   <ExpandLess />
                 </IconButton>
               </div>
