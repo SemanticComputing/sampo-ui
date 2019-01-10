@@ -77,7 +77,7 @@ export const INITIAL_STATE = {
       valueType: 'owner',
       makeLink: true,
       sortValues: true,
-      numberedList: false,
+      numberedList: true,
       minWidth: 170
     }
   ],
