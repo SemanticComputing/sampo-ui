@@ -27,12 +27,6 @@ const styles = () => ({
     listStyle: 'none',
     paddingLeft: 0
   },
-  withFilter: {
-    //minWidth: 170
-  },
-  wideColumn: {
-    minWidth: 170
-  },
   infoIcon: {
     paddingTop: 15
   },
@@ -69,12 +63,13 @@ const ResultTableCell = props => {
     }
   };
 
-  const objectListRenderer = (cell, makeLink, ordered) => {
+  const objectListRenderer = (cell, makeLink, sortValues, numberedList) => {
     if (cell == null || cell === '-'){
       return '-';
     }
     else if (Array.isArray(cell)) {
-      cell = orderBy(cell, 'prefLabel');
+      cell = sortValues ? orderBy(cell, 'prefLabel') : cell;
+
       const listItems = cell.map((item, i) =>
         <li key={i}>
           {makeLink &&
@@ -88,7 +83,7 @@ const ResultTableCell = props => {
           {!makeLink && item.prefLabel}
         </li>
       );
-      if (ordered) {
+      if (numberedList) {
         return (
           <ol className={props.classes.valueList}>
             {listItems}
@@ -159,13 +154,13 @@ const ResultTableCell = props => {
     }
   };
 
-  const ownerRenderer = cell => {
+  const ownerRenderer = (cell, makeLink, sortValues, numberedList) => {
     if (cell == null || cell === '-'){
       return '-';
     }
     if (Array.isArray(cell)) {
       if (!has(cell[0], 'order')) {
-        return objectListRenderer(cell, true, false);
+        return objectListRenderer(cell, makeLink, sortValues, numberedList);
       }
       cell.map(item => {
         Array.isArray(item.order) ? item.earliestOrder = item.order[0] : item.earliestOrder = item.order;
@@ -192,7 +187,7 @@ const ResultTableCell = props => {
       );
     } else {
       if (!has(cell, 'order')) {
-        return objectListRenderer(cell, true, false);
+        return objectListRenderer(cell, makeLink, sortValues, numberedList);
       }
       return (
         <span>{cell.date}<br />{cell.location}</span>
@@ -200,8 +195,9 @@ const ResultTableCell = props => {
     }
   };
 
-  const { data, valueType, makeLink, sortValues } = props;
+  const { data, valueType, makeLink, sortValues, numberedList, minWidth } = props;
   let renderer = null;
+  let cellStyle = minWidth == null ? {} : { minWidth: minWidth };
   switch (valueType) {
     case 'object':
       renderer = objectListRenderer;
@@ -218,8 +214,8 @@ const ResultTableCell = props => {
   }
 
   return(
-    <TableCell>
-      {renderer(data, makeLink, sortValues)}
+    <TableCell style={cellStyle}>
+      {renderer(data, makeLink, sortValues, numberedList)}
     </TableCell>
   );
 };
@@ -230,6 +226,8 @@ ResultTableCell.propTypes = {
   valueType: PropTypes.string.isRequired,
   makeLink: PropTypes.bool.isRequired,
   sortValues: PropTypes.bool.isRequired,
+  numberedList: PropTypes.bool.isRequired,
+  minWidth: PropTypes.number
 };
 
 export default withStyles(styles)(ResultTableCell);

@@ -17,55 +17,68 @@ export const INITIAL_STATE = {
       id: 'source',
       valueType: 'object',
       makeLink: true,
-      sortValues: false
+      sortValues: true,
+      numberedList: false
     },
     {
       id: 'prefLabel',
       valueType: 'string',
       makeLink: false,
-      sortValues: true
+      sortValues: true,
+      numberedList: false
     },
     {
       id: 'author',
       valueType: 'object',
       makeLink: true,
-      sortValues: true
+      sortValues: true,
+      numberedList: false,
+      minWidth: 170
     },
     {
       id: 'productionPlace',
       valueType: 'object',
       makeLink: true,
-      sortValues: true
+      sortValues: true,
+      numberedList: false,
+      minWidth: 170,
     },
     {
       id: 'timespan',
       valueType: 'object',
-      makeLink: true,
-      sortValues: false
+      makeLink: false,
+      sortValues: true,
+      numberedList: false
     },
     {
       id: 'language',
       valueType: 'string',
-      makeLink: true,
-      sortValues: true
+      makeLink: false,
+      sortValues: true,
+      numberedList: false
     },
     // {
     //   id: 'material',
     //   valueType: 'string',
     //   makeLink: true,
     //   sortValues: true
+    //   numberedList: false
     // },
     {
       id: 'event',
       valueType: 'event',
       makeLink: true,
-      sortValues: true
+      sortValues: true,
+      numberedList: false,
+      minWidth: 170,
     },
     {
       id: 'owner',
       valueType: 'owner',
       makeLink: true,
-      sortValues: true
+      sortValues: true,
+      numberedList: false,
+      minWidth: 170
     }
   ],
   places: [],

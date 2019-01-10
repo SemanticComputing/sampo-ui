@@ -112,6 +112,8 @@ class ResultTable extends React.Component {
               valueType={column.valueType}
               makeLink={column.makeLink}
               sortValues={column.sortValues}
+              numberedList={column.numberedList}
+              minWidth={column.minWidth}
             />
           );
         })}
