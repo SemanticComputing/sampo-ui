@@ -28,7 +28,7 @@ const styles = theme => ({
     marginBottom: 2,
   },
   facetValuesContainerTen: {
-    height: 295,
+    height: 345,
     padding: theme.spacing.unit,
   },
   facetValuesContainerThree: {
@@ -70,6 +70,7 @@ class FacetBar extends React.Component {
                 facetFilters={this.props.facetFilters}
                 updateFilter={this.props.updateFilter}
                 updatedFacet={this.props.updatedFacet}
+                searchField={false}
               />
             </div>
           </Paper>
@@ -95,6 +96,7 @@ class FacetBar extends React.Component {
                 facetFilters={this.props.facetFilters}
                 updateFilter={this.props.updateFilter}
                 updatedFacet={this.props.updatedFacet}
+                searchField={true}
               />
             </div>
           </Paper>
@@ -120,6 +122,7 @@ class FacetBar extends React.Component {
                 facetFilters={this.props.facetFilters}
                 updateFilter={this.props.updateFilter}
                 updatedFacet={this.props.updatedFacet}
+                searchField={true}
               />
             </div>
           </Paper>

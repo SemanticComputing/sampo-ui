@@ -8,11 +8,29 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
+import Input from '@material-ui/core/Input';
+import IconButton from '@material-ui/core/IconButton';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import Typography from '@material-ui/core/Typography';
+
+// https://frontend-collective.github.io/react-sortable-tree/storybook/?selectedKind=Basics&selectedStory=Search&full=0&addons=0&stories=1&panelRight=0
 
 const styles = () => ({
-  searchForm: {
-    display: 'inline-block',
-    height: 50,
+  facetSearchContainer: {
+    width: '100%',
+    height: 44,
+    display: 'flex',
+    alignItems: 'center'
+  },
+  facetSearchIconButton: {
+    padding: 10
+  },
+  treeContainer: {
+    height: '100%'
+  },
+  treeContainerWithSearchField: {
+    height: 'calc(100% - 40px)'
   },
   spinnerContainer: {
     display: 'flex',
@@ -77,7 +95,7 @@ class HierarchicalFacet extends Component {
     //   console.log(this.props.updatedFacet)
     // }
     if (this.props.updatedFacet !== '' && this.props.updatedFacet !== this.props.property && prevProps.facetFilters != this.props.facetFilters) {
-      console.log(`fetching new values for ${this.props.property}`)
+      // console.log(`fetching new values for ${this.props.property}`)
       this.props.fetchFacet(this.props.property);
     }
   }
@@ -124,72 +142,29 @@ class HierarchicalFacet extends Component {
 
   render() {
     const { classes } = this.props;
-    const { searchString, searchFocusIndex, /*searchFoundCount*/ } = this.state;
+    const { searchString, searchFocusIndex, searchFoundCount } = this.state;
     //console.log(this.props.data)
 
     // Case insensitive search of `node.title`
     const customSearchMethod = ({ node, searchQuery }) =>
       searchQuery &&
-      node.title.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1;
+      node.prefLabel.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1;
 
-    // const selectPrevMatch = () =>
-    //   this.setState({
-    //     searchFocusIndex:
-    //       searchFocusIndex !== null
-    //         ? (searchFoundCount + searchFocusIndex - 1) % searchFoundCount
-    //         : searchFoundCount - 1,
-    //   });
-    //
-    // const selectNextMatch = () =>
-    //   this.setState({
-    //     searchFocusIndex:
-    //       searchFocusIndex !== null
-    //         ? (searchFocusIndex + 1) % searchFoundCount
-    //         : 0,
-    //   });
+    const selectPrevMatch = () =>
+      this.setState({
+        searchFocusIndex:
+          searchFocusIndex !== null
+            ? (searchFoundCount + searchFocusIndex - 1) % searchFoundCount
+            : searchFoundCount - 1,
+      });
 
-      // <form
-      //   className={classes.searchForm}
-      //   onSubmit={event => {
-      //     event.preventDefault();
-      //   }}
-      // >
-      //   <input
-      //     id="find-box"
-      //     type="text"
-      //     placeholder="Search..."
-      //     style={{ fontSize: '1rem' }}
-      //     value={searchString}
-      //     onChange={event =>
-      //       this.setState({ searchString: event.target.value })
-      //     }
-      //   />
-      //
-      //   <button
-      //     type="button"
-      //     disabled={!searchFoundCount}
-      //     onClick={selectPrevMatch}
-      //   >
-      //     &lt;
-      //   </button>
-      //
-      //   <button
-      //     type="submit"
-      //     disabled={!searchFoundCount}
-      //     onClick={selectNextMatch}
-      //   >
-      //     &gt;
-      //   </button>
-      //
-      //   <span>
-      //     &nbsp;
-      //     {searchFoundCount > 0 ? searchFocusIndex + 1 : 0}
-      //     &nbsp;/&nbsp;
-      //     {searchFoundCount || 0}
-      //   </span>
-      // </form>
-
-      //
+    const selectNextMatch = () =>
+      this.setState({
+        searchFocusIndex:
+          searchFocusIndex !== null
+            ? (searchFocusIndex + 1) % searchFoundCount
+            : 0,
+      });
 
     return (
       <React.Fragment>
@@ -198,56 +173,90 @@ class HierarchicalFacet extends Component {
             <CircularProgress style={{ color: purple[500] }} thickness={5} />
           </div>
           :
-          <SortableTree
-            treeData={this.state.treeData}
-            onChange={treeData => this.setState({ treeData })}
-            canDrag={false}
-            rowHeight={30}
-            // Custom comparison for matching during search.
-            // This is optional, and defaults to a case sensitive search of
-            // the title and subtitle values.
-            // see `defaultSearchMethod` in https://github.com/frontend-collective/react-sortable-tree/blob/master/src/utils/default-handlers.js
-            searchMethod={customSearchMethod}
-            searchQuery={searchString}
-            // When matches are found, this property lets you highlight a specific
-            // match and scroll to it. This is optional.
-            searchFocusOffset={searchFocusIndex}
-            // This callback returns the matches from the search,
-            // including their `node`s, `treeIndex`es, and `path`s
-            // Here I just use it to note how many matches were found.
-            // This is optional, but without it, the only thing searches
-            // do natively is outline the matching nodes.
-            searchFinishCallback={matches =>
-              this.setState({
-                searchFoundCount: matches.length,
-                searchFocusIndex:
-                    matches.length > 0 ? searchFocusIndex % matches.length : 0,
-              })
+          <React.Fragment>
+            {this.props.searchField &&
+              <div className={classes.facetSearchContainer}>
+                <Input
+                  placeholder={`Search...`}
+                  onChange={event => this.setState({ searchString: event.target.value })}
+                >
+                </Input>
+                {searchFoundCount > 0 &&
+                  <React.Fragment>
+                    <IconButton
+                      className={classes.facetSearchIconButton}
+                      aria-label="Previous"
+                      onClick={selectPrevMatch}
+                    >
+                      <NavigateBeforeIcon />
+                    </IconButton>
+                    <IconButton
+                      className={classes.facetSearchIconButton}
+                      aria-label="Next"
+                      onClick={selectNextMatch}
+                    >
+                      <NavigateNextIcon />
+                    </IconButton>
+                    <Typography>
+                      {searchFoundCount > 0 ? searchFocusIndex + 1 : 0} / {searchFoundCount || 0}
+                    </Typography>
+                  </React.Fragment>
+                }
+              </div>
             }
-            onlyExpandSearchedNodes={true}
-            theme={FileExplorerTheme}
-            generateNodeProps={n => ({
-              title: (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      className={classes.checkbox}
-                      checked={n.node.selected == 'true' ? true : false}
-                      disabled={n.node.instanceCount > 0 ? false : true}
-                      onChange={this.handleCheckboxChange(n)}
-                      value={n.node.id}
-                      color="primary"
+            <div className={this.props.searchField ? classes.treeContainerWithSearchField : classes.treeContainer }>
+              <SortableTree
+                treeData={this.state.treeData}
+                onChange={treeData => this.setState({ treeData })}
+                canDrag={false}
+                rowHeight={30}
+                // Custom comparison for matching during search.
+                // This is optional, and defaults to a case sensitive search of
+                // the title and subtitle values.
+                // see `defaultSearchMethod` in https://github.com/frontend-collective/react-sortable-tree/blob/master/src/utils/default-handlers.js
+                searchMethod={customSearchMethod}
+                searchQuery={searchString}
+                // When matches are found, this property lets you highlight a specific
+                // match and scroll to it. This is optional.
+                searchFocusOffset={searchFocusIndex}
+                // This callback returns the matches from the search,
+                // including their `node`s, `treeIndex`es, and `path`s
+                // Here I just use it to note how many matches were found.
+                // This is optional, but without it, the only thing searches
+                // do natively is outline the matching nodes.
+                searchFinishCallback={matches =>
+                  this.setState({
+                    searchFoundCount: matches.length,
+                    searchFocusIndex:
+                        matches.length > 0 ? searchFocusIndex % matches.length : 0,
+                  })
+                }
+                onlyExpandSearchedNodes={true}
+                theme={FileExplorerTheme}
+                generateNodeProps={n => ({
+                  title: (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          className={classes.checkbox}
+                          checked={n.node.selected == 'true' ? true : false}
+                          disabled={n.node.instanceCount > 0 ? false : true}
+                          onChange={this.handleCheckboxChange(n)}
+                          value={n.node.id}
+                          color="primary"
+                        />
+                      }
+                      label={this.generateLabel(n.node)}
+                      classes={{
+                        root: classes.formControlRoot,
+                        label: this.generateLabelClass(classes, n.node)
+                      }}
                     />
-                  }
-                  label={this.generateLabel(n.node)}
-                  classes={{
-                    root: classes.formControlRoot,
-                    label: this.generateLabelClass(classes, n.node)
-                  }}
-                />
-              ),
-            })}
-          />
+                  ),
+                })}
+              />
+            </div>
+          </React.Fragment>
         }
       </React.Fragment>
     );
@@ -263,6 +272,7 @@ HierarchicalFacet.propTypes = {
   facetFilters: PropTypes.object.isRequired,
   updateFilter: PropTypes.func.isRequired,
   updatedFacet: PropTypes.string.isRequired,
+  searchField: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(HierarchicalFacet);
