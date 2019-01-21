@@ -245,7 +245,6 @@ class HierarchicalFacet extends Component {
                       }
                       label={this.generateLabel(n.node)}
                       classes={{
-                        root: classes.formControlRoot,
                         label: this.generateLabelClass(classes, n.node)
                       }}
                     />
