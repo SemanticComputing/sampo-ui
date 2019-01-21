@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import SortableTree, { changeNodeAtPath } from 'react-sortable-tree';
-import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app
+//import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app
 import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -39,20 +39,13 @@ const styles = () => ({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  treeNode: {
-    fontFamily: 'Roboto',
-  },
-  formControlRoot: {
-    //maxHeight: 24
-  },
   checkbox: {
-    width: 24,
-    height: 24,
-    marginRight: 3,
-    marginLeft: 10
+    padding: 0,
+    marginLeft: 6,
+    marginRight: 4,
   },
   label: {
-
+    // no styling
   },
   sdbmLabel: {
     color: '#00796B'
@@ -117,6 +110,10 @@ class HierarchicalFacet extends Component {
     });
   };
 
+  handleSearchFieldOnChange = event => {
+    this.setState({ searchString: event.target.value });
+  }
+
   generateLabel = node => {
     //let source = node.source == null ? '' : `(source: ${node.source.substring(node.source.lastIndexOf('/') + 1)}`;
     //console.log(node)
@@ -147,7 +144,7 @@ class HierarchicalFacet extends Component {
 
     // Case insensitive search of `node.title`
     const customSearchMethod = ({ node, searchQuery }) =>
-      searchQuery &&
+      searchQuery.length > 2  &&
       node.prefLabel.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1;
 
     const selectPrevMatch = () =>
@@ -178,7 +175,7 @@ class HierarchicalFacet extends Component {
               <div className={classes.facetSearchContainer}>
                 <Input
                   placeholder={`Search...`}
-                  onChange={event => this.setState({ searchString: event.target.value })}
+                  onChange={this.handleSearchFieldOnChange}
                 >
                 </Input>
                 {searchFoundCount > 0 &&
