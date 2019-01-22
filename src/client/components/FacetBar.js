@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import HierarchicalFacet from './HierarchicalFacet';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import { PieChart, ExpandLess, /*ExpandMore*/ }  from '@material-ui/icons';
+import FacetHeader from './FacetHeader';
+
 
 const styles = theme => ({
   root: {
@@ -47,17 +46,13 @@ class FacetBar extends React.Component {
         <React.Fragment>
 
           <Paper className={classes.facetContainer}>
-            <Paper className={classes.headingContainer}>
-              <Typography variant="h6">Source {this.props.source.distinctValueCount > 0 ? `(${this.props.source.distinctValueCount})` : ''}</Typography>
-              <div className={classes.facetHeaderButtons}>
-                <IconButton disabled aria-label="Statistics">
-                  <PieChart />
-                </IconButton>
-                <IconButton disabled aria-label="Expand">
-                  <ExpandLess />
-                </IconButton>
-              </div>
-            </Paper>
+            <FacetHeader
+              label='Source'
+              distinctValueCount={this.props.source.distinctValueCount}
+              sortBy={this.props.source.sortBy}
+              sortDirection={this.props.source.sortDirection}
+              fetchFacet={this.props.fetchFacet}
+            />
             <div className={classes.facetValuesContainerThree}>
               <HierarchicalFacet
                 key='source'
@@ -76,17 +71,13 @@ class FacetBar extends React.Component {
           </Paper>
 
           <Paper className={classes.facetContainer}>
-            <Paper className={classes.headingContainer}>
-              <Typography variant="h6">Author {this.props.author.distinctValueCount > 0 ? `(${this.props.author.distinctValueCount})` : ''}</Typography>
-              <div className={classes.facetHeaderButtons}>
-                <IconButton disabled aria-label="Statistics">
-                  <PieChart />
-                </IconButton>
-                <IconButton disabled aria-label="Expand">
-                  <ExpandLess />
-                </IconButton>
-              </div>
-            </Paper>
+            <FacetHeader
+              label='Author'
+              distinctValueCount={this.props.author.distinctValueCount}
+              sortBy={this.props.author.sortBy}
+              sortDirection={this.props.author.sortDirection}
+              fetchFacet={this.props.fetchFacet}
+            />
             <div className={classes.facetValuesContainerTen}>
               <HierarchicalFacet
                 key='author'
@@ -105,17 +96,13 @@ class FacetBar extends React.Component {
           </Paper>
 
           <Paper className={classes.facetContainerLast}>
-            <Paper className={classes.headingContainer}>
-              <Typography variant="h6">Production place {this.props.productionPlace.distinctValueCount > 0 ? `(${this.props.productionPlace.distinctValueCount})` : ''}</Typography>
-              <div className={classes.facetHeaderButtons}>
-                <IconButton disabled aria-label="Statistics">
-                  <PieChart />
-                </IconButton>
-                <IconButton disabled aria-label="Expand">
-                  <ExpandLess />
-                </IconButton>
-              </div>
-            </Paper>
+            <FacetHeader
+              label='Production place'
+              distinctValueCount={this.props.productionPlace.distinctValueCount}
+              sortBy={this.props.productionPlace.sortBy}
+              sortDirection={this.props.productionPlace.sortDirection}
+              fetchFacet={this.props.fetchFacet}
+            />
             <div className={classes.facetValuesContainerTen}>
               <HierarchicalFacet
                 key='productionPlace'
