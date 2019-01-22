@@ -63,7 +63,7 @@ class ViewTabs extends React.Component {
           onChange={this.handleChange}
           indicatorColor="secondary"
           textColor="secondary"
-          fullWidth
+          variant="fullWidth"
         >
           <Tab icon={<CalendarViewDayIcon />} label="table" component={Link} to="/manuscripts" />
           <Tab icon={<AddLocationIcon />} label="production places" component={Link} to="/manuscripts/production_places" />

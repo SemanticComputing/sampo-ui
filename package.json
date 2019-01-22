@@ -53,9 +53,9 @@
     "webpack-merge": "^4.1.4"
   },
   "dependencies": {
-    "@material-ui/core": "^3.4.0",
-    "@material-ui/icons": "^3.0.1",
-    "@material-ui/lab": "^3.0.0-alpha.23",
+    "@material-ui/core": "^3.9.0",
+    "@material-ui/icons": "^3.0.2",
+    "@material-ui/lab": "^3.0.0-alpha.28",
     "Leaflet.Control.Opacity": "git+https://github.com/SemanticComputing/Leaflet.Control.Opacity.git",
     "Leaflet.extra-markers": "git+https://github.com/SemanticComputing/Leaflet.ExtraMarkers.git",
     "bootstrap": "^4.1.3",
