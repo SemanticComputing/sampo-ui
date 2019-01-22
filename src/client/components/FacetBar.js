@@ -15,8 +15,6 @@ const styles = theme => ({
   headingContainer: {
     display: 'flex',
     alignItems: 'center',
-    //paddingTop: theme.spacing.unit,
-    //paddingBottom: theme.spacing.unit,
     paddingLeft: theme.spacing.unit,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
@@ -48,6 +46,7 @@ class FacetBar extends React.Component {
     return (
       <div className={classes.root}>
         <React.Fragment>
+
           <Paper className={classes.facetContainer}>
             <Paper className={classes.headingContainer}>
               <Typography variant="h6">Source {this.props.source.distinctValueCount > 0 ? `(${this.props.source.distinctValueCount})` : ''}</Typography>
@@ -74,6 +73,7 @@ class FacetBar extends React.Component {
               />
             </div>
           </Paper>
+
           <Paper className={classes.facetContainer}>
             <Paper className={classes.headingContainer}>
               <Typography variant="h6">Author {this.props.author.distinctValueCount > 0 ? `(${this.props.author.distinctValueCount})` : ''}</Typography>
@@ -100,7 +100,8 @@ class FacetBar extends React.Component {
               />
             </div>
           </Paper>
-          <Paper className={classes.facetContainer}>
+
+          <Paper className={classes.facetContainerLast}>
             <Paper className={classes.headingContainer}>
               <Typography variant="h6">Production place {this.props.productionPlace.distinctValueCount > 0 ? `(${this.props.productionPlace.distinctValueCount})` : ''}</Typography>
               <div className={classes.facetHeaderButtons}>
@@ -126,23 +127,34 @@ class FacetBar extends React.Component {
               />
             </div>
           </Paper>
-          { /*  <Paper className={classes.facetContainerLast}>
+
+          { /*<Paper className={classes.facetContainerLast}>
             <Paper className={classes.headingContainer}>
               <Typography variant="h6">Language</Typography>
+              <div className={classes.facetHeaderButtons}>
+                <IconButton disabled aria-label="Statistics">
+                  <PieChart />
+                </IconButton>
+                <IconButton disabled aria-label="Expand">
+                  <ExpandLess />
+                </IconButton>
+              </div>
             </Paper>
             <div className={classes.facetValuesContainerTen}>
               <HierarchicalFacet
                 key='language'
                 property='language'
-                data={this.props.language}
+                data={this.props.language.values}
                 fetchFacet={this.props.fetchFacet}
-                fetchingFacet={this.props.languageIsFetching}
+                fetchingFacet={this.props.language.isFetching}
                 facetFilters={this.props.facetFilters}
                 updateFilter={this.props.updateFilter}
                 updatedFacet={this.props.updatedFacet}
+                searchField={true}
               />
             </div>
           </Paper> */}
+
         </React.Fragment>
       </div>
     );
