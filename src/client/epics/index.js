@@ -54,8 +54,10 @@ const getFacet = (action$, state$) => action$.pipe(
   ofType(FETCH_FACET),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    let requestUrl = '';
-    let params = {};
+    let params = {
+      sortBy: action.sortBy,
+      sortDirection: action.sortDirection
+    };
     let filters = {};
     let activeFilters = false;
     for (const [key, value] of Object.entries(state.facet.facetFilters)) {
@@ -66,15 +68,15 @@ const getFacet = (action$, state$) => action$.pipe(
     }
     if (activeFilters) {
       params.filters = JSON.stringify(filters);
-      requestUrl = `${apiUrl}facet/${action.id}?${stringify(params)}`;
-    } else {
-      requestUrl = `${apiUrl}facet/${action.id}`;
     }
+    const requestUrl = `${apiUrl}facet/${action.id}?${stringify(params)}`;
     return ajax.getJSON(requestUrl).pipe(
       map(res => updateFacet({
         id: action.id,
         distinctValueCount: res.distinctValueCount,
         values: res.values,
+        sortBy: action.sortBy,
+        sortDirection: action.sortDirection
       }))
     );
   })
@@ -98,9 +100,7 @@ export const resultStateToUrl = (search, facet) => {
   if (activeFilters) {
     params.filters = JSON.stringify(filters);
   }
-  // console.log(params)
   return stringify(params);
-
 };
 
 const rootEpic = combineEpics(

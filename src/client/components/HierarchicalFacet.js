@@ -71,8 +71,7 @@ class HierarchicalFacet extends Component {
   }
 
   componentDidMount = () => {
-    this.props.fetchFacet(this.props.property);
-
+    this.props.fetchFacet(this.props.property, this.props.sortBy, this.props.sortDirection);
   }
 
   componentDidUpdate = prevProps => {
@@ -83,13 +82,9 @@ class HierarchicalFacet extends Component {
         treeData: this.props.data
       });
     }
-    // if (this.props.property == 'productionPlace') {
-    //   //console.log(this.props.facetFilters[this.props.property])
-    //   console.log(this.props.updatedFacet)
-    // }
     if (this.props.updatedFacet !== '' && this.props.updatedFacet !== this.props.property && prevProps.facetFilters != this.props.facetFilters) {
       // console.log(`fetching new values for ${this.props.property}`)
-      this.props.fetchFacet(this.props.property);
+      this.props.fetchFacet(this.props.property, this.props.sortBy, this.props.sortDirection);
     }
   }
 
@@ -237,7 +232,7 @@ class HierarchicalFacet extends Component {
                         <Checkbox
                           className={classes.checkbox}
                           checked={n.node.selected == 'true' ? true : false}
-                          disabled={n.node.instanceCount > 0 ? false : true}
+                          disabled={n.node.instanceCount == 0 || n.node.prefLabel == 'Unknown' ? true : false}
                           onChange={this.handleCheckboxChange(n)}
                           value={n.node.id}
                           color="primary"
@@ -263,6 +258,8 @@ HierarchicalFacet.propTypes = {
   classes: PropTypes.object.isRequired,
   property: PropTypes.string.isRequired,
   data: PropTypes.array.isRequired,
+  sortBy: PropTypes.string.isRequired,
+  sortDirection: PropTypes.string.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   fetchingFacet: PropTypes.bool.isRequired,
   facetFilters: PropTypes.object.isRequired,

@@ -95,13 +95,13 @@ export const openFacetDialog = property => ({
 export const closeFacetDialog = () => ({
   type: CLOSE_FACET_DIALOG,
 });
-export const fetchFacet = id => ({
+export const fetchFacet = (id, sortBy, sortDirection) => ({
   type: FETCH_FACET,
-  id
+  id, sortBy, sortDirection
 });
-export const updateFacet = ({ id, distinctValueCount, values }) => ({
+export const updateFacet = ({ id, distinctValueCount, values, sortBy, sortDirection }) => ({
   type: UPDATE_FACET,
-  id, distinctValueCount, values
+  id, distinctValueCount, values, sortBy, sortDirection
 });
 export const clearFacet = () => ({
   type: CLEAR_FACET,

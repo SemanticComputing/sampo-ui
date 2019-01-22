@@ -227,7 +227,6 @@ module.exports = {
               <PARENTS>
             }
             GROUP BY ?id ?selected ?source ?parent
-            ORDER BY DESC(?instanceCount)
           }
           FILTER(BOUND(?id))
           OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
@@ -245,10 +244,11 @@ module.exports = {
             }
           }
           BIND(IRI("http://ldf.fi/MISSING_VALUE") AS ?id)
-          BIND("_missing value" AS ?prefLabel)
+          BIND("Unknown" AS ?prefLabel)
           BIND('0' as ?parent)
         }
       }
+      <ORDER_BY>
     `,
     'tgn': {
       // Getty LOD documentation:

@@ -42,7 +42,6 @@ class FacetBar extends React.Component {
 
   render() {
     const { classes } = this.props;
-    //console.log(this.props.productionPlace)
     return (
       <div className={classes.root}>
         <React.Fragment>
@@ -64,6 +63,8 @@ class FacetBar extends React.Component {
                 key='source'
                 property='source'
                 data={this.props.source.values}
+                sortBy={this.props.source.sortBy}
+                sortDirection={this.props.source.sortDirection}
                 fetchFacet={this.props.fetchFacet}
                 fetchingFacet={this.props.source.isFetching}
                 facetFilters={this.props.facetFilters}
@@ -91,6 +92,8 @@ class FacetBar extends React.Component {
                 key='author'
                 property='author'
                 data={this.props.author.values}
+                sortBy={this.props.author.sortBy}
+                sortDirection={this.props.author.sortDirection}
                 fetchFacet={this.props.fetchFacet}
                 fetchingFacet={this.props.author.isFetching}
                 facetFilters={this.props.facetFilters}
@@ -118,6 +121,8 @@ class FacetBar extends React.Component {
                 key='productionPlace'
                 property='productionPlace'
                 data={this.props.productionPlace.values}
+                sortBy={this.props.productionPlace.sortBy}
+                sortDirection={this.props.productionPlace.sortDirection}
                 fetchFacet={this.props.fetchFacet}
                 fetchingFacet={this.props.productionPlace.isFetching}
                 facetFilters={this.props.facetFilters}
@@ -128,7 +133,7 @@ class FacetBar extends React.Component {
             </div>
           </Paper>
 
-          { /*<Paper className={classes.facetContainerLast}>
+          {/*<Paper className={classes.facetContainerLast}>
             <Paper className={classes.headingContainer}>
               <Typography variant="h6">Language</Typography>
               <div className={classes.facetHeaderButtons}>
@@ -145,6 +150,7 @@ class FacetBar extends React.Component {
                 key='language'
                 property='language'
                 data={this.props.language.values}
+                sortBy={this.props.language.sortBy}
                 fetchFacet={this.props.fetchFacet}
                 fetchingFacet={this.props.language.isFetching}
                 facetFilters={this.props.facetFilters}

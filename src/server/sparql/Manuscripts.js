@@ -86,7 +86,7 @@ const getManuscriptData = (page, pagesize, filters, sortBy, sortDirection) => {
   manuscriptQuery = manuscriptQuery.replace('<ORDER_BY_PREDICATE>', facetConfigs[sortBy].labelPath);
   manuscriptQuery = manuscriptQuery.replace('<SORT_DIRECTION>', sortDirection);
   manuscriptQuery = manuscriptQuery.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`);
-  //console.log(manuscriptQuery)
+  // console.log(manuscriptQuery)
   return sparqlSearchEngine.doSearch(manuscriptQuery, endpoint, makeObjectList);
 };
 
@@ -123,9 +123,8 @@ export const getFacets = filters => {
     });
 };
 
-export const getFacet = (id, filters) => {
+export const getFacet = (id, sortBy, sortDirection, filters) => {
   let { endpoint, facetQuery } = datasetConfig['mmm'];
-  //console.log(id, filters)
   const facetConfig = facetConfigs[id];
   let selectedBlock = '# no selections';
   let filterBlock = '# no filters';
@@ -162,6 +161,7 @@ export const getFacet = (id, filters) => {
   facetQuery = facetQuery.replace(/<PREDICATE>/g, facetConfig.predicate);
   facetQuery = facetQuery.replace('<SELECTED_VALUES>', selectedBlock);
   facetQuery = facetQuery.replace('<PARENTS>', parentBlock);
+  facetQuery = facetQuery.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
   // if (id == 'author') {
   //   //console.log(filters)
   //   console.log(facetQuery)

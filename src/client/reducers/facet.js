@@ -10,21 +10,29 @@ export const INITIAL_STATE = {
   productionPlace: {
     distinctValueCount: 0,
     values: [],
+    sortBy: 'prefLabel',
+    sortDirection: 'asc',
     isFetching: false,
   },
   author: {
     distinctValueCount: 0,
     values: [],
+    sortBy: 'prefLabel',
+    sortDirection: 'asc',
     isFetching: false,
   },
   source: {
     distinctValueCount: 0,
     values: [],
+    sortBy: 'instanceCount',
+    sortDirection: 'desc',
     isFetching: false,
   },
   language: {
     distinctValueCount: 0,
     values: [],
+    sortBy: 'instanceCount',
+    sortDirection: 'asc',
     isFetching: false,
   },
   facetFilters: {
@@ -74,6 +82,8 @@ const facet = (state = INITIAL_STATE, action) => {
         [ action.id ]: {
           distinctValueCount: 0,
           values: [],
+          sortBy: '',
+          sortDirection: '',
           isFetching: true
         }
       };
@@ -83,6 +93,8 @@ const facet = (state = INITIAL_STATE, action) => {
         [ action.id ]: {
           distinctValueCount: action.distinctValueCount,
           values: action.values,
+          sortBy: action.sortBy,
+          sortDirection: action.sortDirection,
           isFetching: false
         }
       };
