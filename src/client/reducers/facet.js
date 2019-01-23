@@ -82,8 +82,8 @@ const facet = (state = INITIAL_STATE, action) => {
         [ action.id ]: {
           distinctValueCount: 0,
           values: [],
-          sortBy: '',
-          sortDirection: '',
+          sortBy: action.sortBy,
+          sortDirection: action.sortDirection,
           isFetching: true
         }
       };

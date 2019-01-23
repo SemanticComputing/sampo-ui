@@ -10,11 +10,6 @@ import { PieChart, ExpandLess, /*ExpandMore*/ }  from '@material-ui/icons';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
-const options = [
-  'Sort alphabetically',
-  'Sort by manuscript count',
-];
-
 const styles = theme => ({
   root: {
     width: '100%',
@@ -51,46 +46,79 @@ class FacetHeader extends React.Component {
     anchorEl: null,
   };
 
-  handleClick = event => {
+  handleSortByClick = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = () => {
+  handleMenuItemClick = (sortBy, isSelected) => () =>  {
     this.setState({ anchorEl: null });
+    let sortDirection = '';
+    if (isSelected) {
+      sortDirection = this.props.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      if (sortBy === 'prefLabel') {
+        sortDirection = 'asc';
+      } else if (sortBy === 'instanceCount') {
+        sortDirection = 'desc';
+      }
+    }
+    this.props.fetchFacet(this.props.property, sortBy, sortDirection);
   };
+
+  handleMenuClose = () => {
+    this.setState({ anchorEl: null });
+  }
 
   render() {
     const { classes } = this.props;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
+    const options = [
+      {
+        id: 'prefLabel',
+        menuItemText: 'Sort alphabetically',
+        selected: this.props.sortBy === 'prefLabel' ? true : false,
+        sortDirection: this.props.sortDirection,
+      },
+      {
+        id: 'instanceCount',
+        menuItemText: 'Sort by manuscript count',
+        selected: this.props.sortBy === 'instanceCount' ? true : false,
+        sortDirection: this.props.sortDirection,
+      },
+    ];
 
     return (
       <Paper className={classes.headingContainer}>
         <Typography variant="h6">{this.props.label} {this.props.distinctValueCount > 0 ? `(${this.props.distinctValueCount})` : ''}</Typography>
         <div className={classes.facetHeaderButtons}>
-          <IconButton disabled aria-label="Statistics">
+          {/*<IconButton disabled aria-label="Statistics">
             <PieChart />
-          </IconButton>
-          <IconButton
-            aria-label="More"
-            aria-owns={open ? 'long-menu' : undefined}
-            aria-haspopup="true"
-            onClick={this.handleClick}
-          >
-            <SortByAlphaIcon />
-          </IconButton>
-          <Menu
-            id="long-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={this.handleClose}
-          >
-            {options.map(option => (
-              <MenuItem key={option} selected={option === 'Pyxis'} onClick={this.handleClose}>
-                {option}
-              </MenuItem>
-            ))}
-          </Menu>
+          </IconButton> */}
+          {!this.props.hierarchical &&
+            <React.Fragment>
+              <IconButton
+                aria-label="More"
+                aria-owns={open ? 'facet-menu' : undefined}
+                aria-haspopup="true"
+                onClick={this.handleSortByClick}
+              >
+                <SortByAlphaIcon />
+              </IconButton>
+              <Menu
+                id="facet-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={this.handleMenuClose}
+              >
+                {options.map(option => (
+                  <MenuItem key={option.id} selected={option.selected} onClick={this.handleMenuItemClick(option.id, option.selected)}>
+                    {option.menuItemText}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </React.Fragment>
+          }
           <IconButton disabled aria-label="Expand">
             <ExpandLess />
           </IconButton>
@@ -103,7 +131,12 @@ class FacetHeader extends React.Component {
 FacetHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
-  distinctValueCount: PropTypes.number.isRequired
+  property: PropTypes.string.isRequired,
+  hierarchical: PropTypes.bool.isRequired,
+  distinctValueCount: PropTypes.number.isRequired,
+  sortBy: PropTypes.string.isRequired,
+  sortDirection: PropTypes.string.isRequired,
+  fetchFacet: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(FacetHeader);

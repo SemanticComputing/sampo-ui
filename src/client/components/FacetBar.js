@@ -48,6 +48,8 @@ class FacetBar extends React.Component {
           <Paper className={classes.facetContainer}>
             <FacetHeader
               label='Source'
+              property='source'
+              hierarchical={false}
               distinctValueCount={this.props.source.distinctValueCount}
               sortBy={this.props.source.sortBy}
               sortDirection={this.props.source.sortDirection}
@@ -73,6 +75,8 @@ class FacetBar extends React.Component {
           <Paper className={classes.facetContainer}>
             <FacetHeader
               label='Author'
+              property='author'
+              hierarchical={false}
               distinctValueCount={this.props.author.distinctValueCount}
               sortBy={this.props.author.sortBy}
               sortDirection={this.props.author.sortDirection}
@@ -98,6 +102,8 @@ class FacetBar extends React.Component {
           <Paper className={classes.facetContainerLast}>
             <FacetHeader
               label='Production place'
+              property='productionPlace'
+              hierarchical={true}
               distinctValueCount={this.props.productionPlace.distinctValueCount}
               sortBy={this.props.productionPlace.sortBy}
               sortDirection={this.props.productionPlace.sortDirection}
