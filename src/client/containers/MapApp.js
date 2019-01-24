@@ -82,81 +82,79 @@ let MapApp = (props) => {
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
-        <Router>
-          <React.Fragment>
-            <TopBar />
-            <Grid container spacing={8} className={classes.mainContainer}>
-              <Route exact path="/" component={Main} />
-              <Route
-                path="/manuscripts"
-                render={routeProps =>
-                  <React.Fragment>
-                    <Grid item sm={12} md={3} className={classes.facetBarContainer}>
-                      <FacetBar
+        <React.Fragment>
+          <TopBar />
+          <Grid container spacing={8} className={classes.mainContainer}>
+            <Route exact path="/" component={Main} />
+            <Route
+              path="/manuscripts"
+              render={routeProps =>
+                <React.Fragment>
+                  <Grid item sm={12} md={3} className={classes.facetBarContainer}>
+                    <FacetBar
+                      facetFilters={props.facet.facetFilters}
+                      source={props.facet.source}
+                      author={props.facet.author}
+                      language={props.facet.language}
+                      productionPlace={props.facet.productionPlace}
+                      fetchFacet={props.fetchFacet}
+                      updateFilter={props.updateFilter}
+                      updatedFacet={props.facet.updatedFacet}
+                    />
+                  </Grid>
+                  <Grid item sm={12} md={9} className={classes.resultsContainer}>
+                    <Paper className={classes.resultsContainerPaper}>
+                      <Manuscripts
+                        search={props.search}
                         facetFilters={props.facet.facetFilters}
-                        source={props.facet.source}
-                        author={props.facet.author}
-                        language={props.facet.language}
-                        productionPlace={props.facet.productionPlace}
-                        fetchFacet={props.fetchFacet}
-                        updateFilter={props.updateFilter}
-                        updatedFacet={props.facet.updatedFacet}
+                        fetchResults={props.fetchResults}
+                        fetchPlaces={props.fetchPlaces}
+                        fetchPlace={props.fetchPlace}
+                        updatePage={props.updatePage}
+                        sortResults={props.sortResults}
+                        routeProps={routeProps}
                       />
-                    </Grid>
-                    <Grid item sm={12} md={9} className={classes.resultsContainer}>
-                      <Paper className={classes.resultsContainerPaper}>
-                        <Manuscripts
-                          search={props.search}
-                          facetFilters={props.facet.facetFilters}
-                          fetchResults={props.fetchResults}
-                          fetchPlaces={props.fetchPlaces}
-                          fetchPlace={props.fetchPlace}
-                          updatePage={props.updatePage}
-                          sortResults={props.sortResults}
-                          routeProps={routeProps}
-                        />
-                      </Paper>
-                    </Grid>
-                  </React.Fragment>
-                }
-              />
-              <Route
-                path="/works"
-                render={routeProps =>
-                  <React.Fragment>
-                    <Grid item sm={12} md={3} className={classes.facetBarContainer}>
-                      <FacetBar
+                    </Paper>
+                  </Grid>
+                </React.Fragment>
+              }
+            />
+            <Route
+              path="/works"
+              render={routeProps =>
+                <React.Fragment>
+                  <Grid item sm={12} md={3} className={classes.facetBarContainer}>
+                    <FacetBar
+                      facetFilters={props.facet.facetFilters}
+                      source={props.facet.source}
+                      author={props.facet.author}
+                      language={props.facet.language}
+                      productionPlace={props.facet.productionPlace}
+                      fetchFacet={props.fetchFacet}
+                      updateFilter={props.updateFilter}
+                      updatedFacet={props.facet.updatedFacet}
+                    />
+                  </Grid>
+                  <Grid item sm={12} md={9} className={classes.resultsContainer}>
+                    <Paper className={classes.resultsContainerPaper}>
+                      <Works
+                        search={props.search}
                         facetFilters={props.facet.facetFilters}
-                        source={props.facet.source}
-                        author={props.facet.author}
-                        language={props.facet.language}
-                        productionPlace={props.facet.productionPlace}
-                        fetchFacet={props.fetchFacet}
-                        updateFilter={props.updateFilter}
-                        updatedFacet={props.facet.updatedFacet}
+                        fetchResults={props.fetchResults}
+                        fetchPlaces={props.fetchPlaces}
+                        fetchPlace={props.fetchPlace}
+                        updatePage={props.updatePage}
+                        sortResults={props.sortResults}
+                        routeProps={routeProps}
                       />
-                    </Grid>
-                    <Grid item sm={12} md={9} className={classes.resultsContainer}>
-                      <Paper className={classes.resultsContainerPaper}>
-                        <Works
-                          search={props.search}
-                          facetFilters={props.facet.facetFilters}
-                          fetchResults={props.fetchResults}
-                          fetchPlaces={props.fetchPlaces}
-                          fetchPlace={props.fetchPlace}
-                          updatePage={props.updatePage}
-                          sortResults={props.sortResults}
-                          routeProps={routeProps}
-                        />
-                      </Paper>
-                    </Grid>
-                  </React.Fragment>
-                }
-              />
+                    </Paper>
+                  </Grid>
+                </React.Fragment>
+              }
+            />
 
-            </Grid>
-          </React.Fragment>
-        </Router>
+          </Grid>
+        </React.Fragment>
         <Footer />
       </div>
     </div>
