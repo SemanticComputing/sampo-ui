@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import compose from 'recompose/compose';
 import TopBar from '../components/TopBar';
 import Footer from '../components/Footer';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Route from 'react-router-dom';
 import Manuscripts from '../components/Manuscripts';
 import Works from '../components/Works';
 import Main from '../components/Main';
