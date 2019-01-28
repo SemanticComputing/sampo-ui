@@ -1,5 +1,5 @@
 import express from 'express';
-const path = require('path');
+import path from 'path';
 import bodyParser from 'body-parser';
 import {
   getManuscripts,
