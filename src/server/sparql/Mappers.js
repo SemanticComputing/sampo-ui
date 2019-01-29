@@ -51,7 +51,16 @@ export const mapHierarchicalFacet = sparqlBindings => {
   };
 };
 
-const comparator = (a, b) => a.prefLabel.localeCompare(b.prefLabel);
+const comparator = (a, b) => {
+  if (Array.isArray(a.prefLabel)) {
+    a.prefLabel = a.prefLabel[0];
+  }
+  if (Array.isArray(b.prefLabel)) {
+    b.prefLabel = b.prefLabel[0];
+  }
+  return a.prefLabel.localeCompare(b.prefLabel);
+};
+
 
 const sumUp = node => {
   node.totalInstanceCount = parseInt(node.instanceCount);
