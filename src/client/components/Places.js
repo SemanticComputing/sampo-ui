@@ -9,7 +9,21 @@ import LeafletMap from './LeafletMap';
 let Places = props => {
   return (
     <React.Fragment>
-      <ViewTabs routeProps={props.routeProps} />
+      <ViewTabs
+        routeProps={props.routeProps}
+        tabs={{
+          '/places/map': {
+            label: 'map',
+            value: 0,
+            icon: 'AddLocation',
+          },
+          // '/places/table': {
+          //   label: 'table',
+          //   value: 1,
+          //   icon: 'CalendarViewDay',
+          // },
+        }}
+      />
       <Route
         exact path='/places'
         render={() => <Redirect to='places/map' />}
