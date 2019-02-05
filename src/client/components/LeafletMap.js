@@ -28,6 +28,12 @@ import 'Leaflet.extra-markers/dist/css/leaflet.extra-markers.min.css';
 import 'Leaflet.extra-markers/dist/img/markers_default.png';
 import 'Leaflet.extra-markers/dist/img/markers_shadow.png';
 
+import markerShadowIcon from '../img/markers/marker-shadow.png';
+import markerIconViolet from '../img/markers/marker-icon-violet.png';
+import markerIconGreen from '../img/markers/marker-icon-green.png';
+import markerIconRed from '../img/markers/marker-icon-red.png';
+import markerIconOrange from '../img/markers/marker-icon-orange.png';
+
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZWtrb25lbiIsImEiOiJjam5vampzZ28xd2dyM3BzNXR0Zzg4azl4In0.eozyF-bBaZbA3ibhvJlJpQ';
 
 const style = {
@@ -50,16 +56,16 @@ const styles = () => ({
   },
 });
 
-// https://github.com/pointhi/leaflet-color-markers
-// const ColorIcon = L.Icon.extend({
-//   options: {
-//     shadowUrl: 'img/markers/marker-shadow.png',
-//     iconSize: [25, 41],
-//     iconAnchor: [12, 41],
-//     popupAnchor: [1, -34],
-//     shadowSize: [41, 41]
-//   }
-// });
+//https://github.com/pointhi/leaflet-color-markers
+const ColorIcon = L.Icon.extend({
+  options: {
+    shadowUrl: markerShadowIcon,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  }
+});
 
 class LeafletMap extends React.Component {
 
@@ -204,7 +210,12 @@ class LeafletMap extends React.Component {
         }
       });
     } else {
-      clusterer = new L.MarkerClusterGroup();
+      clusterer = new L.MarkerClusterGroup({
+        iconCreateFunction: cluster => {
+          const childCount = cluster.getChildCount();
+          return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster marker-cluster-grey', iconSize: new L.Point(40, 40) });
+        }
+      });
     }
 
     results.forEach(value => {
@@ -224,21 +235,50 @@ class LeafletMap extends React.Component {
     } else {
       const { lat, long } = result;
       const latLng = [+lat, +long];
-      // https://github.com/coryasilva/Leaflet.ExtraMarkers
-      const icon = L.ExtraMarkers.icon({
-        icon: 'fa-number',
-        number: result.manuscriptCount,
-        markerColor: 'red',
-        shape: 'circle',
-        prefix: 'fa'
-      });
+      let marker = null;
 
-      const marker = L.marker(latLng, {
-        icon: icon,
-        manuscriptCount: result.manuscriptCount ? result.manuscriptCount : null,
-        id: result.id
-      })
-        .on('click', this.markerOnClick);
+      if (this.props.variant === 'productionPlaces') {
+        // https://github.com/coryasilva/Leaflet.ExtraMarkers
+        const icon = L.ExtraMarkers.icon({
+          icon: 'fa-number',
+          number: result.manuscriptCount,
+          markerColor: 'red',
+          shape: 'circle',
+          prefix: 'fa'
+        });
+        marker = L.marker(latLng, {
+          icon: icon,
+          manuscriptCount: result.manuscriptCount ? result.manuscriptCount : null,
+          id: result.id
+        })
+          .on('click', this.markerOnClick);
+      } else {
+
+        const color = 'green';
+
+        let markerIcon = '';
+        switch(color) {
+          case 'violet':
+            markerIcon = markerIconViolet;
+            break;
+          case 'green':
+            markerIcon = markerIconGreen;
+            break;
+          case 'red':
+            markerIcon = markerIconRed;
+            break;
+          case 'orange':
+            markerIcon = markerIconOrange;
+            break;
+        }
+
+        marker = L.marker(latLng, {
+          icon: new ColorIcon({iconUrl: markerIcon }),
+          id: result.id
+        })
+          .on('click', this.markerOnClick);
+      }
+
       return marker;
     }
   }
