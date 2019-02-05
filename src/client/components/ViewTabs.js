@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { has } from 'lodash';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay';
@@ -34,7 +35,7 @@ class ViewTabs extends React.Component {
   }
 
   pathnameToValue = pathname => {
-    return this.props.tabs[pathname].value;
+    return has(this.props.tabs, pathname) ? this.props.tabs[pathname].value : 0;
   }
 
   renderIcon = iconString => {
