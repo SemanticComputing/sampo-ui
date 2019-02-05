@@ -9,7 +9,26 @@ import Deck from './Deck';
 let Manuscripts = props => {
   return (
     <React.Fragment>
-      <ViewTabs routeProps={props.routeProps} />
+      <ViewTabs
+        routeProps={props.routeProps}
+        tabs={{
+          '/manuscripts/table': {
+            label: 'table',
+            value: 0,
+            icon: 'CalendarViewDay',
+          },
+          '/manuscripts/production_places': {
+            label: 'production places',
+            value: 1,
+            icon: 'AddLocation',
+          },
+          '/manuscripts/migrations': {
+            label: 'migrations',
+            value: 2,
+            icon: 'Redo',
+          }
+        }}
+      />
       <Route
         exact path='/manuscripts'
         render={() => <Redirect to='manuscripts/table' />}

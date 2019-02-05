@@ -34,28 +34,31 @@ class ViewTabs extends React.Component {
   }
 
   pathnameToValue = pathname => {
-    let value;
-    switch (pathname) {
-      case '/manuscripts/production_places':
-        value = 1;
+    return this.props.tabs[pathname].value;
+  }
+
+  renderIcon = iconString => {
+    let icon = '';
+    switch (iconString) {
+      case 'CalendarViewDay':
+        icon = <CalendarViewDayIcon />;
         break;
-      case '/manuscripts/migrations':
-        value = 2;
+      case 'AddLocation':
+        icon = <AddLocationIcon />;
         break;
-      default:
-        value = 0;
+      case 'Redo':
+        icon = <RedoIcon />;
+        break;
     }
-    return value;
+    return icon;
   }
 
   handleChange = (event, value) => {
     this.setState({ value });
   };
 
-
-
   render() {
-    const { classes } = this.props;
+    const { classes, tabs } = this.props;
     return (
       <Paper className={classes.root}>
         <Tabs
@@ -65,9 +68,9 @@ class ViewTabs extends React.Component {
           textColor="secondary"
           variant="fullWidth"
         >
-          <Tab icon={<CalendarViewDayIcon />} label="table" component={Link} to="/manuscripts" />
-          <Tab icon={<AddLocationIcon />} label="production places" component={Link} to="/manuscripts/production_places" />
-          <Tab icon={<RedoIcon />} label="migrations" component={Link} to="/manuscripts/migrations" />
+          {Object.keys(tabs).map(key =>
+            <Tab key={key} icon={this.renderIcon(tabs[key].icon)} label={tabs[key].label} component={Link} to={key} />
+          )}
         </Tabs>
       </Paper>
     );
@@ -76,7 +79,8 @@ class ViewTabs extends React.Component {
 
 ViewTabs.propTypes = {
   classes: PropTypes.object.isRequired,
-  routeProps: PropTypes.object.isRequired
+  routeProps: PropTypes.object.isRequired,
+  tabs: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(ViewTabs);
