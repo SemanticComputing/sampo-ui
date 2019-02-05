@@ -5,7 +5,7 @@ import { createEpicMiddleware } from 'redux-observable';
 import {responsiveStoreEnhancer} from 'redux-responsive';
 import { Provider } from 'react-redux';
 import ReduxToastr, { actions as toastrActions } from 'react-redux-toastr';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import 'react-virtualized/styles.css';

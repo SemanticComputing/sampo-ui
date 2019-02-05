@@ -132,6 +132,29 @@ module.exports = {
       }
       GROUP BY ?id ?lat ?long ?prefLabel ?dataProviderUrl
         `,
+    'allPlacesQuery': `
+      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+      PREFIX dct: <http://purl.org/dc/terms/>
+      PREFIX owl: <http://www.w3.org/2002/07/owl#>
+      PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
+      PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+      PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
+      SELECT ?id ?prefLabel ?lat ?long ?source ?dataProviderUrl
+      #(COUNT(DISTINCT ?manuscript) as ?manuscriptCount)
+      WHERE {
+        ?id a crm:E53_Place .
+        ?id skos:prefLabel ?prefLabel .
+        ?id dct:source ?source
+        OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
+        OPTIONAL {
+          ?id wgs84:lat ?lat ;
+              wgs84:long ?long .
+        }
+        #?manuscript ^crm:P108_has_produced/crm:P7_took_place_at ?id
+      }
+      #GROUP BY ?id ?lat ?long ?prefLabel ?dataProviderUrl
+        `,
     'migrationsQuery': `
       PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -185,12 +208,7 @@ module.exports = {
         }
         OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
         OPTIONAL { ?id owl:sameAs ?sameAs }
-        {
-          ?manuscript__id ^frbroo:R18_created/crm:P7_took_place_at ?id .
-          ?manuscript__id mmm-schema:data_provider_url ?manuscript__dataProviderUrl .
-        }
-        UNION
-        {
+        OPTIONAL {
           ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?id .
           ?manuscript__id mmm-schema:data_provider_url ?manuscript__dataProviderUrl .
         }

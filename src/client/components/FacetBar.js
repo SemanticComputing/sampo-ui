@@ -43,8 +43,8 @@ class FacetBar extends React.Component {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <React.Fragment>
 
+        {this.props.source &&
           <Paper className={classes.facetContainer}>
             <FacetHeader
               label='Source'
@@ -71,7 +71,9 @@ class FacetBar extends React.Component {
               />
             </div>
           </Paper>
+        }
 
+        {this.props.author &&
           <Paper className={classes.facetContainer}>
             <FacetHeader
               label='Author'
@@ -98,7 +100,9 @@ class FacetBar extends React.Component {
               />
             </div>
           </Paper>
+        }
 
+        {this.props.productionPlace &&
           <Paper className={classes.facetContainerLast}>
             <FacetHeader
               label='Production place'
@@ -125,36 +129,36 @@ class FacetBar extends React.Component {
               />
             </div>
           </Paper>
+        }
 
-          {/*<Paper className={classes.facetContainerLast}>
-            <Paper className={classes.headingContainer}>
-              <Typography variant="h6">Language</Typography>
-              <div className={classes.facetHeaderButtons}>
-                <IconButton disabled aria-label="Statistics">
-                  <PieChart />
-                </IconButton>
-                <IconButton disabled aria-label="Expand">
-                  <ExpandLess />
-                </IconButton>
-              </div>
-            </Paper>
-            <div className={classes.facetValuesContainerTen}>
-              <HierarchicalFacet
-                key='language'
-                property='language'
-                data={this.props.language.values}
-                sortBy={this.props.language.sortBy}
-                fetchFacet={this.props.fetchFacet}
-                fetchingFacet={this.props.language.isFetching}
-                facetFilters={this.props.facetFilters}
-                updateFilter={this.props.updateFilter}
-                updatedFacet={this.props.updatedFacet}
-                searchField={true}
-              />
+        {/*<Paper className={classes.facetContainerLast}>
+          <Paper className={classes.headingContainer}>
+            <Typography variant="h6">Language</Typography>
+            <div className={classes.facetHeaderButtons}>
+              <IconButton disabled aria-label="Statistics">
+                <PieChart />
+              </IconButton>
+              <IconButton disabled aria-label="Expand">
+                <ExpandLess />
+              </IconButton>
             </div>
-          </Paper> */}
+          </Paper>
+          <div className={classes.facetValuesContainerTen}>
+            <HierarchicalFacet
+              key='language'
+              property='language'
+              data={this.props.language.values}
+              sortBy={this.props.language.sortBy}
+              fetchFacet={this.props.fetchFacet}
+              fetchingFacet={this.props.language.isFetching}
+              facetFilters={this.props.facetFilters}
+              updateFilter={this.props.updateFilter}
+              updatedFacet={this.props.updatedFacet}
+              searchField={true}
+            />
+          </div>
+        </Paper> */}
 
-        </React.Fragment>
       </div>
     );
   }
@@ -164,10 +168,10 @@ FacetBar.propTypes = {
   classes: PropTypes.object.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   facetFilters: PropTypes.object.isRequired,
-  source: PropTypes.object.isRequired,
-  productionPlace: PropTypes.object.isRequired,
-  author: PropTypes.object.isRequired,
-  language: PropTypes.object.isRequired,
+  source: PropTypes.object,
+  productionPlace: PropTypes.object,
+  author: PropTypes.object,
+  language: PropTypes.object,
   updateFilter: PropTypes.func.isRequired,
   updatedFacet: PropTypes.string.isRequired,
 };

@@ -10,6 +10,7 @@ import Footer from '../components/Footer';
 import { Route } from 'react-router-dom';
 import Manuscripts from '../components/Manuscripts';
 import Works from '../components/Works';
+import Places from '../components/Places';
 import Main from '../components/Main';
 import FacetBar from '../components/FacetBar';
 import Grid from '@material-ui/core/Grid';
@@ -78,7 +79,7 @@ let MapApp = (props) => {
   const { classes } = props;
   // browser
   // error,
-  ///console.log(props.search)
+  //console.log(props.search.place)
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
@@ -86,6 +87,7 @@ let MapApp = (props) => {
           <TopBar />
           <Grid container spacing={8} className={classes.mainContainer}>
             <Route exact path="/" component={Main} />
+
             <Route
               path="/manuscripts"
               render={routeProps =>
@@ -119,6 +121,7 @@ let MapApp = (props) => {
                 </React.Fragment>
               }
             />
+
             <Route
               path="/works"
               render={routeProps =>
@@ -152,6 +155,37 @@ let MapApp = (props) => {
                 </React.Fragment>
               }
             />
+
+            <Route
+              path="/places"
+              render={routeProps =>
+                <React.Fragment>
+                  <Grid item sm={12} md={3} className={classes.facetBarContainer}>
+                    <FacetBar
+                      facetFilters={props.facet.facetFilters}
+                      fetchFacet={props.fetchFacet}
+                      updateFilter={props.updateFilter}
+                      updatedFacet={props.facet.updatedFacet}
+                    />
+                  </Grid>
+                  <Grid item sm={12} md={9} className={classes.resultsContainer}>
+                    <Paper className={classes.resultsContainerPaper}>
+                      <Places
+                        search={props.search}
+                        facetFilters={props.facet.facetFilters}
+                        fetchResults={props.fetchResults}
+                        fetchPlaces={props.fetchPlaces}
+                        fetchPlace={props.fetchPlace}
+                        updatePage={props.updatePage}
+                        sortResults={props.sortResults}
+                        routeProps={routeProps}
+                      />
+                    </Paper>
+                  </Grid>
+                </React.Fragment>
+              }
+            />
+
 
           </Grid>
         </React.Fragment>

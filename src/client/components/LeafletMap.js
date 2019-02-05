@@ -183,25 +183,32 @@ class LeafletMap extends React.Component {
   updateMarkersAndCluster(results) {
     this.resultMarkerLayer.clearLayers();
     this.markers = {};
-    const clusterer = new L.MarkerClusterGroup({
-      iconCreateFunction: (cluster) => {
-        //const childCount = cluster.getChildCount();
-        let childCount = 0;
-        cluster.getAllChildMarkers().forEach(marker => {
-          childCount += parseInt(marker.options.manuscriptCount);
-        });
-        let c = ' marker-cluster-';
-        if (childCount < 10) {
-          c += 'small';
-        } else if (childCount < 100) {
-          c += 'medium';
-        } else {
-          c += 'large';
+    let clusterer = null;
+    if (this.props.variant === 'productionPlaces') {
+      clusterer = new L.MarkerClusterGroup({
+        iconCreateFunction: (cluster) => {
+          //const childCount = cluster.getChildCount();
+          let childCount = 0;
+          cluster.getAllChildMarkers().forEach(marker => {
+            childCount += parseInt(marker.options.manuscriptCount);
+          });
+          let c = ' marker-cluster-';
+          if (childCount < 10) {
+            c += 'small';
+          } else if (childCount < 100) {
+            c += 'medium';
+          } else {
+            c += 'large';
+          }
+          return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
         }
-        return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
-      }
-    });
+      });
+    } else {
+      clusterer = new L.MarkerClusterGroup();
+    }
+
     results.forEach(value => {
+      // console.log(value)
       const marker = this.createMarker(value);
       this.markers[value.id] = marker;
       marker == null ? null : clusterer.addLayer(marker);
@@ -245,8 +252,11 @@ class LeafletMap extends React.Component {
     if (has(result, 'sameAs')) {
       popUpTemplate += `<p>Place authority: <a target="_blank" rel="noopener noreferrer" href=${result.sameAs}>${result.sameAs}</a></p>`;
     }
-    popUpTemplate += `<p>Manuscripts produced here:</p>`;
-    popUpTemplate += this.createManscriptListing(result.manuscript);
+    if (this.props.variant === 'productionPlaces') {
+      popUpTemplate += `<p>Manuscripts produced here:</p>`;
+      popUpTemplate += this.createManscriptListing(result.manuscript);
+    }
+
     return popUpTemplate;
   }
 

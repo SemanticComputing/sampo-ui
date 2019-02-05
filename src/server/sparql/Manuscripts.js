@@ -100,6 +100,7 @@ export const getPlaces = variant => {
   // console.log(variant)
   const config = datasetConfig['mmm'];
   const query = config[`${variant}Query`];
+
   // console.log(query)
   return sparqlSearchEngine.doSearch(query, config.endpoint, makeObjectList);
 };
@@ -107,6 +108,7 @@ export const getPlaces = variant => {
 export const getPlace = id => {
   let { endpoint, placeQuery } = datasetConfig['mmm'];
   placeQuery = placeQuery.replace('<PLACE_ID>', `<${id}>`);
+  // console.log(placeQuery)
   return sparqlSearchEngine.doSearch(placeQuery, endpoint, makeObjectList);
 };
 
