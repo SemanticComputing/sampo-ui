@@ -197,12 +197,14 @@ module.exports = {
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
+      PREFIX gvp: <http://vocab.getty.edu/ontology#>
+
       SELECT *
       WHERE {
         BIND (<PLACE_ID> AS ?id)
         ?id skos:prefLabel ?prefLabel .
         OPTIONAL {
-          ?id crm:P89_falls_within ?parent__id .
+          ?id gvp:broaderPreferred ?parent__id .
           ?parent__id skos:prefLabel ?parent__prefLabel .
           ?parent__id mmm-schema:data_provider_url ?parent__dataProviderUrl .
         }
@@ -228,6 +230,8 @@ module.exports = {
       PREFIX geosparql: <http://www.opengis.net/ont/geosparql#>
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
+      PREFIX gvp: <http://vocab.getty.edu/ontology#>
+
       SELECT DISTINCT ?id ?prefLabel ?selected ?source ?parent ?instanceCount {
         {
           {
@@ -239,7 +243,10 @@ module.exports = {
                 <SELECTED_VALUES>
                 BIND(COALESCE(?selected_, false) as ?selected)
                 OPTIONAL { ?id dct:source ?source }
-                OPTIONAL { ?id crm:P89_falls_within ?parent_ }
+                OPTIONAL {
+                  ?id gvp:broaderPreferred ?parent_ .
+                  FILTER(?parent_ != <http://ldf.fi/mmm/places/tgn_7029392>)
+                }
                 BIND(COALESCE(?parent_, '0') as ?parent)
               }
               <PARENTS>

@@ -16,7 +16,7 @@ const facetConfigs = {
     label: 'Production place',
     labelPath: '^crm:P108_has_produced/crm:P7_took_place_at/skos:prefLabel',
     predicate: '^crm:P108_has_produced/crm:P7_took_place_at',
-    parentPredicate: '^crm:P108_has_produced/crm:P7_took_place_at/crm:P89_falls_within*',
+    parentPredicate: '^crm:P108_has_produced/crm:P7_took_place_at/gvp:broaderPreferred+',
     type: 'hierarchical',
   },
   author: {
@@ -145,26 +145,26 @@ export const getFacet = (id, sortBy, sortDirection, filters) => {
   }
   if (facetConfig.type === 'hierarchical') {
     mapper = mapHierarchicalFacet;
-    if (filters !== null) {
       parentBlock = `
             UNION
             {
               ${generateFacetFilterParents(id, filters)}
-              ?parentInstance ${facetConfig.parentPredicate} ?id .
+              ?instance ${facetConfig.parentPredicate} ?id .
               BIND(COALESCE(?selected_, false) as ?selected)
+              OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
+              BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
               OPTIONAL { ?id dct:source ?source }
-              OPTIONAL { ?id crm:P89_falls_within ?parent_ }
+              OPTIONAL { ?id gvp:broaderPreferred ?parent_ }
               BIND(COALESCE(?parent_, '0') as ?parent)
             }
       `;
-    }
   }
   facetQuery = facetQuery.replace(/<FILTER>/g, filterBlock );
   facetQuery = facetQuery.replace(/<PREDICATE>/g, facetConfig.predicate);
   facetQuery = facetQuery.replace('<SELECTED_VALUES>', selectedBlock);
   facetQuery = facetQuery.replace('<PARENTS>', parentBlock);
   facetQuery = facetQuery.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
-  // if (id == 'author') {
+  // if (id == 'productionPlace') {
   //   //console.log(filters)
   //   console.log(facetQuery)
   // }
@@ -190,7 +190,7 @@ const generateFacetFilterParents = (facetId, filters) => {
     if (property !== facetId) {
       filterStr += `
               VALUES ?${property}FilterParents { <${filters[property].join('> <')}> }
-              ?parentInstance ${facetConfigs[property].predicate} ?${property}FilterParents .
+              ?instance ${facetConfigs[property].predicate} ?${property}FilterParents .
       `;
     }
   }
