@@ -6,6 +6,10 @@ master branch visible at http://dev.ui.mappingmanuscriptmigrations.org/
 
 test branch visible at http://test.ui.mappingmanuscriptmigrations.org/
 
+## Requirements
+
+Node.js 8.x: https://nodejs.org/en/download/releases/
+
 ## Local development
 
 ```
