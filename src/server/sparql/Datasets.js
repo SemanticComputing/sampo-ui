@@ -232,6 +232,7 @@ module.exports = {
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
       PREFIX gvp: <http://vocab.getty.edu/ontology#>
 
+
       SELECT DISTINCT ?id ?prefLabel ?selected ?source ?parent ?instanceCount {
         {
           {

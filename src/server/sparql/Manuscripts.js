@@ -145,7 +145,7 @@ export const getFacet = (id, sortBy, sortDirection, filters) => {
   }
   if (facetConfig.type === 'hierarchical') {
     mapper = mapHierarchicalFacet;
-      parentBlock = `
+    parentBlock = `
             UNION
             {
               ${generateFacetFilterParents(id, filters)}
