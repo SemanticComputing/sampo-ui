@@ -38,7 +38,7 @@ let Manuscripts = props => {
         render={routeProps =>
           <ResultTable
             resultClass='manuscripts'
-            columns={props.search.resultTableColumns}
+            columns={props.search.manuscriptTableColumns}
             search={props.search}
             facetFilters={props.facetFilters}
             fetchResults={props.fetchResults}

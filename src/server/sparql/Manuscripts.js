@@ -97,11 +97,9 @@ const getManuscriptCount = filters => {
 };
 
 export const getPlaces = variant => {
-  // console.log(variant)
   const config = datasetConfig['mmm'];
   const query = config[`${variant}Query`];
-
-  // console.log(query)
+  //console.log(query)
   return sparqlSearchEngine.doSearch(query, config.endpoint, makeObjectList);
 };
 
@@ -112,18 +110,6 @@ export const getPlace = id => {
   return sparqlSearchEngine.doSearch(placeQuery, endpoint, makeObjectList);
 };
 
-export const getFacets = filters => {
-  return Promise.all(Object.keys(facetConfigs).map(id => getFacet(id, filters)))
-    .then(data => {
-      let results = {};
-      let i = 0;
-      Object.keys(facetConfigs).forEach(key => {
-        results[key] = data[i];
-        i += 1;
-      });
-      return results;
-    });
-};
 
 export const getFacet = (id, sortBy, sortDirection, filters) => {
   let { endpoint, facetQuery } = datasetConfig['mmm'];

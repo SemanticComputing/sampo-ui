@@ -12,7 +12,7 @@ import {
 export const INITIAL_STATE = {
   resultCount: 0,
   results: [],
-  resultTableColumns: [
+  manuscriptTableColumns: [
     {
       id: 'source',
       valueType: 'object',
@@ -80,6 +80,37 @@ export const INITIAL_STATE = {
       numberedList: true,
       minWidth: 170
     }
+  ],
+  placeTableColumns: [
+    {
+      id: 'prefLabel',
+      valueType: 'string',
+      makeLink: false,
+      sortValues: true,
+      numberedList: false
+    },
+    {
+      id: 'placeType',
+      valueType: 'string',
+      makeLink: false,
+      sortValues: true,
+      numberedList: false
+    },
+    {
+      id: 'parent',
+      valueType: 'object',
+      makeLink: true,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 170
+    },
+    {
+      id: 'source',
+      valueType: 'object',
+      makeLink: true,
+      sortValues: true,
+      numberedList: false
+    },
   ],
   places: [],
   place: {},

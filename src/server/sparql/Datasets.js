@@ -140,20 +140,24 @@ module.exports = {
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
-      SELECT ?id ?prefLabel ?lat ?long ?source ?dataProviderUrl
-      #(COUNT(DISTINCT ?manuscript) as ?manuscriptCount)
+      PREFIX gvp: <http://vocab.getty.edu/ontology#>
+      SELECT *
       WHERE {
         ?id a crm:E53_Place .
         ?id skos:prefLabel ?prefLabel .
-        ?id dct:source ?source
-        OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
+        ?id dct:source ?source .
         OPTIONAL {
           ?id wgs84:lat ?lat ;
               wgs84:long ?long .
         }
-        #?manuscript ^crm:P108_has_produced/crm:P7_took_place_at ?id
+        OPTIONAL {
+          ?id gvp:broaderPreferred ?parent__id .
+          ?parent__id skos:prefLabe ?parent__prefLabel .
+        }
+        OPTIONAL { ?id gvp:placeTypePreferred ?placeType  }
+        OPTIONAL { ?id skos:altLabel ?altLabel  }
+        OPTIONAL { ?id owl:sameAs ?placeAuthorityURI  }
       }
-      #GROUP BY ?id ?lat ?long ?prefLabel ?dataProviderUrl
         `,
     'migrationsQuery': `
       PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>

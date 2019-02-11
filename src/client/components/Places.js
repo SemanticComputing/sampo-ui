@@ -32,11 +32,12 @@ let Places = props => {
         path={'/places/table'}
         render={routeProps =>
           <ResultTable
+            results={props.search.places}
             resultClass='places'
-            columns={props.search.resultTableColumns}
+            columns={props.search.placeTableColumns}
             search={props.search}
             facetFilters={props.facetFilters}
-            fetchResults={props.fetchResults}
+            fetchResults={props.fetchPlaces}
             updatePage={props.updatePage}
             sortResults={props.sortResults}
             routeProps={routeProps}

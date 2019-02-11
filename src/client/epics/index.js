@@ -23,7 +23,7 @@ const getResults = (action$, state$) => action$.pipe(
   mergeMap(([action, state]) => {
     const requestUrl = `${apiUrl + action.resultClass}?${resultStateToUrl(state.search, state.facet)}`;
     return ajax.getJSON(requestUrl).pipe(
-      map(data => updateResults({ data }))
+      map(response => updateResults({ response }))
     );
   })
 );

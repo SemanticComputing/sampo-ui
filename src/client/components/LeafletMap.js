@@ -219,7 +219,7 @@ class LeafletMap extends React.Component {
     }
 
     results.forEach(value => {
-      // console.log(value)
+      //console.log(value)
       const marker = this.createMarker(value);
       this.markers[value.id] = marker;
       marker == null ? null : clusterer.addLayer(marker);
@@ -232,8 +232,10 @@ class LeafletMap extends React.Component {
     //const icon = new ColorIcon({iconUrl: 'img/markers/marker-icon-' + color + '.png'});
     if (!has(result, 'lat') || !has(result, 'long')) {
       return null;
-    } else {
-      const { lat, long } = result;
+    }
+    else {
+      const lat = Array.isArray(result.lat) ? result.lat[0] : result.lat;
+      const long = Array.isArray(result.long) ? result.long[0] : result.long;
       const latLng = [+lat, +long];
       let marker = null;
 

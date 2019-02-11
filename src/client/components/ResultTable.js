@@ -123,8 +123,8 @@ class ResultTable extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
-    const { resultCount, results, page, pagesize, sortBy, sortDirection, fetchingResults } = this.props.search;
+    const { classes, results } = this.props;
+    const { resultCount, page, pagesize, sortBy, sortDirection, fetchingResults } = this.props.search;
 
     if (fetchingResults) {
       return (
@@ -160,11 +160,13 @@ class ResultTable extends React.Component {
 
 ResultTable.propTypes = {
   classes: PropTypes.object.isRequired,
+  results: PropTypes.array.isRequired,
   resultClass: PropTypes.string.isRequired,
   columns: PropTypes.array.isRequired,
   search: PropTypes.object.isRequired,
   facetFilters: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
+  fetchPlaces: PropTypes.func,
   updatePage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired
