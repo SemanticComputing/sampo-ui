@@ -231,8 +231,6 @@ module.exports = {
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
       PREFIX gvp: <http://vocab.getty.edu/ontology#>
-
-
       SELECT DISTINCT ?id ?prefLabel ?selected ?source ?parent ?instanceCount {
         {
           {
@@ -246,7 +244,7 @@ module.exports = {
                 OPTIONAL { ?id dct:source ?source }
                 OPTIONAL {
                   ?id gvp:broaderPreferred ?parent_ .
-                  FILTER(?parent_ != <http://ldf.fi/mmm/places/tgn_7029392>)
+                  #FILTER(?parent_ != <http://ldf.fi/mmm/places/tgn_7029392>)
                 }
                 BIND(COALESCE(?parent_, '0') as ?parent)
               }

@@ -118,7 +118,8 @@ class HierarchicalFacet extends Component {
 
   generateLabelClass = (classes, node) => {
     let labelClass = classes.label;
-    if (this.props.property === 'author' || this.props.property === 'productionPlace' || this.props.property === 'source') {
+    if (this.props.property === 'author' || this.props.property === 'source')
+    {
       if (node.source === 'http://ldf.fi/mmm/schema/SDBM' || node.id === 'http://ldf.fi/mmm/schema/SDBM') {
         labelClass = classes.sdbmLabel;
       }
@@ -138,9 +139,11 @@ class HierarchicalFacet extends Component {
     // console.log(this.props.data)
 
     // Case insensitive search of `node.title`
-    const customSearchMethod = ({ node, searchQuery }) =>
-      searchQuery.length > 2  &&
-      node.prefLabel.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1;
+    const customSearchMethod = ({ node, searchQuery }) => {
+      let prefLabel = Array.isArray(node.prefLabel) ? node.prefLabel[0] : node.prefLabel;
+      return searchQuery.length > 2  &&
+      prefLabel.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1;
+    };
 
     const selectPrevMatch = () =>
       this.setState({
