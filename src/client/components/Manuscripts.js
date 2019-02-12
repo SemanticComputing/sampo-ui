@@ -37,6 +37,7 @@ let Manuscripts = props => {
         path={'/manuscripts/table'}
         render={routeProps =>
           <ResultTable
+            results={props.search.results}
             resultClass='manuscripts'
             columns={props.search.manuscriptTableColumns}
             search={props.search}
