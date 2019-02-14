@@ -9,7 +9,7 @@ import TopBar from '../components/TopBar';
 import Footer from '../components/Footer';
 import { Route } from 'react-router-dom';
 import Manuscripts from '../components/Manuscripts';
-import Works from '../components/Works';
+// import Works from '../components/Works';
 import Places from '../components/Places';
 import Main from '../components/Main';
 import FacetBar from '../components/FacetBar';
@@ -19,8 +19,7 @@ import Paper from '@material-ui/core/Paper';
 
 import {
   fetchResults,
-  fetchPlaces,
-  fetchPlace,
+  fetchByURI,
   fetchFacet,
   sortResults,
   updateFilter,
@@ -76,10 +75,7 @@ const styles = theme => ({
 });
 
 let MapApp = (props) => {
-  const { classes } = props;
-  // browser
-  // error,
-  //console.log(props.search.place)
+  const { classes /* browser error */ } = props;
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
@@ -94,24 +90,19 @@ let MapApp = (props) => {
                 <React.Fragment>
                   <Grid item sm={12} md={3} className={classes.facetBarContainer}>
                     <FacetBar
-                      facetFilters={props.facet.facetFilters}
-                      source={props.facet.source}
-                      author={props.facet.author}
-                      language={props.facet.language}
-                      productionPlace={props.facet.productionPlace}
+                      facetData={props.manuscriptsFacets}
+                      resultClass='manuscripts'
                       fetchFacet={props.fetchFacet}
                       updateFilter={props.updateFilter}
-                      updatedFacet={props.facet.updatedFacet}
                     />
                   </Grid>
                   <Grid item sm={12} md={9} className={classes.resultsContainer}>
                     <Paper className={classes.resultsContainerPaper}>
                       <Manuscripts
-                        search={props.search}
-                        facetFilters={props.facet.facetFilters}
+                        manuscripts={props.manuscripts}
+                        facets={props.manuscriptsFacets}
                         fetchResults={props.fetchResults}
-                        fetchPlaces={props.fetchPlaces}
-                        fetchPlace={props.fetchPlace}
+                        fetchByURI={props.fetchByURI}
                         updatePage={props.updatePage}
                         sortResults={props.sortResults}
                         routeProps={routeProps}
@@ -122,39 +113,6 @@ let MapApp = (props) => {
               }
             />
 
-            <Route
-              path="/works"
-              render={routeProps =>
-                <React.Fragment>
-                  <Grid item sm={12} md={3} className={classes.facetBarContainer}>
-                    <FacetBar
-                      facetFilters={props.facet.facetFilters}
-                      source={props.facet.source}
-                      author={props.facet.author}
-                      language={props.facet.language}
-                      productionPlace={props.facet.productionPlace}
-                      fetchFacet={props.fetchFacet}
-                      updateFilter={props.updateFilter}
-                      updatedFacet={props.facet.updatedFacet}
-                    />
-                  </Grid>
-                  <Grid item sm={12} md={9} className={classes.resultsContainer}>
-                    <Paper className={classes.resultsContainerPaper}>
-                      <Works
-                        search={props.search}
-                        facetFilters={props.facet.facetFilters}
-                        fetchResults={props.fetchResults}
-                        fetchPlaces={props.fetchPlaces}
-                        fetchPlace={props.fetchPlace}
-                        updatePage={props.updatePage}
-                        sortResults={props.sortResults}
-                        routeProps={routeProps}
-                      />
-                    </Paper>
-                  </Grid>
-                </React.Fragment>
-              }
-            />
 
             <Route
               path="/places"
@@ -162,20 +120,18 @@ let MapApp = (props) => {
                 <React.Fragment>
                   <Grid item sm={12} md={3} className={classes.facetBarContainer}>
                     <FacetBar
-                      facetFilters={props.facet.facetFilters}
+                      facets={props.manuscriptsFacets}
                       fetchFacet={props.fetchFacet}
                       updateFilter={props.updateFilter}
-                      updatedFacet={props.facet.updatedFacet}
                     />
                   </Grid>
                   <Grid item sm={12} md={9} className={classes.resultsContainer}>
                     <Paper className={classes.resultsContainerPaper}>
                       <Places
-                        search={props.search}
-                        facetFilters={props.facet.facetFilters}
+                        data={props.places}
                         fetchResults={props.fetchResults}
-                        fetchPlaces={props.fetchPlaces}
-                        fetchPlace={props.fetchPlace}
+                        fetchByURI={props.fetchByURI}
+                        filters={props.manuscriptsFacets.filters}
                         updatePage={props.updatePage}
                         sortResults={props.sortResults}
                         routeProps={routeProps}
@@ -198,18 +154,18 @@ let MapApp = (props) => {
 // <img className={classes.heldigLogo} src='img/logos/heldig-logo-small.png' alt='HELDIG logo'/>
 // <img className={classes.uhLogo} src='img/logos/university-of-helsinki-logo-white-no-background-small.png' alt='University of Helsinki logo'/>
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    facet: state.facet,
-    search: state.search,
+    manuscripts: state.manuscripts,
+    manuscriptsFacets: state.manuscriptsFacets,
+    places: state.places,
     //browser: state.browser,
   };
 };
 
 const mapDispatchToProps = ({
   fetchResults,
-  fetchPlaces,
-  fetchPlace,
+  fetchByURI,
   fetchFacet,
   sortResults,
   updateFilter,
@@ -223,15 +179,15 @@ MapApp.propTypes = {
   theme: PropTypes.object.isRequired,
   // error: PropTypes.object.isRequired,
   // browser: PropTypes.object.isRequired,
-  facet: PropTypes.object.isRequired,
-  search: PropTypes.object.isRequired,
+  manuscripts: PropTypes.object.isRequired,
+  manuscriptsFacets: PropTypes.object.isRequired,
+  places: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
-  fetchPlaces: PropTypes.func.isRequired,
-  fetchPlace:  PropTypes.func.isRequired,
-  fetchFacet: PropTypes.func.isRequired,
+  fetchByURI: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
-  updateFilter: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
+  updateFilter: PropTypes.func.isRequired,
+  fetchFacet: PropTypes.func.isRequired,
   openFacetDialog: PropTypes.func.isRequired,
   closeFacetDialog: PropTypes.func.isRequired
 };

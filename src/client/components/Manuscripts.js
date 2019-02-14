@@ -37,11 +37,9 @@ let Manuscripts = props => {
         path={'/manuscripts/table'}
         render={routeProps =>
           <ResultTable
-            results={props.search.results}
+            data={props.manuscripts}
+            filters={props.facets.filters}
             resultClass='manuscripts'
-            columns={props.search.manuscriptTableColumns}
-            search={props.search}
-            facetFilters={props.facetFilters}
             fetchResults={props.fetchResults}
             updatePage={props.updatePage}
             sortResults={props.sortResults}
@@ -76,11 +74,10 @@ let Manuscripts = props => {
 };
 
 Manuscripts.propTypes = {
-  search: PropTypes.object.isRequired,
-  facetFilters: PropTypes.object.isRequired,
+  manuscripts: PropTypes.object.isRequired,
+  facets: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
-  fetchPlaces: PropTypes.func.isRequired,
-  fetchPlace:  PropTypes.func.isRequired,
+  fetchByURI: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired

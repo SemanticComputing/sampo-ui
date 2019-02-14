@@ -43,14 +43,14 @@ class ResultTable extends React.Component {
   componentDidMount = () => {
     let page;
     if (this.props.routeProps.location.search === '') {
-      page = this.props.search.page === -1 ? 0 : this.props.search.page;
+      page = this.props.data.page === -1 ? 0 : this.props.data.page;
       this.props.routeProps.history.push({
         pathname: `/${this.props.resultClass}/table`,
-        search: `?page=${this.props.search.page}`,
+        data: `?page=${this.props.data.page}`,
       });
       //console.log(`result table mounted WITHOUT page parameter, set page to ${page}`);
     } else {
-      //console.log(this.props.routeProps.location.search)
+      //console.log(this.props.routeProps.location.data)
       page = parseInt(parse(this.props.routeProps.location.search).page);
       // console.log(`result table mounted with page parameter, set page to ${page}`);
     }
@@ -58,26 +58,26 @@ class ResultTable extends React.Component {
   }
 
   componentDidUpdate = prevProps => {
-    if (prevProps.search.page != this.props.search.page) {
+    if (prevProps.data.page != this.props.data.page) {
       this.props.fetchResults(this.props.resultClass);
       this.props.routeProps.history.push({
         pathname: `/${this.props.resultClass}/table`,
-        search: `?page=${this.props.search.page}`,
+        data: `?page=${this.props.data.page}`,
       });
     }
-    if (prevProps.facetFilters != this.props.facetFilters) {
+    if (prevProps.filters != this.props.filters) {
       this.props.updatePage(0);
-      if (this.props.search.page == 0) {
+      if (this.props.data.page == 0) {
         this.props.fetchResults(this.props.resultClass);
       }
     }
-    if (prevProps.search.sortBy != this.props.search.sortBy) {
+    if (prevProps.data.sortBy != this.props.data.sortBy) {
       this.props.updatePage(0);
-      if (this.props.search.page == 0) {
+      if (this.props.data.page == 0) {
         this.props.fetchResults(this.props.resultClass);
       }
     }
-    if (prevProps.search.sortDirection != this.props.search.sortDirection) {
+    if (prevProps.data.sortDirection != this.props.data.sortDirection) {
       this.props.fetchResults(this.props.resultClass);
     }
   }
@@ -101,10 +101,9 @@ class ResultTable extends React.Component {
   }
 
   rowRenderer = row => {
-    //console.log(this.props.columns)
     return (
       <TableRow key={row.id}>
-        {this.props.columns.map(column => {
+        {this.props.data.tableColumns.map(column => {
           return (
             <ResultTableCell
               key={column.id}
@@ -123,10 +122,10 @@ class ResultTable extends React.Component {
   }
 
   render() {
-    const { classes, results } = this.props;
-    const { resultCount, page, pagesize, sortBy, sortDirection, fetchingResults } = this.props.search;
+    const { classes } = this.props;
+    const { resultCount, results, page, pagesize, sortBy, sortDirection, fetching } = this.props.data;
 
-    if (fetchingResults) {
+    if (fetching) {
       return (
         <div className={classes.progressContainer}>
           <Typography className={classes.progressTitle} variant="h4" color='primary'>Fetching data</Typography>
@@ -160,15 +159,12 @@ class ResultTable extends React.Component {
 
 ResultTable.propTypes = {
   classes: PropTypes.object.isRequired,
-  results: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
   resultClass: PropTypes.string.isRequired,
-  columns: PropTypes.array.isRequired,
-  search: PropTypes.object.isRequired,
-  facetFilters: PropTypes.object.isRequired,
+  filters: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
-  fetchPlaces: PropTypes.func,
-  updatePage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
+  updatePage: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired
 };
 

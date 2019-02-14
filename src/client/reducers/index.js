@@ -1,13 +1,15 @@
 import { combineReducers } from 'redux';
 import {reducer as toastrReducer} from 'react-redux-toastr';
 import {createResponsiveStateReducer} from 'redux-responsive';
-import search from './search';
+import manuscripts from './manuscripts';
+import places from './places';
 import error from './error';
-import facet from './facet';
+import manuscriptsFacets from './manuscriptsFacets';
 
 const reducer = combineReducers({
-  search,
-  facet,
+  manuscripts,
+  places,
+  manuscriptsFacets,
   error,
   toastr: toastrReducer,
   browser: createResponsiveStateReducer({

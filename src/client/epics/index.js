@@ -3,54 +3,55 @@ import { mergeMap, map, withLatestFrom } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
 import { stringify } from 'query-string';
 import {
-  updateResults,
-  updatePlaces,
-  updatePlace,
-  updateFacet,
-  FETCH_FACET,
   FETCH_RESULTS,
-  FETCH_PLACES,
-  FETCH_PLACE,
+  FETCH_BY_URI,
+  FETCH_FACET,
+  updateResults,
+  updateInstance,
+  updateFacet,
+
 } from '../actions';
 
 const apiUrl = (process.env.NODE_ENV === 'development')
   ? 'http://localhost:3001/api/'
   : `http://${location.hostname}/api/`;
 
-const getResults = (action$, state$) => action$.pipe(
+const fetchResultsEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_RESULTS),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const requestUrl = `${apiUrl + action.resultClass}?${resultStateToUrl(state.search, state.facet)}`;
+    const { resultClass } = action;
+    const resultState = resultStateToUrl(state[resultClass], state[`${resultClass}Facets`]);
+    const requestUrl = `${apiUrl + resultClass}?${resultState}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResults({ data: response }))
     );
   })
 );
 
-const getPlaces = action$ => action$.pipe(
-  ofType(FETCH_PLACES),
-  mergeMap(action => {
-    const searchUrl = apiUrl + 'places';
-    const requestUrl = `${searchUrl}?variant=${action.variant}`;
-    return ajax.getJSON(requestUrl).pipe(
-      map(response => updatePlaces({ places: response }))
-    );
-  })
-);
+// const getPlaces = action$ => action$.pipe(
+//   ofType(FETCH_PLACES),
+//   mergeMap(action => {
+//     const searchUrl = apiUrl + 'places';
+//     const requestUrl = `${searchUrl}?variant=${action.variant}`;
+//     return ajax.getJSON(requestUrl).pipe(
+//       map(response => updatePlaces({ places: response }))
+//     );
+//   })
+// );
 
-const getPlace = action$ => action$.pipe(
-  ofType(FETCH_PLACE),
+const fetchByURIEpic = action$ => action$.pipe(
+  ofType(FETCH_BY_URI),
   mergeMap(action => {
     const searchUrl = apiUrl + 'places';
     const requestUrl = `${searchUrl}/${encodeURIComponent(action.placeId)}`;
     return ajax.getJSON(requestUrl).pipe(
-      map(response => updatePlace({ place: response }))
+      map(response => updateInstance({ instance: response }))
     );
   })
 );
 
-const getFacet = (action$, state$) => action$.pipe(
+const fetchFacetEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_FACET),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
@@ -60,7 +61,7 @@ const getFacet = (action$, state$) => action$.pipe(
     };
     let filters = {};
     let activeFilters = false;
-    for (const [key, value] of Object.entries(state.facet.facetFilters)) {
+    for (const [key, value] of Object.entries(state[`${action.resultClass}Facets`].filters)) {
       if (value.size != 0) {
         activeFilters = true;
         filters[key] = Array.from(value);
@@ -82,16 +83,16 @@ const getFacet = (action$, state$) => action$.pipe(
   })
 );
 
-export const resultStateToUrl = (search, facet) => {
+export const resultStateToUrl = (data, facets) => {
   let params = {
-    page: search.page,
-    pagesize: search.pagesize,
-    sortBy: search.sortBy,
-    sortDirection: search.sortDirection
+    page: data.page,
+    pagesize: data.pagesize,
+    sortBy: data.sortBy,
+    sortDirection: data.sortDirection
   };
   let filters = {};
   let activeFilters = false;
-  for (const [key, value] of Object.entries(facet.facetFilters)) {
+  for (const [key, value] of Object.entries(facets.filters)) {
     if (value.size != 0) {
       activeFilters = true;
       filters[key] = Array.from(value);
@@ -104,10 +105,9 @@ export const resultStateToUrl = (search, facet) => {
 };
 
 const rootEpic = combineEpics(
-  getResults,
-  getPlaces,
-  getPlace,
-  getFacet,
+  fetchResultsEpic,
+  fetchByURIEpic,
+  fetchFacetEpic,
 );
 
 export default rootEpic;

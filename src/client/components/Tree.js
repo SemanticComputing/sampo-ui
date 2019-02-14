@@ -59,7 +59,7 @@ const styles = () => ({
 
 });
 
-class HierarchicalFacet extends Component {
+class Tree extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -71,7 +71,11 @@ class HierarchicalFacet extends Component {
   }
 
   componentDidMount = () => {
-    this.props.fetchFacet(this.props.property, this.props.sortBy, this.props.sortDirection);
+    if (this.props.facetFunctionality) {
+      this.props.fetchFacet(this.props.resultClass, this.props.property, this.props.sortBy, this.props.sortDirection);
+    } else {
+      this.props.fetchData();
+    }
   }
 
   componentDidUpdate = prevProps => {
@@ -109,6 +113,29 @@ class HierarchicalFacet extends Component {
     this.setState({ searchString: event.target.value });
   }
 
+  generateNodeProps = treeObj => {
+    return {
+      title: (
+        <FormControlLabel
+          control={
+            <Checkbox
+              className={this.props.classes.checkbox}
+              checked={treeObj.node.selected == 'true' ? true : false}
+              disabled={treeObj.node.instanceCount == 0 || treeObj.node.prefLabel == 'Unknown' ? true : false}
+              onChange={this.handleCheckboxChange(treeObj)}
+              value={treeObj.node.id}
+              color="primary"
+            />
+          }
+          label={this.generateLabel(treeObj.node)}
+          classes={{
+            label: this.generateLabelClass(this.props.classes, treeObj.node)
+          }}
+        />
+      )
+    };
+  };
+
   generateLabel = node => {
     //let source = node.source == null ? '' : `(source: ${node.source.substring(node.source.lastIndexOf('/') + 1)}`;
     //console.log(node)
@@ -133,10 +160,12 @@ class HierarchicalFacet extends Component {
     return labelClass;
   }
 
+
+
   render() {
     const { classes } = this.props;
     const { searchString, searchFocusIndex, searchFoundCount } = this.state;
-    // console.log(this.props.data)
+    //console.log(this.props.data)
 
     // Case insensitive search of `node.title`
     const customSearchMethod = ({ node, searchQuery }) => {
@@ -228,26 +257,7 @@ class HierarchicalFacet extends Component {
                 }
                 onlyExpandSearchedNodes={true}
                 theme={FileExplorerTheme}
-                generateNodeProps={n => ({
-                  title: (
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          className={classes.checkbox}
-                          checked={n.node.selected == 'true' ? true : false}
-                          disabled={n.node.instanceCount == 0 || n.node.prefLabel == 'Unknown' ? true : false}
-                          onChange={this.handleCheckboxChange(n)}
-                          value={n.node.id}
-                          color="primary"
-                        />
-                      }
-                      label={this.generateLabel(n.node)}
-                      classes={{
-                        label: this.generateLabelClass(classes, n.node)
-                      }}
-                    />
-                  ),
-                })}
+                generateNodeProps={this.generateNodeProps}
               />
             </div>
           </React.Fragment>
@@ -257,18 +267,21 @@ class HierarchicalFacet extends Component {
   }
 }
 
-HierarchicalFacet.propTypes = {
+Tree.propTypes = {
   classes: PropTypes.object.isRequired,
-  property: PropTypes.string.isRequired,
-  data: PropTypes.array.isRequired,
-  sortBy: PropTypes.string.isRequired,
-  sortDirection: PropTypes.string.isRequired,
-  fetchFacet: PropTypes.func.isRequired,
-  fetchingFacet: PropTypes.bool.isRequired,
-  facetFilters: PropTypes.object.isRequired,
-  updateFilter: PropTypes.func.isRequired,
-  updatedFacet: PropTypes.string.isRequired,
+  facetFunctionality: PropTypes.bool.isRequired,
   searchField: PropTypes.bool.isRequired,
+  data: PropTypes.array.isRequired,
+  resultClass: PropTypes.string.isRequired,
+  fetchData: PropTypes.func,
+  fetchFacet: PropTypes.func,
+  property: PropTypes.string,
+  sortBy: PropTypes.string,
+  sortDirection: PropTypes.string,
+  fetchingFacet: PropTypes.bool,
+  facetFilters: PropTypes.object,
+  updateFilter: PropTypes.func,
+  updatedFacet: PropTypes.string,
 };
 
-export default withStyles(styles)(HierarchicalFacet);
+export default withStyles(styles)(Tree);

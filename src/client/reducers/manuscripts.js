@@ -1,18 +1,23 @@
 import {
   FETCH_RESULTS,
-  FETCH_PLACES,
-  FETCH_PLACE,
+  FETCH_BY_URI,
   UPDATE_RESULTS,
-  UPDATE_PLACES,
-  UPDATE_PLACE,
+  UPDATE_INSTANCE,
   UPDATE_PAGE,
   SORT_RESULTS,
 } from '../actions';
+import { updateSortBy } from './helpers';
 
 export const INITIAL_STATE = {
   resultCount: 0,
   results: [],
-  manuscriptTableColumns: [
+  instance: {},
+  page: -1,
+  pagesize: 5,
+  sortBy: 'prefLabel',
+  sortDirection: 'asc',
+  fetching: false,
+  tableColumns: [
     {
       id: 'source',
       valueType: 'object',
@@ -81,55 +86,14 @@ export const INITIAL_STATE = {
       minWidth: 170
     }
   ],
-  placeTableColumns: [
-    {
-      id: 'prefLabel',
-      valueType: 'string',
-      makeLink: false,
-      sortValues: true,
-      numberedList: false
-    },
-    {
-      id: 'placeType',
-      valueType: 'string',
-      makeLink: false,
-      sortValues: true,
-      numberedList: false
-    },
-    {
-      id: 'parent',
-      valueType: 'object',
-      makeLink: true,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 170
-    },
-    {
-      id: 'source',
-      valueType: 'object',
-      makeLink: true,
-      sortValues: true,
-      numberedList: false
-    },
-  ],
-  places: [],
-  place: {},
-  page: -1,
-  pagesize: 5,
-  sortBy: 'productionPlace',
-  sortDirection: 'asc',
-  fetchingPlaces: false,
-  fetchingResults: false
 };
 
-const search = (state = INITIAL_STATE, action) => {
+const manuscripts = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case FETCH_RESULTS:
-      return { ...state, fetchingResults: true };
-    case FETCH_PLACES:
-      return { ...state, fetchingPlaces: true };
-    case FETCH_PLACE:
-      return { ...state, fetchingPlaces: true };
+      return { ...state, fetching: true };
+    case FETCH_BY_URI:
+      return { ...state, fetching: true };
     case SORT_RESULTS:
       return updateSortBy(state, action);
     case UPDATE_RESULTS:
@@ -137,43 +101,22 @@ const search = (state = INITIAL_STATE, action) => {
         ...state,
         resultCount: parseInt(action.data.resultCount),
         results: action.data.results,
-        fetchingResults: false
+        fetching: false
+      };
+    case UPDATE_INSTANCE:
+      return {
+        ...state,
+        instance: action.instance,
+        fetchingPlaces: false
       };
     case UPDATE_PAGE:
       return {
         ...state,
         page: action.page
       };
-    case UPDATE_PLACES:
-      return {
-        ...state,
-        places: action.places,
-        fetchingPlaces: false
-      };
-    case UPDATE_PLACE:
-      return {
-        ...state,
-        place: action.place,
-        fetchingPlaces: false
-      };
     default:
       return state;
   }
 };
 
-const updateSortBy = (state, action) => {
-  if (state.sortBy === action.sortBy) {
-    return {
-      ...state,
-      sortDirection: state.sortDirection === 'asc' ? 'desc' : 'asc'
-    };
-  } else {
-    return {
-      ...state,
-      sortBy: action.sortBy,
-      sortDirection: 'asc'
-    };
-  }
-};
-
-export default search;
+export default manuscripts;

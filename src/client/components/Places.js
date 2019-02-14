@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import ViewTabs from './ViewTabs';
 import ResultTable from './ResultTable';
+import Tree from './Tree';
 import LeafletMap from './LeafletMap';
 // import Deck from './Deck';
 
 let Places = props => {
+  //console.log(props.search.places)
   return (
     <React.Fragment>
       <ViewTabs
@@ -32,7 +34,7 @@ let Places = props => {
         path={'/places/table'}
         render={routeProps =>
           <ResultTable
-            results={props.search.places}
+            results={props.results}
             resultClass='places'
             columns={props.search.placeTableColumns}
             search={props.search}
@@ -41,6 +43,17 @@ let Places = props => {
             updatePage={props.updatePage}
             sortResults={props.sortResults}
             routeProps={routeProps}
+          />
+        }
+      />
+      <Route
+        path={'/places/tree'}
+        render={() =>
+          <Tree
+            facetFunctionality={false}
+            searchField={true}
+            data={props.search.places}
+            fetchData={props.fetchPlaces()}
           />
         }
       />
@@ -62,11 +75,10 @@ let Places = props => {
 };
 
 Places.propTypes = {
-  search: PropTypes.object.isRequired,
-  facetFilters: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
-  fetchPlaces: PropTypes.func.isRequired,
-  fetchPlace:  PropTypes.func.isRequired,
+  fetchByURI: PropTypes.func.isRequired,
+  filters: PropTypes.object.isRequired,
   updatePage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired
