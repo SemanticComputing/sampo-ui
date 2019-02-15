@@ -32,9 +32,9 @@ export const sortResults = sortBy => ({
   type: SORT_RESULTS,
   sortBy
 });
-export const updatePage = page => ({
+export const updatePage = (resultClass, page) => ({
   type: UPDATE_PAGE,
-  page
+  resultClass, page
 });
 export const fetchResultsFailed = error => ({
   type: FETCH_RESULTS_FAILED,

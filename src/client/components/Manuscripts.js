@@ -22,11 +22,11 @@ let Manuscripts = props => {
             value: 1,
             icon: 'AddLocation',
           },
-          '/manuscripts/migrations': {
-            label: 'migrations',
-            value: 2,
-            icon: 'Redo',
-          }
+          // '/manuscripts/migrations': {
+          //   label: 'migrations',
+          //   value: 2,
+          //   icon: 'Redo',
+          // }
         }}
       />
       <Route

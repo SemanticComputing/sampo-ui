@@ -89,36 +89,36 @@ export const INITIAL_STATE = {
 };
 
 const manuscripts = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-    case FETCH_RESULTS:
-      return { ...state, fetching: true };
-    case FETCH_BY_URI:
-      return { ...state, fetching: true };
-    case SORT_RESULTS:
-      return updateSortBy(state, action);
-    case UPDATE_RESULTS:
-      if (action.resultClass === 'manuscripts') {
+  if (action.resultClass === 'manuscripts') {
+    switch (action.type) {
+      case FETCH_RESULTS:
+        return { ...state, fetching: true };
+      case FETCH_BY_URI:
+        return { ...state, fetching: true };
+      case SORT_RESULTS:
+        return updateSortBy(state, action);
+      case UPDATE_RESULTS:
         return {
           ...state,
           resultCount: parseInt(action.data.resultCount),
           results: action.data.results,
           fetching: false
         };
-      } else return state;
-    case UPDATE_INSTANCE:
-      return {
-        ...state,
-        instance: action.instance,
-        fetchingPlaces: false
-      };
-    case UPDATE_PAGE:
-      return {
-        ...state,
-        page: action.page
-      };
-    default:
-      return state;
-  }
+      case UPDATE_INSTANCE:
+        return {
+          ...state,
+          instance: action.instance,
+          fetchingPlaces: false
+        };
+      case UPDATE_PAGE:
+        return {
+          ...state,
+          page: action.page
+        };
+      default:
+        return state;
+    }
+  } else return state;
 };
 
 export default manuscripts;

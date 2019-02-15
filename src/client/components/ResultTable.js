@@ -54,7 +54,7 @@ class ResultTable extends React.Component {
       page = parseInt(parse(this.props.routeProps.location.search).page);
       // console.log(`result table mounted with page parameter, set page to ${page}`);
     }
-    this.props.updatePage(page);
+    this.props.updatePage(this.props.resultClass, page);
   }
 
   componentDidUpdate = prevProps => {
@@ -66,13 +66,13 @@ class ResultTable extends React.Component {
       });
     }
     if (prevProps.filters != this.props.filters) {
-      this.props.updatePage(0);
+      this.props.updatePage(this.props.resultClass, 0);
       if (this.props.data.page == 0) {
         this.props.fetchResults(this.props.resultClass, this.props.facetClass, null);
       }
     }
     if (prevProps.data.sortBy != this.props.data.sortBy) {
-      this.props.updatePage(0);
+      this.props.updatePage(this.props.resultClass, 0);
       if (this.props.data.page == 0) {
         this.props.fetchResults(this.props.resultClass, this.props.facetClass, null);
       }
@@ -84,7 +84,7 @@ class ResultTable extends React.Component {
 
   handleChangePage = (event, page) => {
     if (event != null) {
-      this.props.updatePage(page);
+      this.props.updatePage(this.props.resultClass, page);
     }
   }
 

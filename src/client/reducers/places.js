@@ -67,7 +67,6 @@ const places = (state = INITIAL_STATE, action) => {
           fetching: false
         };
       case UPDATE_INSTANCE:
-        console.log(action)
         return {
           ...state,
           instance: action.instance,
