@@ -41,9 +41,9 @@ export const fetchResultsFailed = error => ({
   error
 });
 
-export const fetchByURI = (resultClass, uri) => ({
+export const fetchByURI = (resultClass, facetClass, uri) => ({
   type: FETCH_BY_URI,
-  resultClass, uri
+  resultClass, facetClass, uri
 });
 export const updateInstance = ({ resultClass, instance }) => ({
   type: UPDATE_INSTANCE,

@@ -47,6 +47,7 @@ app.get(`${apiPath}/:resultClass/results`, (req, res) => {
 });
 
 app.get(`${apiPath}/:resultClass/instance/:uri`, (req, res) => {
+  const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
   let getByURI = null;
   switch (req.params.resultClass) {
     // case 'manuscripts':
@@ -56,7 +57,7 @@ app.get(`${apiPath}/:resultClass/instance/:uri`, (req, res) => {
       getByURI = getPlace;
       break;
   }
-  return getByURI(req.params.uri).then(data => {
+  return getByURI(filters, req.params.uri).then(data => {
     res.json(data[0])
   })
     .catch(err => {

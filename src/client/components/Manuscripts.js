@@ -53,6 +53,7 @@ let Manuscripts = props => {
         render={() =>
           <LeafletMap
             results={props.places.results}
+            filters={props.facetData.filters}
             resultClass='places'
             facetClass='manuscripts'
             instance={props.places.instance}

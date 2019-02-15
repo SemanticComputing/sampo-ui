@@ -21,7 +21,7 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
     const { resultClass, facetClass, variant } = action;
-    const params = stateSliceToUrl(state[resultClass], state[`${facetClass}Facets`], variant);
+    const params = stateSlicesToUrl(state[resultClass], state[`${facetClass}Facets`], variant);
     const requestUrl = `${apiUrl}${resultClass}/results?${params}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResults({ resultClass: resultClass, data: response }))
@@ -29,11 +29,13 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
   })
 );
 
-const fetchByURIEpic = action$ => action$.pipe(
+const fetchByURIEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_BY_URI),
-  mergeMap(action => {
-    const { uri, resultClass } = action;
-    const requestUrl = `${apiUrl}${resultClass}/instance/${encodeURIComponent(uri)}`;
+  withLatestFrom(state$),
+  mergeMap(([action, state]) => {
+    const { resultClass, facetClass, uri } = action;
+    const params = stateSlicesToUrl(null, state[`${facetClass}Facets`], null);
+    const requestUrl = `${apiUrl}${resultClass}/instance/${encodeURIComponent(uri)}?${params}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateInstance({ resultClass: resultClass, instance: response }))
     );
@@ -73,13 +75,14 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
   })
 );
 
-export const stateSliceToUrl = (stateSlice, facets, variant) => {
-  let params = {
-    page: stateSlice.page,
-    pagesize: stateSlice.pagesize,
-    sortBy: stateSlice.sortBy,
-    sortDirection: stateSlice.sortDirection,
-  };
+export const stateSlicesToUrl = (pagination, facets, variant) => {
+  let params = {};
+  if (pagination != null) {
+    params.page = pagination.page;
+    params.pagesize =  pagination.pagesize;
+    params.sortBy = pagination.sortBy;
+    params.sortDirection = pagination.sortDirection;
+  }
   if (variant !== null) {
     params.variant = variant;
   }

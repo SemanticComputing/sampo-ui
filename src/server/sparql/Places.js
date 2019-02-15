@@ -1,7 +1,7 @@
 import SparqlSearchEngine from './SparqlSearchEngine';
 import datasetConfig from './Datasets';
 import { makeObjectList } from './SparqlObjectMapper';
-import { generateResultFilter } from './Helpers';
+import { generateFilter } from './Helpers';
 
 const sparqlSearchEngine = new SparqlSearchEngine();
 
@@ -16,10 +16,15 @@ export const getPlaces = (variant, page, pagesize, filters, sortBy, sortDirectio
   });
 };
 
-export const getPlace = uri => {
+export const getPlace = (filters, uri) => {
   const config = datasetConfig['mmm'];
   let query = config['placeQuery'];
   query = query.replace('<PLACE_ID>', `<${uri}>`);
+  if (filters == null) {
+    query = query.replace('<FILTER>', '# no filters');
+  } else {
+    query = query.replace('<FILTER>', generateFilter('manuscript__id',filters));
+  }
   return sparqlSearchEngine.doSearch(query, config.endpoint, makeObjectList);
 };
 
@@ -27,17 +32,9 @@ const getPlacesData = (variant, page, pagesize, filters, sortBy, sortDirection) 
   const config = datasetConfig['mmm'];
   let query = config[`${variant}Query`];
   if (filters == null) {
-    query = query.replace('<FILTER>', '');
+    query = query.replace('<FILTER>', '# no filters');
   } else {
-    query = query.replace('<FILTER>', generateResultFilter(filters));
+    query = query.replace('<FILTER>', generateFilter('manuscript',filters));
   }
-  //console.log(query)
   return sparqlSearchEngine.doSearch(query, config.endpoint, makeObjectList);
 };
-
-// export const getPlace = id => {
-//   let { endpoint, placeQuery } = datasetConfig['mmm'];
-//   placeQuery = placeQuery.replace('<PLACE_ID>', `<${id}>`);
-//   // console.log(placeQuery)
-//   return sparqlSearchEngine.doSearch(placeQuery, endpoint, makeObjectList);
-// };

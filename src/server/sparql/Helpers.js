@@ -1,11 +1,11 @@
 import { facetConfigs } from './FacetConfigs';
 
-export const generateResultFilter = filters => {
+export const generateFilter = (filterTarget, filters) => {
   let filterStr = '';
   for (let property in filters) {
     filterStr += `
             VALUES ?${property}Filter { <${filters[property].join('> <')}> }
-            ?id ${facetConfigs[property].predicate} ?${property}Filter .
+            ?${filterTarget} ${facetConfigs[property].predicate} ?${property}Filter .
     `;
   }
   return filterStr;

@@ -141,7 +141,11 @@ class LeafletMap extends React.Component {
 
   }
 
-  componentDidUpdate({ results, instance, mapMode }) {
+  componentDidUpdate({ results, filters, instance, mapMode }) {
+    // check if filters have changed
+    if (this.props.filters !== filters) {
+      this.props.fetchResults(this.props.resultClass, this.props.facetClass, this.props.variant);
+    }
 
     // check if results data or mapMode have changed
     if (this.props.results !== results || this.props.mapMode !== mapMode) {
@@ -153,6 +157,7 @@ class LeafletMap extends React.Component {
       }
     }
 
+    // check if instance have changed
     if (this.props.instance !== instance) {
       this.markers[this.props.instance.id]
         .bindPopup(this.createPopUpContent(this.props.instance), {
@@ -284,7 +289,7 @@ class LeafletMap extends React.Component {
   }
 
   markerOnClick = event => {
-    this.props.fetchByURI('places', event.target.options.id,);
+    this.props.fetchByURI('places', 'manuscripts', event.target.options.id,);
   };
 
   createPopUpContent(result) {
@@ -351,6 +356,7 @@ LeafletMap.propTypes = {
   classes: PropTypes.object.isRequired,
   results: PropTypes.array.isRequired,
   instance: PropTypes.object.isRequired,
+  filters: PropTypes.object,
   fetchResults: PropTypes.func,
   resultClass: PropTypes.string,
   facetClass: PropTypes.string,

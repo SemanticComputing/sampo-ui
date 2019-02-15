@@ -122,8 +122,8 @@ module.exports = {
       SELECT ?id ?lat ?long ?prefLabel ?source ?dataProviderUrl
       (COUNT(DISTINCT ?manuscript) as ?instanceCount)
       WHERE {
-        ?manuscript ^crm:P108_has_produced/crm:P7_took_place_at ?id .
         <FILTER>
+        ?manuscript ^crm:P108_has_produced/crm:P7_took_place_at ?id .
         ?id skos:prefLabel ?prefLabel .
         ?id dct:source ?source .
         OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
@@ -205,20 +205,20 @@ module.exports = {
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
       PREFIX gvp: <http://vocab.getty.edu/ontology#>
 
-      SELECT *
+      SELECT ?id ?prefLabel ?sameAs ?dataProviderUrl ?parent__id ?parent__prefLabel ?manuscript__id ?manuscript__dataProviderUrl
       WHERE {
         BIND (<PLACE_ID> AS ?id)
         ?id skos:prefLabel ?prefLabel .
         OPTIONAL {
           ?id gvp:broaderPreferred ?parent__id .
           ?parent__id skos:prefLabel ?parent__prefLabel .
-          ?parent__id mmm-schema:data_provider_url ?parent__dataProviderUrl .
         }
         OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
         OPTIONAL { ?id owl:sameAs ?sameAs }
         OPTIONAL {
           ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?id .
           ?manuscript__id mmm-schema:data_provider_url ?manuscript__dataProviderUrl .
+          <FILTER>
         }
       }
         `,
