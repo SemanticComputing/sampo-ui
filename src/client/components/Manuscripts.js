@@ -40,6 +40,7 @@ let Manuscripts = props => {
             data={props.manuscripts}
             filters={props.facetData.filters}
             resultClass='manuscripts'
+            facetClass='manuscripts'
             fetchResults={props.fetchResults}
             updatePage={props.updatePage}
             sortResults={props.sortResults}
@@ -51,11 +52,16 @@ let Manuscripts = props => {
         path={'/manuscripts/production_places'}
         render={() =>
           <LeafletMap
-            results={props.facetData.facets.productionPlace.flatValues}
-            instance={props.manuscripts.instance}
+            results={props.places.results}
+            resultClass='places'
+            facetClass='manuscripts'
+            instance={props.places.instance}
+            fetchResults={props.fetchResults}
             fetchByURI={props.fetchByURI}
-            fetching={props.facetData.fetching}
+            fetching={props.places.fetching}
             mapMode={'cluster'}
+            variant='productionPlaces'
+            showInstanceCountInClusters={true}
           />}
       />
       {/*<Route
@@ -73,6 +79,7 @@ let Manuscripts = props => {
 
 Manuscripts.propTypes = {
   manuscripts: PropTypes.object.isRequired,
+  places: PropTypes.object.isRequired,
   facetData: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
   fetchByURI: PropTypes.func.isRequired,

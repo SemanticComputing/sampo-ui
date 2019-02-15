@@ -37,7 +37,7 @@ export const mapFacet = sparqlBindings => {
 
 export const mapHierarchicalFacet = sparqlBindings => {
   const results = makeObjectList(sparqlBindings);
-  //console.log(results)
+  const flatResults = results;
   results.push({
     id: 'http://ldf.fi/mmm/places/sdbm_not_linked',
     prefLabel: 'SDBM places not linked to TGN',
@@ -72,7 +72,7 @@ export const mapHierarchicalFacet = sparqlBindings => {
   treeData.forEach(node => sumUp(node));
   return {
     distinctValueCount: results.length,
-    flatValues: results,
+    flatValues: flatResults,
     values: treeData
   };
 };

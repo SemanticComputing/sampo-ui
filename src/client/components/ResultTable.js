@@ -59,7 +59,7 @@ class ResultTable extends React.Component {
 
   componentDidUpdate = prevProps => {
     if (prevProps.data.page != this.props.data.page) {
-      this.props.fetchResults(this.props.resultClass);
+      this.props.fetchResults(this.props.resultClass, this.props.facetClass, null);
       this.props.routeProps.history.push({
         pathname: `/${this.props.resultClass}/table`,
         data: `?page=${this.props.data.page}`,
@@ -68,17 +68,17 @@ class ResultTable extends React.Component {
     if (prevProps.filters != this.props.filters) {
       this.props.updatePage(0);
       if (this.props.data.page == 0) {
-        this.props.fetchResults(this.props.resultClass);
+        this.props.fetchResults(this.props.resultClass, this.props.facetClass, null);
       }
     }
     if (prevProps.data.sortBy != this.props.data.sortBy) {
       this.props.updatePage(0);
       if (this.props.data.page == 0) {
-        this.props.fetchResults(this.props.resultClass);
+        this.props.fetchResults(this.props.resultClass, this.props.facetClass, null);
       }
     }
     if (prevProps.data.sortDirection != this.props.data.sortDirection) {
-      this.props.fetchResults(this.props.resultClass);
+      this.props.fetchResults(this.props.resultClass, this.props.facetClass, null);
     }
   }
 
@@ -161,6 +161,7 @@ ResultTable.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   resultClass: PropTypes.string.isRequired,
+  facetClass: PropTypes.string.isRequired,
   filters: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,

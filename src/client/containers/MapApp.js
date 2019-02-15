@@ -100,6 +100,7 @@ let MapApp = (props) => {
                     <Paper className={classes.resultsContainerPaper}>
                       <Manuscripts
                         manuscripts={props.manuscripts}
+                        places={props.places}
                         facetData={props.manuscriptsFacets}
                         fetchResults={props.fetchResults}
                         fetchByURI={props.fetchByURI}

@@ -71,7 +71,7 @@ class LeafletMap extends React.Component {
 
   componentDidMount() {
 
-    //this.props.fetchPlaces(this.props.variant);
+    this.props.fetchResults(this.props.resultClass, this.props.facetClass, this.props.variant);
 
     // Base layers
     // const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -146,7 +146,7 @@ class LeafletMap extends React.Component {
     // check if results data or mapMode have changed
     if (this.props.results !== results || this.props.mapMode !== mapMode) {
       if (this.props.mapMode === 'cluster') {
-        console.log(this.props.results)
+        //console.log(this.props.results)
         this.updateMarkersAndCluster(this.props.results);
       } else {
         this.updateMarkers(this.props.results);
@@ -154,6 +154,7 @@ class LeafletMap extends React.Component {
     }
 
     if (this.props.instance !== instance) {
+      console.log(instance)
       this.markers[this.props.instance.id]
         .bindPopup(this.createPopUpContent(this.props.instance), {
           maxHeight: 300,
@@ -189,49 +190,45 @@ class LeafletMap extends React.Component {
   }
 
   updateMarkersAndCluster(results) {
+    //console.log(results)
     this.resultMarkerLayer.clearLayers();
     this.markers = {};
     let clusterer = null;
-    if (this.props.variant === 'productionPlaces') {
-      clusterer = new L.MarkerClusterGroup({
-        iconCreateFunction: (cluster) => {
-          //const childCount = cluster.getChildCount();
-          let childCount = 0;
+    clusterer = new L.MarkerClusterGroup({
+      iconCreateFunction: (cluster) => {
+        let childCount = 0;
+        if (this.props.showInstanceCountInClusters) {
           cluster.getAllChildMarkers().forEach(marker => {
-            childCount += parseInt(marker.options.manuscriptCount);
+            childCount += parseInt(marker.options.instanceCount);
           });
-          let c = ' marker-cluster-';
-          if (childCount < 10) {
-            c += 'small';
-          } else if (childCount < 100) {
-            c += 'medium';
-          } else {
-            c += 'large';
-          }
-          return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+        } else {
+          childCount = cluster.getChildCount();
         }
-      });
-    } else {
-      clusterer = new L.MarkerClusterGroup({
-        iconCreateFunction: cluster => {
-          const childCount = cluster.getChildCount();
-          return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster marker-cluster-grey', iconSize: new L.Point(40, 40) });
+        let c = ' marker-cluster-';
+        if (childCount < 10) {
+          c += 'small';
+        } else if (childCount < 100) {
+          c += 'medium';
+        } else {
+          c += 'large';
         }
-      });
-    }
-
-    results.forEach(value => {
-      //console.log(value)
-      const marker = this.createMarker(value);
-      this.markers[value.id] = marker;
-      marker == null ? null : clusterer.addLayer(marker);
+        return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+        //return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster marker-cluster-grey', iconSize: new L.Point(40, 40) });
+      }
     });
+    for (const result of results) {
+      const marker = this.createMarker(result);
+      if (marker !== null) {
+        this.markers[result.id] = marker;
+        clusterer.addLayer(marker);
+      }
+    }
     clusterer.addTo(this.resultMarkerLayer);
   }
 
   createMarker(result) {
     // const color = typeof result.markerColor === 'undefined' ? 'grey' : result.markerColor;
-    //const icon = new ColorIcon({iconUrl: 'img/markers/marker-icon-' + color + '.png'});
+    // const icon = new ColorIcon({iconUrl: 'img/markers/marker-icon-' + color + '.png'});
     if (!has(result, 'lat') || !has(result, 'long')) {
       return null;
     }
@@ -241,18 +238,18 @@ class LeafletMap extends React.Component {
       const latLng = [+lat, +long];
       let marker = null;
 
-      if (this.props.variant === 'productionPlaces') {
+      if (this.props.showInstanceCountInClusters) {
         // https://github.com/coryasilva/Leaflet.ExtraMarkers
         const icon = L.ExtraMarkers.icon({
           icon: 'fa-number',
-          number: result.manuscriptCount,
-          markerColor: 'red',
+          number: result.instanceCount,
+          markerColor: 'blue',
           shape: 'circle',
           prefix: 'fa'
         });
         marker = L.marker(latLng, {
           icon: icon,
-          manuscriptCount: result.manuscriptCount ? result.manuscriptCount : null,
+          instanceCount: result.instanceCount ? result.instanceCount : null,
           id: result.id
         })
           .on('click', this.markerOnClick);
@@ -288,7 +285,7 @@ class LeafletMap extends React.Component {
   }
 
   markerOnClick = event => {
-    this.props.fetchByURI(event.target.options.id);
+    this.props.fetchByURI('places', event.target.options.id,);
   };
 
   createPopUpContent(result) {
@@ -356,9 +353,13 @@ LeafletMap.propTypes = {
   results: PropTypes.array.isRequired,
   instance: PropTypes.object.isRequired,
   fetchResults: PropTypes.func,
+  resultClass: PropTypes.string,
+  facetClass: PropTypes.string,
   fetchByURI: PropTypes.func.isRequired,
   fetching: PropTypes.bool.isRequired,
   mapMode: PropTypes.string.isRequired,
+  variant: PropTypes.string.isRequired,
+  showInstanceCountInClusters: PropTypes.bool
 };
 
 export default withStyles(styles)(LeafletMap);

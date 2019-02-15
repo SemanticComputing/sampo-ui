@@ -16,7 +16,7 @@ export const INITIAL_STATE = {
   pagesize: 5,
   sortBy: 'prefLabel',
   sortDirection: 'asc',
-  fetchingResults: false,
+  fetching: false,
   tableColumns: [
     {
       id: 'prefLabel',
@@ -51,34 +51,37 @@ export const INITIAL_STATE = {
 };
 
 const places = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-    case FETCH_RESULTS:
-      return { ...state, fetching: true };
-    case FETCH_BY_URI:
-      return { ...state, fetching: true };
-    case SORT_RESULTS:
-      return updateSortBy(state, action);
-    case UPDATE_RESULTS:
-      return {
-        ...state,
-        resultCount: parseInt(action.data.resultCount),
-        results: action.data.results,
-        fetching: false
-      };
-    case UPDATE_INSTANCE:
-      return {
-        ...state,
-        instance: action.instance,
-        fetchingPlaces: false
-      };
-    case UPDATE_PAGE:
-      return {
-        ...state,
-        page: action.page
-      };
-    default:
-      return state;
-  }
+  if (action.resultClass === 'places') {
+    switch (action.type) {
+      case FETCH_RESULTS:
+        return { ...state, fetching: true };
+      case FETCH_BY_URI:
+        return { ...state, fetching: true };
+      case SORT_RESULTS:
+        return updateSortBy(state, action);
+      case UPDATE_RESULTS:
+        return {
+          ...state,
+          resultCount: parseInt(action.data.resultCount),
+          results: action.data.results,
+          fetching: false
+        };
+      case UPDATE_INSTANCE:
+        console.log(action)
+        return {
+          ...state,
+          instance: action.instance,
+          fetching: false
+        };
+      case UPDATE_PAGE:
+        return {
+          ...state,
+          page: action.page
+        };
+      default:
+        return state;
+    }
+  } else return state;
 };
 
 export default places;

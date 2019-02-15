@@ -1,7 +1,8 @@
 import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
-import { getManuscripts } from './sparql/Manuscripts';
+import { /*getManuscript,*/ getManuscripts } from './sparql/Manuscripts';
+import { getPlace, getPlaces } from './sparql/Places';
 import { getFacet } from './sparql/Facets';
 const DEFAULT_PORT = 3001;
 const app = express();
@@ -21,18 +22,42 @@ app.use(function(req, res, next) {
 app.use(express.static(path.join(__dirname, './../public/')));
 
 app.get(`${apiPath}/:resultClass/results`, (req, res) => {
-  const page = parseInt(req.query.page) || 0;
-  const pagesize = parseInt(req.query.pagesize) || 5;
-  const sortBy = req.query.sortBy;
-  const sortDirection = req.query.sortDirection;
+  const page = parseInt(req.query.page) || null;
+  const pagesize = parseInt(req.query.pagesize) || null;
+  const sortBy = req.query.sortBy || null;
+  const sortDirection = req.query.sortDirection || null;
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
+  const variant = req.query.variant || null;
   let getResults = null;
   switch (req.params.resultClass) {
     case 'manuscripts':
       getResults = getManuscripts;
+      break;
+    case 'places':
+      getResults = getPlaces;
+      break;
   }
-  return getResults(page, pagesize, filters, sortBy, sortDirection).then(data => {
+  return getResults(variant, page, pagesize, filters, sortBy, sortDirection).then(data => {
     res.json(data);
+  })
+    .catch(err => {
+      console.log(err);
+      return res.sendStatus(500);
+    });
+});
+
+app.get(`${apiPath}/:resultClass/instance/:uri`, (req, res) => {
+  let getByURI = null;
+  switch (req.params.resultClass) {
+    // case 'manuscripts':
+    //   getByURI = getManuscript;
+    //   break;
+    case 'places':
+      getByURI = getPlace;
+      break;
+  }
+  return getByURI(req.params.uri).then(data => {
+    res.json(data[0])
   })
     .catch(err => {
       console.log(err);

@@ -20,13 +20,13 @@ export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 
 
-export const fetchResults = (resultClass, variant) => ({
+export const fetchResults = (resultClass, facetClass, variant) => ({
   type: FETCH_RESULTS,
-  resultClass, variant
+  resultClass, facetClass, variant
 });
-export const updateResults = ({ data }) => ({
+export const updateResults = ({ resultClass, data }) => ({
   type: UPDATE_RESULTS,
-  data
+  resultClass, data
 });
 export const sortResults = sortBy => ({
   type: SORT_RESULTS,
@@ -41,13 +41,13 @@ export const fetchResultsFailed = error => ({
   error
 });
 
-export const fetchByURI = uri => ({
+export const fetchByURI = (resultClass, uri) => ({
   type: FETCH_BY_URI,
-  uri
+  resultClass, uri
 });
-export const updateInstance = ({ instance }) => ({
+export const updateInstance = ({ resultClass, instance }) => ({
   type: UPDATE_INSTANCE,
-  instance
+  resultClass, instance
 });
 export const fetchByURIFailed = error => ({
   type: FETCH_BY_URI_FAILED,

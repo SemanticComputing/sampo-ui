@@ -69,7 +69,7 @@ class FacetBar extends React.Component {
                   facetFilters={filters}
                   updateFilter={this.props.updateFilter}
                   updatedFacet={updatedFacet}
-                  searchField={false}
+                  searchField={true}
                 />
               </div>
             </Paper>

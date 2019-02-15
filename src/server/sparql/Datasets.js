@@ -119,18 +119,20 @@ module.exports = {
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
-      SELECT ?id ?lat ?long ?prefLabel ?dataProviderUrl
-      (COUNT(DISTINCT ?manuscript) as ?manuscriptCount)
+      SELECT ?id ?lat ?long ?prefLabel ?source ?dataProviderUrl
+      (COUNT(DISTINCT ?manuscript) as ?instanceCount)
       WHERE {
         ?manuscript ^crm:P108_has_produced/crm:P7_took_place_at ?id .
+        <FILTER>
         ?id skos:prefLabel ?prefLabel .
+        ?id dct:source ?source .
         OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
         OPTIONAL {
           ?id wgs84:lat ?lat ;
               wgs84:long ?long .
         }
       }
-      GROUP BY ?id ?lat ?long ?prefLabel ?dataProviderUrl
+      GROUP BY ?id ?lat ?long ?prefLabel ?source ?dataProviderUrl
         `,
     'allPlacesQuery': `
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -235,10 +237,11 @@ module.exports = {
       PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
       PREFIX gvp: <http://vocab.getty.edu/ontology#>
-      SELECT DISTINCT ?id ?prefLabel ?selected ?source ?parent ?instanceCount {
+      PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+      SELECT DISTINCT ?id ?prefLabel ?selected ?source ?parent ?lat ?long ?instanceCount {
         {
           {
-            SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?parent ?source {
+            SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?source ?lat ?long ?parent {
               {
                 ?instance a frbroo:F4_Manifestation_Singleton .
                 <FILTER>
@@ -246,15 +249,16 @@ module.exports = {
                 <SELECTED_VALUES>
                 BIND(COALESCE(?selected_, false) as ?selected)
                 OPTIONAL { ?id dct:source ?source }
+                OPTIONAL { ?id gvp:broaderPreferred ?parent_ . }
                 OPTIONAL {
-                  ?id gvp:broaderPreferred ?parent_ .
-                  #FILTER(?parent_ != <http://ldf.fi/mmm/places/tgn_7029392>)
+                  ?id wgs84:lat ?lat ;
+                      wgs84:long ?long .
                 }
                 BIND(COALESCE(?parent_, '0') as ?parent)
               }
               <PARENTS>
             }
-            GROUP BY ?id ?selected ?source ?parent
+            GROUP BY ?id ?selected ?source ?lat ?long ?parent
           }
           FILTER(BOUND(?id))
           OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
