@@ -70,7 +70,8 @@ const ColorIcon = L.Icon.extend({
 class LeafletMap extends React.Component {
 
   componentDidMount() {
-    this.props.fetchPlaces(this.props.variant);
+
+    //this.props.fetchPlaces(this.props.variant);
 
     // Base layers
     // const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -140,20 +141,21 @@ class LeafletMap extends React.Component {
 
   }
 
-  componentDidUpdate({ results, place, mapMode }) {
+  componentDidUpdate({ results, instance, mapMode }) {
 
     // check if results data or mapMode have changed
     if (this.props.results !== results || this.props.mapMode !== mapMode) {
       if (this.props.mapMode === 'cluster') {
+        console.log(this.props.results)
         this.updateMarkersAndCluster(this.props.results);
       } else {
         this.updateMarkers(this.props.results);
       }
     }
 
-    if (this.props.place !== place) {
-      this.markers[this.props.place.id]
-        .bindPopup(this.createPopUpContent(this.props.place), {
+    if (this.props.instance !== instance) {
+      this.markers[this.props.instance.id]
+        .bindPopup(this.createPopUpContent(this.props.instance), {
           maxHeight: 300,
           maxWidth: 400,
           minWidth: 400,
@@ -165,7 +167,7 @@ class LeafletMap extends React.Component {
   }
 
   renderSpinner() {
-    if(this.props.fetchingPlaces) {
+    if(this.props.fetching) {
       return (
         <div className={this.props.classes.spinner}>
           <CircularProgress style={{ color: purple[500] }} thickness={5} />
@@ -286,7 +288,7 @@ class LeafletMap extends React.Component {
   }
 
   markerOnClick = event => {
-    this.props.fetchPlace(event.target.options.id);
+    this.props.fetchByURI(event.target.options.id);
   };
 
   createPopUpContent(result) {
@@ -351,13 +353,12 @@ class LeafletMap extends React.Component {
 
 LeafletMap.propTypes = {
   classes: PropTypes.object.isRequired,
-  fetchPlaces: PropTypes.func.isRequired,
-  fetchingPlaces: PropTypes.bool.isRequired,
-  fetchPlace: PropTypes.func.isRequired,
   results: PropTypes.array.isRequired,
+  instance: PropTypes.object.isRequired,
+  fetchResults: PropTypes.func,
+  fetchByURI: PropTypes.func.isRequired,
+  fetching: PropTypes.bool.isRequired,
   mapMode: PropTypes.string.isRequired,
-  variant: PropTypes.string.isRequired,
-  place: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(LeafletMap);

@@ -15,6 +15,7 @@ export const INITIAL_STATE = {
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
+      flatValues: [],
       sortBy: 'instanceCount',
       sortDirection: 'desc',
       isFetching: false,
@@ -25,6 +26,7 @@ export const INITIAL_STATE = {
       //predicate: defined in backend
       distinctValueCount: 0,
       values: [],
+      flatValues: [],
       sortBy: 'prefLabel',
       sortDirection: 'asc',
       isFetching: false,
@@ -35,6 +37,7 @@ export const INITIAL_STATE = {
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
+      flatValues: [],
       sortBy: 'prefLabel',
       sortDirection: 'asc',
       isFetching: false,
@@ -56,7 +59,8 @@ export const INITIAL_STATE = {
     source: new Set(),
     language: new Set(),
   },
-  updatedFacet: ''
+  updatedFacet: '',
+  fetching: false
 };
 
 const manuscriptsFacets = (state = INITIAL_STATE, action) => {
@@ -72,12 +76,14 @@ const manuscriptsFacets = (state = INITIAL_STATE, action) => {
     case FETCH_FACET:
       return {
         ...state,
+        fetching: true,
         facets: {
           ...state.facets,
           [ action.id ]: {
             ...state.facets[action.id],
             distinctValueCount: 0,
             values: [],
+            flatValues: [],
             sortBy: action.sortBy,
             sortDirection: action.sortDirection,
             isFetching: true
@@ -87,12 +93,14 @@ const manuscriptsFacets = (state = INITIAL_STATE, action) => {
     case UPDATE_FACET:
       return {
         ...state,
+        fetching: false,
         facets: {
           ...state.facets,
           [ action.id ]: {
             ...state.facets[action.id],
             distinctValueCount: action.distinctValueCount,
             values: action.values,
+            flatValues: action.flatValues || [],
             sortBy: action.sortBy,
             sortDirection: action.sortDirection,
             isFetching: false

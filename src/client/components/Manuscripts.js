@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import ViewTabs from './ViewTabs';
 import ResultTable from './ResultTable';
 import LeafletMap from './LeafletMap';
-import Deck from './Deck';
+//import Deck from './Deck';
 
 let Manuscripts = props => {
   return (
@@ -38,7 +38,7 @@ let Manuscripts = props => {
         render={routeProps =>
           <ResultTable
             data={props.manuscripts}
-            filters={props.facets.filters}
+            filters={props.facetData.filters}
             resultClass='manuscripts'
             fetchResults={props.fetchResults}
             updatePage={props.updatePage}
@@ -51,16 +51,14 @@ let Manuscripts = props => {
         path={'/manuscripts/production_places'}
         render={() =>
           <LeafletMap
-            fetchPlaces={props.fetchPlaces}
-            fetchingPlaces={props.search.fetchingPlaces}
-            fetchPlace={props.fetchPlace}
-            results={props.search.places}
-            place={props.search.place}
-            mapMode='cluster'
-            variant='productionPlaces'
+            results={props.facetData.facets.productionPlace.flatValues}
+            instance={props.manuscripts.instance}
+            fetchByURI={props.fetchByURI}
+            fetching={props.facetData.fetching}
+            mapMode={'cluster'}
           />}
       />
-      <Route
+      {/*<Route
         path={'/manuscripts/migrations'}
         render={() =>
           <Deck
@@ -68,14 +66,14 @@ let Manuscripts = props => {
             fetchingPlaces={props.search.fetchingPlaces}
             data={props.search.places}
           />}
-      />
+      /> */}
     </React.Fragment>
   );
 };
 
 Manuscripts.propTypes = {
   manuscripts: PropTypes.object.isRequired,
-  facets: PropTypes.object.isRequired,
+  facetData: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
   fetchByURI: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,

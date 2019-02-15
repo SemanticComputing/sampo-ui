@@ -62,9 +62,9 @@ export const fetchFacetFailed = error => ({
   type: FETCH_FACET_FAILED,
   error
 });
-export const updateFacet = ({ id, distinctValueCount, values, sortBy, sortDirection }) => ({
+export const updateFacet = ({ id, distinctValueCount, values, flatValues, sortBy, sortDirection }) => ({
   type: UPDATE_FACET,
-  id, distinctValueCount, values, sortBy, sortDirection
+  id, distinctValueCount, values, flatValues, sortBy, sortDirection
 });
 export const updateFilter = filter => ({
   type: UPDATE_FILTER,

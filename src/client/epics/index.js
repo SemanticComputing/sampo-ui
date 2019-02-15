@@ -76,6 +76,7 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
         id: action.id,
         distinctValueCount: res.distinctValueCount,
         values: res.values,
+        flatValues: res.flatValues,
         sortBy: action.sortBy,
         sortDirection: action.sortDirection
       }))

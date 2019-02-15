@@ -90,7 +90,7 @@ class ResultTable extends React.Component {
 
   handleOnChangeRowsPerPage = (event, rowsPerPage) => {
     if (event != null) {
-      console.log(rowsPerPage)
+      return rowsPerPage;
     }
   }
 

@@ -72,6 +72,7 @@ export const mapHierarchicalFacet = sparqlBindings => {
   treeData.forEach(node => sumUp(node));
   return {
     distinctValueCount: results.length,
+    flatValues: results,
     values: treeData
   };
 };
