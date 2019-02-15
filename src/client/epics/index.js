@@ -21,24 +21,13 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
     const { resultClass } = action;
-    const resultState = resultStateToUrl(state[resultClass], state[`${resultClass}Facets`]);
-    const requestUrl = `${apiUrl + resultClass}?${resultState}`;
+    const params = stateSliceToUrl(state[resultClass], state[`${resultClass}Facets`]);
+    const requestUrl = `${apiUrl}${resultClass}/results?${params}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResults({ data: response }))
     );
   })
 );
-
-// const getPlaces = action$ => action$.pipe(
-//   ofType(FETCH_PLACES),
-//   mergeMap(action => {
-//     const searchUrl = apiUrl + 'places';
-//     const requestUrl = `${searchUrl}?variant=${action.variant}`;
-//     return ajax.getJSON(requestUrl).pipe(
-//       map(response => updatePlaces({ places: response }))
-//     );
-//   })
-// );
 
 const fetchByURIEpic = action$ => action$.pipe(
   ofType(FETCH_BY_URI),
@@ -84,12 +73,12 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
   })
 );
 
-export const resultStateToUrl = (data, facets) => {
+export const stateSliceToUrl = (stateSlice, facets) => {
   let params = {
-    page: data.page,
-    pagesize: data.pagesize,
-    sortBy: data.sortBy,
-    sortDirection: data.sortDirection
+    page: stateSlice.page,
+    pagesize: stateSlice.pagesize,
+    sortBy: stateSlice.sortBy,
+    sortDirection: stateSlice.sortDirection
   };
   let filters = {};
   let activeFilters = false;
