@@ -30,7 +30,7 @@ const getManuscriptData = (variant, page, pagesize, filters, sortBy, sortDirecti
   } else {
     manuscriptQuery = manuscriptQuery.replace('<FILTER>', generateFilter('id', filters));
   }
-  manuscriptQuery = manuscriptQuery.replace('<ORDER_BY_PREDICATE>', facetConfigs[sortBy].labelPath);
+  manuscriptQuery = manuscriptQuery.replace('<ORDER_BY_PREDICATE>', facetConfigs.manuscripts[sortBy].labelPath);
   manuscriptQuery = manuscriptQuery.replace('<SORT_DIRECTION>', sortDirection);
   manuscriptQuery = manuscriptQuery.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`);
   // console.log(manuscriptQuery)

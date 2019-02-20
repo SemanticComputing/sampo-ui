@@ -5,11 +5,13 @@ import manuscripts from './manuscripts';
 import places from './places';
 import error from './error';
 import manuscriptsFacets from './manuscriptsFacets';
+import placesFacets from './placesFacets';
 
 const reducer = combineReducers({
   manuscripts,
   places,
   manuscriptsFacets,
+  placesFacets,
   error,
   toastr: toastrReducer,
   browser: createResponsiveStateReducer({

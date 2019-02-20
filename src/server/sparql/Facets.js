@@ -9,9 +9,9 @@ import {
 
 const sparqlSearchEngine = new SparqlSearchEngine();
 
-export const getFacet = (id, sortBy, sortDirection, filters) => {
+export const getFacet = (resultClass, id, sortBy, sortDirection, filters) => {
   let { endpoint, facetQuery } = datasetConfig['mmm'];
-  const facetConfig = facetConfigs[id];
+  const facetConfig = facetConfigs[resultClass][id];
   let selectedBlock = '# no selections';
   let filterBlock = '# no filters';
   let parentBlock = '# no parents';
@@ -43,6 +43,7 @@ export const getFacet = (id, sortBy, sortDirection, filters) => {
             }
       `;
   }
+  facetQuery = facetQuery.replace(/<RDF_TYPE>/g, facetConfigs[resultClass].rdfType);
   facetQuery = facetQuery.replace(/<FILTER>/g, filterBlock );
   facetQuery = facetQuery.replace(/<PREDICATE>/g, facetConfig.predicate);
   facetQuery = facetQuery.replace('<SELECTED_VALUES>', selectedBlock);
@@ -50,7 +51,7 @@ export const getFacet = (id, sortBy, sortDirection, filters) => {
   facetQuery = facetQuery.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
   // if (id == 'productionPlace') {
   //   //console.log(filters)
-  //   console.log(facetQuery)
+  // console.log(facetQuery)
   // }
   return sparqlSearchEngine.doSearch(facetQuery, endpoint, mapper);
 };

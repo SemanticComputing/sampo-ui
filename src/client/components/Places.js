@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import ViewTabs from './ViewTabs';
 import ResultTable from './ResultTable';
-import Tree from './Tree';
-import LeafletMap from './LeafletMap';
+// import Tree from './Tree';
+// import LeafletMap from './LeafletMap';
 // import Deck from './Deck';
 
 let Places = props => {
@@ -28,25 +28,25 @@ let Places = props => {
       />
       <Route
         exact path='/places'
-        render={() => <Redirect to='places/map' />}
+        render={() => <Redirect to='places/table' />}
       />
       <Route
         path={'/places/table'}
         render={routeProps =>
           <ResultTable
-            results={props.results}
+            data={props.places}
+            filters={props.facetData.filters}
             resultClass='places'
-            columns={props.search.placeTableColumns}
-            search={props.search}
-            facetFilters={props.facetFilters}
-            fetchResults={props.fetchPlaces}
+            facetClass='places'
+            variant='allPlaces'
+            fetchResults={props.fetchResults}
             updatePage={props.updatePage}
             sortResults={props.sortResults}
             routeProps={routeProps}
           />
         }
       />
-      <Route
+      {/*<Route
         path={'/places/tree'}
         render={() =>
           <Tree
@@ -69,16 +69,16 @@ let Places = props => {
             mapMode='cluster'
             variant='allPlaces'
           />}
-      />
+      />*/}
     </React.Fragment>
   );
 };
 
 Places.propTypes = {
-  data: PropTypes.object.isRequired,
+  places: PropTypes.object.isRequired,
+  facetData: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
   fetchByURI: PropTypes.func.isRequired,
-  filters: PropTypes.object.isRequired,
   updatePage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired

@@ -121,7 +121,8 @@ let MapApp = (props) => {
                 <React.Fragment>
                   <Grid item sm={12} md={3} className={classes.facetBarContainer}>
                     <FacetBar
-                      facets={props.manuscriptsFacets}
+                      facetData={props.placesFacets}
+                      resultClass='places'
                       fetchFacet={props.fetchFacet}
                       updateFilter={props.updateFilter}
                     />
@@ -129,7 +130,8 @@ let MapApp = (props) => {
                   <Grid item sm={12} md={9} className={classes.resultsContainer}>
                     <Paper className={classes.resultsContainerPaper}>
                       <Places
-                        data={props.places}
+                        places={props.places}
+                        facetData={props.placesFacets}
                         fetchResults={props.fetchResults}
                         fetchByURI={props.fetchByURI}
                         filters={props.manuscriptsFacets.filters}
@@ -160,6 +162,7 @@ const mapStateToProps = state => {
     manuscripts: state.manuscripts,
     manuscriptsFacets: state.manuscriptsFacets,
     places: state.places,
+    placesFacets: state.placesFacets,
     //browser: state.browser,
   };
 };
@@ -183,6 +186,7 @@ MapApp.propTypes = {
   manuscripts: PropTypes.object.isRequired,
   manuscriptsFacets: PropTypes.object.isRequired,
   places: PropTypes.object.isRequired,
+  placesFacets: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
   fetchByURI: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,

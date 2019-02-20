@@ -243,7 +243,7 @@ module.exports = {
           {
             SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?source ?lat ?long ?parent {
               {
-                ?instance a frbroo:F4_Manifestation_Singleton .
+                ?instance a <RDF_TYPE> .
                 <FILTER>
                 ?instance <PREDICATE> ?id
                 <SELECTED_VALUES>
@@ -268,7 +268,7 @@ module.exports = {
         {
           {
             SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) {
-              ?instance a frbroo:F4_Manifestation_Singleton .
+              ?instance a <RDF_TYPE> .
               <FILTER>
               FILTER NOT EXISTS {
                 ?instance <PREDICATE> ?value .

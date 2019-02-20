@@ -23,7 +23,7 @@ export const getPlace = (filters, uri) => {
   if (filters == null) {
     query = query.replace('<FILTER>', '# no filters');
   } else {
-    query = query.replace('<FILTER>', generateFilter('manuscript__id',filters));
+    query = query.replace('<FILTER>', generateFilter('manuscript__id', filters));
   }
   return sparqlSearchEngine.doSearch(query, config.endpoint, makeObjectList);
 };
@@ -31,10 +31,11 @@ export const getPlace = (filters, uri) => {
 const getPlacesData = (variant, page, pagesize, filters, sortBy, sortDirection) => {
   const config = datasetConfig['mmm'];
   let query = config[`${variant}Query`];
+  console.log(query)
   if (filters == null) {
     query = query.replace('<FILTER>', '# no filters');
   } else {
-    query = query.replace('<FILTER>', generateFilter('manuscript',filters));
+    query = query.replace('<FILTER>', generateFilter('id', filters));
   }
   return sparqlSearchEngine.doSearch(query, config.endpoint, makeObjectList);
 };

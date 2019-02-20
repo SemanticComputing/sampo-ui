@@ -66,9 +66,9 @@ app.get(`${apiPath}/:resultClass/instance/:uri`, (req, res) => {
     });
 });
 
-app.get(`${apiPath}/facet/:id`, (req, res) => {
+app.get(`${apiPath}/:resultClass/facet/:id`, (req, res) => {
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
-  return getFacet(req.params.id, req.query.sortBy, req.query.sortDirection, filters).then(data => {
+  return getFacet(req.params.resultClass, req.params.id, req.query.sortBy, req.query.sortDirection, filters).then(data => {
     res.json(data);
   })
     .catch((err) => {
