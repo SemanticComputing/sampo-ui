@@ -1,8 +1,9 @@
+export const FETCH_PAGINATED_RESULTS = 'FETCH_PAGINATED_RESULTS';
 export const FETCH_RESULTS = 'FETCH_RESULTS';
 export const UPDATE_RESULTS = 'UPDATE_RESULTS';
 export const SORT_RESULTS = 'SORT_RESULTS';
 export const UPDATE_PAGE = 'UPDATE_PAGE';
-export const FETCH_RESULTS_FAILED = 'FETCH_RESULTS_FAILED';
+export const FETCH_PAGINATED_RESULTS_FAILED = 'FETCH_PAGINATED_RESULTS_FAILED';
 
 export const FETCH_BY_URI = 'FETCH_BY_URI';
 export const UPDATE_INSTANCE = 'UPDATE_INSTANCE';
@@ -20,6 +21,10 @@ export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 
 
+export const fetchPaginatedResults = (resultClass, facetClass, variant) => ({
+  type: FETCH_PAGINATED_RESULTS,
+  resultClass, facetClass, variant
+});
 export const fetchResults = (resultClass, facetClass, variant) => ({
   type: FETCH_RESULTS,
   resultClass, facetClass, variant
@@ -37,7 +42,7 @@ export const updatePage = (resultClass, page) => ({
   resultClass, page
 });
 export const fetchResultsFailed = error => ({
-  type: FETCH_RESULTS_FAILED,
+  type: FETCH_PAGINATED_RESULTS_FAILED,
   error
 });
 

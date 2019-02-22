@@ -1,5 +1,5 @@
 import {
-  FETCH_RESULTS,
+  FETCH_PAGINATED_RESULTS,
   FETCH_BY_URI,
   UPDATE_RESULTS,
   UPDATE_INSTANCE,
@@ -91,7 +91,7 @@ export const INITIAL_STATE = {
 const manuscripts = (state = INITIAL_STATE, action) => {
   if (action.resultClass === 'manuscripts') {
     switch (action.type) {
-      case FETCH_RESULTS:
+      case FETCH_PAGINATED_RESULTS:
         return { ...state, fetching: true };
       case FETCH_BY_URI:
         return { ...state, fetching: true };

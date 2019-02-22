@@ -18,6 +18,7 @@ import Paper from '@material-ui/core/Paper';
 
 
 import {
+  fetchPaginatedResults,
   fetchResults,
   fetchByURI,
   fetchFacet,
@@ -102,6 +103,7 @@ let MapApp = (props) => {
                         manuscripts={props.manuscripts}
                         places={props.places}
                         facetData={props.manuscriptsFacets}
+                        fetchPaginatedResults={props.fetchPaginatedResults}
                         fetchResults={props.fetchResults}
                         fetchByURI={props.fetchByURI}
                         updatePage={props.updatePage}
@@ -168,6 +170,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = ({
+  fetchPaginatedResults,
   fetchResults,
   fetchByURI,
   fetchFacet,
@@ -188,6 +191,7 @@ MapApp.propTypes = {
   places: PropTypes.object.isRequired,
   placesFacets: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
+  fetchPaginatedResults: PropTypes.func.isRequired,
   fetchByURI: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,

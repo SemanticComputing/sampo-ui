@@ -1,4 +1,3 @@
-//import request from 'superagent';
 import fetch from 'node-fetch';
 const { URLSearchParams } = require('url');
 

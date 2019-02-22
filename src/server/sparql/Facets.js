@@ -1,6 +1,7 @@
 import { has } from 'lodash';
 import SparqlSearchEngine from './SparqlSearchEngine';
-import datasetConfig from './Datasets';
+import { endpoint, facetValuesQuery } from './SparqlQueriesGeneral';
+import { prefixes } from './SparqlQueriesPrefixes';
 import { facetConfigs } from './FacetConfigs';
 import {
   mapFacet,
@@ -10,7 +11,7 @@ import {
 const sparqlSearchEngine = new SparqlSearchEngine();
 
 export const getFacet = (resultClass, facetID, sortBy, sortDirection, filters) => {
-  let { endpoint, facetQuery } = datasetConfig['mmm'];
+  let q = facetValuesQuery;
   const facetConfig = facetConfigs[resultClass][facetID];
   let selectedBlock = '# no selections';
   let filterBlock = '# no filters';
@@ -43,17 +44,17 @@ export const getFacet = (resultClass, facetID, sortBy, sortDirection, filters) =
             }
       `;
   }
-  facetQuery = facetQuery.replace(/<RDF_TYPE>/g, facetConfigs[resultClass].rdfType);
-  facetQuery = facetQuery.replace(/<FILTER>/g, filterBlock );
-  facetQuery = facetQuery.replace(/<PREDICATE>/g, facetConfig.predicate);
-  facetQuery = facetQuery.replace('<SELECTED_VALUES>', selectedBlock);
-  facetQuery = facetQuery.replace('<PARENTS>', parentBlock);
-  facetQuery = facetQuery.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
+  q = q.replace(/<RDF_TYPE>/g, facetConfigs[resultClass].rdfType);
+  q = q.replace(/<FILTER>/g, filterBlock );
+  q = q.replace(/<PREDICATE>/g, facetConfig.predicate);
+  q = q.replace('<SELECTED_VALUES>', selectedBlock);
+  q = q.replace('<PARENTS>', parentBlock);
+  q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
   // if (id == 'productionPlace') {
   //   //console.log(filters)
   // console.log(facetQuery)
   // }
-  return sparqlSearchEngine.doSearch(facetQuery, endpoint, mapper);
+  return sparqlSearchEngine.doSearch(prefixes + q, endpoint, mapper);
 };
 
 const generateFacetFilter = (resultClass, facetID, filters) => {

@@ -3,6 +3,7 @@ import { mergeMap, map, withLatestFrom } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
 import { stringify } from 'query-string';
 import {
+  FETCH_PAGINATED_RESULTS,
   FETCH_RESULTS,
   FETCH_BY_URI,
   FETCH_FACET,
@@ -16,13 +17,26 @@ const apiUrl = (process.env.NODE_ENV === 'development')
   ? 'http://localhost:3001/api/'
   : `http://${location.hostname}/api/`;
 
+const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
+  ofType(FETCH_PAGINATED_RESULTS),
+  withLatestFrom(state$),
+  mergeMap(([action, state]) => {
+    const { resultClass, facetClass, variant } = action;
+    const params = stateSlicesToUrl(state[resultClass], state[`${facetClass}Facets`], variant, null);
+    const requestUrl = `${apiUrl}${resultClass}/paginated?${params}`;
+    return ajax.getJSON(requestUrl).pipe(
+      map(response => updateResults({ resultClass: resultClass, data: response }))
+    );
+  })
+);
+
 const fetchResultsEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_RESULTS),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
     const { resultClass, facetClass, variant } = action;
-    const params = stateSlicesToUrl(state[resultClass], state[`${facetClass}Facets`], variant);
-    const requestUrl = `${apiUrl}${resultClass}/results?${params}`;
+    const params = stateSlicesToUrl(null, state[`${facetClass}Facets`], variant, facetClass);
+    const requestUrl = `${apiUrl}${resultClass}/all?${params}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResults({ resultClass: resultClass, data: response }))
     );
@@ -34,7 +48,7 @@ const fetchByURIEpic = (action$, state$) => action$.pipe(
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
     const { resultClass, facetClass, uri } = action;
-    const params = stateSlicesToUrl(null, state[`${facetClass}Facets`], null);
+    const params = stateSlicesToUrl(null, state[`${facetClass}Facets`], null, null);
     const requestUrl = `${apiUrl}${resultClass}/instance/${encodeURIComponent(uri)}?${params}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateInstance({ resultClass: resultClass, instance: response }))
@@ -76,7 +90,7 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
   })
 );
 
-export const stateSlicesToUrl = (pagination, facets, variant) => {
+export const stateSlicesToUrl = (pagination, facets, variant, facetClass) => {
   let params = {};
   if (pagination != null) {
     params.page = pagination.page;
@@ -86,6 +100,9 @@ export const stateSlicesToUrl = (pagination, facets, variant) => {
   }
   if (variant !== null) {
     params.variant = variant;
+  }
+  if (facetClass !== null) {
+    params.facetClass = facetClass;
   }
   let filters = {};
   let activeFilters = false;
@@ -102,6 +119,7 @@ export const stateSlicesToUrl = (pagination, facets, variant) => {
 };
 
 const rootEpic = combineEpics(
+  fetchPaginatedResultsEpic,
   fetchResultsEpic,
   fetchByURIEpic,
   fetchFacetEpic,

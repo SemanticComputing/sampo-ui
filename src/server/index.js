@@ -1,8 +1,7 @@
 import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
-import { /*getManuscript,*/ getManuscripts } from './sparql/Manuscripts';
-import { getPlace, getPlaces } from './sparql/Places';
+import { getPaginatedResults, getAllResults, getPlace } from './sparql/FacetResults';
 import { getFacet } from './sparql/Facets';
 const DEFAULT_PORT = 3001;
 const app = express();
@@ -21,23 +20,25 @@ app.use(function(req, res, next) {
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, './../public/')));
 
-app.get(`${apiPath}/:resultClass/results`, (req, res) => {
+app.get(`${apiPath}/:resultClass/paginated`, (req, res) => {
   const page = parseInt(req.query.page) || null;
   const pagesize = parseInt(req.query.pagesize) || null;
   const sortBy = req.query.sortBy || null;
   const sortDirection = req.query.sortDirection || null;
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
+  return getPaginatedResults(req.params.resultClass, page, pagesize, filters, sortBy, sortDirection).then(data => {
+    res.json(data);
+  })
+    .catch(err => {
+      console.log(err);
+      return res.sendStatus(500);
+    });
+});
+
+app.get(`${apiPath}/:resultClass/all`, (req, res) => {
+  const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
   const variant = req.query.variant || null;
-  let getResults = null;
-  switch (req.params.resultClass) {
-    case 'manuscripts':
-      getResults = getManuscripts;
-      break;
-    case 'places':
-      getResults = getPlaces;
-      break;
-  }
-  return getResults(variant, page, pagesize, filters, sortBy, sortDirection).then(data => {
+  return getAllResults(req.params.resultClass, req.query.facetClass, variant, filters).then(data => {
     res.json(data);
   })
     .catch(err => {
