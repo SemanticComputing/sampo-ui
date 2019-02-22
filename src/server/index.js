@@ -77,27 +77,6 @@ app.get(`${apiPath}/:resultClass/facet/:id`, (req, res) => {
     });
 });
 
-// app.get(`${apiPath}/places/:placeId?`, (req, res) => {
-//   if (req.params.placeId) {
-//     return getPlace(req.params.placeId).then(data => {
-//       res.json(data[0]);
-//     })
-//       .catch((err) => {
-//         console.log(err);
-//         return res.sendStatus(500);
-//       });
-//   } else {
-//     const variant = req.query.variant ? req.query.variant : 'productionPlaces';
-//     return getPlaces(variant).then((data) => {
-//       res.json(data);
-//     })
-//       .catch((err) => {
-//         console.log(err);
-//         return res.sendStatus(500);
-//       });
-//   }
-// });
-
 /*  Routes are matched to a url in order of their definition
     Redirect all the the rest for react-router to handle */
 app.get('*', function(request, response) {

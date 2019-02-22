@@ -88,9 +88,11 @@ class FacetHeader extends React.Component {
       },
     ];
 
+    //{this.props.distinctValueCount > 0 ? `(${this.props.distinctValueCount})` : ''}
+
     return (
       <Paper className={classes.headingContainer}>
-        <Typography variant="h6">{this.props.label} {this.props.distinctValueCount > 0 ? `(${this.props.distinctValueCount})` : ''}</Typography>
+        <Typography variant="h6">{this.props.label} </Typography>
         <div className={classes.facetHeaderButtons}>
           {/*<IconButton disabled aria-label="Statistics">
             <PieChart />

@@ -104,6 +104,7 @@ class Tree extends Component {
     });
     this.setState({ treeData: newTreeData });
     this.props.updateFilter({
+      resultClass: this.props.resultClass,
       property: this.props.property,
       value: treeObj.node.id
     });

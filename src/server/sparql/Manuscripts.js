@@ -28,7 +28,7 @@ const getManuscriptData = (variant, page, pagesize, filters, sortBy, sortDirecti
   if (filters == null) {
     manuscriptQuery = manuscriptQuery.replace('<FILTER>', '');
   } else {
-    manuscriptQuery = manuscriptQuery.replace('<FILTER>', generateFilter('id', filters));
+    manuscriptQuery = manuscriptQuery.replace('<FILTER>', generateFilter('manuscripts', 'id', filters));
   }
   manuscriptQuery = manuscriptQuery.replace('<ORDER_BY_PREDICATE>', facetConfigs.manuscripts[sortBy].labelPath);
   manuscriptQuery = manuscriptQuery.replace('<SORT_DIRECTION>', sortDirection);
@@ -39,6 +39,6 @@ const getManuscriptData = (variant, page, pagesize, filters, sortBy, sortDirecti
 
 const getManuscriptCount = filters => {
   let { endpoint, countQuery } = datasetConfig['mmm'];
-  countQuery = countQuery.replace('<FILTER>', generateFilter('id', filters));
+  countQuery = countQuery.replace('<FILTER>', generateFilter('manuscripts', 'id', filters));
   return sparqlSearchEngine.doSearch(countQuery, endpoint, mapCount);
 };

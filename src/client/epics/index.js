@@ -64,6 +64,7 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
     const requestUrl = `${apiUrl}${action.resultClass}/facet/${action.id}?${stringify(params)}`;
     return ajax.getJSON(requestUrl).pipe(
       map(res => updateFacet({
+        resultClass: action.resultClass,
         id: action.id,
         distinctValueCount: res.distinctValueCount,
         values: res.values,

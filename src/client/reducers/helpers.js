@@ -14,7 +14,7 @@ export const updateSortBy = (state, action) => {
 };
 
 export const updateFilter = (state, action) => {
-  const { property, value } = action.filter;
+  const { property, value } = action;
   let valueSet = state.filters[property];
   if (valueSet.has(value)) {
     valueSet.delete(value);

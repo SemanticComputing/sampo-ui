@@ -62,13 +62,13 @@ export const fetchFacetFailed = error => ({
   type: FETCH_FACET_FAILED,
   error
 });
-export const updateFacet = ({ id, distinctValueCount, values, flatValues, sortBy, sortDirection }) => ({
+export const updateFacet = ({ resultClass, id, distinctValueCount, values, flatValues, sortBy, sortDirection }) => ({
   type: UPDATE_FACET,
-  id, distinctValueCount, values, flatValues, sortBy, sortDirection
+  resultClass, id, distinctValueCount, values, flatValues, sortBy, sortDirection
 });
-export const updateFilter = filter => ({
+export const updateFilter = ({ resultClass, property, value }) => ({
   type: UPDATE_FILTER,
-  filter
+  resultClass, property, value
 });
 export const openFacetDialog = property => ({
   type: OPEN_FACET_DIALOG,
