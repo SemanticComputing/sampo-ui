@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import ViewTabs from './ViewTabs';
 import ResultTable from './ResultTable';
 // import Tree from './Tree';
-// import LeafletMap from './LeafletMap';
+import LeafletMap from './LeafletMap';
 // import Deck from './Deck';
 
 let Places = props => {
@@ -14,21 +14,21 @@ let Places = props => {
       <ViewTabs
         routeProps={props.routeProps}
         tabs={{
+          '/places/table': {
+            label: 'table',
+            value: 0,
+            icon: 'CalendarViewDay',
+          },
           '/places/map': {
             label: 'map',
-            value: 0,
+            value: 1,
             icon: 'AddLocation',
           },
-          // '/places/table': {
-          //   label: 'table',
-          //   value: 1,
-          //   icon: 'CalendarViewDay',
-          // },
         }}
       />
       <Route
         exact path='/places'
-        render={() => <Redirect to='places/table' />}
+        render={() => <Redirect to='places/map' />}
       />
       <Route
         path={'/places/table'}
@@ -56,20 +56,24 @@ let Places = props => {
             fetchData={props.fetchPlaces()}
           />
         }
-      />
+      />*/}
       <Route
         path={'/places/map'}
         render={() =>
           <LeafletMap
-            fetchPlaces={props.fetchPlaces}
-            fetchingPlaces={props.search.fetchingPlaces}
-            fetchPlace={props.fetchPlace}
-            results={props.search.places}
-            place={props.search.place}
-            mapMode='cluster'
+            results={props.places.results}
+            filters={props.facetData.filters}
+            resultClass='places'
+            facetClass='places'
+            instance={props.places.instance}
+            fetchResults={props.fetchResults}
+            fetchByURI={props.fetchByURI}
+            fetching={props.places.fetching}
+            mapMode={'cluster'}
             variant='allPlaces'
+            showInstanceCountInClusters={false}
           />}
-      />*/}
+      />
     </React.Fragment>
   );
 };
