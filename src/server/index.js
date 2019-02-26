@@ -7,6 +7,8 @@ const DEFAULT_PORT = 3001;
 const app = express();
 const apiPath = '/api';
 
+const serviceNA = 'MMM Unified Triple Store not available';
+
 app.set('port', process.env.PORT || DEFAULT_PORT);
 app.use(bodyParser.json());
 
@@ -31,7 +33,8 @@ app.get(`${apiPath}/:resultClass/paginated`, (req, res) => {
   })
     .catch(err => {
       console.log(err);
-      return res.sendStatus(500);
+      res.type('text');
+      return res.status(500).send(serviceNA);
     });
 });
 
@@ -43,7 +46,8 @@ app.get(`${apiPath}/:resultClass/all`, (req, res) => {
   })
     .catch(err => {
       console.log(err);
-      return res.sendStatus(500);
+      res.type('text');
+      return res.status(500).send(serviceNA);
     });
 });
 
@@ -62,8 +66,8 @@ app.get(`${apiPath}/:resultClass/instance/:uri`, (req, res) => {
     res.json(data[0])
   })
     .catch(err => {
-      console.log(err);
-      return res.sendStatus(500);
+      res.type('text');
+      return res.status(500).send(serviceNA);
     });
 });
 
@@ -73,8 +77,8 @@ app.get(`${apiPath}/:resultClass/facet/:id`, (req, res) => {
     res.json(data);
   })
     .catch((err) => {
-      console.log(err);
-      return res.sendStatus(500);
+      res.type('text');
+      return res.status(500).send(serviceNA);
     });
 });
 

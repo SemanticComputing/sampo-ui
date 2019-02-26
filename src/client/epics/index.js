@@ -1,16 +1,19 @@
 import { ajax } from 'rxjs/ajax';
-import { mergeMap, map, withLatestFrom } from 'rxjs/operators';
+import { mergeMap, map, withLatestFrom, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { combineEpics, ofType } from 'redux-observable';
 import { stringify } from 'query-string';
 import {
   FETCH_PAGINATED_RESULTS,
+  FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_RESULTS,
   FETCH_BY_URI,
   FETCH_FACET,
+  FETCH_FACET_FAILED,
+  SHOW_ERROR,
   updateResults,
   updateInstance,
   updateFacet,
-
 } from '../actions';
 
 const apiUrl = (process.env.NODE_ENV === 'development')
@@ -25,7 +28,15 @@ const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
     const params = stateSlicesToUrl(state[resultClass], state[`${facetClass}Facets`], variant, null);
     const requestUrl = `${apiUrl}${resultClass}/paginated?${params}`;
     return ajax.getJSON(requestUrl).pipe(
-      map(response => updateResults({ resultClass: resultClass, data: response }))
+      map(response => updateResults({ resultClass: resultClass, data: response })),
+      catchError(error => of({
+        type: FETCH_PAGINATED_RESULTS_FAILED,
+        resultClass: resultClass,
+        message: {
+          text: error.xhr.statusText,
+          title: ''
+        }
+      }))
     );
   })
 );
@@ -38,7 +49,15 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
     const params = stateSlicesToUrl(null, state[`${facetClass}Facets`], variant, facetClass);
     const requestUrl = `${apiUrl}${resultClass}/all?${params}`;
     return ajax.getJSON(requestUrl).pipe(
-      map(response => updateResults({ resultClass: resultClass, data: response }))
+      map(response => updateResults({ resultClass: resultClass, data: response })),
+      catchError(error => of({
+        type: SHOW_ERROR,
+        resultClass: resultClass,
+        message: {
+          text: error.xhr.statusText,
+          title: ''
+        }
+      }))
     );
   })
 );
@@ -51,7 +70,14 @@ const fetchByURIEpic = (action$, state$) => action$.pipe(
     const params = stateSlicesToUrl(null, state[`${facetClass}Facets`], null, null);
     const requestUrl = `${apiUrl}${resultClass}/instance/${encodeURIComponent(uri)}?${params}`;
     return ajax.getJSON(requestUrl).pipe(
-      map(response => updateInstance({ resultClass: resultClass, instance: response }))
+      map(response => updateInstance({ resultClass: resultClass, instance: response })),
+      catchError(error => of({
+        type: SHOW_ERROR,
+        message: {
+          text: error.xhr.statusText,
+          title: ''
+        }
+      }))
     );
   })
 );
@@ -85,6 +111,15 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
         flatValues: res.flatValues,
         sortBy: action.sortBy,
         sortDirection: action.sortDirection
+      })),
+      catchError(error => of({
+        type: FETCH_FACET_FAILED,
+        resultClass: action.resultClass,
+        id: action.id,
+        message: {
+          text: error.xhr.statusText,
+          title: ''
+        }
       }))
     );
   })

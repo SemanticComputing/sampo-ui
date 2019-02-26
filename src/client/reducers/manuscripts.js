@@ -1,5 +1,6 @@
 import {
   FETCH_PAGINATED_RESULTS,
+  FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_BY_URI,
   UPDATE_RESULTS,
   UPDATE_INSTANCE,
@@ -93,17 +94,28 @@ const manuscripts = (state = INITIAL_STATE, action) => {
     switch (action.type) {
       case FETCH_PAGINATED_RESULTS:
         return { ...state, fetching: true };
+      case FETCH_PAGINATED_RESULTS_FAILED:
+        return { ...state, fetching: false };
       case FETCH_BY_URI:
         return { ...state, fetching: true };
       case SORT_RESULTS:
         return updateSortBy(state, action);
       case UPDATE_RESULTS:
-        return {
-          ...state,
-          resultCount: parseInt(action.data.resultCount),
-          results: action.data.results,
-          fetching: false
-        };
+        if (action.data !== null) {
+          return {
+            ...state,
+            resultCount: parseInt(action.data.resultCount),
+            results: action.data.results,
+            fetching: false
+          };
+        } else {
+          return {
+            ...state,
+            results: [],
+            resultCount: 0,
+            fetching: false        
+          };
+        }
       case UPDATE_INSTANCE:
         return {
           ...state,

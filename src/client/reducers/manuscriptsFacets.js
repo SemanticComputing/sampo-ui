@@ -1,5 +1,6 @@
 import {
   FETCH_FACET,
+  FETCH_FACET_FAILED,
   UPDATE_FACET,
   UPDATE_FILTER,
   OPEN_FACET_DIALOG,
@@ -91,6 +92,17 @@ const manuscriptsFacets = (state = INITIAL_STATE, action) => {
               sortBy: action.sortBy,
               sortDirection: action.sortDirection,
               isFetching: true
+            }
+          }
+        };
+      case FETCH_FACET_FAILED:
+        return {
+          ...state,
+          facets: {
+            ...state.facets,
+            [ action.id ]: {
+              ...state.facets[action.id],
+              isFetching: false,
             }
           }
         };

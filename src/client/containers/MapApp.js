@@ -9,6 +9,7 @@ import TopBar from '../components/TopBar';
 import Footer from '../components/Footer';
 import { Route } from 'react-router-dom';
 import Manuscripts from '../components/Manuscripts';
+import Message from '../components/Message';
 // import Works from '../components/Works';
 import Places from '../components/Places';
 import Main from '../components/Main';
@@ -26,7 +27,8 @@ import {
   updateFilter,
   updatePage,
   openFacetDialog,
-  closeFacetDialog
+  closeFacetDialog,
+  showError
 } from '../actions';
 
 const styles = theme => ({
@@ -76,10 +78,11 @@ const styles = theme => ({
 });
 
 let MapApp = (props) => {
-  const { classes /* browser error */ } = props;
+  const { classes, /* browser */ error } = props;
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
+        <Message error={error} />
         <React.Fragment>
           <TopBar />
           <Grid container spacing={8} className={classes.mainContainer}>
@@ -165,6 +168,7 @@ const mapStateToProps = state => {
     manuscriptsFacets: state.manuscriptsFacets,
     places: state.places,
     placesFacets: state.placesFacets,
+    error: state.error
     //browser: state.browser,
   };
 };
@@ -178,13 +182,14 @@ const mapDispatchToProps = ({
   updateFilter,
   updatePage,
   openFacetDialog,
-  closeFacetDialog
+  closeFacetDialog,
+  showError
 });
 
 MapApp.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
-  // error: PropTypes.object.isRequired,
+  error: PropTypes.object.isRequired,
   // browser: PropTypes.object.isRequired,
   manuscripts: PropTypes.object.isRequired,
   manuscriptsFacets: PropTypes.object.isRequired,
@@ -198,7 +203,8 @@ MapApp.propTypes = {
   updateFilter: PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   openFacetDialog: PropTypes.func.isRequired,
-  closeFacetDialog: PropTypes.func.isRequired
+  closeFacetDialog: PropTypes.func.isRequired,
+  showError: PropTypes.func.isRequired
 };
 
 export default compose(

@@ -1,31 +1,26 @@
 import {
-  //FETCH_SUGGESTIONS_FAILED,
-  CLEAR_ERROR,
-  //FETCH_SUGGESTIONS,
+  SHOW_ERROR,
+  FETCH_PAGINATED_RESULTS_FAILED,
+  FETCH_FACET_FAILED
 } from '../actions';
 
 export const INITIAL_STATE = {
-  hasError: false,
+  id: 0,
   message: {},
 };
 
 const error = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    // case FETCH_SUGGESTIONS_FAILED:
-    //   return {
-    //     ...state,
-    //     hasError: true,
-    //     message: {
-    //       text: action.error.xhr.statusText,
-    //       title: 'Error',
-    //     },
-    //   };
-    // case FETCH_SUGGESTIONS:
-    case CLEAR_ERROR:
+    case SHOW_ERROR:
+    case FETCH_PAGINATED_RESULTS_FAILED:
+    case FETCH_FACET_FAILED:
       return {
         ...state,
-        hasError: false,
-        message: {},
+        id: state.id + 1,
+        message: {
+          text: action.message.text,
+          title: action.message.title
+        }
       };
     default:
       return state;
