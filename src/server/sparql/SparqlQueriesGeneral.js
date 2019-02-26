@@ -40,10 +40,6 @@ export const facetValuesQuery = `
             BIND(COALESCE(?selected_, false) as ?selected)
             OPTIONAL { ?id dct:source ?source . }
             OPTIONAL { ?id gvp:broaderPreferred ?parent_ . }
-            OPTIONAL {
-              ?id wgs84:lat ?lat ;
-                  wgs84:long ?long .
-            }
             BIND(COALESCE(?parent_, '0') as ?parent)
           }
           <PARENTS>

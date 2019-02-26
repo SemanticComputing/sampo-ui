@@ -34,7 +34,7 @@ export const getFacet = (resultClass, facetID, sortBy, sortDirection, filters) =
             UNION
             {
               ${generateFacetFilterParents(resultClass, facetID, filters)}
-              ?instance ${facetConfig.parentPredicate} ?id .
+              ?different_instance ${facetConfig.parentPredicate} ?id .
               BIND(COALESCE(?selected_, false) as ?selected)
               OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
               BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
@@ -51,7 +51,7 @@ export const getFacet = (resultClass, facetID, sortBy, sortDirection, filters) =
   q = q.replace('<FACET_VALUE_FILTER>', facetConfig.facetValueFilter);
   q = q.replace('<PARENTS>', parentBlock);
   q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
-  // if (facetID == 'source') {
+  // if (facetID == 'productionPlace') {
   //   console.log(prefixes + q)
   // }
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, mapper);
@@ -76,7 +76,7 @@ const generateFacetFilterParents = (resultClass, facetID, filters) => {
     if (property !== facetID) {
       filterStr += `
               VALUES ?${property}FilterParents { <${filters[property].join('> <')}> }
-              ?instance ${facetConfigs[resultClass][property].predicate} ?${property}FilterParents .
+              ?different_instance ${facetConfigs[resultClass][property].predicate} ?${property}FilterParents .
       `;
     }
   }
