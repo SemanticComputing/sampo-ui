@@ -3,6 +3,7 @@ import SparqlSearchEngine from './SparqlSearchEngine';
 import { endpoint, facetValuesQuery } from './SparqlQueriesGeneral';
 import { prefixes } from './SparqlQueriesPrefixes';
 import { facetConfigs } from './FacetConfigs';
+import { generateFilter } from './Filters';
 import {
   mapFacet,
   mapHierarchicalFacet,
@@ -18,7 +19,7 @@ export const getFacet = (resultClass, facetID, sortBy, sortDirection, filters) =
   let parentBlock = '# no parents';
   let mapper = mapFacet;
   if (filters !== null) {
-    filterBlock = generateFacetFilter(resultClass, facetID, filters);
+    filterBlock = generateFilter(resultClass, resultClass, filters, 'instance', facetID);
     if (has(filters, facetID)) {
       selectedBlock = `
             OPTIONAL {
@@ -33,7 +34,7 @@ export const getFacet = (resultClass, facetID, sortBy, sortDirection, filters) =
     parentBlock = `
             UNION
             {
-              ${generateFacetFilterParents(resultClass, facetID, filters)}
+              ${generateFilter(resultClass, resultClass, filters, 'different_instance', facetID)}
               ?different_instance ${facetConfig.parentPredicate} ?id .
               BIND(COALESCE(?selected_, false) as ?selected)
               OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
@@ -51,34 +52,9 @@ export const getFacet = (resultClass, facetID, sortBy, sortDirection, filters) =
   q = q.replace('<FACET_VALUE_FILTER>', facetConfig.facetValueFilter);
   q = q.replace('<PARENTS>', parentBlock);
   q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
-  // if (facetID == 'productionPlace') {
-  //   console.log(prefixes + q)
+  // if (facetID == 'source') {
+  //   console.log(filters)
+  //   //console.log(prefixes + q)
   // }
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, mapper);
-};
-
-const generateFacetFilter = (resultClass, facetID, filters) => {
-  let filterStr = '';
-  for (let property in filters) {
-    if (property !== facetID) {
-      filterStr += `
-            VALUES ?${property}Filter { <${filters[property].join('> <')}> }
-            ?instance ${facetConfigs[resultClass][facetID].predicate} ?${property}Filter .
-      `;
-    }
-  }
-  return filterStr;
-};
-
-const generateFacetFilterParents = (resultClass, facetID, filters) => {
-  let filterStr = '';
-  for (let property in filters) {
-    if (property !== facetID) {
-      filterStr += `
-              VALUES ?${property}FilterParents { <${filters[property].join('> <')}> }
-              ?different_instance ${facetConfigs[resultClass][property].predicate} ?${property}FilterParents .
-      `;
-    }
-  }
-  return filterStr;
 };

@@ -6,7 +6,7 @@ import { prefixes } from './SparqlQueriesPrefixes';
 import { facetConfigs } from './FacetConfigs';
 import { mapCount } from './Mappers';
 import { makeObjectList } from './SparqlObjectMapper';
-import { generateFilter } from './Helpers';
+import { generateFilter } from './Filters';
 
 const sparqlSearchEngine = new SparqlSearchEngine();
 
@@ -42,7 +42,7 @@ const getResultCount = (resultClass, filters) => {
   let q = countQuery;
   q = q.replace('<RDF_TYPE>', facetConfigs[resultClass].rdfType);
   if (filters !== null ) {
-    q = q.replace('<FILTER>', generateFilter(resultClass, resultClass, filters, 'id'));
+    q = q.replace('<FILTER>', generateFilter(resultClass, resultClass, filters, 'id', null));
   } else {
     q = q.replace('<FILTER>', '# no filters');
   }
@@ -53,7 +53,7 @@ const getPaginatedData = (resultClass, page, pagesize, filters, sortBy, sortDire
   let q = facetResultSetQuery;
   const facetConfig = facetConfigs[resultClass];
   if (filters !== null) {
-    q = q.replace('<FILTER>', generateFilter(resultClass, resultClass, filters, 'id'));
+    q = q.replace('<FILTER>', generateFilter(resultClass, resultClass, filters, 'id', null));
   } else {
     q = q.replace('<FILTER>', '# no filters');
   }
@@ -84,7 +84,7 @@ const getData = (resultClass, facetClass, variant, filters) => {
   if (filters == null) {
     q = q.replace('<FILTER>', '# no filters');
   } else {
-    q = q.replace('<FILTER>', generateFilter(resultClass, facetClass, filters, facetClass));
+    q = q.replace('<FILTER>', generateFilter(resultClass, facetClass, filters, facetClass, null));
   }
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, makeObjectList);
 };
@@ -95,7 +95,7 @@ export const getPlace = (filters, uri) => {
   if (filters == null) {
     q = q.replace('<FILTER>', '# no filters');
   } else {
-    q = q.replace('<FILTER>', generateFilter('places', 'manuscripts', filters, 'manuscript__id'));
+    q = q.replace('<FILTER>', generateFilter('places', 'manuscripts', filters, 'manuscript__id', null));
   }
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, makeObjectList);
 };
