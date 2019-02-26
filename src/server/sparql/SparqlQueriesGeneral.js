@@ -34,10 +34,11 @@ export const facetValuesQuery = `
           {
             ?instance a <RDF_TYPE> .
             <FILTER>
-            ?instance <PREDICATE> ?id
+            ?instance <PREDICATE> ?id .
+            <FACET_VALUE_FILTER>
             <SELECTED_VALUES>
             BIND(COALESCE(?selected_, false) as ?selected)
-            OPTIONAL { ?id dct:source ?source }
+            OPTIONAL { ?id dct:source ?source . }
             OPTIONAL { ?id gvp:broaderPreferred ?parent_ . }
             OPTIONAL {
               ?id wgs84:lat ?lat ;

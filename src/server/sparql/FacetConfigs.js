@@ -3,6 +3,7 @@ export const facetConfigs = {
     rdfType: 'frbroo:F4_Manifestation_Singleton',
     productionPlace: {
       id: 'productionPlace',
+      facetValueFilter: '?id dct:source <http://vocab.getty.edu/tgn/> .',
       label: 'Production place',
       labelPath: '^crm:P108_has_produced/crm:P7_took_place_at/skos:prefLabel',
       predicate: '^crm:P108_has_produced/crm:P7_took_place_at',
@@ -11,6 +12,7 @@ export const facetConfigs = {
     },
     author: {
       id: 'author',
+      facetValueFilter: '',
       label: 'Author',
       labelPath: 'mmm-schema:manuscript_author/skos:prefLabel',
       predicate: 'mmm-schema:manuscript_author',
@@ -18,6 +20,7 @@ export const facetConfigs = {
     },
     source: {
       id: 'source',
+      facetValueFilter: '',
       label: 'Source',
       labelPath: 'dct:source/skos:prefLabel',
       predicate: 'dct:source',
@@ -25,6 +28,7 @@ export const facetConfigs = {
     },
     language: {
       id: 'language',
+      facetValueFilter: '',
       label: 'Language',
       labelPath: 'crm:P128_carries/crm:P72_has_language',
       predicate: 'crm:P128_carries/crm:P72_has_language',
@@ -32,18 +36,21 @@ export const facetConfigs = {
     },
     productionTimespan: {
       id: 'productionTimespan',
+      facetValueFilter: '',
       label: 'Production Date',
       labelPath: '^crm:P108_has_produced/crm:P4_has_time-span/skos:prefLabel',
       type: 'list',
     },
     prefLabel: {
       id: 'prefLabel',
+      facetValueFilter: '',
       label: 'Title',
       labelPath: 'skos:prefLabel',
       type: 'list',
     },
     event: {
       id: 'event',
+      facetValueFilter: '',
       label: 'Event',
       labelPath: '^mmm-schema:observed_manuscript/mmm-schema:observed_time-span',
       type: 'list',

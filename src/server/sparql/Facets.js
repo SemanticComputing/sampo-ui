@@ -48,11 +48,11 @@ export const getFacet = (resultClass, facetID, sortBy, sortDirection, filters) =
   q = q.replace(/<FILTER>/g, filterBlock );
   q = q.replace(/<PREDICATE>/g, facetConfig.predicate);
   q = q.replace('<SELECTED_VALUES>', selectedBlock);
+  q = q.replace('<FACET_VALUE_FILTER>', facetConfig.facetValueFilter);
   q = q.replace('<PARENTS>', parentBlock);
   q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
-  // if (id == 'productionPlace') {
-  //   //console.log(filters)
-  // console.log(facetQuery)
+  // if (facetID == 'source') {
+  //   console.log(prefixes + q)
   // }
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, mapper);
 };
