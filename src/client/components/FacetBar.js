@@ -54,6 +54,7 @@ class FacetBar extends React.Component {
                 distinctValueCount={facets[id].distinctValueCount}
                 sortBy={facets[id].sortBy}
                 sortDirection={facets[id].sortDirection}
+                sortButton={facets[id].sortButton}
                 fetchFacet={this.props.fetchFacet}
               />
               <div className={classes.facetValuesContainerTen}>

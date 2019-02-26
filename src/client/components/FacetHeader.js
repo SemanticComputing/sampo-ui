@@ -97,7 +97,7 @@ class FacetHeader extends React.Component {
           {/*<IconButton disabled aria-label="Statistics">
             <PieChart />
           </IconButton> */}
-          {!this.props.hierarchical &&
+          {this.props.sortButton &&
             <React.Fragment>
               <IconButton
                 aria-label="More"
@@ -134,7 +134,7 @@ FacetHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
   property: PropTypes.string.isRequired,
-  hierarchical: PropTypes.bool.isRequired,
+  sortButton: PropTypes.bool.isRequired,
   distinctValueCount: PropTypes.number.isRequired,
   sortBy: PropTypes.string.isRequired,
   sortDirection: PropTypes.string.isRequired,

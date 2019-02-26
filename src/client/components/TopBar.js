@@ -232,11 +232,12 @@ class TopBar extends React.Component {
               <Button disabled className={classes.appBarButton}>Events</Button>
               <Button disabled className={classes.appBarButton}>People</Button>
               <Button disabled className={classes.appBarButton}>Organizations</Button>
-              <Button
+              <Button disabled className={classes.appBarButton}>Places</Button>
+              { /*<Button
                 className={classes.appBarButton}
                 component={PlacesLink}>
                 places
-              </Button>
+              </Button>*/ }
             </div>
             <div className={classes.sectionMobile}>
               <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">

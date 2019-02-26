@@ -18,6 +18,7 @@ export const INITIAL_STATE = {
       flatValues: [],
       sortBy: 'instanceCount',
       sortDirection: 'desc',
+      sortButton: false,
       isFetching: false,
     },
     productionPlace: {
@@ -29,6 +30,7 @@ export const INITIAL_STATE = {
       flatValues: [],
       sortBy: 'prefLabel',
       sortDirection: 'asc',
+      sortButton: false,
       isFetching: false,
     },
     author: {
@@ -40,6 +42,7 @@ export const INITIAL_STATE = {
       flatValues: [],
       sortBy: 'prefLabel',
       sortDirection: 'asc',
+      sortButton: false,
       isFetching: false,
     },
     // language: {
