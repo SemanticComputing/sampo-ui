@@ -38,13 +38,12 @@ render(
         <App />
       </Router>
       <ReduxToastr
-        timeOut={4000}
+        timeOut={0}
         newestOnTop={false}
         preventDuplicates
         position="top-center"
         transitionIn="fadeIn"
         transitionOut="fadeOut"
-        progressBar
       />
     </div>
   </Provider>,

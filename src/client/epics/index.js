@@ -10,7 +10,7 @@ import {
   FETCH_BY_URI,
   FETCH_FACET,
   FETCH_FACET_FAILED,
-  SHOW_ERROR,
+  //SHOW_ERROR,
   updateResults,
   updateInstance,
   updateFacet,
@@ -19,6 +19,8 @@ import {
 const apiUrl = (process.env.NODE_ENV === 'development')
   ? 'http://localhost:3001/api/'
   : `http://${location.hostname}/api/`;
+
+const backendErrorText = 'Cannot connect to MMM Knowledge Base. A data conversion process might be running. Please try again later.';
 
 const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_PAGINATED_RESULTS),
@@ -32,9 +34,10 @@ const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
       catchError(error => of({
         type: FETCH_PAGINATED_RESULTS_FAILED,
         resultClass: resultClass,
+        error: error,
         message: {
-          text: error.xhr.statusText,
-          title: ''
+          text: backendErrorText,
+          title: 'Error'
         }
       }))
     );
@@ -50,14 +53,15 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
     const requestUrl = `${apiUrl}${resultClass}/all?${params}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResults({ resultClass: resultClass, data: response })),
-      catchError(error => of({
-        type: SHOW_ERROR,
-        resultClass: resultClass,
-        message: {
-          text: error.xhr.statusText,
-          title: ''
-        }
-      }))
+      // catchError(error => of({
+      //   type: SHOW_ERROR,
+      //   resultClass: resultClass,
+      //   error: error,
+      //   message: {
+      //     text: backendErrorText,
+      //     title: 'Error'
+      //   }
+      // }))
     );
   })
 );
@@ -71,13 +75,13 @@ const fetchByURIEpic = (action$, state$) => action$.pipe(
     const requestUrl = `${apiUrl}${resultClass}/instance/${encodeURIComponent(uri)}?${params}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateInstance({ resultClass: resultClass, instance: response })),
-      catchError(error => of({
-        type: SHOW_ERROR,
-        message: {
-          text: error.xhr.statusText,
-          title: ''
-        }
-      }))
+      // catchError(error => of({
+      //   type: SHOW_ERROR,
+      //   message: {
+      //     text: error.xhr.statusText,
+      //     title: ''
+      //   }
+      // }))
     );
   })
 );
@@ -116,9 +120,10 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
         type: FETCH_FACET_FAILED,
         resultClass: action.resultClass,
         id: action.id,
+        error: error,
         message: {
-          text: error.xhr.statusText,
-          title: ''
+          text: backendErrorText,
+          title: 'Error'
         }
       }))
     );

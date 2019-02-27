@@ -101,21 +101,13 @@ const manuscripts = (state = INITIAL_STATE, action) => {
       case SORT_RESULTS:
         return updateSortBy(state, action);
       case UPDATE_RESULTS:
-        if (action.data !== null) {
-          return {
-            ...state,
-            resultCount: parseInt(action.data.resultCount),
-            results: action.data.results,
-            fetching: false
-          };
-        } else {
-          return {
-            ...state,
-            results: [],
-            resultCount: 0,
-            fetching: false        
-          };
-        }
+        // console.log(action)
+        return {
+          ...state,
+          resultCount: parseInt(action.data.resultCount),
+          results: action.data.results,
+          fetching: false
+        };
       case UPDATE_INSTANCE:
         return {
           ...state,

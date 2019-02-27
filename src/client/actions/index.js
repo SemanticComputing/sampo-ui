@@ -19,9 +19,9 @@ export const fetchPaginatedResults = (resultClass, facetClass, variant) => ({
   type: FETCH_PAGINATED_RESULTS,
   resultClass, facetClass, variant
 });
-export const fetchPaginatedResultsFailed = (resultClass, message) => ({
+export const fetchPaginatedResultsFailed = (resultClass, error, message) => ({
   type: FETCH_PAGINATED_RESULTS_FAILED,
-  resultClass, message
+  resultClass, error, message
 });
 export const fetchResults = (resultClass, facetClass, variant) => ({
   type: FETCH_RESULTS,
@@ -51,9 +51,9 @@ export const fetchFacet = (resultClass, id, sortBy, sortDirection) => ({
   type: FETCH_FACET,
   resultClass, id, sortBy, sortDirection
 });
-export const fetchFacetFailed = (resultClass, id, message) => ({
+export const fetchFacetFailed = (resultClass, id, error, message) => ({
   type: FETCH_FACET_FAILED,
-  resultClass, message
+  resultClass, id, error, message
 });
 export const updateFacet = ({ resultClass, id, distinctValueCount, values, flatValues, sortBy, sortDirection }) => ({
   type: UPDATE_FACET,
