@@ -10,6 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 import ResultTableHead from './ResultTableHead';
 import { parse } from 'query-string';
+import history from './History';
 
 const styles = () => ({
   tableContainer: {
@@ -44,13 +45,8 @@ class ResultTable extends React.Component {
     let page;
     if (this.props.routeProps.location.search === '') {
       page = this.props.data.page === -1 ? 0 : this.props.data.page;
-      this.props.routeProps.history.push({
-        pathname: `/${this.props.resultClass}/table`,
-        data: `?page=${this.props.data.page}`,
-      });
-      //console.log(`result table mounted WITHOUT page parameter, set page to ${page}`);
+      // console.log(`result table mounted WITHOUT page parameter, set page to ${page}`);
     } else {
-      //console.log(this.props.routeProps.location.data)
       page = parseInt(parse(this.props.routeProps.location.search).page);
       // console.log(`result table mounted with page parameter, set page to ${page}`);
     }
@@ -60,13 +56,16 @@ class ResultTable extends React.Component {
   componentDidUpdate = prevProps => {
     if (prevProps.data.page != this.props.data.page) {
       this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.variant);
-      this.props.routeProps.history.push({
+      // console.log('push to history')
+      // console.log(this.props.data.page)
+      history.push({
         pathname: `/${this.props.resultClass}/table`,
-        data: `?page=${this.props.data.page}`,
+        search: `?page=${this.props.data.page}`,
       });
     }
     if (prevProps.filters != this.props.filters) {
       this.props.updatePage(this.props.resultClass, 0);
+      // if already on page 0, fetch results
       if (this.props.data.page == 0) {
         this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.variant);
       }
