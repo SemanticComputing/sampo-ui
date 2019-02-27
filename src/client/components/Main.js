@@ -86,7 +86,7 @@ let Main = props => {
                     Manuscripts
                   </Typography>
                   <Typography component="p">
-                      [ Result set: instances of the FRBRoo class <i>F4 Manifestation Singleton</i> ]
+
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -106,7 +106,7 @@ let Main = props => {
                     Works
                   </Typography>
                   <Typography component="p">
-                      [ Result set: instances of the FRBRoo class <i>F1 Work</i> ]
+
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -126,7 +126,7 @@ let Main = props => {
                     Events
                   </Typography>
                   <Typography component="p">
-                    Events related to manuscripts (e.g. production, acquisition, observation).
+
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -146,7 +146,7 @@ let Main = props => {
                     People
                   </Typography>
                   <Typography component="p">
-                    People connected with manuscripts.
+
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -166,7 +166,7 @@ let Main = props => {
                     Organizations
                   </Typography>
                   <Typography component="p">
-                    Organisations connected with manuscripts.
+
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -186,7 +186,7 @@ let Main = props => {
                     Places
                   </Typography>
                   <Typography component="p">
-                    Places connected with manuscripts.
+                  
                   </Typography>
                 </CardContent>
               </CardActionArea>

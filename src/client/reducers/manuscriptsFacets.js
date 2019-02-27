@@ -21,6 +21,8 @@ export const INITIAL_STATE = {
       sortDirection: 'desc',
       sortButton: false,
       isFetching: false,
+      searchField: false,
+      containerSize: 'small',
     },
     productionPlace: {
       id: 'productionPlace',
@@ -33,6 +35,8 @@ export const INITIAL_STATE = {
       sortDirection: 'asc',
       sortButton: false,
       isFetching: false,
+      searchField: true,
+      containerSize: 'large',
     },
     author: {
       id: 'author',
@@ -45,6 +49,8 @@ export const INITIAL_STATE = {
       sortDirection: 'asc',
       sortButton: false,
       isFetching: false,
+      searchField: true,
+      containerSize: 'large',
     },
     // language: {
     //   id: 'language',

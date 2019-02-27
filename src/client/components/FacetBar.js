@@ -57,7 +57,10 @@ class FacetBar extends React.Component {
                 sortButton={facets[id].sortButton}
                 fetchFacet={this.props.fetchFacet}
               />
-              <div className={classes.facetValuesContainerTen}>
+              <div className={facets[id].containerSize === 'small' ?
+                classes.facetValuesContainerThree
+                : classes.facetValuesContainerTen
+              }>
                 <Tree
                   facetFunctionality={true}
                   property={id}
@@ -70,7 +73,7 @@ class FacetBar extends React.Component {
                   facetFilters={filters}
                   updateFilter={this.props.updateFilter}
                   updatedFacet={updatedFacet}
-                  searchField={true}
+                  searchField={facets[id].searchField}
                 />
               </div>
             </Paper>
