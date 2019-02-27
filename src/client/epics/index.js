@@ -1,6 +1,6 @@
+import { of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { mergeMap, map, withLatestFrom, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { combineEpics, ofType } from 'redux-observable';
 import { stringify } from 'query-string';
 import {
@@ -20,7 +20,7 @@ const apiUrl = (process.env.NODE_ENV === 'development')
   ? 'http://localhost:3001/api/'
   : `http://${location.hostname}/api/`;
 
-const backendErrorText = 'Cannot connect to MMM Knowledge Base. A data conversion process might be running. Please try again later.';
+const backendErrorText = 'Cannot connect to the MMM Knowledge Base. A data conversion process might be running. Please try again later.';
 
 const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_PAGINATED_RESULTS),
@@ -29,8 +29,10 @@ const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
     const { resultClass, facetClass, variant } = action;
     const params = stateSlicesToUrl(state[resultClass], state[`${facetClass}Facets`], variant, null);
     const requestUrl = `${apiUrl}${resultClass}/paginated?${params}`;
+    // https://rxjs-dev.firebaseapp.com/api/ajax/ajax
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResults({ resultClass: resultClass, data: response })),
+      // https://redux-observable.js.org/docs/recipes/ErrorHandling.html
       catchError(error => of({
         type: FETCH_PAGINATED_RESULTS_FAILED,
         resultClass: resultClass,

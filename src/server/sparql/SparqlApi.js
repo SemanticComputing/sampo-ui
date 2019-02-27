@@ -31,8 +31,7 @@ class SparqlApi {
           } else {
             return reject(res.statusText);
           }
-        })
-        .catch(err => console.log(err));
+        });
     });
   }
 

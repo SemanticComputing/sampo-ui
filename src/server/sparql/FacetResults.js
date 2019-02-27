@@ -22,8 +22,7 @@ export const getPaginatedResults = (resultClass, page, pagesize, filters, sortBy
         page: page,
         results: data[1]
       };
-    })
-    .catch(err => console.log(err));
+    });
 };
 
 export const getAllResults = (resultClass, facetClass, variant, filters) => {
@@ -34,8 +33,7 @@ export const getAllResults = (resultClass, facetClass, variant, filters) => {
       resultCount: data[0].count,
       results: data[0]
     };
-  })
-    .catch(err => console.log(err));
+  });
 };
 
 const getResultCount = (resultClass, filters) => {

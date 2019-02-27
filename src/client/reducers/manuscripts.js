@@ -101,7 +101,6 @@ const manuscripts = (state = INITIAL_STATE, action) => {
       case SORT_RESULTS:
         return updateSortBy(state, action);
       case UPDATE_RESULTS:
-        // console.log(action)
         return {
           ...state,
           resultCount: parseInt(action.data.resultCount),

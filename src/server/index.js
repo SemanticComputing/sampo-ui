@@ -7,8 +7,6 @@ const DEFAULT_PORT = 3001;
 const app = express();
 const apiPath = '/api';
 
-const serviceNA = 'MMM Unified Triple Store not available';
-
 app.set('port', process.env.PORT || DEFAULT_PORT);
 app.use(bodyParser.json());
 
@@ -22,7 +20,7 @@ app.use(function(req, res, next) {
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, './../public/')));
 
-app.get(`${apiPath}/:resultClass/paginated`, (req, res) => {
+app.get(`${apiPath}/:resultClass/paginated`, (req, res, next) => {
   const page = parseInt(req.query.page) || null;
   const pagesize = parseInt(req.query.pagesize) || null;
   const sortBy = req.query.sortBy || null;
@@ -30,28 +28,18 @@ app.get(`${apiPath}/:resultClass/paginated`, (req, res) => {
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
   return getPaginatedResults(req.params.resultClass, page, pagesize, filters, sortBy, sortDirection).then(data => {
     res.json(data);
-  })
-    .catch(err => {
-      console.log(err);
-      res.type('text');
-      return res.status(500).send(serviceNA);
-    });
+  }).catch(next);
 });
 
-app.get(`${apiPath}/:resultClass/all`, (req, res) => {
+app.get(`${apiPath}/:resultClass/all`, (req, res, next) => {
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
   const variant = req.query.variant || null;
   return getAllResults(req.params.resultClass, req.query.facetClass, variant, filters).then(data => {
     res.json(data);
-  })
-    .catch(err => {
-      console.log(err);
-      res.type('text');
-      return res.status(500).send(serviceNA);
-    });
+  }).catch(next);
 });
 
-app.get(`${apiPath}/:resultClass/instance/:uri`, (req, res) => {
+app.get(`${apiPath}/:resultClass/instance/:uri`, (req, res, next) => {
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
   let getByURI = null;
   switch (req.params.resultClass) {
@@ -63,23 +51,15 @@ app.get(`${apiPath}/:resultClass/instance/:uri`, (req, res) => {
       break;
   }
   return getByURI(filters, req.params.uri).then(data => {
-    res.json(data[0])
-  })
-    .catch(err => {
-      res.type('text');
-      return res.status(500).send(serviceNA);
-    });
+    res.json(data);
+  }).catch(next);
 });
 
-app.get(`${apiPath}/:resultClass/facet/:id`, (req, res) => {
+app.get(`${apiPath}/:resultClass/facet/:id`, (req, res, next) => {
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
   return getFacet(req.params.resultClass, req.params.id, req.query.sortBy, req.query.sortDirection, filters).then(data => {
     res.json(data);
-  })
-    .catch((err) => {
-      res.type('text');
-      return res.status(500).send(serviceNA);
-    });
+  }).catch(next);
 });
 
 /*  Routes are matched to a url in order of their definition

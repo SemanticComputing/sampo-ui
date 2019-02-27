@@ -51,13 +51,15 @@ class ResultTable extends React.Component {
       // console.log(`result table mounted with page parameter, set page to ${page}`);
     }
     this.props.updatePage(this.props.resultClass, page);
+    history.push({
+      pathname: `/${this.props.resultClass}/table`,
+      search: `?page=${page}`,
+    });
   }
 
   componentDidUpdate = prevProps => {
     if (prevProps.data.page != this.props.data.page) {
       this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.variant);
-      // console.log('push to history')
-      // console.log(this.props.data.page)
       history.push({
         pathname: `/${this.props.resultClass}/table`,
         search: `?page=${this.props.data.page}`,
