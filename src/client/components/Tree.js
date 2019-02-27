@@ -86,7 +86,7 @@ class Tree extends Component {
         treeData: this.props.data
       });
     }
-    if (this.props.updatedFacet !== '' && this.props.updatedFacet !== this.props.property && prevProps.facetFilters != this.props.facetFilters) {
+    if (this.props.updatedFacet !== null && this.props.updatedFacet !== this.props.property && prevProps.facetFilters != this.props.facetFilters) {
       // console.log(`fetching new values for ${this.props.property}`)
       this.props.fetchFacet(this.props.resultClass, this.props.property, this.props.sortBy, this.props.sortDirection);
     }

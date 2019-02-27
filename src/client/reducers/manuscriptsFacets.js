@@ -63,8 +63,7 @@ export const INITIAL_STATE = {
     source: new Set(),
     language: new Set(),
   },
-  updatedFacet: '',
-  fetching: false
+  updatedFacet: null,
 };
 
 const manuscriptsFacets = (state = INITIAL_STATE, action) => {
@@ -81,16 +80,10 @@ const manuscriptsFacets = (state = INITIAL_STATE, action) => {
       case FETCH_FACET:
         return {
           ...state,
-          fetching: true,
           facets: {
             ...state.facets,
             [ action.id ]: {
               ...state.facets[action.id],
-              distinctValueCount: 0,
-              values: [],
-              flatValues: [],
-              sortBy: action.sortBy,
-              sortDirection: action.sortDirection,
               isFetching: true
             }
           }
@@ -104,12 +97,18 @@ const manuscriptsFacets = (state = INITIAL_STATE, action) => {
               ...state.facets[action.id],
               isFetching: false,
             }
-          }
+          },
+          filters: {
+            productionPlace: new Set(),
+            author: new Set(),
+            source: new Set(),
+            language: new Set(),
+          },
+          updatedFacet: '',
         };
       case UPDATE_FACET:
         return {
           ...state,
-          fetching: false,
           facets: {
             ...state.facets,
             [ action.id ]: {
