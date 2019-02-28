@@ -86,7 +86,7 @@ let Main = props => {
                     Manuscripts
                   </Typography>
                   <Typography component="p">
-
+                    Physical manuscript objects.
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -106,7 +106,7 @@ let Main = props => {
                     Works
                   </Typography>
                   <Typography component="p">
-
+                    Intellectual content carried out by manuscripts.
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -126,7 +126,7 @@ let Main = props => {
                     Events
                   </Typography>
                   <Typography component="p">
-
+                    Events related to manuscripts.
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -146,7 +146,7 @@ let Main = props => {
                     People
                   </Typography>
                   <Typography component="p">
-
+                    People related to manuscripts.
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -166,7 +166,7 @@ let Main = props => {
                     Organizations
                   </Typography>
                   <Typography component="p">
-
+                    Organizations related to manuscripts.
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -186,7 +186,7 @@ let Main = props => {
                     Places
                   </Typography>
                   <Typography component="p">
-                  
+                    Places related to manuscripts.
                   </Typography>
                 </CardContent>
               </CardActionArea>
