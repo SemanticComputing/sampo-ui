@@ -55,6 +55,9 @@ const styles = () => ({
   },
   bibaleLabel: {
     color: '#F57F17'
+  },
+  facetLink: {
+    textDecoration: 'inherit'
   }
 
 });
@@ -139,9 +142,20 @@ class Tree extends Component {
 
   generateLabel = node => {
     //let source = node.source == null ? '' : `(source: ${node.source.substring(node.source.lastIndexOf('/') + 1)}`;
-    //console.log(node)
+    console.log(node)
     let count = node.totalInstanceCount == null || node.totalInstanceCount == 0 ? node.instanceCount : node.totalInstanceCount;
-    return `${node.prefLabel} (${count})`;
+    return (
+      <React.Fragment>
+        <a
+          className={this.props.classes.facetLink}
+          target='_blank' rel='noopener noreferrer'
+          href={node.id}
+        >
+          {node.prefLabel}
+        </a>
+        <span> ({count})</span>
+      </React.Fragment>
+    );
   }
 
   generateLabelClass = (classes, node) => {

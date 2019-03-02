@@ -3,7 +3,10 @@ export const facetConfigs = {
     rdfType: 'frbroo:F4_Manifestation_Singleton',
     productionPlace: {
       id: 'productionPlace',
-      facetValueFilter: '?id dct:source <http://vocab.getty.edu/tgn/> .',
+      facetValueFilter: `
+        ?id dct:source <http://vocab.getty.edu/tgn/> .
+        FILTER(?id != <http://ldf.fi/mmm/places/tgn_7031096>) 
+      `,
       label: 'Production place',
       labelPath: '^crm:P108_has_produced/crm:P7_took_place_at/skos:prefLabel',
       predicate: '^crm:P108_has_produced/crm:P7_took_place_at',
