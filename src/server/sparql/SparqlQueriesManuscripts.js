@@ -67,11 +67,13 @@ export const productionPlacesQuery = `
     ?manuscripts ^crm:P108_has_produced/crm:P7_took_place_at ?id .
     ?id skos:prefLabel ?prefLabel .
     ?id dct:source ?source .
+    ?id dct:source <http://vocab.getty.edu/tgn/> .
     OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
     OPTIONAL {
       ?id wgs84:lat ?lat ;
           wgs84:long ?long .
     }
+    FILTER(?id != <http://ldf.fi/mmm/places/tgn_7026519>)
   }
   GROUP BY ?id ?lat ?long ?prefLabel ?source ?dataProviderUrl
 `;
