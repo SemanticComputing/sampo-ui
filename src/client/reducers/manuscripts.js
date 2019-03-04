@@ -1,4 +1,6 @@
 import {
+  FETCH_RESULTS,
+  FETCH_RESULTS_FAILED,
   FETCH_PAGINATED_RESULTS,
   FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_BY_URI,
@@ -92,8 +94,10 @@ export const INITIAL_STATE = {
 const manuscripts = (state = INITIAL_STATE, action) => {
   if (action.resultClass === 'manuscripts') {
     switch (action.type) {
+      case FETCH_RESULTS:
       case FETCH_PAGINATED_RESULTS:
         return { ...state, fetching: true };
+      case FETCH_RESULTS_FAILED:
       case FETCH_PAGINATED_RESULTS_FAILED:
         return { ...state, fetching: false };
       case FETCH_BY_URI:

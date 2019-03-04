@@ -1,5 +1,6 @@
 import {
   SHOW_ERROR,
+  FETCH_RESULTS_FAILED,
   FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_FACET_FAILED
 } from '../actions';
@@ -12,6 +13,7 @@ export const INITIAL_STATE = {
 const error = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SHOW_ERROR:
+    case FETCH_RESULTS_FAILED:
     case FETCH_PAGINATED_RESULTS_FAILED:
     case FETCH_FACET_FAILED:
       return {

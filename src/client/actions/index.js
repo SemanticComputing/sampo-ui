@@ -1,6 +1,7 @@
 export const FETCH_PAGINATED_RESULTS = 'FETCH_PAGINATED_RESULTS';
 export const FETCH_PAGINATED_RESULTS_FAILED = 'FETCH_PAGINATED_RESULTS_FAILED';
 export const FETCH_RESULTS = 'FETCH_RESULTS';
+export const FETCH_RESULTS_FAILED = 'FETCH_RESULTS_FAILED';
 export const UPDATE_RESULTS = 'UPDATE_RESULTS';
 export const SORT_RESULTS = 'SORT_RESULTS';
 export const UPDATE_PAGE = 'UPDATE_PAGE';
@@ -26,6 +27,10 @@ export const fetchPaginatedResultsFailed = (resultClass, error, message) => ({
 export const fetchResults = (resultClass, facetClass, variant) => ({
   type: FETCH_RESULTS,
   resultClass, facetClass, variant
+});
+export const fetchResultsFailed = (resultClass, error, message) => ({
+  type: FETCH_RESULTS_FAILED,
+  resultClass, error, message
 });
 export const updateResults = ({ resultClass, data }) => ({
   type: UPDATE_RESULTS,

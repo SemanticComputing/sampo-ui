@@ -7,6 +7,7 @@ import {
   FETCH_PAGINATED_RESULTS,
   FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_RESULTS,
+  FETCH_RESULTS_FAILED,
   FETCH_BY_URI,
   FETCH_FACET,
   FETCH_FACET_FAILED,
@@ -55,15 +56,15 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
     const requestUrl = `${apiUrl}${resultClass}/all?${params}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResults({ resultClass: resultClass, data: response })),
-      // catchError(error => of({
-      //   type: SHOW_ERROR,
-      //   resultClass: resultClass,
-      //   error: error,
-      //   message: {
-      //     text: backendErrorText,
-      //     title: 'Error'
-      //   }
-      // }))
+      catchError(error => of({
+        type: FETCH_RESULTS_FAILED,
+        resultClass: resultClass,
+        error: error,
+        message: {
+          text: backendErrorText,
+          title: 'Error'
+        }
+      }))
     );
   })
 );
