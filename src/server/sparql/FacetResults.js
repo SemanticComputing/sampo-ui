@@ -27,21 +27,25 @@ export const getPaginatedResults = (resultClass, page, pagesize, filters, sortBy
 
 export const getAllResults = (resultClass, facetClass, variant, filters) => {
   let q = '';
+  let filterTarget = '';
   switch (variant) {
     case 'allPlaces':
       q = allPlacesQuery;
+      filterTarget = 'manuscripts';
       break;
     case 'productionPlaces':
       q = productionPlacesQuery;
+      filterTarget = 'manuscripts';
       break;
     case 'migrations':
       q = migrationsQuery;
+      filterTarget = 'manuscript__id';
       break;
   }
   if (filters == null) {
     q = q.replace('<FILTER>', '# no filters');
   } else {
-    q = q.replace('<FILTER>', generateFilter(resultClass, facetClass, filters, facetClass, null));
+    q = q.replace('<FILTER>', generateFilter(resultClass, facetClass, filters, filterTarget, null));
   }
   // if (variant == 'migrations') {
   //   console.log(q)

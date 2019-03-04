@@ -82,6 +82,13 @@ class Deck extends React.Component {
     this.props.fetchResults(this.props.resultClass, this.props.facetClass, this.props.variant);
   }
 
+  componentDidUpdate = prevProps => {
+    // check if filters have changed
+    if (this.props.filters !== prevProps.filters) {
+      this.props.fetchResults(this.props.resultClass, this.props.facetClass, this.props.variant);
+    }
+  }
+
   parseCoordinates = coords => {
     if (Array.isArray(coords)) { coords = coords[0]; }
     const lat = Array.isArray(coords.lat) ? coords.lat[0] : coords.lat;
