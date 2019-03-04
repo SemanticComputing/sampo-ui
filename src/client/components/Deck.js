@@ -79,7 +79,7 @@ class Deck extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchPlaces('migrations');
+    this.props.fetchResults(this.props.resultClass, this.props.facetClass, this.props.variant);
   }
 
   parseCoordinates = (coords) => {
@@ -113,7 +113,7 @@ class Deck extends React.Component {
  _onViewportChange = viewport => this.setState({viewport});
 
  _renderSpinner() {
-   if(this.props.fetchingPlaces) {
+   if(this.props.fetching) {
      return (
        <div className={this.props.classes.spinner}>
          <CircularProgress style={{ color: purple[500] }} thickness={5} />
@@ -165,8 +165,8 @@ class Deck extends React.Component {
  render() {
    // console.log(this.props.data)
    let arcData = [];
-   if (has(this.props.data[0], 'to')) {
-     arcData = this.props.data;
+   if (has(this.props.results[0], 'to')) {
+     arcData = this.props.results;
    }
 
    const layer = new ArcLayer({
@@ -217,9 +217,13 @@ class Deck extends React.Component {
 }
 
 Deck.propTypes = {
-  fetchPlaces: PropTypes.func.isRequired,
-  fetchingPlaces: PropTypes.bool.isRequired,
-  data: PropTypes.array.isRequired
+  results: PropTypes.array.isRequired,
+  filters: PropTypes.object,
+  fetchResults: PropTypes.func,
+  resultClass: PropTypes.string,
+  facetClass: PropTypes.string,
+  fetching: PropTypes.bool.isRequired,
+  variant: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(Deck);

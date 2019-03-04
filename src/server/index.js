@@ -35,7 +35,11 @@ app.get(`${apiPath}/:resultClass/all`, (req, res, next) => {
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
   const variant = req.query.variant || null;
   return getAllResults(req.params.resultClass, req.query.facetClass, variant, filters).then(data => {
-    res.json(data);
+    //console.log(data)
+    res.json({
+      resultCount: data.count,
+      results: data
+    });
   }).catch(next);
 });
 
@@ -51,7 +55,7 @@ app.get(`${apiPath}/:resultClass/instance/:uri`, (req, res, next) => {
       break;
   }
   return getByURI(filters, req.params.uri).then(data => {
-    res.json(data);
+    res.json(data[0]);
   }).catch(next);
 });
 

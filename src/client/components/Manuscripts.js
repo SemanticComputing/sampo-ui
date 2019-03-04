@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import ViewTabs from './ViewTabs';
 import ResultTable from './ResultTable';
 import LeafletMap from './LeafletMap';
-//import Deck from './Deck';
+import Deck from './Deck';
 
 let Manuscripts = props => {
   return (
@@ -22,11 +22,11 @@ let Manuscripts = props => {
             value: 1,
             icon: 'AddLocation',
           },
-          // '/manuscripts/migrations': {
-          //   label: 'migrations',
-          //   value: 2,
-          //   icon: 'Redo',
-          // }
+          '/manuscripts/migrations': {
+            label: 'migrations',
+            value: 2,
+            icon: 'Redo',
+          }
         }}
       />
       <Route
@@ -65,15 +65,23 @@ let Manuscripts = props => {
             showInstanceCountInClusters={true}
           />}
       />
-      {/*<Route
+      <Route
         path={'/manuscripts/migrations'}
         render={() =>
           <Deck
-            fetchPlaces={props.fetchPlaces}
-            fetchingPlaces={props.search.fetchingPlaces}
-            data={props.search.places}
+            results={props.places.results}
+            filters={props.facetData.filters}
+            resultClass='places'
+            facetClass='manuscripts'
+            instance={props.places.instance}
+            fetchResults={props.fetchResults}
+            fetchByURI={props.fetchByURI}
+            fetching={props.places.fetching}
+            mapMode={'cluster'}
+            variant='migrations'
+            showInstanceCountInClusters={true}
           />}
-      /> */}
+      />
     </React.Fragment>
   );
 };

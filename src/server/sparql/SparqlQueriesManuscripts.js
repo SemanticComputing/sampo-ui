@@ -76,10 +76,11 @@ export const productionPlacesQuery = `
   GROUP BY ?id ?lat ?long ?prefLabel ?source ?dataProviderUrl
 `;
 
+//# https://github.com/uber/deck.gl/blob/master/docs/layers/arc-layer.md
 export const migrationsQuery = `
   SELECT DISTINCT ?id ?manuscript__id ?manuscript__url ?from__id ?from__name ?from__lat ?from__long ?to__id ?to__name ?to__lat ?to__long
   WHERE {
-    # https://github.com/uber/deck.gl/blob/master/docs/layers/arc-layer.md
+    <FILTER>
     ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?from__id .
     ?manuscript__id mmm-schema:data_provider_url ?manuscript__url .
     ?from__id skos:prefLabel ?from__name .
@@ -92,7 +93,7 @@ export const migrationsQuery = `
     ?to__id skos:prefLabel ?to__name .
     ?to__id wgs84:lat ?to__lat ;
             wgs84:long ?to__long .
-    BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/mmm/place/", ""))) as ?id)
+    BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/mmm/places/", ""))) as ?id)
     FILTER NOT EXISTS {
       ?event__id2 crm:P24_transferred_title_of ?manuscript__id .
       ?event__id2 crm:P4_has_time-span ?event__date2 .
