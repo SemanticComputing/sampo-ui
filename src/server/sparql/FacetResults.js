@@ -43,9 +43,9 @@ export const getAllResults = (resultClass, facetClass, variant, filters) => {
   } else {
     q = q.replace('<FILTER>', generateFilter(resultClass, facetClass, filters, facetClass, null));
   }
-  if (variant == 'migrations') {
-    console.log(q)
-  }
+  // if (variant == 'migrations') {
+  //   console.log(q)
+  // }
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, makeObjectList);
 };
 
