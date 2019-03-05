@@ -26,6 +26,7 @@ export const allPlacesQuery =  `
   PREFIX gvp: <http://vocab.getty.edu/ontology#>
   SELECT *
   WHERE {
+    <FILTER>
     ?id a crm:E53_Place .
     ?id skos:prefLabel ?prefLabel .
     ?id dct:source ?source .

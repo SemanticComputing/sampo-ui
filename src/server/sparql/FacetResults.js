@@ -31,7 +31,7 @@ export const getAllResults = (resultClass, facetClass, variant, filters) => {
   switch (variant) {
     case 'allPlaces':
       q = allPlacesQuery;
-      filterTarget = 'manuscripts';
+      filterTarget = 'id';
       break;
     case 'productionPlaces':
       q = productionPlacesQuery;

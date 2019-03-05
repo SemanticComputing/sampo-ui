@@ -82,16 +82,17 @@ export const facetConfigs = {
       label: 'Area',
       labelPath: 'gvp:broaderPreferred/skos:prefLabel',
       predicate: 'gvp:broaderPreferred',
-      type: 'list',
+      parentPredicate: 'gvp:broaderPreferred+',
+      type: 'hierarchical',
     },
-    type: {
-      id: 'type',
-      facetValueFilter: '',
-      label: 'Type',
-      labelPath: 'gvp:placeTypePreferred',
-      predicate: 'gvp:placeTypePreferred',
-      type: 'list',
-    },
+    // type: {
+    //   id: 'type',
+    //   facetValueFilter: '',
+    //   label: 'Type',
+    //   labelPath: 'gvp:placeTypePreferred',
+    //   predicate: 'gvp:placeTypePreferred',
+    //   type: 'list',
+    // },
   }
 
 };
