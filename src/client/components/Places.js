@@ -38,8 +38,7 @@ let Places = props => {
             filters={props.facetData.filters}
             resultClass='places'
             facetClass='places'
-            variant='allPlaces'
-            fetchResults={props.fetchResults}
+            fetchPaginatedResults={props.fetchPaginatedResults}
             updatePage={props.updatePage}
             sortResults={props.sortResults}
             routeProps={routeProps}
@@ -82,6 +81,7 @@ Places.propTypes = {
   places: PropTypes.object.isRequired,
   facetData: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
+  fetchPaginatedResults: PropTypes.func.isRequired,
   fetchByURI: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,

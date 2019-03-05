@@ -21,7 +21,6 @@ export const facetResultSetQuery = `
       <PAGE>
     }
     FILTER(BOUND(?id))
-    ?id skos:prefLabel ?prefLabel .
     <RESULT_SET_PROPERTIES>
   }
 `;

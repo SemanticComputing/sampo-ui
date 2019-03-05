@@ -12,6 +12,7 @@ import {
   FETCH_FACET,
   FETCH_FACET_FAILED,
   //SHOW_ERROR,
+  updatePaginatedResults,
   updateResults,
   updateInstance,
   updateFacet,
@@ -32,7 +33,7 @@ const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
     const requestUrl = `${apiUrl}${resultClass}/paginated?${params}`;
     // https://rxjs-dev.firebaseapp.com/api/ajax/ajax
     return ajax.getJSON(requestUrl).pipe(
-      map(response => updateResults({ resultClass: resultClass, data: response })),
+      map(response => updatePaginatedResults({ resultClass: resultClass, data: response })),
       // https://redux-observable.js.org/docs/recipes/ErrorHandling.html
       catchError(error => of({
         type: FETCH_PAGINATED_RESULTS_FAILED,

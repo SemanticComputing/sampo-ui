@@ -138,6 +138,7 @@ let MapApp = (props) => {
                         places={props.places}
                         facetData={props.placesFacets}
                         fetchResults={props.fetchResults}
+                        fetchPaginatedResults={props.fetchPaginatedResults}
                         fetchByURI={props.fetchByURI}
                         filters={props.manuscriptsFacets.filters}
                         updatePage={props.updatePage}

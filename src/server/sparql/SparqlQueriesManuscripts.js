@@ -1,4 +1,5 @@
-export const manuscriptTableProperties = `
+export const manuscriptProperties = `
+  ?id skos:prefLabel ?prefLabel .
   {
     ?id dct:source ?source__id .
     ?source__id skos:prefLabel ?source__prefLabel .

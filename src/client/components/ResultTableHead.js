@@ -21,81 +21,29 @@ const styles = () => ({
   }
 });
 
-const columns = [
-  {
-    label: 'Source',
-    property: 'source',
-    desc: 'Source description',
-    //filter: true
-  },
-  {
-    label: 'Title',
-    property: 'prefLabel',
-    desc: 'Title description'
-  },
-  {
-    label: 'Author',
-    property: 'author',
-    desc: 'Author description',
-    //filter: true
-  },
-  {
-    label: 'Production place',
-    property: 'productionPlace',
-    desc: 'Production place description',
-    filter: true
-  },
-  {
-    label: 'Production date',
-    property: 'productionTimespan',
-    desc: 'Production date description'
-  },
-  {
-    label: 'Language',
-    property: 'language',
-    desc: 'Language description'
-  },
-  // {
-  //   label: 'Material',
-  //   property: 'material',
-  //   desc: 'Material description'
-  // },
-  {
-    label: 'Event',
-    property: 'event',
-    desc: 'Event description'
-  },
-  {
-    label: 'Owner',
-    property: 'owner',
-    desc: 'Material description'
-  },
-];
-
-
 class ResultTableHead extends React.Component {
 
   // handleChangeRowsPerPage = event => {
   //   this.setState({ rowsPerPage: event.target.value });
   // };
   //
-  // handleRequestSort  = property => () => {
-  //   const orderBy = property;
-  //   let order = 'desc';
-  //   if (this.state.orderBy === property && this.state.order === 'desc') {
-  //     order = 'asc';
-  //   }
-  //   this.setState({ order, orderBy });
-  // };
+  handleRequestSort = property => () => {
+    const orderBy = property;
+    let order = 'desc';
+    if (this.state.orderBy === property && this.state.order === 'desc') {
+      order = 'asc';
+    }
+    this.setState({ order, orderBy });
+  };
 
   render() {
-    const { classes, page, resultCount, pagesize, sortBy, sortDirection } = this.props;
+    const { classes, page, resultsCount, pagesize, sortBy, sortDirection } = this.props;
 
     return (
       <TableHead>
         <TableRow className={classes.paginationRow}>
           <TablePagination
-            count={resultCount}
+            count={resultsCount}
             rowsPerPage={pagesize}
             rowsPerPageOptions={[5]}
             page={page}
@@ -106,20 +54,20 @@ class ResultTableHead extends React.Component {
           />
         </TableRow>
         <TableRow>
-          {columns.map(column => {
+          {this.props.columns.map(column => {
             return (
               <TableCell
-                key={column.property}
-                sortDirection={sortBy === column.property ? sortDirection : false}
+                key={column.id}
+                sortDirection={sortBy === column.id ? sortDirection : false}
               >
                 <Tooltip
                   title="Sort"
                   enterDelay={300}
                 >
                   <TableSortLabel
-                    active={sortBy === column.property}
+                    active={sortBy === column.id}
                     direction={sortDirection}
-                    onClick={this.props.onSortBy(column.property)}
+                    onClick={this.props.onSortBy(column.id)}
                   >
                     {column.label}
                   </TableSortLabel>
@@ -135,10 +83,11 @@ class ResultTableHead extends React.Component {
 
 ResultTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
+  columns: PropTypes.array.isRequired,
   onChangePage: PropTypes.func.isRequired,
   onSortBy: PropTypes.func.isRequired,
   onChangeRowsPerPage: PropTypes.func.isRequired,
-  resultCount: PropTypes.number.isRequired,
+  resultsCount: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
   pagesize: PropTypes.number.isRequired,
   sortBy: PropTypes.string.isRequired,

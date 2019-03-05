@@ -5,6 +5,7 @@ import {
   FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_BY_URI,
   UPDATE_RESULTS,
+  UPDATE_PAGINATED_RESULTS,
   UPDATE_INSTANCE,
   UPDATE_PAGE,
   SORT_RESULTS,
@@ -12,8 +13,9 @@ import {
 import { updateSortBy } from './helpers';
 
 export const INITIAL_STATE = {
-  resultCount: 0,
   results: [],
+  paginatedResults: [],
+  resultsCount: 0,
   instance: {},
   page: -1,
   pagesize: 5,
@@ -23,6 +25,8 @@ export const INITIAL_STATE = {
   tableColumns: [
     {
       id: 'source',
+      label: 'Source',
+      desc: 'Source description',
       valueType: 'object',
       makeLink: true,
       sortValues: true,
@@ -30,6 +34,8 @@ export const INITIAL_STATE = {
     },
     {
       id: 'prefLabel',
+      label: 'Title',
+      desc: 'Title description',
       valueType: 'string',
       makeLink: false,
       sortValues: true,
@@ -37,6 +43,8 @@ export const INITIAL_STATE = {
     },
     {
       id: 'author',
+      label: 'Author',
+      desc: 'Author description',
       valueType: 'object',
       makeLink: true,
       sortValues: true,
@@ -45,6 +53,8 @@ export const INITIAL_STATE = {
     },
     {
       id: 'productionPlace',
+      label: 'Production place',
+      desc: 'Production place description',
       valueType: 'object',
       makeLink: true,
       sortValues: true,
@@ -53,6 +63,8 @@ export const INITIAL_STATE = {
     },
     {
       id: 'timespan',
+      label: 'Production date',
+      desc: 'Production date description',
       valueType: 'object',
       makeLink: false,
       sortValues: true,
@@ -60,6 +72,8 @@ export const INITIAL_STATE = {
     },
     {
       id: 'language',
+      label: 'Language',
+      desc: 'Language description',
       valueType: 'string',
       makeLink: false,
       sortValues: true,
@@ -67,6 +81,8 @@ export const INITIAL_STATE = {
     },
     // {
     //   id: 'material',
+    //   label: 'Material'
+    //   desc: 'Material description'
     //   valueType: 'string',
     //   makeLink: true,
     //   sortValues: true
@@ -74,6 +90,8 @@ export const INITIAL_STATE = {
     // },
     {
       id: 'event',
+      label: 'Event',
+      desc: 'Event description',
       valueType: 'event',
       makeLink: true,
       sortValues: true,
@@ -82,6 +100,8 @@ export const INITIAL_STATE = {
     },
     {
       id: 'owner',
+      label: 'Owner',
+      desc: 'Owner description',
       valueType: 'owner',
       makeLink: true,
       sortValues: true,
@@ -107,8 +127,15 @@ const manuscripts = (state = INITIAL_STATE, action) => {
       case UPDATE_RESULTS:
         return {
           ...state,
-          resultCount: parseInt(action.data.resultCount),
+          resultsCount: parseInt(action.data.resultCount),
           results: action.data.results,
+          fetching: false
+        };
+      case UPDATE_PAGINATED_RESULTS:
+        return {
+          ...state,
+          resultsCount: parseInt(action.data.resultCount),
+          paginatedResults: action.data.results,
           fetching: false
         };
       case UPDATE_INSTANCE:

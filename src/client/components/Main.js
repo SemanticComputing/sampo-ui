@@ -175,7 +175,7 @@ let Main = props => {
 
           <Grid item sm={6} md={4} lg={4}>
             <Card className={classes.card}>
-              <CardActionArea disabled>
+              <CardActionArea component={PlacesLink}>
                 <CardMedia
                   className={classes.media}
                   image={thumbImage}

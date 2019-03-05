@@ -4,6 +4,7 @@ import {
   FETCH_PAGINATED_RESULTS,
   FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_BY_URI,
+  UPDATE_PAGINATED_RESULTS,
   UPDATE_RESULTS,
   UPDATE_INSTANCE,
   UPDATE_PAGE,
@@ -12,8 +13,9 @@ import {
 import { updateSortBy } from './helpers';
 
 export const INITIAL_STATE = {
-  resultCount: 0,
   results: [],
+  paginatedResults: [],
+  resultsCount: 0,
   instance: {},
   page: -1,
   pagesize: 5,
@@ -23,13 +25,17 @@ export const INITIAL_STATE = {
   tableColumns: [
     {
       id: 'prefLabel',
-      valueType: 'string',
-      makeLink: false,
+      label: 'Title',
+      desc: 'Title description',
+      valueType: 'object',
+      makeLink: true,
       sortValues: true,
       numberedList: false
     },
     {
       id: 'placeType',
+      label: 'Place type',
+      desc: 'Place type description',
       valueType: 'string',
       makeLink: false,
       sortValues: true,
@@ -37,6 +43,8 @@ export const INITIAL_STATE = {
     },
     {
       id: 'parent',
+      label: 'Broader area',
+      desc: 'Broader area description',
       valueType: 'object',
       makeLink: true,
       sortValues: true,
@@ -45,6 +53,8 @@ export const INITIAL_STATE = {
     },
     {
       id: 'source',
+      label: 'Source',
+      desc: 'Source description',
       valueType: 'object',
       makeLink: true,
       sortValues: true,
@@ -69,8 +79,15 @@ const places = (state = INITIAL_STATE, action) => {
       case UPDATE_RESULTS:
         return {
           ...state,
-          resultCount: parseInt(action.data.resultCount),
+          resultsCount: parseInt(action.data.resultCount),
           results: action.data.results,
+          fetching: false
+        };
+      case UPDATE_PAGINATED_RESULTS:
+        return {
+          ...state,
+          resultsCount: parseInt(action.data.resultCount),
+          paginatedResults: action.data.results,
           fetching: false
         };
       case UPDATE_INSTANCE:

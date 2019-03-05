@@ -1,7 +1,7 @@
 import SparqlSearchEngine from './SparqlSearchEngine';
 import { endpoint, countQuery, facetResultSetQuery } from './SparqlQueriesGeneral';
-import { manuscriptTableProperties, productionPlacesQuery, migrationsQuery } from './SparqlQueriesManuscripts';
-import { placeQuery, allPlacesQuery } from './SparqlQueriesPlaces';
+import { manuscriptProperties, productionPlacesQuery, migrationsQuery } from './SparqlQueriesManuscripts';
+import { placeProperties, placeQuery, allPlacesQuery } from './SparqlQueriesPlaces';
 import { prefixes } from './SparqlQueriesPrefixes';
 import { facetConfigs } from './FacetConfigs';
 import { mapCount } from './Mappers';
@@ -67,6 +67,7 @@ const getResultCount = (resultClass, filters) => {
 const getPaginatedData = (resultClass, page, pagesize, filters, sortBy, sortDirection) => {
   let q = facetResultSetQuery;
   const facetConfig = facetConfigs[resultClass];
+  //console.log(facetConfig)
   if (filters !== null) {
     q = q.replace('<FILTER>', generateFilter(resultClass, resultClass, filters, 'id', null));
   } else {
@@ -79,7 +80,10 @@ const getPaginatedData = (resultClass, page, pagesize, filters, sortBy, sortDire
   let resultSetProperties = '';
   switch (resultClass) {
     case 'manuscripts':
-      resultSetProperties = manuscriptTableProperties;
+      resultSetProperties = manuscriptProperties;
+      break;
+    case 'places':
+      resultSetProperties = placeProperties;
       break;
   }
   q = q.replace('<RESULT_SET_PROPERTIES>', resultSetProperties);

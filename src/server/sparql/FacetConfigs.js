@@ -5,7 +5,7 @@ export const facetConfigs = {
       id: 'productionPlace',
       facetValueFilter: `
         ?id dct:source <http://vocab.getty.edu/tgn/> .
-        FILTER(?id != <http://ldf.fi/mmm/places/tgn_7031096>) 
+        FILTER(?id != <http://ldf.fi/mmm/places/tgn_7031096>)
       `,
       label: 'Production place',
       labelPath: '^crm:P108_has_produced/crm:P7_took_place_at/skos:prefLabel',
@@ -61,15 +61,32 @@ export const facetConfigs = {
   },
   places: {
     rdfType: 'crm:E53_Place',
+    prefLabel: {
+      id: 'prefLabel',
+      facetValueFilter: '',
+      label: 'Title',
+      labelPath: 'skos:prefLabel',
+      type: 'list',
+    },
     source: {
       id: 'source',
+      facetValueFilter: '',
       label: 'Source',
       labelPath: 'dct:source/skos:prefLabel',
       predicate: 'dct:source',
       type: 'list',
     },
+    area: {
+      id: 'area',
+      facetValueFilter: '',
+      label: 'Area',
+      labelPath: 'gvp:broaderPreferred/skos:prefLabel',
+      predicate: 'gvp:broaderPreferred',
+      type: 'list',
+    },
     type: {
       id: 'type',
+      facetValueFilter: '',
       label: 'Type',
       labelPath: 'gvp:placeTypePreferred',
       predicate: 'gvp:placeTypePreferred',
