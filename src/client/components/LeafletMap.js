@@ -289,23 +289,26 @@ class LeafletMap extends React.Component {
   }
 
   markerOnClick = event => {
-    this.props.fetchByURI('places', 'manuscripts', event.target.options.id,);
+    this.props.fetchByURI(this.props.resultClass, this.props.facetClass, event.target.options.id,);
   };
 
   createPopUpContent(result) {
-    let popUpTemplate = `<h3><a target="_blank" rel="noopener noreferrer" href=${result.dataProviderUrl}>${result.prefLabel}</a></p></h3>`;
+    let popUpTemplate = `<h3>${result.prefLabel}</h3>`;
+    if (has(result, 'dataProviderUrl')) {
+      popUpTemplate += `<p>Data provider: <a target="_blank" rel="noopener noreferrer" href=${result.dataProviderUrl}>${result.dataProviderUrl}</a></p>`;
+    }
     if (has(result, 'sameAs')) {
       popUpTemplate += `<p>Place authority: <a target="_blank" rel="noopener noreferrer" href=${result.sameAs}>${result.sameAs}</a></p>`;
     }
     if (this.props.variant === 'productionPlaces') {
       popUpTemplate += `<p>Manuscripts produced here:</p>`;
-      popUpTemplate += this.createManscriptListing(result.manuscript);
+      popUpTemplate += this.createManuscriptListing(result.manuscript);
     }
 
     return popUpTemplate;
   }
 
-  createManscriptListing(manuscripts) {
+  createManuscriptListing(manuscripts) {
     let html = '';
     if (Array.isArray(manuscripts)) {
       manuscripts = orderBy(manuscripts, 'id');

@@ -40,6 +40,7 @@ export const allPlacesQuery =  `
     }
     OPTIONAL { ?id gvp:placeTypePreferred ?placeType  }
     OPTIONAL { ?id skos:altLabel ?altLabel  }
+    OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
     OPTIONAL { ?id owl:sameAs ?placeAuthorityURI  }
   }
 `;
@@ -57,7 +58,8 @@ export const placeQuery =  `
       SELECT ?id ?prefLabel ?sameAs ?dataProviderUrl ?parent__id ?parent__prefLabel ?manuscript__id ?manuscript__dataProviderUrl
       WHERE {
         BIND (<PLACE_ID> AS ?id)
-        ?id skos:prefLabel ?prefLabel .
+        OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
+        BIND(COALESCE(?prefLabel_, ?id) AS ?prefLabel)
         OPTIONAL {
           ?id gvp:broaderPreferred ?parent__id .
           ?parent__id skos:prefLabel ?parent__prefLabel .

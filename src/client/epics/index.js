@@ -9,6 +9,7 @@ import {
   FETCH_RESULTS,
   FETCH_RESULTS_FAILED,
   FETCH_BY_URI,
+  FETCH_BY_URI_FAILED,
   FETCH_FACET,
   FETCH_FACET_FAILED,
   //SHOW_ERROR,
@@ -79,13 +80,15 @@ const fetchByURIEpic = (action$, state$) => action$.pipe(
     const requestUrl = `${apiUrl}${resultClass}/instance/${encodeURIComponent(uri)}?${params}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateInstance({ resultClass: resultClass, instance: response })),
-      // catchError(error => of({
-      //   type: SHOW_ERROR,
-      //   message: {
-      //     text: error.xhr.statusText,
-      //     title: ''
-      //   }
-      // }))
+      catchError(error => of({
+        type: FETCH_BY_URI_FAILED,
+        resultClass: resultClass,
+        error: error,
+        message: {
+          text: backendErrorText,
+          title: 'Error'
+        }
+      }))
     );
   })
 );

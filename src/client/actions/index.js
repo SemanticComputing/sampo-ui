@@ -7,6 +7,7 @@ export const UPDATE_RESULTS = 'UPDATE_RESULTS';
 export const SORT_RESULTS = 'SORT_RESULTS';
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const FETCH_BY_URI = 'FETCH_BY_URI';
+export const FETCH_BY_URI_FAILED = 'FETCH_BY_URI_FAILED';
 export const UPDATE_INSTANCE = 'UPDATE_INSTANCE';
 export const FETCH_FACET = 'FETCH_FACET';
 export const FETCH_FACET_FAILED = 'FETCH_FACET_FAILED';
@@ -52,6 +53,10 @@ export const updatePage = (resultClass, page) => ({
 export const fetchByURI = (resultClass, facetClass, uri) => ({
   type: FETCH_BY_URI,
   resultClass, facetClass, uri
+});
+export const fetchByURIFailed = (resultClass, error, message) => ({
+  type: FETCH_RESULTS_FAILED,
+  resultClass, error, message
 });
 export const updateInstance = ({ resultClass, instance }) => ({
   type: UPDATE_INSTANCE,
