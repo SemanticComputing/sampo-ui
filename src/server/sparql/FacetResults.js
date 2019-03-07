@@ -91,13 +91,27 @@ const getPaginatedData = (resultClass, page, pagesize, filters, sortBy, sortDire
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, makeObjectList);
 };
 
-export const getPlace = (filters, uri) => {
-  let q = placeQuery;
-  q = q.replace('<PLACE_ID>', `<${uri}>`);
-  if (filters == null) {
-    q = q.replace('<FILTER>', '# no filters');
-  } else {
-    q = q.replace('<FILTER>', generateFilter('places', 'manuscripts', filters, 'manuscript__id', null));
+export const getByURI = (resultClass, facetClass, variant, filters, uri) => {
+  let q;
+  switch (resultClass) {
+    case 'places':
+      q = placeQuery;
+      break;
   }
+  if (variant === 'productionPlaces') {
+    const manuscriptsProduced =
+      `OPTIONAL {
+          ${generateFilter(resultClass, facetClass, filters, 'manuscript__id', null)}
+          ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?id .
+          ?manuscript__id mmm-schema:data_provider_url ?manuscript__dataProviderUrl .
+        }`;
+    q = q.replace('<MANUSCRIPTS>', manuscriptsProduced);
+  } else {
+    q = q.replace('<MANUSCRIPTS>', '');
+  }
+  q = q.replace('<ID>', `<${uri}>`);
+  // if (variant === 'productionPlaces') {
+  //   console.log(prefixes + q)
+  // }
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, makeObjectList);
 };

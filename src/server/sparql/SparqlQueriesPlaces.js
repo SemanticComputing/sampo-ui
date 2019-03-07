@@ -54,10 +54,9 @@ export const placeQuery =  `
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
       PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
       PREFIX gvp: <http://vocab.getty.edu/ontology#>
-
       SELECT ?id ?prefLabel ?sameAs ?dataProviderUrl ?parent__id ?parent__prefLabel ?manuscript__id ?manuscript__dataProviderUrl
       WHERE {
-        BIND (<PLACE_ID> AS ?id)
+        BIND (<ID> AS ?id)
         OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
         BIND(COALESCE(?prefLabel_, ?id) AS ?prefLabel)
         OPTIONAL {
@@ -66,10 +65,6 @@ export const placeQuery =  `
         }
         OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
         OPTIONAL { ?id owl:sameAs ?sameAs }
-        OPTIONAL {
-          ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?id .
-          ?manuscript__id mmm-schema:data_provider_url ?manuscript__dataProviderUrl .
-          <FILTER>
-        }
+        <MANUSCRIPTS>
       }
 `;

@@ -146,7 +146,7 @@ let Main = props => {
                     People
                   </Typography>
                   <Typography component="p">
-                    People related to manuscripts.
+                    People related to manuscripts and works.
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -186,7 +186,7 @@ let Main = props => {
                     Places
                   </Typography>
                   <Typography component="p">
-                    Places related to manuscripts.
+                    Places related to manuscripts and works.
                   </Typography>
                 </CardContent>
               </CardActionArea>

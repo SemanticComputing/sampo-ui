@@ -50,9 +50,9 @@ export const updatePage = (resultClass, page) => ({
   type: UPDATE_PAGE,
   resultClass, page
 });
-export const fetchByURI = (resultClass, facetClass, uri) => ({
+export const fetchByURI = (resultClass, facetClass, variant, uri) => ({
   type: FETCH_BY_URI,
-  resultClass, facetClass, uri
+  resultClass, facetClass, variant, uri
 });
 export const fetchByURIFailed = (resultClass, error, message) => ({
   type: FETCH_RESULTS_FAILED,

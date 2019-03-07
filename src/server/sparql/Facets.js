@@ -40,9 +40,12 @@ export const getFacet = (resultClass, facetID, sortBy, sortDirection, filters) =
               OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
               BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
               OPTIONAL { ?id dct:source ?source }
-              OPTIONAL { ?id gvp:broaderPreferred ?parent_ }
+              OPTIONAL {
+                ?id gvp:broaderPreferred ?parent_
+                FILTER(?parent_ != <http://ldf.fi/mmm/places/tgn_7026519>)
+              }
               BIND(COALESCE(?parent_, '0') as ?parent)
-              FILTER(?id != <http://ldf.fi/mmm/places/tgn_7026519>)
+              #FILTER(?id != <http://ldf.fi/mmm/places/tgn_7026519>)  
             }
       `;
   }

@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
-import { getPaginatedResults, getAllResults, getPlace } from './sparql/FacetResults';
+import { getPaginatedResults, getAllResults, getByURI } from './sparql/FacetResults';
 import { getFacet } from './sparql/Facets';
 const DEFAULT_PORT = 3001;
 const app = express();
@@ -34,7 +34,8 @@ app.get(`${apiPath}/:resultClass/paginated`, (req, res, next) => {
 app.get(`${apiPath}/:resultClass/all`, (req, res, next) => {
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
   const variant = req.query.variant || null;
-  return getAllResults(req.params.resultClass, req.query.facetClass, variant, filters).then(data => {
+  const facetClass = req.query.facetClass || null;
+  return getAllResults(req.params.resultClass, facetClass, variant, filters).then(data => {
     //console.log(data)
     res.json({
       resultCount: data.count,
@@ -45,16 +46,9 @@ app.get(`${apiPath}/:resultClass/all`, (req, res, next) => {
 
 app.get(`${apiPath}/:resultClass/instance/:uri`, (req, res, next) => {
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
-  let getByURI = null;
-  switch (req.params.resultClass) {
-    // case 'manuscripts':
-    //   getByURI = getManuscript;
-    //   break;
-    case 'places':
-      getByURI = getPlace;
-      break;
-  }
-  return getByURI(filters, req.params.uri).then(data => {
+  const variant = req.query.variant || null;
+  const facetClass = req.query.facetClass || null;
+  return getByURI(req.params.resultClass, facetClass, variant, filters, req.params.uri).then(data => {
     res.json(data[0]);
   }).catch(next);
 });

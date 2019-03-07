@@ -75,8 +75,8 @@ const fetchByURIEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_BY_URI),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { resultClass, facetClass, uri } = action;
-    const params = stateSlicesToUrl(null, state[`${facetClass}Facets`], null, null);
+    const { resultClass, facetClass, variant, uri } = action;
+    const params = stateSlicesToUrl(null, state[`${facetClass}Facets`], variant, facetClass);
     const requestUrl = `${apiUrl}${resultClass}/instance/${encodeURIComponent(uri)}?${params}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateInstance({ resultClass: resultClass, instance: response })),
