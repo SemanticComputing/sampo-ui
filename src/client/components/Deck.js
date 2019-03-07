@@ -90,10 +90,10 @@ class Deck extends React.Component {
   }
 
   parseCoordinates = coords => {
-    if (Array.isArray(coords)) { coords = coords[0]; }
-    const lat = Array.isArray(coords.lat) ? coords.lat[0] : coords.lat;
-    const long = Array.isArray(coords.long) ? coords.long[0] : coords.long;
-    const arr = [ +long, +lat ];
+    // if (Array.isArray(coords)) { coords = coords[0]; }
+    // const lat = Array.isArray(coords.lat) ? coords.lat[0] : coords.lat;
+    // const long = Array.isArray(coords.long) ? coords.long[0] : coords.long;
+    const arr = [ +coords.long, +coords.lat ];
     return arr;
   }
 

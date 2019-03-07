@@ -103,5 +103,4 @@ export const migrationsQuery = `
       filter (?event__date2 > ?event__date)
     }
   }
-  LIMIT 250000
 `;
