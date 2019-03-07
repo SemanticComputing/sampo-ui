@@ -34,8 +34,10 @@ app.get(`${apiPath}/:resultClass/paginated`, (req, res, next) => {
 app.get(`${apiPath}/:resultClass/all`, (req, res, next) => {
   const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
   const variant = req.query.variant || null;
+  const sortBy = req.query.sortBy || null;
+  const sortDirection = req.query.sortDirection || null;
   const facetClass = req.query.facetClass || null;
-  return getAllResults(req.params.resultClass, facetClass, variant, filters).then(data => {
+  return getAllResults(req.params.resultClass, facetClass, filters, sortBy, sortDirection, variant).then(data => {
     //console.log(data)
     res.json({
       resultCount: data.count,

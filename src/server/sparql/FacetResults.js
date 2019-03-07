@@ -25,7 +25,7 @@ export const getPaginatedResults = (resultClass, page, pagesize, filters, sortBy
     });
 };
 
-export const getAllResults = (resultClass, facetClass, variant, filters) => {
+export const getAllResults = (resultClass, facetClass, filters, sortBy, sortDirection, variant) => {
   let q = '';
   let filterTarget = '';
   switch (variant) {
@@ -67,7 +67,6 @@ const getResultCount = (resultClass, filters) => {
 const getPaginatedData = (resultClass, page, pagesize, filters, sortBy, sortDirection) => {
   let q = facetResultSetQuery;
   const facetConfig = facetConfigs[resultClass];
-  //console.log(facetConfig)
   if (filters !== null) {
     q = q.replace('<FILTER>', generateFilter(resultClass, resultClass, filters, 'id', null));
   } else {
@@ -87,7 +86,6 @@ const getPaginatedData = (resultClass, page, pagesize, filters, sortBy, sortDire
       break;
   }
   q = q.replace('<RESULT_SET_PROPERTIES>', resultSetProperties);
-  //console.log(q)
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, makeObjectList);
 };
 

@@ -87,14 +87,14 @@ export const facetConfigs = {
       parentPredicate: 'gvp:broaderPreferred+',
       type: 'hierarchical',
     },
-    // type: {
-    //   id: 'type',
-    //   facetValueFilter: '',
-    //   label: 'Type',
-    //   labelPath: 'gvp:placeTypePreferred',
-    //   predicate: 'gvp:placeTypePreferred',
-    //   type: 'list',
-    // },
+    placeType: {
+      id: 'type',
+      facetValueFilter: '',
+      label: 'Type',
+      labelPath: 'gvp:placeTypePreferred',
+      predicate: 'gvp:placeTypePreferred',
+      type: 'list',
+    },
   }
 
 };

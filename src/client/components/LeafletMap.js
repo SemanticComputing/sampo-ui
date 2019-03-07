@@ -71,7 +71,7 @@ class LeafletMap extends React.Component {
 
   componentDidMount() {
 
-    this.props.fetchResults(this.props.resultClass, this.props.facetClass, this.props.variant);
+    this.props.fetchResults(this.props.resultClass, this.props.facetClass, null, this.props.variant);
 
     // Base layers
     // const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -144,7 +144,7 @@ class LeafletMap extends React.Component {
   componentDidUpdate({ results, filters, instance, mapMode }) {
     // check if filters have changed
     if (this.props.filters !== filters) {
-      this.props.fetchResults(this.props.resultClass, this.props.facetClass, this.props.variant);
+      this.props.fetchResults(this.props.resultClass, this.props.facetClass, null, this.props.variant);
     }
 
     // check if results data or mapMode have changed

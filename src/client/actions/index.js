@@ -18,17 +18,17 @@ export const CLOSE_FACET_DIALOG = 'CLOSE_FACET_DIALOG';
 export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP';
 export const SHOW_ERROR = 'SHOW_ERROR';
 
-export const fetchPaginatedResults = (resultClass, facetClass, variant) => ({
+export const fetchPaginatedResults = (resultClass, facetClass, sortBy, variant) => ({
   type: FETCH_PAGINATED_RESULTS,
-  resultClass, facetClass, variant
+  resultClass, facetClass, sortBy, variant
 });
 export const fetchPaginatedResultsFailed = (resultClass, error, message) => ({
   type: FETCH_PAGINATED_RESULTS_FAILED,
   resultClass, error, message
 });
-export const fetchResults = (resultClass, facetClass, variant) => ({
+export const fetchResults = (resultClass, facetClass, sortBy, variant) => ({
   type: FETCH_RESULTS,
-  resultClass, facetClass, variant
+  resultClass, facetClass, sortBy, variant
 });
 export const fetchResultsFailed = (resultClass, error, message) => ({
   type: FETCH_RESULTS_FAILED,
@@ -42,9 +42,9 @@ export const updateResults = ({ resultClass, data }) => ({
   type: UPDATE_RESULTS,
   resultClass, data
 });
-export const sortResults = sortBy => ({
+export const sortResults = (resultClass, sortBy) => ({
   type: SORT_RESULTS,
-  sortBy
+  resultClass, sortBy
 });
 export const updatePage = (resultClass, page) => ({
   type: UPDATE_PAGE,

@@ -29,8 +29,8 @@ const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_PAGINATED_RESULTS),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { resultClass, facetClass, variant } = action;
-    const params = stateSlicesToUrl(state[resultClass], state[`${facetClass}Facets`], variant, null);
+    const { resultClass, facetClass, sortBy, variant } = action;
+    const params = stateSlicesToUrl(state[resultClass], state[`${facetClass}Facets`], sortBy, variant, null);
     const requestUrl = `${apiUrl}${resultClass}/paginated?${params}`;
     // https://rxjs-dev.firebaseapp.com/api/ajax/ajax
     return ajax.getJSON(requestUrl).pipe(
@@ -54,7 +54,7 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
     const { resultClass, facetClass, variant } = action;
-    const params = stateSlicesToUrl(null, state[`${facetClass}Facets`], variant, facetClass);
+    const params = stateSlicesToUrl(null, state[`${facetClass}Facets`], null, variant, facetClass);
     const requestUrl = `${apiUrl}${resultClass}/all?${params}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResults({ resultClass: resultClass, data: response })),
@@ -76,7 +76,7 @@ const fetchByURIEpic = (action$, state$) => action$.pipe(
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
     const { resultClass, facetClass, variant, uri } = action;
-    const params = stateSlicesToUrl(null, state[`${facetClass}Facets`], variant, facetClass);
+    const params = stateSlicesToUrl(null, state[`${facetClass}Facets`], null, variant, facetClass);
     const requestUrl = `${apiUrl}${resultClass}/instance/${encodeURIComponent(uri)}?${params}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateInstance({ resultClass: resultClass, instance: response })),
@@ -137,13 +137,15 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
   })
 );
 
-export const stateSlicesToUrl = (pagination, facets, variant, facetClass) => {
+export const stateSlicesToUrl = (pagination, facets, sortBy, variant, facetClass) => {
   let params = {};
   if (pagination != null) {
     params.page = pagination.page;
     params.pagesize =  pagination.pagesize;
-    params.sortBy = pagination.sortBy;
     params.sortDirection = pagination.sortDirection;
+  }
+  if (sortBy !== null) {
+    params.sortBy = sortBy;
   }
   if (variant !== null) {
     params.variant = variant;

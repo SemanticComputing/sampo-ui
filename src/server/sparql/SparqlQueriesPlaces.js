@@ -1,7 +1,5 @@
 export const placeProperties = `
-    ?id skos:prefLabel ?prefLabel__id .
-    BIND(?prefLabel__id AS ?prefLabel__prefLabel)
-    BIND(?id AS ?prefLabel__dataProviderUrl)
+    ?id skos:prefLabel ?prefLabel .
     {
       ?id dct:source ?source__id .
       OPTIONAL { ?source__id skos:prefLabel ?prefLabel_ }
@@ -9,9 +7,10 @@ export const placeProperties = `
       BIND(COALESCE(STR(?prefLabel_), STR(?source__id)) AS ?source__prefLabel)
       BIND(COALESCE(?dataProviderUrl_, ?id) AS ?source__dataProviderUrl)
     }
-    UNION
-    {
-      ?id gvp:placeTypePreferred ?placeType .
+    UNION { ?id gvp:placeTypePreferred ?placeType }
+    UNION {
+      ?id gvp:broaderPreferred ?area__id .
+      ?area__id skos:prefLabel ?area__prefLabel .
     }
 `;
 
@@ -35,8 +34,8 @@ export const allPlacesQuery =  `
           wgs84:long ?long .
     }
     OPTIONAL {
-      ?id gvp:broaderPreferred ?parent__id .
-      ?parent__id skos:prefLabe ?parent__prefLabel .
+      ?id gvp:broaderPreferred ?area__id .
+      ?area__id skos:prefLabel ?area__prefLabel .
     }
     OPTIONAL { ?id gvp:placeTypePreferred ?placeType  }
     OPTIONAL { ?id skos:altLabel ?altLabel  }

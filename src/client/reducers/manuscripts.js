@@ -62,7 +62,7 @@ export const INITIAL_STATE = {
       minWidth: 170,
     },
     {
-      id: 'timespan',
+      id: 'productionTimespan',
       label: 'Production date',
       desc: 'Production date description',
       valueType: 'object',

@@ -42,7 +42,7 @@ export const INITIAL_STATE = {
       numberedList: false
     },
     {
-      id: 'parent',
+      id: 'area',
       label: 'Broader area',
       desc: 'Broader area description',
       valueType: 'object',

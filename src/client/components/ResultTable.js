@@ -59,7 +59,7 @@ class ResultTable extends React.Component {
 
   componentDidUpdate = prevProps => {
     if (prevProps.data.page != this.props.data.page) {
-      this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.variant);
+      this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.data.sortBy, this.props.variant);
       history.push({
         pathname: `/${this.props.resultClass}/table`,
         search: `?page=${this.props.data.page}`,
@@ -69,17 +69,17 @@ class ResultTable extends React.Component {
       this.props.updatePage(this.props.resultClass, 0);
       // if already on page 0, fetch results
       if (this.props.data.page == 0) {
-        this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.variant);
+        this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.data.sortBy, this.props.variant);
       }
     }
     if (prevProps.data.sortBy != this.props.data.sortBy) {
       this.props.updatePage(this.props.resultClass, 0);
       if (this.props.data.page == 0) {
-        this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.variant);
+        this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.data.sortBy, this.props.variant);
       }
     }
     if (prevProps.data.sortDirection != this.props.data.sortDirection) {
-      this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.variant);
+      this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.data.sortBy, this.props.variant);
     }
   }
 
@@ -97,7 +97,7 @@ class ResultTable extends React.Component {
 
   handleSortBy = sortBy => event => {
     if (event != null) {
-      this.props.sortResults(sortBy);
+      this.props.sortResults(this.props.resultClass, sortBy);
     }
   }
 
@@ -125,8 +125,7 @@ class ResultTable extends React.Component {
   render() {
     const { classes } = this.props;
     const { resultsCount, paginatedResults, page, pagesize, sortBy, sortDirection, fetching } = this.props.data;
-    //console.log(results)
-
+    // console.log(paginatedResults)
     if (fetching) {
       return (
         <div className={classes.progressContainer}>

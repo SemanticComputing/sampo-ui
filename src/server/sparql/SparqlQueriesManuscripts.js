@@ -14,11 +14,11 @@ export const manuscriptProperties = `
   UNION
   {
     ?production crm:P108_has_produced ?id .
-    ?production crm:P4_has_time-span ?timespan .
-    ?timespan skos:prefLabel ?timespan__id .
-    OPTIONAL { ?timespan crm:P79_beginning_is_qualified_by ?timespan__start }
-    OPTIONAL { ?timespan crm:P80_end_is_qualified_by ?timespan__end }
-    BIND (?timespan__id AS ?timespan__prefLabel)
+    ?production crm:P4_has_time-span ?productionTimespan .
+    ?productionTimespan skos:prefLabel ?productionTimespan__id .
+    OPTIONAL { ?productionTimespan crm:P79_beginning_is_qualified_by ?productionTimespan__start }
+    OPTIONAL { ?productionTimespan crm:P80_end_is_qualified_by ?productionTimespan__end }
+    BIND (?productionTimespan__id AS ?productionTimespan__prefLabel)
   }
   UNION
   {
