@@ -79,13 +79,13 @@ class Deck extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchResults(this.props.resultClass, this.props.facetClass, this.props.variant);
+    this.props.fetchResults(this.props.resultClass, this.props.facetClass, null, this.props.variant);
   }
 
   componentDidUpdate = prevProps => {
     // check if filters have changed
     if (this.props.filters !== prevProps.filters) {
-      this.props.fetchResults(this.props.resultClass, this.props.facetClass, this.props.variant);
+      this.props.fetchResults(this.props.resultClass, this.props.facetClass, null, this.props.variant);
     }
   }
 
