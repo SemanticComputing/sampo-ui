@@ -37,77 +37,21 @@ export const mapFacet = sparqlBindings => {
 
 export const mapHierarchicalFacet = sparqlBindings => {
   const results = makeObjectList(sparqlBindings);
-  const flatResults = results;
-  // results.push({
-  //   id: 'http://ldf.fi/mmm/places/sdbm_not_linked',
-  //   prefLabel: 'SDBM places not linked to TGN',
-  //   selected: 'false',
-  //   source: 'http://ldf.fi/mmm/schema/SDBM',
-  //   instanceCount: '0',
-  //   parent: '0'
-  // });
-  // results.push({
-  //   id: 'http://ldf.fi/mmm/places/bodley_not_linked',
-  //   prefLabel: 'Bodley places not linked to TGN',
-  //   selected: 'false',
-  //   source: 'http://ldf.fi/mmm/schema/Bodley',
-  //   instanceCount: '0',
-  //   parent: '0'
-  // });
-  // results.push({
-  //   id: 'http://ldf.fi/mmm/places/bibale_not_linked',
-  //   prefLabel: 'Bibale places not linked to TGN',
-  //   selected: 'false',
-  //   source: 'http://ldf.fi/mmm/schema/Bibale',
-  //   instanceCount: '0',
-  //   parent: '0'
-  // });
+  //const flatResults = results;
   let treeData = getTreeFromFlatData({
     flatData: results,
     getKey: node => node.id, // resolve a node's key
     getParentKey: node => node.parent, // resolve node's parent's key
-    // getParentKey: getParentKey, // resolve node's parent's key
     rootKey: '0', // The value of the parent key when there is no parent (i.e., at root level)
   });
   treeData = recursiveSort(treeData);
   treeData.forEach(node => sumUp(node));
   return {
     distinctValueCount: results.length,
-    flatValues: flatResults,
+    //flatValues: flatResults,
     values: treeData
   };
 };
-
-// const rootLevel = new Set([
-//   'http://ldf.fi/mmm/places/tgn_7029392',
-//   'http://ldf.fi/mmm/places/sdbm_not_linked',
-//   'http://ldf.fi/mmm/places/bodley_not_linked',
-//   'http://ldf.fi/mmm/places/bibale_not_linked'
-// ]);
-//
-// const getParentKey = node => {
-//   let parent = '';
-//   if (node.parent === '0' && !rootLevel.has(node.id)) {
-//     if (Array.isArray(node.source)) {
-//       if (node.source.indexOf('http://ldf.fi/mmm/schema/SDBM') != -1) {
-//         parent = 'http://ldf.fi/mmm/places/sdbm_not_linked';
-//       } else if (node.source.indexOf('http://ldf.fi/mmm/schema/Bodley') != -1) {
-//         parent = 'http://ldf.fi/mmm/places/bodley_not_linked';
-//       } else if (node.source.indexOf('http://ldf.fi/mmm/schema/Bibale') != -1) {
-//         parent = 'http://ldf.fi/mmm/places/bibale_not_linked';
-//       }
-//     } else if (node.source === 'http://ldf.fi/mmm/schema/SDBM') {
-//       parent = 'http://ldf.fi/mmm/places/sdbm_not_linked';
-//     } else if (node.source === 'http://ldf.fi/mmm/schema/Bodley') {
-//       parent = 'http://ldf.fi/mmm/places/bodley_not_linked';
-//     } else if (node.source === 'http://ldf.fi/mmm/schema/Bibale') {
-//       parent = 'http://ldf.fi/mmm/places/bibale_not_linked';
-//     }
-//   } else {
-//     parent = node.parent;
-//   }
-//   return parent;
-// };
 
 const comparator = (a, b) => {
   if (Array.isArray(a.prefLabel)) {

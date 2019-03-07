@@ -34,7 +34,6 @@ export const facetValuesQuery = `
             ?instance a <RDF_TYPE> .
             <FILTER>
             ?instance <PREDICATE> ?id .
-            <FACET_VALUE_FILTER>
             <SELECTED_VALUES>
             BIND(COALESCE(?selected_, false) as ?selected)
             OPTIONAL { ?id dct:source ?source . }
@@ -46,6 +45,7 @@ export const facetValuesQuery = `
         GROUP BY ?id ?selected ?source ?lat ?long ?parent
       }
       FILTER(BOUND(?id))
+      <FACET_VALUE_FILTER>
       OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
       BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
     }
@@ -64,6 +64,7 @@ export const facetValuesQuery = `
       BIND("Unknown" AS ?prefLabel)
       BIND('0' as ?parent)
     }
+
   }
   <ORDER_BY>
 `;

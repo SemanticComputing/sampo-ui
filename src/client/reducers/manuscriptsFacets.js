@@ -121,7 +121,7 @@ const manuscriptsFacets = (state = INITIAL_STATE, action) => {
               ...state.facets[action.id],
               distinctValueCount: action.distinctValueCount,
               values: action.values,
-              flatValues: action.flatValues || [],
+              // flatValues: action.flatValues || [],
               sortBy: action.sortBy,
               sortDirection: action.sortDirection,
               isFetching: false

@@ -4,8 +4,8 @@ export const facetConfigs = {
     productionPlace: {
       id: 'productionPlace',
       facetValueFilter: `
-        ?id dct:source <http://vocab.getty.edu/tgn/> .
-        FILTER(?id != <http://ldf.fi/mmm/places/tgn_7031096>)
+      ?id dct:source <http://vocab.getty.edu/tgn/> .
+      FILTER(?id != <http://ldf.fi/mmm/places/tgn_7031096>)
       `,
       label: 'Production place',
       labelPath: '^crm:P108_has_produced/crm:P7_took_place_at/skos:prefLabel',
@@ -78,7 +78,9 @@ export const facetConfigs = {
     },
     area: {
       id: 'area',
-      facetValueFilter: '',
+      facetValueFilter: `
+      FILTER(?id != <http://ldf.fi/mmm/place/tgn_7026519>)
+      `,
       label: 'Area',
       labelPath: 'gvp:broaderPreferred/skos:prefLabel',
       predicate: 'gvp:broaderPreferred',

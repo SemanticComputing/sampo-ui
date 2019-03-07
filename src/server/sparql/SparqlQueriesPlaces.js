@@ -42,6 +42,7 @@ export const allPlacesQuery =  `
     OPTIONAL { ?id skos:altLabel ?altLabel  }
     OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
     OPTIONAL { ?id owl:sameAs ?placeAuthorityURI  }
+    FILTER(?id != <http://ldf.fi/mmm/places/tgn_7031096>)
   }
 `;
 

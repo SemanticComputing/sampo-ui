@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
 import { getPaginatedResults, getAllResults, getByURI } from './sparql/FacetResults';
-import { getFacet } from './sparql/Facets';
+import { getFacet } from './sparql/FacetValues';
 const DEFAULT_PORT = 3001;
 const app = express();
 const apiPath = '/api';

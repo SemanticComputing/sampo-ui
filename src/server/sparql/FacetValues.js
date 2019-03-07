@@ -42,10 +42,8 @@ export const getFacet = (resultClass, facetID, sortBy, sortDirection, filters) =
               OPTIONAL { ?id dct:source ?source }
               OPTIONAL {
                 ?id gvp:broaderPreferred ?parent_
-                FILTER(?parent_ != <http://ldf.fi/mmm/places/tgn_7026519>)
               }
               BIND(COALESCE(?parent_, '0') as ?parent)
-              #FILTER(?id != <http://ldf.fi/mmm/places/tgn_7026519>)  
             }
       `;
   }
@@ -56,9 +54,9 @@ export const getFacet = (resultClass, facetID, sortBy, sortDirection, filters) =
   q = q.replace('<FACET_VALUE_FILTER>', facetConfig.facetValueFilter);
   q = q.replace('<PARENTS>', parentBlock);
   q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
-  // if (facetID == 'area') {
-  //   //console.log(filters)
-  //   console.log(prefixes + q)
-  // }
+  if (facetID == 'area') {
+    //console.log(filters)
+    console.log(prefixes + q)
+  }
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, mapper);
 };
