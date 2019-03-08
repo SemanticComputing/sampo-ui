@@ -2,6 +2,7 @@ import SparqlSearchEngine from './SparqlSearchEngine';
 import { endpoint, countQuery, facetResultSetQuery } from './SparqlQueriesGeneral';
 import { manuscriptProperties, productionPlacesQuery, migrationsQuery } from './SparqlQueriesManuscripts';
 import { placeProperties, placeQuery, allPlacesQuery } from './SparqlQueriesPlaces';
+import { personProperties } from './SparqlQueriesPeople';
 import { prefixes } from './SparqlQueriesPrefixes';
 import { facetConfigs } from './FacetConfigs';
 import { mapCount } from './Mappers';
@@ -76,7 +77,7 @@ const getPaginatedData = (resultClass, page, pagesize, filters, sortBy, sortDire
   q = q.replace('<ORDER_BY_PREDICATE>', facetConfig[sortBy].labelPath);
   q = q.replace('<SORT_DIRECTION>', sortDirection);
   q = q.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`);
-  let resultSetProperties = '';
+  let resultSetProperties;
   switch (resultClass) {
     case 'manuscripts':
       resultSetProperties = manuscriptProperties;
@@ -84,8 +85,14 @@ const getPaginatedData = (resultClass, page, pagesize, filters, sortBy, sortDire
     case 'places':
       resultSetProperties = placeProperties;
       break;
+    case 'people':
+      resultSetProperties = personProperties;
+      break;
+    default:
+      resultSetProperties = '';
   }
   q = q.replace('<RESULT_SET_PROPERTIES>', resultSetProperties);
+  console.log(prefixes + q)
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, makeObjectList);
 };
 

@@ -52,6 +52,7 @@ let Main = props => {
 
   const ManuscriptLink = props => <NavLink to="/manuscripts" {...props}/>;
   //const WorkLink = props => <NavLink to="/works" {...props}/>;
+  const PeopleLink = props => <NavLink to="/people" {...props}/>;
   const PlacesLink = props => <NavLink to="/places" {...props}/>;
 
   return (
@@ -119,7 +120,7 @@ let Main = props => {
                 <CardMedia
                   className={classes.media}
                   image={thumbImage}
-                  title="Manuscripts"
+                  title="Events"
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
@@ -135,11 +136,11 @@ let Main = props => {
 
           <Grid item sm={6} md={4} lg={4}>
             <Card className={classes.card}>
-              <CardActionArea disabled>
+              <CardActionArea component={PeopleLink}>
                 <CardMedia
                   className={classes.media}
                   image={thumbImage}
-                  title="Manuscripts"
+                  title="People"
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
@@ -159,7 +160,7 @@ let Main = props => {
                 <CardMedia
                   className={classes.media}
                   image={thumbImage}
-                  title="Manuscripts"
+                  title="Organizations"
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">

@@ -179,6 +179,15 @@ class TopBar extends React.Component {
         {...props}
       />);
 
+    const PeopleLink = props => (
+      <NavLink
+        to="/people"
+        className={classes.appBarButton}
+        isActive={(match, location) => location.pathname.startsWith('/people')}
+        activeClassName={classes.appBarButtonActive}
+        {...props}
+      />);
+
     const PlacesLink = props => (
       <NavLink
         to="/places"
@@ -223,7 +232,11 @@ class TopBar extends React.Component {
               </Button>
               <Button disabled className={classes.appBarButton}>Works</Button>
               <Button disabled className={classes.appBarButton}>Events</Button>
-              <Button disabled className={classes.appBarButton}>People</Button>
+              <Button
+                className={classes.appBarButton}
+                component={PeopleLink}>
+                people
+              </Button>
               <Button disabled className={classes.appBarButton}>Organizations</Button>
               <Button
                 className={classes.appBarButton}

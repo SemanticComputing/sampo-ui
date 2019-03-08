@@ -95,6 +95,30 @@ export const facetConfigs = {
       predicate: 'gvp:placeTypePreferred',
       type: 'list',
     },
+  },
+  people: {
+    rdfType: 'mmm-schema:Person',
+    prefLabel: {
+      id: 'prefLabel',
+      facetValueFilter: '',
+      labelPath: 'skos:prefLabel',
+      type: 'list',
+    },
+    source: {
+      id: 'source',
+      facetValueFilter: '',
+      labelPath: 'dct:source/skos:prefLabel',
+      predicate: 'dct:source',
+      type: 'list',
+    },
+    place: {
+      id: 'source',
+      facetValueFilter: '',
+      labelPath: 'mmm-schema:person_place/skos:prefLabel',
+      predicate: 'mmm-schema:person_place',
+      //parentPredicate: 'gvp:broaderPreferred+',
+      type: 'list',
+      //type: 'hierarchical',
+    },
   }
-
 };

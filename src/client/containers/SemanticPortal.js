@@ -15,6 +15,7 @@ import Message from '../components/main_layout/Message';
 import FacetBar from '../components/facet_bar/FacetBar';
 import Manuscripts from '../components/perspectives/Manuscripts';
 import Places from '../components//perspectives/Places';
+import People from '../components//perspectives/People';
 import {
   fetchPaginatedResults,
   fetchResults,
@@ -113,6 +114,37 @@ let SemanticPortal = (props) => {
               }
             />
             <Route
+              path="/people"
+              render={routeProps =>
+                <React.Fragment>
+                  <Grid item sm={12} md={3} className={classes.facetBarContainer}>
+                    <FacetBar
+                      facetData={props.peopleFacets}
+                      resultClass='people'
+                      fetchFacet={props.fetchFacet}
+                      updateFilter={props.updateFilter}
+                    />
+                  </Grid>
+                  <Grid item sm={12} md={9} className={classes.resultsContainer}>
+                    <Paper className={classes.resultsContainerPaper}>
+                      <People
+                        people={props.people}
+                        places={props.places}
+                        facetData={props.peopleFacets}
+                        fetchResults={props.fetchResults}
+                        fetchPaginatedResults={props.fetchPaginatedResults}
+                        fetchByURI={props.fetchByURI}
+                        filters={props.manuscriptsFacets.filters}
+                        updatePage={props.updatePage}
+                        sortResults={props.sortResults}
+                        routeProps={routeProps}
+                      />
+                    </Paper>
+                  </Grid>
+                </React.Fragment>
+              }
+            />
+            <Route
               path="/places"
               render={routeProps =>
                 <React.Fragment>
@@ -157,6 +189,8 @@ const mapStateToProps = state => {
   return {
     manuscripts: state.manuscripts,
     manuscriptsFacets: state.manuscriptsFacets,
+    people: state.people,
+    peopleFacets: state.peopleFacets,
     places: state.places,
     placesFacets: state.placesFacets,
     error: state.error
@@ -182,6 +216,8 @@ SemanticPortal.propTypes = {
   // browser: PropTypes.object.isRequired,
   manuscripts: PropTypes.object.isRequired,
   manuscriptsFacets: PropTypes.object.isRequired,
+  people: PropTypes.object.isRequired,
+  peopleFacets: PropTypes.object.isRequired,
   places: PropTypes.object.isRequired,
   placesFacets: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
