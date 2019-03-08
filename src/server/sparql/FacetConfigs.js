@@ -59,6 +59,22 @@ export const facetConfigs = {
       type: 'list',
     },
   },
+  works: {
+    rdfType: 'frbroo:F1_Work',
+    prefLabel: {
+      id: 'prefLabel',
+      facetValueFilter: '',
+      labelPath: 'skos:prefLabel',
+      type: 'list',
+    },
+    source: {
+      id: 'source',
+      facetValueFilter: '',
+      labelPath: 'dct:source/skos:prefLabel',
+      predicate: 'dct:source',
+      type: 'list',
+    },
+  },
   people: {
     rdfType: 'mmm-schema:Person',
     prefLabel: {

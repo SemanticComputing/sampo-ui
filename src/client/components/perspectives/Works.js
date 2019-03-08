@@ -15,6 +15,11 @@ let Works = props => {
             value: 0,
             icon: 'CalendarViewDay',
           },
+          // '/works/map': {
+          //   label: 'map',
+          //   value: 1,
+          //   icon: 'AddLocation',
+          // },
         }}
       />
       <Route
@@ -42,6 +47,7 @@ let Works = props => {
 
 Works.propTypes = {
   works: PropTypes.object.isRequired,
+  places: PropTypes.object.isRequired,
   facetData: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
   fetchPaginatedResults: PropTypes.func.isRequired,

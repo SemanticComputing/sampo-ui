@@ -1,10 +1,11 @@
 import SparqlSearchEngine from './SparqlSearchEngine';
+import { prefixes } from './SparqlQueriesPrefixes';
 import { endpoint, countQuery, facetResultSetQuery } from './SparqlQueriesGeneral';
 import { manuscriptProperties, productionPlacesQuery, migrationsQuery } from './SparqlQueriesManuscripts';
-import { placeProperties, placeQuery, allPlacesQuery } from './SparqlQueriesPlaces';
+import { workProperties } from './SparqlQueriesWorks';
 import { personProperties } from './SparqlQueriesPeople';
 import { organizationProperties } from './SparqlQueriesOrganizations';
-import { prefixes } from './SparqlQueriesPrefixes';
+import { placeProperties, placeQuery, allPlacesQuery } from './SparqlQueriesPlaces';
 import { facetConfigs } from './FacetConfigs';
 import { mapCount } from './Mappers';
 import { makeObjectList } from './SparqlObjectMapper';
@@ -82,6 +83,9 @@ const getPaginatedData = (resultClass, page, pagesize, filters, sortBy, sortDire
   switch (resultClass) {
     case 'manuscripts':
       resultSetProperties = manuscriptProperties;
+      break;
+    case 'works':
+      resultSetProperties = workProperties;
       break;
     case 'places':
       resultSetProperties = placeProperties;

@@ -50,8 +50,8 @@ const styles = theme => ({
 let Main = props => {
   const { classes } = props;
 
-  const ManuscriptLink = props => <NavLink to="/manuscripts" {...props}/>;
-  //const WorkLink = props => <NavLink to="/works" {...props}/>;
+  const ManuscriptsLink = props => <NavLink to="/manuscripts" {...props}/>;
+  const WorksLink = props => <NavLink to="/works" {...props}/>;
   const PeopleLink = props => <NavLink to="/people" {...props}/>;
   const OrganizationsLink = props => <NavLink to="/organizations" {...props}/>;
   const PlacesLink = props => <NavLink to="/places" {...props}/>;
@@ -77,7 +77,7 @@ let Main = props => {
 
           <Grid item sm={6} md={4} lg={4}>
             <Card className={classes.card}>
-              <CardActionArea component={ManuscriptLink}>
+              <CardActionArea component={ManuscriptsLink}>
                 <CardMedia
                   className={classes.media}
                   image={thumbImage}
@@ -97,7 +97,7 @@ let Main = props => {
 
           <Grid item sm={6} md={4} lg={4}>
             <Card className={classes.card}>
-              <CardActionArea disabled>
+              <CardActionArea component={WorksLink}>
                 <CardMedia
                   className={classes.media}
                   image={thumbImage}

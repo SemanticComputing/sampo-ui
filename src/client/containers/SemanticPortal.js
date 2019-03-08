@@ -14,6 +14,7 @@ import Footer from '../components/main_layout/Footer';
 import Message from '../components/main_layout/Message';
 import FacetBar from '../components/facet_bar/FacetBar';
 import Manuscripts from '../components/perspectives/Manuscripts';
+import Works from '../components/perspectives/Works';
 import Places from '../components//perspectives/Places';
 import People from '../components//perspectives/People';
 import Organizations from '../components/perspectives/Organizations';
@@ -102,6 +103,36 @@ let SemanticPortal = (props) => {
                         manuscripts={props.manuscripts}
                         places={props.places}
                         facetData={props.manuscriptsFacets}
+                        fetchPaginatedResults={props.fetchPaginatedResults}
+                        fetchResults={props.fetchResults}
+                        fetchByURI={props.fetchByURI}
+                        updatePage={props.updatePage}
+                        sortResults={props.sortResults}
+                        routeProps={routeProps}
+                      />
+                    </Paper>
+                  </Grid>
+                </React.Fragment>
+              }
+            />
+            <Route
+              path="/works"
+              render={routeProps =>
+                <React.Fragment>
+                  <Grid item sm={12} md={3} className={classes.facetBarContainer}>
+                    <FacetBar
+                      facetData={props.worksFacets}
+                      resultClass='works'
+                      fetchFacet={props.fetchFacet}
+                      updateFilter={props.updateFilter}
+                    />
+                  </Grid>
+                  <Grid item sm={12} md={9} className={classes.resultsContainer}>
+                    <Paper className={classes.resultsContainerPaper}>
+                      <Works
+                        works={props.works}
+                        places={props.places}
+                        facetData={props.worksFacets}
                         fetchPaginatedResults={props.fetchPaginatedResults}
                         fetchResults={props.fetchResults}
                         fetchByURI={props.fetchByURI}
@@ -221,6 +252,8 @@ const mapStateToProps = state => {
   return {
     manuscripts: state.manuscripts,
     manuscriptsFacets: state.manuscriptsFacets,
+    works: state.works,
+    worksFacets: state.worksFacets,
     people: state.people,
     peopleFacets: state.peopleFacets,
     organizations: state.organizations,
@@ -250,6 +283,8 @@ SemanticPortal.propTypes = {
   // browser: PropTypes.object.isRequired,
   manuscripts: PropTypes.object.isRequired,
   manuscriptsFacets: PropTypes.object.isRequired,
+  works: PropTypes.object.isRequired,
+  worksFacets: PropTypes.object.isRequired,
   people: PropTypes.object.isRequired,
   peopleFacets: PropTypes.object.isRequired,
   organizations: PropTypes.object.isRequired,
