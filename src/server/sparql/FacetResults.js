@@ -96,7 +96,7 @@ const getPaginatedData = (resultClass, page, pagesize, filters, sortBy, sortDire
       resultSetProperties = '';
   }
   q = q.replace('<RESULT_SET_PROPERTIES>', resultSetProperties);
-  console.log(prefixes + q)
+  // console.log(prefixes + q)
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, makeObjectList);
 };
 
