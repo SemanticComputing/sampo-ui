@@ -2,10 +2,10 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import oxfordLogo from '../img/logos/oxford-logo-white.png';
-import pennLogo from '../img/logos/penn-logo-white.png';
-import cnrsLogo from '../img/logos/cnrs-logo-white-small.png';
-import aaltoLogo from '../img/logos/aalto-logo-white-no-background-small.png';
+import oxfordLogo from '../../img/logos/oxford-logo-white.png';
+import pennLogo from '../../img/logos/penn-logo-white.png';
+import cnrsLogo from '../../img/logos/cnrs-logo-white-small.png';
+import aaltoLogo from '../../img/logos/aalto-logo-white-no-background-small.png';
 
 const logoPadding = 50;
 const logoHeight = 52;

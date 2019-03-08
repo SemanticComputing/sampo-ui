@@ -13,8 +13,6 @@ export const FETCH_FACET = 'FETCH_FACET';
 export const FETCH_FACET_FAILED = 'FETCH_FACET_FAILED';
 export const UPDATE_FACET = 'UPDATE_FACET';
 export const UPDATE_FILTER = 'UPDATE_FILTER';
-export const OPEN_FACET_DIALOG = 'OPEN_FACET_DIALOG';
-export const CLOSE_FACET_DIALOG = 'CLOSE_FACET_DIALOG';
 export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP';
 export const SHOW_ERROR = 'SHOW_ERROR';
 
@@ -78,14 +76,6 @@ export const updateFilter = ({ resultClass, property, value }) => ({
   type: UPDATE_FILTER,
   resultClass, property, value
 });
-export const openFacetDialog = property => ({
-  type: OPEN_FACET_DIALOG,
-  property
-});
-export const closeFacetDialog = () => ({
-  type: CLOSE_FACET_DIALOG,
-});
-
 export const openMarkerPopup = uri => ({
   type: OPEN_MARKER_POPUP,
   uri

@@ -3,8 +3,6 @@ import {
   FETCH_FACET_FAILED,
   UPDATE_FACET,
   UPDATE_FILTER,
-  OPEN_FACET_DIALOG,
-  CLOSE_FACET_DIALOG,
 } from '../actions';
 import { updateFilter } from './helpers';
 
@@ -75,14 +73,6 @@ export const INITIAL_STATE = {
 const manuscriptsFacets = (state = INITIAL_STATE, action) => {
   if (action.resultClass === 'manuscripts') {
     switch (action.type) {
-      case OPEN_FACET_DIALOG:
-        return {
-          ...state,
-          facetDialogOpen: true,
-          activeFacet: action.property
-        };
-      case CLOSE_FACET_DIALOG:
-        return { ...state, facetDialogOpen: false };
       case FETCH_FACET:
         return {
           ...state,

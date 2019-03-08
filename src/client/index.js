@@ -6,7 +6,7 @@ import {responsiveStoreEnhancer} from 'redux-responsive';
 import { Provider } from 'react-redux';
 import ReduxToastr, { actions as toastrActions } from 'react-redux-toastr';
 import { Router } from 'react-router-dom';
-import history from './components/History';
+import history from './History';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import 'react-virtualized/styles.css';
 

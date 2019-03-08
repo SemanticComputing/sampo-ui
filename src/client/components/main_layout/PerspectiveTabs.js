@@ -19,7 +19,7 @@ const styles = () => ({
   },
 });
 
-class ViewTabs extends React.Component {
+class PerspectiveTabs extends React.Component {
   constructor(props) {
     super(props);
     let value = this.pathnameToValue(this.props.routeProps.location.pathname);
@@ -78,10 +78,10 @@ class ViewTabs extends React.Component {
   }
 }
 
-ViewTabs.propTypes = {
+PerspectiveTabs.propTypes = {
   classes: PropTypes.object.isRequired,
   routeProps: PropTypes.object.isRequired,
   tabs: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(ViewTabs);
+export default withStyles(styles)(PerspectiveTabs);

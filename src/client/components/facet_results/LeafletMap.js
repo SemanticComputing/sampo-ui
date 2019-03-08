@@ -28,11 +28,11 @@ import 'Leaflet.extra-markers/dist/css/leaflet.extra-markers.min.css';
 import 'Leaflet.extra-markers/dist/img/markers_default.png';
 import 'Leaflet.extra-markers/dist/img/markers_shadow.png';
 
-import markerShadowIcon from '../img/markers/marker-shadow.png';
-import markerIconViolet from '../img/markers/marker-icon-violet.png';
-import markerIconGreen from '../img/markers/marker-icon-green.png';
-import markerIconRed from '../img/markers/marker-icon-red.png';
-import markerIconOrange from '../img/markers/marker-icon-orange.png';
+import markerShadowIcon from '../../img/markers/marker-shadow.png';
+import markerIconViolet from '../../img/markers/marker-icon-violet.png';
+import markerIconGreen from '../../img/markers/marker-icon-green.png';
+import markerIconRed from '../../img/markers/marker-icon-red.png';
+import markerIconOrange from '../../img/markers/marker-icon-orange.png';
 
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZWtrb25lbiIsImEiOiJjam5vampzZ28xd2dyM3BzNXR0Zzg4azl4In0.eozyF-bBaZbA3ibhvJlJpQ';
 

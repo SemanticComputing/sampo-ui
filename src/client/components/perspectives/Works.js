@@ -1,13 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
-import ViewTabs from './ViewTabs';
-import ResultTable from './ResultTable';
+import PerspectiveTabs from '../main_layout/PerspectiveTabs';
+import ResultTable from '../facet_results/ResultTable';
 
 let Works = props => {
   return (
     <React.Fragment>
-      <ViewTabs routeProps={props.routeProps} />
+      <PerspectiveTabs
+        routeProps={props.routeProps}
+        tabs={{
+          '/works/table': {
+            label: 'table',
+            value: 0,
+            icon: 'CalendarViewDay',
+          },
+        }}
+      />
       <Route
         exact path='/works'
         render={() => <Redirect to='works/table' />}
@@ -16,10 +25,11 @@ let Works = props => {
         path={'/works/table'}
         render={routeProps =>
           <ResultTable
-            resultClass='manuscripts'
-            search={props.search}
-            facetFilters={props.facetFilters}
-            fetchResults={props.fetchResults}
+            data={props.works}
+            filters={props.facetData.filters}
+            resultClass='works'
+            facetClass='works'
+            fetchPaginatedResults={props.fetchPaginatedResults}
             updatePage={props.updatePage}
             sortResults={props.sortResults}
             routeProps={routeProps}
@@ -31,11 +41,11 @@ let Works = props => {
 };
 
 Works.propTypes = {
-  search: PropTypes.object.isRequired,
-  facetFilters: PropTypes.object.isRequired,
+  works: PropTypes.object.isRequired,
+  facetData: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
-  fetchPlaces: PropTypes.func.isRequired,
-  fetchPlace:  PropTypes.func.isRequired,
+  fetchPaginatedResults: PropTypes.func.isRequired,
+  fetchByURI: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired

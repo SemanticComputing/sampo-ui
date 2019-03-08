@@ -5,19 +5,16 @@ import { withStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
 import { withRouter } from 'react-router-dom';
 import compose from 'recompose/compose';
-import TopBar from '../components/TopBar';
-import Footer from '../components/Footer';
 import { Route } from 'react-router-dom';
-import Manuscripts from '../components/Manuscripts';
-import Message from '../components/Message';
-// import Works from '../components/Works';
-import Places from '../components/Places';
-import Main from '../components/Main';
-import FacetBar from '../components/FacetBar';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-
-
+import TopBar from '../components/main_layout/TopBar';
+import Main from '../components/main_layout/Main';
+import Footer from '../components/main_layout/Footer';
+import Message from '../components/main_layout/Message';
+import FacetBar from '../components/facet_bar/FacetBar';
+import Manuscripts from '../components/perspectives/Manuscripts';
+import Places from '../components//perspectives/Places';
 import {
   fetchPaginatedResults,
   fetchResults,
@@ -26,8 +23,6 @@ import {
   sortResults,
   updateFilter,
   updatePage,
-  openFacetDialog,
-  closeFacetDialog,
   showError
 } from '../actions';
 
@@ -77,7 +72,7 @@ const styles = theme => ({
   }
 });
 
-let MapApp = (props) => {
+let SemanticPortal = (props) => {
   const { classes, /* browser */ error } = props;
   return (
     <div className={classes.root}>
@@ -87,7 +82,6 @@ let MapApp = (props) => {
           <TopBar />
           <Grid container spacing={8} className={classes.mainContainer}>
             <Route exact path="/" component={Main} />
-
             <Route
               path="/manuscripts"
               render={routeProps =>
@@ -118,8 +112,6 @@ let MapApp = (props) => {
                 </React.Fragment>
               }
             />
-
-
             <Route
               path="/places"
               render={routeProps =>
@@ -150,8 +142,6 @@ let MapApp = (props) => {
                 </React.Fragment>
               }
             />
-
-
           </Grid>
         </React.Fragment>
         <Footer />
@@ -182,12 +172,10 @@ const mapDispatchToProps = ({
   sortResults,
   updateFilter,
   updatePage,
-  openFacetDialog,
-  closeFacetDialog,
   showError
 });
 
-MapApp.propTypes = {
+SemanticPortal.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   error: PropTypes.object.isRequired,
@@ -203,8 +191,6 @@ MapApp.propTypes = {
   updatePage: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,
-  openFacetDialog: PropTypes.func.isRequired,
-  closeFacetDialog: PropTypes.func.isRequired,
   showError: PropTypes.func.isRequired
 };
 
@@ -216,4 +202,4 @@ export default compose(
   ),
   withWidth(),
   withStyles(styles, {withTheme: true}),
-)(MapApp);
+)(SemanticPortal);

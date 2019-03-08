@@ -5,7 +5,6 @@ import Tree from './Tree';
 import Paper from '@material-ui/core/Paper';
 import FacetHeader from './FacetHeader';
 
-
 const styles = theme => ({
   root: {
     width: '100%',

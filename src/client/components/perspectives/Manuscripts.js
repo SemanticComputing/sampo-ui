@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
-import ViewTabs from './ViewTabs';
-import ResultTable from './ResultTable';
-import LeafletMap from './LeafletMap';
-import Deck from './Deck';
+import PerspectiveTabs from '../main_layout/PerspectiveTabs';
+import ResultTable from '../facet_results/ResultTable';
+import LeafletMap from '../facet_results/LeafletMap';
+import Deck from '../facet_results/Deck';
 
 let Manuscripts = props => {
   return (
     <React.Fragment>
-      <ViewTabs
+      <PerspectiveTabs
         routeProps={props.routeProps}
         tabs={{
           '/manuscripts/table': {

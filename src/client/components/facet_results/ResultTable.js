@@ -10,7 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 import ResultTableHead from './ResultTableHead';
 import { parse } from 'query-string';
-import history from './History';
+import history from '../../History';
 
 const styles = () => ({
   tableContainer: {
