@@ -53,6 +53,7 @@ let Main = props => {
   const ManuscriptLink = props => <NavLink to="/manuscripts" {...props}/>;
   //const WorkLink = props => <NavLink to="/works" {...props}/>;
   const PeopleLink = props => <NavLink to="/people" {...props}/>;
+  const OrganizationsLink = props => <NavLink to="/organizations" {...props}/>;
   const PlacesLink = props => <NavLink to="/places" {...props}/>;
 
   return (
@@ -156,7 +157,7 @@ let Main = props => {
 
           <Grid item sm={6} md={4} lg={4}>
             <Card className={classes.card}>
-              <CardActionArea disabled>
+              <CardActionArea component={OrganizationsLink}>
                 <CardMedia
                   className={classes.media}
                   image={thumbImage}

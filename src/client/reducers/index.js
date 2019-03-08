@@ -3,10 +3,12 @@ import {reducer as toastrReducer} from 'react-redux-toastr';
 import {createResponsiveStateReducer} from 'redux-responsive';
 import manuscripts from './manuscripts';
 import people from './people';
+import organizations from './organizations';
 import places from './places';
 import error from './error';
 import manuscriptsFacets from './manuscriptsFacets';
 import peopleFacets from './peopleFacets';
+import organizationsFacets from './organizationsFacets';
 import placesFacets from './placesFacets';
 
 const reducer = combineReducers({
@@ -14,6 +16,8 @@ const reducer = combineReducers({
   manuscriptsFacets,
   people,
   peopleFacets,
+  organizations,
+  organizationsFacets,
   places,
   placesFacets,
   error,

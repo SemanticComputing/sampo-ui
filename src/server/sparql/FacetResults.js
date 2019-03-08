@@ -3,6 +3,7 @@ import { endpoint, countQuery, facetResultSetQuery } from './SparqlQueriesGenera
 import { manuscriptProperties, productionPlacesQuery, migrationsQuery } from './SparqlQueriesManuscripts';
 import { placeProperties, placeQuery, allPlacesQuery } from './SparqlQueriesPlaces';
 import { personProperties } from './SparqlQueriesPeople';
+import { organizationProperties } from './SparqlQueriesOrganizations';
 import { prefixes } from './SparqlQueriesPrefixes';
 import { facetConfigs } from './FacetConfigs';
 import { mapCount } from './Mappers';
@@ -87,6 +88,9 @@ const getPaginatedData = (resultClass, page, pagesize, filters, sortBy, sortDire
       break;
     case 'people':
       resultSetProperties = personProperties;
+      break;
+    case 'organizations':
+      resultSetProperties = organizationProperties;
       break;
     default:
       resultSetProperties = '';

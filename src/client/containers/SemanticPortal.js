@@ -16,6 +16,7 @@ import FacetBar from '../components/facet_bar/FacetBar';
 import Manuscripts from '../components/perspectives/Manuscripts';
 import Places from '../components//perspectives/Places';
 import People from '../components//perspectives/People';
+import Organizations from '../components/perspectives/Organizations';
 import {
   fetchPaginatedResults,
   fetchResults,
@@ -145,6 +146,37 @@ let SemanticPortal = (props) => {
               }
             />
             <Route
+              path="/organizations"
+              render={routeProps =>
+                <React.Fragment>
+                  <Grid item sm={12} md={3} className={classes.facetBarContainer}>
+                    <FacetBar
+                      facetData={props.organizationsFacets}
+                      resultClass='organizations'
+                      fetchFacet={props.fetchFacet}
+                      updateFilter={props.updateFilter}
+                    />
+                  </Grid>
+                  <Grid item sm={12} md={9} className={classes.resultsContainer}>
+                    <Paper className={classes.resultsContainerPaper}>
+                      <Organizations
+                        organizations={props.organizations}
+                        places={props.places}
+                        facetData={props.organizationsFacets}
+                        fetchResults={props.fetchResults}
+                        fetchPaginatedResults={props.fetchPaginatedResults}
+                        fetchByURI={props.fetchByURI}
+                        filters={props.manuscriptsFacets.filters}
+                        updatePage={props.updatePage}
+                        sortResults={props.sortResults}
+                        routeProps={routeProps}
+                      />
+                    </Paper>
+                  </Grid>
+                </React.Fragment>
+              }
+            />
+            <Route
               path="/places"
               render={routeProps =>
                 <React.Fragment>
@@ -191,6 +223,8 @@ const mapStateToProps = state => {
     manuscriptsFacets: state.manuscriptsFacets,
     people: state.people,
     peopleFacets: state.peopleFacets,
+    organizations: state.organizations,
+    organizationsFacets: state.organizationsFacets,
     places: state.places,
     placesFacets: state.placesFacets,
     error: state.error
@@ -218,6 +252,8 @@ SemanticPortal.propTypes = {
   manuscriptsFacets: PropTypes.object.isRequired,
   people: PropTypes.object.isRequired,
   peopleFacets: PropTypes.object.isRequired,
+  organizations: PropTypes.object.isRequired,
+  organizationsFacets: PropTypes.object.isRequired,
   places: PropTypes.object.isRequired,
   placesFacets: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,

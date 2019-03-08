@@ -21,20 +21,6 @@ export const INITIAL_STATE = {
       searchField: false,
       containerClass: 'five',
     },
-    place: {
-      id: 'place',
-      label: 'Place / nationality',
-      // predicate: defined in backend
-      distinctValueCount: 0,
-      values: [],
-      flatValues: [],
-      sortBy: 'prefLabel',
-      sortDirection: 'asc',
-      sortButton: false,
-      isFetching: false,
-      searchField: true,
-      containerClass: 'ten',
-    },
   },
   filters: {
     source: new Set(),
@@ -44,8 +30,8 @@ export const INITIAL_STATE = {
   fetching: false
 };
 
-const peopleFacets = (state = INITIAL_STATE, action) => {
-  if (action.resultClass === 'people') {
+const organizationsFacets = (state = INITIAL_STATE, action) => {
+  if (action.resultClass === 'organizations') {
     switch (action.type) {
       case FETCH_FACET:
         return {
@@ -89,4 +75,4 @@ const peopleFacets = (state = INITIAL_STATE, action) => {
   } else return state;
 };
 
-export default peopleFacets;
+export default organizationsFacets;

@@ -54,7 +54,7 @@ export const getFacet = (resultClass, facetID, sortBy, sortDirection, filters) =
   q = q.replace('<FACET_VALUE_FILTER>', facetConfig.facetValueFilter);
   q = q.replace('<PARENTS>', parentBlock);
   q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
-  // if (facetID == 'area') {
+  // if (facetID == 'source') {
   //   //console.log(filters)
   //   console.log(prefixes + q)
   // }

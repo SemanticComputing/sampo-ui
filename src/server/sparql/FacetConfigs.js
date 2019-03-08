@@ -59,6 +59,47 @@ export const facetConfigs = {
       type: 'list',
     },
   },
+  people: {
+    rdfType: 'mmm-schema:Person',
+    prefLabel: {
+      id: 'prefLabel',
+      facetValueFilter: '',
+      labelPath: 'skos:prefLabel',
+      type: 'list',
+    },
+    source: {
+      id: 'source',
+      facetValueFilter: '',
+      labelPath: 'dct:source/skos:prefLabel',
+      predicate: 'dct:source',
+      type: 'list',
+    },
+    place: {
+      id: 'source',
+      facetValueFilter: '',
+      labelPath: 'mmm-schema:person_place/skos:prefLabel',
+      predicate: 'mmm-schema:person_place',
+      //parentPredicate: 'gvp:broaderPreferred+',
+      type: 'list',
+      //type: 'hierarchical',
+    },
+  },
+  organizations: {
+    rdfType: 'mmm-schema:Organization',
+    prefLabel: {
+      id: 'prefLabel',
+      facetValueFilter: '',
+      labelPath: 'skos:prefLabel',
+      type: 'list',
+    },
+    source: {
+      id: 'source',
+      facetValueFilter: '',
+      labelPath: 'dct:source/skos:prefLabel',
+      predicate: 'dct:source',
+      type: 'list',
+    },
+  },
   places: {
     rdfType: 'crm:E53_Place',
     prefLabel: {
@@ -96,29 +137,4 @@ export const facetConfigs = {
       type: 'list',
     },
   },
-  people: {
-    rdfType: 'mmm-schema:Person',
-    prefLabel: {
-      id: 'prefLabel',
-      facetValueFilter: '',
-      labelPath: 'skos:prefLabel',
-      type: 'list',
-    },
-    source: {
-      id: 'source',
-      facetValueFilter: '',
-      labelPath: 'dct:source/skos:prefLabel',
-      predicate: 'dct:source',
-      type: 'list',
-    },
-    place: {
-      id: 'source',
-      facetValueFilter: '',
-      labelPath: 'mmm-schema:person_place/skos:prefLabel',
-      predicate: 'mmm-schema:person_place',
-      //parentPredicate: 'gvp:broaderPreferred+',
-      type: 'list',
-      //type: 'hierarchical',
-    },
-  }
 };
