@@ -170,11 +170,20 @@ class TopBar extends React.Component {
       </Menu>
     );
 
-    const ManuscriptLink = props => (
+    const ManuscriptsLink = props => (
       <NavLink
         to="/manuscripts"
         className={classes.appBarButton}
         isActive={(match, location) => location.pathname.startsWith('/manuscripts')}
+        activeClassName={classes.appBarButtonActive}
+        {...props}
+      />);
+
+    const WorksLink = props => (
+      <NavLink
+        to="/works"
+        className={classes.appBarButton}
+        isActive={(match, location) => location.pathname.startsWith('/works')}
         activeClassName={classes.appBarButtonActive}
         {...props}
       />);
@@ -236,10 +245,14 @@ class TopBar extends React.Component {
             <div className={classes.sectionDesktop}>
               <Button
                 className={classes.appBarButton}
-                component={ManuscriptLink}>
-                Manuscripts
+                component={ManuscriptsLink}>
+                manuscripts
               </Button>
-              <Button disabled className={classes.appBarButton}>Works</Button>
+              <Button
+                className={classes.appBarButton}
+                component={WorksLink}>
+                works
+              </Button>
               <Button disabled className={classes.appBarButton}>Events</Button>
               <Button
                 className={classes.appBarButton}
