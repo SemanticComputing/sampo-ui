@@ -24,12 +24,16 @@ const styles = theme => ({
   facetContainerLast: {
     marginBottom: 2,
   },
-  facetValuesContainerTen: {
-    height: 345,
+  three: {
+    height: 108,
     padding: theme.spacing.unit,
   },
-  facetValuesContainerThree: {
-    height: 108,
+  five: {
+    height: 150,
+    padding: theme.spacing.unit,
+  },
+  ten: {
+    height: 345,
     padding: theme.spacing.unit,
   },
   facetHeaderButtons: {
@@ -57,10 +61,7 @@ class FacetBar extends React.Component {
                 sortButton={facets[id].sortButton}
                 fetchFacet={this.props.fetchFacet}
               />
-              <div className={facets[id].containerSize === 'small' ?
-                classes.facetValuesContainerThree
-                : classes.facetValuesContainerTen
-              }>
+              <div className={classes[facets[id].containerClass]}>
                 <Tree
                   facetFunctionality={true}
                   property={id}

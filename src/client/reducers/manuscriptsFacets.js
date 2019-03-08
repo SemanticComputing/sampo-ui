@@ -22,7 +22,7 @@ export const INITIAL_STATE = {
       sortButton: false,
       isFetching: false,
       searchField: false,
-      containerSize: 'small',
+      containerClass: 'three',
     },
     productionPlace: {
       id: 'productionPlace',
@@ -36,7 +36,7 @@ export const INITIAL_STATE = {
       sortButton: false,
       isFetching: false,
       searchField: true,
-      containerSize: 'large',
+      containerClass: 'ten',
     },
     author: {
       id: 'author',
@@ -50,7 +50,7 @@ export const INITIAL_STATE = {
       sortButton: false,
       isFetching: false,
       searchField: true,
-      containerSize: 'large',
+      containerClass: 'ten',
     },
     // language: {
     //   id: 'language',

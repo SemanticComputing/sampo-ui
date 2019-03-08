@@ -21,7 +21,7 @@ export const INITIAL_STATE = {
       sortButton: false,
       isFetching: false,
       searchField: false,
-      containerSize: 'small',
+      containerClass: 'five',
     },
     area: {
       id: 'area',
@@ -35,7 +35,7 @@ export const INITIAL_STATE = {
       sortButton: false,
       isFetching: false,
       searchField: false,
-      containerSize: 'large',
+      containerClass: 'ten',
     },
     // type: {
     //   id: 'type',
