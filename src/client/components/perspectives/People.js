@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import PerspectiveTabs from '../main_layout/PerspectiveTabs';
 import ResultTable from '../facet_results/ResultTable';
-import LeafletMap from '../facet_results/LeafletMap';
 
 let People = props => {
   return (
@@ -16,11 +15,11 @@ let People = props => {
             value: 0,
             icon: 'CalendarViewDay',
           },
-          '/people/map': {
-            label: 'map',
-            value: 1,
-            icon: 'AddLocation',
-          },
+          // '/people/map': {
+          //   label: 'map',
+          //   value: 1,
+          //   icon: 'AddLocation',
+          // },
         }}
       />
       <Route
@@ -41,23 +40,6 @@ let People = props => {
             routeProps={routeProps}
           />
         }
-      />
-      <Route
-        path={'/places/map'}
-        render={() =>
-          <LeafletMap
-            results={props.people.results}
-            filters={props.facetData.filters}
-            resultClass='people'
-            facetClass='people'
-            instance={props.places.instance}
-            fetchResults={props.fetchResults}
-            fetchByURI={props.fetchByURI}
-            fetching={props.places.fetching}
-            mapMode={'cluster'}
-            variant='allPlaces'
-            showInstanceCountInClusters={false}
-          />}
       />
     </React.Fragment>
   );
