@@ -143,8 +143,6 @@ class LeafletMap extends React.Component {
     this.leafletMap.on(L.Draw.Event.CREATED, e => {
       editableLayers.addLayer(e.layer);
       const filterObj = this.boundsToValues(e.layer._bounds);
-      //console.log(filterObj)
-      console.log(this.props.resultClass)
       this.props.updateSpatialFilter({
         resultClass: this.props.resultClass,
         property: this.props.property,

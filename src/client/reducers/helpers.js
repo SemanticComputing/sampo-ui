@@ -63,7 +63,6 @@ export const updateFilter = (state, action) => {
 };
 
 export const updateSpatialFilter = (state, action) => {
-  console.log(action)
   const { property, filter } = action;
   const newFacetFilters = {
     ...state.spatialFilters,
