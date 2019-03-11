@@ -1,11 +1,14 @@
 import {
   FETCH_FACET,
+  FETCH_FACET_FAILED,
   UPDATE_FACET,
   UPDATE_FILTER,
 } from '../actions';
-import { updateFilter } from './helpers';
+import { updateFilter, fetchFacet, fetchFacetFailed, updateFacet } from './helpers';
 
 export const INITIAL_STATE = {
+  updatedFacet: null,
+  facetUpdateID: 0,
   facets: {
     source: {
       id: 'source',
@@ -26,47 +29,17 @@ export const INITIAL_STATE = {
     source: new Set(),
     place: new Set(),
   },
-  updatedFacet: '',
-  fetching: false
 };
 
 const organizationsFacets = (state = INITIAL_STATE, action) => {
   if (action.resultClass === 'organizations') {
     switch (action.type) {
       case FETCH_FACET:
-        return {
-          ...state,
-          fetching: true,
-          facets: {
-            ...state.facets,
-            [ action.id ]: {
-              ...state.facets[action.id],
-              distinctValueCount: 0,
-              values: [],
-              flatValues: [],
-              sortBy: action.sortBy,
-              sortDirection: action.sortDirection,
-              isFetching: true
-            }
-          }
-        };
+        return fetchFacet(state, action);
+      case FETCH_FACET_FAILED:
+        return fetchFacetFailed(state, action);
       case UPDATE_FACET:
-        return {
-          ...state,
-          fetching: false,
-          facets: {
-            ...state.facets,
-            [ action.id ]: {
-              ...state.facets[action.id],
-              distinctValueCount: action.distinctValueCount,
-              values: action.values,
-              flatValues: action.flatValues || [],
-              sortBy: action.sortBy,
-              sortDirection: action.sortDirection,
-              isFetching: false
-            }
-          }
-        };
+        return updateFacet(state, action);
       case UPDATE_FILTER:
         return updateFilter(state, action);
       default:

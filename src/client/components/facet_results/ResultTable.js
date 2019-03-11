@@ -55,32 +55,41 @@ class ResultTable extends React.Component {
       pathname: `/${this.props.resultClass}/table`,
       search: `?page=${page}`,
     });
+    if (this.props.data.resultsUpdateID !== -1 && this.props.data.resultsUpdateID !== this.props.facetUpdateID) {
+      this.props.updatePage(this.props.resultClass, 0);
+      this.fetchResults();
+    }
   }
 
   componentDidUpdate = prevProps => {
+    // always fetch new results when page has updated
     if (prevProps.data.page != this.props.data.page) {
-      this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.data.sortBy, this.props.variant);
+      this.fetchResults();
       history.push({
         pathname: `/${this.props.resultClass}/table`,
         search: `?page=${this.props.data.page}`,
       });
     }
-    if (prevProps.filters != this.props.filters) {
-      this.props.updatePage(this.props.resultClass, 0);
-      // if already on page 0, fetch results
+    // when sort property or direction changes, return to first page
+    if (this.needNewResults(prevProps)) {
       if (this.props.data.page == 0) {
-        this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.data.sortBy, this.props.variant);
+        this.fetchResults();
+      } else {
+        this.props.updatePage(this.props.resultClass, 0);
       }
     }
-    if (prevProps.data.sortBy != this.props.data.sortBy) {
-      this.props.updatePage(this.props.resultClass, 0);
-      if (this.props.data.page == 0) {
-        this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.data.sortBy, this.props.variant);
-      }
-    }
-    if (prevProps.data.sortDirection != this.props.data.sortDirection) {
-      this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.data.sortBy, this.props.variant);
-    }
+  }
+
+  fetchResults = () => {
+    this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.data.sortBy, this.props.variant);
+  }
+
+  needNewResults = prevProps => {
+    return (
+      prevProps.data.sortBy != this.props.data.sortBy
+      || prevProps.data.sortDirection != this.props.data.sortDirection
+      || prevProps.facetUpdateID != this.props.facetUpdateID
+    );
   }
 
   handleChangePage = (event, page) => {
@@ -125,7 +134,6 @@ class ResultTable extends React.Component {
   render() {
     const { classes } = this.props;
     const { resultsCount, paginatedResults, page, pagesize, sortBy, sortDirection, fetching } = this.props.data;
-    // console.log(paginatedResults)
     if (fetching) {
       return (
         <div className={classes.progressContainer}>
@@ -165,7 +173,7 @@ ResultTable.propTypes = {
   resultClass: PropTypes.string.isRequired,
   facetClass: PropTypes.string.isRequired,
   variant: PropTypes.string,
-  filters: PropTypes.object.isRequired,
+  facetUpdateID: PropTypes.number.isRequired,
   fetchPaginatedResults: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,

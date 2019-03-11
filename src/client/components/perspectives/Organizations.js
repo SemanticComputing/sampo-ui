@@ -31,7 +31,7 @@ let People = props => {
         render={routeProps =>
           <ResultTable
             data={props.organizations}
-            filters={props.facetData.filters}
+            facetUpdateID={props.facetData.facetUpdateID}
             resultClass='organizations'
             facetClass='organizations'
             fetchPaginatedResults={props.fetchPaginatedResults}
