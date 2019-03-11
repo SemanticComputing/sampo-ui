@@ -138,6 +138,7 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
 );
 
 export const stateSlicesToUrl = (pagination, facets, sortBy, variant, facetClass) => {
+  //console.log(facets.spatialFilters)
   let params = {};
   if (pagination != null) {
     params.page = pagination.page;

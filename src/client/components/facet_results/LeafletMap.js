@@ -5,6 +5,8 @@ import L from 'leaflet';
 import { has, orderBy } from 'lodash';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { purple } from '@material-ui/core/colors';
+
+// Leaflet plugins
 // import 'leaflet-sidebar-v2/js/leaflet-sidebar.min.js';
 // import 'leaflet-sidebar-v2/css/leaflet-sidebar.min.css';
 import 'leaflet-fullscreen/dist/fullscreen.png';
@@ -19,6 +21,9 @@ import 'Leaflet.extra-markers/dist/js/leaflet.extra-markers.min.js';
 import 'Leaflet.extra-markers/dist/css/leaflet.extra-markers.min.css';
 import 'Leaflet.extra-markers/dist/img/markers_default.png';
 import 'Leaflet.extra-markers/dist/img/markers_shadow.png';
+import 'leaflet-draw/dist/leaflet.draw.js';
+import 'leaflet-draw/dist/leaflet.draw.css';
+
 import markerShadowIcon from '../../img/markers/marker-shadow.png';
 import markerIconViolet from '../../img/markers/marker-icon-violet.png';
 import markerIconGreen from '../../img/markers/marker-icon-green.png';
@@ -60,9 +65,13 @@ const ColorIcon = L.Icon.extend({
 
 class LeafletMap extends React.Component {
 
-  componentDidMount() {
-
-    this.props.fetchResults(this.props.resultClass, this.props.facetClass, null, this.props.variant);
+  componentDidMount = () => {
+    this.props.fetchResults({
+      resultClass: this.props.resultClass,
+      facetClass: this.props.facetClass,
+      sortBy: null,
+      variant: this.props.variant,
+    });
 
     // Base layers
     // const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -104,6 +113,45 @@ class LeafletMap extends React.Component {
       fullscreenControl: true,
     });
 
+    // add Leaflet Draw toolbar
+    const editableLayers = new L.FeatureGroup();
+    this.leafletMap.addLayer(editableLayers);
+    const drawOptions = {
+      draw: {
+        polyline: false,
+        rectangle: {
+          allowIntersection: false, // Restricts shapes to simple polygons
+          drawError: {
+            color: '#e1e100', // Color the shape will turn when intersects
+            message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+          },
+          shapeOptions: {
+            color: '#bada55'
+          }
+        },
+        circle: false,
+        polygon: false,
+        marker: false,
+        circlemarker: false
+      },
+      edit: {
+        featureGroup: editableLayers,
+      }
+    };
+    const drawControl = new L.Control.Draw(drawOptions);
+    this.leafletMap.addControl(drawControl);
+    this.leafletMap.on(L.Draw.Event.CREATED, e => {
+      editableLayers.addLayer(e.layer);
+      const filterObj = this.boundsToValues(e.layer._bounds);
+      //console.log(filterObj)
+      console.log(this.props.resultClass)
+      this.props.updateSpatialFilter({
+        resultClass: this.props.resultClass,
+        property: this.props.property,
+        filter: filterObj
+      });
+    });
+
     // layer controls
     // const baseMaps = {
     //   'OpenStreetMap': OSMBaseLayer,
@@ -132,16 +180,20 @@ class LeafletMap extends React.Component {
 
   }
 
-  componentDidUpdate({ results, filters, instance, mapMode }) {
+  componentDidUpdate = prevProps => {
     // check if filters have changed
-    if (this.props.filters !== filters) {
-      this.props.fetchResults(this.props.resultClass, this.props.facetClass, null, this.props.variant);
+    if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
+      this.props.fetchResults({
+        resultClass: this.props.resultClass,
+        facetClass: this.props.facetClass,
+        sortBy: null,
+        variant: this.props.variant,
+      });
     }
 
     // check if results data or mapMode have changed
-    if (this.props.results !== results || this.props.mapMode !== mapMode) {
+    if (prevProps.results !== this.props.results || prevProps.mapMode !== this.props.mapMode) {
       if (this.props.mapMode === 'cluster') {
-        //console.log(this.props.results)
         this.updateMarkersAndCluster(this.props.results);
       } else {
         this.updateMarkers(this.props.results);
@@ -149,7 +201,7 @@ class LeafletMap extends React.Component {
     }
 
     // check if instance have changed
-    if (this.props.instance !== instance) {
+    if (prevProps.instance !== this.props.instance) {
       this.markers[this.props.instance.id]
         .bindPopup(this.createPopUpContent(this.props.instance), {
           maxHeight: 300,
@@ -159,10 +211,22 @@ class LeafletMap extends React.Component {
         })
         .openPopup();
     }
-
   }
 
-  renderSpinner() {
+  boundsToValues = bounds => {
+    const latMin = bounds._southWest.lat;
+    const longMin = bounds._southWest.lng;
+    const latMax = bounds._northEast.lat;
+    const longMax = bounds._northEast.lng;
+    return {
+      latMin: latMin,
+      longMin: longMin,
+      latMax: latMax,
+      longMax: longMax,
+    };
+  }
+
+  renderSpinner = () => {
     if(this.props.fetching) {
       return (
         <div className={this.props.classes.spinner}>
@@ -174,7 +238,7 @@ class LeafletMap extends React.Component {
   }
 
 
-  updateMarkers(results) {
+  updateMarkers = results => {
     this.resultMarkerLayer.clearLayers();
     this.markers = {};
     Object.values(results).forEach(value => {
@@ -184,7 +248,7 @@ class LeafletMap extends React.Component {
     });
   }
 
-  updateMarkersAndCluster(results) {
+  updateMarkersAndCluster = results => {
     //console.log(results)
     this.resultMarkerLayer.clearLayers();
     this.markers = {};
@@ -221,7 +285,7 @@ class LeafletMap extends React.Component {
     clusterer.addTo(this.resultMarkerLayer);
   }
 
-  createMarker(result) {
+  createMarker = result => {
     // const color = typeof result.markerColor === 'undefined' ? 'grey' : result.markerColor;
     // const icon = new ColorIcon({iconUrl: 'img/markers/marker-icon-' + color + '.png'});
     if (!has(result, 'lat') || !has(result, 'long')) {
@@ -283,7 +347,7 @@ class LeafletMap extends React.Component {
     this.props.fetchByURI(this.props.resultClass, this.props.facetClass, this.props.variant, event.target.options.id,);
   };
 
-  createPopUpContent(result) {
+  createPopUpContent = result => {
     let popUpTemplate = `<a target="_blank" rel="noopener noreferrer" href=${result.id}><h3>${result.prefLabel}</h3></a>`;
     if (has(result, 'dataProviderUrl')) {
       popUpTemplate += `<p>Data provider url: <a target="_blank" rel="noopener noreferrer" href=${result.dataProviderUrl}>${result.dataProviderUrl}</a></p>`;
@@ -299,7 +363,7 @@ class LeafletMap extends React.Component {
     return popUpTemplate;
   }
 
-  createManuscriptListing(manuscripts) {
+  createManuscriptListing = manuscripts => {
     let html = '';
     if (Array.isArray(manuscripts)) {
       manuscripts = orderBy(manuscripts, 'id');
@@ -314,7 +378,7 @@ class LeafletMap extends React.Component {
     return html;
   }
 
-  createOpacitySlider() {
+  createOpacitySlider = () => {
     L.Control.OpacitySlider = L.Control.extend({
       onAdd: function() {
         const slider = L.DomUtil.create('input', 'opacity-slider');
@@ -333,7 +397,7 @@ class LeafletMap extends React.Component {
     L.control.opacitySlider({ position: 'bottomleft' }).addTo(this.leafletMap);
   }
 
-  render() {
+  render = () => {
     return (
       <React.Fragment>
         <div className={this.props.classes.leafletContainer}>
@@ -350,7 +414,7 @@ LeafletMap.propTypes = {
   classes: PropTypes.object.isRequired,
   results: PropTypes.array.isRequired,
   instance: PropTypes.object.isRequired,
-  filters: PropTypes.object,
+  facetUpdateID: PropTypes.number,
   fetchResults: PropTypes.func,
   resultClass: PropTypes.string,
   facetClass: PropTypes.string,
@@ -358,7 +422,9 @@ LeafletMap.propTypes = {
   fetching: PropTypes.bool.isRequired,
   mapMode: PropTypes.string.isRequired,
   variant: PropTypes.string.isRequired,
-  showInstanceCountInClusters: PropTypes.bool
+  showInstanceCountInClusters: PropTypes.bool,
+  updateSpatialFilter: PropTypes.func,
+  property: PropTypes.string
 };
 
 export default withStyles(styles)(LeafletMap);

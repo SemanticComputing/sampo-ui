@@ -13,6 +13,7 @@ export const FETCH_FACET = 'FETCH_FACET';
 export const FETCH_FACET_FAILED = 'FETCH_FACET_FAILED';
 export const UPDATE_FACET = 'UPDATE_FACET';
 export const UPDATE_FILTER = 'UPDATE_FILTER';
+export const UPDATE_SPATIAL_FILTER = 'UPDATE_SPATIAL_FILTER';
 export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP';
 export const SHOW_ERROR = 'SHOW_ERROR';
 
@@ -24,7 +25,7 @@ export const fetchPaginatedResultsFailed = (resultClass, error, message) => ({
   type: FETCH_PAGINATED_RESULTS_FAILED,
   resultClass, error, message
 });
-export const fetchResults = (resultClass, facetClass, sortBy, variant) => ({
+export const fetchResults = ({ resultClass, facetClass, sortBy, variant }) => ({
   type: FETCH_RESULTS,
   resultClass, facetClass, sortBy, variant
 });
@@ -75,6 +76,10 @@ export const updateFacet = ({ resultClass, id, distinctValueCount, values, flatV
 export const updateFilter = ({ resultClass, property, value }) => ({
   type: UPDATE_FILTER,
   resultClass, property, value
+});
+export const updateSpatialFilter = ({ resultClass, property, filter }) => ({
+  type: UPDATE_SPATIAL_FILTER,
+  resultClass, property, filter
 });
 export const openMarkerPopup = uri => ({
   type: OPEN_MARKER_POPUP,

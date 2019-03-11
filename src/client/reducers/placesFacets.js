@@ -3,8 +3,15 @@ import {
   FETCH_FACET_FAILED,
   UPDATE_FACET,
   UPDATE_FILTER,
+  UPDATE_SPATIAL_FILTER,
 } from '../actions';
-import { updateFilter, fetchFacet, fetchFacetFailed, updateFacet } from './helpers';
+import {
+  updateFilter,
+  updateSpatialFilter,
+  fetchFacet,
+  fetchFacetFailed,
+  updateFacet
+} from './helpers';
 
 export const INITIAL_STATE = {
   updatedFacet: null,
@@ -58,6 +65,9 @@ export const INITIAL_STATE = {
     area: new Set(),
     type: new Set(),
   },
+  spatialFilters: {
+    productionPlace: {}
+  }
 };
 
 const placesFacets = (state = INITIAL_STATE, action) => {
@@ -71,6 +81,8 @@ const placesFacets = (state = INITIAL_STATE, action) => {
         return updateFacet(state, action);
       case UPDATE_FILTER:
         return updateFilter(state, action);
+      case UPDATE_SPATIAL_FILTER:
+        return updateSpatialFilter(state, action);
       default:
         return state;
     }

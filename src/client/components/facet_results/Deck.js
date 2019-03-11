@@ -78,14 +78,24 @@ class Deck extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.props.fetchResults(this.props.resultClass, this.props.facetClass, null, this.props.variant);
+  componentDidMount = () => {
+    this.props.fetchResults({
+      resultClass: this.props.resultClass,
+      facetClass: this.props.facetClass,
+      sortBy: null,
+      variant: this.props.variant,
+    });
   }
 
   componentDidUpdate = prevProps => {
     // check if filters have changed
-    if (this.props.filters !== prevProps.filters) {
-      this.props.fetchResults(this.props.resultClass, this.props.facetClass, null, this.props.variant);
+    if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
+      this.props.fetchResults({
+        resultClass: this.props.resultClass,
+        facetClass: this.props.facetClass,
+        sortBy: null,
+        variant: this.props.variant,
+      });
     }
   }
 
@@ -227,7 +237,7 @@ class Deck extends React.Component {
 
 Deck.propTypes = {
   results: PropTypes.array.isRequired,
-  filters: PropTypes.object,
+  facetUpdateID: PropTypes.number,
   fetchResults: PropTypes.func,
   resultClass: PropTypes.string,
   facetClass: PropTypes.string,

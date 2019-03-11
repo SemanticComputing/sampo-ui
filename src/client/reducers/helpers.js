@@ -16,7 +16,7 @@ export const updateInstance = (state, action) => {
   return {
     ...state,
     instance: action.instance,
-    fetchingPlaces: false
+    fetching: false
   };
 };
 
@@ -57,6 +57,21 @@ export const updateFilter = (state, action) => {
   return {
     ...state,
     filters: newFacetFilters,
+    updatedFacet: property,
+    facetUpdateID: ++state.facetUpdateID
+  };
+};
+
+export const updateSpatialFilter = (state, action) => {
+  console.log(action)
+  const { property, filter } = action;
+  const newFacetFilters = {
+    ...state.spatialFilters,
+    [ property ] : filter
+  };
+  return {
+    ...state,
+    spatialFilters: newFacetFilters,
     updatedFacet: property,
     facetUpdateID: ++state.facetUpdateID
   };

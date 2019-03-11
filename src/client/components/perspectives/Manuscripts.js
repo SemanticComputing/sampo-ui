@@ -53,7 +53,7 @@ let Manuscripts = props => {
         render={() =>
           <LeafletMap
             results={props.places.results}
-            filters={props.facetData.filters}
+            facetUpdateID={props.facetData.facetUpdateID}
             resultClass='places'
             facetClass='manuscripts'
             instance={props.places.instance}
@@ -63,6 +63,8 @@ let Manuscripts = props => {
             mapMode={'cluster'}
             variant='productionPlaces'
             showInstanceCountInClusters={true}
+            updateSpatialFilter={props.updateSpatialFilter}
+            property={'productionPlace'}
           />}
       />
       <Route
@@ -70,7 +72,7 @@ let Manuscripts = props => {
         render={() =>
           <Deck
             results={props.places.results}
-            filters={props.facetData.filters}
+            facetUpdateID={props.facetData.facetUpdateID}
             resultClass='places'
             facetClass='manuscripts'
             instance={props.places.instance}
@@ -95,7 +97,8 @@ Manuscripts.propTypes = {
   fetchByURI: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
-  routeProps: PropTypes.object.isRequired
+  routeProps: PropTypes.object.isRequired,
+  updateSpatialFilter: PropTypes.func.isRequired
 };
 
 export default Manuscripts;

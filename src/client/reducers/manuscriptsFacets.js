@@ -4,7 +4,12 @@ import {
   UPDATE_FACET,
   UPDATE_FILTER,
 } from '../actions';
-import { updateFilter, fetchFacet, fetchFacetFailed, updateFacet } from './helpers';
+import {
+  updateFilter,
+  fetchFacet,
+  fetchFacetFailed,
+  updateFacet
+} from './helpers';
 
 export const INITIAL_STATE = {
   updatedFacet: null,
@@ -37,6 +42,7 @@ export const INITIAL_STATE = {
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
+      filterType: 'spatial'
     },
     author: {
       id: 'author',

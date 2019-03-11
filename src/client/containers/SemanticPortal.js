@@ -25,6 +25,7 @@ import {
   fetchFacet,
   sortResults,
   updateFilter,
+  updateSpatialFilter,
   updatePage,
   showError
 } from '../actions';
@@ -107,6 +108,7 @@ let SemanticPortal = (props) => {
                         fetchResults={props.fetchResults}
                         fetchByURI={props.fetchByURI}
                         updatePage={props.updatePage}
+                        updateSpatialFilter={props.updateSpatialFilter}
                         sortResults={props.sortResults}
                         routeProps={routeProps}
                       />
@@ -272,6 +274,7 @@ const mapDispatchToProps = ({
   fetchFacet,
   sortResults,
   updateFilter,
+  updateSpatialFilter,
   updatePage,
   showError
 });
@@ -297,6 +300,7 @@ SemanticPortal.propTypes = {
   sortResults: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
+  updateSpatialFilter: PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   showError: PropTypes.func.isRequired
 };
