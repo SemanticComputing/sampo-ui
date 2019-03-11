@@ -3,31 +3,22 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import L from 'leaflet';
 import { has, orderBy } from 'lodash';
-// import LeafletSidebar from './LeafletSidebar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { purple } from '@material-ui/core/colors';
-
-import 'leaflet-sidebar-v2/js/leaflet-sidebar.min.js';
-import 'leaflet-sidebar-v2/css/leaflet-sidebar.min.css';
-
+// import 'leaflet-sidebar-v2/js/leaflet-sidebar.min.js';
+// import 'leaflet-sidebar-v2/css/leaflet-sidebar.min.css';
 import 'leaflet-fullscreen/dist/fullscreen.png';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.min.js';
-
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster/dist/leaflet.markercluster.js';
-
 import 'Leaflet.Control.Opacity/dist/L.Control.Opacity.css';
 import 'Leaflet.Control.Opacity/dist/L.Control.Opacity.js';
-
-import 'leaflet.smooth_marker_bouncing/leaflet.smoothmarkerbouncing.js';
-
 import 'Leaflet.extra-markers/dist/js/leaflet.extra-markers.min.js';
 import 'Leaflet.extra-markers/dist/css/leaflet.extra-markers.min.css';
 import 'Leaflet.extra-markers/dist/img/markers_default.png';
 import 'Leaflet.extra-markers/dist/img/markers_shadow.png';
-
 import markerShadowIcon from '../../img/markers/marker-shadow.png';
 import markerIconViolet from '../../img/markers/marker-icon-violet.png';
 import markerIconGreen from '../../img/markers/marker-icon-green.png';
@@ -135,7 +126,7 @@ class LeafletMap extends React.Component {
     //     position: 'bottomleft'
     //   }).addTo(this.leafletMap);
 
-    L.Marker.setBouncingOptions({ exclusive: true });
+    // L.Marker.setBouncingOptions({ exclusive: true });
 
     //L.control.sidebar({ container: 'sidebar' }).addTo(this.leafletMap).open('home');
 
