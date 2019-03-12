@@ -1,4 +1,5 @@
-export const endpoint = 'http://ldf.fi/mmm-cidoc/sparql';
+// export const endpoint = 'http://ldf.fi/mmm-cidoc/sparql';
+export const endpoint = 'http://localhost:3050/ds/sparql';
 
 export const countQuery = `
   SELECT (COUNT(DISTINCT ?id) as ?count)

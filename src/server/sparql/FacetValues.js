@@ -11,15 +11,15 @@ import {
 
 const sparqlSearchEngine = new SparqlSearchEngine();
 
-export const getFacet = (resultClass, facetID, sortBy, sortDirection, filters) => {
+export const getFacet = (facetClass, facetID, sortBy, sortDirection, filters) => {
   let q = facetValuesQuery;
-  const facetConfig = facetConfigs[resultClass][facetID];
+  const facetConfig = facetConfigs[facetClass][facetID];
   let selectedBlock = '# no selections';
   let filterBlock = '# no filters';
   let parentBlock = '# no parents';
   let mapper = mapFacet;
   if (filters !== null) {
-    filterBlock = generateFilter(resultClass, resultClass, filters, 'instance', facetID);
+    filterBlock = generateFilter(facetClass, facetClass, filters, 'instance', facetID);
     if (has(filters, facetID)) {
       selectedBlock = `
             OPTIONAL {
@@ -34,7 +34,7 @@ export const getFacet = (resultClass, facetID, sortBy, sortDirection, filters) =
     parentBlock = `
             UNION
             {
-              ${generateFilter(resultClass, resultClass, filters, 'different_instance', facetID)}
+              ${generateFilter(facetClass, facetClass, filters, 'different_instance', facetID)}
               ?different_instance ${facetConfig.parentPredicate} ?id .
               BIND(COALESCE(?selected_, false) as ?selected)
               OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
@@ -47,7 +47,7 @@ export const getFacet = (resultClass, facetID, sortBy, sortDirection, filters) =
             }
       `;
   }
-  q = q.replace(/<RDF_TYPE>/g, facetConfigs[resultClass].rdfType);
+  q = q.replace(/<RDF_TYPE>/g, facetConfigs[facetClass].rdfType);
   q = q.replace(/<FILTER>/g, filterBlock );
   q = q.replace(/<PREDICATE>/g, facetConfig.predicate);
   q = q.replace('<SELECTED_VALUES>', selectedBlock);

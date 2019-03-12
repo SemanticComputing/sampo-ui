@@ -28,6 +28,8 @@ export const INITIAL_STATE = {
       isFetching: false,
       searchField: false,
       containerClass: 'three',
+      filterType: 'uri',
+      uriFilter: new Set()
     },
     productionPlace: {
       id: 'productionPlace',
@@ -42,7 +44,9 @@ export const INITIAL_STATE = {
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
-      filterType: 'spatial'
+      filterType: 'uri',
+      uriFilter: new Set(),
+      spatialFilter: {}
     },
     author: {
       id: 'author',
@@ -57,6 +61,8 @@ export const INITIAL_STATE = {
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
+      filterType: 'uri',
+      uriFilter: new Set()
     },
     // language: {
     //   id: 'language',
@@ -68,17 +74,11 @@ export const INITIAL_STATE = {
     //   sortDirection: 'asc',
     //   isFetching: false,
     // },
-  },
-  filters: {
-    productionPlace: new Set(),
-    author: new Set(),
-    source: new Set(),
-    language: new Set(),
-  },
+  }
 };
 
 const manuscriptsFacets = (state = INITIAL_STATE, action) => {
-  if (action.resultClass === 'manuscripts') {
+  if (action.facetClass === 'manuscripts') {
     switch (action.type) {
       case FETCH_FACET:
         return fetchFacet(state, action);

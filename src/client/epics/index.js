@@ -30,7 +30,16 @@ const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
     const { resultClass, facetClass, sortBy, variant } = action;
-    const params = stateSlicesToUrl(state[resultClass], state[`${facetClass}Facets`], sortBy, variant, null);
+    const { page, pagesize, sortDirection } = state[resultClass];
+    const params = stateToUrl({
+      facets: state[`${facetClass}Facets`].facets,
+      facetClass: null,
+      page: page,
+      pagesize: pagesize,
+      sortBy: sortBy,
+      sortDirection: sortDirection,
+      variant: variant
+    });
     const requestUrl = `${apiUrl}${resultClass}/paginated?${params}`;
     // https://rxjs-dev.firebaseapp.com/api/ajax/ajax
     return ajax.getJSON(requestUrl).pipe(
@@ -54,7 +63,15 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
     const { resultClass, facetClass, variant } = action;
-    const params = stateSlicesToUrl(null, state[`${facetClass}Facets`], null, variant, facetClass);
+    const params = stateToUrl({
+      facets: state[`${facetClass}Facets`].facets,
+      facetClass: facetClass,
+      page: null,
+      pagesize: null,
+      sortBy: null,
+      sortDirection: null,
+      variant: variant
+    });
     const requestUrl = `${apiUrl}${resultClass}/all?${params}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResults({ resultClass: resultClass, data: response })),
@@ -76,7 +93,15 @@ const fetchByURIEpic = (action$, state$) => action$.pipe(
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
     const { resultClass, facetClass, variant, uri } = action;
-    const params = stateSlicesToUrl(null, state[`${facetClass}Facets`], null, variant, facetClass);
+    const params = stateToUrl({
+      facets: state[`${facetClass}Facets`].facets,
+      facetClass: facetClass,
+      page: null,
+      pagesize: null,
+      sortBy: null,
+      sortDirection: null,
+      variant: variant
+    });
     const requestUrl = `${apiUrl}${resultClass}/instance/${encodeURIComponent(uri)}?${params}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateInstance({ resultClass: resultClass, instance: response })),
@@ -97,31 +122,26 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_FACET),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    let params = {
-      sortBy: action.sortBy,
-      sortDirection: action.sortDirection
-    };
-    let filters = {};
-    let activeFilters = false;
-    for (const [key, value] of Object.entries(state[`${action.resultClass}Facets`].filters)) {
-      if (value.size != 0) {
-        activeFilters = true;
-        filters[key] = Array.from(value);
-      }
-    }
-    if (activeFilters) {
-      params.filters = JSON.stringify(filters);
-    }
-    const requestUrl = `${apiUrl}${action.resultClass}/facet/${action.id}?${stringify(params)}`;
+    const { facetClass, id, sortBy, sortDirection } = action;
+    const params = stateToUrl({
+      facets: state[`${facetClass}Facets`].facets,
+      facetClass: null,
+      page: null,
+      pagesize: null,
+      sortBy: sortBy,
+      sortDirection: sortDirection,
+      variant: null
+    });
+    const requestUrl = `${apiUrl}${action.facetClass}/facet/${id}?${params}`;
     return ajax.getJSON(requestUrl).pipe(
       map(res => updateFacet({
-        resultClass: action.resultClass,
-        id: action.id,
+        facetClass: facetClass,
+        id: id,
         distinctValueCount: res.distinctValueCount,
         values: res.values,
         flatValues: res.flatValues,
-        sortBy: action.sortBy,
-        sortDirection: action.sortDirection
+        sortBy: sortBy,
+        sortDirection: sortDirection
       })),
       catchError(error => of({
         type: FETCH_FACET_FAILED,
@@ -137,29 +157,28 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
   })
 );
 
-export const stateSlicesToUrl = (pagination, facets, sortBy, variant, facetClass) => {
-  //console.log(facets.spatialFilters)
+export const stateToUrl = ({
+  facets,
+  facetClass,
+  page,
+  pagesize,
+  sortBy,
+  sortDirection,
+  variant
+}) => {
   let params = {};
-  if (pagination != null) {
-    params.page = pagination.page;
-    params.pagesize =  pagination.pagesize;
-    params.sortDirection = pagination.sortDirection;
-  }
-  if (sortBy !== null) {
-    params.sortBy = sortBy;
-  }
-  if (variant !== null) {
-    params.variant = variant;
-  }
-  if (facetClass !== null) {
-    params.facetClass = facetClass;
-  }
+  if (facetClass !== null) { params.facetClass = facetClass; }
+  if (page !== null) { params.page = page; }
+  if (pagesize !== null) { params.pagesize = pagesize; }
+  if (sortBy !== null) { params.sortBy = sortBy; }
+  if (sortDirection !== null) { params.sortDirection = sortDirection; }
+  if (variant !== null) { params.variant = variant; }
   let filters = {};
   let activeFilters = false;
-  for (const [key, value] of Object.entries(facets.filters)) {
-    if (value.size != 0) {
+  for (const [key, value] of Object.entries(facets)) {
+    if (value.uriFilter.size != 0) {
       activeFilters = true;
-      filters[key] = Array.from(value);
+      filters[key] = Array.from(value.uriFilter);
     }
   }
   if (activeFilters) {

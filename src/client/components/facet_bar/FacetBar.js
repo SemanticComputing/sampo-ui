@@ -65,7 +65,7 @@ class FacetBar extends React.Component {
                   facetFunctionality={true}
                   property={id}
                   data={facets[id].values}
-                  resultClass={this.props.resultClass}
+                  facetClass={this.props.facetClass}
                   sortBy={facets[id].sortBy}
                   sortDirection={facets[id].sortDirection}
                   fetchFacet={this.props.fetchFacet}
@@ -87,7 +87,7 @@ class FacetBar extends React.Component {
 FacetBar.propTypes = {
   classes: PropTypes.object.isRequired,
   facetData: PropTypes.object.isRequired,
-  resultClass: PropTypes.string.isRequired,
+  facetClass: PropTypes.string.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired
 };

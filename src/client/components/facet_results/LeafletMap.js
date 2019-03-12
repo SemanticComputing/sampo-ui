@@ -114,41 +114,41 @@ class LeafletMap extends React.Component {
     });
 
     // add Leaflet Draw toolbar
-    const editableLayers = new L.FeatureGroup();
-    this.leafletMap.addLayer(editableLayers);
-    const drawOptions = {
-      draw: {
-        polyline: false,
-        rectangle: {
-          allowIntersection: false, // Restricts shapes to simple polygons
-          drawError: {
-            color: '#e1e100', // Color the shape will turn when intersects
-            message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
-          },
-          shapeOptions: {
-            color: '#bada55'
-          }
-        },
-        circle: false,
-        polygon: false,
-        marker: false,
-        circlemarker: false
-      },
-      edit: {
-        featureGroup: editableLayers,
-      }
-    };
-    const drawControl = new L.Control.Draw(drawOptions);
-    this.leafletMap.addControl(drawControl);
-    this.leafletMap.on(L.Draw.Event.CREATED, e => {
-      editableLayers.addLayer(e.layer);
-      const filterObj = this.boundsToValues(e.layer._bounds);
-      this.props.updateSpatialFilter({
-        resultClass: this.props.resultClass,
-        property: this.props.property,
-        filter: filterObj
-      });
-    });
+    // const editableLayers = new L.FeatureGroup();
+    // this.leafletMap.addLayer(editableLayers);
+    // const drawOptions = {
+    //   draw: {
+    //     polyline: false,
+    //     rectangle: {
+    //       allowIntersection: false, // Restricts shapes to simple polygons
+    //       drawError: {
+    //         color: '#e1e100', // Color the shape will turn when intersects
+    //         message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+    //       },
+    //       shapeOptions: {
+    //         color: '#bada55'
+    //       }
+    //     },
+    //     circle: false,
+    //     polygon: false,
+    //     marker: false,
+    //     circlemarker: false
+    //   },
+    //   edit: {
+    //     featureGroup: editableLayers,
+    //   }
+    // };
+    // const drawControl = new L.Control.Draw(drawOptions);
+    // this.leafletMap.addControl(drawControl);
+    // this.leafletMap.on(L.Draw.Event.CREATED, e => {
+    //   editableLayers.addLayer(e.layer);
+    //   const filterObj = this.boundsToValues(e.layer._bounds);
+    //   this.props.updateFilter({
+    //     resultClass: this.props.resultClass,
+    //     property: this.props.property,
+    //     value: filterObj
+    //   });
+    // });
 
     // layer controls
     // const baseMaps = {
@@ -421,7 +421,7 @@ LeafletMap.propTypes = {
   mapMode: PropTypes.string.isRequired,
   variant: PropTypes.string.isRequired,
   showInstanceCountInClusters: PropTypes.bool,
-  updateSpatialFilter: PropTypes.func,
+  updateFilter: PropTypes.func,
   property: PropTypes.string
 };
 

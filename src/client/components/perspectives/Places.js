@@ -61,7 +61,7 @@ let Places = props => {
         render={() =>
           <LeafletMap
             results={props.places.results}
-            filters={props.facetData.filters}
+            facetUpdateID={props.facetData.facetUpdateID}
             resultClass='places'
             facetClass='places'
             instance={props.places.instance}

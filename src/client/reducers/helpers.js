@@ -43,36 +43,34 @@ export const updateSortBy = (state, action) => {
 };
 
 export const updateFilter = (state, action) => {
-  const { property, value } = action;
-  let valueSet = state.filters[property];
-  if (valueSet.has(value)) {
-    valueSet.delete(value);
-  } else {
-    valueSet.add(value);
+  let { property, value } = action;
+  const oldFacet = state.facets[property];
+  let newFacet = {};
+  if (oldFacet.filterType === 'uri') {
+    let newUriFilter = oldFacet.uriFilter;
+    if (newUriFilter.has(value)) {
+      newUriFilter.delete(value);
+    } else {
+      newUriFilter.add(value);
+    }
+    newFacet = {
+      ...state.facets[property],
+      uriFilter: newUriFilter
+    };
+  } else if (oldFacet.filterType === 'spatial') {
+    newFacet = {
+      ...state.facets[property],
+      spatialFilter: value
+    };
   }
-  const newFacetFilters = {
-    ...state.filters,
-    [ property ] : valueSet
-  };
   return {
     ...state,
-    filters: newFacetFilters,
     updatedFacet: property,
-    facetUpdateID: ++state.facetUpdateID
-  };
-};
-
-export const updateSpatialFilter = (state, action) => {
-  const { property, filter } = action;
-  const newFacetFilters = {
-    ...state.spatialFilters,
-    [ property ] : filter
-  };
-  return {
-    ...state,
-    spatialFilters: newFacetFilters,
-    updatedFacet: property,
-    facetUpdateID: ++state.facetUpdateID
+    facetUpdateID: ++state.facetUpdateID,
+    facets: {
+      ...state.facets,
+      [ property ]: newFacet
+    }
   };
 };
 

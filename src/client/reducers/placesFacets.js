@@ -3,11 +3,9 @@ import {
   FETCH_FACET_FAILED,
   UPDATE_FACET,
   UPDATE_FILTER,
-  UPDATE_SPATIAL_FILTER,
 } from '../actions';
 import {
   updateFilter,
-  updateSpatialFilter,
   fetchFacet,
   fetchFacetFailed,
   updateFacet
@@ -30,6 +28,8 @@ export const INITIAL_STATE = {
       isFetching: false,
       searchField: false,
       containerClass: 'five',
+      filterType: 'uri',
+      uriFilter: new Set()
     },
     area: {
       id: 'area',
@@ -42,36 +42,17 @@ export const INITIAL_STATE = {
       sortDirection: 'asc',
       sortButton: false,
       isFetching: false,
-      searchField: false,
+      searchField: true,
       containerClass: 'ten',
+      filterType: 'uri',
+      uriFilter: new Set(),
+      spatialFilter: {}
     },
-    // type: {
-    //   id: 'type',
-    //   label: 'Type',
-    //   // predicate: defined in backend
-    //   distinctValueCount: 0,
-    //   values: [],
-    //   flatValues: [],
-    //   sortBy: 'instanceCount',
-    //   sortDirection: 'desc',
-    //   sortButton: false,
-    //   isFetching: false,
-    //   searchField: false,
-    //   containerSize: 'large',
-    //} ,
-  },
-  filters: {
-    source: new Set(),
-    area: new Set(),
-    type: new Set(),
-  },
-  spatialFilters: {
-    productionPlace: {}
   }
 };
 
 const placesFacets = (state = INITIAL_STATE, action) => {
-  if (action.resultClass === 'places') {
+  if (action.facetClass === 'places') {
     switch (action.type) {
       case FETCH_FACET:
         return fetchFacet(state, action);
@@ -81,8 +62,6 @@ const placesFacets = (state = INITIAL_STATE, action) => {
         return updateFacet(state, action);
       case UPDATE_FILTER:
         return updateFilter(state, action);
-      case UPDATE_SPATIAL_FILTER:
-        return updateSpatialFilter(state, action);
       default:
         return state;
     }

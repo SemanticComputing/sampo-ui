@@ -25,7 +25,6 @@ import {
   fetchFacet,
   sortResults,
   updateFilter,
-  updateSpatialFilter,
   updatePage,
   showError
 } from '../actions';
@@ -93,7 +92,7 @@ let SemanticPortal = (props) => {
                   <Grid item sm={12} md={3} className={classes.facetBarContainer}>
                     <FacetBar
                       facetData={props.manuscriptsFacets}
-                      resultClass='manuscripts'
+                      facetClass='manuscripts'
                       fetchFacet={props.fetchFacet}
                       updateFilter={props.updateFilter}
                     />
@@ -108,7 +107,7 @@ let SemanticPortal = (props) => {
                         fetchResults={props.fetchResults}
                         fetchByURI={props.fetchByURI}
                         updatePage={props.updatePage}
-                        updateSpatialFilter={props.updateSpatialFilter}
+                        updateFilter={props.updateFilter}
                         sortResults={props.sortResults}
                         routeProps={routeProps}
                       />
@@ -124,7 +123,7 @@ let SemanticPortal = (props) => {
                   <Grid item sm={12} md={3} className={classes.facetBarContainer}>
                     <FacetBar
                       facetData={props.worksFacets}
-                      resultClass='works'
+                      facetClass='works'
                       fetchFacet={props.fetchFacet}
                       updateFilter={props.updateFilter}
                     />
@@ -154,7 +153,7 @@ let SemanticPortal = (props) => {
                   <Grid item sm={12} md={3} className={classes.facetBarContainer}>
                     <FacetBar
                       facetData={props.peopleFacets}
-                      resultClass='people'
+                      facetClass='people'
                       fetchFacet={props.fetchFacet}
                       updateFilter={props.updateFilter}
                     />
@@ -185,7 +184,7 @@ let SemanticPortal = (props) => {
                   <Grid item sm={12} md={3} className={classes.facetBarContainer}>
                     <FacetBar
                       facetData={props.organizationsFacets}
-                      resultClass='organizations'
+                      facetClass='organizations'
                       fetchFacet={props.fetchFacet}
                       updateFilter={props.updateFilter}
                     />
@@ -216,7 +215,7 @@ let SemanticPortal = (props) => {
                   <Grid item sm={12} md={3} className={classes.facetBarContainer}>
                     <FacetBar
                       facetData={props.placesFacets}
-                      resultClass='places'
+                      facetClass='places'
                       fetchFacet={props.fetchFacet}
                       updateFilter={props.updateFilter}
                     />
@@ -274,7 +273,6 @@ const mapDispatchToProps = ({
   fetchFacet,
   sortResults,
   updateFilter,
-  updateSpatialFilter,
   updatePage,
   showError
 });
@@ -300,7 +298,6 @@ SemanticPortal.propTypes = {
   sortResults: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
-  updateSpatialFilter: PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   showError: PropTypes.func.isRequired
 };

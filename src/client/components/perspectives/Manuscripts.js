@@ -63,7 +63,7 @@ let Manuscripts = props => {
             mapMode={'cluster'}
             variant='productionPlaces'
             showInstanceCountInClusters={true}
-            updateSpatialFilter={props.updateSpatialFilter}
+            updateFilter={props.updateFilter}
             property={'productionPlace'}
           />}
       />
@@ -98,7 +98,7 @@ Manuscripts.propTypes = {
   updatePage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired,
-  updateSpatialFilter: PropTypes.func.isRequired
+  updateFilter: PropTypes.func.isRequired
 };
 
 export default Manuscripts;

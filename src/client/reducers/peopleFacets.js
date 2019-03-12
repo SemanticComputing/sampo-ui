@@ -4,7 +4,12 @@ import {
   UPDATE_FACET,
   UPDATE_FILTER,
 } from '../actions';
-import { updateFilter, fetchFacet, fetchFacetFailed, updateFacet } from './helpers';
+import {
+  updateFilter,
+  fetchFacet,
+  fetchFacetFailed,
+  updateFacet
+} from './helpers';
 
 export const INITIAL_STATE = {
   updatedFacet: null,
@@ -23,6 +28,8 @@ export const INITIAL_STATE = {
       isFetching: false,
       searchField: false,
       containerClass: 'five',
+      filterType: 'uri',
+      uriFilter: new Set()
     },
     place: {
       id: 'place',
@@ -37,16 +44,14 @@ export const INITIAL_STATE = {
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
+      filterType: 'uri',
+      uriFilter: new Set()
     },
-  },
-  filters: {
-    source: new Set(),
-    place: new Set(),
-  },
+  }
 };
 
 const peopleFacets = (state = INITIAL_STATE, action) => {
-  if (action.resultClass === 'people') {
+  if (action.facetClass === 'people') {
     switch (action.type) {
       case FETCH_FACET:
         return fetchFacet(state, action);

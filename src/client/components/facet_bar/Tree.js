@@ -75,7 +75,12 @@ class Tree extends Component {
 
   componentDidMount = () => {
     if (this.props.facetFunctionality) {
-      this.props.fetchFacet(this.props.resultClass, this.props.property, this.props.sortBy, this.props.sortDirection);
+      this.props.fetchFacet({
+        facetClass: this.props.facetClass,
+        id: this.props.property,
+        sortBy: this.props.sortBy,
+        sortDirection: this.props.sortDirection
+      });
     } else {
       this.props.fetchData();
     }
@@ -91,7 +96,12 @@ class Tree extends Component {
     }
     if (this.props.updatedFacet !== null && this.props.updatedFacet !== this.props.property && prevProps.facetFilters != this.props.facetFilters) {
       // console.log(`fetching new values for ${this.props.property}`)
-      this.props.fetchFacet(this.props.resultClass, this.props.property, this.props.sortBy, this.props.sortDirection);
+      this.props.fetchFacet({
+        facetClass: this.props.facetClass,
+        id: this.props.property,
+        sortBy: this.props.sortBy,
+        sortDirection: this.props.sortDirection
+      });
     }
   }
 
@@ -107,7 +117,7 @@ class Tree extends Component {
     });
     this.setState({ treeData: newTreeData });
     this.props.updateFilter({
-      resultClass: this.props.resultClass,
+      facetClass: this.props.facetClass,
       property: this.props.property,
       value: treeObj.node.id
     });
@@ -287,7 +297,7 @@ Tree.propTypes = {
   facetFunctionality: PropTypes.bool.isRequired,
   searchField: PropTypes.bool.isRequired,
   data: PropTypes.array.isRequired,
-  resultClass: PropTypes.string.isRequired,
+  facetClass: PropTypes.string.isRequired,
   fetchData: PropTypes.func,
   fetchFacet: PropTypes.func,
   property: PropTypes.string,
