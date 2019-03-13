@@ -88,13 +88,13 @@ class Tree extends Component {
 
   componentDidUpdate = prevProps => {
     if (prevProps.data != this.props.data) {
-      //console.log(`adding new values for: ${this.props.property}`);
-      //console.log(this.props.data)
       this.setState({
         treeData: this.props.data
       });
     }
-    if (this.props.updatedFacet !== null && this.props.updatedFacet !== this.props.property && prevProps.facetFilters != this.props.facetFilters) {
+    if (this.props.updatedFacet !== null
+      && this.props.updatedFacet !== this.props.property
+      && prevProps.facetUpdateID !== this.props.facetUpdateID) {
       // console.log(`fetching new values for ${this.props.property}`)
       this.props.fetchFacet({
         facetClass: this.props.facetClass,
@@ -304,8 +304,8 @@ Tree.propTypes = {
   sortBy: PropTypes.string,
   sortDirection: PropTypes.string,
   fetchingFacet: PropTypes.bool,
-  facetFilters: PropTypes.object,
   updateFilter: PropTypes.func,
+  facetUpdateID: PropTypes.number,
   updatedFacet: PropTypes.string,
 };
 

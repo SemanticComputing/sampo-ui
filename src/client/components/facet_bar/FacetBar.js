@@ -44,7 +44,7 @@ class FacetBar extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { facets, filters, updatedFacet } = this.props.facetData;
+    const { facetUpdateID, updatedFacet, facets } = this.props.facetData;
     return (
       <div className={classes.root}>
         {Object.keys(facets).map(id => {
@@ -70,8 +70,8 @@ class FacetBar extends React.Component {
                   sortDirection={facets[id].sortDirection}
                   fetchFacet={this.props.fetchFacet}
                   fetchingFacet={facets[id].isFetching}
-                  facetFilters={filters}
                   updateFilter={this.props.updateFilter}
+                  facetUpdateID={facetUpdateID}
                   updatedFacet={updatedFacet}
                   searchField={facets[id].searchField}
                 />
