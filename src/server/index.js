@@ -21,24 +21,25 @@ app.use(function(req, res, next) {
 app.use(express.static(path.join(__dirname, './../public/')));
 
 app.get(`${apiPath}/:resultClass/paginated`, (req, res, next) => {
-  const page = parseInt(req.query.page) || null;
-  const pagesize = parseInt(req.query.pagesize) || null;
-  const sortBy = req.query.sortBy || null;
-  const sortDirection = req.query.sortDirection || null;
-  const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
-  return getPaginatedResults(req.params.resultClass, page, pagesize, filters, sortBy, sortDirection).then(data => {
+  return getPaginatedResults({
+    resultClass: req.params.resultClass,
+    page: parseInt(req.query.page) || null,
+    pagesize: parseInt(req.query.pagesize) || null,
+    filters: req.query.filters == null ? null : JSON.parse(req.query.filters),
+    sortBy: req.query.sortBy || null,
+    sortDirection: req.query.sortDirection || null
+  }).then(data => {
     res.json(data);
   }).catch(next);
 });
 
 app.get(`${apiPath}/:resultClass/all`, (req, res, next) => {
-  const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
-  const variant = req.query.variant || null;
-  const sortBy = req.query.sortBy || null;
-  const sortDirection = req.query.sortDirection || null;
-  const facetClass = req.query.facetClass || null;
-  return getAllResults(req.params.resultClass, facetClass, filters, sortBy, sortDirection, variant).then(data => {
-    //console.log(data)
+  return getAllResults({
+    resultClass: req.params.resultClass,
+    facetClass: req.query.facetClass || null,
+    filters: req.query.filters == null ? null : JSON.parse(req.query.filters),
+    variant: req.query.variant || null,
+  }).then(data => {
     res.json({
       resultCount: data.count,
       results: data

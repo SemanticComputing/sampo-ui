@@ -13,7 +13,14 @@ import { generateFilter } from './Filters';
 
 const sparqlSearchEngine = new SparqlSearchEngine();
 
-export const getPaginatedResults = (resultClass, page, pagesize, filters, sortBy, sortDirection) => {
+export const getPaginatedResults = ({
+  resultClass,
+  page,
+  pagesize,
+  filters,
+  sortBy,
+  sortDirection
+}) => {
   return Promise.all([
     getResultCount(resultClass, filters),
     getPaginatedData(resultClass, page, pagesize, filters, sortBy, sortDirection),
@@ -28,7 +35,12 @@ export const getPaginatedResults = (resultClass, page, pagesize, filters, sortBy
     });
 };
 
-export const getAllResults = (resultClass, facetClass, filters, sortBy, sortDirection, variant) => {
+export const getAllResults = ({
+  resultClass,
+  facetClass,
+  filters,
+  variant
+}) => {
   let q = '';
   let filterTarget = '';
   switch (variant) {
@@ -51,7 +63,7 @@ export const getAllResults = (resultClass, facetClass, filters, sortBy, sortDire
     q = q.replace('<FILTER>', generateFilter(resultClass, facetClass, filters, filterTarget, null));
   }
   // if (variant == 'migrations') {
-  //   console.log(q)
+  //   console.log(prefixes + q)
   // }
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, makeObjectList);
 };

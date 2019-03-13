@@ -51,12 +51,21 @@ export const manuscriptProperties = `
   }
   UNION
   {
-    ?event__id crm:P24_transferred_title_of|mmm-schema:observed_manuscript ?id .
+    ?event__id crm:P24_transferred_title_of ?id .
     ?event__id a ?event__type .
     OPTIONAL { ?event__id skos:prefLabel ?event__prefLabel . }
-    OPTIONAL { ?event__id crm:P4_has_time-span|mmm-schema:observed_time-span ?event__date. }
-    OPTIONAL { ?event__id crm:P7_took_place_at|mmm-schema:observed_location ?event__place. }
+    OPTIONAL { ?event__id crm:P4_has_time-span ?event__date. }
+    OPTIONAL { ?event__id crm:P7_took_place_at ?event__place. }
     OPTIONAL { ?event__id  mmm-schema:data_provider_url ?event__dataProviderUrl }
+  }
+  UNION
+  {
+    ?event__id mmm-schema:observed_manuscript ?id .
+    ?event__id a ?event__type .
+    OPTIONAL { ?event__id skos:prefLabel ?event__prefLabel . }
+    OPTIONAL { ?event__id mmm-schema:observed_time-span ?event__date. }
+    OPTIONAL { ?event__id mmm-schema:observed_location ?event__place. }
+    OPTIONAL { ?event__id mmm-schema:data_provider_url ?event__dataProviderUrl }
   }
 `;
 
@@ -96,7 +105,7 @@ export const migrationsQuery = `
     ?to__id skos:prefLabel ?to__name .
     ?to__id wgs84:lat ?to__lat ;
             wgs84:long ?to__long .
-    BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/mmm/places/", ""))) as ?id)
+    BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/mmm/place/", ""))) as ?id)
     FILTER NOT EXISTS {
       ?event__id2 crm:P24_transferred_title_of ?manuscript__id .
       ?event__id2 crm:P4_has_time-span ?event__date2 .
