@@ -6,7 +6,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 //import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SortByAlphaIcon from '@material-ui/icons/SortByAlpha';
-import { PieChart, ExpandLess, /*ExpandMore*/ }  from '@material-ui/icons';
+import { /*PieChart, ExpandLess, ExpandMore*/ }  from '@material-ui/icons';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
@@ -21,6 +21,7 @@ const styles = theme => ({
     paddingLeft: theme.spacing.unit,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
+    height: 48
   },
   facetContainer: {
     marginBottom: theme.spacing.unit,
@@ -62,7 +63,12 @@ class FacetHeader extends React.Component {
         sortDirection = 'desc';
       }
     }
-    this.props.fetchFacet(this.props.property, sortBy, sortDirection);
+    this.props.fetchFacet({
+      facetClass: this.props.facetClass,
+      id: this.props.property,
+      sortBy: sortBy,
+      sortDirection: sortDirection
+    });
   };
 
   handleMenuClose = () => {
@@ -82,7 +88,7 @@ class FacetHeader extends React.Component {
       },
       {
         id: 'instanceCount',
-        menuItemText: 'Sort by manuscript count',
+        menuItemText: `Sort by number of ${this.props.resultClass}`,
         selected: this.props.sortBy === 'instanceCount' ? true : false,
         sortDirection: this.props.sortDirection,
       },
@@ -121,9 +127,9 @@ class FacetHeader extends React.Component {
               </Menu>
             </React.Fragment>
           }
-          <IconButton disabled aria-label="Expand">
+          { /*<IconButton disabled aria-label="Expand">
             <ExpandLess />
-          </IconButton>
+          </IconButton> */}
         </div>
       </Paper>
     );
@@ -134,6 +140,8 @@ FacetHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
   property: PropTypes.string.isRequired,
+  facetClass: PropTypes.string.isRequired,
+  resultClass: PropTypes.string.isRequired,
   sortButton: PropTypes.bool.isRequired,
   distinctValueCount: PropTypes.number.isRequired,
   sortBy: PropTypes.string.isRequired,

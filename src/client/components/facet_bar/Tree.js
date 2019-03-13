@@ -297,7 +297,7 @@ Tree.propTypes = {
   facetFunctionality: PropTypes.bool.isRequired,
   searchField: PropTypes.bool.isRequired,
   data: PropTypes.array.isRequired,
-  facetClass: PropTypes.string.isRequired,
+  facetClass: PropTypes.string,
   fetchData: PropTypes.func,
   fetchFacet: PropTypes.func,
   property: PropTypes.string,

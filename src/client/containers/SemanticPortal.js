@@ -93,6 +93,7 @@ let SemanticPortal = (props) => {
                     <FacetBar
                       facetData={props.manuscriptsFacets}
                       facetClass='manuscripts'
+                      resultClass='manuscripts'
                       fetchFacet={props.fetchFacet}
                       updateFilter={props.updateFilter}
                     />
@@ -124,6 +125,7 @@ let SemanticPortal = (props) => {
                     <FacetBar
                       facetData={props.worksFacets}
                       facetClass='works'
+                      resultClass='works'
                       fetchFacet={props.fetchFacet}
                       updateFilter={props.updateFilter}
                     />
@@ -154,6 +156,7 @@ let SemanticPortal = (props) => {
                     <FacetBar
                       facetData={props.peopleFacets}
                       facetClass='people'
+                      resultClass='people'
                       fetchFacet={props.fetchFacet}
                       updateFilter={props.updateFilter}
                     />
@@ -185,6 +188,7 @@ let SemanticPortal = (props) => {
                     <FacetBar
                       facetData={props.organizationsFacets}
                       facetClass='organizations'
+                      resultClass='organizations'
                       fetchFacet={props.fetchFacet}
                       updateFilter={props.updateFilter}
                     />
@@ -216,6 +220,7 @@ let SemanticPortal = (props) => {
                     <FacetBar
                       facetData={props.placesFacets}
                       facetClass='places'
+                      resultClass='places'
                       fetchFacet={props.fetchFacet}
                       updateFilter={props.updateFilter}
                     />

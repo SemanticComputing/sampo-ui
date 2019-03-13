@@ -40,7 +40,7 @@ export const INITIAL_STATE = {
       flatValues: [],
       sortBy: 'prefLabel',
       sortDirection: 'asc',
-      sortButton: false,
+      sortButton: true,
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
