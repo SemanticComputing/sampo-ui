@@ -5,25 +5,24 @@ import { createEpicMiddleware } from 'redux-observable';
 import {responsiveStoreEnhancer} from 'redux-responsive';
 import { Provider } from 'react-redux';
 import ReduxToastr, { actions as toastrActions } from 'react-redux-toastr';
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import { Router } from 'react-router-dom';
 import history from './History';
-import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
-import 'react-virtualized/styles.css';
-
 import reducer from './reducers';
 import rootEpic from './epics';
 import App from './components/App';
 
 const epicMiddleware = createEpicMiddleware();
 
+const middleware = applyMiddleware(epicMiddleware);
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
   reducer,
   compose(
     responsiveStoreEnhancer,
-    applyMiddleware(
-      epicMiddleware,
-    )
+    composeEnhancers(middleware)
   )
 );
 

@@ -77,7 +77,6 @@
     "react-router-dom": "^4.3.1",
     "react-sortable-tree": "^2.6.0",
     "react-sortable-tree-theme-file-explorer": "^2.0.0",
-    "react-virtualized": "^9.21.0",
     "recompose": "^0.28.2",
     "redux": "^4.0.1",
     "redux-observable": "^1.0.0",
