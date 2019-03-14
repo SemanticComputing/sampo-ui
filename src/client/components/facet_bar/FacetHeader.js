@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-//import MoreVertIcon from '@material-ui/icons/MoreVert';
-import SortByAlphaIcon from '@material-ui/icons/SortByAlpha';
-import { /*PieChart, ExpandLess, ExpandMore*/ }  from '@material-ui/icons';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import history from '../../History';
 
 const styles = theme => ({
   root: {
@@ -47,11 +47,11 @@ class FacetHeader extends React.Component {
     anchorEl: null,
   };
 
-  handleSortByClick = event => {
+  handleMenuButtonClick = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleMenuItemClick = (sortBy, isSelected) => () =>  {
+  handleSortOnClick = (sortBy, isSelected) => () =>  {
     this.setState({ anchorEl: null });
     let sortDirection = '';
     if (isSelected) {
@@ -71,65 +71,82 @@ class FacetHeader extends React.Component {
     });
   };
 
+  handleFilterTypeOnClick = () => () => {
+    this.setState({ anchorEl: null });
+    history.push({ pathname: `/${this.props.resultClass}/${this.props.filterType}`});
+  }
+
   handleMenuClose = () => {
     this.setState({ anchorEl: null });
   }
 
-  render() {
-    const { classes } = this.props;
+  renderFacetMenu = () => {
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
-    const options = [
-      {
+    let menuButtons = [];
+    if (this.props.sortButton) {
+      menuButtons.push({
         id: 'prefLabel',
         menuItemText: 'Sort alphabetically',
         selected: this.props.sortBy === 'prefLabel' ? true : false,
-        sortDirection: this.props.sortDirection,
-      },
-      {
+        onClickHandler: this.handleSortOnClick
+      });
+      menuButtons.push({
         id: 'instanceCount',
         menuItemText: `Sort by number of ${this.props.resultClass}`,
         selected: this.props.sortBy === 'instanceCount' ? true : false,
-        sortDirection: this.props.sortDirection,
-      },
-    ];
+        onClickHandler: this.handleSortOnClick
+      });
+    }
+    if (this.props.spatialFilterButton) {
+      menuButtons.push({
+        id: 'uriFilter',
+        menuItemText: `Filter by name`,
+        selected: this.props.filterType === 'uri' ? true : false,
+        onClickHandler: this.handleFilterTypeOnClick
+      });
+      menuButtons.push({
+        id: 'spatialFilter',
+        menuItemText: `Filter by bounding box`,
+        selected: this.props.filterType === 'spatial' ? true : false,
+        onClickHandler: this.handleFilterTypeOnClick
+      });
+    }
+    return (
+      <React.Fragment>
+        <Tooltip disableFocusListener={true} title="Filter options">
+          <IconButton
+            aria-label="Filter options"
+            aria-owns={open ? 'facet-option-menu' : undefined}
+            aria-haspopup="true"
+            onClick={this.handleMenuButtonClick}
+          >
+            <MoreVertIcon />
+          </IconButton>
+        </Tooltip>
+        <Menu
+          id="facet-option-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={this.handleMenuClose}
+        >
+          {menuButtons.map(button => (
+            <MenuItem key={button.id} selected={button.selected} onClick={button.onClickHandler(button.id, button.selected)}>
+              {button.menuItemText}
+            </MenuItem>
+          ))}
+        </Menu>
+      </React.Fragment>
+    );
+  }
 
-    //{this.props.distinctValueCount > 0 ? `(${this.props.distinctValueCount})` : ''}
-
+  render() {
+    const { classes } = this.props;
     return (
       <Paper className={classes.headingContainer}>
         <Typography variant="h6">{this.props.label} </Typography>
         <div className={classes.facetHeaderButtons}>
-          {/*<IconButton disabled aria-label="Statistics">
-            <PieChart />
-          </IconButton> */}
-          {this.props.sortButton &&
-            <React.Fragment>
-              <IconButton
-                aria-label="More"
-                aria-owns={open ? 'facet-menu' : undefined}
-                aria-haspopup="true"
-                onClick={this.handleSortByClick}
-              >
-                <SortByAlphaIcon />
-              </IconButton>
-              <Menu
-                id="facet-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={this.handleMenuClose}
-              >
-                {options.map(option => (
-                  <MenuItem key={option.id} selected={option.selected} onClick={this.handleMenuItemClick(option.id, option.selected)}>
-                    {option.menuItemText}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </React.Fragment>
-          }
-          { /*<IconButton disabled aria-label="Expand">
-            <ExpandLess />
-          </IconButton> */}
+          {(this.props.sortButton || this.props.spatialFilterButton) && this.renderFacetMenu()}
         </div>
       </Paper>
     );
@@ -143,6 +160,8 @@ FacetHeader.propTypes = {
   facetClass: PropTypes.string.isRequired,
   resultClass: PropTypes.string.isRequired,
   sortButton: PropTypes.bool.isRequired,
+  spatialFilterButton: PropTypes.bool.isRequired,
+  filterType: PropTypes.string.isRequired,
   distinctValueCount: PropTypes.number.isRequired,
   sortBy: PropTypes.string.isRequired,
   sortDirection: PropTypes.string.isRequired,

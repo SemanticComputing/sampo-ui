@@ -25,6 +25,7 @@ export const INITIAL_STATE = {
       sortBy: 'instanceCount',
       sortDirection: 'desc',
       sortButton: false,
+      spatialFilterButton: false,
       isFetching: false,
       searchField: false,
       containerClass: 'five',

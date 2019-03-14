@@ -60,6 +60,8 @@ class FacetBar extends React.Component {
                 sortBy={facets[id].sortBy}
                 sortDirection={facets[id].sortDirection}
                 sortButton={facets[id].sortButton}
+                spatialFilterButton={facets[id].spatialFilterButton}
+                filterType={facets[id].filterType}
                 fetchFacet={this.props.fetchFacet}
               />
               <div className={classes[facets[id].containerClass]}>
