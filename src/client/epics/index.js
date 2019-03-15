@@ -12,18 +12,18 @@ import {
   FETCH_BY_URI_FAILED,
   FETCH_FACET,
   FETCH_FACET_FAILED,
-  //SHOW_ERROR,
   updatePaginatedResults,
   updateResults,
   updateInstance,
-  updateFacet,
+  updateFacetValues,
 } from '../actions';
 
 const apiUrl = (process.env.NODE_ENV === 'development')
   ? 'http://localhost:3001/api/'
   : `http://${location.hostname}/api/`;
 
-const backendErrorText = 'Cannot connect to the MMM Knowledge Base. A data conversion process might be running. Please try again later.';
+const backendErrorText = `Cannot connect to the MMM Knowledge Base.
+A data conversion process might be running. Please try again later.`;
 
 const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_PAGINATED_RESULTS),
@@ -122,9 +122,12 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_FACET),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { facetClass, id, sortBy, sortDirection } = action;
+    const { facetClass, facetID } = action;
+    const facets = state[`${facetClass}Facets`].facets;
+    const facet = facets[facetID];
+    const { sortBy, sortDirection } = facet;
     const params = stateToUrl({
-      facets: state[`${facetClass}Facets`].facets,
+      facets: facets,
       facetClass: null,
       page: null,
       pagesize: null,
@@ -132,16 +135,14 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
       sortDirection: sortDirection,
       variant: null
     });
-    const requestUrl = `${apiUrl}${action.facetClass}/facet/${id}?${params}`;
+    const requestUrl = `${apiUrl}${action.facetClass}/facet/${facetID}?${params}`;
     return ajax.getJSON(requestUrl).pipe(
-      map(res => updateFacet({
+      map(res => updateFacetValues({
         facetClass: facetClass,
-        id: id,
+        id: facetID,
         distinctValueCount: res.distinctValueCount,
         values: res.values,
-        flatValues: res.flatValues,
-        sortBy: sortBy,
-        sortDirection: sortDirection
+        flatValues: res.flatValues
       })),
       catchError(error => of({
         type: FETCH_FACET_FAILED,

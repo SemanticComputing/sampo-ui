@@ -51,29 +51,18 @@ class FacetHeader extends React.Component {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleSortOnClick = (sortBy, isSelected) => () =>  {
+  handleSortOnClick = () => () =>  {
     this.setState({ anchorEl: null });
-    let sortDirection = '';
-    if (isSelected) {
-      sortDirection = this.props.sortDirection === 'asc' ? 'desc' : 'asc';
-    } else {
-      if (sortBy === 'prefLabel') {
-        sortDirection = 'asc';
-      } else if (sortBy === 'instanceCount') {
-        sortDirection = 'desc';
-      }
-    }
-    this.props.fetchFacet({
-      facetClass: this.props.facetClass,
-      id: this.props.property,
-      sortBy: sortBy,
-      sortDirection: sortDirection
-    });
+
+    // this.props.fetchFacet({
+    //   facetClass: this.props.facetClass,
+    //   facetID: this.props.facetID,
+    // });
   };
 
   handleFilterTypeOnClick = () => () => {
     this.setState({ anchorEl: null });
-    history.push({ pathname: `/${this.props.resultClass}/${this.props.filterType}`});
+    history.push({ pathname: `/${this.props.resultClass}/${this.props.facet.filterType}`});
   }
 
   handleMenuClose = () => {
@@ -82,33 +71,34 @@ class FacetHeader extends React.Component {
 
   renderFacetMenu = () => {
     const { anchorEl } = this.state;
+    const { sortButton, spatialFilterButton, sortBy, filterType } = this.props.facet;
     const open = Boolean(anchorEl);
     let menuButtons = [];
-    if (this.props.sortButton) {
+    if (sortButton) {
       menuButtons.push({
         id: 'prefLabel',
         menuItemText: 'Sort alphabetically',
-        selected: this.props.sortBy === 'prefLabel' ? true : false,
+        selected: sortBy === 'prefLabel' ? true : false,
         onClickHandler: this.handleSortOnClick
       });
       menuButtons.push({
         id: 'instanceCount',
         menuItemText: `Sort by number of ${this.props.resultClass}`,
-        selected: this.props.sortBy === 'instanceCount' ? true : false,
+        selected: sortBy === 'instanceCount' ? true : false,
         onClickHandler: this.handleSortOnClick
       });
     }
-    if (this.props.spatialFilterButton) {
+    if (spatialFilterButton) {
       menuButtons.push({
         id: 'uriFilter',
         menuItemText: `Filter by name`,
-        selected: this.props.filterType === 'uri' ? true : false,
+        selected: filterType === 'uri' ? true : false,
         onClickHandler: this.handleFilterTypeOnClick
       });
       menuButtons.push({
         id: 'spatialFilter',
         menuItemText: `Filter by bounding box`,
-        selected: this.props.filterType === 'spatial' ? true : false,
+        selected: filterType === 'spatial' ? true : false,
         onClickHandler: this.handleFilterTypeOnClick
       });
     }
@@ -131,7 +121,7 @@ class FacetHeader extends React.Component {
           onClose={this.handleMenuClose}
         >
           {menuButtons.map(button => (
-            <MenuItem key={button.id} selected={button.selected} onClick={button.onClickHandler(button.id, button.selected)}>
+            <MenuItem key={button.id} selected={button.selected} onClick={button.onClickHandler}>
               {button.menuItemText}
             </MenuItem>
           ))}
@@ -142,11 +132,12 @@ class FacetHeader extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const { label, sortButton, spatialFilterButton } = this.props.facet;
     return (
       <Paper className={classes.headingContainer}>
-        <Typography variant="h6">{this.props.label} </Typography>
+        <Typography variant="h6">{label} </Typography>
         <div className={classes.facetHeaderButtons}>
-          {(this.props.sortButton || this.props.spatialFilterButton) && this.renderFacetMenu()}
+          {(sortButton || spatialFilterButton) && this.renderFacetMenu()}
         </div>
       </Paper>
     );
@@ -155,17 +146,12 @@ class FacetHeader extends React.Component {
 
 FacetHeader.propTypes = {
   classes: PropTypes.object.isRequired,
-  label: PropTypes.string.isRequired,
-  property: PropTypes.string.isRequired,
+  facetID: PropTypes.string.isRequired,
+  facet: PropTypes.object.isRequired,
   facetClass: PropTypes.string.isRequired,
   resultClass: PropTypes.string.isRequired,
-  sortButton: PropTypes.bool.isRequired,
-  spatialFilterButton: PropTypes.bool.isRequired,
-  filterType: PropTypes.string.isRequired,
-  distinctValueCount: PropTypes.number.isRequired,
-  sortBy: PropTypes.string.isRequired,
-  sortDirection: PropTypes.string.isRequired,
-  fetchFacet: PropTypes.func.isRequired
+  fetchFacet: PropTypes.func.isRequired,
+  updateFacetOption: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(FacetHeader);

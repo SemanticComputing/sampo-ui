@@ -42,11 +42,17 @@ export const updateSortBy = (state, action) => {
   }
 };
 
-export const updateFilter = (state, action) => {
-  let { property, value } = action;
-  const oldFacet = state.facets[property];
+export const updateFacetOption = (state, action) => {
+  if (action.option === 'uriFilter' || action.option === 'spatialFilter') {
+    return updateFacetFilter(state, action);
+  }
+};
+
+const updateFacetFilter = (state, action) => {
+  const { facetID, value } = action;
+  const oldFacet = state.facets[facetID];
   let newFacet = {};
-  if (oldFacet.filterType === 'uri') {
+  if (oldFacet.filterType === 'uriFilter') {
     let newUriFilter = oldFacet.uriFilter;
     if (newUriFilter.has(value)) {
       newUriFilter.delete(value);
@@ -54,22 +60,22 @@ export const updateFilter = (state, action) => {
       newUriFilter.add(value);
     }
     newFacet = {
-      ...state.facets[property],
+      ...state.facets[facetID],
       uriFilter: newUriFilter
     };
-  } else if (oldFacet.filterType === 'spatial') {
+  } else if (oldFacet.filterType === 'spatialFilter') {
     newFacet = {
-      ...state.facets[property],
+      ...state.facets[facetID],
       spatialFilter: value
     };
   }
   return {
     ...state,
-    updatedFacet: property,
+    updatedFacet: facetID,
     facetUpdateID: ++state.facetUpdateID,
     facets: {
       ...state.facets,
-      [ property ]: newFacet
+      [ facetID ]: newFacet
     }
   };
 };
@@ -99,8 +105,8 @@ export const fetchFacet = (state, action) => {
     ...state,
     facets: {
       ...state.facets,
-      [ action.id ]: {
-        ...state.facets[action.id],
+      [ action.facetID ]: {
+        ...state.facets[action.facetID],
         isFetching: true
       }
     }
@@ -112,8 +118,8 @@ export const fetchFacetFailed = (state, action) => {
     ...state,
     facets: {
       ...state.facets,
-      [ action.id ]: {
-        ...state.facets[action.id],
+      [ action.facetID ]: {
+        ...state.facets[action.facetID],
         isFetching: false,
       }
     },
@@ -127,7 +133,7 @@ export const fetchFacetFailed = (state, action) => {
   };
 };
 
-export const updateFacet = (state, action) => {
+export const updateFacetValues = (state, action) => {
   return {
     ...state,
     facets: {
@@ -137,8 +143,6 @@ export const updateFacet = (state, action) => {
         distinctValueCount: action.distinctValueCount,
         values: action.values,
         flatValues: action.flatValues || [],
-        sortBy: action.sortBy,
-        sortDirection: action.sortDirection,
         isFetching: false
       }
     }

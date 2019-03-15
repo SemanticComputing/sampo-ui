@@ -1,14 +1,14 @@
 import {
   FETCH_FACET,
   FETCH_FACET_FAILED,
-  UPDATE_FACET,
-  UPDATE_FILTER,
+  UPDATE_FACET_VALUES,
+  UPDATE_FACET_OPTION,
 } from '../actions';
 import {
-  updateFilter,
   fetchFacet,
   fetchFacetFailed,
-  updateFacet
+  updateFacetValues,
+  updateFacetOption,
 } from './helpers';
 
 export const INITIAL_STATE = {
@@ -46,7 +46,7 @@ export const INITIAL_STATE = {
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
-      filterType: 'uri',
+      filterType: 'uriFilter',
       uriFilter: new Set()
     },
   }
@@ -59,10 +59,10 @@ const peopleFacets = (state = INITIAL_STATE, action) => {
         return fetchFacet(state, action);
       case FETCH_FACET_FAILED:
         return fetchFacetFailed(state, action);
-      case UPDATE_FACET:
-        return updateFacet(state, action);
-      case UPDATE_FILTER:
-        return updateFilter(state, action);
+      case UPDATE_FACET_VALUES:
+        return updateFacetValues(state, action);
+      case UPDATE_FACET_OPTION:
+        return updateFacetOption(state, action);
       default:
         return state;
     }

@@ -51,33 +51,23 @@ class FacetBar extends React.Component {
           return (
             <Paper key={id} className={classes.facetContainer}>
               <FacetHeader
-                label={facets[id].label}
-                property={id}
+                facetID={id}
+                facet={facets[id]}
                 facetClass={this.props.facetClass}
                 resultClass={this.props.resultClass}
-                hierarchical={false}
-                distinctValueCount={facets[id].distinctValueCount}
-                sortBy={facets[id].sortBy}
-                sortDirection={facets[id].sortDirection}
-                sortButton={facets[id].sortButton}
-                spatialFilterButton={facets[id].spatialFilterButton}
-                filterType={facets[id].filterType}
                 fetchFacet={this.props.fetchFacet}
+                updateFacetOption={this.props.updateFacetOption}
               />
               <div className={classes[facets[id].containerClass]}>
                 <Tree
-                  facetFunctionality={true}
-                  property={id}
-                  data={facets[id].values}
+                  facetID={id}
+                  facet={facets[id]}
                   facetClass={this.props.facetClass}
-                  sortBy={facets[id].sortBy}
-                  sortDirection={facets[id].sortDirection}
-                  fetchFacet={this.props.fetchFacet}
-                  fetchingFacet={facets[id].isFetching}
-                  updateFilter={this.props.updateFilter}
+                  resultClass={this.props.resultClass}
                   facetUpdateID={facetUpdateID}
                   updatedFacet={updatedFacet}
-                  searchField={facets[id].searchField}
+                  fetchFacet={this.props.fetchFacet}
+                  updateFacetOption={this.props.updateFacetOption}
                 />
               </div>
             </Paper>
@@ -94,7 +84,7 @@ FacetBar.propTypes = {
   facetClass: PropTypes.string.isRequired,
   resultClass: PropTypes.string.isRequired,
   fetchFacet: PropTypes.func.isRequired,
-  updateFilter: PropTypes.func.isRequired
+  updateFacetOption: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(FacetBar);

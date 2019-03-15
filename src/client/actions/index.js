@@ -11,8 +11,8 @@ export const FETCH_BY_URI_FAILED = 'FETCH_BY_URI_FAILED';
 export const UPDATE_INSTANCE = 'UPDATE_INSTANCE';
 export const FETCH_FACET = 'FETCH_FACET';
 export const FETCH_FACET_FAILED = 'FETCH_FACET_FAILED';
-export const UPDATE_FACET = 'UPDATE_FACET';
-export const UPDATE_FILTER = 'UPDATE_FILTER';
+export const UPDATE_FACET_VALUES = 'UPDATE_FACET_VALUES';
+export const UPDATE_FACET_OPTION = 'UPDATE_FACET_OPTION';
 export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP';
 export const SHOW_ERROR = 'SHOW_ERROR';
 
@@ -60,21 +60,21 @@ export const updateInstance = ({ resultClass, instance }) => ({
   type: UPDATE_INSTANCE,
   resultClass, instance
 });
-export const fetchFacet = ({ facetClass, id, sortBy, sortDirection }) => ({
+export const fetchFacet = ({ facetClass, facetID }) => ({
   type: FETCH_FACET,
-  facetClass, id, sortBy, sortDirection
+  facetClass, facetID
 });
 export const fetchFacetFailed = (facetClass, id, error, message) => ({
   type: FETCH_FACET_FAILED,
   facetClass, id, error, message
 });
-export const updateFacet = ({ facetClass, id, distinctValueCount, values, flatValues, sortBy, sortDirection }) => ({
-  type: UPDATE_FACET,
-  facetClass, id, distinctValueCount, values, flatValues, sortBy, sortDirection
+export const updateFacetValues = ({ facetClass, id, distinctValueCount, values, flatValues }) => ({
+  type: UPDATE_FACET_VALUES,
+  facetClass, id, distinctValueCount, values, flatValues
 });
-export const updateFilter = ({ facetClass, property, value }) => ({
-  type: UPDATE_FILTER,
-  facetClass, property, value
+export const updateFacetOption = ({ facetClass, facetID, option, value }) => ({
+  type: UPDATE_FACET_OPTION,
+  facetClass, facetID, option, value
 });
 export const openMarkerPopup = uri => ({
   type: OPEN_MARKER_POPUP,

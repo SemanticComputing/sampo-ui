@@ -74,33 +74,25 @@ class Tree extends Component {
   }
 
   componentDidMount = () => {
-    if (this.props.facetFunctionality) {
-      this.props.fetchFacet({
-        facetClass: this.props.facetClass,
-        id: this.props.property,
-        sortBy: this.props.sortBy,
-        sortDirection: this.props.sortDirection
-      });
-    } else {
-      this.props.fetchData();
-    }
+    this.props.fetchFacet({
+      facetClass: this.props.facetClass,
+      facetID: this.props.facetID,
+    });
   }
 
   componentDidUpdate = prevProps => {
-    if (prevProps.data != this.props.data) {
+    if (prevProps.facet.values != this.props.facet.values) {
       this.setState({
-        treeData: this.props.data
+        treeData: this.props.facet.values
       });
     }
     if (this.props.updatedFacet !== null
-      && this.props.updatedFacet !== this.props.property
+      && this.props.updatedFacet !== this.props.facetID
       && prevProps.facetUpdateID !== this.props.facetUpdateID) {
       // console.log(`fetching new values for ${this.props.property}`)
       this.props.fetchFacet({
         facetClass: this.props.facetClass,
-        id: this.props.property,
-        sortBy: this.props.sortBy,
-        sortDirection: this.props.sortDirection
+        facetID: this.props.facetID,
       });
     }
   }
@@ -116,9 +108,10 @@ class Tree extends Component {
       },
     });
     this.setState({ treeData: newTreeData });
-    this.props.updateFilter({
+    this.props.updateFacetOption({
       facetClass: this.props.facetClass,
-      property: this.props.property,
+      facetID: this.props.facetID,
+      option: this.props.facet.filterType,
       value: treeObj.node.id
     });
   };
@@ -188,8 +181,10 @@ class Tree extends Component {
 
 
   render() {
-    const { classes } = this.props;
     const { searchString, searchFocusIndex, searchFoundCount } = this.state;
+    const { classes, facet } = this.props;
+    const { isFetching, searchField } = facet;
+
     //console.log(this.props.data)
 
     // Case insensitive search of `node.title`
@@ -217,13 +212,13 @@ class Tree extends Component {
 
     return (
       <React.Fragment>
-        {this.props.fetchingFacet ?
+        {isFetching ?
           <div className={classes.spinnerContainer}>
             <CircularProgress style={{ color: purple[500] }} thickness={5} />
           </div>
           :
           <React.Fragment>
-            {this.props.searchField &&
+            {searchField &&
               <div className={classes.facetSearchContainer}>
                 <Input
                   placeholder={`Search...`}
@@ -253,7 +248,7 @@ class Tree extends Component {
                 }
               </div>
             }
-            <div className={this.props.searchField ? classes.treeContainerWithSearchField : classes.treeContainer }>
+            <div className={searchField ? classes.treeContainerWithSearchField : classes.treeContainer }>
               <SortableTree
                 treeData={this.state.treeData}
                 onChange={treeData => this.setState({ treeData })}
@@ -294,17 +289,12 @@ class Tree extends Component {
 
 Tree.propTypes = {
   classes: PropTypes.object.isRequired,
-  facetFunctionality: PropTypes.bool.isRequired,
-  searchField: PropTypes.bool.isRequired,
-  data: PropTypes.array.isRequired,
+  facetID: PropTypes.string.isRequired,
+  facet: PropTypes.object.isRequired,
   facetClass: PropTypes.string,
-  fetchData: PropTypes.func,
+  resultClass: PropTypes.string,
   fetchFacet: PropTypes.func,
-  property: PropTypes.string,
-  sortBy: PropTypes.string,
-  sortDirection: PropTypes.string,
-  fetchingFacet: PropTypes.bool,
-  updateFilter: PropTypes.func,
+  updateFacetOption: PropTypes.func,
   facetUpdateID: PropTypes.number,
   updatedFacet: PropTypes.string,
 };
