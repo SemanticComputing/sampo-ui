@@ -46,9 +46,9 @@ export const INITIAL_STATE = {
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
-      filterType: 'uriFilter',
+      filterType: 'spatialFilter',
       uriFilter: new Set(),
-      spatialFilter: {}
+      spatialFilter: null
     },
     author: {
       id: 'author',

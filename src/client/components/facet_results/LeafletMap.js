@@ -88,13 +88,12 @@ class LeafletMap extends React.Component {
     //   attribution: 'SeCo'
     // });
 
-    // Marker layers
-    this.resultMarkerLayer = L.layerGroup();
 
+
+    // create marker layers
+    this.resultMarkerLayer = L.layerGroup();
     this.bouncingMarkerObj = null;
     this.popupMarkerObj = null;
-
-
     if (this.props.mapMode === 'cluster') {
       this.updateMarkersAndCluster(this.props.results);
     } else {
@@ -113,42 +112,10 @@ class LeafletMap extends React.Component {
       fullscreenControl: true,
     });
 
-    // add Leaflet Draw toolbar
-    // const editableLayers = new L.FeatureGroup();
-    // this.leafletMap.addLayer(editableLayers);
-    // const drawOptions = {
-    //   draw: {
-    //     polyline: false,
-    //     rectangle: {
-    //       allowIntersection: false, // Restricts shapes to simple polygons
-    //       drawError: {
-    //         color: '#e1e100', // Color the shape will turn when intersects
-    //         message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
-    //       },
-    //       shapeOptions: {
-    //         color: '#bada55'
-    //       }
-    //     },
-    //     circle: false,
-    //     polygon: false,
-    //     marker: false,
-    //     circlemarker: false
-    //   },
-    //   edit: {
-    //     featureGroup: editableLayers,
-    //   }
-    // };
-    // const drawControl = new L.Control.Draw(drawOptions);
-    // this.leafletMap.addControl(drawControl);
-    // this.leafletMap.on(L.Draw.Event.CREATED, e => {
-    //   editableLayers.addLayer(e.layer);
-    //   const filterObj = this.boundsToValues(e.layer._bounds);
-    //   this.props.updateFilter({
-    //     resultClass: this.props.resultClass,
-    //     property: this.props.property,
-    //     value: filterObj
-    //   });
-    // });
+    // create layer for bounding boxes
+    if (has(this.props, 'facet') && this.props.facet.filterType === 'spatialFilter') {
+      this.addDrawButtons();
+    }
 
     // layer controls
     // const baseMaps = {
@@ -175,7 +142,6 @@ class LeafletMap extends React.Component {
     // L.Marker.setBouncingOptions({ exclusive: true });
 
     //L.control.sidebar({ container: 'sidebar' }).addTo(this.leafletMap).open('home');
-
   }
 
   componentDidUpdate = prevProps => {
@@ -209,19 +175,93 @@ class LeafletMap extends React.Component {
         })
         .openPopup();
     }
+
+    if (has(prevProps, 'facet') && prevProps.facet.filterType !== this.props.facet.filterType) {
+      if (this.props.facet.filterType === 'spatialFilter') {
+        this.addDrawButtons();
+      } else {
+        this.removeDrawButtons();
+      }
+    }
   }
 
-  boundsToValues = bounds => {
-    const latMin = bounds._southWest.lat;
-    const longMin = bounds._southWest.lng;
-    const latMax = bounds._northEast.lat;
-    const longMax = bounds._northEast.lng;
-    return {
-      latMin: latMin,
-      longMin: longMin,
-      latMax: latMax,
-      longMax: longMax,
-    };
+  addDrawButtons = () => {
+    this.drawnItems = new L.FeatureGroup();
+    this.leafletMap.addLayer(this.drawnItems);
+
+    // https://github.com/Leaflet/Leaflet.draw/issues/315
+    this.drawControlFull = new L.Control.Draw({
+      draw: {
+        polyline: false,
+        rectangle: {
+          shapeOptions: {
+            color: '#bada55'
+          }
+        },
+        circle: false,
+        polygon: false,
+        marker: false,
+        circlemarker: false
+      },
+      edit: {
+        featureGroup: this.drawnItems,
+      }});
+
+    this.drawControlEditOnly = new L.Control.Draw({
+      draw: false,
+      edit: {
+        featureGroup: this.drawnItems
+      },
+    });
+
+    if (this.props.facet.spatialFilter !== null) {
+      this.drawnItems.addLayer(this.props.facet.spatialFilter);
+      this.leafletMap.addControl(this.drawControlEditOnly);
+    } else {
+      this.leafletMap.addControl(this.drawControlFull);
+    }
+
+    this.leafletMap.on(L.Draw.Event.CREATED, e => {
+      this.drawnItems.addLayer(e.layer);
+      this.leafletMap.removeControl(this.drawControlFull);
+      this.leafletMap.addControl(this.drawControlEditOnly);
+      //console.log(e.layer)
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+        option: 'spatialFilter',
+        value: e.layer
+      });
+    });
+
+    this.leafletMap.on(L.Draw.Event.EDITED, e => {
+      e.layers.eachLayer(layer => {
+        this.props.updateFacetOption({
+          facetClass: this.props.facetClass,
+          facetID: this.props.facetID,
+          option: 'spatialFilter',
+          value: layer
+        });
+      });
+    });
+
+    this.leafletMap.on(L.Draw.Event.DELETED, () => {
+      this.leafletMap.removeControl(this.drawControlEditOnly);
+      this.leafletMap.addControl(this.drawControlFull);
+      //console.log(e.layer)
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+        option: 'spatialFilter',
+        value: null
+      });
+    });
+  }
+
+  removeDrawButtons = () => {
+    this.leafletMap.removeLayer(this.drawnItems);
+    this.leafletMap.removeControl(this.drawControlFull);
+    this.leafletMap.removeControl(this.drawControlEditOnly);
   }
 
   renderSpinner = () => {
@@ -411,6 +451,8 @@ class LeafletMap extends React.Component {
 LeafletMap.propTypes = {
   classes: PropTypes.object.isRequired,
   results: PropTypes.array.isRequired,
+  facetID: PropTypes.string,
+  facet: PropTypes.object,
   instance: PropTypes.object.isRequired,
   facetUpdateID: PropTypes.number,
   fetchResults: PropTypes.func,
@@ -421,8 +463,7 @@ LeafletMap.propTypes = {
   mapMode: PropTypes.string.isRequired,
   variant: PropTypes.string.isRequired,
   showInstanceCountInClusters: PropTypes.bool,
-  updateFilter: PropTypes.func,
-  property: PropTypes.string
+  updateFacetOption: PropTypes.func,
 };
 
 export default withStyles(styles)(LeafletMap);

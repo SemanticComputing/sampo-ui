@@ -51,18 +51,61 @@ class FacetHeader extends React.Component {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleSortOnClick = () => () =>  {
+  handleSortOnClick = buttonID => () =>  {
     this.setState({ anchorEl: null });
-
-    // this.props.fetchFacet({
-    //   facetClass: this.props.facetClass,
-    //   facetID: this.props.facetID,
-    // });
+    if (buttonID === 'prefLabel' && this.props.facet.sortBy === 'instanceCount') {
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+        option: 'sortBy',
+        value: 'prefLabel'
+      });
+    }
+    if (buttonID === 'instanceCount' && this.props.facet.sortBy === 'prefLabel') {
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+        option: 'sortDirection',
+        value: 'desc'
+      });
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+        option: 'sortBy',
+        value: 'instanceCount'
+      });
+    }
   };
 
-  handleFilterTypeOnClick = () => () => {
+  handleFilterTypeOnClick = buttonID => () => {
+    //console.log(event.target)
     this.setState({ anchorEl: null });
-    history.push({ pathname: `/${this.props.resultClass}/${this.props.facet.filterType}`});
+
+    if (buttonID === 'uriFilter' && this.props.facet.filterType === 'spatialFilter') {
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+        option: 'spatialFilter',
+        value: null
+      });
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+        option: 'filterType',
+        value: 'uriFilter'
+      });
+    }
+    if (buttonID === 'spatialFilter' && this.props.facet.filterType === 'uriFilter') {
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+        option: 'filterType',
+        value: 'spatialFilter'
+      });
+      if (this.props.facetID === 'productionPlace') {
+        history.push({ pathname: `/manuscripts/production_places`});
+      }
+    }
   }
 
   handleMenuClose = () => {
@@ -92,13 +135,13 @@ class FacetHeader extends React.Component {
       menuButtons.push({
         id: 'uriFilter',
         menuItemText: `Filter by name`,
-        selected: filterType === 'uri' ? true : false,
+        selected: filterType === 'uriFilter' ? true : false,
         onClickHandler: this.handleFilterTypeOnClick
       });
       menuButtons.push({
         id: 'spatialFilter',
         menuItemText: `Filter by bounding box`,
-        selected: filterType === 'spatial' ? true : false,
+        selected: filterType === 'spatialFilter' ? true : false,
         onClickHandler: this.handleFilterTypeOnClick
       });
     }
@@ -121,7 +164,7 @@ class FacetHeader extends React.Component {
           onClose={this.handleMenuClose}
         >
           {menuButtons.map(button => (
-            <MenuItem key={button.id} selected={button.selected} onClick={button.onClickHandler}>
+            <MenuItem key={button.id} selected={button.selected} onClick={button.onClickHandler(button.id)}>
               {button.menuItemText}
             </MenuItem>
           ))}

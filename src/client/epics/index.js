@@ -3,6 +3,7 @@ import { ajax } from 'rxjs/ajax';
 import { mergeMap, map, withLatestFrom, catchError } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
 import { stringify } from 'query-string';
+import { has } from 'lodash';
 import {
   FETCH_PAGINATED_RESULTS,
   FETCH_PAGINATED_RESULTS_FAILED,
@@ -174,18 +175,40 @@ export const stateToUrl = ({
   if (sortBy !== null) { params.sortBy = sortBy; }
   if (sortDirection !== null) { params.sortDirection = sortDirection; }
   if (variant !== null) { params.variant = variant; }
-  let filters = {};
-  let activeFilters = false;
+  let uriFilters = {};
+  let spatialFilters = {};
+  let activeUriFilters = false;
+  let activeSpatialFilters = false;
   for (const [key, value] of Object.entries(facets)) {
     if (value.uriFilter.size != 0) {
-      activeFilters = true;
-      filters[key] = Array.from(value.uriFilter);
+      activeUriFilters = true;
+      uriFilters[key] = Array.from(value.uriFilter);
+    } else if (has(value, 'spatialFilter') && value.spatialFilter !== null) {
+      activeSpatialFilters = true;
+      spatialFilters[key] = boundsToValues(value.spatialFilter._bounds);
     }
   }
-  if (activeFilters) {
-    params.filters = JSON.stringify(filters);
+  if (activeUriFilters) {
+    params.uriFilters = JSON.stringify(uriFilters);
   }
+  if (activeSpatialFilters) {
+    params.spatialFilters = JSON.stringify(spatialFilters);
+  }
+
   return stringify(params);
+};
+
+const boundsToValues = bounds => {
+  const latMin = bounds._southWest.lat;
+  const longMin = bounds._southWest.lng;
+  const latMax = bounds._northEast.lat;
+  const longMax = bounds._northEast.lng;
+  return {
+    latMin: latMin,
+    longMin: longMin,
+    latMax: latMax,
+    longMax: longMax,
+  };
 };
 
 const rootEpic = combineEpics(

@@ -43,10 +43,24 @@ export const updateSortBy = (state, action) => {
 };
 
 export const updateFacetOption = (state, action) => {
+  const { facetID, option, value } = action;
   if (action.option === 'uriFilter' || action.option === 'spatialFilter') {
     return updateFacetFilter(state, action);
+  } else {
+    return {
+      ...state,
+      facets: {
+        ...state.facets,
+        [ facetID ]: {
+          ...state.facets[facetID],
+          [ option ]: value
+        }
+      }
+    };
   }
 };
+
+
 
 const updateFacetFilter = (state, action) => {
   const { facetID, value } = action;
@@ -122,12 +136,6 @@ export const fetchFacetFailed = (state, action) => {
         ...state.facets[action.facetID],
         isFetching: false,
       }
-    },
-    filters: {
-      productionPlace: new Set(),
-      author: new Set(),
-      source: new Set(),
-      language: new Set(),
     },
     updatedFacet: '',
   };

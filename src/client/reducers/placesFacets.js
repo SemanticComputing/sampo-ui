@@ -42,13 +42,13 @@ export const INITIAL_STATE = {
       sortBy: 'prefLabel',
       sortDirection: 'asc',
       sortButton: false,
-      spatialFilterButton: false,
+      //spatialFilterButton: true,
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
       filterType: 'uriFilter',
       uriFilter: new Set(),
-      spatialFilter: {}
+      spatialFilter: null
     },
   }
 };

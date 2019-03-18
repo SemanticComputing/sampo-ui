@@ -11,30 +11,49 @@ import {
 
 const sparqlSearchEngine = new SparqlSearchEngine();
 
-export const getFacet = (facetClass, facetID, sortBy, sortDirection, filters) => {
+export const getFacet = ({
+  facetClass,
+  facetID,
+  sortBy,
+  sortDirection,
+  uriFilters,
+  spatialFilters,
+}) => {
   let q = facetValuesQuery;
   const facetConfig = facetConfigs[facetClass][facetID];
   let selectedBlock = '# no selections';
   let filterBlock = '# no filters';
   let parentBlock = '# no parents';
   let mapper = mapFacet;
-  if (filters !== null) {
-    filterBlock = generateFilter(facetClass, facetClass, filters, 'instance', facetID);
-    if (has(filters, facetID)) {
-      selectedBlock = `
-            OPTIONAL {
-               FILTER(?id IN ( <${filters[facetID].join('>, <')}> ))
-               BIND(true AS ?selected_)
-            }
-      `;
-    }
+  if (uriFilters !== null || spatialFilters !== null) {
+    filterBlock = generateFilter({
+      facetClass: facetClass,
+      uriFilters: uriFilters,
+      spatialFilters: spatialFilters,
+      filterTarget: 'instance',
+      facetID: facetID
+    });
+  }
+  if (uriFilters !== null && has(uriFilters, facetID)) {
+    selectedBlock = `
+          OPTIONAL {
+             FILTER(?id IN ( <${uriFilters[facetID].join('>, <')}> ))
+             BIND(true AS ?selected_)
+          }
+    `;
   }
   if (facetConfig.type === 'hierarchical') {
     mapper = mapHierarchicalFacet;
+    const filterStr = generateFilter({
+      facetClass: facetClass,
+      uriFilters: uriFilters,
+      spatialFilters: spatialFilters,
+      filterTarget: 'different_instance',
+      facetID: facetID });
     parentBlock = `
             UNION
             {
-              ${generateFilter(facetClass, facetClass, filters, 'different_instance', facetID)}
+              ${filterStr}
               ?different_instance ${facetConfig.parentPredicate} ?id .
               BIND(COALESCE(?selected_, false) as ?selected)
               OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
@@ -55,7 +74,7 @@ export const getFacet = (facetClass, facetID, sortBy, sortDirection, filters) =>
   q = q.replace('<PARENTS>', parentBlock);
   q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
   // if (facetID == 'source') {
-  //   //console.log(filters)
+  //   //console.log(uriFilters)
   //   console.log(prefixes + q)
   // }
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, mapper);

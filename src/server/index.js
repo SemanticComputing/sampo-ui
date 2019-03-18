@@ -25,7 +25,8 @@ app.get(`${apiPath}/:resultClass/paginated`, (req, res, next) => {
     resultClass: req.params.resultClass,
     page: parseInt(req.query.page) || null,
     pagesize: parseInt(req.query.pagesize) || null,
-    filters: req.query.filters == null ? null : JSON.parse(req.query.filters),
+    uriFilters: req.query.uriFilters == null ? null : JSON.parse(req.query.uriFilters),
+    spatialFilters: req.query.spatialFilters == null ? null : JSON.parse(req.query.spatialFilters),
     sortBy: req.query.sortBy || null,
     sortDirection: req.query.sortDirection || null
   }).then(data => {
@@ -37,7 +38,8 @@ app.get(`${apiPath}/:resultClass/all`, (req, res, next) => {
   return getAllResults({
     resultClass: req.params.resultClass,
     facetClass: req.query.facetClass || null,
-    filters: req.query.filters == null ? null : JSON.parse(req.query.filters),
+    uriFilters: req.query.uriFilters == null ? null : JSON.parse(req.query.uriFilters),
+    spatialFilters: req.query.spatialFilters == null ? null : JSON.parse(req.query.spatialFilters),
     variant: req.query.variant || null,
   }).then(data => {
     res.json({
@@ -48,19 +50,31 @@ app.get(`${apiPath}/:resultClass/all`, (req, res, next) => {
 });
 
 app.get(`${apiPath}/:resultClass/instance/:uri`, (req, res, next) => {
-  const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
-  const variant = req.query.variant || null;
-  const facetClass = req.query.facetClass || null;
-  return getByURI(req.params.resultClass, facetClass, variant, filters, req.params.uri).then(data => {
-    res.json(data[0]);
-  }).catch(next);
+  return getByURI({
+    resultClass: req.params.resultClass,
+    facetClass: req.query.facetClass || null,
+    uriFilters: req.query.uriFilters == null ? null : JSON.parse(req.query.uriFilters),
+    spatialFilters: req.query.spatialFilters == null ? null : JSON.parse(req.query.spatialFilters),
+    variant: req.query.variant || null,
+    uri: req.params.uri
+  })
+    .then(data => {
+      res.json(data[0]);
+    }).catch(next);
 });
 
 app.get(`${apiPath}/:facetClass/facet/:id`, (req, res, next) => {
-  const filters = req.query.filters == null ? null : JSON.parse(req.query.filters);
-  return getFacet(req.params.facetClass, req.params.id, req.query.sortBy, req.query.sortDirection, filters).then(data => {
-    res.json(data);
-  }).catch(next);
+  return getFacet({
+    facetClass: req.params.facetClass,
+    facetID: req.params.id,
+    sortBy: req.query.sortBy,
+    sortDirection: req.query.sortDirection,
+    uriFilters: req.query.uriFilters == null ? null : JSON.parse(req.query.uriFilters),
+    spatialFilters: req.query.spatialFilters == null ? null : JSON.parse(req.query.spatialFilters)
+  })
+    .then(data => {
+      res.json(data);
+    }).catch(next);
 });
 
 /*  Routes are matched to a url in order of their definition

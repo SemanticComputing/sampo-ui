@@ -53,18 +53,19 @@ let Manuscripts = props => {
         render={() =>
           <LeafletMap
             results={props.places.results}
+            facetID={'productionPlace'}
             facetUpdateID={props.facetData.facetUpdateID}
+            facet={props.facetData.facets.productionPlace}
             resultClass='places'
             facetClass='manuscripts'
+            mapMode={'cluster'}
+            variant='productionPlaces'
             instance={props.places.instance}
             fetchResults={props.fetchResults}
             fetchByURI={props.fetchByURI}
             fetching={props.places.fetching}
-            mapMode={'cluster'}
-            variant='productionPlaces'
             showInstanceCountInClusters={true}
             updateFacetOption={props.updateFacetOption}
-            property={'productionPlace'}
           />}
       />
       <Route

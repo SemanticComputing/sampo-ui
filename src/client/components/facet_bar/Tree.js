@@ -74,22 +74,44 @@ class Tree extends Component {
   }
 
   componentDidMount = () => {
-    this.props.fetchFacet({
-      facetClass: this.props.facetClass,
-      facetID: this.props.facetID,
-    });
+    if (this.props.facet.filterType === 'uriFilter') {
+      this.props.fetchFacet({
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+      });
+    }
   }
 
   componentDidUpdate = prevProps => {
+    // if (this.props.facetID === 'productionPlace') {
+    //   console.log(this.props.facet)
+    // }
+
     if (prevProps.facet.values != this.props.facet.values) {
       this.setState({
         treeData: this.props.facet.values
       });
     }
+
     if (this.props.updatedFacet !== null
       && this.props.updatedFacet !== this.props.facetID
       && prevProps.facetUpdateID !== this.props.facetUpdateID) {
       // console.log(`fetching new values for ${this.props.property}`)
+      this.props.fetchFacet({
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+      });
+    }
+
+    if (prevProps.facet.filterType !== this.props.facet.filterType
+      && this.props.facet.filterType === 'uriFilter') {
+      this.props.fetchFacet({
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+      });
+    }
+
+    if (prevProps.facet.sortBy !== this.props.facet.sortBy) {
       this.props.fetchFacet({
         facetClass: this.props.facetClass,
         facetID: this.props.facetID,
@@ -163,7 +185,7 @@ class Tree extends Component {
 
   generateLabelClass = (classes, node) => {
     let labelClass = classes.label;
-    if (this.props.property === 'author' || this.props.property === 'source')
+    if (this.props.facetID === 'author' || this.props.facetID === 'source')
     {
       if (node.source === 'http://ldf.fi/mmm/schema/SDBM' || node.id === 'http://ldf.fi/mmm/schema/SDBM') {
         labelClass = classes.sdbmLabel;
@@ -218,7 +240,7 @@ class Tree extends Component {
           </div>
           :
           <React.Fragment>
-            {searchField &&
+            {searchField && facet.filterType !== 'spatialFilter' &&
               <div className={classes.facetSearchContainer}>
                 <Input
                   placeholder={`Search...`}
@@ -248,38 +270,46 @@ class Tree extends Component {
                 }
               </div>
             }
-            <div className={searchField ? classes.treeContainerWithSearchField : classes.treeContainer }>
-              <SortableTree
-                treeData={this.state.treeData}
-                onChange={treeData => this.setState({ treeData })}
-                canDrag={false}
-                rowHeight={30}
-                // Custom comparison for matching during search.
-                // This is optional, and defaults to a case sensitive search of
-                // the title and subtitle values.
-                // see `defaultSearchMethod` in https://github.com/frontend-collective/react-sortable-tree/blob/master/src/utils/default-handlers.js
-                searchMethod={customSearchMethod}
-                searchQuery={searchString}
-                // When matches are found, this property lets you highlight a specific
-                // match and scroll to it. This is optional.
-                searchFocusOffset={searchFocusIndex}
-                // This callback returns the matches from the search,
-                // including their `node`s, `treeIndex`es, and `path`s
-                // Here I just use it to note how many matches were found.
-                // This is optional, but without it, the only thing searches
-                // do natively is outline the matching nodes.
-                searchFinishCallback={matches =>
-                  this.setState({
-                    searchFoundCount: matches.length,
-                    searchFocusIndex:
-                        matches.length > 0 ? searchFocusIndex % matches.length : 0,
-                  })
-                }
-                onlyExpandSearchedNodes={true}
-                theme={FileExplorerTheme}
-                generateNodeProps={this.generateNodeProps}
-              />
-            </div>
+            {facet.filterType !== 'spatialFilter' &&
+              <div className={searchField ? classes.treeContainerWithSearchField : classes.treeContainer }>
+                <SortableTree
+                  treeData={this.state.treeData}
+                  onChange={treeData => this.setState({ treeData })}
+                  canDrag={false}
+                  rowHeight={30}
+                  // Custom comparison for matching during search.
+                  // This is optional, and defaults to a case sensitive search of
+                  // the title and subtitle values.
+                  // see `defaultSearchMethod` in https://github.com/frontend-collective/react-sortable-tree/blob/master/src/utils/default-handlers.js
+                  searchMethod={customSearchMethod}
+                  searchQuery={searchString}
+                  // When matches are found, this property lets you highlight a specific
+                  // match and scroll to it. This is optional.
+                  searchFocusOffset={searchFocusIndex}
+                  // This callback returns the matches from the search,
+                  // including their `node`s, `treeIndex`es, and `path`s
+                  // Here I just use it to note how many matches were found.
+                  // This is optional, but without it, the only thing searches
+                  // do natively is outline the matching nodes.
+                  searchFinishCallback={matches =>
+                    this.setState({
+                      searchFoundCount: matches.length,
+                      searchFocusIndex:
+                          matches.length > 0 ? searchFocusIndex % matches.length : 0,
+                    })
+                  }
+                  onlyExpandSearchedNodes={true}
+                  theme={FileExplorerTheme}
+                  generateNodeProps={this.generateNodeProps}
+                />
+              </div>}
+            {facet.filterType === 'spatialFilter' &&
+              <div className={classes.spinnerContainer}>
+                <Typography>
+                  Draw a bounding box on the map to filter by {this.props.facet.label.toLowerCase()}.
+                </Typography>
+              </div>
+            }
           </React.Fragment>
         }
       </React.Fragment>

@@ -17,13 +17,14 @@ export const getPaginatedResults = ({
   resultClass,
   page,
   pagesize,
-  filters,
+  uriFilters,
+  spatialFilters,
   sortBy,
   sortDirection
 }) => {
   return Promise.all([
-    getResultCount(resultClass, filters),
-    getPaginatedData(resultClass, page, pagesize, filters, sortBy, sortDirection),
+    getResultCount(resultClass, uriFilters, spatialFilters),
+    getPaginatedData({ resultClass, page, pagesize, uriFilters, spatialFilters, sortBy, sortDirection }),
   ])
     .then(data => {
       return {
@@ -38,7 +39,8 @@ export const getPaginatedResults = ({
 export const getAllResults = ({
   resultClass,
   facetClass,
-  filters,
+  uriFilters,
+  spatialFilters,
   variant
 }) => {
   let q = '';
@@ -57,35 +59,62 @@ export const getAllResults = ({
       filterTarget = 'manuscript__id';
       break;
   }
-  if (filters == null) {
+  if (uriFilters == null && spatialFilters == null) {
     q = q.replace('<FILTER>', '# no filters');
   } else {
-    q = q.replace('<FILTER>', generateFilter(resultClass, facetClass, filters, filterTarget, null));
+    q = q.replace('<FILTER>', generateFilter({
+      facetClass: facetClass,
+      uriFilters: uriFilters,
+      spatialFilters: spatialFilters,
+      filterTarget: filterTarget,
+      facetID: null
+    }));
   }
-  // if (variant == 'migrations') {
+  // if (variant == 'productionPlaces') {
   //   console.log(prefixes + q)
   // }
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, makeObjectList);
 };
 
-const getResultCount = (resultClass, filters) => {
+const getResultCount = (resultClass, uriFilters, spatialFilters) => {
   let q = countQuery;
   q = q.replace('<RDF_TYPE>', facetConfigs[resultClass].rdfType);
-  if (filters !== null ) {
-    q = q.replace('<FILTER>', generateFilter(resultClass, resultClass, filters, 'id', null));
-  } else {
+  if (uriFilters == null && spatialFilters == null) {
     q = q.replace('<FILTER>', '# no filters');
+  } else {
+    q = q.replace('<FILTER>', generateFilter({
+      resultClass: resultClass,
+      facetClass: resultClass,
+      uriFilters: uriFilters,
+      spatialFilters: spatialFilters,
+      filterTarget: 'id',
+      facetID: null
+    }));
   }
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, mapCount);
 };
 
-const getPaginatedData = (resultClass, page, pagesize, filters, sortBy, sortDirection) => {
+const getPaginatedData = ({
+  resultClass,
+  page,
+  pagesize,
+  uriFilters,
+  spatialFilters,
+  sortBy,
+  sortDirection
+}) => {
   let q = facetResultSetQuery;
   const facetConfig = facetConfigs[resultClass];
-  if (filters !== null) {
-    q = q.replace('<FILTER>', generateFilter(resultClass, resultClass, filters, 'id', null));
-  } else {
+  if (uriFilters == null && spatialFilters == null) {
     q = q.replace('<FILTER>', '# no filters');
+  } else {
+    q = q.replace('<FILTER>', generateFilter({
+      resultClass: resultClass,
+      facetClass: resultClass,
+      uriFilters: uriFilters,
+      spatialFilters: spatialFilters,
+      filterTarget: 'id',
+      facetID: null}));
   }
   q = q.replace('<RDF_TYPE>', facetConfig.rdfType);
   q = q.replace('<ORDER_BY_PREDICATE>', facetConfig[sortBy].labelPath);
@@ -116,7 +145,13 @@ const getPaginatedData = (resultClass, page, pagesize, filters, sortBy, sortDire
   return sparqlSearchEngine.doSearch(prefixes + q, endpoint, makeObjectList);
 };
 
-export const getByURI = (resultClass, facetClass, variant, filters, uri) => {
+export const getByURI = ({
+  resultClass,
+  facetClass,
+  variant,
+  uriFilters,
+  uri
+}) => {
   let q;
   switch (resultClass) {
     case 'places':
@@ -126,7 +161,7 @@ export const getByURI = (resultClass, facetClass, variant, filters, uri) => {
   if (variant === 'productionPlaces') {
     const manuscriptsProduced =
       `OPTIONAL {
-          ${generateFilter(resultClass, facetClass, filters, 'manuscript__id', null)}
+          ${generateFilter(resultClass, facetClass, uriFilters, 'manuscript__id', null)}
           ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?id .
           ?manuscript__id mmm-schema:data_provider_url ?manuscript__dataProviderUrl .
         }`;

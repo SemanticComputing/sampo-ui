@@ -32,9 +32,9 @@ export const facetValuesQuery = `
       {
         SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?source ?lat ?long ?parent {
           {
-            ?instance a <RDF_TYPE> .
             <FILTER>
             ?instance <PREDICATE> ?id .
+            ?instance a <RDF_TYPE> .
             <SELECTED_VALUES>
             BIND(COALESCE(?selected_, false) as ?selected)
             OPTIONAL { ?id dct:source ?source . }
@@ -54,8 +54,8 @@ export const facetValuesQuery = `
     {
       {
         SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) {
-          ?instance a <RDF_TYPE> .
           <FILTER>
+          ?instance a <RDF_TYPE> .
           FILTER NOT EXISTS {
             ?instance <PREDICATE> ?value .
           }
