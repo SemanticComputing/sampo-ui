@@ -46,7 +46,7 @@ export const INITIAL_STATE = {
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
-      filterType: 'spatialFilter',
+      filterType: 'uriFilter',
       uriFilter: new Set(),
       spatialFilter: null
     },
