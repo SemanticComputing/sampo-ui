@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import SortableTree, { changeNodeAtPath } from 'react-sortable-tree';
-//import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app
 import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -13,8 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import Typography from '@material-ui/core/Typography';
-
-// https://frontend-collective.github.io/react-sortable-tree/storybook/?selectedKind=Basics&selectedStory=Search&full=0&addons=0&stories=1&panelRight=0
 
 const styles = () => ({
   facetSearchContainer: {
@@ -62,6 +59,10 @@ const styles = () => ({
 
 });
 
+/*
+This component is based on the React Sortable Tree example at:
+https://frontend-collective.github.io/react-sortable-tree/storybook/?selectedKind=Basics&selectedStory=Search&full=0&addons=0&stories=1&panelRight=0
+*/
 class Tree extends Component {
   constructor(props) {
     super(props);
@@ -83,26 +84,19 @@ class Tree extends Component {
   }
 
   componentDidUpdate = prevProps => {
-    // if (this.props.facetID === 'productionPlace') {
-    //   console.log(this.props.facet)
-    // }
-
     if (prevProps.facet.values != this.props.facet.values) {
       this.setState({
         treeData: this.props.facet.values
       });
     }
-
     if (this.props.updatedFacet !== null
       && this.props.updatedFacet !== this.props.facetID
       && prevProps.facetUpdateID !== this.props.facetUpdateID) {
-      // console.log(`fetching new values for ${this.props.property}`)
       this.props.fetchFacet({
         facetClass: this.props.facetClass,
         facetID: this.props.facetID,
       });
     }
-
     if (prevProps.facet.filterType !== this.props.facet.filterType
       && this.props.facet.filterType === 'uriFilter') {
       this.props.fetchFacet({
@@ -110,7 +104,6 @@ class Tree extends Component {
         facetID: this.props.facetID,
       });
     }
-
     if (prevProps.facet.sortBy !== this.props.facet.sortBy) {
       this.props.fetchFacet({
         facetClass: this.props.facetClass,
@@ -166,8 +159,6 @@ class Tree extends Component {
   };
 
   generateLabel = node => {
-    //let source = node.source == null ? '' : `(source: ${node.source.substring(node.source.lastIndexOf('/') + 1)}`;
-    // console.log(node)
     let count = node.totalInstanceCount == null || node.totalInstanceCount == 0 ? node.instanceCount : node.totalInstanceCount;
     return (
       <React.Fragment>
@@ -185,8 +176,7 @@ class Tree extends Component {
 
   generateLabelClass = (classes, node) => {
     let labelClass = classes.label;
-    if (this.props.facetID === 'author' || this.props.facetID === 'source')
-    {
+    if (this.props.facetID === 'author' || this.props.facetID === 'source') {
       if (node.source === 'http://ldf.fi/mmm/schema/SDBM' || node.id === 'http://ldf.fi/mmm/schema/SDBM') {
         labelClass = classes.sdbmLabel;
       }
@@ -200,14 +190,10 @@ class Tree extends Component {
     return labelClass;
   }
 
-
-
   render() {
     const { searchString, searchFocusIndex, searchFoundCount } = this.state;
     const { classes, facet } = this.props;
     const { isFetching, searchField } = facet;
-
-    //console.log(this.props.data)
 
     // Case insensitive search of `node.title`
     const customSearchMethod = ({ node, searchQuery }) => {
@@ -277,20 +263,9 @@ class Tree extends Component {
                   onChange={treeData => this.setState({ treeData })}
                   canDrag={false}
                   rowHeight={30}
-                  // Custom comparison for matching during search.
-                  // This is optional, and defaults to a case sensitive search of
-                  // the title and subtitle values.
-                  // see `defaultSearchMethod` in https://github.com/frontend-collective/react-sortable-tree/blob/master/src/utils/default-handlers.js
                   searchMethod={customSearchMethod}
                   searchQuery={searchString}
-                  // When matches are found, this property lets you highlight a specific
-                  // match and scroll to it. This is optional.
                   searchFocusOffset={searchFocusIndex}
-                  // This callback returns the matches from the search,
-                  // including their `node`s, `treeIndex`es, and `path`s
-                  // Here I just use it to note how many matches were found.
-                  // This is optional, but without it, the only thing searches
-                  // do natively is outline the matching nodes.
                   searchFinishCallback={matches =>
                     this.setState({
                       searchFoundCount: matches.length,
