@@ -29,7 +29,7 @@ export const INITIAL_STATE = {
       isFetching: false,
       searchField: false,
       containerClass: 'five',
-      filterType: 'uri',
+      filterType: 'uriFilter',
       uriFilter: new Set()
     },
     place: {
