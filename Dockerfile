@@ -1,12 +1,12 @@
-FROM node:10.4-alpine
+FROM node:10.15.3-alpine
 
-RUN mkdir /opt/hipla-full-stack && chown node:node /opt/hipla-full-stack
+RUN mkdir /opt/app && chown node:node /opt/app
 
 RUN apk add --update git && \
 rm -rf /tmp/* /var/cache/apk/*
 
 # Create app directory
-WORKDIR /opt/hipla-full-stack
+WORKDIR /opt/app
 
 USER node
 
