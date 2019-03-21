@@ -10,6 +10,8 @@ test branch visible at http://test.ui.mappingmanuscriptmigrations.org/
 
 Node.js 8.x: https://nodejs.org/en/download/releases/
 
+Nodemon https://nodemon.io/
+
 ## Local development
 
 ```
