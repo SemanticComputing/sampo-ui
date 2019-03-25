@@ -17,9 +17,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-// Serve the static files from the React app
-app.use(express.static(path.join(__dirname, './../public/')));
-
 app.get(`${apiPath}/:resultClass/paginated`, (req, res, next) => {
   return getPaginatedResults({
     resultClass: req.params.resultClass,
@@ -79,8 +76,9 @@ app.get(`${apiPath}/:facetClass/facet/:id`, (req, res, next) => {
 
 /*  Routes are matched to a url in order of their definition
     Redirect all the the rest for react-router to handle */
-app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, './../public/', 'index.html'));
+app.get('*', (req, res, next) => {
+  res.sendFile(path.resolve(__dirname, './../public/', 'index.html'))
+    .catch(next);
 });
 
 app.listen(app.get('port'), () => console.log('MMM API listening on port ' + app.get('port')));
