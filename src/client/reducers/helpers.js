@@ -1,3 +1,5 @@
+import { has, isEmpty } from 'lodash';
+
 export const fetchResults = state => {
   return {
     ...state,
@@ -67,11 +69,14 @@ const updateFacetFilter = (state, action) => {
   const oldFacet = state.facets[facetID];
   let newFacet = {};
   if (oldFacet.filterType === 'uriFilter') {
-    let newUriFilter = oldFacet.uriFilter;
-    if (newUriFilter.has(value)) {
-      newUriFilter.delete(value);
+    let newUriFilter = oldFacet.uriFilter == null ? {} : oldFacet.uriFilter;
+    if (has(newUriFilter, value.id)) {
+      delete newUriFilter[value.id];
+      if (isEmpty(newUriFilter)) {
+        newUriFilter = null;
+      }
     } else {
-      newUriFilter.add(value);
+      newUriFilter[value.id] = value.label;
     }
     newFacet = {
       ...state.facets[facetID],

@@ -30,7 +30,7 @@ export const INITIAL_STATE = {
       searchField: false,
       containerClass: 'three',
       filterType: 'uriFilter',
-      uriFilter: new Set()
+      uriFilter: null
     },
     productionPlace: {
       id: 'productionPlace',
@@ -47,7 +47,7 @@ export const INITIAL_STATE = {
       searchField: true,
       containerClass: 'ten',
       filterType: 'uriFilter',
-      uriFilter: new Set(),
+      uriFilter: null,
       spatialFilter: null
     },
     author: {
@@ -65,7 +65,7 @@ export const INITIAL_STATE = {
       searchField: true,
       containerClass: 'ten',
       filterType: 'uriFilter',
-      uriFilter: new Set()
+      uriFilter: null
     },
     // language: {
     //   id: 'language',

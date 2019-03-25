@@ -30,7 +30,7 @@ export const INITIAL_STATE = {
       searchField: false,
       containerClass: 'five',
       filterType: 'uriFilter',
-      uriFilter: new Set()
+      uriFilter: null
     },
     place: {
       id: 'place',
@@ -47,7 +47,7 @@ export const INITIAL_STATE = {
       searchField: true,
       containerClass: 'ten',
       filterType: 'uriFilter',
-      uriFilter: new Set()
+      uriFilter: null
     },
   }
 };

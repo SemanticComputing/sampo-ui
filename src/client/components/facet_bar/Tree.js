@@ -12,6 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import Typography from '@material-ui/core/Typography';
+import ChipsArray from './ChipsArray';
 
 const styles = () => ({
   facetSearchContainer: {
@@ -84,6 +85,10 @@ class Tree extends Component {
   }
 
   componentDidUpdate = prevProps => {
+    // if (this.props.facetID === 'productionPlace') {
+    //   console.log(this.props.facet.values)
+    // }
+
     if (prevProps.facet.values != this.props.facet.values) {
       this.setState({
         treeData: this.props.facet.values
@@ -127,7 +132,10 @@ class Tree extends Component {
       facetClass: this.props.facetClass,
       facetID: this.props.facetID,
       option: this.props.facet.filterType,
-      value: treeObj.node.id
+      value: {
+        id: treeObj.node.id,
+        label: treeObj.node.prefLabel
+      }
     });
   };
 
@@ -218,6 +226,7 @@ class Tree extends Component {
             : 0,
       });
 
+    //<ChipsArray data={this.props.facet.uriFilter} />}
     return (
       <React.Fragment>
         {isFetching ?
@@ -226,6 +235,7 @@ class Tree extends Component {
           </div>
           :
           <React.Fragment>
+
             {searchField && facet.filterType !== 'spatialFilter' &&
               <div className={classes.facetSearchContainer}>
                 <Input

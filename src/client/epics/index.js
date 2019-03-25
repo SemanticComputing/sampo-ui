@@ -180,9 +180,9 @@ export const stateToUrl = ({
   let activeUriFilters = false;
   let activeSpatialFilters = false;
   for (const [key, value] of Object.entries(facets)) {
-    if (value.uriFilter.size != 0) {
+    if (value.uriFilter !== null) {
       activeUriFilters = true;
-      uriFilters[key] = Array.from(value.uriFilter);
+      uriFilters[key] = Object.keys(value.uriFilter);
     } else if (has(value, 'spatialFilter') && value.spatialFilter !== null) {
       activeSpatialFilters = true;
       spatialFilters[key] = boundsToValues(value.spatialFilter._bounds);
