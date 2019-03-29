@@ -17,7 +17,7 @@ COPY package*.json ./
 COPY webpack*.js ./
 
 # Babel 7 presets and plugins
-COPY .babelrc ./
+COPY babel.config.js ./
 
 # Bundle app source
 COPY src ./src
