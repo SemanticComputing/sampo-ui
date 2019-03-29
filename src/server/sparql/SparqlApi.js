@@ -1,64 +1,41 @@
-//import fetch from 'node-fetch';
 import axios from 'axios';
-// const { URLSearchParams } = require('url');
+import querystring from 'querystring';
 
 const defaultSelectHeaders = {
   'Content-Type': 'application/x-www-form-urlencoded',
   'Accept': 'application/sparql-results+json; charset=utf-8'
 };
-const defaultConstructHeaders = {
-  'Content-Type': 'application/x-www-form-urlencoded',
-  'Accept': 'text/turtle'
-};
+// const defaultConstructHeaders = {
+//   'Content-Type': 'application/x-www-form-urlencoded',
+//   'Accept': 'text/turtle'
+// };
 
-class SparqlApi {
-
-  constructor({ endpoint }) {
-    this.endpoint = endpoint;
-  }
-
-  // query(query, { headers }) {
-  //   return new Promise((resolve, reject) => {
-  //     const params = new URLSearchParams();
-  //     params.append('query', query);
-  //     fetch(this.endpoint, {
-  //       method: 'post',
-  //       body:    params,
-  //       headers: headers,
-  //     })
-  //       .then(res => {
-  //         if (res.ok) { // res.status >= 200 && res.status < 300
-  //           return resolve(res.text());
-  //         } else {
-  //           return reject(res.statusText);
-  //         }
-  //       });
-  //   });
-  // }
-
-  selectQuery = async query => {
-    try {
-      const response = await axios({
-        method: 'post',
-        headers: defaultSelectHeaders,
-        url: this.endpoint,
-        data: { query }
-      });
-      return JSON.parse(response);
-    } catch(error) {
-      console.error(error);
+export const runSelectQuery = async (query, endpoint, resultMapper) => {
+  try {
+    const response = await axios({
+      method: 'post',
+      headers: defaultSelectHeaders,
+      url: endpoint,
+      data: querystring.stringify({ query }),
+    });
+    const { bindings } = response.data.results;
+    return bindings.length === 0 ? [] : resultMapper(bindings);
+  } catch(error) {
+    if (error.response) {
+    // The request was made and the server responded with a status code
+    // that falls out of the range of 2xx
+      console.log(error.response.data);
+    //console.log(error.response.status);
+    //console.log(error.response.headers);
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      console.log(error.request);
+    } else {
+    // Something happened in setting up the request that triggered an Error
+      console.log('Error', error.message);
     }
+    console.log(error.config);
   }
-
-  // selectQuery(query, params = { headers: defaultSelectHeaders }) {
-  //   return this.query(query, params).then(data => {
-  //     return JSON.parse(data);
-  //   });
-  // }
-  //
-  // constructQuery(query, params = { headers: defaultConstructHeaders }) {
-  //   return this.query(query, params);
-  // }
-}
-
-export default SparqlApi;
+};

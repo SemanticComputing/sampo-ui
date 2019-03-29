@@ -1,4 +1,4 @@
-import SparqlSearchEngine from './SparqlSearchEngine';
+import { runSelectQuery } from './SparqlApi';
 import { prefixes } from './SparqlQueriesPrefixes';
 import { endpoint, countQuery, facetResultSetQuery } from './SparqlQueriesGeneral';
 import { manuscriptProperties, productionPlacesQuery, migrationsQuery } from './SparqlQueriesManuscripts';
@@ -11,9 +11,7 @@ import { mapCount } from './Mappers';
 import { makeObjectList } from './SparqlObjectMapper';
 import { generateFilter } from './Filters';
 
-const sparqlSearchEngine = new SparqlSearchEngine();
-
-export const getPaginatedResults = ({
+export const getPaginatedResults = async ({
   resultClass,
   page,
   pagesize,
@@ -22,22 +20,34 @@ export const getPaginatedResults = ({
   sortBy,
   sortDirection
 }) => {
-  return Promise.all([
+  const [ resultCount, paginatedData ] = await Promise.all([
     getResultCount(resultClass, uriFilters, spatialFilters),
     getPaginatedData({ resultClass, page, pagesize, uriFilters, spatialFilters, sortBy, sortDirection }),
-  ])
-    .then(data => {
-      return {
-        resultCount: data[0].count,
-        pagesize: pagesize,
-        page: page,
-        results: data[1]
-      };
-    });
+  ]);
+  return {
+    resultCount: resultCount,
+    pagesize: pagesize,
+    page: page,
+    results: paginatedData
+  };
 };
 
+  // return Promise.all([
+  //   getResultCount(resultClass, uriFilters, spatialFilters),
+  //   getPaginatedData({ resultClass, page, pagesize, uriFilters, spatialFilters, sortBy, sortDirection }),
+  // ])
+  //   .then(data => {
+  //     return {
+  //       resultCount: data[0].count,
+  //       pagesize: pagesize,
+  //       page: page,
+  //       results: data[1]
+  //     };
+  //   });
+
+
 export const getAllResults = ({
-  resultClass,
+  resultClass, // TODO: handle other classes than manuscripts
   facetClass,
   uriFilters,
   spatialFilters,
@@ -73,7 +83,7 @@ export const getAllResults = ({
   // if (variant == 'productionPlaces') {
   //   console.log(prefixes + q)
   // }
-  return sparqlSearchEngine.doSearch(prefixes + q, endpoint, makeObjectList);
+  return runSelectQuery(prefixes + q, endpoint, makeObjectList);
 };
 
 const getResultCount = (resultClass, uriFilters, spatialFilters) => {
@@ -91,7 +101,7 @@ const getResultCount = (resultClass, uriFilters, spatialFilters) => {
       facetID: null
     }));
   }
-  return sparqlSearchEngine.doSearch(prefixes + q, endpoint, mapCount);
+  return runSelectQuery(prefixes + q, endpoint, mapCount);
 };
 
 const getPaginatedData = ({
@@ -142,7 +152,7 @@ const getPaginatedData = ({
   }
   q = q.replace('<RESULT_SET_PROPERTIES>', resultSetProperties);
   // console.log(prefixes + q)
-  return sparqlSearchEngine.doSearch(prefixes + q, endpoint, makeObjectList);
+  return runSelectQuery(prefixes + q, endpoint, makeObjectList);
 };
 
 export const getByURI = ({
@@ -173,5 +183,5 @@ export const getByURI = ({
   // if (variant === 'productionPlaces') {
   //   console.log(prefixes + q)
   // }
-  return sparqlSearchEngine.doSearch(prefixes + q, endpoint, makeObjectList);
+  return runSelectQuery(prefixes + q, endpoint, makeObjectList);
 };

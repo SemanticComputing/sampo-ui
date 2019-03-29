@@ -1,5 +1,5 @@
 import { has } from 'lodash';
-import SparqlSearchEngine from './SparqlSearchEngine';
+import { runSelectQuery } from './SparqlApi';
 import { endpoint, facetValuesQuery } from './SparqlQueriesGeneral';
 import { prefixes } from './SparqlQueriesPrefixes';
 import { facetConfigs } from './FacetConfigs';
@@ -8,8 +8,6 @@ import {
   mapFacet,
   mapHierarchicalFacet,
 } from './Mappers';
-
-const sparqlSearchEngine = new SparqlSearchEngine();
 
 export const getFacet = ({
   facetClass,
@@ -77,5 +75,5 @@ export const getFacet = ({
   //   //console.log(uriFilters)
   //   console.log(prefixes + q)
   // }
-  return sparqlSearchEngine.doSearch(prefixes + q, endpoint, mapper);
+  return runSelectQuery(prefixes + q, endpoint, mapper);
 };
