@@ -97,4 +97,10 @@ app.get('*', function(request, response) {
   response.sendFile(path.join(publicPath, 'index.html'));
 });
 
-app.listen(app.get('port'), () => console.log('MMM API listening on port ' + app.get('port')));
+app.listen(app.get('port'), () =>
+  console.log(`
+  Express server listening on port ${app.get('port')}
+  Static files (e.g. the React app) will be served from ${publicPath}
+  API path is ${apiPath}`
+  )
+);
