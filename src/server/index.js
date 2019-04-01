@@ -101,6 +101,6 @@ app.listen(app.get('port'), () =>
   console.log(`
   Express server listening on port ${app.get('port')}
   Static files (e.g. the React app) will be served from ${publicPath}
-  API path is ${apiPath}`
-  )
+  API path is ${apiPath}
+  `)
 );
