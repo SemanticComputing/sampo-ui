@@ -5,8 +5,6 @@ import { getPaginatedResults, getAllResults, getByURI } from './sparql/FacetResu
 import { getFacet } from './sparql/FacetValues';
 const DEFAULT_PORT = 3001;
 const app = express();
-const apiPath = '/api';
-
 app.set('port', process.env.PORT || DEFAULT_PORT);
 app.use(bodyParser.json());
 
@@ -16,6 +14,13 @@ app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
+
+// The root directory from which to serve static assets (React app)
+const publicPath = path.join(__dirname, './../public/');
+app.use(express.static(publicPath));
+
+// React app makes requests to these api urls
+const apiPath = '/api';
 
 // https://medium.com/@Abazhenov/using-async-await-in-express-with-node-8-b8af872c0016
 app.get(`${apiPath}/:resultClass/paginated`, async (req, res, next) => {
@@ -88,9 +93,8 @@ app.get(`${apiPath}/:facetClass/facet/:id`, async (req, res, next) => {
 
 /*  Routes are matched to a url in order of their definition
     Redirect all the the rest for react-router to handle */
-app.get('*', (req, res, next) => {
-  res.sendFile(path.resolve(__dirname, './../public/', 'index.html'))
-    .catch(next);
+app.get('*', function(request, response) {
+  response.sendFile(path.join(publicPath, 'index.html'));
 });
 
 app.listen(app.get('port'), () => console.log('MMM API listening on port ' + app.get('port')));
