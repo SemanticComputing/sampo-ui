@@ -43,8 +43,8 @@ export const INITIAL_STATE = {
     },
     {
       id: 'prefLabel',
-      label: 'Title',
-      desc: 'Title description',
+      label: 'Label',
+      desc: 'Label description',
       valueType: 'string',
       makeLink: false,
       sortValues: true,
