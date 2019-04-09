@@ -39,7 +39,8 @@ export const INITIAL_STATE = {
       valueType: 'string',
       makeLink: false,
       sortValues: true,
-      numberedList: false
+      numberedList: false,
+      minWidth: 250
     },
     {
       id: 'author',
@@ -49,7 +50,7 @@ export const INITIAL_STATE = {
       makeLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 170
+      minWidth: 250
     },
     {
       id: 'productionPlace',
@@ -59,7 +60,7 @@ export const INITIAL_STATE = {
       makeLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 170,
+      minWidth: 200,
     },
     {
       id: 'productionTimespan',
@@ -68,7 +69,8 @@ export const INITIAL_STATE = {
       valueType: 'object',
       makeLink: false,
       sortValues: true,
-      numberedList: false
+      numberedList: false,
+      minWidth: 200,
     },
     {
       id: 'language',
@@ -77,7 +79,8 @@ export const INITIAL_STATE = {
       valueType: 'string',
       makeLink: false,
       sortValues: true,
-      numberedList: false
+      numberedList: false,
+      minWidth: 150,
     },
     // {
     //   id: 'material',
@@ -96,7 +99,7 @@ export const INITIAL_STATE = {
       makeLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 170,
+      minWidth: 200,
     },
     {
       id: 'owner',
@@ -106,7 +109,7 @@ export const INITIAL_STATE = {
       makeLink: true,
       sortValues: true,
       numberedList: true,
-      minWidth: 170
+      minWidth: 250
     },
     {
       id: 'source',
@@ -115,7 +118,8 @@ export const INITIAL_STATE = {
       valueType: 'object',
       makeLink: true,
       sortValues: true,
-      numberedList: false
+      numberedList: false,
+      minWidth: 200
     },
   ],
 };
