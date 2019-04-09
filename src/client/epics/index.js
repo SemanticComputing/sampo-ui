@@ -2,7 +2,7 @@ import { of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { mergeMap, map, withLatestFrom, catchError } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
-import { stringify } from 'query-string';
+import querystring from 'querystring';
 import { has } from 'lodash';
 import {
   FETCH_PAGINATED_RESULTS,
@@ -195,7 +195,7 @@ export const stateToUrl = ({
     params.spatialFilters = JSON.stringify(spatialFilters);
   }
 
-  return stringify(params);
+  return querystring.stringify(params);
 };
 
 const boundsToValues = bounds => {

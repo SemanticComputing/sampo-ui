@@ -8,8 +8,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
+import querystring from 'querystring';
 import ResultTableHead from './ResultTableHead';
-import { parse } from 'query-string';
 import history from '../../History';
 
 const styles = () => ({
@@ -47,7 +47,7 @@ class ResultTable extends React.Component {
       page = this.props.data.page === -1 ? 0 : this.props.data.page;
       // console.log(`result table mounted WITHOUT page parameter, set page to ${page}`);
     } else {
-      page = parseInt(parse(this.props.routeProps.location.search).page);
+      page = parseInt(querystring.parse(this.props.routeProps.location.search).page);
       // console.log(`result table mounted with page parameter, set page to ${page}`);
     }
     this.props.updatePage(this.props.resultClass, page);

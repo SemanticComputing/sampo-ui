@@ -69,7 +69,6 @@
     "leaflet-sidebar-v2": "^3.0.2",
     "leaflet.markercluster": "^1.4.1",
     "lodash": "^4.17.11",
-    "query-string": "^5.1.1",
     "react": "^16.6.1",
     "react-csv": "^1.0.18",
     "react-dom": "^16.6.1",
