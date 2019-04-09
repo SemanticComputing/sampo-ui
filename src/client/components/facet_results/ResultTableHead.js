@@ -8,7 +8,8 @@ import TablePagination from '@material-ui/core/TablePagination';
 import ResultTablePaginationActions from './ResultTablePaginationActions';
 import Tooltip from '@material-ui/core/Tooltip';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-// import InfoIcon from '@material-ui/icons/InfoOutlined';
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/InfoOutlined';
 
 
 const styles = () => ({
@@ -61,16 +62,25 @@ class ResultTableHead extends React.Component {
                 sortDirection={sortBy === column.id ? sortDirection : false}
               >
                 <Tooltip
-                  title="Sort"
+                  title={`Sort by ${column.label}`}
                   enterDelay={300}
                 >
                   <TableSortLabel
                     active={sortBy === column.id}
                     direction={sortDirection}
+                    hideSortIcon={true}
                     onClick={this.props.onSortBy(column.id)}
                   >
                     {column.label}
                   </TableSortLabel>
+                </Tooltip>
+                <Tooltip
+                  title={column.desc}
+                  enterDelay={300}
+                >
+                  <IconButton>
+                    <InfoIcon />
+                  </IconButton>
                 </Tooltip>
               </TableCell>
             );

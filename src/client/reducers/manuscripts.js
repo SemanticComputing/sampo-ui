@@ -35,7 +35,9 @@ export const INITIAL_STATE = {
     {
       id: 'prefLabel',
       label: 'Label',
-      desc: 'Label description',
+      desc: `
+        A short label describing the manuscript
+      `,
       valueType: 'string',
       makeLink: false,
       sortValues: true,
@@ -45,7 +47,10 @@ export const INITIAL_STATE = {
     {
       id: 'author',
       label: 'Author',
-      desc: 'Author description',
+      desc: `
+        The author(s) who have contributed to the intellectual content (works)
+        contained in the manuscript.
+      `,
       valueType: 'object',
       makeLink: true,
       sortValues: true,
@@ -55,7 +60,13 @@ export const INITIAL_STATE = {
     {
       id: 'productionPlace',
       label: 'Production place',
-      desc: 'Production place description',
+      desc: `
+        The location where the manuscript was written. Multiple places of
+        production may appear for a single manuscript, when there are
+        discrepancies between the contributing data sources or when the
+        precise location is uncertain, or when the production indeed took
+        place in several places (e.g. for composite manuscripts).
+      `,
       valueType: 'object',
       makeLink: true,
       sortValues: true,
@@ -65,7 +76,12 @@ export const INITIAL_STATE = {
     {
       id: 'productionTimespan',
       label: 'Production date',
-      desc: 'Production date description',
+      desc: `
+        The date when the manuscript was written. Multiple production dates
+        may appear for a single manuscript, when there are discrepancies
+        between the contributing data sources or when the precise date is
+        uncertain.
+      `,
       valueType: 'object',
       makeLink: false,
       sortValues: true,
@@ -75,7 +91,9 @@ export const INITIAL_STATE = {
     {
       id: 'language',
       label: 'Language',
-      desc: 'Language description',
+      desc: `
+        The language(s) in which the manuscript was written.
+      `,
       valueType: 'string',
       makeLink: false,
       sortValues: true,
@@ -94,7 +112,10 @@ export const INITIAL_STATE = {
     {
       id: 'event',
       label: 'Event',
-      desc: 'Event description',
+      desc: `
+        Events related to the manuscript. Currently the are two main event
+        types: Transfer of custody (e.g. sale, gift, theft) and Observation.    
+      `,
       valueType: 'event',
       makeLink: true,
       sortValues: true,
@@ -104,7 +125,9 @@ export const INITIAL_STATE = {
     {
       id: 'owner',
       label: 'Owner',
-      desc: 'Owner description',
+      desc: `
+        Former or current owners (individual or institutional).
+      `,
       valueType: 'owner',
       makeLink: true,
       sortValues: true,
@@ -114,7 +137,13 @@ export const INITIAL_STATE = {
     {
       id: 'source',
       label: 'Source',
-      desc: 'Source description',
+      desc: `
+        The source dataset(s) (Bibale, Bodleian, or SDBM) contributing the
+        information on the manuscript. If two or more source datasets include
+        the same manuscript and this has been manually verified, the information
+        from the source datasets has been merged into one table row. Click on
+        the source name to view the original record on the source’s website.
+      `,
       valueType: 'object',
       makeLink: true,
       sortValues: true,
