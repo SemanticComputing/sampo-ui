@@ -47,7 +47,9 @@ class ResultTable extends React.Component {
       page = this.props.data.page === -1 ? 0 : this.props.data.page;
       // console.log(`result table mounted WITHOUT page parameter, set page to ${page}`);
     } else {
-      page = parseInt(querystring.parse(this.props.routeProps.location.search).page);
+
+      const qs = this.props.routeProps.location.search.replace('?', '');
+      page = parseInt(querystring.parse(qs).page);
       // console.log(`result table mounted with page parameter, set page to ${page}`);
     }
     this.props.updatePage(this.props.resultClass, page);

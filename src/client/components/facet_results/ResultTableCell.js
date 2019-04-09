@@ -5,40 +5,12 @@ import TableCell from '@material-ui/core/TableCell';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = () => ({
-  tableContainer: {
-    //marginTop: 72,
-    overflow: 'auto',
-    width: '100%',
-    height: 'calc(100% - 72px)'
-  },
-  table: {
-    //marginTop: 72,
-    //minWidth: 700,
-    //overflowX: 'auto',
-    //backgroundColor: theme.palette.background.paper
-  },
-  paginationRow: {
-    borderBottom: '1px solid lightgrey'
-  },
   valueList: {
     paddingLeft: 15
   },
   valueListNoBullets: {
     listStyle: 'none',
     paddingLeft: 0
-  },
-  infoIcon: {
-    paddingTop: 15
-  },
-  progressContainer: {
-    width: '100%',
-    height: 'calc(100% - 72px)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  progressTitle: {
-    marginRight: 15
   },
   noDate: {
     marginRight: 20

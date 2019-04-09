@@ -33,15 +33,6 @@ export const INITIAL_STATE = {
   fetching: false,
   tableColumns: [
     {
-      id: 'source',
-      label: 'Source',
-      desc: 'Source description',
-      valueType: 'object',
-      makeLink: true,
-      sortValues: true,
-      numberedList: false
-    },
-    {
       id: 'prefLabel',
       label: 'Label',
       desc: 'Label description',
@@ -116,7 +107,16 @@ export const INITIAL_STATE = {
       sortValues: true,
       numberedList: true,
       minWidth: 170
-    }
+    },
+    {
+      id: 'source',
+      label: 'Source',
+      desc: 'Source description',
+      valueType: 'object',
+      makeLink: true,
+      sortValues: true,
+      numberedList: false
+    },
   ],
 };
 
