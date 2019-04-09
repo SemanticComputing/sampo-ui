@@ -73,7 +73,7 @@ const ResultTableCell = props => {
       } else {
         cell = sortValues ? orderBy(cell, 'prefLabel') : cell;
       }
-  
+
       const listItems = cell.map((item, i) =>
         <li key={i}>
           {makeLink &&
@@ -131,7 +131,7 @@ const ResultTableCell = props => {
               target='_blank' rel='noopener noreferrer'
               href={item.dataProviderUrl}
             >
-              {item.type === 'http://www.cidoc-crm.org/cidoc-crm/E8_Acquisition' ? 'Acquisition' : 'Observation'}
+              {item.type === 'http://www.cidoc-crm.org/cidoc-crm/E10_Transfer_of_Custody' ? 'Transfer of custody' : 'Observation'}
             </a>
           </li>
         );
@@ -150,7 +150,7 @@ const ResultTableCell = props => {
             target='_blank' rel='noopener noreferrer'
             href={cell.dataProviderUrl}
           >
-            {cell.type === 'http://www.cidoc-crm.org/cidoc-crm/E8_Acquisition' ? 'Acquisition' : 'Observation'}
+            {cell.type === 'http://www.cidoc-crm.org/cidoc-crm/E10_Transfer_of_Custody' ? 'Transfer of custody' : 'Observation'}
           </a>
         </span>
 

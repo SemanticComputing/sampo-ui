@@ -51,7 +51,7 @@ export const manuscriptProperties = `
   }
   UNION
   {
-    ?event__id crm:P24_transferred_title_of ?id .
+    ?event__id crm:P30_transferred_custody_of ?id .
     ?event__id a ?event__type .
     OPTIONAL { ?event__id skos:prefLabel ?event__prefLabel . }
     OPTIONAL { ?event__id crm:P4_has_time-span ?event__date. }
@@ -98,7 +98,7 @@ export const migrationsQuery = `
     ?from__id skos:prefLabel ?from__name .
     ?from__id wgs84:lat ?from__lat ;
               wgs84:long ?from__long .
-    ?event__id crm:P24_transferred_title_of|mmm-schema:observed_manuscript ?manuscript__id .
+    ?event__id crm:P30_transferred_custody_of|mmm-schema:observed_manuscript ?manuscript__id .
     OPTIONAL { ?event__id skos:prefLabel ?event__prefLabel }
     ?event__id crm:P4_has_time-span|mmm-schema:observed_time-span ?event__date .
     ?event__id crm:P7_took_place_at|mmm-schema:observed_location ?to__id .
@@ -107,7 +107,7 @@ export const migrationsQuery = `
             wgs84:long ?to__long .
     BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/mmm/place/", ""))) as ?id)
     FILTER NOT EXISTS {
-      ?event__id2 crm:P24_transferred_title_of ?manuscript__id .
+      ?event__id2 crm:P30_transferred_custody_of ?manuscript__id .
       ?event__id2 crm:P4_has_time-span ?event__date2 .
       filter (?event__date2 > ?event__date)
     }
