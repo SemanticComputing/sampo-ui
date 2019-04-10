@@ -34,8 +34,8 @@ export const INITIAL_STATE = {
   tableColumns: [
     {
       id: 'prefLabel',
-      label: 'Title',
-      desc: 'Title description',
+      label: 'Label',
+      desc: 'Label description',
       valueType: 'object',
       makeLink: true,
       sortValues: true,

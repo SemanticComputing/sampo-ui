@@ -1,5 +1,7 @@
 export const manuscriptProperties = `
-  ?id skos:prefLabel ?prefLabel .
+  ?id skos:prefLabel ?prefLabel__id .
+  BIND (?prefLabel__id as ?prefLabel__prefLabel)
+  BIND (?id as ?prefLabel__dataProviderUrl)
   {
     ?id mmm-schema:data_provider_url ?source__id .
     BIND (?source__id AS ?source__prefLabel)
@@ -90,7 +92,8 @@ export const productionPlacesQuery = `
 
 //# https://github.com/uber/deck.gl/blob/master/docs/layers/arc-layer.md
 export const migrationsQuery = `
-  SELECT DISTINCT ?id ?manuscript__id ?manuscript__url ?from__id ?from__name ?from__lat ?from__long ?to__id ?to__name ?to__lat ?to__long
+  SELECT DISTINCT ?id ?manuscript__id ?manuscript__url ?from__id ?from__name
+    ?from__lat ?from__long ?to__id ?to__name ?to__lat ?to__long
   WHERE {
     <FILTER>
     ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?from__id .
