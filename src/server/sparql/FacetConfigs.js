@@ -58,6 +58,13 @@ export const facetConfigs = {
       labelPath: '^mmm-schema:observed_manuscript/mmm-schema:observed_time-span',
       type: 'list',
     },
+    owner: {
+      id: 'owner',
+      facetValueFilter: '',
+      label: 'Owner',
+      labelPath: 'crm:P51_has_former_or_current_owner/skos:prefLabel',
+      type: 'list',
+    },
   },
   works: {
     rdfType: 'frbroo:F1_Work',
