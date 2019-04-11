@@ -1,6 +1,13 @@
 import { of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
-import { mergeMap, map, withLatestFrom, catchError } from 'rxjs/operators';
+import {
+  mergeMap,
+  switchMap,
+  map,
+  withLatestFrom,
+  debounceTime,
+  catchError
+} from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
 import querystring from 'querystring';
 import { has } from 'lodash';
@@ -8,6 +15,7 @@ import {
   FETCH_PAGINATED_RESULTS,
   FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_RESULTS,
+  FETCH_RESULTS_CLIENT_SIDE,
   FETCH_RESULTS_FAILED,
   FETCH_BY_URI,
   FETCH_BY_URI_FAILED,
@@ -79,6 +87,34 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
       catchError(error => of({
         type: FETCH_RESULTS_FAILED,
         resultClass: resultClass,
+        error: error,
+        message: {
+          text: backendErrorText,
+          title: 'Error'
+        }
+      }))
+    );
+  })
+);
+
+const fetchResultsClientSideEpic = (action$, state$) => action$.pipe(
+  ofType(FETCH_RESULTS_CLIENT_SIDE),
+  withLatestFrom(state$),
+  debounceTime(500),
+  switchMap(([action, state]) => {
+    const searchUrl = apiUrl + 'search';
+    let requestUrl = '';
+    if (action.jenaIndex === 'text') {
+      requestUrl = `${searchUrl}?q=${action.query}`;
+    } else if (action.jenaIndex === 'spatial') {
+      const { latMin, longMin, latMax, longMax } = state.map;
+      requestUrl = `${searchUrl}?latMin=${latMin}&longMin=${longMin}&latMax=${latMax}&longMax=${longMax}`;
+    }
+    return ajax.getJSON(requestUrl).pipe(
+      map(response => updateResults({ resultClass: 'all', data: response })),
+      catchError(error => of({
+        type: FETCH_RESULTS_FAILED,
+        resultClass: 'all',
         error: error,
         message: {
           text: backendErrorText,
@@ -214,6 +250,7 @@ const boundsToValues = bounds => {
 const rootEpic = combineEpics(
   fetchPaginatedResultsEpic,
   fetchResultsEpic,
+  fetchResultsClientSideEpic,
   fetchByURIEpic,
   fetchFacetEpic,
 );

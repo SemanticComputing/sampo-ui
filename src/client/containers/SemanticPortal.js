@@ -18,9 +18,12 @@ import Works from '../components/perspectives/Works';
 import Places from '../components//perspectives/Places';
 import People from '../components//perspectives/People';
 import Organizations from '../components/perspectives/Organizations';
+import All from '../components/perspectives/All';
 import {
   fetchPaginatedResults,
   fetchResults,
+  fetchResultsClientSide,
+  clearResults,
   fetchByURI,
   fetchFacet,
   sortResults,
@@ -82,7 +85,11 @@ let SemanticPortal = (props) => {
       <div className={classes.appFrame}>
         <Message error={error} />
         <React.Fragment>
-          <TopBar />
+          <TopBar
+            search={props.clientSideFacetedSearch}
+            fetchResultsClientSide={props.fetchResultsClientSide}
+            clearResults={props.clearResults}
+          />
           <Grid container spacing={8} className={classes.mainContainer}>
             <Route exact path="/" component={Main} />
             <Route
@@ -243,6 +250,24 @@ let SemanticPortal = (props) => {
                 </React.Fragment>
               }
             />
+            <Route
+              path="/all"
+              render={routeProps =>
+                <React.Fragment>
+                  <Grid item sm={12} md={3} className={classes.facetBarContainer}>
+
+                  </Grid>
+                  <Grid item sm={12} md={9} className={classes.resultsContainer}>
+                    <Paper className={classes.resultsContainerPaper}>
+                      <All
+                        results={props.clientSideFacetedSearch.results}
+                        routeProps={routeProps}
+                      />
+                    </Paper>
+                  </Grid>
+                </React.Fragment>
+              }
+            />
           </Grid>
         </React.Fragment>
         <Footer />
@@ -266,6 +291,7 @@ const mapStateToProps = state => {
     organizationsFacets: state.organizationsFacets,
     places: state.places,
     placesFacets: state.placesFacets,
+    clientSideFacetedSearch: state.clientSideFacetedSearch,
     error: state.error
     //browser: state.browser,
   };
@@ -274,9 +300,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = ({
   fetchPaginatedResults,
   fetchResults,
+  fetchResultsClientSide,
   fetchByURI,
   fetchFacet,
   sortResults,
+  clearResults,
   updateFacetOption,
   updatePage,
   showError
@@ -297,10 +325,13 @@ SemanticPortal.propTypes = {
   organizationsFacets: PropTypes.object.isRequired,
   places: PropTypes.object.isRequired,
   placesFacets: PropTypes.object.isRequired,
+  clientSideFacetedSearch: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
+  fetchResultsClientSide: PropTypes.func.isRequired,
   fetchPaginatedResults: PropTypes.func.isRequired,
   fetchByURI: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
+  clearResults: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,

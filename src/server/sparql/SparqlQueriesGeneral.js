@@ -9,6 +9,15 @@ export const countQuery = `
   }
 `;
 
+export const jenaQuery = `
+  SELECT ?id ?prefLabel ?type
+  WHERE {
+    <QUERY>
+    ?id skos:prefLabel ?prefLabel .
+    ?id a ?type .
+  }
+`;
+
 export const facetResultSetQuery = `
   SELECT *
   WHERE {

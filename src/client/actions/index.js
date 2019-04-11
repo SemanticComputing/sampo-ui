@@ -1,9 +1,11 @@
 export const FETCH_PAGINATED_RESULTS = 'FETCH_PAGINATED_RESULTS';
 export const FETCH_PAGINATED_RESULTS_FAILED = 'FETCH_PAGINATED_RESULTS_FAILED';
 export const FETCH_RESULTS = 'FETCH_RESULTS';
+export const FETCH_RESULTS_CLIENT_SIDE = 'FETCH_RESULTS_CLIENT_SIDE';
 export const FETCH_RESULTS_FAILED = 'FETCH_RESULTS_FAILED';
 export const UPDATE_PAGINATED_RESULTS = 'UPDATE_PAGINATED_RESULTS';
 export const UPDATE_RESULTS = 'UPDATE_RESULTS';
+export const CLEAR_RESULTS = 'CLEAR_RESULTS';
 export const SORT_RESULTS = 'SORT_RESULTS';
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const FETCH_BY_URI = 'FETCH_BY_URI';
@@ -13,6 +15,7 @@ export const FETCH_FACET = 'FETCH_FACET';
 export const FETCH_FACET_FAILED = 'FETCH_FACET_FAILED';
 export const UPDATE_FACET_VALUES = 'UPDATE_FACET_VALUES';
 export const UPDATE_FACET_OPTION = 'UPDATE_FACET_OPTION';
+export const UPDATE_CLIENT_SIDE_FILTER = 'UPDATE_CLIENT_SIDE_FILTER';
 export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP';
 export const SHOW_ERROR = 'SHOW_ERROR';
 
@@ -27,6 +30,10 @@ export const fetchPaginatedResultsFailed = (resultClass, error, message) => ({
 export const fetchResults = ({ resultClass, facetClass, sortBy, variant }) => ({
   type: FETCH_RESULTS,
   resultClass, facetClass, sortBy, variant
+});
+export const fetchResultsClientSide = ({ jenaIndex, query }) => ({
+  type: FETCH_RESULTS_CLIENT_SIDE,
+  jenaIndex, query
 });
 export const fetchResultsFailed = (resultClass, error, message) => ({
   type: FETCH_RESULTS_FAILED,
@@ -43,6 +50,10 @@ export const updateResults = ({ resultClass, data }) => ({
 export const sortResults = (resultClass, sortBy) => ({
   type: SORT_RESULTS,
   resultClass, sortBy
+});
+export const clearResults = resultClass => ({
+  type: CLEAR_RESULTS,
+  resultClass
 });
 export const updatePage = (resultClass, page) => ({
   type: UPDATE_PAGE,
@@ -75,6 +86,10 @@ export const updateFacetValues = ({ facetClass, id, distinctValueCount, values, 
 export const updateFacetOption = ({ facetClass, facetID, option, value }) => ({
   type: UPDATE_FACET_OPTION,
   facetClass, facetID, option, value
+});
+export const updateClientSideFilter = filterObj => ({
+  type: UPDATE_CLIENT_SIDE_FILTER,
+  filterObj
 });
 export const openMarkerPopup = uri => ({
   type: OPEN_MARKER_POPUP,

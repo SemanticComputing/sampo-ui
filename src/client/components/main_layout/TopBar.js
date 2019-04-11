@@ -4,15 +4,14 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import { Link, NavLink } from 'react-router-dom';
+import TopBarSearchField from './TopBarSearchField';
 
 const styles = theme => ({
   root: {
@@ -154,19 +153,10 @@ class TopBar extends React.Component {
                 MMM
               </Typography>
             </Button>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                disabled
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-              />
-            </div>
+            <TopBarSearchField
+              fetchResultsClientSide={this.props.fetchResultsClientSide}
+              clearResults={this.props.clearResults}
+            />
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               {perspectives.map(perspective =>
@@ -197,6 +187,8 @@ class TopBar extends React.Component {
 
 TopBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  fetchResultsClientSide: PropTypes.func.isRequired,
+  clearResults: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(TopBar);

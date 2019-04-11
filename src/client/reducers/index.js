@@ -12,6 +12,7 @@ import worksFacets from './worksFacets';
 import peopleFacets from './peopleFacets';
 import organizationsFacets from './organizationsFacets';
 import placesFacets from './placesFacets';
+import clientSideFacetedSearch from './clientSideFacetedSearch';
 
 const reducer = combineReducers({
   manuscripts,
@@ -24,6 +25,7 @@ const reducer = combineReducers({
   organizationsFacets,
   places,
   placesFacets,
+  clientSideFacetedSearch,
   error,
   toastr: toastrReducer,
   browser: createResponsiveStateReducer({
