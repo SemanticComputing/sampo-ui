@@ -10,17 +10,18 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
 class ResultTable2 extends React.Component {
   render() {
+    console.log(this.props.data)
     return (
       <div style={{ maxWidth: '100%' }}>
         <MaterialTable
           columns={[
-            { title: 'Adı', field: 'name' },
-            { title: 'Soyadı', field: 'surname' },
-            { title: 'Doğum Yılı', field: 'birthYear', type: 'numeric' },
-            { title: 'Doğum Yeri', field: 'birthCity', lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' } }
+            { title: 'Label', field: 'prefLabel' },
+            { title: 'URI', field: 'id' },
+            { title: 'Type', field: 'type' },
+            { title: 'Source', field: 'source' },
           ]}
-          data={[{ name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 }]}
-          title="Demo Title"
+          data={this.props.data}
+          title="Search results"
           icons={{
             Search: SearchIcon,
             ResetSearch: ClearIcon,
@@ -36,7 +37,7 @@ class ResultTable2 extends React.Component {
 }
 
 ResultTable2.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.array,
 };
 
 export default ResultTable2;

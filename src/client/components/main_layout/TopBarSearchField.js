@@ -5,6 +5,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 //import CircularProgress from '@material-ui/core/CircularProgress';
+import history from '../../History';
 
 const styles = theme => ({
   search: {
@@ -68,6 +69,7 @@ class TopBarSearchField extends React.Component {
         jenaIndex: 'text',
         query: this.state.value
       });
+      history.push({ pathname: `/all/table` });
     }
   };
 

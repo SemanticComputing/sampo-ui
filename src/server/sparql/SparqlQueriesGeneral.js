@@ -15,6 +15,7 @@ export const jenaQuery = `
     <QUERY>
     ?id skos:prefLabel ?prefLabel .
     ?id a ?type .
+    OPTIONAL { ?id dct:source ?source }
   }
 `;
 

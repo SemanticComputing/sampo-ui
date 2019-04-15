@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import PerspectiveTabs from '../main_layout/PerspectiveTabs';
 import ResultTable2 from '../facet_results/ResultTable2';
-import Typography from '@material-ui/core/Typography';
 
-
-let All = props => {
+const All = props => {
   const perspectiveUrl = '/all';
   return (
     <React.Fragment>
@@ -32,8 +30,9 @@ let All = props => {
       <Route
         path={`${perspectiveUrl}/table`}
         render={() =>
-          //<Typography>Test</Typography>
-          <ResultTable2 />
+          <ResultTable2
+            data={props.results}
+          />
         }
       />
     </React.Fragment>
@@ -41,7 +40,7 @@ let All = props => {
 };
 
 All.propTypes = {
-  results: PropTypes.object,
+  results: PropTypes.array,
   updatePage: PropTypes.func,
   sortResults: PropTypes.func,
   routeProps: PropTypes.object.isRequired,

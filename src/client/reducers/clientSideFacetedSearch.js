@@ -7,7 +7,7 @@ import {
 } from '../actions';
 
 export const INITIAL_STATE = {
-  results: null,
+  results: [],
   latestFilter: {
     id: '',
   },
@@ -30,14 +30,13 @@ const clientSideFacetedSearch = (state = INITIAL_STATE, action) => {
       case FETCH_RESULTS_CLIENT_SIDE:
         return {
           ...state,
-          //[`${action.jenaIndex}ResultsFetching`]: true
+          [`${action.jenaIndex}ResultsFetching`]: true
         };
       case UPDATE_RESULTS:
-        console.log(action.data)
         return {
           ...state,
           results: action.data,
-          //[`${action.jenaIndex}ResultsFetching`]: false
+          [`${action.jenaIndex}ResultsFetching`]: false
         };
       case CLEAR_RESULTS:
         return {
