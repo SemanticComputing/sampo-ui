@@ -10,12 +10,20 @@ export const countQuery = `
 `;
 
 export const jenaQuery = `
-  SELECT ?id ?prefLabel ?type
+  SELECT ?id ?prefLabel ?dataProviderUrl ?type__id ?type__prefLabel
   WHERE {
     <QUERY>
     ?id skos:prefLabel ?prefLabel .
-    ?id a ?type .
-    OPTIONAL { ?id dct:source ?source }
+    ?id a ?type__id .
+    ?type__id rdfs:label|skos:prefLabel ?type__prefLabel_ . 
+    BIND(STR(?type__prefLabel_) AS ?type__prefLabel)  # ignore language tags
+    OPTIONAL {
+      ?id dct:source ?source__id .
+      ?source__id skos:prefLabel ?source__prefLabel .
+    }
+    OPTIONAL {
+      ?id mmm-schema:data_provider_url ?dataProviderUrl
+    }
   }
 `;
 

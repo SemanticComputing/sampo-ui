@@ -95,7 +95,7 @@ class TopBarSearchField extends React.Component {
           <SearchIcon />
         </div>
         <InputBase
-          placeholder="Search everything"
+          placeholder="Full text search"
           classes={{
             root: classes.inputRoot,
             input: classes.inputInput,

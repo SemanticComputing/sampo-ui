@@ -12,8 +12,9 @@ export const queryJenaIndex = async ({
 }) => {
   let q = jenaQuery;
   q = q.replace('<QUERY>', `
-  ?id text:query ('${queryTerm.toLowerCase()}' 1000) .
+  ?id text:query ('${queryTerm.toLowerCase()}' 10000) .
   `);
+  // console.log(prefixes + q)
   const results = await runSelectQuery(prefixes + q, endpoint, makeObjectList);
   return results;
 };

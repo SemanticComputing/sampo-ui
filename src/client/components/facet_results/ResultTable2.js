@@ -15,9 +15,29 @@ class ResultTable2 extends React.Component {
       <div style={{ maxWidth: '100%' }}>
         <MaterialTable
           columns={[
-            { title: 'Label', field: 'prefLabel' },
+            {
+              title: 'Label',
+              field: 'prefLabel',
+              render: rowData =>
+                <a
+                  target='_blank' rel='noopener noreferrer'
+                  href={rowData.id}
+                >
+                  {rowData.prefLabel}
+                </a>
+            },
             { title: 'URI', field: 'id' },
-            { title: 'Type', field: 'type' },
+            {
+              title: 'Type',
+              field: 'type',
+              render: rowData =>
+                <a
+                  target='_blank' rel='noopener noreferrer'
+                  href={rowData.type.id}
+                >
+                  {rowData.type.prefLabel}
+                </a>
+            },
             { title: 'Source', field: 'source' },
           ]}
           data={this.props.data}
