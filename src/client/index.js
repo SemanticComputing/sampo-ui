@@ -5,12 +5,14 @@ import { createEpicMiddleware } from 'redux-observable';
 import {responsiveStoreEnhancer} from 'redux-responsive';
 import { Provider } from 'react-redux';
 import ReduxToastr, { actions as toastrActions } from 'react-redux-toastr';
-import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import { Router } from 'react-router-dom';
 import history from './History';
 import reducer from './reducers';
 import rootEpic from './epics';
 import App from './components/App';
+
+import 'react-sortable-tree/style.css';
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 
 const epicMiddleware = createEpicMiddleware();
 

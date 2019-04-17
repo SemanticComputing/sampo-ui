@@ -27,12 +27,16 @@ const styles = theme => ({
     height: 108,
     padding: theme.spacing.unit,
   },
+  four: {
+    height: 135,
+    padding: theme.spacing.unit,
+  },
   five: {
     height: 150,
     padding: theme.spacing.unit,
   },
   ten: {
-    height: 345,
+    height: 350,
     padding: theme.spacing.unit,
   },
   facetHeaderButtons: {

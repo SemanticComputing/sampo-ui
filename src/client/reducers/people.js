@@ -27,7 +27,7 @@ export const INITIAL_STATE = {
   resultsUpdateID: -1,
   instance: {},
   page: -1,
-  pagesize: 5,
+  pagesize: 25,
   sortBy: 'prefLabel',
   sortDirection: 'asc',
   fetching: false,
