@@ -261,6 +261,7 @@ let SemanticPortal = (props) => {
                     <Paper className={classes.resultsContainerPaper}>
                       <All
                         results={props.clientSideFacetedSearch.results}
+                        textResultsFetching={props.clientSideFacetedSearch.textResultsFetching}
                         routeProps={routeProps}
                       />
                     </Paper>

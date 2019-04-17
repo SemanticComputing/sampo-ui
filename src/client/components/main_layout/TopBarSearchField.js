@@ -66,6 +66,7 @@ class TopBarSearchField extends React.Component {
     if (event.key === 'Enter' && this.hasValidQuery()) {
       this.props.clearResults();
       this.props.fetchResultsClientSide({
+        resultClass: 'all',
         jenaIndex: 'text',
         query: this.state.value
       });
@@ -77,6 +78,7 @@ class TopBarSearchField extends React.Component {
     if (this.hasValidQuery()) {
       this.props.clearResults();
       this.props.fetchResultsClientSide({
+        resultClass: 'all',
         jenaIndex: 'text',
         query: this.state.value
       });

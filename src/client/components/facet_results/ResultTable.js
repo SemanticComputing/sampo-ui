@@ -5,7 +5,6 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import ResultTableCell from './ResultTableCell';
 import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 import querystring from 'querystring';
@@ -139,7 +138,6 @@ class ResultTable extends React.Component {
     if (fetching) {
       return (
         <div className={classes.progressContainer}>
-          <Typography className={classes.progressTitle} variant="h4" color='primary'>Fetching data</Typography>
           <CircularProgress style={{ color: purple[500] }} thickness={5} />
         </div>
       );

@@ -16,11 +16,11 @@ const All = props => {
             value: 0,
             icon: 'CalendarViewDay',
           },
-          [`${perspectiveUrl}/map`]: {
-            label: 'map',
-            value: 1,
-            icon: 'AddLocation',
-          },
+          // [`${perspectiveUrl}/map`]: {
+          //   label: 'map',
+          //   value: 1,
+          //   icon: 'AddLocation',
+          // },
         }}
       />
       <Route
@@ -29,10 +29,19 @@ const All = props => {
       />
       <Route
         path={`${perspectiveUrl}/table`}
-        render={() =>
-          <ResultTable2
-            data={props.results}
-          />
+        render={() => {
+          if (props.results.length > 0) {
+            return(
+              <ResultTable2
+                data={props.results}
+                fetching={props.textResultsFetching}
+              />
+            );
+          } else {
+            return null;
+          }
+        }
+
         }
       />
     </React.Fragment>
@@ -41,6 +50,8 @@ const All = props => {
 
 All.propTypes = {
   results: PropTypes.array,
+  textResultsFetching: PropTypes.bool.isRequired,
+  spatialResultsFetching: PropTypes.bool,
   updatePage: PropTypes.func,
   sortResults: PropTypes.func,
   routeProps: PropTypes.object.isRequired,

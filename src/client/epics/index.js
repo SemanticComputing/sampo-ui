@@ -111,7 +111,11 @@ const fetchResultsClientSideEpic = (action$, state$) => action$.pipe(
       requestUrl = `${searchUrl}?latMin=${latMin}&longMin=${longMin}&latMax=${latMax}&longMax=${longMax}`;
     }
     return ajax.getJSON(requestUrl).pipe(
-      map(response => updateResults({ resultClass: 'all', data: response })),
+      map(response => updateResults({
+        resultClass: 'all',
+        jenaIndex: action.jenaIndex,
+        data: response
+      })),
       catchError(error => of({
         type: FETCH_RESULTS_FAILED,
         resultClass: 'all',
