@@ -13,14 +13,16 @@ import thumbImage from '../../img/thumb.png';
 
 const styles = theme => ({
   root: {
-    width: '100%'
+    width: '100%',
+    height: '100%',
+    overflow: 'auto'
   },
   icon: {
     marginRight: theme.spacing.unit * 2,
   },
-  heroUnit: {
-    backgroundColor: 'rgb(238, 238, 238)'
-  },
+  // heroUnit: {
+  //   backgroundColor: 'rgb(238, 238, 238)'
+  // },
   heroContent: {
     maxWidth: 1100,
     paddingTop: theme.spacing.unit * 3,
@@ -37,7 +39,7 @@ const styles = theme => ({
     },
   },
   card: {
-    maxWidth: 340,
+    //maxWidth: 340,
   },
   media: {
     height: 100,
@@ -58,7 +60,6 @@ let Main = props => {
 
   return (
     <div className={classes.root}>
-      {/* Hero unit */}
       <div className={classes.layout}>
         <div className={classes.heroContent}>
           <Typography component="h1" variant="h3" align="center" color="textPrimary" gutterBottom>
@@ -72,10 +73,9 @@ let Main = props => {
         </div>
       </div>
       <div className={classNames(classes.layout, classes.cardGrid)}>
-        {/* End hero unit */}
         <Grid container spacing={40}>
 
-          <Grid item sm={6} md={4} lg={4}>
+          <Grid item xs={12} sm={6} md={4}>
             <Card className={classes.card}>
               <CardActionArea component={ManuscriptsLink}>
                 <CardMedia
@@ -95,7 +95,7 @@ let Main = props => {
             </Card>
           </Grid>
 
-          <Grid item sm={6} md={4} lg={4}>
+          <Grid item xs={12} sm={6} md={4}>
             <Card className={classes.card}>
               <CardActionArea component={WorksLink}>
                 <CardMedia
@@ -115,7 +115,7 @@ let Main = props => {
             </Card>
           </Grid>
 
-          <Grid item sm={6} md={4} lg={4}>
+          <Grid item xs={12} sm={6} md={4}>
             <Card className={classes.card}>
               <CardActionArea disabled>
                 <CardMedia
@@ -135,7 +135,7 @@ let Main = props => {
             </Card>
           </Grid>
 
-          <Grid item sm={6} md={4} lg={4}>
+          <Grid item xs={12} sm={6} md={4}>
             <Card className={classes.card}>
               <CardActionArea component={PeopleLink}>
                 <CardMedia
@@ -155,7 +155,7 @@ let Main = props => {
             </Card>
           </Grid>
 
-          <Grid item sm={6} md={4} lg={4}>
+          <Grid item xs={12} sm={6} md={4}>
             <Card className={classes.card}>
               <CardActionArea component={OrganizationsLink}>
                 <CardMedia
@@ -175,7 +175,7 @@ let Main = props => {
             </Card>
           </Grid>
 
-          <Grid item sm={6} md={4} lg={4}>
+          <Grid item xs={12} sm={6} md={4}>
             <Card className={classes.card}>
               <CardActionArea component={PlacesLink}>
                 <CardMedia
