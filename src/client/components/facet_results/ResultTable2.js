@@ -23,7 +23,9 @@ const styles = () => ({
 });
 
 class ResultTable2 extends React.Component {
+
   render() {
+    let resultText = this.props.data.length == 1 ? 'result' : 'results';
     //console.log(this.props.data)
     if (this.props.fetching) {
       return (
@@ -49,14 +51,13 @@ class ResultTable2 extends React.Component {
               },
               {
                 title: 'Type',
-                field: 'type',
+                field: 'type.prefLabel',
                 render: rowData => rowData.type.prefLabel
               },
               {
                 title: 'Data provider link',
                 field: 'dataProviderUrl',
                 render: rowData => {
-                  console.log(rowData)
                   if (has(rowData, 'source') && has(rowData, 'dataProviderUrl')) {
                     return(
                       <a
@@ -71,7 +72,10 @@ class ResultTable2 extends React.Component {
               },
             ]}
             data={this.props.data}
-            title="Full text search results"
+            title={this.props.data.length > 1 ?
+              `Search term: "${this.props.query}", ${this.props.data.length} ${resultText}` :
+              ''
+            }
             icons={{
               Search: SearchIcon,
               ResetSearch: ClearIcon,
@@ -81,7 +85,7 @@ class ResultTable2 extends React.Component {
               PreviousPage: ChevronLeftIcon
             }}
             options={{
-              pageSize: 25,
+              pageSize: 15,
               pageSizeOptions: [10, 15, 20, 25]
             }}
           />
@@ -94,6 +98,7 @@ class ResultTable2 extends React.Component {
 ResultTable2.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array,
+  query: PropTypes.string,
   fetching: PropTypes.bool.isRequired
 };
 

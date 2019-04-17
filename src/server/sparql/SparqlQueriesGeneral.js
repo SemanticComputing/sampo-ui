@@ -23,8 +23,9 @@ export const jenaQuery = `
       BIND(COALESCE(?source__prefLabel_, ?source__id) as ?source__prefLabel)
     }
     OPTIONAL {
-      ?id mmm-schema:data_provider_url|owl:sameAs ?dataProviderUrl
+      ?id mmm-schema:data_provider_url ?dataProviderUrl
     }
+    FILTER(?type__id != frbroo:F27_Work_Conception)
   }
 `;
 

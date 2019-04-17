@@ -7,6 +7,7 @@ import {
 } from '../actions';
 
 export const INITIAL_STATE = {
+  query: '',
   results: [],
   latestFilter: {
     id: '',
@@ -35,6 +36,7 @@ const clientSideFacetedSearch = (state = INITIAL_STATE, action) => {
       case UPDATE_RESULTS:
         return {
           ...state,
+          query: action.query,
           results: action.data,
           [`${action.jenaIndex}ResultsFetching`]: false
         };

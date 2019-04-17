@@ -114,6 +114,7 @@ const fetchResultsClientSideEpic = (action$, state$) => action$.pipe(
       map(response => updateResults({
         resultClass: 'all',
         jenaIndex: action.jenaIndex,
+        query: action.query,
         data: response
       })),
       catchError(error => of({

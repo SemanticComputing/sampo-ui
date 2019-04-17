@@ -43,9 +43,9 @@ export const updatePaginatedResults = ({ resultClass, data }) => ({
   type: UPDATE_PAGINATED_RESULTS,
   resultClass, data
 });
-export const updateResults = ({ resultClass, jenaIndex, data }) => ({
+export const updateResults = ({ resultClass, jenaIndex, query, data }) => ({
   type: UPDATE_RESULTS,
-  resultClass, jenaIndex, data
+  resultClass, jenaIndex, query, data
 });
 export const sortResults = (resultClass, sortBy) => ({
   type: SORT_RESULTS,

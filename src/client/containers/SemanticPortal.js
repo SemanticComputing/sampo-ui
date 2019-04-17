@@ -260,8 +260,7 @@ let SemanticPortal = (props) => {
                   <Grid item sm={12} md={9} className={classes.resultsContainer}>
                     <Paper className={classes.resultsContainerPaper}>
                       <All
-                        results={props.clientSideFacetedSearch.results}
-                        textResultsFetching={props.clientSideFacetedSearch.textResultsFetching}
+                        clientSideFacetedSearch={props.clientSideFacetedSearch}
                         routeProps={routeProps}
                       />
                     </Paper>
