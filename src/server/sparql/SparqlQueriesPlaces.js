@@ -17,14 +17,6 @@ export const placeProperties = `
 `;
 
 export const allPlacesQuery =  `
-  PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-  PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-  PREFIX dct: <http://purl.org/dc/terms/>
-  PREFIX owl: <http://www.w3.org/2002/07/owl#>
-  PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
-  PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-  PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
-  PREFIX gvp: <http://vocab.getty.edu/ontology#>
   SELECT *
   WHERE {
     <FILTER>
@@ -48,14 +40,6 @@ export const allPlacesQuery =  `
 `;
 
 export const placeQuery =  `
-      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-      PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-      PREFIX dct: <http://purl.org/dc/terms/>
-      PREFIX owl: <http://www.w3.org/2002/07/owl#>
-      PREFIX frbroo: <http://erlangen-crm.org/efrbroo/>
-      PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-      PREFIX mmm-schema: <http://ldf.fi/mmm/schema/>
-      PREFIX gvp: <http://vocab.getty.edu/ontology#>
       SELECT ?id ?prefLabel ?sameAs ?dataProviderUrl ?parent__id ?parent__prefLabel ?manuscript__id ?manuscript__dataProviderUrl
       WHERE {
         BIND (<ID> AS ?id)
