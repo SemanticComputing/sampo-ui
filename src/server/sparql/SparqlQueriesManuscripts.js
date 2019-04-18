@@ -27,7 +27,7 @@ export const manuscriptProperties = `
     ?production crm:P108_has_produced ?id .
     ?production crm:P7_took_place_at ?productionPlace__id .
     ?productionPlace__id skos:prefLabel ?productionPlace__prefLabel .
-    OPTIONAL { ?productionPlace__id mmm-schema:data_provider_url ?productionPlace__dataProviderUrl }
+    OPTIONAL { ?productionPlace__id owl:sameAs ?productionPlace__dataProviderUrl }
     # FILTER NOT EXISTS {
     #   ?production crm:P7_took_place_at ?productionPlace__id2 .
     #   ?productionPlace__id2 crm:P89_falls_within+ ?productionPlace__id .
