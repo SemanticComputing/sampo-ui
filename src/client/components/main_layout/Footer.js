@@ -9,6 +9,12 @@ import pennLogo from '../../img/logos/partners/PL SIMS Logo_small.png';
 import cnrsLogo from '../../img/logos/partners/logo_cnrs_irht2.jpg';
 import aaltoLogo from '../../img/logos/partners/Aalto_SCI_EN_13_BLACK_2_cropped.png';
 import secoLogo from '../../img/logos/partners/13_9_04_logo_cropped_small.png';
+import tapLogo from '../../img/logos/funders/cropped-logo_tap_0_.png';
+import didLogo from '../../img/logos/funders/did_logo.png';
+import imlsLogo from '../../img/logos/funders/imls_logo_2c_cropped.jpg';
+import anrLogo from '../../img/logos/funders/Agence_Nationale_de_la_Recherche.png';
+import akaLogo from '../../img/logos/funders/aka_en_vaaka_rgb.jpg';
+
 
 //const logoPadding = 50;
 const logoHeight = 50;
@@ -17,20 +23,22 @@ const styles = theme => ({
   root: {
     position: 'absolute',
 
-    boxShadow: '0 -10px 10px -10px #333',
+    boxShadow: '0 -20px 20px -20px #333',
     //borderTop: '4px solid' + theme.palette.primary.main,
     //display: 'flex',
     //alignItems: 'center',
     //justifyContent: 'center',
     bottom: 0,
     width: '100%',
-    height: 64,
+    height: 180,
     //background: theme.palette.primary.main,
     borderRadius: 0,
   },
   layout: {
     width: 'auto',
     height: '100%',
+    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit,
     marginLeft: theme.spacing.unit * 2,
     marginRight: theme.spacing.unit * 2,
     [theme.breakpoints.up(1500 + theme.spacing.unit * 3 * 2)]: {
@@ -44,29 +52,12 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  oxfordLogo: {
-    //paddingLeft: 24,
-    height: logoHeight
-  },
-  oxfordLogo2: {
-    //paddingLeft: logoPadding,
-    height: logoHeight
-  },
-  pennLogo: {
-    //paddingLeft: logoPadding,
-    height: logoHeight
-  },
-  cnrsLogo: {
-    //paddingLeft: logoPadding,
-    height: logoHeight
+  logo: {
+    height: logoHeight,
+    minWidht: 200
   },
   aaltoLogo: {
-    //paddingLeft: logoPadding,
     height: logoHeight - 8
-  },
-  secoLogo: {
-    //paddingLeft: logoPadding,
-    height: logoHeight
   },
 });
 
@@ -75,25 +66,50 @@ const Footer = props => {
   return (
 
     <Paper className={classes.root}>
-      <Grid container spacing={0} className={classes.layout}>
-        <Grid item xs className={classes.logoContainer}>
-          <img className={classes.oxfordLogo} src={oxfordLogo} alt='logo' />
+      <Grid container className={classes.layout}>
+        <Grid container spacing={16} item xs={12}>
+          <Grid item xs className={classes.logoContainer}>
+            <img className={classes.logo} src={oxfordLogo} alt='logo' />
+          </Grid>
+          <Grid item xs className={classes.logoContainer}>
+            <img className={classes.logo} src={oxfordLogo2} alt='logo' />
+          </Grid>
+          <Grid item xs className={classes.logoContainer}>
+            <img className={classes.logo} src={pennLogo} alt='logo' />
+          </Grid>
+          <Grid item xs className={classes.logoContainer}>
+            <img className={classes.logo} src={cnrsLogo} alt='logo' />
+          </Grid>
+          <Grid item xs className={classes.logoContainer}>
+            <img className={classes.aaltoLogo} src={aaltoLogo} alt='logo' />
+          </Grid>
+          <Grid item xs className={classes.logoContainer}>
+            <img className={classes.logo} src={secoLogo} alt='logo' />
+          </Grid>
         </Grid>
-        <Grid item xs className={classes.logoContainer}>
-          <img className={classes.oxfordLogo2} src={oxfordLogo2} alt='logo' />
+        <Grid container item xs={12}>
+          <Grid item xs className={classes.logoContainer}>
+            <img className={classes.logo} src={tapLogo} alt='logo' />
+          </Grid>
+          <Grid item xs className={classes.logoContainer}>
+            <img className={classes.logo} src={didLogo} alt='logo' />
+          </Grid>
+          <Grid item xs className={classes.logoContainer}>
+            <img className={classes.logo} src={imlsLogo} alt='logo' />
+          </Grid>
+          <Grid item xs className={classes.logoContainer}>
+            <img className={classes.logo} src={anrLogo} alt='logo' />
+          </Grid>
+          <Grid item xs className={classes.logoContainer}>
+            <img className={classes.logo} src={akaLogo} alt='logo' />
+          </Grid>
+
         </Grid>
-        <Grid item xs className={classes.logoContainer}>
-          <img className={classes.pennLogo} src={pennLogo} alt='logo' />
-        </Grid>
-        <Grid item xs className={classes.logoContainer}>
-          <img className={classes.cnrsLogo} src={cnrsLogo} alt='logo' />
-        </Grid>
-        <Grid item xs className={classes.logoContainer}>
-          <img className={classes.aaltoLogo} src={aaltoLogo} alt='logo' />
-        </Grid>
-        <Grid item xs className={classes.logoContainer}>
-          <img className={classes.secoLogo} src={secoLogo} alt='logo' />
-        </Grid>
+
+
+
+
+
       </Grid>
     </Paper>
   );
