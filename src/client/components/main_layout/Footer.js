@@ -18,6 +18,9 @@ import akaLogo from '../../img/logos/funders/aka_en_vaaka_rgb.jpg';
 const styles = theme => ({
   root: {
     position: 'absolute',
+    [ theme.breakpoints.down('sm')]: {
+      display: 'none'
+    },
     bottom: 0,
     left: 0,
     boxShadow: '0 -20px 20px -20px #333',
@@ -26,7 +29,7 @@ const styles = theme => ({
   },
   layout: {
     width: 'auto',
-    height: 150,
+    height: 115,
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit,
     marginLeft: theme.spacing.unit * 2,
@@ -43,16 +46,10 @@ const styles = theme => ({
     justifyContent: 'center'
   },
   logo: {
-    height: 50,
-    [ theme.breakpoints.down(1090) ]: {
-      height: 40
-    }
+    height: 40,
   },
   aaltoLogo: {
-    height: 42,
-    [ theme.breakpoints.down(1090) ]: {
-      height: 35
-    }
+    height: 37,
   },
 });
 
@@ -75,10 +72,10 @@ const Footer = props => {
             <img className={classes.logo} src={cnrsLogo} alt='logo' />
           </Grid>
           <Grid item xs className={classes.logoContainer}>
-            <img className={classes.aaltoLogo} src={aaltoLogo} alt='logo' />
+            <img className={classes.logo} src={secoLogo} alt='logo' />
           </Grid>
           <Grid item xs className={classes.logoContainer}>
-            <img className={classes.logo} src={secoLogo} alt='logo' />
+            <img className={classes.aaltoLogo} src={aaltoLogo} alt='logo' />
           </Grid>
         </Grid>
         <Grid container spacing={24} item xs={12}>
@@ -104,7 +101,7 @@ const Footer = props => {
 };
 
 Footer.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Footer);

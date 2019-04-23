@@ -8,14 +8,17 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import thumbImage from '../../img/thumb.png';
 
 const styles = theme => ({
   root: {
     width: '100%',
     height: 'calc(100% - 150px)',
-    overflow: 'auto'
+    overflow: 'auto',
+    [ theme.breakpoints.down('sm')]: {
+      height: '100%'
+    },
   },
   icon: {
     marginRight: theme.spacing.unit * 2,
@@ -38,9 +41,6 @@ const styles = theme => ({
       marginRight: 'auto',
     },
   },
-  card: {
-    //maxWidth: 340,
-  },
   media: {
     height: 100,
     [ theme.breakpoints.down('md')]: {
@@ -54,12 +54,38 @@ const styles = theme => ({
 
 let Main = props => {
   const { classes } = props;
-
-  const ManuscriptsLink = props => <NavLink to="/manuscripts" {...props}/>;
-  const WorksLink = props => <NavLink to="/works" {...props}/>;
-  const PeopleLink = props => <NavLink to="/people" {...props}/>;
-  const OrganizationsLink = props => <NavLink to="/organizations" {...props}/>;
-  const PlacesLink = props => <NavLink to="/places" {...props}/>;
+  const perspectives = [
+    {
+      id: 'manuscripts',
+      label: 'Manuscripts',
+      desc: 'Physical manuscript objects.'
+    },
+    {
+      id: 'works',
+      label: 'Works',
+      desc: 'Intellectual content carried out by manuscripts.'
+    },
+    {
+      id: 'events',
+      label: 'Events',
+      desc: 'Events related to manuscripts.'
+    },
+    {
+      id: 'people',
+      label: 'People',
+      desc: 'People related to manuscripts and works.'
+    },
+    {
+      id: 'organizations',
+      label: 'Organizations',
+      desc: 'Organizations related to manuscripts.'
+    },
+    {
+      id: 'places',
+      label: 'Places',
+      desc: 'Places related to manuscripts and works.'
+    },
+  ];
 
   return (
     <div className={classes.root}>
@@ -77,126 +103,27 @@ let Main = props => {
       </div>
       <div className={classNames(classes.layout, classes.cardGrid)}>
         <Grid container spacing={40}>
-
-          <Grid item xs={12} sm={6} md={4}>
-            <Card className={classes.card}>
-              <CardActionArea component={ManuscriptsLink}>
-                <CardMedia
-                  className={classes.media}
-                  image={thumbImage}
-                  title="Manuscripts"
-                />
-                <CardContent className={classes.cardContent}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Manuscripts
-                  </Typography>
-                  <Typography component="p">
-                    Physical manuscript objects.
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-            <Card className={classes.card}>
-              <CardActionArea component={WorksLink}>
-                <CardMedia
-                  className={classes.media}
-                  image={thumbImage}
-                  title="Works"
-                />
-                <CardContent className={classes.cardContent}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Works
-                  </Typography>
-                  <Typography component="p">
-                    Intellectual content carried out by manuscripts.
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-            <Card className={classes.card}>
-              <CardActionArea disabled>
-                <CardMedia
-                  className={classes.media}
-                  image={thumbImage}
-                  title="Events"
-                />
-                <CardContent className={classes.cardContent}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Events
-                  </Typography>
-                  <Typography component="p">
-                    Events related to manuscripts.
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-            <Card className={classes.card}>
-              <CardActionArea component={PeopleLink}>
-                <CardMedia
-                  className={classes.media}
-                  image={thumbImage}
-                  title="People"
-                />
-                <CardContent className={classes.cardContent}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    People
-                  </Typography>
-                  <Typography component="p">
-                    People related to manuscripts and works.
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-            <Card className={classes.card}>
-              <CardActionArea component={OrganizationsLink}>
-                <CardMedia
-                  className={classes.media}
-                  image={thumbImage}
-                  title="Organizations"
-                />
-                <CardContent className={classes.cardContent}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Organizations
-                  </Typography>
-                  <Typography component="p">
-                    Organizations related to manuscripts.
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-            <Card className={classes.card}>
-              <CardActionArea component={PlacesLink}>
-                <CardMedia
-                  className={classes.media}
-                  image={thumbImage}
-                  title="Places"
-                />
-                <CardContent className={classes.cardContent}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Places
-                  </Typography>
-                  <Typography component="p">
-                    Places related to manuscripts and works.
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
+          {perspectives.map(perspective =>
+            <Grid key={perspective.id} item xs={12} sm={6} md={4}>
+              <Card className={classes.card}>
+                <CardActionArea component={Link} to={`/${perspective.id}`}>
+                  <CardMedia
+                    className={classes.media}
+                    image={thumbImage}
+                    title={perspective.label}
+                  />
+                  <CardContent className={classes.cardContent}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {perspective.label}
+                    </Typography>
+                    <Typography component="p">
+                      {perspective.desc}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          )}
         </Grid>
       </div>
     </div>

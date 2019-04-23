@@ -53,7 +53,7 @@ const styles = theme => ({
   mainContainer: {
     marginTop: 64,
     height: 'calc(100% - 64px)',
-    [theme.breakpoints.down(600)]: {
+    [theme.breakpoints.down('sm')]: {
       marginTop: 56,
       height: 'calc(100% - 56px)',
     },
