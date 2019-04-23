@@ -15,28 +15,18 @@ import imlsLogo from '../../img/logos/funders/imls_logo_2c_cropped.jpg';
 import anrLogo from '../../img/logos/funders/Agence_Nationale_de_la_Recherche.png';
 import akaLogo from '../../img/logos/funders/aka_en_vaaka_rgb.jpg';
 
-
-//const logoPadding = 50;
-const logoHeight = 50;
-
 const styles = theme => ({
   root: {
     position: 'absolute',
-
-    boxShadow: '0 -20px 20px -20px #333',
-    //borderTop: '4px solid' + theme.palette.primary.main,
-    //display: 'flex',
-    //alignItems: 'center',
-    //justifyContent: 'center',
     bottom: 0,
+    left: 0,
+    boxShadow: '0 -20px 20px -20px #333',
     width: '100%',
-    height: 180,
-    //background: theme.palette.primary.main,
     borderRadius: 0,
   },
   layout: {
     width: 'auto',
-    height: '100%',
+    height: 150,
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit,
     marginLeft: theme.spacing.unit * 2,
@@ -53,21 +43,25 @@ const styles = theme => ({
     justifyContent: 'center'
   },
   logo: {
-    height: logoHeight,
-    minWidht: 200
+    height: 50,
+    [ theme.breakpoints.down(1090) ]: {
+      height: 40
+    }
   },
   aaltoLogo: {
-    height: logoHeight - 8
+    height: 42,
+    [ theme.breakpoints.down(1090) ]: {
+      height: 35
+    }
   },
 });
 
 const Footer = props => {
   const { classes } = props;
   return (
-
     <Paper className={classes.root}>
       <Grid container className={classes.layout}>
-        <Grid container spacing={16} item xs={12}>
+        <Grid container spacing={24} item xs={12}>
           <Grid item xs className={classes.logoContainer}>
             <img className={classes.logo} src={oxfordLogo} alt='logo' />
           </Grid>
@@ -87,7 +81,7 @@ const Footer = props => {
             <img className={classes.logo} src={secoLogo} alt='logo' />
           </Grid>
         </Grid>
-        <Grid container item xs={12}>
+        <Grid container spacing={24} item xs={12}>
           <Grid item xs className={classes.logoContainer}>
             <img className={classes.logo} src={tapLogo} alt='logo' />
           </Grid>
@@ -103,13 +97,7 @@ const Footer = props => {
           <Grid item xs className={classes.logoContainer}>
             <img className={classes.logo} src={akaLogo} alt='logo' />
           </Grid>
-
         </Grid>
-
-
-
-
-
       </Grid>
     </Paper>
   );

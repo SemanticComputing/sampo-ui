@@ -14,7 +14,7 @@ import thumbImage from '../../img/thumb.png';
 const styles = theme => ({
   root: {
     width: '100%',
-    height: '100%',
+    height: 'calc(100% - 150px)',
     overflow: 'auto'
   },
   icon: {
@@ -43,9 +43,12 @@ const styles = theme => ({
   },
   media: {
     height: 100,
+    [ theme.breakpoints.down('md')]: {
+      height: 60
+    }
   },
   cardContent: {
-    height: 85
+    height: 85,
   }
 });
 

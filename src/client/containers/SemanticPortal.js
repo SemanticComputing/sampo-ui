@@ -52,10 +52,10 @@ const styles = theme => ({
   },
   mainContainer: {
     marginTop: 64,
-    height: 'calc(100% - 128px)',
+    height: 'calc(100% - 64px)',
     [theme.breakpoints.down(600)]: {
       marginTop: 56,
-      height: 'calc(100% - 122px)',
+      height: 'calc(100% - 56px)',
     },
     backgroundColor: '#bdbdbd',
     padding: theme.spacing.unit,
@@ -74,7 +74,6 @@ const styles = theme => ({
   },
   resultsContainerPaper: {
     height: '100%'
-
   }
 });
 
@@ -91,7 +90,15 @@ let SemanticPortal = (props) => {
             clearResults={props.clearResults}
           />
           <Grid container spacing={8} className={classes.mainContainer}>
-            <Route exact path="/" component={Main} />
+            <Route
+              exact path="/"
+              render={() =>
+                <React.Fragment>
+                  <Main />
+                  <Footer />
+                </React.Fragment>
+              }
+            />
             <Route
               path="/manuscripts"
               render={routeProps =>
@@ -270,7 +277,6 @@ let SemanticPortal = (props) => {
             />
           </Grid>
         </React.Fragment>
-        <Footer />
       </div>
     </div>
   );
