@@ -24,6 +24,12 @@ import Typography from '@material-ui/core/Typography';
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZWtrb25lbiIsImEiOiJjam5vampzZ28xd2dyM3BzNXR0Zzg4azl4In0.eozyF-bBaZbA3ibhvJlJpQ';
 
 const styles = theme => ({
+  root: {
+    height: 400,
+    [theme.breakpoints.up('md')]: {
+      height: 'calc(100% - 72px)'
+    }
+  },
   tooltip: {
     position: 'absolute',
     padding: '4px',
@@ -204,33 +210,33 @@ class Deck extends React.Component {
    // https://www.mapbox.com/mapbox-gl-js/api#map
    { /* style={{marginTop: 72}} */}
    return (
-     <ReactMapGL
-       {...this.state.viewport}
-       className={this.props.classes.root}
-       width='100%'
-       height='calc(100% - 72px)'
-
-       onViewportChange={this._onViewportChange}
-       mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
-       mapOptions={{
-         style: 'mapbox://styles/mapbox/light-v9'
-       }}
-     >
-       <HTMLOverlay redraw={this._renderLegend.bind(this)} />
-       <DeckGL
-         viewState={this.state.viewport}
-         layers={[layer]}
-       />
-       <div className={this.props.classes.mapControls}>
-         <NavigationControl onViewportChange={this._onViewportChange} />
-       </div>
-       {this._renderSpinner()}
-       <InfoDialog
-         open={this.state.dialog.open}
-         onClose={this.closeDialog.bind(this)}
-         data={this.state.dialog.data}
-       />
-     </ReactMapGL>
+     <div className={this.props.classes.root}>
+       <ReactMapGL
+         {...this.state.viewport}
+         width='100%'
+         height='100%'
+         onViewportChange={this._onViewportChange}
+         mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
+         mapOptions={{
+           style: 'mapbox://styles/mapbox/light-v9'
+         }}
+       >
+         <HTMLOverlay redraw={this._renderLegend.bind(this)} />
+         <DeckGL
+           viewState={this.state.viewport}
+           layers={[layer]}
+         />
+         <div className={this.props.classes.mapControls}>
+           <NavigationControl onViewportChange={this._onViewportChange} />
+         </div>
+         {this._renderSpinner()}
+         <InfoDialog
+           open={this.state.dialog.open}
+           onClose={this.closeDialog.bind(this)}
+           data={this.state.dialog.data}
+         />
+       </ReactMapGL>
+     </div>
    );
  }
 }

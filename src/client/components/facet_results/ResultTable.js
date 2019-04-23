@@ -11,11 +11,14 @@ import querystring from 'querystring';
 import ResultTableHead from './ResultTableHead';
 import history from '../../History';
 
-const styles = () => ({
+const styles = theme => ({
   tableContainer: {
     overflow: 'auto',
     width: '100%',
-    height: 'calc(100% - 72px)'
+    height: 'auto',
+    [theme.breakpoints.up('md')]: {
+      height: 'calc(100% - 72px)'
+    }
   },
   paginationRow: {
     borderBottom: '1px solid lightgrey'

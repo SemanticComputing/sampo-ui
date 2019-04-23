@@ -35,7 +35,10 @@ import {
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: '100%',
+    height: 'auto',
+    [theme.breakpoints.up('md')]: {
+      height: '100%',
+    }
   },
   flex: {
     flexGrow: 1,
@@ -51,14 +54,17 @@ const styles = theme => ({
     //minHeight: 700
   },
   mainContainer: {
-    marginTop: 64,
-    height: 'calc(100% - 64px)',
+    height: 'auto',
+    backgroundColor: '#bdbdbd',
+    padding: theme.spacing.unit,
     [theme.breakpoints.down('sm')]: {
       marginTop: 56,
       height: 'calc(100% - 56px)',
     },
-    backgroundColor: '#bdbdbd',
-    padding: theme.spacing.unit,
+    [theme.breakpoints.up('sm')]: {
+      marginTop: 64,
+      height: 'calc(100% - 64px)',
+    },
   },
   facetBarContainer: {
     height: '100%',
@@ -103,7 +109,7 @@ let SemanticPortal = (props) => {
               path="/manuscripts"
               render={routeProps =>
                 <React.Fragment>
-                  <Grid item sm={12} md={3} className={classes.facetBarContainer}>
+                  <Grid item xs={12} md={3} className={classes.facetBarContainer}>
                     <FacetBar
                       facetData={props.manuscriptsFacets}
                       facetClass='manuscripts'
@@ -112,7 +118,7 @@ let SemanticPortal = (props) => {
                       updateFacetOption={props.updateFacetOption}
                     />
                   </Grid>
-                  <Grid item sm={12} md={9} className={classes.resultsContainer}>
+                  <Grid item xs={12} md={9} className={classes.resultsContainer}>
                     <Paper className={classes.resultsContainerPaper}>
                       <Manuscripts
                         manuscripts={props.manuscripts}
@@ -135,7 +141,7 @@ let SemanticPortal = (props) => {
               path="/works"
               render={routeProps =>
                 <React.Fragment>
-                  <Grid item sm={12} md={3} className={classes.facetBarContainer}>
+                  <Grid item xs={12} md={3} className={classes.facetBarContainer}>
                     <FacetBar
                       facetData={props.worksFacets}
                       facetClass='works'
@@ -144,7 +150,7 @@ let SemanticPortal = (props) => {
                       updateFacetOption={props.updateFacetOption}
                     />
                   </Grid>
-                  <Grid item sm={12} md={9} className={classes.resultsContainer}>
+                  <Grid item xs={12} md={9} className={classes.resultsContainer}>
                     <Paper className={classes.resultsContainerPaper}>
                       <Works
                         works={props.works}
@@ -166,7 +172,7 @@ let SemanticPortal = (props) => {
               path="/people"
               render={routeProps =>
                 <React.Fragment>
-                  <Grid item sm={12} md={3} className={classes.facetBarContainer}>
+                  <Grid item xs={12} md={3} className={classes.facetBarContainer}>
                     <FacetBar
                       facetData={props.peopleFacets}
                       facetClass='people'
@@ -175,7 +181,7 @@ let SemanticPortal = (props) => {
                       updateFacetOption={props.updateFacetOption}
                     />
                   </Grid>
-                  <Grid item sm={12} md={9} className={classes.resultsContainer}>
+                  <Grid item xs={12} md={9} className={classes.resultsContainer}>
                     <Paper className={classes.resultsContainerPaper}>
                       <People
                         people={props.people}
@@ -198,7 +204,7 @@ let SemanticPortal = (props) => {
               path="/organizations"
               render={routeProps =>
                 <React.Fragment>
-                  <Grid item sm={12} md={3} className={classes.facetBarContainer}>
+                  <Grid item xs={12} md={3} className={classes.facetBarContainer}>
                     <FacetBar
                       facetData={props.organizationsFacets}
                       facetClass='organizations'
@@ -207,7 +213,7 @@ let SemanticPortal = (props) => {
                       updateFacetOption={props.updateFacetOption}
                     />
                   </Grid>
-                  <Grid item sm={12} md={9} className={classes.resultsContainer}>
+                  <Grid item xs={12} md={9} className={classes.resultsContainer}>
                     <Paper className={classes.resultsContainerPaper}>
                       <Organizations
                         organizations={props.organizations}
@@ -230,7 +236,7 @@ let SemanticPortal = (props) => {
               path="/places"
               render={routeProps =>
                 <React.Fragment>
-                  <Grid item sm={12} md={3} className={classes.facetBarContainer}>
+                  <Grid item xs={12} md={3} className={classes.facetBarContainer}>
                     <FacetBar
                       facetData={props.placesFacets}
                       facetClass='places'
@@ -239,7 +245,7 @@ let SemanticPortal = (props) => {
                       updateFacetOption={props.updateFacetOption}
                     />
                   </Grid>
-                  <Grid item sm={12} md={9} className={classes.resultsContainer}>
+                  <Grid item xs={12} md={9} className={classes.resultsContainer}>
                     <Paper className={classes.resultsContainerPaper}>
                       <Places
                         places={props.places}
@@ -261,10 +267,10 @@ let SemanticPortal = (props) => {
               path="/all"
               render={routeProps =>
                 <React.Fragment>
-                  <Grid item sm={12} md={3} className={classes.facetBarContainer}>
+                  <Grid item xs={12} md={3} className={classes.facetBarContainer}>
 
                   </Grid>
-                  <Grid item sm={12} md={9} className={classes.resultsContainer}>
+                  <Grid item xs={12} md={9} className={classes.resultsContainer}>
                     <Paper className={classes.resultsContainerPaper}>
                       <All
                         clientSideFacetedSearch={props.clientSideFacetedSearch}

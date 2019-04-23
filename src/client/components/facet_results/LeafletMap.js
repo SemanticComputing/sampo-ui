@@ -37,9 +37,12 @@ const style = {
   height: '100%'
 };
 
-const styles = () => ({
+const styles = theme => ({
   leafletContainer: {
-    height: 'calc(100% - 72px)'
+    height: 400,
+    [theme.breakpoints.up('md')]: {
+      height: 'calc(100% - 72px)'
+    }
   },
   spinner: {
     height: 40,
