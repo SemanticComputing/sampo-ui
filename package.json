@@ -72,6 +72,7 @@
     "lodash": "^4.17.11",
     "material-table": "^1.32.0",
     "react": "^16.6.1",
+    "react-compound-slider": "^1.2.2",
     "react-csv": "^1.0.18",
     "react-dom": "^16.6.1",
     "react-map-gl": "^4.0.0",

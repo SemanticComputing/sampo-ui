@@ -50,6 +50,24 @@ export const INITIAL_STATE = {
       uriFilter: null,
       spatialFilter: null
     },
+    // productionDate: {
+    //   id: 'productionDate',
+    //   label: 'Production date',
+    //   //predicate: defined in backend
+    //   distinctValueCount: 0,
+    //   values: [],
+    //   flatValues: [],
+    //   sortBy: 'prefLabel',
+    //   sortDirection: 'asc',
+    //   sortButton: false,
+    //   spatialFilterButton: true,
+    //   isFetching: false,
+    //   searchField: true,
+    //   containerClass: 'ten',
+    //   filterType: 'timespan',
+    //   startValue: null,
+    //   endValue: null
+    // },
     author: {
       id: 'author',
       label: 'Author',

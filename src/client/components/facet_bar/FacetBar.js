@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Tree from './Tree';
+import DateSlider from './slider/DateSlider';
 import Paper from '@material-ui/core/Paper';
 import FacetHeader from './FacetHeader';
 
@@ -63,16 +64,29 @@ class FacetBar extends React.Component {
                 updateFacetOption={this.props.updateFacetOption}
               />
               <div className={classes[facets[id].containerClass]}>
-                <Tree
-                  facetID={id}
-                  facet={facets[id]}
-                  facetClass={this.props.facetClass}
-                  resultClass={this.props.resultClass}
-                  facetUpdateID={facetUpdateID}
-                  updatedFacet={updatedFacet}
-                  fetchFacet={this.props.fetchFacet}
-                  updateFacetOption={this.props.updateFacetOption}
-                />
+                {facets[id].filterType === 'uriFilter' || facets[id].filterType === 'spatialFilter' ?
+                  <Tree
+                    facetID={id}
+                    facet={facets[id]}
+                    facetClass={this.props.facetClass}
+                    resultClass={this.props.resultClass}
+                    facetUpdateID={facetUpdateID}
+                    updatedFacet={updatedFacet}
+                    fetchFacet={this.props.fetchFacet}
+                    updateFacetOption={this.props.updateFacetOption}
+                  /> :
+                  <DateSlider
+                    facetID={id}
+                    facet={facets[id]}
+                    facetClass={this.props.facetClass}
+                    resultClass={this.props.resultClass}
+                    facetUpdateID={facetUpdateID}
+                    updatedFacet={updatedFacet}
+                    fetchFacet={this.props.fetchFacet}
+                    updateFacetOption={this.props.updateFacetOption}
+                  />
+                }
+
               </div>
             </Paper>
           );
