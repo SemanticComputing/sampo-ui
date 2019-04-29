@@ -81,6 +81,14 @@ export const facetConfigs = {
       predicate: 'dct:source',
       type: 'list',
     },
+    author: {
+      id: 'author',
+      facetValueFilter: '',
+      label: 'Author',
+      labelPath: '^frbroo:R16_initiated/mmm-schema:carried_out_by_as_possible_author/skos:prefLabel',
+      predicate: '^frbroo:R16_initiated/mmm-schema:carried_out_by_as_possible_author',
+      type: 'list'
+    },
   },
   people: {
     rdfType: 'mmm-schema:Person',
