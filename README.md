@@ -8,7 +8,7 @@ test branch visible at http://test.ui.mappingmanuscriptmigrations.org/
 
 ## Requirements
 
-Node.js 8.x: https://nodejs.org/en/download/releases/
+Node.js https://nodejs.org/en/ (tested with 10.15.3 LTS)
 
 Nodemon https://nodemon.io/
 
