@@ -63,6 +63,7 @@ export const facetConfigs = {
       facetValueFilter: '',
       label: 'Owner',
       labelPath: 'crm:P51_has_former_or_current_owner/skos:prefLabel',
+      predicate: 'crm:P51_has_former_or_current_owner',
       type: 'list',
     },
   },

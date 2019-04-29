@@ -37,14 +37,15 @@ export const manuscriptProperties = `
   {
     ?id crm:P51_has_former_or_current_owner ?owner__id .
     ?owner__id skos:prefLabel ?owner__prefLabel .
-    OPTIONAL { ?owner__id mmm-schema:data_provider_url ?owner__dataProviderUrl }
-    OPTIONAL {
-      [] rdf:subject ?id ;
-        rdf:predicate crm:P51_has_former_or_current_owner ;
-        rdf:object ?owner__id ;
-        mmm-schema:order ?order .
-      BIND(xsd:integer(?order) + 1 AS ?owner__order)
-    }
+    BIND (?owner__id AS ?owner__dataProviderUrl)
+    #OPTIONAL { ?owner__id mmm-schema:data_provider_url ?owner__dataProviderUrl }
+    #OPTIONAL {
+    #  [] rdf:subject ?id ;
+    #    rdf:predicate crm:P51_has_former_or_current_owner ;
+    #    rdf:object ?owner__id ;
+    #    mmm-schema:order ?order .
+    #  BIND(xsd:integer(?order) + 1 AS ?owner__order)
+    #}
   }
   UNION
   {

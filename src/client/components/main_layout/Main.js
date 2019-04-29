@@ -14,10 +14,11 @@ import thumbImage from '../../img/thumb.png';
 const styles = theme => ({
   root: {
     width: '100%',
-    height: 'calc(100% - 150px)',
-    overflow: 'auto',
-    [ theme.breakpoints.down('sm')]: {
-      height: '100%'
+    minHeight: 900,
+    marginBottom: theme.spacing.unit,
+    [ theme.breakpoints.up('md')]: {
+      height: 'calc(100% - 150px)',
+      overflow: 'auto',
     },
   },
   icon: {
