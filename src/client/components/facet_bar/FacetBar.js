@@ -5,6 +5,8 @@ import Tree from './Tree';
 import DateSlider from './slider/DateSlider';
 import Paper from '@material-ui/core/Paper';
 import FacetHeader from './FacetHeader';
+import Typography from '@material-ui/core/Typography';
+import ChipsArray from './ChipsArray';
 
 const styles = theme => ({
   root: {
@@ -42,6 +44,9 @@ const styles = theme => ({
   },
   facetHeaderButtons: {
     marginLeft: 'auto'
+  },
+  textContainer: {
+    padding: theme.spacing.unit
   }
 });
 
@@ -52,6 +57,26 @@ class FacetBar extends React.Component {
     const { facetUpdateID, updatedFacet, facets } = this.props.facetData;
     return (
       <div className={classes.root}>
+        <Paper className={classes.facetContainer}>
+          <FacetHeader
+            facet={{ label: 'Active filters'}}
+          />
+          <div className={classes.textContainer}>
+
+            <ChipsArray data={[
+              { key: 0, label: 'property0, value' },
+              { key: 1, label: 'property1, value' },
+              { key: 2, label: 'property2, value' },
+              { key: 3, label: 'property3, value' },
+              { key: 4, label: 'property4, value' },]} />
+          </div>
+        </Paper>
+        <Paper className={classes.facetContainer}>
+          <div className={classes.textContainer}>
+            <Typography variant="h6">Showing 1-25 of 214997 manuscripts, narrow down by:</Typography>
+          </div>
+        </Paper>
+
         {Object.keys(facets).map(id => {
           return (
             <Paper key={id} className={classes.facetContainer}>

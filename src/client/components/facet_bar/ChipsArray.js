@@ -2,15 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
-import Paper from '@material-ui/core/Paper';
-//import TagFacesIcon from '@material-ui/icons/TagFaces';
+//import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    padding: theme.spacing.unit / 2,
+    //padding: theme.spacing.unit / 2,
   },
   chip: {
     margin: theme.spacing.unit / 2,
@@ -36,7 +35,7 @@ class ChipsArray extends React.Component {
   render() {
     const { classes, data } = this.props;
     return (
-      <Paper className={classes.root}>
+      <div className={classes.root}>
         {data !== null && data.map(item => {
           let icon = null;
 
@@ -54,14 +53,14 @@ class ChipsArray extends React.Component {
             />
           );
         })}
-      </Paper>
+      </div>
     );
   }
 }
 
 ChipsArray.propTypes = {
   classes: PropTypes.object.isRequired,
-  data: PropTypes.object,
+  data: PropTypes.array,
 };
 
 export default withStyles(styles)(ChipsArray);
