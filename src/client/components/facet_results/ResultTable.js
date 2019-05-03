@@ -137,7 +137,7 @@ class ResultTable extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { resultsCount, paginatedResults, page, pagesize, sortBy, sortDirection, fetching } = this.props.data;
+    const { resultCount, paginatedResults, page, pagesize, sortBy, sortDirection, fetching } = this.props.data;
     if (fetching) {
       return (
         <div className={classes.progressContainer}>
@@ -153,7 +153,7 @@ class ResultTable extends React.Component {
               onChangePage={this.handleChangePage}
               onSortBy={this.handleSortBy}
               onChangeRowsPerPage={this.handleOnChangeRowsPerPage}
-              resultsCount={resultsCount}
+              resultCount={resultCount}
               page={page}
               pagesize={pagesize}
               sortBy={sortBy}

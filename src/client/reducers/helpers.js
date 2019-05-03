@@ -103,7 +103,7 @@ export const updateResults = (state, action) => {
   return {
     ...state,
     resultsUpdateID: ++state.resultsUpdateID,
-    resultsCount: parseInt(action.data.resultCount),
+    resultCount: parseInt(action.data.resultCount),
     results: action.data.results,
     fetching: false,
   };
@@ -113,7 +113,7 @@ export const updatePaginatedResults = (state, action) => {
   return {
     ...state,
     resultsUpdateID: ++state.resultsUpdateID,
-    resultsCount: parseInt(action.data.resultCount),
+    resultCount: parseInt(action.data.resultCount),
     paginatedResults: action.data.results,
     fetching: false
   };

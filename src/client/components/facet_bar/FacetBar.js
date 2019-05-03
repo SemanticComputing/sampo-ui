@@ -76,13 +76,13 @@ class FacetBar extends React.Component {
 
         <Paper className={classes.facetContainer}>
           <div className={classes.textContainer}>
-            <Typography>Showing 1-25 of 214997 manuscripts.</Typography>
+            <Typography variant="h6">{this.props.resultCount} {this.props.resultClass}</Typography>
           </div>
         </Paper>
 
         <Paper className={classes.facetContainer}>
           <div className={classes.textContainer}>
-            <Typography>Narrow down by:</Typography>
+            <Typography variant="h6">Narrow down by:</Typography>
           </div>
         </Paper>
 
@@ -135,6 +135,7 @@ FacetBar.propTypes = {
   facetData: PropTypes.object.isRequired,
   facetClass: PropTypes.string.isRequired,
   resultClass: PropTypes.string.isRequired,
+  resultCount: PropTypes.number.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   updateFacetOption: PropTypes.func.isRequired
 };
