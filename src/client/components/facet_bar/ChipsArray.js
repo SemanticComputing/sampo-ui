@@ -19,17 +19,7 @@ const styles = theme => ({
 class ChipsArray extends React.Component {
 
   handleDelete = data => () => {
-    if (data.label === 'React') {
-      alert('Why would you want to delete React?! :)'); // eslint-disable-line no-alert
-      return;
-    }
-
-    this.setState(state => {
-      const chipData = [...state.chipData];
-      const chipToDelete = chipData.indexOf(data);
-      chipData.splice(chipToDelete, 1);
-      return { chipData };
-    });
+    console.log(data);
   };
 
   render() {
@@ -38,11 +28,6 @@ class ChipsArray extends React.Component {
       <div className={classes.root}>
         {data !== null && data.map(item => {
           let icon = null;
-
-          // if (item.label === 'React') {
-          //   icon = <TagFacesIcon />;
-          // }
-
           return (
             <Chip
               key={item.key}

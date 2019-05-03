@@ -50,6 +50,22 @@ const styles = theme => ({
   }
 });
 
+// <Paper className={classes.facetContainer}>
+//   <FacetHeader
+//     facet={{ label: 'Active filters'}}
+//   />
+//   <div className={classes.textContainer}>
+//
+//     <ChipsArray data={[
+//       { key: 0, label: 'property0, value' },
+//       { key: 1, label: 'property1, value' },
+//       { key: 2, label: 'property2, value' },
+//       { key: 3, label: 'property3, value' },
+//       { key: 4, label: 'property4, value' },]} />
+//   </div>
+// </Paper>
+
+
 class FacetBar extends React.Component {
 
   render() {
@@ -57,23 +73,16 @@ class FacetBar extends React.Component {
     const { facetUpdateID, updatedFacet, facets } = this.props.facetData;
     return (
       <div className={classes.root}>
-        <Paper className={classes.facetContainer}>
-          <FacetHeader
-            facet={{ label: 'Active filters'}}
-          />
-          <div className={classes.textContainer}>
 
-            <ChipsArray data={[
-              { key: 0, label: 'property0, value' },
-              { key: 1, label: 'property1, value' },
-              { key: 2, label: 'property2, value' },
-              { key: 3, label: 'property3, value' },
-              { key: 4, label: 'property4, value' },]} />
+        <Paper className={classes.facetContainer}>
+          <div className={classes.textContainer}>
+            <Typography>Showing 1-25 of 214997 manuscripts.</Typography>
           </div>
         </Paper>
+
         <Paper className={classes.facetContainer}>
           <div className={classes.textContainer}>
-            <Typography variant="h6">Showing 1-25 of 214997 manuscripts, narrow down by:</Typography>
+            <Typography>Narrow down by:</Typography>
           </div>
         </Paper>
 
