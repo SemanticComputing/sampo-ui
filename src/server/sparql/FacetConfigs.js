@@ -87,7 +87,7 @@ export const facetConfigs = {
       facetValueFilter: '',
       label: 'Author',
       labelPath: '^frbroo:R16_initiated/mmm-schema:carried_out_by_as_possible_author/skos:prefLabel',
-      predicate: '^frbroo:R16_initiated/mmm-schema:carried_out_by_as_possible_author',
+      predicate: '^frbroo:R16_initiated/(mmm-schema:carried_out_by_as_possible_author|mmm-schema:carried_out_by_as_author)',
       type: 'list'
     },
   },
