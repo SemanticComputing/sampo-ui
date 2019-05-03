@@ -2,14 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
-//import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    //padding: theme.spacing.unit / 2,
   },
   chip: {
     margin: theme.spacing.unit / 2,
@@ -19,7 +17,12 @@ const styles = theme => ({
 class ChipsArray extends React.Component {
 
   handleDelete = data => () => {
-    console.log(data);
+    this.props.updateFacetOption({
+      facetClass: this.props.facetClass,
+      facetID: data.facetID,
+      option: data.filterType,
+      value: data.value
+    });
   };
 
   render() {
@@ -30,9 +33,9 @@ class ChipsArray extends React.Component {
           let icon = null;
           return (
             <Chip
-              key={item.key}
+              key={item.value.id}
               icon={icon}
-              label={item.label}
+              label={`${item.facetLabel.toLowerCase()}: ${item.value.label}`}
               onDelete={this.handleDelete(item)}
               className={classes.chip}
             />
@@ -45,7 +48,9 @@ class ChipsArray extends React.Component {
 
 ChipsArray.propTypes = {
   classes: PropTypes.object.isRequired,
-  data: PropTypes.array,
+  data: PropTypes.array.isRequired,
+  facetClass: PropTypes.string.isRequired,
+  updateFacetOption: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(ChipsArray);

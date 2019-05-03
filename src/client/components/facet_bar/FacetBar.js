@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { has } from 'lodash';
 import { withStyles } from '@material-ui/core/styles';
 import Tree from './Tree';
 import DateSlider from './slider/DateSlider';
 import Paper from '@material-ui/core/Paper';
 import FacetHeader from './FacetHeader';
 import Typography from '@material-ui/core/Typography';
-import ChipsArray from './ChipsArray';
+import ActiveFilters from './ActiveFilters';
 
 const styles = theme => ({
   root: {
@@ -50,42 +51,53 @@ const styles = theme => ({
   }
 });
 
-// <Paper className={classes.facetContainer}>
-//   <FacetHeader
-//     facet={{ label: 'Active filters'}}
-//   />
-//   <div className={classes.textContainer}>
-//
-//     <ChipsArray data={[
-//       { key: 0, label: 'property0, value' },
-//       { key: 1, label: 'property1, value' },
-//       { key: 2, label: 'property2, value' },
-//       { key: 3, label: 'property3, value' },
-//       { key: 4, label: 'property4, value' },]} />
-//   </div>
-// </Paper>
-
-
 class FacetBar extends React.Component {
 
   render() {
-    const { classes } = this.props;
+    const { classes, facetClass } = this.props;
     const { facetUpdateID, updatedFacet, facets } = this.props.facetData;
+    let uriFilters = {};
+    let spatialFilters = {};
+    let activeUriFilters = false;
+    let activeSpatialFilters = false;
+    for (const [key, value] of Object.entries(facets)) {
+      if (value.uriFilter !== null) {
+        activeUriFilters = true;
+        uriFilters[key] = value.uriFilter;
+      } else if (has(value, 'spatialFilter') && value.spatialFilter !== null) {
+        activeSpatialFilters = true;
+        spatialFilters[key] = value.spatialFilter._bounds;
+      }
+    }
+
     return (
       <div className={classes.root}>
-
         <Paper className={classes.facetContainer}>
           <div className={classes.textContainer}>
             <Typography variant="h6">{this.props.resultCount} {this.props.resultClass}</Typography>
           </div>
         </Paper>
-
+        {(activeUriFilters || activeSpatialFilters) &&
+          <Paper className={classes.facetContainer}>
+            <FacetHeader
+              facet={{ label: 'Active filters'}}
+            />
+            <div className={classes.textContainer}>
+              <ActiveFilters
+                facets={facets}
+                facetClass={facetClass}
+                uriFilters={uriFilters}
+                spatialFilters={spatialFilters}
+                updateFacetOption={this.props.updateFacetOption}
+              />
+            </div>
+          </Paper>
+        }
         <Paper className={classes.facetContainer}>
           <div className={classes.textContainer}>
             <Typography variant="h6">Narrow down by:</Typography>
           </div>
         </Paper>
-
         {Object.keys(facets).map(id => {
           return (
             <Paper key={id} className={classes.facetContainer}>
@@ -120,7 +132,6 @@ class FacetBar extends React.Component {
                     updateFacetOption={this.props.updateFacetOption}
                   />
                 }
-
               </div>
             </Paper>
           );
