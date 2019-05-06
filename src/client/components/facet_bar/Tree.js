@@ -182,19 +182,19 @@ class Tree extends Component {
     );
   }
 
-  generateLabelClass = (classes, node) => {
+  generateLabelClass = classes => {
     let labelClass = classes.label;
-    if (this.props.facetID === 'author' || this.props.facetID === 'source') {
-      if (node.source === 'http://ldf.fi/mmm/schema/SDBM' || node.id === 'http://ldf.fi/mmm/schema/SDBM') {
-        labelClass = classes.sdbmLabel;
-      }
-      if (node.source === 'http://ldf.fi/mmm/schema/Bodley' || node.id === 'http://ldf.fi/mmm/schema/Bodley') {
-        labelClass = classes.bodleyLabel;
-      }
-      if (node.source === 'http://ldf.fi/mmm/schema/Bibale' || node.id === 'http://ldf.fi/mmm/schema/Bibale') {
-        labelClass = classes.bibaleLabel;
-      }
-    }
+    // if (this.props.facetID === 'author' || this.props.facetID === 'source') {
+    //   if (node.source === 'http://ldf.fi/mmm/schema/SDBM' || node.id === 'http://ldf.fi/mmm/schema/SDBM') {
+    //     labelClass = classes.sdbmLabel;
+    //   }
+    //   if (node.source === 'http://ldf.fi/mmm/schema/Bodley' || node.id === 'http://ldf.fi/mmm/schema/Bodley') {
+    //     labelClass = classes.bodleyLabel;
+    //   }
+    //   if (node.source === 'http://ldf.fi/mmm/schema/Bibale' || node.id === 'http://ldf.fi/mmm/schema/Bibale') {
+    //     labelClass = classes.bibaleLabel;
+    //   }
+    // }
     return labelClass;
   }
 

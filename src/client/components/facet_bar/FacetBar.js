@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import FacetHeader from './FacetHeader';
 import Typography from '@material-ui/core/Typography';
 import ActiveFilters from './ActiveFilters';
+import Divider from '@material-ui/core/Divider';
 
 const styles = theme => ({
   root: {
@@ -48,6 +49,10 @@ const styles = theme => ({
   },
   textContainer: {
     padding: theme.spacing.unit
+  },
+  resultInfoDivider: {
+    marginTop: theme.spacing.unit / 2,
+    marginBottom: theme.spacing.unit / 2
   }
 });
 
@@ -72,29 +77,27 @@ class FacetBar extends React.Component {
 
     return (
       <div className={classes.root}>
+
+
         <Paper className={classes.facetContainer}>
           <div className={classes.textContainer}>
-            <Typography variant="h6">{this.props.resultCount} {this.props.resultClass}</Typography>
-          </div>
-        </Paper>
-        {(activeUriFilters || activeSpatialFilters) &&
-          <Paper className={classes.facetContainer}>
-            <FacetHeader
-              facet={{ label: 'Active filters'}}
-            />
-            <div className={classes.textContainer}>
-              <ActiveFilters
-                facets={facets}
-                facetClass={facetClass}
-                uriFilters={uriFilters}
-                spatialFilters={spatialFilters}
-                updateFacetOption={this.props.updateFacetOption}
-              />
-            </div>
-          </Paper>
-        }
-        <Paper className={classes.facetContainer}>
-          <div className={classes.textContainer}>
+            <Typography variant="h6">Results: {this.props.resultCount} {this.props.resultClass}</Typography>
+            <Divider className={classes.resultInfoDivider} />
+            {(activeUriFilters || activeSpatialFilters) &&
+              <React.Fragment>
+                <Typography variant="h6">Active filters:</Typography>
+                <div className={classes.textContainer}>
+                  <ActiveFilters
+                    facets={facets}
+                    facetClass={facetClass}
+                    uriFilters={uriFilters}
+                    spatialFilters={spatialFilters}
+                    updateFacetOption={this.props.updateFacetOption}
+                  />
+                </div>
+                <Divider className={classes.resultInfoDivider} />
+              </React.Fragment>
+            }
             <Typography variant="h6">Narrow down by:</Typography>
           </div>
         </Paper>
