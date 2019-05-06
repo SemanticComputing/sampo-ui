@@ -12,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import Typography from '@material-ui/core/Typography';
-import ChipsArray from './ChipsArray';
 
 const styles = () => ({
   facetSearchContainer: {
@@ -64,7 +63,7 @@ const styles = () => ({
 This component is based on the React Sortable Tree example at:
 https://frontend-collective.github.io/react-sortable-tree/storybook/?selectedKind=Basics&selectedStory=Search&full=0&addons=0&stories=1&panelRight=0
 */
-class Tree extends Component {
+class HierarchicalFacet extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -85,23 +84,32 @@ class Tree extends Component {
   }
 
   componentDidUpdate = prevProps => {
-    // if (this.props.facetID === 'productionPlace') {
-    //   console.log(this.props.facet.values)
-    // }
 
-    if (prevProps.facet.values != this.props.facet.values) {
-      this.setState({
-        treeData: this.props.facet.values
-      });
+    if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
+      // update component state if the user modified this facet
+      if (this.props.updatedFacet === this.props.facetID ) {
+        const treeObj = this.props.updatedFilter;
+        const newTreeData = changeNodeAtPath({
+          treeData: this.state.treeData,
+          getNodeKey: ({ treeIndex }) =>  treeIndex,
+          path: treeObj.path,
+          newNode: {
+            ...treeObj.node,
+            selected: treeObj.added ? 'true' : 'false'
+          },
+        });
+        this.setState({ treeData: newTreeData });
+      }
+      // else fetch new values, because some other facet was updated
+      else {
+        this.props.fetchFacet({
+          facetClass: this.props.facetClass,
+          facetID: this.props.facetID,
+        });
+      }
     }
-    if (this.props.updatedFacet !== null
-      && this.props.updatedFacet !== this.props.facetID
-      && prevProps.facetUpdateID !== this.props.facetUpdateID) {
-      this.props.fetchFacet({
-        facetClass: this.props.facetClass,
-        facetID: this.props.facetID,
-      });
-    }
+
+    // fetch new values if the user changes the filter type or sort order
     if (prevProps.facet.filterType !== this.props.facet.filterType
       && this.props.facet.filterType === 'uriFilter') {
       this.props.fetchFacet({
@@ -115,27 +123,21 @@ class Tree extends Component {
         facetID: this.props.facetID,
       });
     }
+
+    // when values have been fetched, update component's state
+    if (prevProps.facet.values != this.props.facet.values) {
+      this.setState({
+        treeData: this.props.facet.values
+      });
+    }
   }
 
-  handleCheckboxChange = treeObj => event => {
-    const newTreeData = changeNodeAtPath({
-      treeData: this.state.treeData,
-      getNodeKey: ({ treeIndex }) =>  treeIndex,
-      path: treeObj.path,
-      newNode: {
-        ...treeObj.node,
-        selected: event.target.checked ? 'true' : 'false'
-      },
-    });
-    this.setState({ treeData: newTreeData });
+  handleCheckboxChange = treeObj => () => {
     this.props.updateFacetOption({
       facetClass: this.props.facetClass,
       facetID: this.props.facetID,
       option: this.props.facet.filterType,
-      value: {
-        id: treeObj.node.id,
-        label: treeObj.node.prefLabel
-      }
+      value: treeObj
     });
   };
 
@@ -168,6 +170,15 @@ class Tree extends Component {
 
   generateLabel = node => {
     let count = node.totalInstanceCount == null || node.totalInstanceCount == 0 ? node.instanceCount : node.totalInstanceCount;
+
+    if (node.noHits === 'true' || Array.isArray(node.noHits)) {
+      if (Array.isArray(node.instanceCount) ) {
+        count = Math.min(...node.instanceCount);
+      } else {
+        count = 0;
+      }
+    }
+
     return (
       <React.Fragment>
         <a
@@ -203,6 +214,10 @@ class Tree extends Component {
     const { classes, facet } = this.props;
     const { isFetching, searchField } = facet;
 
+    // if (this.props.facetID == 'owner') {
+    //   console.log(this.state.treeData)
+    // }
+
     // Case insensitive search of `node.title`
     const customSearchMethod = ({ node, searchQuery }) => {
       let prefLabel = Array.isArray(node.prefLabel) ? node.prefLabel[0] : node.prefLabel;
@@ -226,7 +241,6 @@ class Tree extends Component {
             : 0,
       });
 
-    //<ChipsArray data={this.props.facet.uriFilter} />}
     return (
       <React.Fragment>
         {isFetching ?
@@ -302,7 +316,7 @@ class Tree extends Component {
   }
 }
 
-Tree.propTypes = {
+HierarchicalFacet.propTypes = {
   classes: PropTypes.object.isRequired,
   facetID: PropTypes.string.isRequired,
   facet: PropTypes.object.isRequired,
@@ -311,7 +325,8 @@ Tree.propTypes = {
   fetchFacet: PropTypes.func,
   updateFacetOption: PropTypes.func,
   facetUpdateID: PropTypes.number,
+  updatedFilter: PropTypes.object,
   updatedFacet: PropTypes.string,
 };
 
-export default withStyles(styles)(Tree);
+export default withStyles(styles)(HierarchicalFacet);

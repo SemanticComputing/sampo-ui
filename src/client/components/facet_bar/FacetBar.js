@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { has } from 'lodash';
 import { withStyles } from '@material-ui/core/styles';
-import Tree from './Tree';
+import HierarchicalFacet from './HierarchicalFacet';
 import DateSlider from './slider/DateSlider';
 import Paper from '@material-ui/core/Paper';
 import FacetHeader from './FacetHeader';
@@ -60,12 +60,13 @@ class FacetBar extends React.Component {
 
   render() {
     const { classes, facetClass } = this.props;
-    const { facetUpdateID, updatedFacet, facets } = this.props.facetData;
+    const { facetUpdateID, updatedFacet, updatedFilter, facets } = this.props.facetData;
     let uriFilters = {};
     let spatialFilters = {};
     let activeUriFilters = false;
     let activeSpatialFilters = false;
     for (const [key, value] of Object.entries(facets)) {
+      //
       if (value.uriFilter !== null) {
         activeUriFilters = true;
         uriFilters[key] = value.uriFilter;
@@ -113,14 +114,16 @@ class FacetBar extends React.Component {
                 updateFacetOption={this.props.updateFacetOption}
               />
               <div className={classes[facets[id].containerClass]}>
-                {facets[id].filterType === 'uriFilter' || facets[id].filterType === 'spatialFilter' ?
-                  <Tree
+                {facets[id].filterType === 'uriFilter'
+                  || facets[id].filterType === 'spatialFilter' ?
+                  <HierarchicalFacet
                     facetID={id}
                     facet={facets[id]}
                     facetClass={this.props.facetClass}
                     resultClass={this.props.resultClass}
                     facetUpdateID={facetUpdateID}
                     updatedFacet={updatedFacet}
+                    updatedFilter={updatedFilter}
                     fetchFacet={this.props.fetchFacet}
                     updateFacetOption={this.props.updateFacetOption}
                   /> :

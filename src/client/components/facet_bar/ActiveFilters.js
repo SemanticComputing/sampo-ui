@@ -8,15 +8,12 @@ const ActiveFilters = props => {
     <React.Fragment>
       {Object.keys(uriFilters).map(facetID => {
         const facetValues = [];
-        Object.entries(uriFilters[facetID]).forEach(([ key, value]) => {
+        Object.values(uriFilters[facetID]).forEach(value => {
           facetValues.push({
             facetID: facetID,
             facetLabel: facets[facetID].label,
             filterType: 'uriFilter',
-            value: {
-              id: key,
-              label: value.length > 18 ? `${value.substring(0, 18)}...` : value,
-            }
+            value: value // a react sortable tree object
           });
         });
         return (

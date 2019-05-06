@@ -70,13 +70,16 @@ const updateFacetFilter = (state, action) => {
   let newFacet = {};
   if (oldFacet.filterType === 'uriFilter') {
     let newUriFilter = oldFacet.uriFilter == null ? {} : oldFacet.uriFilter;
-    if (has(newUriFilter, value.id)) {
-      delete newUriFilter[value.id];
+    // 'value' is a react sortable tree object
+    if (has(newUriFilter, value.node.id)) {
+      value.added = false;
+      delete newUriFilter[value.node.id];
       if (isEmpty(newUriFilter)) {
         newUriFilter = null;
       }
     } else {
-      newUriFilter[value.id] = value.label;
+      value.added = true;
+      newUriFilter[value.node.id] = value;
     }
     newFacet = {
       ...state.facets[facetID],
@@ -92,6 +95,7 @@ const updateFacetFilter = (state, action) => {
     ...state,
     updatedFacet: facetID,
     facetUpdateID: ++state.facetUpdateID,
+    updatedFilter: value, // a react sortable tree object
     facets: {
       ...state.facets,
       [ facetID ]: newFacet

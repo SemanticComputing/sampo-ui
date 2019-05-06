@@ -21,9 +21,15 @@ class ChipsArray extends React.Component {
       facetClass: this.props.facetClass,
       facetID: data.facetID,
       option: data.filterType,
-      value: data.value
+      value: data.value  // a react sortable tree object
     });
   };
+
+  generateLabel = (facetLabel, valueLabel) => {
+    return  valueLabel.length > 18
+      ? `${facetLabel}: ${valueLabel.substring(0, 18)}...`
+      : `${facetLabel}: ${valueLabel}`;
+  }
 
   render() {
     const { classes, data } = this.props;
@@ -33,9 +39,9 @@ class ChipsArray extends React.Component {
           let icon = null;
           return (
             <Chip
-              key={item.value.id}
+              key={item.value.node.id}
               icon={icon}
-              label={`${item.facetLabel.toLowerCase()}: ${item.value.label}`}
+              label={this.generateLabel(item.facetLabel, item.value.node.prefLabel)}
               onDelete={this.handleDelete(item)}
               className={classes.chip}
             />

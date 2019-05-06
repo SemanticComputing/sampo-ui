@@ -14,6 +14,7 @@ import {
 export const INITIAL_STATE = {
   updatedFacet: null,
   facetUpdateID: 0,
+  updatedFilter: null,
   facets: {
     source: {
       id: 'source',
@@ -68,23 +69,23 @@ export const INITIAL_STATE = {
     //   startValue: null,
     //   endValue: null
     // },
-    author: {
-      id: 'author',
-      label: 'Author',
-      // predicate: defined in backend
-      distinctValueCount: 0,
-      values: [],
-      flatValues: [],
-      sortBy: 'prefLabel',
-      sortDirection: 'asc',
-      sortButton: true,
-      spatialFilterButton: false,
-      isFetching: false,
-      searchField: true,
-      containerClass: 'ten',
-      filterType: 'uriFilter',
-      uriFilter: null
-    },
+    // author: {
+    //   id: 'author',
+    //   label: 'Author',
+    //   // predicate: defined in backend
+    //   distinctValueCount: 0,
+    //   values: [],
+    //   flatValues: [],
+    //   sortBy: 'prefLabel',
+    //   sortDirection: 'asc',
+    //   sortButton: true,
+    //   spatialFilterButton: false,
+    //   isFetching: false,
+    //   searchField: true,
+    //   containerClass: 'ten',
+    //   filterType: 'uriFilter',
+    //   uriFilter: null
+    // },
     owner: {
       id: 'owner',
       label: 'Owner',
@@ -125,6 +126,7 @@ const manuscriptsFacets = (state = INITIAL_STATE, action) => {
       case UPDATE_FACET_VALUES:
         return updateFacetValues(state, action);
       case UPDATE_FACET_OPTION:
+        // console.log(action)
         return updateFacetOption(state, action);
       default:
         return state;
