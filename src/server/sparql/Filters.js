@@ -14,8 +14,8 @@ export const generateFilter = ({
       // when filtering facet values, apply filters only from other facets
       if (property !== facetProperty) {
         filterStr += `
-          VALUES ?${property}Filter { <${uriFilters[property].join('> <')}> }
-          ?${filterTarget} ${facetConfigs[facetClass][property].predicate} ?${property}Filter .
+            VALUES ?${property}Filter { <${uriFilters[property].join('> <')}> }
+            ?${filterTarget} ${facetConfigs[facetClass][property].predicate} ?${property}Filter .
         `;
       }
     }

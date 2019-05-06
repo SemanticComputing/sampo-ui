@@ -1,5 +1,5 @@
 export const endpoint = 'http://ldf.fi/mmm-cidoc/sparql';
-//export const endpoint = 'http://localhost:3050/ds/sparql';
+// export const endpoint = 'http://localhost:3050/ds/sparql';
 
 export const countQuery = `
   SELECT (COUNT(DISTINCT ?id) as ?count)
@@ -47,13 +47,17 @@ export const facetResultSetQuery = `
 `;
 
 export const facetValuesQuery = `
-  SELECT DISTINCT ?id ?prefLabel ?selected ?source ?parent ?lat ?long ?instanceCount {
+  SELECT DISTINCT ?id ?prefLabel ?selected ?noHits ?source ?parent ?lat ?long ?instanceCount {
     {
       {
-        SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?source ?lat ?long ?parent {
+        SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?noHits ?source ?lat ?long ?parent {
           {
-            <FILTER>
-            ?instance <PREDICATE> ?id .
+            {
+              <FILTER>
+              ?instance <PREDICATE> ?id .
+              BIND(false as ?noHits)
+            }
+            <SELECTED_VALUES_NO_HITS>
             ?instance a <RDF_TYPE> .
             <SELECTED_VALUES>
             BIND(COALESCE(?selected_, false) as ?selected)
@@ -63,7 +67,7 @@ export const facetValuesQuery = `
           }
           <PARENTS>
         }
-        GROUP BY ?id ?selected ?source ?lat ?long ?parent
+        GROUP BY ?id ?selected ?noHits ?source ?lat ?long ?parent
       }
       FILTER(BOUND(?id))
       <FACET_VALUE_FILTER>
