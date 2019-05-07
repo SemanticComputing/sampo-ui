@@ -69,23 +69,23 @@ export const INITIAL_STATE = {
     //   startValue: null,
     //   endValue: null
     // },
-    // author: {
-    //   id: 'author',
-    //   label: 'Author',
-    //   // predicate: defined in backend
-    //   distinctValueCount: 0,
-    //   values: [],
-    //   flatValues: [],
-    //   sortBy: 'prefLabel',
-    //   sortDirection: 'asc',
-    //   sortButton: true,
-    //   spatialFilterButton: false,
-    //   isFetching: false,
-    //   searchField: true,
-    //   containerClass: 'ten',
-    //   filterType: 'uriFilter',
-    //   uriFilter: null
-    // },
+    author: {
+      id: 'author',
+      label: 'Author',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'instanceCount',
+      sortDirection: 'desc',
+      sortButton: true,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: true,
+      containerClass: 'ten',
+      filterType: 'uriFilter',
+      uriFilter: null
+    },
     owner: {
       id: 'owner',
       label: 'Owner',
