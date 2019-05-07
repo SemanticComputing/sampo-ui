@@ -42,7 +42,7 @@ class ChipsArray extends React.Component {
               key={item.value.node.id}
               icon={icon}
               label={this.generateLabel(item.facetLabel, item.value.node.prefLabel)}
-              onDelete={this.handleDelete(item)}
+            
               className={classes.chip}
             />
           );
