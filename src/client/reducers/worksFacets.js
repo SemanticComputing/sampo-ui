@@ -14,6 +14,7 @@ import {
 export const INITIAL_STATE = {
   updatedFacet: null,
   facetUpdateID: 0,
+  updatedFilter: null,
   facets: {
     source: {
       id: 'source',

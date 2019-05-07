@@ -23,7 +23,7 @@ import {
 export const INITIAL_STATE = {
   results: [],
   paginatedResults: [],
-  resultsCount: 0,
+  resultCount: 0,
   resultsUpdateID: -1,
   instance: {},
   page: -1,

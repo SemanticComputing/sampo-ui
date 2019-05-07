@@ -1,6 +1,14 @@
 export const facetConfigs = {
   manuscripts: {
     rdfType: 'frbroo:F4_Manifestation_Singleton',
+    author: {
+      id: 'author',
+      facetValueFilter: '',
+      label: 'Author',
+      labelPath: 'mmm-schema:manuscript_author/skos:prefLabel',
+      predicate: 'mmm-schema:manuscript_author',
+      type: 'list'
+    },
     productionPlace: {
       id: 'productionPlace',
       facetValueFilter: `
@@ -12,22 +20,6 @@ export const facetConfigs = {
       predicate: '^crm:P108_has_produced/crm:P7_took_place_at',
       parentPredicate: '^crm:P108_has_produced/crm:P7_took_place_at/gvp:broaderPreferred+',
       type: 'hierarchical',
-    },
-    author: {
-      id: 'author',
-      facetValueFilter: '',
-      label: 'Author',
-      labelPath: 'mmm-schema:manuscript_author/skos:prefLabel',
-      predicate: 'mmm-schema:manuscript_author',
-      type: 'list'
-    },
-    source: {
-      id: 'source',
-      facetValueFilter: '',
-      label: 'Source',
-      labelPath: 'dct:source/skos:prefLabel',
-      predicate: 'dct:source',
-      type: 'list',
     },
     language: {
       id: 'language',
@@ -64,6 +56,14 @@ export const facetConfigs = {
       label: 'Owner',
       labelPath: 'crm:P51_has_former_or_current_owner/skos:prefLabel',
       predicate: 'crm:P51_has_former_or_current_owner',
+      type: 'list',
+    },
+    source: {
+      id: 'source',
+      facetValueFilter: '',
+      label: 'Source',
+      labelPath: 'dct:source/skos:prefLabel',
+      predicate: 'dct:source',
       type: 'list',
     },
   },

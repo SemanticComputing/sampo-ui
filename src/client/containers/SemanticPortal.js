@@ -114,6 +114,7 @@ let SemanticPortal = (props) => {
                       facetData={props.manuscriptsFacets}
                       facetClass='manuscripts'
                       resultClass='manuscripts'
+                      resultCount={props.manuscripts.resultCount}
                       fetchFacet={props.fetchFacet}
                       updateFacetOption={props.updateFacetOption}
                     />
@@ -146,6 +147,7 @@ let SemanticPortal = (props) => {
                       facetData={props.worksFacets}
                       facetClass='works'
                       resultClass='works'
+                      resultCount={props.works.resultCount}
                       fetchFacet={props.fetchFacet}
                       updateFacetOption={props.updateFacetOption}
                     />
@@ -177,6 +179,7 @@ let SemanticPortal = (props) => {
                       facetData={props.peopleFacets}
                       facetClass='people'
                       resultClass='people'
+                      resultCount={props.people.resultCount}
                       fetchFacet={props.fetchFacet}
                       updateFacetOption={props.updateFacetOption}
                     />
@@ -209,6 +212,7 @@ let SemanticPortal = (props) => {
                       facetData={props.organizationsFacets}
                       facetClass='organizations'
                       resultClass='organizations'
+                      resultCount={props.organizations.resultCount}
                       fetchFacet={props.fetchFacet}
                       updateFacetOption={props.updateFacetOption}
                     />
@@ -241,6 +245,7 @@ let SemanticPortal = (props) => {
                       facetData={props.placesFacets}
                       facetClass='places'
                       resultClass='places'
+                      resultCount={props.places.resultCount}
                       fetchFacet={props.fetchFacet}
                       updateFacetOption={props.updateFacetOption}
                     />

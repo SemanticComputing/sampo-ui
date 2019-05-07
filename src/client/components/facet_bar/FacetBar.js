@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { has } from 'lodash';
 import { withStyles } from '@material-ui/core/styles';
-import Tree from './Tree';
+import HierarchicalFacet from './HierarchicalFacet';
 import DateSlider from './slider/DateSlider';
 import Paper from '@material-ui/core/Paper';
 import FacetHeader from './FacetHeader';
+import Typography from '@material-ui/core/Typography';
+import ActiveFilters from './ActiveFilters';
+import Divider from '@material-ui/core/Divider';
 
 const styles = theme => ({
   root: {
@@ -42,16 +46,62 @@ const styles = theme => ({
   },
   facetHeaderButtons: {
     marginLeft: 'auto'
+  },
+  textContainer: {
+    padding: theme.spacing.unit
+  },
+  resultInfoDivider: {
+    marginTop: theme.spacing.unit / 2,
+    marginBottom: theme.spacing.unit / 2
   }
 });
 
 class FacetBar extends React.Component {
 
   render() {
-    const { classes } = this.props;
-    const { facetUpdateID, updatedFacet, facets } = this.props.facetData;
+    const { classes, facetClass } = this.props;
+    const { facetUpdateID, updatedFacet, updatedFilter, facets } = this.props.facetData;
+    let uriFilters = {};
+    let spatialFilters = {};
+    let activeUriFilters = false;
+    let activeSpatialFilters = false;
+    for (const [key, value] of Object.entries(facets)) {
+      //
+      if (value.uriFilter !== null) {
+        activeUriFilters = true;
+        uriFilters[key] = value.uriFilter;
+      } else if (has(value, 'spatialFilter') && value.spatialFilter !== null) {
+        activeSpatialFilters = true;
+        spatialFilters[key] = value.spatialFilter._bounds;
+      }
+    }
+
     return (
       <div className={classes.root}>
+
+
+        <Paper className={classes.facetContainer}>
+          <div className={classes.textContainer}>
+            <Typography variant="h6">Results: {this.props.resultCount} {this.props.resultClass}</Typography>
+            <Divider className={classes.resultInfoDivider} />
+            {(activeUriFilters || activeSpatialFilters) &&
+              <React.Fragment>
+                <Typography variant="h6">Active filters:</Typography>
+                <div className={classes.textContainer}>
+                  <ActiveFilters
+                    facets={facets}
+                    facetClass={facetClass}
+                    uriFilters={uriFilters}
+                    spatialFilters={spatialFilters}
+                    updateFacetOption={this.props.updateFacetOption}
+                  />
+                </div>
+                <Divider className={classes.resultInfoDivider} />
+              </React.Fragment>
+            }
+            <Typography variant="h6">Narrow down by:</Typography>
+          </div>
+        </Paper>
         {Object.keys(facets).map(id => {
           return (
             <Paper key={id} className={classes.facetContainer}>
@@ -64,14 +114,16 @@ class FacetBar extends React.Component {
                 updateFacetOption={this.props.updateFacetOption}
               />
               <div className={classes[facets[id].containerClass]}>
-                {facets[id].filterType === 'uriFilter' || facets[id].filterType === 'spatialFilter' ?
-                  <Tree
+                {facets[id].filterType === 'uriFilter'
+                  || facets[id].filterType === 'spatialFilter' ?
+                  <HierarchicalFacet
                     facetID={id}
                     facet={facets[id]}
                     facetClass={this.props.facetClass}
                     resultClass={this.props.resultClass}
                     facetUpdateID={facetUpdateID}
                     updatedFacet={updatedFacet}
+                    updatedFilter={updatedFilter}
                     fetchFacet={this.props.fetchFacet}
                     updateFacetOption={this.props.updateFacetOption}
                   /> :
@@ -86,7 +138,6 @@ class FacetBar extends React.Component {
                     updateFacetOption={this.props.updateFacetOption}
                   />
                 }
-
               </div>
             </Paper>
           );
@@ -101,6 +152,7 @@ FacetBar.propTypes = {
   facetData: PropTypes.object.isRequired,
   facetClass: PropTypes.string.isRequired,
   resultClass: PropTypes.string.isRequired,
+  resultCount: PropTypes.number.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   updateFacetOption: PropTypes.func.isRequired
 };

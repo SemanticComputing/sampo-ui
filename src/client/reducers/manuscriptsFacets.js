@@ -14,6 +14,7 @@ import {
 export const INITIAL_STATE = {
   updatedFacet: null,
   facetUpdateID: 0,
+  updatedFilter: null,
   facets: {
     source: {
       id: 'source',
@@ -75,8 +76,8 @@ export const INITIAL_STATE = {
       distinctValueCount: 0,
       values: [],
       flatValues: [],
-      sortBy: 'prefLabel',
-      sortDirection: 'asc',
+      sortBy: 'instanceCount',
+      sortDirection: 'desc',
       sortButton: true,
       spatialFilterButton: false,
       isFetching: false,
@@ -125,6 +126,7 @@ const manuscriptsFacets = (state = INITIAL_STATE, action) => {
       case UPDATE_FACET_VALUES:
         return updateFacetValues(state, action);
       case UPDATE_FACET_OPTION:
+        // console.log(action)
         return updateFacetOption(state, action);
       default:
         return state;

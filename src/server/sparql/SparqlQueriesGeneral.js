@@ -1,5 +1,5 @@
 export const endpoint = 'http://ldf.fi/mmm-cidoc/sparql';
-//export const endpoint = 'http://localhost:3050/ds/sparql';
+// export const endpoint = 'http://localhost:3050/ds/sparql';
 
 export const countQuery = `
   SELECT (COUNT(DISTINCT ?id) as ?count)
@@ -47,30 +47,32 @@ export const facetResultSetQuery = `
 `;
 
 export const facetValuesQuery = `
-  SELECT DISTINCT ?id ?prefLabel ?selected ?source ?parent ?lat ?long ?instanceCount {
+  SELECT DISTINCT ?id ?prefLabel ?selected ?parent ?instanceCount {
+    # facet values that return results
     {
       {
-        SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?source ?lat ?long ?parent {
+        SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?parent {
           {
             <FILTER>
             ?instance <PREDICATE> ?id .
             ?instance a <RDF_TYPE> .
             <SELECTED_VALUES>
             BIND(COALESCE(?selected_, false) as ?selected)
-            OPTIONAL { ?id dct:source ?source . }
             OPTIONAL { ?id gvp:broaderPreferred ?parent_ . }
             BIND(COALESCE(?parent_, '0') as ?parent)
           }
           <PARENTS>
         }
-        GROUP BY ?id ?selected ?source ?lat ?long ?parent
+        GROUP BY ?id ?selected ?source ?parent
       }
       FILTER(BOUND(?id))
       <FACET_VALUE_FILTER>
       OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
       BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
     }
+    <SELECTED_VALUES_NO_HITS>
     UNION
+    # 'Unknown' facet value for results with no predicate path
     {
       {
         SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) {
@@ -84,6 +86,7 @@ export const facetValuesQuery = `
       BIND(IRI("http://ldf.fi/MISSING_VALUE") AS ?id)
       BIND("Unknown" AS ?prefLabel)
       BIND('0' as ?parent)
+      BIND(false as ?selected)
     }
 
   }

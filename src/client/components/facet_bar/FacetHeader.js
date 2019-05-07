@@ -189,12 +189,12 @@ class FacetHeader extends React.Component {
 
 FacetHeader.propTypes = {
   classes: PropTypes.object.isRequired,
-  facetID: PropTypes.string.isRequired,
-  facet: PropTypes.object.isRequired,
-  facetClass: PropTypes.string.isRequired,
-  resultClass: PropTypes.string.isRequired,
-  fetchFacet: PropTypes.func.isRequired,
-  updateFacetOption: PropTypes.func.isRequired
+  facetID: PropTypes.string,
+  facet: PropTypes.object,
+  facetClass: PropTypes.string,
+  resultClass: PropTypes.string,
+  fetchFacet: PropTypes.func,
+  updateFacetOption: PropTypes.func,
 };
 
 export default withStyles(styles)(FacetHeader);

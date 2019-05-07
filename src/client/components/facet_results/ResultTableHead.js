@@ -38,13 +38,13 @@ class ResultTableHead extends React.Component {
   };
 
   render() {
-    const { classes, page, resultsCount, pagesize, sortBy, sortDirection } = this.props;
+    const { classes, page, resultCount, pagesize, sortBy, sortDirection } = this.props;
 
     return (
       <TableHead>
         <TableRow className={classes.paginationRow}>
           <TablePagination
-            count={resultsCount}
+            count={resultCount}
             rowsPerPage={pagesize}
             rowsPerPageOptions={[5]}
             page={page}
@@ -97,7 +97,7 @@ ResultTableHead.propTypes = {
   onChangePage: PropTypes.func.isRequired,
   onSortBy: PropTypes.func.isRequired,
   onChangeRowsPerPage: PropTypes.func.isRequired,
-  resultsCount: PropTypes.number.isRequired,
+  resultCount: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
   pagesize: PropTypes.number.isRequired,
   sortBy: PropTypes.string.isRequired,

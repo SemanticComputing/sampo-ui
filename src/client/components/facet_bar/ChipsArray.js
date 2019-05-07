@@ -2,15 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
-import Paper from '@material-ui/core/Paper';
-//import TagFacesIcon from '@material-ui/icons/TagFaces';
 
 const styles = theme => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    padding: theme.spacing.unit / 2,
   },
   chip: {
     margin: theme.spacing.unit / 2,
@@ -20,48 +17,46 @@ const styles = theme => ({
 class ChipsArray extends React.Component {
 
   handleDelete = data => () => {
-    if (data.label === 'React') {
-      alert('Why would you want to delete React?! :)'); // eslint-disable-line no-alert
-      return;
-    }
-
-    this.setState(state => {
-      const chipData = [...state.chipData];
-      const chipToDelete = chipData.indexOf(data);
-      chipData.splice(chipToDelete, 1);
-      return { chipData };
+    this.props.updateFacetOption({
+      facetClass: this.props.facetClass,
+      facetID: data.facetID,
+      option: data.filterType,
+      value: data.value  // a react sortable tree object
     });
   };
+
+  generateLabel = (facetLabel, valueLabel) => {
+    return  valueLabel.length > 18
+      ? `${facetLabel}: ${valueLabel.substring(0, 18)}...`
+      : `${facetLabel}: ${valueLabel}`;
+  }
 
   render() {
     const { classes, data } = this.props;
     return (
-      <Paper className={classes.root}>
+      <div className={classes.root}>
         {data !== null && data.map(item => {
           let icon = null;
-
-          // if (item.label === 'React') {
-          //   icon = <TagFacesIcon />;
-          // }
-
           return (
             <Chip
-              key={item.key}
+              key={item.value.node.id}
               icon={icon}
-              label={item.label}
-              onDelete={this.handleDelete(item)}
+              label={this.generateLabel(item.facetLabel, item.value.node.prefLabel)}
+            
               className={classes.chip}
             />
           );
         })}
-      </Paper>
+      </div>
     );
   }
 }
 
 ChipsArray.propTypes = {
   classes: PropTypes.object.isRequired,
-  data: PropTypes.object,
+  data: PropTypes.array.isRequired,
+  facetClass: PropTypes.string.isRequired,
+  updateFacetOption: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(ChipsArray);
