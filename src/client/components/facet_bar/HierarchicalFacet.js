@@ -146,6 +146,9 @@ class HierarchicalFacet extends Component {
   }
 
   generateNodeProps = treeObj => {
+    if (treeObj.node.prefLabel === 'Unknown' && treeObj.node.instanceCount == 0) {
+      return null;
+    }
     return {
       title: (
         <FormControlLabel
@@ -153,8 +156,10 @@ class HierarchicalFacet extends Component {
             <Checkbox
               className={this.props.classes.checkbox}
               checked={treeObj.node.selected === 'true' ? true : false}
-              disabled={(treeObj.node.instanceCount == 0 && treeObj.node.selected === 'false')
-                || treeObj.node.prefLabel == 'Unknown' ? true : false}
+              disabled={
+                (treeObj.node.instanceCount == 0 && treeObj.node.selected === 'false')
+                || treeObj.node.prefLabel == 'Unknown' 
+              }
               onChange={this.handleCheckboxChange(treeObj)}
               value={treeObj.node.id}
               color="primary"
