@@ -30,7 +30,8 @@ export const getFacet = ({
       uriFilters: uriFilters,
       spatialFilters: spatialFilters,
       filterTarget: 'instance',
-      facetID: facetID
+      facetID: facetID,
+      inverse: false,
     });
   }
   if (uriFilters !== null && has(uriFilters, facetID)) {
@@ -40,20 +41,43 @@ export const getFacet = ({
                BIND(true AS ?selected_)
             }
     `;
-    // const noHitsFilter = generateFilter({
-    //   facetClass: facetClass,
-    //   uriFilters: uriFilters,
-    //   spatialFilters: spatialFilters,
-    //   filterTarget: 'third_instance',
-    //   facetID: facetID
-    // });
-    // selectedNoHitsBlock = `
-    //
-    //         FILTER NOT EXISTS {
-    //           ${filterBlock}
-    //         }
-    //         FILTER(?id IN ( <${uriFilters[facetID].join('>, <')}> ))
-    // `;
+    const facetIDs = Object.keys(uriFilters);
+    // get selected values with no hits, only when there are filters from
+    // other facets
+    if (facetIDs.length > 1) {
+      const noHitsFilter = generateFilter({
+        facetClass: facetClass,
+        uriFilters: uriFilters,
+        spatialFilters: spatialFilters,
+        filterTarget: 'instance',
+        facetID: facetID,
+        inverse: true,
+      });
+      selectedNoHitsBlock = `
+      UNION
+      {
+        {
+          SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?parent {
+            {
+              VALUES ?id { <${uriFilters[facetID].join('> <')}> }
+              ${noHitsFilter}
+              BIND(true AS ?selected)
+              OPTIONAL {
+                ?id gvp:broaderPreferred ?parent_
+              }
+              BIND(COALESCE(?parent_, '0') as ?parent)
+            }
+            <PARENTS>
+          }
+          GROUP BY ?id ?selected ?parent
+        }
+        FILTER(BOUND(?id))
+        <FACET_VALUE_FILTER>
+        OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
+        BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
+      }
+      `;
+    }
   }
   if (facetConfig.type === 'hierarchical') {
     mapper = mapHierarchicalFacet;
@@ -61,13 +85,13 @@ export const getFacet = ({
       facetClass: facetClass,
       uriFilters: uriFilters,
       spatialFilters: spatialFilters,
-      filterTarget: 'different_instance',
+      filterTarget: 'instance2',
       facetID: facetID });
     parentBlock = `
           UNION
           {
             ${parentFilterStr}
-            ?different_instance ${facetConfig.parentPredicate} ?id .
+            ?instance2 ${facetConfig.parentPredicate} ?id .
             OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
             BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
             OPTIONAL {
@@ -79,7 +103,7 @@ export const getFacet = ({
       `;
   }
   q = q.replace('<SELECTED_VALUES>', selectedBlock);
-  //q = q.replace('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock);
+  q = q.replace('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock);
   q = q.replace(/<FACET_VALUE_FILTER>/g, facetConfig.facetValueFilter);
   q = q.replace(/<PARENTS>/g, parentBlock);
   q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );

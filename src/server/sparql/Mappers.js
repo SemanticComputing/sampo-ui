@@ -24,22 +24,23 @@ export const mapCount = sparqlBindings => {
 
 export const mapFacetValues = sparqlBindings => {
   const results = sparqlBindings.map(b => {
-    return {
-      id: b.id.value,
-      prefLabel: b.prefLabel.value,
-      selected: b.selected.value,
-      parent: b.parent.value,
-      instanceCount: b.instanceCount.value
-    };
+    try {
+      return {
+        id: b.id.value,
+        prefLabel: b.prefLabel.value,
+        selected: b.selected.value,
+        parent: b.parent.value,
+        instanceCount: b.instanceCount.value
+      };
+    } catch(err) {
+      console.log(err);
+    }
   });
   return results;
 };
 
 export const mapFacet = sparqlBindings => {
   const results = mapFacetValues(sparqlBindings);
-  if (results[results.length - 1].instanceCount == 0) {
-    results.pop();
-  }
   return {
     distinctValueCount: results.length,
     values: results

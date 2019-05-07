@@ -152,8 +152,9 @@ class HierarchicalFacet extends Component {
           control={
             <Checkbox
               className={this.props.classes.checkbox}
-              checked={treeObj.node.selected == 'true' ? true : false}
-              disabled={treeObj.node.instanceCount == 0 || treeObj.node.prefLabel == 'Unknown' ? true : false}
+              checked={treeObj.node.selected === 'true' ? true : false}
+              disabled={(treeObj.node.instanceCount == 0 && treeObj.node.selected === 'false')
+                || treeObj.node.prefLabel == 'Unknown' ? true : false}
               onChange={this.handleCheckboxChange(treeObj)}
               value={treeObj.node.id}
               color="primary"

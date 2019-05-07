@@ -48,6 +48,7 @@ export const facetResultSetQuery = `
 
 export const facetValuesQuery = `
   SELECT DISTINCT ?id ?prefLabel ?selected ?parent ?instanceCount {
+    # facet values that return results
     {
       {
         SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?parent {
@@ -69,7 +70,9 @@ export const facetValuesQuery = `
       OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
       BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
     }
+    <SELECTED_VALUES_NO_HITS>
     UNION
+    # 'Unknown' facet value for results with no predicate path
     {
       {
         SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) {

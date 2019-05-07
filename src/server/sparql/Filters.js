@@ -5,18 +5,31 @@ export const generateFilter = ({
   uriFilters,
   spatialFilters,
   filterTarget,
-  facetID
+  facetID,
+  inverse,
 }) => {
   let filterStr = '';
   let facetProperty = facetID !== null ? facetID : '';
+
   if (uriFilters !== null) {
     for (let property in uriFilters) {
       // when filtering facet values, apply filters only from other facets
       if (property !== facetProperty) {
         filterStr += `
             VALUES ?${property}Filter { <${uriFilters[property].join('> <')}> }
-            ?${filterTarget} ${facetConfigs[facetClass][property].predicate} ?${property}Filter .
         `;
+        if (inverse) {
+          filterStr += `
+            FILTER NOT EXISTS {
+              ?${filterTarget} ${facetConfigs[facetClass][property].predicate} ?${property}Filter .
+              ?${filterTarget} ${facetConfigs[facetClass][facetID].predicate} ?id .
+            }
+          `;
+        } else {
+          filterStr += `
+            ?${filterTarget} ${facetConfigs[facetClass][property].predicate} ?${property}Filter .
+          `;
+        }
       }
     }
   }
