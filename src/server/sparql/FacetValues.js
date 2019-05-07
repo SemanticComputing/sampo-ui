@@ -47,17 +47,13 @@ export const getFacet = ({
     //   filterTarget: 'third_instance',
     //   facetID: facetID
     // });
-    selectedNoHitsBlock = `
-            UNION
-            {
-                ?instance ${facetConfig.predicate} ?id .
-                FILTER NOT EXISTS {
-                  ${filterBlock}
-                }
-                FILTER(?id IN ( <${uriFilters[facetID].join('>, <')}> ))
-                BIND(true as ?noHits)
-            }
-    `;
+    // selectedNoHitsBlock = `
+    //
+    //         FILTER NOT EXISTS {
+    //           ${filterBlock}
+    //         }
+    //         FILTER(?id IN ( <${uriFilters[facetID].join('>, <')}> ))
+    // `;
   }
   if (facetConfig.type === 'hierarchical') {
     mapper = mapHierarchicalFacet;
@@ -72,26 +68,25 @@ export const getFacet = ({
           {
             ${parentFilterStr}
             ?different_instance ${facetConfig.parentPredicate} ?id .
-            BIND(COALESCE(?selected_, false) as ?selected)
             OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
             BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
-            OPTIONAL { ?id dct:source ?source }
             OPTIONAL {
               ?id gvp:broaderPreferred ?parent_
             }
+            BIND(COALESCE(?selected_, false) as ?selected)
             BIND(COALESCE(?parent_, '0') as ?parent)
           }
       `;
   }
   q = q.replace('<SELECTED_VALUES>', selectedBlock);
-  q = q.replace('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock);
-  q = q.replace('<FACET_VALUE_FILTER>', facetConfig.facetValueFilter);
-  q = q.replace('<PARENTS>', parentBlock);
+  //q = q.replace('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock);
+  q = q.replace(/<FACET_VALUE_FILTER>/g, facetConfig.facetValueFilter);
+  q = q.replace(/<PARENTS>/g, parentBlock);
   q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
   q = q.replace(/<RDF_TYPE>/g, facetConfigs[facetClass].rdfType);
   q = q.replace(/<FILTER>/g, filterBlock );
   q = q.replace(/<PREDICATE>/g, facetConfig.predicate);
-  if (facetID == 'owner') {
+  if (facetID == 'productionPlace') {
     // console.log(uriFilters)
     console.log(prefixes + q)
   }

@@ -1,8 +1,8 @@
 import { has } from 'lodash';
 import { getTreeFromFlatData } from 'react-sortable-tree';
-import { makeObjectList } from './SparqlObjectMapper';
+// import { makeObjectList } from './SparqlObjectMapper';
 
-export const mapPlaces = (sparqlBindings) => {
+export const mapPlaces = sparqlBindings => {
   //console.log(sparqlBindings);
   const results = sparqlBindings.map(b => {
     return {
@@ -22,8 +22,21 @@ export const mapCount = sparqlBindings => {
   return sparqlBindings[0].count.value;
 };
 
+export const mapFacetValues = sparqlBindings => {
+  const results = sparqlBindings.map(b => {
+    return {
+      id: b.id.value,
+      prefLabel: b.prefLabel.value,
+      selected: b.selected.value,
+      parent: b.parent.value,
+      instanceCount: b.instanceCount.value
+    };
+  });
+  return results;
+};
+
 export const mapFacet = sparqlBindings => {
-  const results = makeObjectList(sparqlBindings);
+  const results = mapFacetValues(sparqlBindings);
   if (results[results.length - 1].instanceCount == 0) {
     results.pop();
   }
@@ -34,7 +47,7 @@ export const mapFacet = sparqlBindings => {
 };
 
 export const mapHierarchicalFacet = sparqlBindings => {
-  const results = makeObjectList(sparqlBindings);
+  const results = mapFacetValues(sparqlBindings);
   //const flatResults = results;
   let treeData = getTreeFromFlatData({
     flatData: results,

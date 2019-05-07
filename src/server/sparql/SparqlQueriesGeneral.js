@@ -47,27 +47,22 @@ export const facetResultSetQuery = `
 `;
 
 export const facetValuesQuery = `
-  SELECT DISTINCT ?id ?prefLabel ?selected ?noHits ?source ?parent ?lat ?long ?instanceCount {
+  SELECT DISTINCT ?id ?prefLabel ?selected ?parent ?instanceCount {
     {
       {
-        SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?noHits ?source ?lat ?long ?parent {
+        SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?parent {
           {
-            {
-              <FILTER>
-              ?instance <PREDICATE> ?id .
-              BIND(false as ?noHits)
-            }
-            <SELECTED_VALUES_NO_HITS>
+            <FILTER>
+            ?instance <PREDICATE> ?id .
             ?instance a <RDF_TYPE> .
             <SELECTED_VALUES>
             BIND(COALESCE(?selected_, false) as ?selected)
-            OPTIONAL { ?id dct:source ?source . }
             OPTIONAL { ?id gvp:broaderPreferred ?parent_ . }
             BIND(COALESCE(?parent_, '0') as ?parent)
           }
           <PARENTS>
         }
-        GROUP BY ?id ?selected ?noHits ?source ?lat ?long ?parent
+        GROUP BY ?id ?selected ?source ?parent
       }
       FILTER(BOUND(?id))
       <FACET_VALUE_FILTER>
@@ -88,6 +83,7 @@ export const facetValuesQuery = `
       BIND(IRI("http://ldf.fi/MISSING_VALUE") AS ?id)
       BIND("Unknown" AS ?prefLabel)
       BIND('0' as ?parent)
+      BIND(false as ?selected)
     }
 
   }

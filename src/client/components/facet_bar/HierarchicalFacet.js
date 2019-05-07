@@ -170,15 +170,6 @@ class HierarchicalFacet extends Component {
 
   generateLabel = node => {
     let count = node.totalInstanceCount == null || node.totalInstanceCount == 0 ? node.instanceCount : node.totalInstanceCount;
-
-    if (node.noHits === 'true' || Array.isArray(node.noHits)) {
-      if (Array.isArray(node.instanceCount) ) {
-        count = Math.min(...node.instanceCount);
-      } else {
-        count = 0;
-      }
-    }
-
     return (
       <React.Fragment>
         <a
