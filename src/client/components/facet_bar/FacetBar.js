@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { has } from 'lodash';
 import { withStyles } from '@material-ui/core/styles';
 import HierarchicalFacet from './HierarchicalFacet';
+import TextFacet from './TextFacet';
 import DateSlider from './slider/DateSlider';
 import Paper from '@material-ui/core/Paper';
 import FacetHeader from './FacetHeader';
@@ -27,6 +28,9 @@ const styles = theme => ({
   },
   facetContainerLast: {
     marginBottom: 2,
+  },
+  one: {
+    paddingLeft: theme.spacing.unit
   },
   three: {
     height: 108,
@@ -58,15 +62,90 @@ const styles = theme => ({
 
 class FacetBar extends React.Component {
 
-  render() {
-    const { classes, facetClass } = this.props;
+  renderFacet = facetID => {
+    const { classes } = this.props;
     const { facetUpdateID, updatedFacet, updatedFilter, facets } = this.props.facetData;
+    const facet = facets[facetID];
+    let facetComponent = null;
+    switch (facet.filterType) {
+      case 'uriFilter':
+      case 'spatialFilter':
+        facetComponent = (
+          <HierarchicalFacet
+            facetID={facetID}
+            facet={facet}
+            facetClass={this.props.facetClass}
+            resultClass={this.props.resultClass}
+            facetUpdateID={facetUpdateID}
+            updatedFacet={updatedFacet}
+            updatedFilter={updatedFilter}
+            fetchFacet={this.props.fetchFacet}
+            updateFacetOption={this.props.updateFacetOption}
+          />
+        );
+        break;
+      case 'text':
+        facetComponent = (
+          <TextFacet
+            facetID={facetID}
+            facet={facet}
+            facetClass={this.props.facetClass}
+            resultClass={this.props.resultClass}
+            facetUpdateID={facetUpdateID}
+            updatedFacet={updatedFacet}
+            updatedFilter={updatedFilter}
+            fetchFacet={this.props.fetchFacet}
+            updateFacetOption={this.props.updateFacetOption}
+          />
+        );
+        break;
+      case 'timespan':
+        facetComponent = (
+          <DateSlider />
+        );
+        break;
+      default:
+        facetComponent = (
+          <HierarchicalFacet
+            facetID={facetID}
+            facet={facet}
+            facetClass={this.props.facetClass}
+            resultClass={this.props.resultClass}
+            facetUpdateID={facetUpdateID}
+            updatedFacet={updatedFacet}
+            updatedFilter={updatedFilter}
+            fetchFacet={this.props.fetchFacet}
+            updateFacetOption={this.props.updateFacetOption}
+          />
+        );
+        break;
+    }
+
+    return(
+      <Paper key={facetID} className={classes.facetContainer}>
+        <FacetHeader
+          facetID={facetID}
+          facet={facet}
+          facetClass={this.props.facetClass}
+          resultClass={this.props.resultClass}
+          fetchFacet={this.props.fetchFacet}
+          updateFacetOption={this.props.updateFacetOption}
+        />
+        <div className={classes[facet.containerClass]}>
+          {facetComponent}
+        </div>
+      </Paper>
+    );
+  }
+
+  render() {
+    const { classes, facetClass, resultClass, resultCount } = this.props;
+    const { facets } = this.props.facetData;
     let uriFilters = {};
     let spatialFilters = {};
     let activeUriFilters = false;
     let activeSpatialFilters = false;
     for (const [key, value] of Object.entries(facets)) {
-      //
       if (value.uriFilter !== null) {
         activeUriFilters = true;
         uriFilters[key] = value.uriFilter;
@@ -76,13 +155,12 @@ class FacetBar extends React.Component {
       }
     }
 
+
     return (
       <div className={classes.root}>
-
-
         <Paper className={classes.facetContainer}>
           <div className={classes.textContainer}>
-            <Typography variant="h6">Results: {this.props.resultCount} {this.props.resultClass}</Typography>
+            <Typography variant="h6">Results: {resultCount} {resultClass}</Typography>
             <Divider className={classes.resultInfoDivider} />
             {(activeUriFilters || activeSpatialFilters) &&
               <React.Fragment>
@@ -102,46 +180,7 @@ class FacetBar extends React.Component {
             <Typography variant="h6">Narrow down by:</Typography>
           </div>
         </Paper>
-        {Object.keys(facets).map(id => {
-          return (
-            <Paper key={id} className={classes.facetContainer}>
-              <FacetHeader
-                facetID={id}
-                facet={facets[id]}
-                facetClass={this.props.facetClass}
-                resultClass={this.props.resultClass}
-                fetchFacet={this.props.fetchFacet}
-                updateFacetOption={this.props.updateFacetOption}
-              />
-              <div className={classes[facets[id].containerClass]}>
-                {facets[id].filterType === 'uriFilter'
-                  || facets[id].filterType === 'spatialFilter' ?
-                  <HierarchicalFacet
-                    facetID={id}
-                    facet={facets[id]}
-                    facetClass={this.props.facetClass}
-                    resultClass={this.props.resultClass}
-                    facetUpdateID={facetUpdateID}
-                    updatedFacet={updatedFacet}
-                    updatedFilter={updatedFilter}
-                    fetchFacet={this.props.fetchFacet}
-                    updateFacetOption={this.props.updateFacetOption}
-                  /> :
-                  <DateSlider
-                    facetID={id}
-                    facet={facets[id]}
-                    facetClass={this.props.facetClass}
-                    resultClass={this.props.resultClass}
-                    facetUpdateID={facetUpdateID}
-                    updatedFacet={updatedFacet}
-                    fetchFacet={this.props.fetchFacet}
-                    updateFacetOption={this.props.updateFacetOption}
-                  />
-                }
-              </div>
-            </Paper>
-          );
-        })}
+        {Object.keys(facets).map(facetID => this.renderFacet(facetID))}
       </div>
     );
   }
