@@ -6,9 +6,9 @@ import { has, orderBy } from 'lodash';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { purple } from '@material-ui/core/colors';
 
+import 'leaflet/dist/leaflet.css';
+
 // Leaflet plugins
-// import 'leaflet-sidebar-v2/js/leaflet-sidebar.min.js';
-// import 'leaflet-sidebar-v2/css/leaflet-sidebar.min.css';
 import 'leaflet-fullscreen/dist/fullscreen.png';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.min.js';
