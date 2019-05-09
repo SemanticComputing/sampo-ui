@@ -64,7 +64,12 @@ const combineSmallGroups = (dataArray) => {
 class Pie extends React.Component {
 
   componentDidMount = () => {
-    this.props.fetchPlaces('productionPlaces');
+    this.props.fetchResults({
+      resultClass: 'places',
+      facetClass: 'manuscripts',
+      sortBy: null,
+      variant: 'productionPlaces',
+    });
   }
 
   render() {
@@ -85,7 +90,7 @@ class Pie extends React.Component {
     // }
     let placeLinks = 0;
     let dataArray = data.map(item => {
-      const msCount = parseInt(item.manuscriptCount);
+      const msCount = parseInt(item.instanceCount);
       placeLinks += msCount;
       return {
         x: item.prefLabel,
@@ -98,19 +103,20 @@ class Pie extends React.Component {
     const legendArray = dataArray.map(group => ({ name: group.x + ' (' + group.y + ')' }));
     const legendHeigth = legendArray.length * 33;
 
-    const pieTitle = placeLinks + ' production place links in total';
+    // const pieTitle = placeLinks + ' production place links in total';
+    // <VictoryLabel
+    //   style={{
+    //     fontSize: '14px',
+    //     fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+    //   }}
+    //   text={pieTitle}
+    // />
 
     return (
       <div className={classes.root}>
         <Grid container className={classes.container}>
           <Grid className={classes.pie} item xs={12} sm={6}>
-            <VictoryLabel
-              style={{
-                fontSize: '14px',
-                fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
-              }}
-              text={pieTitle}
-            />
+
             <VictoryPie
               padding={{
                 left: 0, bottom: 0, top: 32
@@ -149,7 +155,7 @@ class Pie extends React.Component {
 Pie.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
-  fetchPlaces: PropTypes.func.isRequired
+  fetchResults: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(Pie);

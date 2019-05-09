@@ -5,6 +5,7 @@ import PerspectiveTabs from '../main_layout/PerspectiveTabs';
 import ResultTable from '../facet_results/ResultTable';
 import LeafletMap from '../facet_results/LeafletMap';
 import Deck from '../facet_results/Deck';
+import Pie from '../facet_results/Pie';
 
 let Manuscripts = props => {
   return (
@@ -22,6 +23,11 @@ let Manuscripts = props => {
             value: 1,
             icon: 'AddLocation',
           },
+          // '/manuscripts/statistics': {
+          //   label: 'statistics',
+          //   value: 2,
+          //   icon: 'AddLocation',
+          // },
           '/manuscripts/migrations': {
             label: 'migrations',
             value: 2,
@@ -66,6 +72,14 @@ let Manuscripts = props => {
             fetching={props.places.fetching}
             showInstanceCountInClusters={true}
             updateFacetOption={props.updateFacetOption}
+          />}
+      />
+      <Route
+        path={'/manuscripts/statistics'}
+        render={() =>
+          <Pie
+            data={props.places.results}
+            fetchResults={props.fetchResults}
           />}
       />
       <Route
