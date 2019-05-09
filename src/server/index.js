@@ -54,7 +54,7 @@ app.get(`${apiPath}/:resultClass/all`, async (req, res, next) => {
       variant: req.query.variant || null,
     });
     res.json({
-      resultCount: data.count,
+      resultCount: data.length,
       results: data
     });
   } catch(error) {

@@ -31,7 +31,6 @@ export const INITIAL_STATE = {
       searchField: false,
       containerClass: 'one',
       filterType: 'textFilter',
-      uriFilter: null,
       textFilter: null,
     },
     source: {

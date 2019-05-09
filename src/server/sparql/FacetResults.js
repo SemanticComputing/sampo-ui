@@ -61,6 +61,7 @@ export const getAllResults = ({
   facetClass,
   uriFilters,
   spatialFilters,
+  textFilters,
   variant
 }) => {
   let q = '';
@@ -79,13 +80,17 @@ export const getAllResults = ({
       filterTarget = 'manuscript__id';
       break;
   }
-  if (uriFilters == null && spatialFilters == null) {
+  const hasFilters = uriFilters !== null
+    || spatialFilters !== null
+    || textFilters !== null;
+  if (!hasFilters) {
     q = q.replace('<FILTER>', '# no filters');
   } else {
     q = q.replace('<FILTER>', generateFilter({
       facetClass: facetClass,
       uriFilters: uriFilters,
       spatialFilters: spatialFilters,
+      textFilters: textFilters,
       filterTarget: filterTarget,
       facetID: null
     }));

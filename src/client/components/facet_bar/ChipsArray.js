@@ -37,12 +37,21 @@ class ChipsArray extends React.Component {
       <div className={classes.root}>
         {data !== null && data.map(item => {
           let icon = null;
+          let key = null;
+          let valueLabel = null;
+          if (item.filterType === 'uriFilter') {
+            key = item.value.node.id;
+            valueLabel = item.value.node.prefLabel;
+          }
+          if (item.filterType === 'textFilter') {
+            key = item.value;
+            valueLabel = item.value;
+          }
           return (
             <Chip
-              key={item.value.node.id}
+              key={key}
               icon={icon}
-              label={this.generateLabel(item.facetLabel, item.value.node.prefLabel)}
-            
+              label={this.generateLabel(item.facetLabel, valueLabel)}
               className={classes.chip}
             />
           );

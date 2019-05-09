@@ -143,26 +143,31 @@ class FacetBar extends React.Component {
     const { facets } = this.props.facetData;
     let uriFilters = {};
     let spatialFilters = {};
+    let textFilters = {};
     let activeUriFilters = false;
     let activeSpatialFilters = false;
+    let activeTextFilters = false;
     for (const [key, value] of Object.entries(facets)) {
-      if (value.uriFilter !== null) {
+      if (has(value, 'uriFilter') && value.uriFilter !== null) {
         activeUriFilters = true;
         uriFilters[key] = value.uriFilter;
-      } else if (has(value, 'spatialFilter') && value.spatialFilter !== null) {
+      }
+      if (has(value, 'spatialFilter') && value.spatialFilter !== null) {
         activeSpatialFilters = true;
         spatialFilters[key] = value.spatialFilter._bounds;
       }
+      if (has(value, 'textFilter') && value.textFilter !== null) {
+        activeTextFilters = true;
+        textFilters[key] = value.textFilter;
+      }
     }
-
-
     return (
       <div className={classes.root}>
         <Paper className={classes.facetContainer}>
           <div className={classes.textContainer}>
             <Typography variant="h6">Results: {resultCount} {resultClass}</Typography>
             <Divider className={classes.resultInfoDivider} />
-            {(activeUriFilters || activeSpatialFilters) &&
+            {(activeUriFilters || activeSpatialFilters || activeTextFilters) &&
               <React.Fragment>
                 <Typography variant="h6">Active filters:</Typography>
                 <div className={classes.textContainer}>
@@ -171,6 +176,7 @@ class FacetBar extends React.Component {
                     facetClass={facetClass}
                     uriFilters={uriFilters}
                     spatialFilters={spatialFilters}
+                    textFilters={textFilters}
                     updateFacetOption={this.props.updateFacetOption}
                   />
                 </div>

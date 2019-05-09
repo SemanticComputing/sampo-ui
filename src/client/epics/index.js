@@ -223,7 +223,7 @@ export const stateToUrl = ({
   let activeSpatialFilters = false;
   let activeTextFilters = false;
   for (const [key, value] of Object.entries(facets)) {
-    if (value.uriFilter !== null) {
+    if (has(value, 'uriFilter') && value.uriFilter !== null) {
       activeUriFilters = true;
       uriFilters[key] = Object.keys(value.uriFilter);
     } else if (has(value, 'spatialFilter') && value.spatialFilter !== null) {
