@@ -4,6 +4,7 @@ export const generateFilter = ({
   facetClass,
   uriFilters,
   spatialFilters,
+  textFilters,
   filterTarget,
   facetID,
   inverse,
@@ -40,6 +41,16 @@ export const generateFilter = ({
         filterStr += `
           ?${property}Filter spatial:withinBox (${latMin} ${longMin} ${latMax} ${longMax} 1000000) .
           ?${filterTarget} ${facetConfigs[facetClass][property].predicate} ?${property}Filter .
+        `;
+      }
+    }
+  }
+  if (textFilters !== null) {
+    for (let property in textFilters) {
+      if (property !== facetProperty) {
+        const queryString = textFilters[property];
+        filterStr += `
+          ?${filterTarget} text:query (${facetConfigs[facetClass][property].textQueryProperty} '${queryString}') .
         `;
       }
     }

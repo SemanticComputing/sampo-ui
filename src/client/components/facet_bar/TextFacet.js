@@ -36,31 +36,27 @@ class TextFacet extends React.Component {
     event.preventDefault();
   };
 
-  // handleOnKeyDown = (event) => {
-  //   if (event.key === 'Enter' && this.hasDatasets() && this.hasValidQuery()) {
-  //     this.props.clearResults();
-  //     this.props.updateQuery(this.state.value);
-  //     this.props.fetchResults('text', this.state.value);
-  //   }
-  // };
+  handleOnKeyDown = event => {
+    if (event.key === 'Enter' && this.hasValidQuery()) {
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+        option: this.props.facet.filterType,
+        value: this.state.value
+      });
+    }
+  };
 
-  // handleClick = () => {
-  //   if (this.hasDatasets() && this.hasValidQuery()) {
-  //     this.props.clearResults();
-  //     this.props.updateQuery(this.state.value);
-  //     this.props.fetchResults('text', this.state.value);
-  //   }
-  // };
-
-  // hasDatasets = () => {
-  //   let hasDs = false;
-  //   Object.values(this.props.datasets).forEach(value => {
-  //     if (value.selected) {
-  //       hasDs = true;
-  //     }
-  //   });
-  //   return hasDs;
-  // }
+  handleClick = () => {
+    if (this.hasValidQuery()) {
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+        option: this.props.facet.filterType,
+        value: this.state.value
+      });
+    }
+  };
 
   hasValidQuery = () => {
     return this.state.value.length > 2;
@@ -121,7 +117,7 @@ TextFacet.propTypes = {
   fetchFacet: PropTypes.func,
   updateFacetOption: PropTypes.func,
   facetUpdateID: PropTypes.number,
-  updatedFilter: PropTypes.object,
+  updatedFilter: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   updatedFacet: PropTypes.string,
 };
 

@@ -85,8 +85,8 @@ class HierarchicalFacet extends Component {
   }
 
   componentDidUpdate = prevProps => {
-
     if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
+
       // update component state if the user modified this facet
       if (this.props.updatedFacet === this.props.facetID) {
         if (has(this.props.updatedFilter, 'path')) {
@@ -149,6 +149,7 @@ class HierarchicalFacet extends Component {
   }
 
   generateNodeProps = treeObj => {
+    // TODO: sometimes this produces an empty treenode
     if (treeObj.node.prefLabel === 'Unknown' && treeObj.node.instanceCount == 0) {
       return null;
     }
@@ -325,7 +326,7 @@ HierarchicalFacet.propTypes = {
   fetchFacet: PropTypes.func,
   updateFacetOption: PropTypes.func,
   facetUpdateID: PropTypes.number,
-  updatedFilter: PropTypes.object,
+  updatedFilter: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   updatedFacet: PropTypes.string,
 };
 

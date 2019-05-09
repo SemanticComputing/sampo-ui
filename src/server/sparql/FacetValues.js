@@ -16,6 +16,7 @@ export const getFacet = ({
   sortDirection,
   uriFilters,
   spatialFilters,
+  textFilters
 }) => {
   let q = facetValuesQuery;
   const facetConfig = facetConfigs[facetClass][facetID];
@@ -24,11 +25,16 @@ export const getFacet = ({
   let filterBlock = '# no filters';
   let parentBlock = '# no parents';
   let mapper = mapFacet;
-  if (uriFilters !== null || spatialFilters !== null) {
+  const hasFilters = uriFilters !== null
+    || spatialFilters !== null
+    || textFilters !== null;
+
+  if (hasFilters) {
     filterBlock = generateFilter({
       facetClass: facetClass,
       uriFilters: uriFilters,
       spatialFilters: spatialFilters,
+      textFilters: textFilters,
       filterTarget: 'instance',
       facetID: facetID,
       inverse: false,
@@ -49,6 +55,7 @@ export const getFacet = ({
         facetClass: facetClass,
         uriFilters: uriFilters,
         spatialFilters: spatialFilters,
+        textFilters: textFilters,
         filterTarget: 'instance',
         facetID: facetID,
         inverse: true,
@@ -85,6 +92,7 @@ export const getFacet = ({
       facetClass: facetClass,
       uriFilters: uriFilters,
       spatialFilters: spatialFilters,
+      textFilters: textFilters,
       filterTarget: 'instance2',
       facetID: facetID });
     parentBlock = `
@@ -110,7 +118,7 @@ export const getFacet = ({
   q = q.replace(/<RDF_TYPE>/g, facetConfigs[facetClass].rdfType);
   q = q.replace(/<FILTER>/g, filterBlock );
   q = q.replace(/<PREDICATE>/g, facetConfig.predicate);
-  // if (facetID == 'productionPlace') {
+  // if (facetID == 'source') {
   //   // console.log(uriFilters)
   //   console.log(prefixes + q)
   // }

@@ -1,6 +1,15 @@
+/* TODO:
+  labelPath is only used when sorting results, so it should removed from
+  facet configs
+*/
 export const facetConfigs = {
   manuscripts: {
     rdfType: 'frbroo:F4_Manifestation_Singleton',
+    label: {
+      id: 'label',
+      type: 'text',
+      textQueryProperty: 'skos:prefLabel'
+    },
     author: {
       id: 'author',
       facetValueFilter: '',
@@ -36,12 +45,9 @@ export const facetConfigs = {
       labelPath: '^crm:P108_has_produced/crm:P4_has_time-span/skos:prefLabel',
       type: 'list',
     },
+    // for sorting facet results
     prefLabel: {
-      id: 'prefLabel',
-      facetValueFilter: '',
-      label: 'Title',
       labelPath: 'skos:prefLabel',
-      type: 'list',
     },
     event: {
       id: 'event',

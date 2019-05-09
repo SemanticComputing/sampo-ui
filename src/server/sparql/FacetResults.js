@@ -17,12 +17,22 @@ export const getPaginatedResults = async ({
   pagesize,
   uriFilters,
   spatialFilters,
+  textFilters,
   sortBy,
   sortDirection
 }) => {
   const [ resultCount, paginatedData ] = await Promise.all([
-    getResultCount(resultClass, uriFilters, spatialFilters),
-    getPaginatedData({ resultClass, page, pagesize, uriFilters, spatialFilters, sortBy, sortDirection }),
+    getResultCount(resultClass, uriFilters, spatialFilters, textFilters),
+    getPaginatedData({
+      resultClass,
+      page,
+      pagesize,
+      uriFilters,
+      spatialFilters,
+      textFilters,
+      sortBy,
+      sortDirection
+    }),
   ]);
   return {
     resultCount: resultCount,
@@ -86,10 +96,13 @@ export const getAllResults = ({
   return runSelectQuery(prefixes + q, endpoint, makeObjectList);
 };
 
-const getResultCount = (resultClass, uriFilters, spatialFilters) => {
+const getResultCount = (resultClass, uriFilters, spatialFilters, textFilters) => {
   let q = countQuery;
   q = q.replace('<RDF_TYPE>', facetConfigs[resultClass].rdfType);
-  if (uriFilters == null && spatialFilters == null) {
+  const hasFilters = uriFilters !== null
+    || spatialFilters !== null
+    || textFilters !== null;
+  if (!hasFilters) {
     q = q.replace('<FILTER>', '# no filters');
   } else {
     q = q.replace('<FILTER>', generateFilter({
@@ -97,6 +110,7 @@ const getResultCount = (resultClass, uriFilters, spatialFilters) => {
       facetClass: resultClass,
       uriFilters: uriFilters,
       spatialFilters: spatialFilters,
+      textFilters: textFilters,
       filterTarget: 'id',
       facetID: null
     }));
@@ -110,12 +124,16 @@ const getPaginatedData = ({
   pagesize,
   uriFilters,
   spatialFilters,
+  textFilters,
   sortBy,
   sortDirection
 }) => {
   let q = facetResultSetQuery;
   const facetConfig = facetConfigs[resultClass];
-  if (uriFilters == null && spatialFilters == null) {
+  const hasFilters = uriFilters !== null
+    || spatialFilters !== null
+    || textFilters !== null;
+  if (!hasFilters) {
     q = q.replace('<FILTER>', '# no filters');
   } else {
     q = q.replace('<FILTER>', generateFilter({
@@ -123,6 +141,7 @@ const getPaginatedData = ({
       facetClass: resultClass,
       uriFilters: uriFilters,
       spatialFilters: spatialFilters,
+      textFilters: textFilters,
       filterTarget: 'id',
       facetID: null}));
   }

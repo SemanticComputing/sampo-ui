@@ -84,7 +84,7 @@ class FacetBar extends React.Component {
           />
         );
         break;
-      case 'text':
+      case 'textFilter':
         facetComponent = (
           <TextFacet
             facetID={facetID}

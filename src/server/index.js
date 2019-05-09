@@ -33,6 +33,7 @@ app.get(`${apiPath}/:resultClass/paginated`, async (req, res, next) => {
       pagesize: parseInt(req.query.pagesize) || null,
       uriFilters: req.query.uriFilters == null ? null : JSON.parse(req.query.uriFilters),
       spatialFilters: req.query.spatialFilters == null ? null : JSON.parse(req.query.spatialFilters),
+      textFilters: req.query.textFilters == null ? null : JSON.parse(req.query.textFilters),
       sortBy: req.query.sortBy || null,
       sortDirection: req.query.sortDirection || null
     });
@@ -49,6 +50,7 @@ app.get(`${apiPath}/:resultClass/all`, async (req, res, next) => {
       facetClass: req.query.facetClass || null,
       uriFilters: req.query.uriFilters == null ? null : JSON.parse(req.query.uriFilters),
       spatialFilters: req.query.spatialFilters == null ? null : JSON.parse(req.query.spatialFilters),
+      textFilters: req.query.textFilters == null ? null : JSON.parse(req.query.textFilters),
       variant: req.query.variant || null,
     });
     res.json({
@@ -67,6 +69,7 @@ app.get(`${apiPath}/:resultClass/instance/:uri`, async (req, res, next) => {
       facetClass: req.query.facetClass || null,
       uriFilters: req.query.uriFilters == null ? null : JSON.parse(req.query.uriFilters),
       spatialFilters: req.query.spatialFilters == null ? null : JSON.parse(req.query.spatialFilters),
+      textFilters: req.query.textFilters == null ? null : JSON.parse(req.query.textFilters),
       variant: req.query.variant || null,
       uri: req.params.uri
     });
@@ -85,7 +88,8 @@ app.get(`${apiPath}/:facetClass/facet/:id`, async (req, res, next) => {
       sortBy: req.query.sortBy,
       sortDirection: req.query.sortDirection,
       uriFilters: req.query.uriFilters == null ? null : JSON.parse(req.query.uriFilters),
-      spatialFilters: req.query.spatialFilters == null ? null : JSON.parse(req.query.spatialFilters)
+      spatialFilters: req.query.spatialFilters == null ? null : JSON.parse(req.query.spatialFilters),
+      textFilters: req.query.textFilters == null ? null : JSON.parse(req.query.textFilters)
     });
     res.json(data);
   } catch(error) {

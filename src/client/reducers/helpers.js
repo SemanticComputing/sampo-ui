@@ -46,7 +46,8 @@ export const updateSortBy = (state, action) => {
 
 export const updateFacetOption = (state, action) => {
   const { facetID, option, value } = action;
-  if (action.option === 'uriFilter' || action.option === 'spatialFilter') {
+  const filterTypes = [ 'uriFilter', 'spatialFilter', 'textFilter' ];
+  if (filterTypes.includes(action.option)) {
     return updateFacetFilter(state, action);
   } else {
     return {
@@ -90,12 +91,17 @@ const updateFacetFilter = (state, action) => {
       ...state.facets[facetID],
       spatialFilter: value
     };
+  } else if (oldFacet.filterType === 'textFilter') {
+    newFacet = {
+      ...state.facets[facetID],
+      textFilter: value
+    };
   }
   return {
     ...state,
     updatedFacet: facetID,
     facetUpdateID: ++state.facetUpdateID,
-    updatedFilter: value, // a react sortable tree object
+    updatedFilter: value, // a react sortable tree object, latlngbounds or text filter
     facets: {
       ...state.facets,
       [ facetID ]: newFacet

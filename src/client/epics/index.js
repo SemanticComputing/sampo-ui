@@ -241,7 +241,7 @@ export const stateToUrl = ({
     params.spatialFilters = JSON.stringify(spatialFilters);
   }
   if (activeTextFilters) {
-    params.textFilter = JSON.stringify(textFilters);
+    params.textFilters = JSON.stringify(textFilters);
   }
 
   return querystring.stringify(params);
