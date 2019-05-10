@@ -15,6 +15,7 @@ import {
 import {
   fetchResults,
   fetchResultsFailed,
+  fetchResultCount,
   updateSortBy,
   updateResultCount,
   updateResults,
@@ -34,6 +35,7 @@ export const INITIAL_STATE = {
   sortBy: 'prefLabel',
   sortDirection: 'asc',
   fetching: false,
+  fetchingResultCount: false,
   tableColumns: [
     {
       id: 'prefLabel',
@@ -160,10 +162,11 @@ const manuscripts = (state = INITIAL_STATE, action) => {
   if (action.resultClass === 'manuscripts') {
     switch (action.type) {
       case FETCH_RESULTS:
-      case FETCH_RESULT_COUNT:
       case FETCH_PAGINATED_RESULTS:
       case FETCH_BY_URI:
         return fetchResults(state);
+      case FETCH_RESULT_COUNT:
+        return fetchResultCount(state);
       case FETCH_RESULTS_FAILED:
       case FETCH_PAGINATED_RESULTS_FAILED:
         return fetchResultsFailed(state);

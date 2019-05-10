@@ -1,11 +1,13 @@
 import {
   FETCH_RESULTS,
+  FETCH_RESULT_COUNT,
   FETCH_RESULTS_FAILED,
   FETCH_PAGINATED_RESULTS,
   FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_BY_URI,
-  UPDATE_PAGINATED_RESULTS,
+  UPDATE_RESULT_COUNT,
   UPDATE_RESULTS,
+  UPDATE_PAGINATED_RESULTS,
   UPDATE_INSTANCE,
   UPDATE_PAGE,
   SORT_RESULTS,
@@ -13,7 +15,9 @@ import {
 import {
   fetchResults,
   fetchResultsFailed,
+  fetchResultCount,
   updateSortBy,
+  updateResultCount,
   updateResults,
   updatePaginatedResults,
   updateInstance,
@@ -31,6 +35,7 @@ export const INITIAL_STATE = {
   sortBy: 'prefLabel',
   sortDirection: 'asc',
   fetching: false,
+  fetchingResultCount: false,
   tableColumns: [
     {
       id: 'prefLabel',
@@ -70,11 +75,15 @@ const people = (state = INITIAL_STATE, action) => {
       case FETCH_PAGINATED_RESULTS:
       case FETCH_BY_URI:
         return fetchResults(state);
+      case FETCH_RESULT_COUNT:
+        return fetchResultCount(state);
       case FETCH_RESULTS_FAILED:
       case FETCH_PAGINATED_RESULTS_FAILED:
         return fetchResultsFailed(state);
       case SORT_RESULTS:
         return updateSortBy(state, action);
+      case UPDATE_RESULT_COUNT:
+        return updateResultCount(state, action);
       case UPDATE_RESULTS:
         return updateResults(state, action);
       case UPDATE_PAGINATED_RESULTS:

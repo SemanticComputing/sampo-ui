@@ -145,6 +145,7 @@ class FacetBar extends React.Component {
               facetClass={facetClass}
               resultClass={resultClass}
               resultCount={resultCount}
+              fetchingResultCount={this.props.fetchingResultCount}
               updateFacetOption={this.props.updateFacetOption}
               fetchResultCount={this.props.fetchResultCount}
             />
@@ -162,6 +163,7 @@ FacetBar.propTypes = {
   facetClass: PropTypes.string.isRequired,
   resultClass: PropTypes.string.isRequired,
   resultCount: PropTypes.number.isRequired,
+  fetchingResultCount: PropTypes.bool.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   fetchResultCount: PropTypes.func.isRequired,
   updateFacetOption: PropTypes.func.isRequired

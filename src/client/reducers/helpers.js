@@ -7,6 +7,13 @@ export const fetchResults = state => {
   };
 };
 
+export const fetchResultCount = state => {
+  return {
+    ...state,
+    fetchingResultCount: true
+  };
+};
+
 export const fetchResultsFailed = state => {
   return {
     ...state,
@@ -113,7 +120,7 @@ export const updateResultCount = (state, action) => {
   return {
     ...state,
     resultCount: parseInt(action.count),
-    fetching: false,
+    fetchingResultCount: false,
   };
 };
 

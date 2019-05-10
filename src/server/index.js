@@ -73,7 +73,6 @@ app.get(`${apiPath}/:resultClass/count`, async (req, res, next) => {
       spatialFilters: req.query.spatialFilters == null ? null : JSON.parse(req.query.spatialFilters),
       textFilters: req.query.textFilters == null ? null : JSON.parse(req.query.textFilters),
     });
-    console.log(count)
     res.json({ count });
   } catch(error) {
     next(error);

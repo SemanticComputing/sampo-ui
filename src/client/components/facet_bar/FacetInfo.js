@@ -5,6 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import ActiveFilters from './ActiveFilters';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import purple from '@material-ui/core/colors/purple';
 
 const styles = theme => ({
   facetInfoDivider: {
@@ -56,7 +58,15 @@ class FacetInfo extends React.Component {
     }
     return (
       <div className={classes.root}>
-        <Typography variant="h6">Results: {resultCount} {resultClass}</Typography>
+        { this.props.fetchingResultCount ?
+          <CircularProgress
+            style={{ color: purple[500] }}
+            thickness={5}
+            size={26}
+          />
+          :
+          <Typography variant="h6">Results: {resultCount} {resultClass}</Typography>
+        }
         <Divider className={classes.facetInfoDivider} />
         {(activeUriFilters || activeSpatialFilters || activeTextFilters) &&
           <React.Fragment>
@@ -87,6 +97,7 @@ FacetInfo.propTypes = {
   facetClass: PropTypes.string.isRequired,
   resultClass: PropTypes.string.isRequired,
   resultCount: PropTypes.number.isRequired,
+  fetchingResultCount: PropTypes.bool.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
   fetchResultCount: PropTypes.func.isRequired
 };
