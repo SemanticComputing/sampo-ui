@@ -7,10 +7,9 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "npm run build-client && npm run build-server",
     "client": "webpack-dev-server --config webpack.client.dev.js",
-    "server": "nodemon src/server/index.js --exec babel-node",
+    "server": "NODE_ENV=development nodemon src/server/index.js --exec babel-node",
     "build-client": "webpack --progress --config webpack.client.prod.js",
     "build-server": "babel src/server --out-dir ./dist/server",
-    "serve": "NODE_ENV=production node dist/server/index.js",
     "test": "jest --watch"
   },
   "jest": {
