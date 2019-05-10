@@ -15,6 +15,7 @@ import {
 import {
   fetchResults,
   fetchResultsFailed,
+  fetchResultCount,
   updateSortBy,
   updateResultCount,
   updateResults,
