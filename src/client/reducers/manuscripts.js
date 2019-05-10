@@ -1,9 +1,11 @@
 import {
   FETCH_RESULTS,
+  FETCH_RESULT_COUNT,
   FETCH_RESULTS_FAILED,
   FETCH_PAGINATED_RESULTS,
   FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_BY_URI,
+  UPDATE_RESULT_COUNT,
   UPDATE_RESULTS,
   UPDATE_PAGINATED_RESULTS,
   UPDATE_INSTANCE,
@@ -14,6 +16,7 @@ import {
   fetchResults,
   fetchResultsFailed,
   updateSortBy,
+  updateResultCount,
   updateResults,
   updatePaginatedResults,
   updateInstance,
@@ -157,6 +160,7 @@ const manuscripts = (state = INITIAL_STATE, action) => {
   if (action.resultClass === 'manuscripts') {
     switch (action.type) {
       case FETCH_RESULTS:
+      case FETCH_RESULT_COUNT:
       case FETCH_PAGINATED_RESULTS:
       case FETCH_BY_URI:
         return fetchResults(state);
@@ -165,6 +169,8 @@ const manuscripts = (state = INITIAL_STATE, action) => {
         return fetchResultsFailed(state);
       case SORT_RESULTS:
         return updateSortBy(state, action);
+      case UPDATE_RESULT_COUNT:
+        return updateResultCount(state, action);
       case UPDATE_RESULTS:
         return updateResults(state, action);
       case UPDATE_PAGINATED_RESULTS:

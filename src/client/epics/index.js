@@ -12,6 +12,7 @@ import { combineEpics, ofType } from 'redux-observable';
 import querystring from 'querystring';
 import { has } from 'lodash';
 import {
+  FETCH_RESULT_COUNT,
   FETCH_PAGINATED_RESULTS,
   FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_RESULTS,
@@ -21,6 +22,7 @@ import {
   FETCH_BY_URI_FAILED,
   FETCH_FACET,
   FETCH_FACET_FAILED,
+  updateResultCount,
   updatePaginatedResults,
   updateResults,
   updateInstance,
@@ -84,6 +86,35 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
     const requestUrl = `${apiUrl}${resultClass}/all?${params}`;
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResults({ resultClass: resultClass, data: response })),
+      catchError(error => of({
+        type: FETCH_RESULTS_FAILED,
+        resultClass: resultClass,
+        error: error,
+        message: {
+          text: backendErrorText,
+          title: 'Error'
+        }
+      }))
+    );
+  })
+);
+
+const fetchResultCountEpic = (action$, state$) => action$.pipe(
+  ofType(FETCH_RESULT_COUNT),
+  withLatestFrom(state$),
+  mergeMap(([action, state]) => {
+    const { resultClass, facetClass } = action;
+    const params = stateToUrl({
+      facets: state[`${facetClass}Facets`].facets,
+      facetClass: facetClass,
+      page: null,
+      pagesize: null,
+      sortBy: null,
+      sortDirection: null,
+    });
+    const requestUrl = `${apiUrl}${resultClass}/count?${params}`;
+    return ajax.getJSON(requestUrl).pipe(
+      map(response => updateResultCount({ resultClass: resultClass, count: response.count })),
       catchError(error => of({
         type: FETCH_RESULTS_FAILED,
         resultClass: resultClass,
@@ -263,6 +294,7 @@ const boundsToValues = bounds => {
 const rootEpic = combineEpics(
   fetchPaginatedResultsEpic,
   fetchResultsEpic,
+  fetchResultCountEpic,
   fetchResultsClientSideEpic,
   fetchByURIEpic,
   fetchFacetEpic,

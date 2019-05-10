@@ -2,7 +2,11 @@ import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
 import { has } from 'lodash';
-import { getPaginatedResults, getAllResults, getByURI } from './sparql/FacetResults';
+import {
+  getResultCount,
+  getPaginatedResults,
+  getAllResults,
+  getByURI } from './sparql/FacetResults';
 import { getFacet } from './sparql/FacetValues';
 import { queryJenaIndex } from './sparql/JenaQuery';
 const DEFAULT_PORT = 3001;
@@ -54,9 +58,23 @@ app.get(`${apiPath}/:resultClass/all`, async (req, res, next) => {
       variant: req.query.variant || null,
     });
     res.json({
-      resultCount: data.length,
       results: data
     });
+  } catch(error) {
+    next(error);
+  }
+});
+
+app.get(`${apiPath}/:resultClass/count`, async (req, res, next) => {
+  try {
+    const count = await getResultCount({
+      resultClass: req.params.resultClass,
+      uriFilters: req.query.uriFilters == null ? null : JSON.parse(req.query.uriFilters),
+      spatialFilters: req.query.spatialFilters == null ? null : JSON.parse(req.query.spatialFilters),
+      textFilters: req.query.textFilters == null ? null : JSON.parse(req.query.textFilters),
+    });
+    console.log(count)
+    res.json({ count });
   } catch(error) {
     next(error);
   }

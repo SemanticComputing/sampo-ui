@@ -21,40 +21,22 @@ export const getPaginatedResults = async ({
   sortBy,
   sortDirection
 }) => {
-  const [ resultCount, paginatedData ] = await Promise.all([
-    getResultCount(resultClass, uriFilters, spatialFilters, textFilters),
-    getPaginatedData({
-      resultClass,
-      page,
-      pagesize,
-      uriFilters,
-      spatialFilters,
-      textFilters,
-      sortBy,
-      sortDirection
-    }),
-  ]);
+  const data = await getPaginatedData({
+    resultClass,
+    page,
+    pagesize,
+    uriFilters,
+    spatialFilters,
+    textFilters,
+    sortBy,
+    sortDirection
+  });
   return {
-    resultCount: resultCount,
     pagesize: pagesize,
     page: page,
-    results: paginatedData
+    results: data
   };
 };
-
-  // return Promise.all([
-  //   getResultCount(resultClass, uriFilters, spatialFilters),
-  //   getPaginatedData({ resultClass, page, pagesize, uriFilters, spatialFilters, sortBy, sortDirection }),
-  // ])
-  //   .then(data => {
-  //     return {
-  //       resultCount: data[0].count,
-  //       pagesize: pagesize,
-  //       page: page,
-  //       results: data[1]
-  //     };
-  //   });
-
 
 export const getAllResults = ({
   resultClass, // TODO: handle other classes than manuscripts
@@ -101,7 +83,12 @@ export const getAllResults = ({
   return runSelectQuery(prefixes + q, endpoint, makeObjectList);
 };
 
-const getResultCount = (resultClass, uriFilters, spatialFilters, textFilters) => {
+export const getResultCount = ({
+  resultClass,
+  uriFilters,
+  spatialFilters,
+  textFilters
+}) => {
   let q = countQuery;
   q = q.replace('<RDF_TYPE>', facetConfigs[resultClass].rdfType);
   const hasFilters = uriFilters !== null
