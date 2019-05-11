@@ -56,7 +56,7 @@ const styles = theme => ({
 
 class FacetBar extends React.Component {
 
-  renderFacet = facetID => {
+  renderFacet = (facetID, someFacetIsFetching) => {
     const { classes } = this.props;
     const { facetUpdateID, updatedFacet, updatedFilter, facets } = this.props.facetData;
     const facet = facets[facetID];
@@ -74,6 +74,7 @@ class FacetBar extends React.Component {
             updatedFacet={updatedFacet}
             updatedFilter={updatedFilter}
             fetchFacet={this.props.fetchFacet}
+            someFacetIsFetching={someFacetIsFetching}
             updateFacetOption={this.props.updateFacetOption}
           />
         );
@@ -89,6 +90,7 @@ class FacetBar extends React.Component {
             updatedFacet={updatedFacet}
             updatedFilter={updatedFilter}
             fetchFacet={this.props.fetchFacet}
+            someFacetIsFetching={someFacetIsFetching}
             updateFacetOption={this.props.updateFacetOption}
           />
         );
@@ -114,7 +116,6 @@ class FacetBar extends React.Component {
         );
         break;
     }
-
     return(
       <Paper key={facetID} className={classes.facetContainer}>
         <FacetHeader
@@ -135,6 +136,13 @@ class FacetBar extends React.Component {
   render() {
     const { classes, facetClass, resultClass, resultCount } = this.props;
     const { facets } = this.props.facetData;
+    let someFacetIsFetching = false;
+    Object.values(facets).forEach(facet => {
+      if (facet.isFetching) {
+        someFacetIsFetching = true;
+      }
+    });
+
     return (
       <div className={classes.root}>
         <Paper className={classes.facetContainer}>
@@ -151,7 +159,7 @@ class FacetBar extends React.Component {
             />
           </div>
         </Paper>
-        {Object.keys(facets).map(facetID => this.renderFacet(facetID))}
+        {Object.keys(facets).map(facetID => this.renderFacet(facetID, someFacetIsFetching))}
       </div>
     );
   }

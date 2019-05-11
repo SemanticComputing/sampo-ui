@@ -163,6 +163,7 @@ class HierarchicalFacet extends Component {
               disabled={
                 (treeObj.node.instanceCount == 0 && treeObj.node.selected === 'false')
                 || treeObj.node.prefLabel == 'Unknown'
+                || this.props.someFacetIsFetching
               }
               onChange={this.handleCheckboxChange(treeObj)}
               value={treeObj.node.id}
@@ -324,6 +325,7 @@ HierarchicalFacet.propTypes = {
   facetClass: PropTypes.string,
   resultClass: PropTypes.string,
   fetchFacet: PropTypes.func,
+  someFacetIsFetching: PropTypes.bool.isRequired,
   updateFacetOption: PropTypes.func,
   facetUpdateID: PropTypes.number,
   updatedFilter: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),

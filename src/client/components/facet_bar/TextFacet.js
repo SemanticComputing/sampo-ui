@@ -94,6 +94,7 @@ class TextFacet extends React.Component {
             id="adornment-search"
             type='text'
             value={this.state.value}
+            disabled={this.props.someFacetIsFetching}
             onChange={this.handleChange}
             onKeyDown={this.handleOnKeyDown}
             endAdornment={
@@ -115,6 +116,7 @@ TextFacet.propTypes = {
   facetClass: PropTypes.string,
   resultClass: PropTypes.string,
   fetchFacet: PropTypes.func,
+  someFacetIsFetching: PropTypes.bool.isRequired,
   updateFacetOption: PropTypes.func,
   facetUpdateID: PropTypes.number,
   updatedFilter: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
