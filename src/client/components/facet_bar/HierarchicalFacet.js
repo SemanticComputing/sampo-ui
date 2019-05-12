@@ -153,17 +153,25 @@ class HierarchicalFacet extends Component {
     if (treeObj.node.prefLabel === 'Unknown' && treeObj.node.instanceCount == 0) {
       return null;
     }
+    const { uriFilter} = this.props.facet;
+    let selectedCount = uriFilter == null ? 0 : Object.keys(this.props.facet.uriFilter).length;
+    let isSelected = treeObj.node.selected === 'true' ? true : false;
     return {
       title: (
         <FormControlLabel
           control={
             <Checkbox
               className={this.props.classes.checkbox}
-              checked={treeObj.node.selected === 'true' ? true : false}
+              checked={isSelected}
               disabled={
+                // prevent selecting values with 0 hits (which may appear based on earlier selections):
                 (treeObj.node.instanceCount == 0 && treeObj.node.selected === 'false')
+                // prevent selecting unknown value:
                 || treeObj.node.prefLabel == 'Unknown'
+                // prevent selecting when another facet is still updating:
                 || this.props.someFacetIsFetching
+                // prevent selecting all facet values:
+                || (selectedCount >= this.props.facet.distinctValueCount - 2 && !isSelected)
               }
               onChange={this.handleCheckboxChange(treeObj)}
               value={treeObj.node.id}
@@ -215,7 +223,6 @@ class HierarchicalFacet extends Component {
     const { searchString, searchFocusIndex, searchFoundCount } = this.state;
     const { classes, facet } = this.props;
     const { isFetching, searchField } = facet;
-
     // if (this.props.facetID == 'owner') {
     //   console.log(this.state.treeData)
     // }
