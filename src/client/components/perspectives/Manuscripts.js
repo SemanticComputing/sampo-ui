@@ -6,6 +6,7 @@ import ResultTable from '../facet_results/ResultTable';
 import LeafletMap from '../facet_results/LeafletMap';
 import Deck from '../facet_results/Deck';
 import Pie from '../facet_results/Pie';
+import Network from '../facet_results/Network';
 
 let Manuscripts = props => {
   return (
@@ -32,7 +33,12 @@ let Manuscripts = props => {
             label: 'migrations',
             value: 2,
             icon: 'Redo',
-          }
+          },
+          // '/manuscripts/network': {
+          //   label: 'network',
+          //   value: 3,
+          //   icon: 'Redo',
+          // }
         }}
       />
       <Route
@@ -97,6 +103,13 @@ let Manuscripts = props => {
             mapMode={'cluster'}
             variant='migrations'
             showInstanceCountInClusters={true}
+          />}
+      />
+      <Route
+        path={'/manuscripts/network'}
+        render={() =>
+          <Network
+
           />}
       />
     </React.Fragment>

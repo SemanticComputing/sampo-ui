@@ -1,7 +1,12 @@
 import { runSelectQuery } from './SparqlApi';
 import { prefixes } from './SparqlQueriesPrefixes';
 import { endpoint, countQuery, facetResultSetQuery } from './SparqlQueriesGeneral';
-import { manuscriptProperties, productionPlacesQuery, migrationsQuery } from './SparqlQueriesManuscripts';
+import {
+  manuscriptProperties,
+  productionPlacesQuery,
+  migrationsQuery,
+  networkQuery, 
+} from './SparqlQueriesManuscripts';
 import { workProperties } from './SparqlQueriesWorks';
 import { personProperties } from './SparqlQueriesPeople';
 import { organizationProperties } from './SparqlQueriesOrganizations';
@@ -59,6 +64,10 @@ export const getAllResults = ({
       break;
     case 'migrations':
       q = migrationsQuery;
+      filterTarget = 'manuscript__id';
+      break;
+    case 'network':
+      q = networkQuery;
       filterTarget = 'manuscript__id';
       break;
   }
