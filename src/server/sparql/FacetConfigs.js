@@ -75,11 +75,10 @@ export const facetConfigs = {
   },
   works: {
     rdfType: 'frbroo:F1_Work',
-    prefLabel: {
-      id: 'prefLabel',
-      facetValueFilter: '',
-      labelPath: 'skos:prefLabel',
-      type: 'list',
+    label: {
+      id: 'label',
+      type: 'text',
+      textQueryProperty: 'skos:prefLabel'
     },
     source: {
       id: 'source',
@@ -96,14 +95,17 @@ export const facetConfigs = {
       predicate: '^frbroo:R16_initiated/(mmm-schema:carried_out_by_as_possible_author|mmm-schema:carried_out_by_as_author)',
       type: 'list'
     },
+    // for sorting facet results
+    prefLabel: {
+      labelPath: 'skos:prefLabel',
+    },
   },
   people: {
     rdfType: 'mmm-schema:Person',
-    prefLabel: {
-      id: 'prefLabel',
-      facetValueFilter: '',
-      labelPath: 'skos:prefLabel',
-      type: 'list',
+    label: {
+      id: 'label',
+      type: 'text',
+      textQueryProperty: 'skos:prefLabel'
     },
     source: {
       id: 'source',
@@ -121,14 +123,17 @@ export const facetConfigs = {
       type: 'list',
       //type: 'hierarchical',
     },
+    // for sorting facet results
+    prefLabel: {
+      labelPath: 'skos:prefLabel',
+    },
   },
   organizations: {
     rdfType: 'mmm-schema:Organization',
-    prefLabel: {
-      id: 'prefLabel',
-      facetValueFilter: '',
-      labelPath: 'skos:prefLabel',
-      type: 'list',
+    label: {
+      id: 'label',
+      type: 'text',
+      textQueryProperty: 'skos:prefLabel'
     },
     source: {
       id: 'source',
@@ -137,15 +142,17 @@ export const facetConfigs = {
       predicate: 'dct:source',
       type: 'list',
     },
+    // for sorting facet results
+    prefLabel: {
+      labelPath: 'skos:prefLabel',
+    },
   },
   places: {
     rdfType: 'crm:E53_Place',
-    prefLabel: {
-      id: 'prefLabel',
-      facetValueFilter: '',
-      label: 'Title',
-      labelPath: 'skos:prefLabel',
-      type: 'list',
+    label: {
+      id: 'label',
+      type: 'text',
+      textQueryProperty: 'skos:prefLabel'
     },
     source: {
       id: 'source',
@@ -173,6 +180,10 @@ export const facetConfigs = {
       labelPath: 'gvp:placeTypePreferred',
       predicate: 'gvp:placeTypePreferred',
       type: 'list',
+    },
+    // for sorting facet results
+    prefLabel: {
+      labelPath: 'skos:prefLabel',
     },
   },
 };
