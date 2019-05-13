@@ -35,7 +35,8 @@ const styles = theme => ({
     },
   },
   appBarButton: {
-    color: 'white !important'
+    color: 'white !important',
+    border: `1px solid ${theme.palette.primary.main}`
   },
   appBarButtonActive: {
     border: '1px solid white'
