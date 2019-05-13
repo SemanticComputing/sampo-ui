@@ -40,17 +40,21 @@ export const allPlacesQuery =  `
 `;
 
 export const placeQuery =  `
-      SELECT ?id ?prefLabel ?sameAs ?dataProviderUrl ?parent__id ?parent__prefLabel ?manuscript__id ?manuscript__dataProviderUrl
-      WHERE {
-        BIND (<ID> AS ?id)
-        OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
-        BIND(COALESCE(?prefLabel_, ?id) AS ?prefLabel)
-        OPTIONAL {
-          ?id gvp:broaderPreferred ?parent__id .
-          ?parent__id skos:prefLabel ?parent__prefLabel .
-        }
-        OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
-        OPTIONAL { ?id owl:sameAs ?sameAs }
-        <MANUSCRIPTS>
-      }
+  SELECT ?id ?prefLabel ?sameAs ?dataProviderUrl ?parent__id ?parent__prefLabel ?manuscript__id ?manuscript__dataProviderUrl
+  WHERE {
+    BIND (<ID> AS ?id)
+    OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
+    BIND(COALESCE(?prefLabel_, ?id) AS ?prefLabel)
+    OPTIONAL {
+      ?id gvp:broaderPreferred ?parent__id .
+      ?parent__id skos:prefLabel ?parent__prefLabel .
+    }
+    OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
+    OPTIONAL { ?id owl:sameAs ?sameAs }
+    OPTIONAL {
+      <FILTER>
+      ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?id .
+      BIND(?manuscript__id AS ?manuscript__dataProviderUrl)
+    }
+  }
 `;

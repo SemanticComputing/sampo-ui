@@ -44,7 +44,7 @@ export const getPaginatedResults = async ({
 };
 
 export const getAllResults = ({
-  resultClass, // TODO: handle other classes than manuscripts
+  // resultClass, // TODO: handle other classes than manuscripts
   facetClass,
   uriFilters,
   spatialFilters,
@@ -178,8 +178,10 @@ const getPaginatedData = ({
 export const getByURI = ({
   resultClass,
   facetClass,
-  variant,
   uriFilters,
+  spatialFilters,
+  textFilters,
+  //variant,
   uri
 }) => {
   let q;
@@ -188,16 +190,20 @@ export const getByURI = ({
       q = placeQuery;
       break;
   }
-  if (variant === 'productionPlaces') {
-    const manuscriptsProduced =
-      `OPTIONAL {
-          ${generateFilter(resultClass, facetClass, uriFilters, 'manuscript__id', null)}
-          ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?id .
-          ?manuscript__id mmm-schema:data_provider_url ?manuscript__dataProviderUrl .
-        }`;
-    q = q.replace('<MANUSCRIPTS>', manuscriptsProduced);
+  const hasFilters = uriFilters !== null
+    || spatialFilters !== null
+    || textFilters !== null;
+  if (!hasFilters) {
+    q = q.replace('<FILTER>', '# no filters');
   } else {
-    q = q.replace('<MANUSCRIPTS>', '');
+    q = q.replace('<FILTER>', generateFilter({
+      resultClass: resultClass,
+      facetClass: facetClass,
+      uriFilters: uriFilters,
+      spatialFilters: spatialFilters,
+      textFilters: textFilters,
+      filterTarget: 'manuscript__id',
+      facetID: null}));
   }
   q = q.replace('<ID>', `<${uri}>`);
   // if (variant === 'productionPlaces') {
