@@ -95,6 +95,10 @@ const ResultTableCell = props => {
     if (Array.isArray(cell)) {
       cell = orderBy(cell, 'date');
       const items = cell.map((item, i) => {
+        // TODO: remove when this is fixed in data
+        if (Array.isArray(item.prefLabel)) {
+          item.prefLabel = 'Transfer of Custody';
+        }
         return (
           <li key={i}>
             {item.date == null ? <span className={props.classes.noDate}>No date</span> : item.date}
@@ -103,7 +107,7 @@ const ResultTableCell = props => {
               target='_blank' rel='noopener noreferrer'
               href={item.dataProviderUrl}
             >
-              {item.type === 'http://www.cidoc-crm.org/cidoc-crm/E10_Transfer_of_Custody' ? 'Transfer of custody' : 'Observation'}
+              {item.prefLabel}
             </a>
           </li>
         );
@@ -114,6 +118,10 @@ const ResultTableCell = props => {
         </ul>
       );
     } else {
+      // TODO: remove when this is fixed in data
+      if (Array.isArray(cell.prefLabel)) {
+        cell.prefLabel = 'Transfer of Custody';
+      }
       return (
         <span>
           {cell.date == null ? <span className={props.classes.noDate}>No date</span> : cell.date}
@@ -122,10 +130,9 @@ const ResultTableCell = props => {
             target='_blank' rel='noopener noreferrer'
             href={cell.dataProviderUrl}
           >
-            {cell.type === 'http://www.cidoc-crm.org/cidoc-crm/E10_Transfer_of_Custody' ? 'Transfer of custody' : 'Observation'}
+            {cell.prefLabel}
           </a>
         </span>
-
       );
     }
   };

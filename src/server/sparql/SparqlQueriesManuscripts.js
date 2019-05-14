@@ -56,19 +56,22 @@ export const manuscriptProperties = `
   {
     ?event__id crm:P30_transferred_custody_of ?id .
     ?event__id a ?event__type .
-    OPTIONAL { ?event__id skos:prefLabel ?event__prefLabel . }
-    OPTIONAL { ?event__id crm:P4_has_time-span ?event__date. }
-    OPTIONAL { ?event__id crm:P7_took_place_at ?event__place. }
-    OPTIONAL { ?event__id  mmm-schema:data_provider_url ?event__dataProviderUrl }
+    BIND("Transfer of Custody" AS ?event__prefLabel)
+    BIND(?event__id AS ?event__dataProviderUrl)
+  }
+  UNION
+  {
+    ?event__id mmm-schema:observed_manuscript ?id .
+    ?event__id a mmm-schema:On_Sale . # not yet in MMM data
+    BIND("On Sale" AS ?event__prefLabel)
+    BIND(?event__id AS ?event__dataProviderUrl)
   }
   UNION
   {
     ?event__id mmm-schema:observed_manuscript ?id .
     ?event__id a ?event__type .
-    OPTIONAL { ?event__id skos:prefLabel ?event__prefLabel . }
-    OPTIONAL { ?event__id mmm-schema:observed_time-span ?event__date. }
-    OPTIONAL { ?event__id mmm-schema:observed_location ?event__place. }
-    OPTIONAL { ?event__id mmm-schema:data_provider_url ?event__dataProviderUrl }
+    BIND("Provenance" AS ?event__prefLabel)
+    BIND(?event__id AS ?event__dataProviderUrl)
   }
 `;
 
