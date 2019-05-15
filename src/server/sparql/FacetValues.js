@@ -105,9 +105,9 @@ export const getFacet = ({
   q = q.replace(/<RDF_TYPE>/g, facetConfigs[facetClass].rdfType);
   q = q.replace(/<FILTER>/g, filterBlock );
   q = q.replace(/<PREDICATE>/g, facetConfig.predicate);
-  if (facetID == 'productionPlace') {
-    // console.log(uriFilters)
-    console.log(prefixes + q)
-  }
+  // if (facetID == 'productionPlace') {
+  //   // console.log(uriFilters)
+  //   console.log(prefixes + q)
+  // }
   return runSelectQuery(prefixes + q, endpoint, mapper);
 };
