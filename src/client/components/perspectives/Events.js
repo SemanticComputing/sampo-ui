@@ -4,36 +4,31 @@ import { Route, Redirect } from 'react-router-dom';
 import PerspectiveTabs from '../main_layout/PerspectiveTabs';
 import ResultTable from '../facet_results/ResultTable';
 
-let Organizations = props => {
+let Events = props => {
   return (
     <React.Fragment>
       <PerspectiveTabs
         routeProps={props.routeProps}
         tabs={{
-          '/organizations/table': {
+          '/events/table': {
             label: 'table',
             value: 0,
             icon: 'CalendarViewDay',
-          },
-          // '/organizations/map': {
-          //   label: 'map',
-          //   value: 1,
-          //   icon: 'AddLocation',
-          // },
+          }
         }}
       />
       <Route
-        exact path='/organizations'
-        render={() => <Redirect to='organizations/table' />}
+        exact path='/events'
+        render={() => <Redirect to='events/table' />}
       />
       <Route
-        path={'/organizations/table'}
+        path={'/events/table'}
         render={routeProps =>
           <ResultTable
-            data={props.organizations}
+            data={props.events}
             facetUpdateID={props.facetData.facetUpdateID}
-            resultClass='organizations'
-            facetClass='organizations'
+            resultClass='events'
+            facetClass='events'
             fetchPaginatedResults={props.fetchPaginatedResults}
             updatePage={props.updatePage}
             sortResults={props.sortResults}
@@ -45,9 +40,9 @@ let Organizations = props => {
   );
 };
 
-Organizations.propTypes = {
-  organizations: PropTypes.object.isRequired,
-  places: PropTypes.object.isRequired,
+Events.propTypes = {
+  events: PropTypes.object.isRequired,
+  places: PropTypes.object,
   facetData: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
   fetchPaginatedResults: PropTypes.func.isRequired,
@@ -57,4 +52,4 @@ Organizations.propTypes = {
   routeProps: PropTypes.object.isRequired
 };
 
-export default Organizations;
+export default Events;

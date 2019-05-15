@@ -118,7 +118,7 @@ export const getFacet = ({
   q = q.replace(/<RDF_TYPE>/g, facetConfigs[facetClass].rdfType);
   q = q.replace(/<FILTER>/g, filterBlock );
   q = q.replace(/<PREDICATE>/g, facetConfig.predicate);
-  // if (facetID == 'source') {
+  // if (facetID == 'place') {
   //   // console.log(uriFilters)
   //   console.log(prefixes + q)
   // }

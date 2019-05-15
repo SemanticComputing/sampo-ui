@@ -100,6 +100,30 @@ export const facetConfigs = {
       labelPath: 'skos:prefLabel',
     },
   },
+  events: {
+    rdfType: 'crm:E10_Transfer_of_Custody',
+    label: {
+      id: 'label',
+      type: 'text',
+      textQueryProperty: 'skos:prefLabel'
+    },
+    place: {
+      id: 'place',
+      facetValueFilter: `
+      ?id dct:source <http://vocab.getty.edu/tgn/> .
+      FILTER(?id != <http://ldf.fi/mmm/places/tgn_7031096>)
+      `,
+      label: 'Place',
+      labelPath: 'crm:P7_took_place_at/skos:prefLabel',
+      predicate: 'crm:P7_took_place_at',
+      parentPredicate: 'crm:P7_took_place_at/gvp:broaderPreferred+',
+      type: 'hierarchical',
+    },
+    // for sorting facet results
+    prefLabel: {
+      labelPath: 'skos:prefLabel',
+    },
+  },
   people: {
     rdfType: 'mmm-schema:Person',
     label: {

@@ -5,9 +5,10 @@ import {
   manuscriptProperties,
   productionPlacesQuery,
   migrationsQuery,
-  networkQuery, 
+  networkQuery,
 } from './SparqlQueriesManuscripts';
 import { workProperties } from './SparqlQueriesWorks';
+import { eventProperties } from './SparqlQueriesEvents';
 import { personProperties } from './SparqlQueriesPeople';
 import { organizationProperties } from './SparqlQueriesOrganizations';
 import { placeProperties, placeQuery, allPlacesQuery } from './SparqlQueriesPlaces';
@@ -157,6 +158,9 @@ const getPaginatedData = ({
       break;
     case 'works':
       resultSetProperties = workProperties;
+      break;
+    case 'events':
+      resultSetProperties = eventProperties;
       break;
     case 'places':
       resultSetProperties = placeProperties;

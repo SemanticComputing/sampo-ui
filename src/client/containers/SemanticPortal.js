@@ -15,6 +15,7 @@ import Message from '../components/main_layout/Message';
 import FacetBar from '../components/facet_bar/FacetBar';
 import Manuscripts from '../components/perspectives/Manuscripts';
 import Works from '../components/perspectives/Works';
+import Events from '../components/perspectives/Events';
 import Places from '../components//perspectives/Places';
 import People from '../components//perspectives/People';
 import Organizations from '../components/perspectives/Organizations';
@@ -176,6 +177,39 @@ let SemanticPortal = (props) => {
               }
             />
             <Route
+              path="/events"
+              render={routeProps =>
+                <React.Fragment>
+                  <Grid item xs={12} md={3} className={classes.facetBarContainer}>
+                    <FacetBar
+                      facetData={props.eventsFacets}
+                      facetClass='events'
+                      resultClass='events'
+                      fetchingResultCount={props.events.fetchingResultCount}
+                      resultCount={props.events.resultCount}
+                      fetchFacet={props.fetchFacet}
+                      fetchResultCount={props.fetchResultCount}
+                      updateFacetOption={props.updateFacetOption}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={9} className={classes.resultsContainer}>
+                    <Paper className={classes.resultsContainerPaper}>
+                      <Events
+                        events={props.events}
+                        facetData={props.eventsFacets}
+                        fetchPaginatedResults={props.fetchPaginatedResults}
+                        fetchResults={props.fetchResults}
+                        fetchByURI={props.fetchByURI}
+                        updatePage={props.updatePage}
+                        sortResults={props.sortResults}
+                        routeProps={routeProps}
+                      />
+                    </Paper>
+                  </Grid>
+                </React.Fragment>
+              }
+            />
+            <Route
               path="/people"
               render={routeProps =>
                 <React.Fragment>
@@ -313,6 +347,8 @@ const mapStateToProps = state => {
     manuscriptsFacets: state.manuscriptsFacets,
     works: state.works,
     worksFacets: state.worksFacets,
+    events: state.events,
+    eventsFacets: state.eventsFacets,
     people: state.people,
     peopleFacets: state.peopleFacets,
     organizations: state.organizations,
@@ -348,6 +384,8 @@ SemanticPortal.propTypes = {
   manuscriptsFacets: PropTypes.object.isRequired,
   works: PropTypes.object.isRequired,
   worksFacets: PropTypes.object.isRequired,
+  events: PropTypes.object.isRequired,
+  eventsFacets: PropTypes.object.isRequired,
   people: PropTypes.object.isRequired,
   peopleFacets: PropTypes.object.isRequired,
   organizations: PropTypes.object.isRequired,
