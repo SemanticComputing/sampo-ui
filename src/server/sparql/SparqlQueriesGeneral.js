@@ -48,32 +48,32 @@ export const facetResultSetQuery = `
 
 export const facetValuesQuery = `
   SELECT DISTINCT ?id ?prefLabel ?selected ?parent ?instanceCount {
-    # facet values that return results
     {
       {
-        SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?parent {
+        SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected {
+          # facet values that return results
           {
             <FILTER>
             ?instance <PREDICATE> ?id .
             ?instance a <RDF_TYPE> .
             <SELECTED_VALUES>
-            BIND(COALESCE(?selected_, false) as ?selected)
-            OPTIONAL { ?id gvp:broaderPreferred ?parent_ . }
-            BIND(COALESCE(?parent_, '0') as ?parent)
           }
+          <SELECTED_VALUES_NO_HITS>
           <PARENTS>
+          BIND(COALESCE(?selected_, false) as ?selected)
         }
-        GROUP BY ?id ?selected ?source ?parent
+        GROUP BY ?id ?selected
       }
       FILTER(BOUND(?id))
       <FACET_VALUE_FILTER>
+      OPTIONAL { ?id gvp:broaderPreferred ?parent_ }
       OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
+      BIND(COALESCE(?parent_, '0') as ?parent)
       BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
     }
-    <SELECTED_VALUES_NO_HITS>
     UNION
-    # 'Unknown' facet value for results with no predicate path
     {
+      # 'Unknown' facet value for results with no predicate path
       {
         SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) {
           <FILTER>
@@ -83,12 +83,12 @@ export const facetValuesQuery = `
           }
         }
       }
+      FILTER(?instanceCount > 0)
       BIND(IRI("http://ldf.fi/MISSING_VALUE") AS ?id)
       BIND("Unknown" AS ?prefLabel)
       BIND('0' as ?parent)
       BIND(false as ?selected)
     }
-
   }
   <ORDER_BY>
 `;

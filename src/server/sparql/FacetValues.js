@@ -21,7 +21,7 @@ export const getFacet = ({
   let q = facetValuesQuery;
   const facetConfig = facetConfigs[facetClass][facetID];
   let selectedBlock = '# no selections';
-  let selectedNoHitsBlock = '# no selections';
+  let selectedNoHitsBlock = '# no filters from other facets';
   let filterBlock = '# no filters';
   let parentBlock = '# no parents';
   let mapper = mapFacet;
@@ -61,28 +61,13 @@ export const getFacet = ({
         inverse: true,
       });
       selectedNoHitsBlock = `
-      UNION
-      {
-        {
-          SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected ?parent {
-            {
-              VALUES ?id { <${uriFilters[facetID].join('> <')}> }
-              ${noHitsFilter}
-              BIND(true AS ?selected)
-              OPTIONAL {
-                ?id gvp:broaderPreferred ?parent_
-              }
-              BIND(COALESCE(?parent_, '0') as ?parent)
-            }
-            <PARENTS>
-          }
-          GROUP BY ?id ?selected ?parent
-        }
-        FILTER(BOUND(?id))
-        <FACET_VALUE_FILTER>
-        OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
-        BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
-      }
+    UNION
+    {
+    # facet values that have been selected but return no results
+      VALUES ?id { <${uriFilters[facetID].join('> <')}> }
+      ${noHitsFilter}
+      BIND(true AS ?selected_)
+    }
       `;
     }
   }
@@ -94,33 +79,35 @@ export const getFacet = ({
       spatialFilters: spatialFilters,
       textFilters: textFilters,
       filterTarget: 'instance2',
-      facetID: facetID });
+      facetID: facetID,
+      inverse: false
+    });
+    let ignoreSelectedValues = '';
+    if (uriFilters !== null && has(uriFilters, facetID)) {
+      ignoreSelectedValues = `FILTER(?id NOT IN ( <${uriFilters[facetID].join('>, <')}> ))`;
+    }
     parentBlock = `
-          UNION
-          {
-            ${parentFilterStr}
-            ?instance2 ${facetConfig.parentPredicate} ?id .
-            OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
-            BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
-            OPTIONAL {
-              ?id gvp:broaderPreferred ?parent_
-            }
-            BIND(COALESCE(?selected_, false) as ?selected)
-            BIND(COALESCE(?parent_, '0') as ?parent)
-          }
+    UNION
+    # parents for all facet values
+    {
+      ${parentFilterStr}
+      ?instance2 ${facetConfig.parentPredicate} ?id .
+      BIND(false AS ?selected_)
+      ${ignoreSelectedValues}
+    }
       `;
   }
   q = q.replace('<SELECTED_VALUES>', selectedBlock);
   q = q.replace('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock);
-  q = q.replace(/<FACET_VALUE_FILTER>/g, facetConfig.facetValueFilter);
-  q = q.replace(/<PARENTS>/g, parentBlock);
+  q = q.replace('<FACET_VALUE_FILTER>', facetConfig.facetValueFilter);
+  q = q.replace('<PARENTS>', parentBlock);
   q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
   q = q.replace(/<RDF_TYPE>/g, facetConfigs[facetClass].rdfType);
   q = q.replace(/<FILTER>/g, filterBlock );
   q = q.replace(/<PREDICATE>/g, facetConfig.predicate);
-  // if (facetID == 'place') {
-  //   // console.log(uriFilters)
-  //   console.log(prefixes + q)
-  // }
+  if (facetID == 'productionPlace') {
+    // console.log(uriFilters)
+    console.log(prefixes + q)
+  }
   return runSelectQuery(prefixes + q, endpoint, mapper);
 };

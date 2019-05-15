@@ -149,10 +149,6 @@ class HierarchicalFacet extends Component {
   }
 
   generateNodeProps = treeObj => {
-    // TODO: sometimes this produces an empty treenode
-    if (treeObj.node.prefLabel === 'Unknown' && treeObj.node.instanceCount == 0) {
-      return null;
-    }
     const { uriFilter} = this.props.facet;
     let selectedCount = uriFilter == null ? 0 : Object.keys(this.props.facet.uriFilter).length;
     let isSelected = treeObj.node.selected === 'true' ? true : false;
