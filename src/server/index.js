@@ -151,6 +151,7 @@ app.get(`${apiPath}/search`, async (req, res, next) => {
   }
 });
 
+// Express server is used to serve the React app only in production
 if (!isDevelopment) {
   /*  Routes are matched to a url in order of their definition
       Redirect all the the rest for react-router to handle */
