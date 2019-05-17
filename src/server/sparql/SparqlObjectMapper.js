@@ -123,11 +123,7 @@ const arrayToObject = (array, keyField) =>
     let newItem = {};
     Object.entries(item).forEach(([key, value]) => {
       if (key !== keyField) {
-        if (key === 'manuscript') {
-          newItem[key] = value.value.split(',');
-        } else {
-          newItem[key] = value.value;
-        }
+        newItem[key] = value.value;
       }
     });
     obj[item[keyField].value] = newItem;
