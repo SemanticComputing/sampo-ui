@@ -53,7 +53,8 @@ export const INITIAL_STATE = {
       valueType: 'object',
       makeLink: true,
       sortValues: false,
-      numberedList: false
+      numberedList: false,
+      minWidth: 250
     },
   ],
 };
