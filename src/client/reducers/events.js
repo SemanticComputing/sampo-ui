@@ -47,6 +47,18 @@ export const INITIAL_STATE = {
       numberedList: false
     },
     {
+      id: 'timespan',
+      label: 'Date',
+      desc: `
+        Date description.
+      `,
+      valueType: 'object',
+      makeLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 200,
+    },
+    {
       id: 'place',
       label: 'Place',
       desc: 'Place description',

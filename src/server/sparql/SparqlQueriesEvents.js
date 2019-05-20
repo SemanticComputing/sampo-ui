@@ -9,4 +9,8 @@ export const eventProperties = `
       ?place__id skos:prefLabel ?place__prefLabel .
       ?place__id owl:sameAs ?place__dataProviderUrl .
     }
+    UNION {
+      ?id crm:P4_has_time-span ?timespan__id .
+      BIND(?timespan__id AS ?timespan__prefLabel)
+    }
 `;
