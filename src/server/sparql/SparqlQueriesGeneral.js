@@ -4,6 +4,7 @@ export const endpoint = 'http://ldf.fi/mmm-cidoc/sparql';
 export const countQuery = `
   SELECT (COUNT(DISTINCT ?id) as ?count)
   WHERE {
+    <FILTER>
     VALUES ?facetClass { <FACET_CLASS> }
     ?id a ?facetClass .
   }
