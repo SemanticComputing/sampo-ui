@@ -33,6 +33,24 @@ export const INITIAL_STATE = {
       filterType: 'textFilter',
       textFilter: null,
     },
+    type: {
+      id: 'type',
+      label: 'Type',
+      //predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'prefLabel',
+      sortDirection: 'asc',
+      sortButton: false,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: false,
+      containerClass: 'three',
+      filterType: 'uriFilter',
+      uriFilter: null,
+      spatialFilter: null
+    },
     place: {
       id: 'place',
       label: 'Place',
