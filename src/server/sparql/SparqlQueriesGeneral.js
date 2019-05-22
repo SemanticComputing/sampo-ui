@@ -36,7 +36,7 @@ export const facetResultSetQuery = `
       SELECT DISTINCT ?id {
         <FILTER>
         ?id a <RDF_TYPE> .
-        ?id <ORDER_BY_PREDICATE> ?orderBy .
+        OPTIONAL { ?id <ORDER_BY_PREDICATE> ?orderBy }
       }
       ORDER BY (!BOUND(?orderBy)) <SORT_DIRECTION>(?orderBy)
       <PAGE>
