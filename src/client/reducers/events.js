@@ -32,19 +32,20 @@ export const INITIAL_STATE = {
   instance: {},
   page: -1,
   pagesize: 15,
-  sortBy: 'prefLabel',
+  sortBy: 'place',
   sortDirection: 'asc',
   fetching: false,
   fetchingResultCount: false,
   tableColumns: [
     {
-      id: 'prefLabel',
-      label: 'Label',
-      desc: 'Label description',
+      id: 'type',
+      label: 'Type',
+      desc: 'Type description',
       valueType: 'object',
       makeLink: true,
       sortValues: false,
-      numberedList: false
+      numberedList: false,
+      minWidth: 200,
     },
     {
       id: 'timespan',

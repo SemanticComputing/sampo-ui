@@ -107,6 +107,10 @@ export const facetConfigs = {
       type: 'text',
       textQueryProperty: 'skos:prefLabel'
     },
+    // for sorting
+    type: {
+      labelPath: 'a/(skos:prefLabel|rdfs:label)',
+    },
     place: {
       id: 'place',
       facetValueFilter: `
@@ -118,10 +122,6 @@ export const facetConfigs = {
       predicate: 'crm:P7_took_place_at',
       parentPredicate: 'crm:P7_took_place_at/gvp:broaderPreferred+',
       type: 'hierarchical',
-    },
-    // for sorting facet results
-    prefLabel: {
-      labelPath: 'skos:prefLabel',
     },
   },
   people: {
