@@ -4,8 +4,8 @@ export const endpoint = 'http://ldf.fi/mmm-cidoc/sparql';
 export const countQuery = `
   SELECT (COUNT(DISTINCT ?id) as ?count)
   WHERE {
-    <FILTER>
-    ?id a <RDF_TYPE> .
+    VALUES ?facetClass { <FACET_CLASS> }
+    ?id a ?facetClass .
   }
 `;
 
@@ -35,7 +35,8 @@ export const facetResultSetQuery = `
     {
       SELECT DISTINCT ?id {
         <FILTER>
-        ?id a <RDF_TYPE> .
+        VALUES ?facetClass { <FACET_CLASS> }
+        ?id a ?facetClass .
         OPTIONAL { ?id <ORDER_BY_PREDICATE> ?orderBy }
       }
       ORDER BY (!BOUND(?orderBy)) <SORT_DIRECTION>(?orderBy)
@@ -55,7 +56,8 @@ export const facetValuesQuery = `
           {
             <FILTER>
             ?instance <PREDICATE> ?id .
-            ?instance a <RDF_TYPE> .
+            VALUES ?facetClass { <FACET_CLASS> }
+            ?instance a ?facetClass .
             <SELECTED_VALUES>
           }
           <SELECTED_VALUES_NO_HITS>
@@ -67,7 +69,7 @@ export const facetValuesQuery = `
       FILTER(BOUND(?id))
       <FACET_VALUE_FILTER>
       OPTIONAL { ?id gvp:broaderPreferred ?parent_ }
-      OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
+      OPTIONAL { ?id skos:prefLabel|rdfs:label ?prefLabel_ }
       BIND(COALESCE(?parent_, '0') as ?parent)
       BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
     }
@@ -77,7 +79,8 @@ export const facetValuesQuery = `
       {
         SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) {
           <FILTER>
-          ?instance a <RDF_TYPE> .
+          VALUES ?facetClass { <FACET_CLASS> }
+          ?instance a ?facetClass .
           FILTER NOT EXISTS {
             ?instance <PREDICATE> ?value .
           }

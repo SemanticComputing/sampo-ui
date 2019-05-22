@@ -4,7 +4,7 @@
 */
 export const facetConfigs = {
   manuscripts: {
-    rdfType: 'frbroo:F4_Manifestation_Singleton',
+    facetClass: 'frbroo:F4_Manifestation_Singleton',
     label: {
       id: 'label',
       type: 'text',
@@ -74,7 +74,7 @@ export const facetConfigs = {
     },
   },
   works: {
-    rdfType: 'frbroo:F1_Work',
+    facetClass: 'frbroo:F1_Work',
     label: {
       id: 'label',
       type: 'text',
@@ -101,14 +101,16 @@ export const facetConfigs = {
     },
   },
   events: {
-    rdfType: 'crm:E10_Transfer_of_Custody',
+    facetClass: 'crm:E10_Transfer_of_Custody crm:E12_Production', 
     label: {
       id: 'label',
       type: 'text',
       textQueryProperty: 'skos:prefLabel'
     },
-    // for sorting
     type: {
+      predicate: 'a',
+      facetValueFilter: '',
+      type: 'list',
       labelPath: 'a/(skos:prefLabel|rdfs:label)',
     },
     place: {
@@ -125,7 +127,7 @@ export const facetConfigs = {
     },
   },
   people: {
-    rdfType: 'mmm-schema:Person',
+    facetClass: 'mmm-schema:Person',
     label: {
       id: 'label',
       type: 'text',
@@ -153,7 +155,7 @@ export const facetConfigs = {
     },
   },
   organizations: {
-    rdfType: 'mmm-schema:Organization',
+    facetClass: 'mmm-schema:Organization',
     label: {
       id: 'label',
       type: 'text',
@@ -172,7 +174,7 @@ export const facetConfigs = {
     },
   },
   places: {
-    rdfType: 'crm:E53_Place',
+    facetClass: 'crm:E53_Place',
     label: {
       id: 'label',
       type: 'text',

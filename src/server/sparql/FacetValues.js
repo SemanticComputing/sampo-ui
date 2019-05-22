@@ -93,7 +93,8 @@ export const getFacet = ({
             ${parentFilterStr}
             # these instances should not be counted, so use another variable name
             ?instance2 ${facetConfig.parentPredicate} ?id .
-            ?instance2 a <RDF_TYPE>
+            VALUES ?facetClass { <FACET_CLASS> }
+            ?instance2 a ?facetClass .
             BIND(false AS ?selected_)
             ${ignoreSelectedValues}
           }
@@ -104,7 +105,7 @@ export const getFacet = ({
   q = q.replace('<FACET_VALUE_FILTER>', facetConfig.facetValueFilter);
   q = q.replace('<PARENTS>', parentBlock);
   q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
-  q = q.replace(/<RDF_TYPE>/g, facetConfigs[facetClass].rdfType);
+  q = q.replace(/<FACET_CLASS>/g, facetConfigs[facetClass].facetClass);
   q = q.replace(/<FILTER>/g, filterBlock );
   q = q.replace(/<PREDICATE>/g, facetConfig.predicate);
   // if (facetID == 'place') {

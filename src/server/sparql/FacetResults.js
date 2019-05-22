@@ -100,7 +100,7 @@ export const getResultCount = ({
   textFilters
 }) => {
   let q = countQuery;
-  q = q.replace('<RDF_TYPE>', facetConfigs[resultClass].rdfType);
+  q = q.replace('<FACET_CLASS>', facetConfigs[resultClass].facetClass);
   const hasFilters = uriFilters !== null
     || spatialFilters !== null
     || textFilters !== null;
@@ -147,7 +147,7 @@ const getPaginatedData = ({
       filterTarget: 'id',
       facetID: null}));
   }
-  q = q.replace('<RDF_TYPE>', facetConfig.rdfType);
+  q = q.replace('<FACET_CLASS>', facetConfig.facetClass);
   q = q.replace('<ORDER_BY_PREDICATE>', facetConfig[sortBy].labelPath);
   q = q.replace('<SORT_DIRECTION>', sortDirection);
   q = q.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`);
