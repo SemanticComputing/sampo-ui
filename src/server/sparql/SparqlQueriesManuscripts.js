@@ -50,7 +50,10 @@ export const manuscriptProperties = `
   UNION
   {
     ?id crm:P128_carries ?expression .
-    ?expression crm:P72_has_language ?language .
+    ?expression crm:P72_has_language ?language__id .
+    ?language__id skos:prefLabel ?language__prefLabel .
+    BIND(?language__id as ?language__dataProviderUrl)
+
   }
   UNION
   {

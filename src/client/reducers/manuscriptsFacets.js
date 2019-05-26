@@ -120,16 +120,23 @@ export const INITIAL_STATE = {
       filterType: 'uriFilter',
       uriFilter: null
     },
-    // language: {
-    //   id: 'language',
-    //   label: 'Language',
-    //   // predicate: defined in backend
-    //   distinctValueCount: 0,
-    //   values: [],
-    //   sortBy: 'instanceCount',
-    //   sortDirection: 'asc',
-    //   isFetching: false,
-    // },
+    language: {
+      id: 'owner',
+      label: 'Language',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'instanceCount',
+      sortDirection: 'desc',
+      sortButton: true,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: true,
+      containerClass: 'ten',
+      filterType: 'uriFilter',
+      uriFilter: null
+    },
   }
 };
 

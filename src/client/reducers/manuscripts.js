@@ -99,8 +99,8 @@ export const INITIAL_STATE = {
       desc: `
         The language(s) in which the manuscript was written.
       `,
-      valueType: 'string',
-      makeLink: false,
+      valueType: 'object',
+      makeLink: true,
       sortValues: true,
       numberedList: false,
       minWidth: 150,
