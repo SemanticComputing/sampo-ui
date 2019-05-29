@@ -56,6 +56,15 @@ export const INITIAL_STATE = {
       numberedList: false
     },
     {
+      id: 'manuscript',
+      label: 'Manuscript',
+      desc: 'Manuscript description',
+      valueType: 'object',
+      makeLink: true,
+      sortValues: true,
+      numberedList: false
+    },
+    {
       id: 'source',
       label: 'Source',
       desc: 'Source description',

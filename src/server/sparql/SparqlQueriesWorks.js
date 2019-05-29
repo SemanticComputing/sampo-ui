@@ -1,7 +1,16 @@
 export const workProperties = `
-    ?id skos:prefLabel ?prefLabel__id .
-    BIND(?prefLabel__id AS ?prefLabel__prefLabel)
-    BIND(?id AS ?prefLabel__dataProviderUrl)
+    {
+      ?id skos:prefLabel ?prefLabel__id .
+      BIND(?prefLabel__id AS ?prefLabel__prefLabel)
+      BIND(?id AS ?prefLabel__dataProviderUrl)
+    }
+    UNION
+    {
+      ?id ^mmm-schema:manuscript_work ?manuscript__id .
+      ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
+      BIND(?manuscript__id AS ?manuscript__dataProviderUrl)
+    }
+    UNION
     {
       ?id dct:source ?source__id .
       ?source__id skos:prefLabel ?source__prefLabel .
