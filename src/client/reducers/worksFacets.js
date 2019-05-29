@@ -52,7 +52,7 @@ export const INITIAL_STATE = {
     },
     author: {
       id: 'author',
-      label: 'Author',
+      label: 'Possible author',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],

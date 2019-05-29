@@ -47,6 +47,15 @@ export const INITIAL_STATE = {
       numberedList: false
     },
     {
+      id: 'author',
+      label: 'Possible author',
+      desc: 'Author description',
+      valueType: 'object',
+      makeLink: true,
+      sortValues: true,
+      numberedList: false
+    },
+    {
       id: 'source',
       label: 'Source',
       desc: 'Source description',
