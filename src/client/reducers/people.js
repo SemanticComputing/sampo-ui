@@ -47,6 +47,15 @@ export const INITIAL_STATE = {
       numberedList: false
     },
     {
+      id: 'birthPlace',
+      label: 'Place of birth',
+      desc: 'Birth place description',
+      valueType: 'object',
+      makeLink: true,
+      sortValues: true,
+      numberedList: false
+    },
+    {
       id: 'place',
       label: 'Place / nationality',
       desc: 'Place / nationality description',

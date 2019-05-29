@@ -50,6 +50,23 @@ export const INITIAL_STATE = {
       filterType: 'uriFilter',
       uriFilter: null
     },
+    birthPlace: {
+      id: 'birthPlace',
+      label: 'Place of birth',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'prefLabel',
+      sortDirection: 'asc',
+      sortButton: true,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: true,
+      containerClass: 'ten',
+      filterType: 'uriFilter',
+      uriFilter: null
+    },
     place: {
       id: 'place',
       label: 'Place / nationality',

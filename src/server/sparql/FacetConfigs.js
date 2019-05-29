@@ -22,7 +22,6 @@ export const facetConfigs = {
       id: 'productionPlace',
       facetValueFilter: `
       ?id dct:source <http://vocab.getty.edu/tgn/> .
-      FILTER(?id != <http://ldf.fi/mmm/places/tgn_7031096>)
       `,
       label: 'Production place',
       labelPath: '^crm:P108_has_produced/crm:P7_took_place_at/skos:prefLabel',
@@ -101,7 +100,7 @@ export const facetConfigs = {
     },
   },
   events: {
-    facetClass: 'crm:E10_Transfer_of_Custody crm:E12_Production', 
+    facetClass: 'crm:E10_Transfer_of_Custody crm:E12_Production',
     label: {
       id: 'label',
       type: 'text',
@@ -117,7 +116,6 @@ export const facetConfigs = {
       id: 'place',
       facetValueFilter: `
       ?id dct:source <http://vocab.getty.edu/tgn/> .
-      FILTER(?id != <http://ldf.fi/mmm/places/tgn_7031096>)
       `,
       label: 'Place',
       labelPath: 'crm:P7_took_place_at/skos:prefLabel',
@@ -140,13 +138,26 @@ export const facetConfigs = {
       predicate: 'dct:source',
       type: 'list',
     },
+    birthPlace: {
+      id: 'birthPlace',
+      facetValueFilter: `
+      ?id dct:source <http://vocab.getty.edu/tgn/> .
+      `,
+      labelPath: 'crm:P98i_was_born/crm:P7_took_place_at/skos:prefLabel',
+      predicate: 'crm:P98i_was_born/crm:P7_took_place_at',
+      parentPredicate: 'crm:P98i_was_born/crm:P7_took_place_at/gvp:broaderPreferred+',
+      type: 'hierarchical',
+      //type: 'hierarchical',
+    },
     place: {
       id: 'source',
-      facetValueFilter: '',
+      facetValueFilter: `
+      ?id dct:source <http://vocab.getty.edu/tgn/> .
+      `,
       labelPath: 'mmm-schema:person_place/skos:prefLabel',
       predicate: 'mmm-schema:person_place',
-      //parentPredicate: 'gvp:broaderPreferred+',
-      type: 'list',
+      parentPredicate: 'mmm-schema:person_place/gvp:broaderPreferred+',
+      type: 'hierarchical',
       //type: 'hierarchical',
     },
     // for sorting facet results
