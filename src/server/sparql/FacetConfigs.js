@@ -160,6 +160,15 @@ export const facetConfigs = {
       type: 'hierarchical',
       //type: 'hierarchical',
     },
+    work: {
+      labelPath: `
+        (^mmm-schema:carried_out_by_as_possible_author
+        |^mmm-schema:carried_out_by_as_author
+        |^mmm-schema:carried_out_by_as_commissioner
+        |^mmm-schema:carried_out_by_as_editor)
+        /frbroo:R16_initiated/skos:prefLabel
+      `,
+    },
     // for sorting facet results
     prefLabel: {
       labelPath: 'skos:prefLabel',

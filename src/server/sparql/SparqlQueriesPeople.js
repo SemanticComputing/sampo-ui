@@ -24,5 +24,14 @@ export const personProperties = `
       ?place__id skos:prefLabel ?place__prefLabel .
       BIND(?place__id as ?place__dataProviderUrl)
     }
-
+    UNION
+    {
+      ?id (^mmm-schema:carried_out_by_as_possible_author
+          |^mmm-schema:carried_out_by_as_author
+          |^mmm-schema:carried_out_by_as_commissioner
+          |^mmm-schema:carried_out_by_as_editor)
+          /frbroo:R16_initiated ?work__id .
+      ?work__id skos:prefLabel ?work__prefLabel .
+      BIND(?work__id AS ?work__dataProviderUrl)
+    }
 `;

@@ -65,6 +65,15 @@ export const INITIAL_STATE = {
       numberedList: false
     },
     {
+      id: 'work',
+      label: 'Work',
+      desc: 'Work description',
+      valueType: 'object',
+      makeLink: true,
+      sortValues: true,
+      numberedList: false
+    },
+    {
       id: 'source',
       label: 'Source',
       desc: 'Source description',
