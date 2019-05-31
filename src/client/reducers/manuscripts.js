@@ -31,7 +31,7 @@ export const INITIAL_STATE = {
   resultsUpdateID: -1,
   instance: {},
   page: -1,
-  pagesize: 25,
+  pagesize: 15,
   sortBy: 'prefLabel',
   sortDirection: 'asc',
   fetching: false,
@@ -60,7 +60,7 @@ export const INITIAL_STATE = {
       makeLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 250
+      minWidth: 200
     },
     {
       id: 'productionPlace',
@@ -91,7 +91,7 @@ export const INITIAL_STATE = {
       makeLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 200,
+      minWidth: 250,
     },
     {
       id: 'language',
@@ -103,30 +103,30 @@ export const INITIAL_STATE = {
       makeLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 150,
+      minWidth: 250,
     },
+    // // {
+    // //   id: 'material',
+    // //   label: 'Material'
+    // //   desc: 'Material description'
+    // //   valueType: 'string',
+    // //   makeLink: true,
+    // //   sortValues: true
+    // //   numberedList: false
+    // // },
     // {
-    //   id: 'material',
-    //   label: 'Material'
-    //   desc: 'Material description'
-    //   valueType: 'string',
+    //   id: 'event',
+    //   label: 'Event',
+    //   desc: `
+    //     Events related to the manuscript. Currently the are two main event
+    //     types: Transfer of custody (e.g. sale, gift, theft) and Observation.
+    //   `,
+    //   valueType: 'event',
     //   makeLink: true,
-    //   sortValues: true
-    //   numberedList: false
+    //   sortValues: true,
+    //   numberedList: false,
+    //   minWidth: 250,
     // },
-    {
-      id: 'event',
-      label: 'Event',
-      desc: `
-        Events related to the manuscript. Currently the are two main event
-        types: Transfer of custody (e.g. sale, gift, theft) and Observation.
-      `,
-      valueType: 'event',
-      makeLink: true,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 200,
-    },
     {
       id: 'owner',
       label: 'Owner',
@@ -153,7 +153,7 @@ export const INITIAL_STATE = {
       makeLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 200
+      minWidth: 250
     },
   ],
 };

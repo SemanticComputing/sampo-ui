@@ -80,8 +80,14 @@ const styles = theme => ({
     paddingTop: '0px !important',
     paddingBottom: '0px !important'
   },
+  resultsContainerTable: {
+    //height: '100%',
+    overflow: 'auto',
+    paddingTop: '0px !important',
+    paddingBottom: '0px !important'
+  },
   resultsContainerPaper: {
-    height: '100%'
+    //height: '100%'
   }
 });
 
@@ -109,22 +115,26 @@ let SemanticPortal = (props) => {
             />
             <Route
               path="/manuscripts"
-              render={routeProps =>
-                <React.Fragment>
-                  <Grid item xs={12} md={3} className={classes.facetBarContainer}>
-                    <FacetBar
-                      facetData={props.manuscriptsFacets}
-                      facetClass='manuscripts'
-                      resultClass='manuscripts'
-                      fetchingResultCount={props.manuscripts.fetchingResultCount}
-                      resultCount={props.manuscripts.resultCount}
-                      fetchFacet={props.fetchFacet}
-                      fetchResultCount={props.fetchResultCount}
-                      updateFacetOption={props.updateFacetOption}
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={9} className={classes.resultsContainer}>
-                    <Paper className={classes.resultsContainerPaper}>
+              render={routeProps => {
+                let tableTab = routeProps.location.pathname.endsWith('table');
+                return (
+                  <React.Fragment>
+                    <Grid item xs={12} md={3} className={classes.facetBarContainer}>
+                      <FacetBar
+                        facetData={props.manuscriptsFacets}
+                        facetClass='manuscripts'
+                        resultClass='manuscripts'
+                        fetchingResultCount={props.manuscripts.fetchingResultCount}
+                        resultCount={props.manuscripts.resultCount}
+                        fetchFacet={props.fetchFacet}
+                        fetchResultCount={props.fetchResultCount}
+                        updateFacetOption={props.updateFacetOption}
+                      />
+                    </Grid>
+                    <Grid
+                      item xs={12} md={9}
+                      className={tableTab ? classes.resultsContainerTable : classes.resultsContainer}
+                    >
                       <Manuscripts
                         manuscripts={props.manuscripts}
                         places={props.places}
@@ -137,9 +147,10 @@ let SemanticPortal = (props) => {
                         sortResults={props.sortResults}
                         routeProps={routeProps}
                       />
-                    </Paper>
-                  </Grid>
-                </React.Fragment>
+                    </Grid>
+                  </React.Fragment>
+                );
+              }
               }
             />
             <Route

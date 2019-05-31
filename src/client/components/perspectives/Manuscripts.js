@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import PerspectiveTabs from '../main_layout/PerspectiveTabs';
-import ResultTable from '../facet_results/ResultTable';
+import ResultTable3 from '../facet_results/ResultTable3';
 import LeafletMap from '../facet_results/LeafletMap';
 import Deck from '../facet_results/Deck';
 import Pie from '../facet_results/Pie';
@@ -48,7 +48,7 @@ let Manuscripts = props => {
       <Route
         path={'/manuscripts/table'}
         render={routeProps =>
-          <ResultTable
+          <ResultTable3
             data={props.manuscripts}
             facetUpdateID={props.facetData.facetUpdateID}
             resultClass='manuscripts'
