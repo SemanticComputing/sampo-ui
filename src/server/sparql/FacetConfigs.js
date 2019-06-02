@@ -125,7 +125,7 @@ export const facetConfigs = {
     },
   },
   people: {
-    facetClass: 'mmm-schema:Person',
+    facetClass: 'crm:E21_Person',
     label: {
       id: 'label',
       type: 'text',
@@ -175,7 +175,7 @@ export const facetConfigs = {
     },
   },
   organizations: {
-    facetClass: 'mmm-schema:Organization',
+    facetClass: 'crm:E74_Group',
     label: {
       id: 'label',
       type: 'text',

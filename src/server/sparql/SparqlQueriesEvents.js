@@ -13,6 +13,6 @@ export const eventProperties = `
     UNION
     {
       ?id crm:P4_has_time-span ?timespan__id .
-      BIND(?timespan__id AS ?timespan__prefLabel)
+      ?timespan__id skos:prefLabel ?timespan__prefLabel .
     }
 `;
