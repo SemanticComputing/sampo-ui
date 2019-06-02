@@ -178,7 +178,7 @@ const ResultTableCell = props => {
     }
   };
 
-  const { data, valueType, makeLink, sortValues, numberedList, minWidth } = props;
+  const { data, valueType, makeLink, sortValues, numberedList, minWidth, container } = props;
   let renderer = null;
   let cellStyle = minWidth == null ? {} : { minWidth: minWidth };
   switch (valueType) {
@@ -195,12 +195,20 @@ const ResultTableCell = props => {
       renderer = ownerRenderer;
       break;
   }
-
-  return(
-    <TableCell style={cellStyle}>
-      {renderer(data, makeLink, sortValues, numberedList)}
-    </TableCell>
-  );
+  if (container === 'div') {
+    return(
+      <div>
+        {renderer(data, makeLink, sortValues, numberedList)}
+      </div>
+    );
+  }
+  if (container === 'cell') {
+    return(
+      <TableCell style={cellStyle}>
+        {renderer(data, makeLink, sortValues, numberedList)}
+      </TableCell>
+    );
+  }
 };
 
 ResultTableCell.propTypes = {

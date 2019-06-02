@@ -1,32 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+//import { withStyles } from '@material-ui/core/styles';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-
 import Tooltip from '@material-ui/core/Tooltip';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 
-const styles = theme => ({
-  headerCol: {
-    position: 'sticky',
-    top: 0,
-    backgroundColor: theme.palette.background.paper,
-  }
-});
-
-const ResultTableHead = props => {
-  const { classes, columns, sortBy, sortDirection, onSortBy } = props;
+const MaterialTableFacetResultsHead = props => {
+  const { columns, sortBy, sortDirection, onSortBy } = props;
   return (
     <TableHead>
       <TableRow>
+        <TableCell
+          key='detail-panel-column'
+          padding='none'
+        >
+        </TableCell>
         {columns.map(column => {
           return (
             <TableCell
-              className={classes.headerCol}
               key={column.id}
               sortDirection={sortBy === column.id ? sortDirection : false}
             >
@@ -59,8 +54,8 @@ const ResultTableHead = props => {
   );
 };
 
-ResultTableHead.propTypes = {
-  classes: PropTypes.object.isRequired,
+MaterialTableFacetResultsHead.propTypes = {
+  //classes: PropTypes.object.isRequired,
   columns: PropTypes.array.isRequired,
   onChangePage: PropTypes.func.isRequired,
   onSortBy: PropTypes.func.isRequired,
@@ -73,4 +68,4 @@ ResultTableHead.propTypes = {
   routeProps: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ResultTableHead);
+export default MaterialTableFacetResultsHead;

@@ -22,7 +22,7 @@ const styles = () => ({
   },
 });
 
-class ResultTable2 extends React.Component {
+class MaterialTableFullTextResults extends React.Component {
 
   render() {
     let resultText = this.props.data.length == 1 ? 'result' : 'results';
@@ -95,11 +95,11 @@ class ResultTable2 extends React.Component {
   }
 }
 
-ResultTable2.propTypes = {
+MaterialTableFullTextResults.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array,
   query: PropTypes.string,
   fetching: PropTypes.bool.isRequired
 };
 
-export default withStyles(styles)(ResultTable2);
+export default withStyles(styles)(MaterialTableFullTextResults);

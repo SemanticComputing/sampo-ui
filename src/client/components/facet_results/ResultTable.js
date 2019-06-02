@@ -9,6 +9,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 import querystring from 'querystring';
 import ResultTableHead from './ResultTableHead';
+import TablePagination from '@material-ui/core/TablePagination';
+import ResultTablePaginationActions from './ResultTablePaginationActions';
 import history from '../../History';
 
 const styles = theme => ({
@@ -17,14 +19,19 @@ const styles = theme => ({
     width: '100%',
     height: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 72px)'
-    }
+      height: 'calc(100% - 73px)'
+    },
+    backgroundColor: theme.palette.background.paper,
+    borderTop: '1px solid rgba(224, 224, 224, 1);'
   },
-  paginationRow: {
-    borderBottom: '1px solid lightgrey'
-  },
-  infoIcon: {
-    paddingTop: 15
+  // table: {
+  //   borderTop: '1px solid rgba(224, 224, 224, 1);',
+  // },
+  paginationRoot: {
+    backgroundColor: '#fff',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    borderBottom: '1px solid rgba(224, 224, 224, 1);',
   },
   progressContainer: {
     width: '100%',
@@ -32,9 +39,6 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  progressTitle: {
-    marginRight: 15
   },
   noDate: {
     marginRight: 20
@@ -97,7 +101,7 @@ class ResultTable extends React.Component {
   }
 
   handleChangePage = (event, page) => {
-    if (event != null) {
+    if (event != null && !this.props.data.fetching) {
       this.props.updatePage(this.props.resultClass, page);
     }
   }
@@ -128,6 +132,7 @@ class ResultTable extends React.Component {
               sortValues={column.sortValues}
               numberedList={column.numberedList}
               minWidth={column.minWidth}
+              container='cell'
             />
           );
         })}
@@ -138,15 +143,26 @@ class ResultTable extends React.Component {
   render() {
     const { classes } = this.props;
     const { resultCount, paginatedResults, page, pagesize, sortBy, sortDirection, fetching } = this.props.data;
-    if (fetching) {
-      return (
-        <div className={classes.progressContainer}>
-          <CircularProgress style={{ color: purple[500] }} thickness={5} />
-        </div>
-      );
-    } else {
-      return (
-        <div className={classes.tableContainer}>
+    return (
+      <div className={classes.tableContainer}>
+        <TablePagination
+          component='div'
+          classes={{
+            root: classes.paginationRoot
+          }}
+          count={resultCount}
+          rowsPerPage={pagesize}
+          rowsPerPageOptions={[5]}
+          page={page}
+          onChangePage={this.handleChangePage}
+          onChangeRowsPerPage={this.handleOnchangeRowsPerPage}
+          ActionsComponent={ResultTablePaginationActions}
+        />
+        {fetching ?
+          <div className={classes.progressContainer}>
+            <CircularProgress style={{ color: purple[500] }} thickness={5} />
+          </div>
+          :
           <Table className={classes.table}>
             <ResultTableHead
               columns={this.props.data.tableColumns}
@@ -164,9 +180,10 @@ class ResultTable extends React.Component {
               {paginatedResults.map(row => this.rowRenderer(row))}
             </TableBody>
           </Table>
-        </div>
-      );
-    }
+        }
+      </div>
+    );
+
   }
 }
 

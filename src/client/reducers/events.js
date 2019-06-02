@@ -65,7 +65,7 @@ export const INITIAL_STATE = {
       desc: 'Place description',
       valueType: 'object',
       makeLink: true,
-      sortValues: false,
+      sortValues: true,
       numberedList: false,
       minWidth: 250
     },

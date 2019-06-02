@@ -103,7 +103,7 @@ export const INITIAL_STATE = {
       makeLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 250,
+      minWidth: 150,
     },
     // // {
     // //   id: 'material',

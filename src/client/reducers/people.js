@@ -31,7 +31,7 @@ export const INITIAL_STATE = {
   resultsUpdateID: -1,
   instance: {},
   page: -1,
-  pagesize: 25,
+  pagesize: 15,
   sortBy: 'prefLabel',
   sortDirection: 'asc',
   fetching: false,
@@ -44,7 +44,8 @@ export const INITIAL_STATE = {
       valueType: 'object',
       makeLink: true,
       sortValues: true,
-      numberedList: false
+      numberedList: false,
+      minWidth: 150
     },
     {
       id: 'birthPlace',
@@ -53,7 +54,8 @@ export const INITIAL_STATE = {
       valueType: 'object',
       makeLink: true,
       sortValues: true,
-      numberedList: false
+      numberedList: false,
+      minWidth: 150
     },
     {
       id: 'place',
@@ -62,7 +64,8 @@ export const INITIAL_STATE = {
       valueType: 'object',
       makeLink: true,
       sortValues: true,
-      numberedList: false
+      numberedList: false,
+      minWidth: 150
     },
     {
       id: 'work',

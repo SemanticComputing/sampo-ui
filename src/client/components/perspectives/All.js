@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import PerspectiveTabs from '../main_layout/PerspectiveTabs';
-import ResultTable2 from '../facet_results/ResultTable2';
+import MaterialTableFullTextResults from '../facet_results/MaterialTableFullTextResults';
 
 const All = props => {
   const perspectiveUrl = '/all';
@@ -31,7 +31,7 @@ const All = props => {
         path={`${perspectiveUrl}/table`}
         render={() => {
           return(
-            <ResultTable2
+            <MaterialTableFullTextResults
               data={props.clientSideFacetedSearch.results}
               query={props.clientSideFacetedSearch.query}
               fetching={props.clientSideFacetedSearch.textResultsFetching}

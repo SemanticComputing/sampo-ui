@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import MaterialTable from 'material-table';
-import ResultTableHead2 from './ResultTableHead2';
-import ResultTableCell2 from './ResultTableCell2';
+import MaterialTableFacetResultsHead from './MaterialTableFacetResultsHead';
+import ResultTableCell from './ResultTableCell';
 import TablePagination from '@material-ui/core/TablePagination';
 import ResultTablePaginationActions from './ResultTablePaginationActions';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import querystring from 'querystring';
 import history from '../../History';
 
@@ -19,7 +20,7 @@ const styles = () => ({
   }
 });
 
-class ResultTable3 extends React.Component {
+class MaterialTableFacetResults extends React.Component {
 
   componentDidMount = () => {
     let page;
@@ -75,7 +76,7 @@ class ResultTable3 extends React.Component {
   }
 
   handleChangePage = (event, page) => {
-    if (event != null) {
+    if (event != null && !this.props.data.fetching) {
       this.props.updatePage(this.props.resultClass, page);
     }
   }
@@ -96,12 +97,12 @@ class ResultTable3 extends React.Component {
     const columns = this.props.data.tableColumns.map(column => {
       return {
         title: column.label,
-        //field: c.id,
+        field: column.id,
         cellStyle: {
           minWidth: column.minWidth,
         },
         render: rowData =>
-          <ResultTableCell2
+          <ResultTableCell
             key={column.id}
             columnId={column.id}
             data={rowData[column.id] == null ? '-' : rowData[column.id]}
@@ -110,17 +111,39 @@ class ResultTable3 extends React.Component {
             sortValues={column.sortValues}
             numberedList={column.numberedList}
             minWidth={column.minWidth}
+            container='div'
           />
       };
     });
     return columns;
   }
 
+  createDetailPanel = rowData => {
+    return(
+      <div className={this.props.classes.detailPanelContainer}>
+        {this.props.data.tableColumns.map(column => {
+          return (
+            <ResultTableCell
+              key={column.id}
+              columnId={column.id}
+              data={rowData[column.id] == null ? '-' : rowData[column.id]}
+              valueType={column.valueType}
+              makeLink={column.makeLink}
+              sortValues={column.sortValues}
+              numberedList={column.numberedList}
+              minWidth={column.minWidth}
+              container='div'
+            />
+          );
+        })}
+      </div>
+    );
+  }
+
   render() {
     const { classes } = this.props;
     const { resultCount, paginatedResults, page, pagesize, sortBy, sortDirection, fetching } = this.props.data;
     return (
-
       <React.Fragment>
         <TablePagination
           component='div'
@@ -139,9 +162,21 @@ class ResultTable3 extends React.Component {
           columns={this.createColumns()}
           data={paginatedResults}
           isLoading={fetching}
+          onOrderChange={this.handleOrderChange}
+          detailPanel={[{
+            icon: ChevronRightIcon,
+            render: rowData => this.createDetailPanel(rowData)
+          }]}
+          options={{
+            toolbar: false,
+            paging: false,
+          }}
+          style={{
+            backgroundColor: '#000',
+          }}
           components={{
             Header: () => (
-              <ResultTableHead2
+              <MaterialTableFacetResultsHead
                 columns={this.props.data.tableColumns}
                 onChangePage={this.handleChangePage}
                 onSortBy={this.handleSortBy}
@@ -155,22 +190,14 @@ class ResultTable3 extends React.Component {
               />
             )
           }}
-          options={{
-            toolbar: false,
-            paging: false
-          }}
-          style={{
-            backgroundColor: '#000',
-          }}
         />
       </React.Fragment>
 
     );
   }
-
 }
 
-ResultTable3.propTypes = {
+MaterialTableFacetResults.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   resultClass: PropTypes.string.isRequired,
@@ -183,4 +210,4 @@ ResultTable3.propTypes = {
   routeProps: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(ResultTable3);
+export default withStyles(styles)(MaterialTableFacetResults);
