@@ -20,7 +20,7 @@ const styles = theme => ({
     flexGrow: 1,
   },
   title: {
-    // 
+    //
   },
   sectionDesktop: {
     display: 'none',
@@ -70,6 +70,9 @@ class TopBar extends React.Component {
     const { mobileMoreAnchorEl } = this.state;
     const { classes } = this.props;
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+    // https://material-ui.com/components/buttons/#third-party-routing-library
+    const AdapterLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />);
+    const AdapterNavLink = React.forwardRef((props, ref) => <NavLink innerRef={ref} {...props} />);
 
     const perspectives = [ 'manuscripts', 'works', 'events', 'people',
       'organizations', 'places' ];
@@ -85,7 +88,7 @@ class TopBar extends React.Component {
         {perspectives.map(perspective =>
           <MenuItem
             key={perspective}
-            component={Link}
+            component={AdapterLink}
             to={`/${perspective}`}
           >
             {perspective.toUpperCase()}
@@ -94,13 +97,15 @@ class TopBar extends React.Component {
       </Menu>
     );
 
+
+
     return (
       <div className={classes.root}>
         <AppBar position="absolute">
           <Toolbar>
             <Button
               className={classes.appBarButton}
-              component={Link}
+              component={AdapterLink}
               to='/'
             >
               <Typography className={classes.title} variant="h6" color="inherit">
@@ -117,7 +122,7 @@ class TopBar extends React.Component {
                 <Button
                   key={perspective}
                   className={classes.appBarButton}
-                  component={NavLink}
+                  component={AdapterNavLink}
                   to={`/${perspective}`}
                   isActive={(match, location) => location.pathname.startsWith(`/${perspective}`)}
                   activeClassName={classes.appBarButtonActive}

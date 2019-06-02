@@ -10,8 +10,8 @@ import purple from '@material-ui/core/colors/purple';
 
 const styles = theme => ({
   facetInfoDivider: {
-    marginTop: theme.spacing.unit / 2,
-    marginBottom: theme.spacing.unit / 2
+    marginTop: theme.spacing(0.5),
+    marginBottom: theme.spacing(0.5)
   }
 });
 

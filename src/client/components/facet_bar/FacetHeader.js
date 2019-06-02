@@ -18,24 +18,24 @@ const styles = theme => ({
   headingContainer: {
     display: 'flex',
     alignItems: 'center',
-    paddingLeft: theme.spacing.unit,
+    paddingLeft: theme.spacing(1),
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
     height: 48
   },
   facetContainer: {
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
   },
   facetContainerLast: {
     marginBottom: 2,
   },
   facetValuesContainerTen: {
     height: 345,
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
   },
   facetValuesContainerThree: {
     height: 108,
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
   },
   facetHeaderButtons: {
     marginLeft: 'auto'

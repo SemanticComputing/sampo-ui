@@ -153,7 +153,7 @@ class ResultTable extends React.Component {
           count={resultCount}
           rowsPerPage={pagesize}
           rowsPerPageOptions={[5]}
-          page={page}
+          page={page == -1 ? 0 : page}
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleOnchangeRowsPerPage}
           ActionsComponent={ResultTablePaginationActions}

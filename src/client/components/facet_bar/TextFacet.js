@@ -11,7 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
   textSearch: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
 });
 

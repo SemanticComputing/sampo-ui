@@ -14,28 +14,28 @@ import thumbImage from '../../img/thumb.png';
 const styles = theme => ({
   root: {
     width: '100%',
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
     [ theme.breakpoints.up('md')]: {
       height: 'calc(100% - 150px)',
       overflow: 'auto',
     },
   },
   icon: {
-    marginRight: theme.spacing.unit * 2,
+    marginRight: theme.spacing(2),
   },
   // heroUnit: {
   //   backgroundColor: 'rgb(238, 238, 238)'
   // },
   heroContent: {
     maxWidth: 1100,
-    paddingTop: theme.spacing.unit * 3,
-    paddingBottom: theme.spacing.unit
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(1)
   },
   layout: {
     width: 'auto',
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up(1100 + theme.spacing(6))]: {
       width: 1100,
       marginLeft: 'auto',
       marginRight: 'auto',
@@ -102,7 +102,7 @@ let Main = props => {
         </div>
       </div>
       <div className={classNames(classes.layout, classes.cardGrid)}>
-        <Grid container spacing={40}>
+        <Grid container spacing={5}>
           {perspectives.map(perspective =>
             <Grid key={perspective.id} item xs={12} sm={6} md={4}>
               <Card className={classes.card}>

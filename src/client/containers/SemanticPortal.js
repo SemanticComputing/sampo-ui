@@ -58,7 +58,7 @@ const styles = theme => ({
   mainContainer: {
     height: 'auto',
     backgroundColor: '#bdbdbd',
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       marginTop: 56,
       height: 'calc(100% - 56px)',
@@ -99,7 +99,7 @@ let SemanticPortal = (props) => {
             fetchResultsClientSide={props.fetchResultsClientSide}
             clearResults={props.clearResults}
           />
-          <Grid container spacing={8} className={classes.mainContainer}>
+          <Grid container spacing={1} className={classes.mainContainer}>
             <Route
               exact path="/"
               render={() =>

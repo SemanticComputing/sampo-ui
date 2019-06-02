@@ -4,7 +4,7 @@ import {
   VictoryPie,
   VictoryLegend,
   VictoryContainer,
-  VictoryLabel,
+  //VictoryLabel,
 } from 'victory';
 import PieTooltip from './PieTooltip';
 import _ from 'lodash';
@@ -27,12 +27,12 @@ const styles = theme => ({
     alignItems: 'center'
   },
   pie: {
-    paddingLeft: theme.spacing.unit * 4,
-    paddingRight: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(2),
   },
   legend: {
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 4,
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(4),
   },
   legendPaper: {
     height: 275,

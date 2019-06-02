@@ -50,13 +50,13 @@ const styles = theme => ({
   },
   mapControls: {
     position: 'absolute',
-    left: theme.spacing.unit,
-    top: theme.spacing.unit
+    left: theme.spacing(1),
+    top: theme.spacing(1)
   },
   legend: {
     position: 'absolute',
-    right: theme.spacing.unit,
-    top: theme.spacing.unit,
+    right: theme.spacing(1),
+    top: theme.spacing(1),
   },
   red: {
     color: 'rgba(255,0,0,255)'

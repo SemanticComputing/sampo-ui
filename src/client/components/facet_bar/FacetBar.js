@@ -16,40 +16,40 @@ const styles = theme => ({
   headingContainer: {
     display: 'flex',
     alignItems: 'center',
-    paddingLeft: theme.spacing.unit,
+    paddingLeft: theme.spacing(1),
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
   },
   facetContainer: {
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
   },
   facetContainerLast: {
     marginBottom: 2,
   },
   one: {
-    paddingLeft: theme.spacing.unit
+    paddingLeft: theme.spacing(1)
   },
   three: {
     height: 108,
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
   },
   four: {
     height: 135,
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
   },
   five: {
     height: 150,
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
   },
   ten: {
     height: 350,
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
   },
   facetHeaderButtons: {
     marginLeft: 'auto'
   },
   textContainer: {
-    padding: theme.spacing.unit
+    padding: theme.spacing(1)
   },
 
 });
