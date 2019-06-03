@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import ResultTableCell from './ResultTableCell';
 import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import IconButton from '@material-ui/core/IconButton';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import purple from '@material-ui/core/colors/purple';
 import querystring from 'querystring';
 import ResultTableHead from './ResultTableHead';
@@ -40,8 +44,9 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  noDate: {
-    marginRight: 20
+  expandCell: {
+    paddingRight: 0,
+    //paddingLeft: 0
   }
 });
 
@@ -118,7 +123,25 @@ class ResultTable extends React.Component {
     }
   }
 
+  handleExpandRow = () => {
+    //console.log('expanded')
+  }
+
   rowRenderer = row => {
+    // <TableCell className={classes.expandCell}>
+    //   <IconButton
+    //     className={clsx(classes.expand, {
+    //       [classes.expandOpen]: expanded,
+    //     })}
+    //     onClick={this.handleExpandRow}
+    //     aria-expanded={expanded}
+    //     aria-label="Show more"
+    //   >
+    //     <ExpandMoreIcon />
+    //   </IconButton>
+    // </TableCell>
+    //const { classes } = this.props;
+    //const expanded = false;
     return (
       <TableRow key={row.id}>
         {this.props.data.tableColumns.map(column => {
@@ -183,7 +206,6 @@ class ResultTable extends React.Component {
         }
       </div>
     );
-
   }
 }
 
