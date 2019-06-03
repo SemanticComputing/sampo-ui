@@ -47,10 +47,26 @@ const styles = theme => ({
   expandCell: {
     paddingRight: 0,
     //paddingLeft: 0
-  }
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
 });
 
 class ResultTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      expandedRows: new Set(),
+    };
+  }
 
   componentDidMount = () => {
     let page;
@@ -123,27 +139,35 @@ class ResultTable extends React.Component {
     }
   }
 
-  handleExpandRow = () => {
-    //console.log('expanded')
+  handleExpandRow = rowId => () => {
+    console.log(rowId);
+    let expandedRows = this.state.expandedRows;
+    if (expandedRows.has(rowId)) {
+      expandedRows.delete(rowId);
+    } else {
+      expandedRows.add(rowId);
+    }
+    this.setState({ expandedRows});
   }
 
   rowRenderer = row => {
-    // <TableCell className={classes.expandCell}>
-    //   <IconButton
-    //     className={clsx(classes.expand, {
-    //       [classes.expandOpen]: expanded,
-    //     })}
-    //     onClick={this.handleExpandRow}
-    //     aria-expanded={expanded}
-    //     aria-label="Show more"
-    //   >
-    //     <ExpandMoreIcon />
-    //   </IconButton>
-    // </TableCell>
-    //const { classes } = this.props;
-    //const expanded = false;
+    const { classes } = this.props;
+    //console.log(this.state.expandedRows)
+    const expanded = this.state.expandedRows.has(row.id);
     return (
       <TableRow key={row.id}>
+        <TableCell className={classes.expandCell}>
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={this.handleExpandRow(row.id)}
+            aria-expanded={expanded}
+            aria-label="Show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </TableCell>
         {this.props.data.tableColumns.map(column => {
           return (
             <ResultTableCell
@@ -156,6 +180,7 @@ class ResultTable extends React.Component {
               numberedList={column.numberedList}
               minWidth={column.minWidth}
               container='cell'
+              expanded={expanded}
             />
           );
         })}

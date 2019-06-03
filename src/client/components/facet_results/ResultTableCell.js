@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { sortBy, orderBy, has } from 'lodash';
 import TableCell from '@material-ui/core/TableCell';
 import { withStyles } from '@material-ui/core/styles';
+import Collapse from '@material-ui/core/Collapse';
+import Typography from '@material-ui/core/Typography';
 
 const styles = () => ({
   valueList: {
@@ -178,7 +180,8 @@ const ResultTableCell = props => {
     }
   };
 
-  const { data, valueType, makeLink, sortValues, numberedList, minWidth, container } = props;
+  const { data, valueType, makeLink, sortValues, numberedList, minWidth,
+    container, expanded } = props;
   let renderer = null;
   let cellStyle = minWidth == null ? {} : { minWidth: minWidth };
   switch (valueType) {
@@ -206,6 +209,9 @@ const ResultTableCell = props => {
     return(
       <TableCell style={cellStyle}>
         {renderer(data, makeLink, sortValues, numberedList)}
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <Typography>expanded content</Typography>
+        </Collapse>
       </TableCell>
     );
   }
@@ -219,7 +225,8 @@ ResultTableCell.propTypes = {
   makeLink: PropTypes.bool.isRequired,
   sortValues: PropTypes.bool.isRequired,
   numberedList: PropTypes.bool.isRequired,
-  minWidth: PropTypes.number
+  minWidth: PropTypes.number,
+  expanded: PropTypes.bool.isRequired
 };
 
 export default withStyles(styles)(ResultTableCell);
