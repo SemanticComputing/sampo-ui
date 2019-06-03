@@ -68,6 +68,7 @@ const styles = theme => ({
       height: 'calc(100% - 64px)',
     },
   },
+  // main container is divided into two columns:
   facetBarContainer: {
     height: '100%',
     overflow: 'auto',
@@ -79,11 +80,6 @@ const styles = theme => ({
     overflow: 'auto',
     paddingTop: '0px !important',
     paddingBottom: '0px !important'
-  },
-  resultsContainerTable: {
-    overflow: 'auto',
-    paddingTop: '0px !important',
-    paddingBottom: '0px !important',
   },
 });
 
@@ -112,7 +108,6 @@ let SemanticPortal = (props) => {
             <Route
               path="/manuscripts"
               render={routeProps => {
-                let tableTab = routeProps.location.pathname.endsWith('table');
                 return (
                   <React.Fragment>
                     <Grid item xs={12} md={3} className={classes.facetBarContainer}>
@@ -127,10 +122,7 @@ let SemanticPortal = (props) => {
                         updateFacetOption={props.updateFacetOption}
                       />
                     </Grid>
-                    <Grid
-                      item xs={12} md={9}
-                      className={tableTab ? classes.resultsContainerTable : classes.resultsContainer}
-                    >
+                    <Grid item xs={12} md={9} className={classes.resultsContainer}>
                       <Manuscripts
                         manuscripts={props.manuscripts}
                         places={props.places}
@@ -151,7 +143,6 @@ let SemanticPortal = (props) => {
             <Route
               path="/works"
               render={routeProps => {
-                let tableTab = routeProps.location.pathname.endsWith('table');
                 return (
                   <React.Fragment>
                     <Grid item xs={12} md={3} className={classes.facetBarContainer}>
@@ -166,9 +157,7 @@ let SemanticPortal = (props) => {
                         updateFacetOption={props.updateFacetOption}
                       />
                     </Grid>
-                    <Grid item xs={12} md={9}
-                      className={tableTab ? classes.resultsContainerTable : classes.resultsContainer}
-                    >
+                    <Grid item xs={12} md={9} className={classes.resultsContainer}>
                       <Works
                         works={props.works}
                         places={props.places}
@@ -188,7 +177,6 @@ let SemanticPortal = (props) => {
             <Route
               path="/events"
               render={routeProps => {
-                let tableTab = routeProps.location.pathname.endsWith('table');
                 return(
                   <React.Fragment>
                     <Grid item xs={12} md={3} className={classes.facetBarContainer}>
@@ -203,9 +191,7 @@ let SemanticPortal = (props) => {
                         updateFacetOption={props.updateFacetOption}
                       />
                     </Grid>
-                    <Grid item xs={12} md={9}
-                      className={tableTab ? classes.resultsContainerTable : classes.resultsContainer}
-                    >
+                    <Grid item xs={12} md={9} className={classes.resultsContainer}>
                       <Events
                         events={props.events}
                         facetData={props.eventsFacets}
@@ -224,7 +210,6 @@ let SemanticPortal = (props) => {
             <Route
               path="/people"
               render={routeProps => {
-                let tableTab = routeProps.location.pathname.endsWith('table');
                 return(
                   <React.Fragment>
                     <Grid item xs={12} md={3} className={classes.facetBarContainer}>
@@ -239,9 +224,7 @@ let SemanticPortal = (props) => {
                         updateFacetOption={props.updateFacetOption}
                       />
                     </Grid>
-                    <Grid item xs={12} md={9}
-                      className={tableTab ? classes.resultsContainerTable : classes.resultsContainer}
-                    >
+                    <Grid item xs={12} md={9} className={classes.resultsContainer}>
                       <People
                         people={props.people}
                         places={props.places}
@@ -262,7 +245,6 @@ let SemanticPortal = (props) => {
             <Route
               path="/organizations"
               render={routeProps => {
-                let tableTab = routeProps.location.pathname.endsWith('table');
                 return(
                   <React.Fragment>
                     <Grid item xs={12} md={3} className={classes.facetBarContainer}>
@@ -277,9 +259,7 @@ let SemanticPortal = (props) => {
                         updateFacetOption={props.updateFacetOption}
                       />
                     </Grid>
-                    <Grid item xs={12} md={9}
-                      className={tableTab ? classes.resultsContainerTable : classes.resultsContainer}
-                    >
+                    <Grid item xs={12} md={9} className={classes.resultsContainer}>
                       <Organizations
                         organizations={props.organizations}
                         places={props.places}
@@ -300,7 +280,6 @@ let SemanticPortal = (props) => {
             <Route
               path="/places"
               render={routeProps => {
-                let tableTab = routeProps.location.pathname.endsWith('table');
                 return(
                   <React.Fragment>
                     <Grid item xs={12} md={3} className={classes.facetBarContainer}>
@@ -315,9 +294,7 @@ let SemanticPortal = (props) => {
                         updateFacetOption={props.updateFacetOption}
                       />
                     </Grid>
-                    <Grid item xs={12} md={9}
-                      className={tableTab ? classes.resultsContainerTable : classes.resultsContainer}
-                    >
+                    <Grid item xs={12} md={9} className={classes.resultsContainer}>
                       <Places
                         places={props.places}
                         facetData={props.placesFacets}
