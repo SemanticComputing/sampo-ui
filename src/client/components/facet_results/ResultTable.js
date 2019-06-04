@@ -46,7 +46,8 @@ const styles = theme => ({
   },
   expandCell: {
     paddingRight: 0,
-    //paddingLeft: 0
+    paddingTop: 0,
+    paddingBottom: 0
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -74,7 +75,6 @@ class ResultTable extends React.Component {
       page = this.props.data.page === -1 ? 0 : this.props.data.page;
       // console.log(`result table mounted WITHOUT page parameter, set page to ${page}`);
     } else {
-
       const qs = this.props.routeProps.location.search.replace('?', '');
       page = parseInt(querystring.parse(qs).page);
       // console.log(`result table mounted with page parameter, set page to ${page}`);
@@ -140,7 +140,6 @@ class ResultTable extends React.Component {
   }
 
   handleExpandRow = rowId => () => {
-    console.log(rowId);
     let expandedRows = this.state.expandedRows;
     if (expandedRows.has(rowId)) {
       expandedRows.delete(rowId);
@@ -152,38 +151,45 @@ class ResultTable extends React.Component {
 
   rowRenderer = row => {
     const { classes } = this.props;
-    //console.log(this.state.expandedRows)
     const expanded = this.state.expandedRows.has(row.id);
+    let hasExpandableContent = false;
+    const dataCells = this.props.data.tableColumns.map(column => {
+      const columnData = row[column.id];
+      if (Array.isArray(columnData)) {
+        hasExpandableContent = true;
+      }
+      return (
+        <ResultTableCell
+          key={column.id}
+          columnId={column.id}
+          data={row[column.id] == null ? '-' : row[column.id]}
+          valueType={column.valueType}
+          makeLink={column.makeLink}
+          sortValues={column.sortValues}
+          numberedList={column.numberedList}
+          minWidth={column.minWidth}
+          container='cell'
+          expanded={expanded}
+        />
+      );
+    });
     return (
       <TableRow key={row.id}>
         <TableCell className={classes.expandCell}>
-          <IconButton
-            className={clsx(classes.expand, {
-              [classes.expandOpen]: expanded,
-            })}
-            onClick={this.handleExpandRow(row.id)}
-            aria-expanded={expanded}
-            aria-label="Show more"
-          >
-            <ExpandMoreIcon />
-          </IconButton>
+          {hasExpandableContent &&
+            <IconButton
+              className={clsx(classes.expand, {
+                [classes.expandOpen]: expanded,
+              })}
+              onClick={this.handleExpandRow(row.id)}
+              aria-expanded={expanded}
+              aria-label="Show more"
+            >
+              <ExpandMoreIcon />
+            </IconButton>
+          }
         </TableCell>
-        {this.props.data.tableColumns.map(column => {
-          return (
-            <ResultTableCell
-              key={column.id}
-              columnId={column.id}
-              data={row[column.id] == null ? '-' : row[column.id]}
-              valueType={column.valueType}
-              makeLink={column.makeLink}
-              sortValues={column.sortValues}
-              numberedList={column.numberedList}
-              minWidth={column.minWidth}
-              container='cell'
-              expanded={expanded}
-            />
-          );
-        })}
+        {dataCells}
       </TableRow>
     );
   }
@@ -201,7 +207,7 @@ class ResultTable extends React.Component {
           count={resultCount}
           rowsPerPage={pagesize}
           rowsPerPageOptions={[5]}
-          page={page == -1 ? 0 : page}
+          page={page == -1 || resultCount == 0 ? 0 : page}
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleOnchangeRowsPerPage}
           ActionsComponent={ResultTablePaginationActions}

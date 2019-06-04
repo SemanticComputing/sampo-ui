@@ -4,7 +4,7 @@ import { sortBy, orderBy, has } from 'lodash';
 import TableCell from '@material-ui/core/TableCell';
 import { withStyles } from '@material-ui/core/styles';
 import Collapse from '@material-ui/core/Collapse';
-import Typography from '@material-ui/core/Typography';
+//import Typography from '@material-ui/core/Typography';
 
 const styles = () => ({
   valueList: {
@@ -42,12 +42,12 @@ const ResultTableCell = props => {
       return '-';
     }
     else if (Array.isArray(cell)) {
-      if (props.columnId == 'timespan') {
+      if (props.columnId == 'productionTimespan') {
         cell = sortValues ? sortBy(cell, obj => Number(obj.start)) : cell;
       } else {
         cell = sortValues ? orderBy(cell, 'prefLabel') : cell;
       }
-
+      const firstValue = cell[0];
       const listItems = cell.map((item, i) =>
         <li key={i}>
           {makeLink &&
@@ -69,9 +69,23 @@ const ResultTableCell = props => {
         );
       } else {
         return (
-          <ul className={props.classes.valueList}>
-            {listItems}
-          </ul>
+          <React.Fragment>
+            {!props.expanded && !makeLink &&
+              <span>{firstValue.prefLabel} ...</span>}
+            {!props.expanded && makeLink &&
+              <a
+                target='_blank' rel='noopener noreferrer'
+                href={firstValue.dataProviderUrl}
+              >
+                {firstValue.prefLabel} ...
+              </a>
+            }
+            <Collapse in={props.expanded} timeout="auto" unmountOnExit>
+              <ul className={props.classes.valueList}>
+                {listItems}
+              </ul>
+            </Collapse>
+          </React.Fragment>
         );
       }
     } else if (makeLink) {
@@ -181,7 +195,7 @@ const ResultTableCell = props => {
   };
 
   const { data, valueType, makeLink, sortValues, numberedList, minWidth,
-    container, expanded } = props;
+    container } = props;
   let renderer = null;
   let cellStyle = minWidth == null ? {} : { minWidth: minWidth };
   switch (valueType) {
@@ -209,9 +223,6 @@ const ResultTableCell = props => {
     return(
       <TableCell style={cellStyle}>
         {renderer(data, makeLink, sortValues, numberedList)}
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <Typography>expanded content</Typography>
-        </Collapse>
       </TableCell>
     );
   }
