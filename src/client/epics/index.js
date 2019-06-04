@@ -13,6 +13,7 @@ import querystring from 'querystring';
 import { has } from 'lodash';
 import {
   FETCH_RESULT_COUNT,
+  FETCH_RESULT_COUNT_FAILED,
   FETCH_PAGINATED_RESULTS,
   FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_RESULTS,
@@ -116,7 +117,7 @@ const fetchResultCountEpic = (action$, state$) => action$.pipe(
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResultCount({ resultClass: resultClass, count: response.count })),
       catchError(error => of({
-        type: FETCH_RESULTS_FAILED,
+        type: FETCH_RESULT_COUNT_FAILED,
         resultClass: resultClass,
         error: error,
         message: {

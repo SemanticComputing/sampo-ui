@@ -137,7 +137,7 @@ export const updatePaginatedResults = (state, action) => {
   return {
     ...state,
     resultsUpdateID: ++state.resultsUpdateID,
-    paginatedResults: action.data.results,
+    paginatedResults: action.data.results || [],
     fetching: false
   };
 };
