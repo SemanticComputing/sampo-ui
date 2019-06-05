@@ -25,10 +25,11 @@ const styles = () => ({
     padding: 10
   },
   treeContainer: {
-    height: '100%'
+    flex: 1
   },
   treeContainerWithSearchField: {
-    height: 'calc(100% - 40px)'
+    width: '100%',
+    flex: 1,
   },
   spinnerContainer: {
     display: 'flex',
@@ -76,6 +77,7 @@ class HierarchicalFacet extends Component {
   }
 
   componentDidMount = () => {
+    // console.log(`${this.props.facetID} mounted`);
     if (this.props.facet.filterType === 'uriFilter') {
       this.props.fetchFacet({
         facetClass: this.props.facetClass,

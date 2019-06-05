@@ -6,7 +6,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import history from '../../History';
 
@@ -18,16 +17,10 @@ const styles = theme => ({
   headingContainer: {
     display: 'flex',
     alignItems: 'center',
-    paddingLeft: theme.spacing(1),
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    height: 48
-  },
-  facetContainer: {
-    marginBottom: theme.spacing(1),
-  },
-  facetContainerLast: {
-    marginBottom: 2,
+    //paddingLeft: theme.spacing(1),
+    //borderBottomLeftRadius: 0,
+    //borderBottomRightRadius: 0,
+    //height: 48
   },
   facetValuesContainerTen: {
     height: 345,
@@ -177,12 +170,12 @@ class FacetHeader extends React.Component {
     const { classes } = this.props;
     const { label, sortButton, spatialFilterButton } = this.props.facet;
     return (
-      <Paper className={classes.headingContainer}>
-        <Typography variant="h6">{label} </Typography>
+      <div className={classes.headingContainer}>
+        <Typography variant="body1">{label} </Typography>
         <div className={classes.facetHeaderButtons}>
           {(sortButton || spatialFilterButton) && this.renderFacetMenu()}
         </div>
-      </Paper>
+      </div>
     );
   }
 }

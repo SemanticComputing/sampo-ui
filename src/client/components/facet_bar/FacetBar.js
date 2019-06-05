@@ -7,51 +7,43 @@ import DateSlider from './slider/DateSlider';
 import Paper from '@material-ui/core/Paper';
 import FacetHeader from './FacetHeader';
 import FacetInfo from './FacetInfo';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import clsx from 'clsx';
 
 const styles = theme => ({
   root: {
     width: '100%',
     height: '100%'
   },
-  headingContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingLeft: theme.spacing(1),
+  facetInfoContainer: {
+    padding: theme.spacing(1),
     borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
+    borderBottomRightRadius: 0
   },
-  facetContainer: {
-    marginBottom: theme.spacing(1),
+  expansionPanelHeading: {
+    paddingLeft: theme.spacing(1),
   },
-  facetContainerLast: {
-    marginBottom: 2,
-  },
-  one: {
-    paddingLeft: theme.spacing(1)
+  expansionPanelDetails: {
+    paddingTop: 0,
+    paddingLeft: theme.spacing(1),
+    flexDirection: 'column'
+
   },
   three: {
     height: 108,
-    padding: theme.spacing(1),
   },
   four: {
     height: 135,
-    padding: theme.spacing(1),
   },
   five: {
     height: 150,
-    padding: theme.spacing(1),
   },
   ten: {
-    height: 350,
-    padding: theme.spacing(1),
+    height: 357,
   },
-  facetHeaderButtons: {
-    marginLeft: 'auto'
-  },
-  textContainer: {
-    padding: theme.spacing(1)
-  },
-
 });
 
 class FacetBar extends React.Component {
@@ -117,19 +109,30 @@ class FacetBar extends React.Component {
         break;
     }
     return(
-      <Paper key={facetID} className={classes.facetContainer}>
-        <FacetHeader
-          facetID={facetID}
-          facet={facet}
-          facetClass={this.props.facetClass}
-          resultClass={this.props.resultClass}
-          fetchFacet={this.props.fetchFacet}
-          updateFacetOption={this.props.updateFacetOption}
-        />
-        <div className={classes[facet.containerClass]}>
+      <ExpansionPanel
+        key={facetID}
+        
+      >
+        <ExpansionPanelSummary
+          className={classes.expansionPanelHeading}
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <FacetHeader
+            facetID={facetID}
+            facet={facet}
+            facetClass={this.props.facetClass}
+            resultClass={this.props.resultClass}
+            fetchFacet={this.props.fetchFacet}
+            updateFacetOption={this.props.updateFacetOption}
+          />
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails
+          className={clsx(classes[facet.containerClass], classes.expansionPanelDetails)}>
           {facetComponent}
-        </div>
-      </Paper>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
     );
   }
 
@@ -145,19 +148,17 @@ class FacetBar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Paper className={classes.facetContainer}>
-          <div className={classes.textContainer}>
-            <FacetInfo
-              facetUpdateID={this.props.facetData.facetUpdateID}
-              facetData={this.props.facetData}
-              facetClass={facetClass}
-              resultClass={resultClass}
-              resultCount={resultCount}
-              fetchingResultCount={this.props.fetchingResultCount}
-              updateFacetOption={this.props.updateFacetOption}
-              fetchResultCount={this.props.fetchResultCount}
-            />
-          </div>
+        <Paper className={classes.facetInfoContainer}>
+          <FacetInfo
+            facetUpdateID={this.props.facetData.facetUpdateID}
+            facetData={this.props.facetData}
+            facetClass={facetClass}
+            resultClass={resultClass}
+            resultCount={resultCount}
+            fetchingResultCount={this.props.fetchingResultCount}
+            updateFacetOption={this.props.updateFacetOption}
+            fetchResultCount={this.props.fetchResultCount}
+          />
         </Paper>
         {Object.keys(facets).map(facetID => this.renderFacet(facetID, someFacetIsFetching))}
       </div>
