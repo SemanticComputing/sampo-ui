@@ -17,6 +17,8 @@ const styles = theme => ({
   headingContainer: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%'
     //paddingLeft: theme.spacing(1),
     //borderBottomLeftRadius: 0,
     //borderBottomRightRadius: 0,
@@ -167,14 +169,17 @@ class FacetHeader extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, isActive } = this.props;
     const { label, sortButton, spatialFilterButton } = this.props.facet;
+    let showMenuButton = isActive && (sortButton || spatialFilterButton);
     return (
       <div className={classes.headingContainer}>
         <Typography variant="body1">{label} </Typography>
-        <div className={classes.facetHeaderButtons}>
-          {(sortButton || spatialFilterButton) && this.renderFacetMenu()}
-        </div>
+        {showMenuButton &&
+          <div className={classes.facetHeaderButtons}>
+            {this.renderFacetMenu()}
+          </div>
+        }
       </div>
     );
   }
@@ -184,6 +189,7 @@ FacetHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   facetID: PropTypes.string,
   facet: PropTypes.object,
+  isActive: PropTypes.bool.isRequired,
   facetClass: PropTypes.string,
   resultClass: PropTypes.string,
   fetchFacet: PropTypes.func,

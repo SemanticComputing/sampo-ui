@@ -23,14 +23,17 @@ const styles = theme => ({
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0
   },
-  expansionPanelHeading: {
+  expansionPanelSummaryRoot: {
     paddingLeft: theme.spacing(1),
+    cursor: 'default !important'
+  },
+  expansionPanelSummaryContent: {
+    margin: 0
   },
   expansionPanelDetails: {
     paddingTop: 0,
     paddingLeft: theme.spacing(1),
     flexDirection: 'column'
-
   },
   three: {
     height: 108,
@@ -47,6 +50,23 @@ const styles = theme => ({
 });
 
 class FacetBar extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeFacets: new Set(),
+    };
+  }
+
+  handleExpandButtonOnClick = facetID => () => {
+    let activeFacets = this.state.activeFacets;
+    if (activeFacets.has(facetID)) {
+      activeFacets.delete(facetID);
+    } else {
+      activeFacets.add(facetID);
+    }
+    this.setState({ activeFacets });
+  }
 
   renderFacet = (facetID, someFacetIsFetching) => {
     const { classes } = this.props;
@@ -108,20 +128,26 @@ class FacetBar extends React.Component {
         );
         break;
     }
+    let isActive = this.state.activeFacets.has(facetID);
     return(
       <ExpansionPanel
         key={facetID}
-        
+        expanded={isActive}
       >
         <ExpansionPanelSummary
-          className={classes.expansionPanelHeading}
+          classes={{
+            root: classes.expansionPanelSummaryRoot,
+            content: classes.expansionPanelSummaryContent
+          }}
           expandIcon={<ExpandMoreIcon />}
+          IconButtonProps={{ onClick: this.handleExpandButtonOnClick(facetID) }}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
           <FacetHeader
             facetID={facetID}
             facet={facet}
+            isActive={isActive}
             facetClass={this.props.facetClass}
             resultClass={this.props.resultClass}
             fetchFacet={this.props.fetchFacet}
