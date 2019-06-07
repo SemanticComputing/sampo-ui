@@ -30,7 +30,8 @@ const tooltipStyle = {
   position: 'relative',
   display: 'inline-block',
   borderBottom: '1px dotted #444',
-  marginLeft: 22
+  marginLeft: 22,
+  zIndex: 1000,
 };
 
 const tooltipTextStyle = {
@@ -114,42 +115,6 @@ TooltipRail.propTypes = {
 
 TooltipRail.defaultProps = {
   disabled: false,
-};
-
-// *******************************************************
-// SLIDER RAIL (no tooltips)
-// *******************************************************
-const railOuterStyle = {
-  position: 'absolute',
-  transform: 'translate(0%, -50%)',
-  width: '100%',
-  height: 42,
-  borderRadius: 7,
-  cursor: 'pointer',
-  // border: '1px solid grey',
-};
-
-const railInnerStyle = {
-  position: 'absolute',
-  width: '100%',
-  height: 14,
-  transform: 'translate(0%, -50%)',
-  borderRadius: 7,
-  pointerEvents: 'none',
-  backgroundColor: 'rgb(155,155,155)',
-};
-
-export function SliderRail({ getRailProps }) {
-  return (
-    <Fragment>
-      <div style={railOuterStyle} {...getRailProps()} />
-      <div style={railInnerStyle} />
-    </Fragment>
-  );
-}
-
-SliderRail.propTypes = {
-  getRailProps: PropTypes.func.isRequired,
 };
 
 // *******************************************************

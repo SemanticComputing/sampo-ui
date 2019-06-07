@@ -1,17 +1,29 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import { Slider, Rail, Handles, Tracks, Ticks } from 'react-compound-slider';
-import { Handle, Track, Tick, TooltipRail } from './SliderComponents'; // example render components - source below
+import { Handle, Track, Tick, TooltipRail } from './SliderComponents';
 
-const sliderStyle = {
+const sliderRootStyle = {
   position: 'relative',
   width: '100%',
 };
 
-const defaultValues = [240, 360];
+const styles = theme => ({
+  root: {
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(2)
+  }
+});
 
-class Example extends Component {
+const defaultValues = [-1000, 1975];
+
+class DateSlider extends Component {
   state = {
-    domain: [100, 600],
+    domain: [-1000, 1975],
     values: defaultValues.slice(),
     update: defaultValues.slice(),
     reversed: false,
@@ -37,15 +49,16 @@ class Example extends Component {
     const {
       state: { domain, values, reversed },
     } = this;
+    const { classes } = this.props;
 
     return (
-      <div style={{ height: 150, width: '100%' }}>
+      <div className={classes.root}>
         <Slider
           mode={1}
           step={1}
           domain={domain}
           reversed={reversed}
-          rootStyle={sliderStyle}
+          rootStyle={sliderRootStyle}
           onUpdate={this.onUpdate}
           onChange={this.onChange}
           values={values}
@@ -95,4 +108,8 @@ class Example extends Component {
   }
 }
 
-export default Example;
+DateSlider.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(DateSlider);
