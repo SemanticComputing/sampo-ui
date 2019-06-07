@@ -29,6 +29,14 @@ export const facetConfigs = {
       parentPredicate: '^crm:P108_has_produced/crm:P7_took_place_at/gvp:broaderPreferred+',
       type: 'hierarchical',
     },
+    productionTimespan: {
+      id: 'productionTimespan',
+      facetValueFilter: '',
+      startProperty: 'crm:P82a_begin_of_the_begin',
+      endProperty: 'crm:P82b_end_of_the_end',
+      labelPath: '^crm:P108_has_produced/crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
+      type: 'timespan',
+    },
     language: {
       id: 'language',
       facetValueFilter: '',
@@ -37,13 +45,7 @@ export const facetConfigs = {
       predicate: 'crm:P128_carries/crm:P72_has_language',
       type: 'list',
     },
-    productionTimespan: {
-      id: 'productionTimespan',
-      facetValueFilter: '',
-      label: 'Production Date',
-      labelPath: '^crm:P108_has_produced/crm:P4_has_time-span/skos:prefLabel',
-      type: 'list',
-    },
+
     // for sorting facet results
     prefLabel: {
       labelPath: 'skos:prefLabel',
@@ -111,6 +113,14 @@ export const facetConfigs = {
       facetValueFilter: '',
       type: 'list',
       labelPath: 'a/(skos:prefLabel|rdfs:label)',
+    },
+    timespan: {
+      id: 'productionTimespan',
+      facetValueFilter: '',
+      startProperty: 'crm:P82a_begin_of_the_begin',
+      endProperty: 'crm:P82b_end_of_the_end',
+      labelPath: 'crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
+      type: 'timespan',
     },
     place: {
       id: 'place',

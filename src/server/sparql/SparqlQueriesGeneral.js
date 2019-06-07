@@ -96,3 +96,23 @@ export const facetValuesQuery = `
   }
   <ORDER_BY>
 `;
+
+export const timespanFacetQuery = `
+  SELECT ?min ?max {
+    <FILTER>
+    ?instance <PREDICATE> ?timespan .
+    VALUES ?facetClass { <FACET_CLASS> }
+    ?instance a ?facetClass .
+    {
+      SELECT (MIN(?start)) AS ?min) {
+        ?timespan <START_PROPERTY> ?start .
+      }
+    }
+    {
+      SELECT (MAX(?end)) AS ?max) {
+        ?timespan <END_PROPERTY> ?start .
+      }
+    }
+  }
+
+`
