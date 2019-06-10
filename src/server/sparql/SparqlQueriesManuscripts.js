@@ -18,8 +18,8 @@ export const manuscriptProperties = `
     ?production crm:P108_has_produced ?id .
     ?production crm:P4_has_time-span ?productionTimespan .
     ?productionTimespan skos:prefLabel ?productionTimespan__id .
-    OPTIONAL { ?productionTimespan crm:P79_beginning_is_qualified_by ?productionTimespan__start }
-    OPTIONAL { ?productionTimespan crm:P80_end_is_qualified_by ?productionTimespan__end }
+    OPTIONAL { ?productionTimespan crm:P82a_begin_of_the_begin ?productionTimespan__start }
+    OPTIONAL { ?productionTimespan crm:P82b_end_of_the_end ?productionTimespan__end }
     BIND (?productionTimespan__id AS ?productionTimespan__prefLabel)
   }
   UNION

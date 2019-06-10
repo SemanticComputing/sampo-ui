@@ -21,6 +21,25 @@ const styles = () => ({
 
 const ResultTableCell = props => {
 
+  const ISOStringToDate = str => {
+    let year;
+    let month;
+    let day;
+    if (str.charAt(0) == '-') {
+      year = parseInt(str.substring(0,5));
+      month = parseInt(str.substring(7,8));
+      day = parseInt(str.substring(10,11));
+    } else {
+      year = parseInt(str.substring(0,4));
+      month = parseInt(str.substring(6,7));
+      day = parseInt(str.substring(9,10));
+    }
+    // console.log(year)
+    // console.log(month)
+    // console.log(day)
+    return new Date(year, month, day);
+  };
+
   const stringListRenderer = cell => {
     if (cell == null || cell === '-'){
       return '-';
@@ -43,7 +62,14 @@ const ResultTableCell = props => {
     }
     else if (Array.isArray(cell)) {
       if (props.columnId == 'productionTimespan') {
-        cell = sortValues ? sortBy(cell, obj => Number(obj.start)) : cell;
+        cell = sortValues
+          ? cell.sort((a,b) => {
+            a = ISOStringToDate(a.start);
+            b = ISOStringToDate(b.start);
+            // arrange from the most recent to the oldest
+            return a > b ? 1 : a < b ? -1 : 0;
+          })
+          : cell;
       } else {
         cell = sortValues ? orderBy(cell, 'prefLabel') : cell;
       }
