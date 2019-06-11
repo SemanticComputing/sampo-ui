@@ -16,8 +16,8 @@ export const INITIAL_STATE = {
   facetUpdateID: 0,
   updatedFilter: null,
   facets: {
-    label: {
-      id: 'label',
+    prefLabel: {
+      id: 'prefLabel',
       label: 'Label',
       // predicate: defined in backend
       distinctValueCount: 0,
@@ -103,9 +103,9 @@ export const INITIAL_STATE = {
       filterType: 'uriFilter',
       uriFilter: null
     },
-    owner: {
+    language: {
       id: 'owner',
-      label: 'Owner',
+      label: 'Language',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -120,9 +120,26 @@ export const INITIAL_STATE = {
       filterType: 'uriFilter',
       uriFilter: null
     },
-    language: {
+    collection: {
+      id: 'collection',
+      label: 'Collection',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'instanceCount',
+      sortDirection: 'desc',
+      sortButton: true,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: true,
+      containerClass: 'ten',
+      filterType: 'uriFilter',
+      uriFilter: null
+    },
+    owner: {
       id: 'owner',
-      label: 'Language',
+      label: 'Owner',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],

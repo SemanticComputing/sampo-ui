@@ -5,10 +5,11 @@
 export const facetConfigs = {
   manuscripts: {
     facetClass: 'frbroo:F4_Manifestation_Singleton',
-    label: {
-      id: 'label',
+    prefLabel: {
+      id: 'prefLabel',
+      labelPath: 'skos:prefLabel',
+      textQueryProperty: 'skos:prefLabel',
       type: 'text',
-      textQueryProperty: 'skos:prefLabel'
     },
     author: {
       id: 'author',
@@ -45,16 +46,17 @@ export const facetConfigs = {
       predicate: 'crm:P128_carries/crm:P72_has_language',
       type: 'list',
     },
-
-    // for sorting facet results
-    prefLabel: {
-      labelPath: 'skos:prefLabel',
-    },
-    event: {
-      id: 'event',
+    // event: {
+    //   id: 'event',
+    //   facetValueFilter: '',
+    //   label: 'Event',
+    //   labelPath: '^mmm-schema:observed_manuscript/mmm-schema:observed_time-span',
+    //   type: 'list',
+    // },
+    collection: {
+      id: 'collection',
       facetValueFilter: '',
-      label: 'Event',
-      labelPath: '^mmm-schema:observed_manuscript/mmm-schema:observed_time-span',
+      predicate: 'crm:P46i_forms_part_of',
       type: 'list',
     },
     owner: {
