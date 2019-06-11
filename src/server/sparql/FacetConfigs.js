@@ -42,7 +42,7 @@ export const facetConfigs = {
       id: 'language',
       facetValueFilter: '',
       label: 'Language',
-      labelPath: 'crm:P128_carries/crm:P72_has_language',
+      labelPath: 'crm:P128_carries/crm:P72_has_language/skos:prefLabel',
       predicate: 'crm:P128_carries/crm:P72_has_language',
       type: 'list',
     },
@@ -56,6 +56,7 @@ export const facetConfigs = {
     collection: {
       id: 'collection',
       facetValueFilter: '',
+      labelPath: 'crm:P46i_forms_part_of/skos:prefLabel',
       predicate: 'crm:P46i_forms_part_of',
       type: 'list',
     },
@@ -78,10 +79,11 @@ export const facetConfigs = {
   },
   works: {
     facetClass: 'frbroo:F1_Work',
-    label: {
-      id: 'label',
+    prefLabel: {
+      id: 'prefLabel',
+      labelPath: 'skos:prefLabel',
+      textQueryProperty: 'skos:prefLabel',
       type: 'text',
-      textQueryProperty: 'skos:prefLabel'
     },
     source: {
       id: 'source',
@@ -98,17 +100,14 @@ export const facetConfigs = {
       predicate: '^frbroo:R16_initiated/(mmm-schema:carried_out_by_as_possible_author|mmm-schema:carried_out_by_as_author)',
       type: 'list'
     },
-    // for sorting facet results
-    prefLabel: {
-      labelPath: 'skos:prefLabel',
-    },
   },
   events: {
     facetClass: 'crm:E10_Transfer_of_Custody crm:E12_Production',
-    label: {
-      id: 'label',
+    prefLabel: {
+      id: 'prefLabel',
+      labelPath: 'skos:prefLabel',
+      textQueryProperty: 'skos:prefLabel',
       type: 'text',
-      textQueryProperty: 'skos:prefLabel'
     },
     type: {
       predicate: 'a',
@@ -138,10 +137,11 @@ export const facetConfigs = {
   },
   people: {
     facetClass: 'crm:E21_Person',
-    label: {
-      id: 'label',
+    prefLabel: {
+      id: 'prefLabel',
+      labelPath: 'skos:prefLabel',
+      textQueryProperty: 'skos:prefLabel',
       type: 'text',
-      textQueryProperty: 'skos:prefLabel'
     },
     source: {
       id: 'source',
@@ -159,7 +159,6 @@ export const facetConfigs = {
       predicate: 'crm:P98i_was_born/crm:P7_took_place_at',
       parentPredicate: 'crm:P98i_was_born/crm:P7_took_place_at/gvp:broaderPreferred+',
       type: 'hierarchical',
-      //type: 'hierarchical',
     },
     place: {
       id: 'source',
@@ -170,7 +169,6 @@ export const facetConfigs = {
       predicate: 'mmm-schema:person_place',
       parentPredicate: 'mmm-schema:person_place/gvp:broaderPreferred+',
       type: 'hierarchical',
-      //type: 'hierarchical',
     },
     work: {
       labelPath: `
@@ -181,17 +179,14 @@ export const facetConfigs = {
         /frbroo:R16_initiated/skos:prefLabel
       `,
     },
-    // for sorting facet results
-    prefLabel: {
-      labelPath: 'skos:prefLabel',
-    },
   },
   organizations: {
     facetClass: 'crm:E74_Group',
-    label: {
-      id: 'label',
+    prefLabel: {
+      id: 'prefLabel',
+      labelPath: 'skos:prefLabel',
+      textQueryProperty: 'skos:prefLabel',
       type: 'text',
-      textQueryProperty: 'skos:prefLabel'
     },
     source: {
       id: 'source',
@@ -200,17 +195,14 @@ export const facetConfigs = {
       predicate: 'dct:source',
       type: 'list',
     },
-    // for sorting facet results
-    prefLabel: {
-      labelPath: 'skos:prefLabel',
-    },
   },
   places: {
     facetClass: 'crm:E53_Place',
-    label: {
-      id: 'label',
+    prefLabel: {
+      id: 'prefLabel',
+      labelPath: 'skos:prefLabel',
+      textQueryProperty: 'skos:prefLabel',
       type: 'text',
-      textQueryProperty: 'skos:prefLabel'
     },
     source: {
       id: 'source',
@@ -238,10 +230,6 @@ export const facetConfigs = {
       labelPath: 'gvp:placeTypePreferred',
       predicate: 'gvp:placeTypePreferred',
       type: 'list',
-    },
-    // for sorting facet results
-    prefLabel: {
-      labelPath: 'skos:prefLabel',
     },
   },
 };
