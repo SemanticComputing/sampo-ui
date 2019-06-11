@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { sortBy, orderBy, has } from 'lodash';
+import { orderBy, has } from 'lodash';
 import TableCell from '@material-ui/core/TableCell';
 import { withStyles } from '@material-ui/core/styles';
 import Collapse from '@material-ui/core/Collapse';
@@ -34,9 +34,6 @@ const ResultTableCell = props => {
       month = parseInt(str.substring(6,7));
       day = parseInt(str.substring(9,10));
     }
-    // console.log(year)
-    // console.log(month)
-    // console.log(day)
     return new Date(year, month, day);
   };
 
@@ -64,8 +61,8 @@ const ResultTableCell = props => {
       if (props.columnId == 'productionTimespan') {
         cell = sortValues
           ? cell.sort((a,b) => {
-            a = ISOStringToDate(a.start);
-            b = ISOStringToDate(b.start);
+            a = has(a, 'start') ? ISOStringToDate(a.start) : ISOStringToDate(a.end);
+            b = has(b, 'start') ? ISOStringToDate(b.start) : ISOStringToDate(b.end);
             // arrange from the most recent to the oldest
             return a > b ? 1 : a < b ? -1 : 0;
           })
