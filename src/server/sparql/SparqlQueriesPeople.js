@@ -6,11 +6,9 @@ export const personProperties = `
     }
     UNION
     {
-      ?id dct:source ?source__id .
-      OPTIONAL { ?source__id skos:prefLabel ?sourcePrefLabel_ }
-      OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl_ }
-      BIND(COALESCE(STR(?sourcePrefLabel_), STR(?source__id)) AS ?source__prefLabel)
-      BIND(COALESCE(?dataProviderUrl_, ?id) AS ?source__dataProviderUrl)
+      ?id mmm-schema:data_provider_url ?source__id .
+      BIND(?source__id AS ?source__dataProviderUrl)
+      BIND(?source__id AS ?source__prefLabel)
     }
     UNION
     {
