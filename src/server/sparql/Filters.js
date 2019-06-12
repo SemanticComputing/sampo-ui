@@ -33,7 +33,6 @@ export const generateFilter = ({
     }
   }
   if (uriFilters !== null) {
-    console.log(uriFilters)
     for (let property in uriFilters) {
       // when filtering facet values, apply filters only from other facets
       if (property !== facetProperty) {

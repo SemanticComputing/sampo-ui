@@ -106,6 +106,7 @@ app.get(`${apiPath}/:resultClass/instance/:uri`, async (req, res, next) => {
 });
 
 app.get(`${apiPath}/:facetClass/facet/:id`, async (req, res, next) => {
+  req.setTimeout(300000); // 5 minutes to avoid 504 errors
   try {
     const data = await getFacet({
       facetClass: req.params.facetClass,
