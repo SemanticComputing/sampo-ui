@@ -93,15 +93,30 @@ class HierarchicalFacet extends Component {
       if (this.props.updatedFacet === this.props.facetID) {
         if (has(this.props.updatedFilter, 'path')) {
           const treeObj = this.props.updatedFilter;
-          const newTreeData = changeNodeAtPath({
+
+
+          let newTreeData = changeNodeAtPath({
             treeData: this.state.treeData,
             getNodeKey: ({ treeIndex }) =>  treeIndex,
             path: treeObj.path,
-            newNode: {
-              ...treeObj.node,
-              selected: treeObj.added ? 'true' : 'false'
-            },
+            newNode: () => {
+              const oldNode = treeObj.node;
+              if (has(oldNode, 'children')) {
+                return {
+                  ...oldNode,
+                  selected: treeObj.added ? 'true' : 'false',
+                  children: this.recursiveSelect(oldNode.children, treeObj.added)
+                };
+              } else {
+                return {
+                  ...oldNode,
+                  selected: treeObj.added ? 'true' : 'false',
+                };
+              }
+            }
           });
+
+
           this.setState({ treeData: newTreeData });
         }
       }
@@ -136,6 +151,17 @@ class HierarchicalFacet extends Component {
       });
     }
   }
+
+  recursiveSelect = (nodes, selected) => {
+    nodes.forEach(node => {
+      node.selected = selected ? 'true' : 'false';
+      if (has(node, 'children')) {
+        this.recursiveSelect(node.children, selected);
+      }
+    });
+    return nodes;
+  };
+
 
   handleCheckboxChange = treeObj => () => {
     this.props.updateFacetOption({

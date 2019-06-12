@@ -33,12 +33,21 @@ export const generateFilter = ({
     }
   }
   if (uriFilters !== null) {
+    console.log(uriFilters)
     for (let property in uriFilters) {
       // when filtering facet values, apply filters only from other facets
       if (property !== facetProperty) {
-        filterStr += `
-            VALUES ?${property}Filter { <${uriFilters[property].join('> <')}> }
-        `;
+        let addChildren = facetConfigs[facetClass][property].type == 'hierarchical';
+        if (addChildren) {
+          filterStr += `
+              VALUES ?${property}Filter { <${uriFilters[property].join('> <')}> }
+              ?${property}FilterWithChildren gvp:broaderPreferred* ?${property}Filter .
+          `;
+        } else {
+          filterStr += `
+              VALUES ?${property}Filter { <${uriFilters[property].join('> <')}> }
+          `;
+        }
         if (inverse) {
           filterStr += `
             FILTER NOT EXISTS {
@@ -47,12 +56,24 @@ export const generateFilter = ({
             }
           `;
         } else {
+          const filterValue = addChildren
+            ? `?${property}FilterWithChildren`
+            : `?${property}Filter`;
           filterStr += `
-            ?${filterTarget} ${facetConfigs[facetClass][property].predicate} ?${property}Filter .
+            ?${filterTarget} ${facetConfigs[facetClass][property].predicate} ${filterValue} .
           `;
         }
       }
     }
   }
   return filterStr;
+};
+
+export const generateSelectedFilter = ({
+  selectedValues,
+  inverse
+}) => {
+  return (`
+      FILTER(?id ${inverse ? 'NOT' : ''} IN ( <${selectedValues.join('>, <')}> ))
+  `);
 };

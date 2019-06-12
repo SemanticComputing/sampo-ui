@@ -57,7 +57,7 @@ export const mapHierarchicalFacet = sparqlBindings => {
     rootKey: '0', // The value of the parent key when there is no parent (i.e., at root level)
   });
   treeData = recursiveSort(treeData);
-  treeData.forEach(node => sumUp(node));
+  treeData.forEach(node => sumUpAndSelectChildren(node));
   return {
     distinctValueCount: results.length,
     //flatValues: flatResults,
@@ -76,11 +76,14 @@ const comparator = (a, b) => {
 };
 
 
-const sumUp = node => {
+const sumUpAndSelectChildren = node => {
   node.totalInstanceCount = parseInt(node.instanceCount);
   if (has(node, 'children')) {
     for (let child of node.children) {
-      node.totalInstanceCount += sumUp(child);
+      if (node.selected == 'true') {
+        child.selected = 'true';
+      }
+      node.totalInstanceCount += sumUpAndSelectChildren(child);
     }
   }
   return node.totalInstanceCount;

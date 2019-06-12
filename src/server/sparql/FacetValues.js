@@ -3,7 +3,7 @@ import { runSelectQuery } from './SparqlApi';
 import { endpoint, facetValuesQuery } from './SparqlQueriesGeneral';
 import { prefixes } from './SparqlQueriesPrefixes';
 import { facetConfigs } from './FacetConfigs';
-import { generateFilter } from './Filters';
+import { generateFilter, generateSelectedFilter } from './Filters';
 import {
   mapFacet,
   mapHierarchicalFacet,
@@ -41,10 +41,14 @@ export const getFacet = ({
     });
   }
   if (uriFilters !== null && has(uriFilters, facetID)) {
+    const selectedFilter = generateSelectedFilter({
+      selectedValues:uriFilters[facetID],
+      inverse: false
+    });
     selectedBlock = `
             OPTIONAL {
-               FILTER(?id IN ( <${uriFilters[facetID].join('>, <')}> ))
-               BIND(true AS ?selected_)
+              ${selectedFilter}
+              BIND(true AS ?selected_)
             }
     `;
     const facetIDs = Object.keys(uriFilters);
@@ -84,7 +88,10 @@ export const getFacet = ({
     });
     let ignoreSelectedValues = '';
     if (uriFilters !== null && has(uriFilters, facetID)) {
-      ignoreSelectedValues = `FILTER(?id NOT IN ( <${uriFilters[facetID].join('>, <')}> ))`;
+      ignoreSelectedValues = generateSelectedFilter({
+        selectedValues:uriFilters[facetID],
+        inverse: true
+      });
     }
     parentBlock = `
           UNION
@@ -108,7 +115,7 @@ export const getFacet = ({
   q = q.replace(/<FACET_CLASS>/g, facetConfigs[facetClass].facetClass);
   q = q.replace(/<FILTER>/g, filterBlock );
   q = q.replace(/<PREDICATE>/g, facetConfig.predicate);
-  // if (facetID == 'place') {
+  // if (facetID == 'productionPlace') {
   //   console.log(prefixes + q)
   // }
   return runSelectQuery(prefixes + q, endpoint, mapper);

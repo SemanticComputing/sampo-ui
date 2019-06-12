@@ -114,5 +114,4 @@ export const timespanFacetQuery = `
       }
     }
   }
-
-`
+`;
