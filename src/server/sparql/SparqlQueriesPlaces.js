@@ -1,13 +1,19 @@
 export const placeProperties = `
-    ?id skos:prefLabel ?prefLabel__id .
-    BIND(?prefLabel__id AS ?prefLabel__prefLabel)
-    BIND(?id AS ?prefLabel__dataProviderUrl)
     {
-      ?id dct:source ?source__id .
-      OPTIONAL { ?source__id skos:prefLabel ?sourcePrefLabel_ }
-      OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl_ }
-      BIND(COALESCE(STR(?sourcePrefLabel_), STR(?source__id)) AS ?source__prefLabel)
-      BIND(COALESCE(?dataProviderUrl_, ?id) AS ?source__dataProviderUrl)
+      ?id skos:prefLabel ?prefLabel__id .
+      BIND(?prefLabel__id AS ?prefLabel__prefLabel)
+      BIND(?id AS ?prefLabel__dataProviderUrl)
+    }
+    UNION
+    {
+      ?id dct:source
+          |owl:sameAs
+          |mmm-schema:data_provider_url
+          |mmm-schema:geonames_uri
+          ?source__id .
+      OPTIONAL { ?source__id skos:prefLabel ?source__prefLabel_}
+      BIND(?source__id AS ?source__dataProviderUrl)
+      BIND(COALESCE(?source__prefLabel_, ?source__id) AS ?source__prefLabel)
     }
     UNION { ?id gvp:placeTypePreferred ?placeType }
     UNION {
