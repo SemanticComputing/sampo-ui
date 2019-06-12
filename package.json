@@ -68,7 +68,7 @@
     "leaflet-fullscreen": "^1.0.2",
     "leaflet.markercluster": "^1.4.1",
     "lodash": "^4.17.11",
-    "material-table": "^1.32.0",
+    "material-table": "^1.39.0",
     "react": "^16.8.6",
     "react-compound-slider": "^1.2.2",
     "react-csv": "^1.0.18",
