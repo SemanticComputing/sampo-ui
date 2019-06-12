@@ -197,7 +197,7 @@ class HierarchicalFacet extends Component {
           >
             {node.prefLabel}
           </a>
-          <span> ({count})</span>
+          <span> [{count}]</span>
         </Typography>
       </React.Fragment>
     );
