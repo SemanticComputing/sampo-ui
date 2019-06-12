@@ -8,7 +8,9 @@ import Collapse from '@material-ui/core/Collapse';
 
 const styles = () => ({
   valueList: {
-    paddingLeft: 15
+    paddingLeft: 20,
+    maxHeight: 200,
+    overflow: 'auto'
   },
   valueListNoBullets: {
     listStyle: 'none',
