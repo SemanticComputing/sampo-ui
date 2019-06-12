@@ -74,7 +74,8 @@ export const INITIAL_STATE = {
       valueType: 'object',
       makeLink: true,
       sortValues: true,
-      numberedList: false
+      numberedList: false,
+      minWidth: 250
     },
     {
       id: 'source',
