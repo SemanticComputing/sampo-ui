@@ -33,23 +33,6 @@ export const INITIAL_STATE = {
       filterType: 'textFilter',
       textFilter: null,
     },
-    source: {
-      id: 'source',
-      label: 'Source',
-      // predicate: defined in backend
-      distinctValueCount: 0,
-      values: [],
-      flatValues: [],
-      sortBy: 'instanceCount',
-      sortDirection: 'desc',
-      sortButton: false,
-      spatialFilterButton: false,
-      isFetching: false,
-      searchField: false,
-      containerClass: 'five',
-      filterType: 'uriFilter',
-      uriFilter: null
-    },
     author: {
       id: 'author',
       label: 'Possible author',
@@ -64,6 +47,23 @@ export const INITIAL_STATE = {
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
+      filterType: 'uriFilter',
+      uriFilter: null
+    },
+    source: {
+      id: 'source',
+      label: 'Source',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'instanceCount',
+      sortDirection: 'desc',
+      sortButton: false,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: false,
+      containerClass: 'five',
       filterType: 'uriFilter',
       uriFilter: null
     },

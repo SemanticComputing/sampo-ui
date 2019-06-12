@@ -33,23 +33,7 @@ export const INITIAL_STATE = {
       filterType: 'textFilter',
       textFilter: null,
     },
-    source: {
-      id: 'source',
-      label: 'Source',
-      // predicate: defined in backend
-      distinctValueCount: 0,
-      values: [],
-      flatValues: [],
-      sortBy: 'instanceCount',
-      sortDirection: 'desc',
-      sortButton: false,
-      spatialFilterButton: false,
-      isFetching: false,
-      searchField: false,
-      containerClass: 'three',
-      filterType: 'uriFilter',
-      uriFilter: null
-    },
+
     productionPlace: {
       id: 'productionPlace',
       label: 'Production place',
@@ -151,6 +135,23 @@ export const INITIAL_STATE = {
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
+      filterType: 'uriFilter',
+      uriFilter: null
+    },
+    source: {
+      id: 'source',
+      label: 'Source',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'instanceCount',
+      sortDirection: 'desc',
+      sortButton: false,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: false,
+      containerClass: 'three',
       filterType: 'uriFilter',
       uriFilter: null
     },

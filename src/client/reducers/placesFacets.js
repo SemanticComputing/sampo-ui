@@ -33,23 +33,6 @@ export const INITIAL_STATE = {
       filterType: 'textFilter',
       textFilter: null,
     },
-    source: {
-      id: 'source',
-      label: 'Source',
-      // predicate: defined in backend
-      distinctValueCount: 0,
-      values: [],
-      flatValues: [],
-      sortBy: 'instanceCount',
-      sortDirection: 'desc',
-      sortButton: false,
-      spatialFilterButton: false,
-      isFetching: false,
-      searchField: false,
-      containerClass: 'five',
-      filterType: 'uriFilter',
-      uriFilter: null
-    },
     area: {
       id: 'area',
       label: 'Area',
@@ -67,6 +50,23 @@ export const INITIAL_STATE = {
       filterType: 'uriFilter',
       uriFilter: null,
       spatialFilter: null
+    },
+    source: {
+      id: 'source',
+      label: 'Source',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'instanceCount',
+      sortDirection: 'desc',
+      sortButton: false,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: false,
+      containerClass: 'five',
+      filterType: 'uriFilter',
+      uriFilter: null
     },
   }
 };
