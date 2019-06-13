@@ -82,6 +82,7 @@ const sumUpAndSelectChildren = node => {
     for (let child of node.children) {
       if (node.selected == 'true') {
         child.selected = 'true';
+        child.disabled = 'true';
       }
       node.totalInstanceCount += sumUpAndSelectChildren(child);
     }
