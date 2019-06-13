@@ -150,6 +150,15 @@ class HierarchicalFacet extends Component {
 
   recursiveSelect = (nodes, selected) => {
     nodes.forEach(node => {
+      // if a child has been previously selected, remove it
+      if (has(this.props.facet.uriFilter, node.id)) {
+        this.props.updateFacetOption({
+          facetClass: this.props.facetClass,
+          facetID: this.props.facetID,
+          option: this.props.facet.filterType,
+          value: { node }
+        });
+      }
       node.selected = selected ? 'true' : 'false';
       node.disabled = selected ? 'true' : 'false';
       if (has(node, 'children')) {
@@ -158,7 +167,6 @@ class HierarchicalFacet extends Component {
     });
     return nodes;
   };
-
 
   handleCheckboxChange = treeObj => () => {
     this.props.updateFacetOption({
