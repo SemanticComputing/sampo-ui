@@ -93,8 +93,6 @@ class HierarchicalFacet extends Component {
       if (this.props.updatedFacet === this.props.facetID) {
         if (has(this.props.updatedFilter, 'path')) {
           const treeObj = this.props.updatedFilter;
-
-
           let newTreeData = changeNodeAtPath({
             treeData: this.state.treeData,
             getNodeKey: ({ treeIndex }) =>  treeIndex,
@@ -115,8 +113,6 @@ class HierarchicalFacet extends Component {
               }
             }
           });
-
-
           this.setState({ treeData: newTreeData });
         }
       }
@@ -155,6 +151,7 @@ class HierarchicalFacet extends Component {
   recursiveSelect = (nodes, selected) => {
     nodes.forEach(node => {
       node.selected = selected ? 'true' : 'false';
+      node.disabled = selected ? 'true' : 'false';
       if (has(node, 'children')) {
         this.recursiveSelect(node.children, selected);
       }
@@ -178,8 +175,9 @@ class HierarchicalFacet extends Component {
 
   generateNodeProps = treeObj => {
     const { uriFilter} = this.props.facet;
+    const { node } = treeObj;
     let selectedCount = uriFilter == null ? 0 : Object.keys(this.props.facet.uriFilter).length;
-    let isSelected = treeObj.node.selected === 'true' ? true : false;
+    let isSelected = node.selected === 'true' ? true : false;
     return {
       title: (
         <FormControlLabel
@@ -191,14 +189,16 @@ class HierarchicalFacet extends Component {
                 /* non-hierarchical facet:
                 prevent selecting values with 0 hits (which may appear based on earlier selections): */
                 (this.props.facet.type !== 'hierarchical'
-                && treeObj.node.instanceCount == 0
-                && treeObj.node.selected === 'false')
+                && node.instanceCount == 0
+                && node.selected === 'false')
                 // prevent selecting unknown value:
-                || treeObj.node.prefLabel == 'Unknown'
+                || node.prefLabel == 'Unknown'
                 // prevent selecting when another facet is still updating:
                 || this.props.someFacetIsFetching
                 // prevent selecting all facet values:
                 || (selectedCount >= this.props.facet.distinctValueCount - 1 && !isSelected)
+                // prevent selecting when parent has been selected
+                || node.disabled === 'true'
               }
               onChange={this.handleCheckboxChange(treeObj)}
               value={treeObj.node.id}
