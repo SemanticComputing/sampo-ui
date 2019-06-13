@@ -23,7 +23,7 @@ const styles = theme => ({
     width: '100%',
     height: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 73px)'
+      height: 'calc(100% - 130px)'
     },
     backgroundColor: theme.palette.background.paper,
     borderTop: '1px solid rgba(224, 224, 224, 1);'
@@ -35,7 +35,10 @@ const styles = theme => ({
     backgroundColor: '#fff',
     display: 'flex',
     justifyContent: 'flex-start',
-    borderBottom: '1px solid rgba(224, 224, 224, 1);',
+    borderTop: '1px solid rgba(224, 224, 224, 1);',
+  },
+  paginationCaption: {
+    minWidth: 108
   },
   progressContainer: {
     width: '100%',
@@ -198,11 +201,12 @@ class ResultTable extends React.Component {
     const { classes } = this.props;
     const { resultCount, paginatedResults, page, pagesize, sortBy, sortDirection, fetching } = this.props.data;
     return (
-      <div className={classes.tableContainer}>
+      <React.Fragment>
         <TablePagination
           component='div'
           classes={{
-            root: classes.paginationRoot
+            root: classes.paginationRoot,
+            caption: classes.paginationCaption,
           }}
           count={resultCount}
           rowsPerPage={pagesize}
@@ -212,30 +216,32 @@ class ResultTable extends React.Component {
           onChangeRowsPerPage={this.handleOnchangeRowsPerPage}
           ActionsComponent={ResultTablePaginationActions}
         />
-        {fetching ?
-          <div className={classes.progressContainer}>
-            <CircularProgress style={{ color: purple[500] }} thickness={5} />
-          </div>
-          :
-          <Table className={classes.table}>
-            <ResultTableHead
-              columns={this.props.data.tableColumns}
-              onChangePage={this.handleChangePage}
-              onSortBy={this.handleSortBy}
-              onChangeRowsPerPage={this.handleOnChangeRowsPerPage}
-              resultCount={resultCount}
-              page={page}
-              pagesize={pagesize}
-              sortBy={sortBy}
-              sortDirection={sortDirection}
-              routeProps={this.props.routeProps}
-            />
-            <TableBody>
-              {paginatedResults.map(row => this.rowRenderer(row))}
-            </TableBody>
-          </Table>
-        }
-      </div>
+        <div className={classes.tableContainer}>
+          {fetching ?
+            <div className={classes.progressContainer}>
+              <CircularProgress style={{ color: purple[500] }} thickness={5} />
+            </div>
+            :
+            <Table className={classes.table}>
+              <ResultTableHead
+                columns={this.props.data.tableColumns}
+                onChangePage={this.handleChangePage}
+                onSortBy={this.handleSortBy}
+                onChangeRowsPerPage={this.handleOnChangeRowsPerPage}
+                resultCount={resultCount}
+                page={page}
+                pagesize={pagesize}
+                sortBy={sortBy}
+                sortDirection={sortDirection}
+                routeProps={this.props.routeProps}
+              />
+              <TableBody>
+                {paginatedResults.map(row => this.rowRenderer(row))}
+              </TableBody>
+            </Table>
+          }
+        </div>
+      </React.Fragment>
     );
   }
 }
