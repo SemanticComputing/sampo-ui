@@ -200,7 +200,7 @@ class HierarchicalFacet extends Component {
                 && node.instanceCount == 0
                 && node.selected === 'false')
                 // prevent selecting unknown value:
-                || node.prefLabel == 'Unknown'
+                || node.id == 'http://ldf.fi/MISSING_VALUE'
                 // prevent selecting when another facet is still updating:
                 || this.props.someFacetIsFetching
                 // prevent selecting all facet values:
@@ -224,16 +224,20 @@ class HierarchicalFacet extends Component {
 
   generateLabel = node => {
     let count = node.totalInstanceCount == null || node.totalInstanceCount == 0 ? node.instanceCount : node.totalInstanceCount;
+    let missingValue = node.id === 'http://ldf.fi/MISSING_VALUE';
     return (
       <React.Fragment>
         <Typography variant='body2'>
-          <a
-            className={this.props.classes.facetLink}
-            target='_blank' rel='noopener noreferrer'
-            href={node.id}
-          >
-            {node.prefLabel}
-          </a>
+          {!missingValue &&
+            <a
+              className={this.props.classes.facetLink}
+              target='_blank' rel='noopener noreferrer'
+              href={node.id}
+            >
+              {node.prefLabel}
+            </a>
+          }
+          {missingValue && node.prefLabel}
           <span> [{count}]</span>
         </Typography>
       </React.Fragment>
