@@ -80,7 +80,10 @@ const styles = theme => ({
     height: '100%',
     overflow: 'auto',
     paddingTop: '0px !important',
-    paddingBottom: '0px !important'
+    paddingBottom: '0px !important',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: theme.spacing(1)
+    },
   },
 });
 

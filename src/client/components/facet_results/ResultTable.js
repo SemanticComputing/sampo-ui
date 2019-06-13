@@ -26,19 +26,22 @@ const styles = theme => ({
       height: 'calc(100% - 130px)'
     },
     backgroundColor: theme.palette.background.paper,
-    borderTop: '1px solid rgba(224, 224, 224, 1);'
+    borderTop: '1px solid rgba(224, 224, 224, 1);',
   },
-  // table: {
-  //   borderTop: '1px solid rgba(224, 224, 224, 1);',
-  // },
   paginationRoot: {
-    backgroundColor: '#fff',
     display: 'flex',
-    justifyContent: 'flex-start',
+    backgroundColor: '#fff',
     borderTop: '1px solid rgba(224, 224, 224, 1);',
   },
   paginationCaption: {
-    minWidth: 108
+    minWidth: 94
+  },
+  paginationToolbar: {
+    [theme.breakpoints.down('xs')]: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      height: 100
+    },
   },
   progressContainer: {
     width: '100%',
@@ -209,6 +212,7 @@ class ResultTable extends React.Component {
           classes={{
             root: classes.paginationRoot,
             caption: classes.paginationCaption,
+            toolbar: classes.paginationToolbar
           }}
           count={resultCount}
           rowsPerPage={pagesize}
