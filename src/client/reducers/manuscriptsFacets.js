@@ -50,7 +50,8 @@ export const INITIAL_STATE = {
       containerClass: 'ten',
       filterType: 'uriFilter',
       uriFilter: null,
-      spatialFilter: null
+      spatialFilter: null,
+      type: 'hierarchical',
     },
     // productionDate: {
     //   id: 'productionDate',

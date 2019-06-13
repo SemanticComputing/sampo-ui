@@ -188,8 +188,11 @@ class HierarchicalFacet extends Component {
               className={this.props.classes.checkbox}
               checked={isSelected}
               disabled={
-                // prevent selecting values with 0 hits (which may appear based on earlier selections):
-                (treeObj.node.instanceCount == 0 && treeObj.node.selected === 'false')
+                /* non-hierarchical facet:
+                prevent selecting values with 0 hits (which may appear based on earlier selections): */
+                (this.props.facet.type !== 'hierarchical'
+                && treeObj.node.instanceCount == 0
+                && treeObj.node.selected === 'false')
                 // prevent selecting unknown value:
                 || treeObj.node.prefLabel == 'Unknown'
                 // prevent selecting when another facet is still updating:
