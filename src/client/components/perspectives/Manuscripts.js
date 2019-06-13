@@ -55,6 +55,7 @@ let Manuscripts = props => {
             facetClass='manuscripts'
             fetchPaginatedResults={props.fetchPaginatedResults}
             updatePage={props.updatePage}
+            updateRowsPerPage={props.updateRowsPerPage}
             sortResults={props.sortResults}
             routeProps={routeProps}
           />
@@ -124,6 +125,7 @@ Manuscripts.propTypes = {
   fetchPaginatedResults: PropTypes.func.isRequired,
   fetchByURI: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
+  updateRowsPerPage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired,
   updateFacetOption: PropTypes.func.isRequired

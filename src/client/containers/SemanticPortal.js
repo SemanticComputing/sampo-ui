@@ -31,6 +31,7 @@ import {
   sortResults,
   updateFacetOption,
   updatePage,
+  updateRowsPerPage,
   showError
 } from '../actions';
 
@@ -131,6 +132,7 @@ let SemanticPortal = (props) => {
                         fetchResults={props.fetchResults}
                         fetchByURI={props.fetchByURI}
                         updatePage={props.updatePage}
+                        updateRowsPerPage={props.updateRowsPerPage}
                         updateFacetOption={props.updateFacetOption}
                         sortResults={props.sortResults}
                         routeProps={routeProps}
@@ -166,6 +168,7 @@ let SemanticPortal = (props) => {
                         fetchResults={props.fetchResults}
                         fetchByURI={props.fetchByURI}
                         updatePage={props.updatePage}
+                        updateRowsPerPage={props.updateRowsPerPage}
                         sortResults={props.sortResults}
                         routeProps={routeProps}
                       />
@@ -199,6 +202,7 @@ let SemanticPortal = (props) => {
                         fetchResults={props.fetchResults}
                         fetchByURI={props.fetchByURI}
                         updatePage={props.updatePage}
+                        updateRowsPerPage={props.updateRowsPerPage}
                         sortResults={props.sortResults}
                         routeProps={routeProps}
                       />
@@ -234,6 +238,7 @@ let SemanticPortal = (props) => {
                         fetchByURI={props.fetchByURI}
                         filters={props.manuscriptsFacets.filters}
                         updatePage={props.updatePage}
+                        updateRowsPerPage={props.updateRowsPerPage}
                         sortResults={props.sortResults}
                         routeProps={routeProps}
                       />
@@ -269,6 +274,7 @@ let SemanticPortal = (props) => {
                         fetchByURI={props.fetchByURI}
                         filters={props.manuscriptsFacets.filters}
                         updatePage={props.updatePage}
+                        updateRowsPerPage={props.updateRowsPerPage}
                         sortResults={props.sortResults}
                         routeProps={routeProps}
                       />
@@ -303,6 +309,7 @@ let SemanticPortal = (props) => {
                         fetchByURI={props.fetchByURI}
                         filters={props.manuscriptsFacets.filters}
                         updatePage={props.updatePage}
+                        updateRowsPerPage={props.updateRowsPerPage}
                         sortResults={props.sortResults}
                         routeProps={routeProps}
                       />
@@ -372,6 +379,7 @@ const mapDispatchToProps = ({
   clearResults,
   updateFacetOption,
   updatePage,
+  updateRowsPerPage,
   showError
 });
 
@@ -401,6 +409,7 @@ SemanticPortal.propTypes = {
   sortResults: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
+  updateRowsPerPage: PropTypes.func.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   showError: PropTypes.func.isRequired

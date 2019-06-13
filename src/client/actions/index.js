@@ -11,6 +11,7 @@ export const UPDATE_RESULTS = 'UPDATE_RESULTS';
 export const CLEAR_RESULTS = 'CLEAR_RESULTS';
 export const SORT_RESULTS = 'SORT_RESULTS';
 export const UPDATE_PAGE = 'UPDATE_PAGE';
+export const UPDATE_ROWS_PER_PAGE = 'UPDATE_ROWS_PER_PAGE';
 export const FETCH_BY_URI = 'FETCH_BY_URI';
 export const FETCH_BY_URI_FAILED = 'FETCH_BY_URI_FAILED';
 export const UPDATE_INSTANCE = 'UPDATE_INSTANCE';
@@ -73,6 +74,10 @@ export const clearResults = resultClass => ({
 export const updatePage = (resultClass, page) => ({
   type: UPDATE_PAGE,
   resultClass, page
+});
+export const updateRowsPerPage = (resultClass, rowsPerPage) => ({
+  type: UPDATE_ROWS_PER_PAGE,
+  resultClass, rowsPerPage
 });
 export const fetchByURI = (resultClass, facetClass, variant, uri) => ({
   type: FETCH_BY_URI,

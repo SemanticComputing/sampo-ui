@@ -36,6 +36,14 @@ export const updatePage = (state, action) => {
   };
 };
 
+export const updateRowsPerPage = (state, action) => {
+  return {
+    ...state,
+    pagesize: action.rowsPerPage
+  };
+};
+
+
 export const updateSortBy = (state, action) => {
   if (state.sortBy === action.sortBy) {
     return {

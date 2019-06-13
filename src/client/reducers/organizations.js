@@ -10,6 +10,7 @@ import {
   UPDATE_RESULTS,
   UPDATE_INSTANCE,
   UPDATE_PAGE,
+  UPDATE_ROWS_PER_PAGE,
   SORT_RESULTS,
 } from '../actions';
 import {
@@ -22,6 +23,7 @@ import {
   updatePaginatedResults,
   updateInstance,
   updatePage,
+  updateRowsPerPage,
 } from './helpers';
 
 export const INITIAL_STATE = {
@@ -31,7 +33,7 @@ export const INITIAL_STATE = {
   resultsUpdateID: -1,
   instance: {},
   page: -1,
-  pagesize: 15,
+  pagesize: 10,
   sortBy: 'prefLabel',
   sortDirection: 'asc',
   fetching: false,
@@ -82,6 +84,8 @@ const organizations = (state = INITIAL_STATE, action) => {
         return updateInstance(state, action);
       case UPDATE_PAGE:
         return updatePage(state, action);
+      case UPDATE_ROWS_PER_PAGE:
+        return updateRowsPerPage(state, action);
       default:
         return state;
     }

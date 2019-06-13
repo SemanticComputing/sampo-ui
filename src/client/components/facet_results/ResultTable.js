@@ -121,6 +121,7 @@ class ResultTable extends React.Component {
       prevProps.data.sortBy != this.props.data.sortBy
       || prevProps.data.sortDirection != this.props.data.sortDirection
       || prevProps.facetUpdateID != this.props.facetUpdateID
+      || prevProps.data.pagesize != this.props.data.pagesize
     );
   }
 
@@ -130,9 +131,10 @@ class ResultTable extends React.Component {
     }
   }
 
-  handleOnChangeRowsPerPage = (event, rowsPerPage) => {
-    if (event != null) {
-      return rowsPerPage;
+  handleOnChangeRowsPerPage = event => {
+    const rowsPerPage = event.target.value;
+    if (rowsPerPage != this.props.data.pagesize) {
+      this.props.updateRowsPerPage(this.props.resultClass, rowsPerPage);
     }
   }
 
@@ -210,10 +212,10 @@ class ResultTable extends React.Component {
           }}
           count={resultCount}
           rowsPerPage={pagesize}
-          rowsPerPageOptions={[5]}
+          rowsPerPageOptions={[5, 10, 15, 25, 30, 50, 100]}
           page={page == -1 || resultCount == 0 ? 0 : page}
           onChangePage={this.handleChangePage}
-          onChangeRowsPerPage={this.handleOnchangeRowsPerPage}
+          onChangeRowsPerPage={this.handleOnChangeRowsPerPage}
           ActionsComponent={ResultTablePaginationActions}
         />
         <div className={classes.tableContainer}>
@@ -225,12 +227,7 @@ class ResultTable extends React.Component {
             <Table className={classes.table}>
               <ResultTableHead
                 columns={this.props.data.tableColumns}
-                onChangePage={this.handleChangePage}
                 onSortBy={this.handleSortBy}
-                onChangeRowsPerPage={this.handleOnChangeRowsPerPage}
-                resultCount={resultCount}
-                page={page}
-                pagesize={pagesize}
                 sortBy={sortBy}
                 sortDirection={sortDirection}
                 routeProps={this.props.routeProps}
@@ -256,6 +253,7 @@ ResultTable.propTypes = {
   fetchPaginatedResults: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
+  updateRowsPerPage: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired
 };
 

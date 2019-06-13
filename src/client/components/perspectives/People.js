@@ -36,6 +36,7 @@ let People = props => {
             facetClass='people'
             fetchPaginatedResults={props.fetchPaginatedResults}
             updatePage={props.updatePage}
+            updateRowsPerPage={props.updateRowsPerPage}
             sortResults={props.sortResults}
             routeProps={routeProps}
           />
@@ -53,6 +54,7 @@ People.propTypes = {
   fetchPaginatedResults: PropTypes.func.isRequired,
   fetchByURI: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
+  updateRowsPerPage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired
 };

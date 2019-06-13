@@ -64,12 +64,7 @@ const ResultTableHead = props => {
 ResultTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
   columns: PropTypes.array.isRequired,
-  onChangePage: PropTypes.func.isRequired,
   onSortBy: PropTypes.func.isRequired,
-  onChangeRowsPerPage: PropTypes.func.isRequired,
-  resultCount: PropTypes.number.isRequired,
-  page: PropTypes.number.isRequired,
-  pagesize: PropTypes.number.isRequired,
   sortBy: PropTypes.string.isRequired,
   sortDirection: PropTypes.string.isRequired,
   routeProps: PropTypes.object.isRequired,
