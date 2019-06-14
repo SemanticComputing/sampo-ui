@@ -71,7 +71,7 @@ export const INITIAL_STATE = {
     },
     place: {
       id: 'place',
-      label: 'Place / nationality',
+      label: 'Activity location',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -84,7 +84,9 @@ export const INITIAL_STATE = {
       searchField: true,
       containerClass: 'ten',
       filterType: 'uriFilter',
-      uriFilter: null
+      uriFilter: null,
+      type: 'hierarchical'
+
     },
     source: {
       id: 'source',
