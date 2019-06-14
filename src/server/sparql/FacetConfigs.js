@@ -135,13 +135,19 @@ export const facetConfigs = {
       type: 'hierarchical',
     },
   },
-  people: {
-    facetClass: 'crm:E21_Person',
+  actors: {
+    facetClass: 'crm:E21_Person crm:E74_Group crm:E39_Actor',
     prefLabel: {
       id: 'prefLabel',
       labelPath: 'skos:prefLabel',
       textQueryProperty: 'skos:prefLabel',
       type: 'text',
+    },
+    type: {
+      predicate: 'a',
+      facetValueFilter: '',
+      type: 'list',
+      labelPath: 'a/(skos:prefLabel|rdfs:label)',
     },
     source: {
       id: 'source',
@@ -178,22 +184,6 @@ export const facetConfigs = {
         |^mmm-schema:carried_out_by_as_editor)
         /frbroo:R16_initiated/skos:prefLabel
       `,
-    },
-  },
-  organizations: {
-    facetClass: 'crm:E74_Group',
-    prefLabel: {
-      id: 'prefLabel',
-      labelPath: 'skos:prefLabel',
-      textQueryProperty: 'skos:prefLabel',
-      type: 'text',
-    },
-    source: {
-      id: 'source',
-      facetValueFilter: '',
-      labelPath: 'dct:source/skos:prefLabel',
-      predicate: 'dct:source',
-      type: 'list',
     },
   },
   places: {

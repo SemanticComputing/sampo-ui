@@ -1,8 +1,14 @@
-export const personProperties = `
+export const actorProperties = `
     {
       ?id skos:prefLabel ?prefLabel__id .
       BIND(?prefLabel__id AS ?prefLabel__prefLabel)
       BIND(?id AS ?prefLabel__dataProviderUrl)
+    }
+    UNION
+    {
+      ?id a ?type__id .
+      ?type__id skos:prefLabel|rdfs:label ?type__prefLabel .
+      BIND(?id AS ?type__dataProviderUrl)
     }
     UNION
     {

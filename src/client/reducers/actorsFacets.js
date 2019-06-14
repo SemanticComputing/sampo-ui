@@ -33,6 +33,24 @@ export const INITIAL_STATE = {
       filterType: 'textFilter',
       textFilter: null,
     },
+    type: {
+      id: 'type',
+      label: 'Type',
+      //predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'prefLabel',
+      sortDirection: 'asc',
+      sortButton: false,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: false,
+      containerClass: 'three',
+      filterType: 'uriFilter',
+      uriFilter: null,
+      spatialFilter: null
+    },
     birthPlace: {
       id: 'birthPlace',
       label: 'Place of birth',
@@ -48,7 +66,8 @@ export const INITIAL_STATE = {
       searchField: true,
       containerClass: 'ten',
       filterType: 'uriFilter',
-      uriFilter: null
+      uriFilter: null,
+      type: 'hierarchical'
     },
     place: {
       id: 'place',
@@ -87,8 +106,8 @@ export const INITIAL_STATE = {
   }
 };
 
-const peopleFacets = (state = INITIAL_STATE, action) => {
-  if (action.facetClass === 'people') {
+const actorsFacets = (state = INITIAL_STATE, action) => {
+  if (action.facetClass === 'actors') {
     switch (action.type) {
       case FETCH_FACET:
         return fetchFacet(state, action);
@@ -104,4 +123,4 @@ const peopleFacets = (state = INITIAL_STATE, action) => {
   } else return state;
 };
 
-export default peopleFacets;
+export default actorsFacets;

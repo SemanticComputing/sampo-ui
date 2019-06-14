@@ -9,8 +9,7 @@ import {
 } from './SparqlQueriesManuscripts';
 import { workProperties } from './SparqlQueriesWorks';
 import { eventProperties } from './SparqlQueriesEvents';
-import { personProperties } from './SparqlQueriesPeople';
-import { organizationProperties } from './SparqlQueriesOrganizations';
+import { actorProperties } from './SparqlQueriesActors';
 import { placeProperties, placeQuery, allPlacesQuery } from './SparqlQueriesPlaces';
 import { facetConfigs } from './FacetConfigs';
 import { mapCount } from './Mappers';
@@ -165,11 +164,8 @@ const getPaginatedData = ({
     case 'places':
       resultSetProperties = placeProperties;
       break;
-    case 'people':
-      resultSetProperties = personProperties;
-      break;
-    case 'organizations':
-      resultSetProperties = organizationProperties;
+    case 'actors':
+      resultSetProperties = actorProperties;
       break;
     default:
       resultSetProperties = '';

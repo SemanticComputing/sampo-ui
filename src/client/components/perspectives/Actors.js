@@ -4,13 +4,13 @@ import { Route, Redirect } from 'react-router-dom';
 import PerspectiveTabs from '../main_layout/PerspectiveTabs';
 import ResultTable from '../facet_results/ResultTable';
 
-let People = props => {
+let Actors = props => {
   return (
     <React.Fragment>
       <PerspectiveTabs
         routeProps={props.routeProps}
         tabs={{
-          '/people/table': {
+          '/actors/table': {
             label: 'table',
             value: 0,
             icon: 'CalendarViewDay',
@@ -23,17 +23,17 @@ let People = props => {
         }}
       />
       <Route
-        exact path='/people'
-        render={() => <Redirect to='people/table' />}
+        exact path='/actors'
+        render={() => <Redirect to='actors/table' />}
       />
       <Route
-        path={'/people/table'}
+        path={'/actors/table'}
         render={routeProps =>
           <ResultTable
-            data={props.people}
+            data={props.actors}
             facetUpdateID={props.facetData.facetUpdateID}
-            resultClass='people'
-            facetClass='people'
+            resultClass='actors'
+            facetClass='actors'
             fetchPaginatedResults={props.fetchPaginatedResults}
             updatePage={props.updatePage}
             updateRowsPerPage={props.updateRowsPerPage}
@@ -46,8 +46,8 @@ let People = props => {
   );
 };
 
-People.propTypes = {
-  people: PropTypes.object.isRequired,
+Actors.propTypes = {
+  actors: PropTypes.object.isRequired,
   places: PropTypes.object.isRequired,
   facetData: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
@@ -59,4 +59,4 @@ People.propTypes = {
   routeProps: PropTypes.object.isRequired
 };
 
-export default People;
+export default Actors;

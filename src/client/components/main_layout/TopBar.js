@@ -74,8 +74,7 @@ class TopBar extends React.Component {
     const AdapterLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />);
     const AdapterNavLink = React.forwardRef((props, ref) => <NavLink innerRef={ref} {...props} />);
 
-    const perspectives = [ 'manuscripts', 'works', 'events', 'people',
-      'organizations', 'places' ];
+    const perspectives = [ 'manuscripts', 'collections', 'works', 'events', 'actors', 'places' ];
 
     const renderMobileMenu = (
       <Menu

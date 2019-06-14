@@ -50,6 +50,16 @@ export const INITIAL_STATE = {
       minWidth: 150
     },
     {
+      id: 'type',
+      label: 'Type',
+      desc: 'Type description',
+      valueType: 'object',
+      makeLink: true,
+      sortValues: false,
+      numberedList: false,
+      minWidth: 200,
+    },
+    {
       id: 'birthPlace',
       label: 'Place of birth',
       desc: 'Birth place description',
@@ -92,8 +102,8 @@ export const INITIAL_STATE = {
   ],
 };
 
-const people = (state = INITIAL_STATE, action) => {
-  if (action.resultClass === 'people') {
+const actors = (state = INITIAL_STATE, action) => {
+  if (action.resultClass === 'actors') {
     switch (action.type) {
       case FETCH_RESULTS:
       case FETCH_PAGINATED_RESULTS:
@@ -124,4 +134,4 @@ const people = (state = INITIAL_STATE, action) => {
   } else return state;
 };
 
-export default people;
+export default actors;

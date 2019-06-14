@@ -4,14 +4,14 @@ import {createResponsiveStateReducer} from 'redux-responsive';
 import manuscripts from './manuscripts';
 import works from './works';
 import events from './events';
-import people from './people';
+import actors from './actors';
 import organizations from './organizations';
 import places from './places';
 import error from './error';
 import manuscriptsFacets from './manuscriptsFacets';
 import worksFacets from './worksFacets';
 import eventsFacets from './eventsFacets';
-import peopleFacets from './peopleFacets';
+import actorsFacets from './actorsFacets';
 import organizationsFacets from './organizationsFacets';
 import placesFacets from './placesFacets';
 import clientSideFacetedSearch from './clientSideFacetedSearch';
@@ -23,8 +23,8 @@ const reducer = combineReducers({
   worksFacets,
   events,
   eventsFacets,
-  people,
-  peopleFacets,
+  actors,
+  actorsFacets,
   organizations,
   organizationsFacets,
   places,

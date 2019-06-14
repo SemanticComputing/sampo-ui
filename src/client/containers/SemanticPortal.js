@@ -17,8 +17,7 @@ import Manuscripts from '../components/perspectives/Manuscripts';
 import Works from '../components/perspectives/Works';
 import Events from '../components/perspectives/Events';
 import Places from '../components//perspectives/Places';
-import People from '../components//perspectives/People';
-import Organizations from '../components/perspectives/Organizations';
+import Actors from '../components//perspectives/Actors';
 import All from '../components/perspectives/All';
 import {
   fetchResultCount,
@@ -215,63 +214,27 @@ let SemanticPortal = (props) => {
               }}
             />
             <Route
-              path="/people"
+              path="/actors"
               render={routeProps => {
                 return(
                   <React.Fragment>
                     <Grid item xs={12} md={3} className={classes.facetBarContainer}>
                       <FacetBar
-                        facetData={props.peopleFacets}
-                        facetClass='people'
-                        resultClass='people'
-                        fetchingResultCount={props.people.fetchingResultCount}
-                        resultCount={props.people.resultCount}
+                        facetData={props.actorsFacets}
+                        facetClass='actors'
+                        resultClass='actors'
+                        fetchingResultCount={props.actors.fetchingResultCount}
+                        resultCount={props.actors.resultCount}
                         fetchFacet={props.fetchFacet}
                         fetchResultCount={props.fetchResultCount}
                         updateFacetOption={props.updateFacetOption}
                       />
                     </Grid>
                     <Grid item xs={12} md={9} className={classes.resultsContainer}>
-                      <People
-                        people={props.people}
+                      <Actors
+                        actors={props.actors}
                         places={props.places}
-                        facetData={props.peopleFacets}
-                        fetchResults={props.fetchResults}
-                        fetchPaginatedResults={props.fetchPaginatedResults}
-                        fetchByURI={props.fetchByURI}
-                        filters={props.manuscriptsFacets.filters}
-                        updatePage={props.updatePage}
-                        updateRowsPerPage={props.updateRowsPerPage}
-                        sortResults={props.sortResults}
-                        routeProps={routeProps}
-                      />
-                    </Grid>
-                  </React.Fragment>
-                );
-              }}
-            />
-            <Route
-              path="/organizations"
-              render={routeProps => {
-                return(
-                  <React.Fragment>
-                    <Grid item xs={12} md={3} className={classes.facetBarContainer}>
-                      <FacetBar
-                        facetData={props.organizationsFacets}
-                        facetClass='organizations'
-                        resultClass='organizations'
-                        fetchingResultCount={props.organizations.fetchingResultCount}
-                        resultCount={props.organizations.resultCount}
-                        fetchFacet={props.fetchFacet}
-                        fetchResultCount={props.fetchResultCount}
-                        updateFacetOption={props.updateFacetOption}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={9} className={classes.resultsContainer}>
-                      <Organizations
-                        organizations={props.organizations}
-                        places={props.places}
-                        facetData={props.organizationsFacets}
+                        facetData={props.actorsFacets}
                         fetchResults={props.fetchResults}
                         fetchPaginatedResults={props.fetchPaginatedResults}
                         fetchByURI={props.fetchByURI}
@@ -359,10 +322,8 @@ const mapStateToProps = state => {
     worksFacets: state.worksFacets,
     events: state.events,
     eventsFacets: state.eventsFacets,
-    people: state.people,
-    peopleFacets: state.peopleFacets,
-    organizations: state.organizations,
-    organizationsFacets: state.organizationsFacets,
+    actors: state.actors,
+    actorsFacets: state.actorsFacets,
     places: state.places,
     placesFacets: state.placesFacets,
     clientSideFacetedSearch: state.clientSideFacetedSearch,
@@ -397,10 +358,8 @@ SemanticPortal.propTypes = {
   worksFacets: PropTypes.object.isRequired,
   events: PropTypes.object.isRequired,
   eventsFacets: PropTypes.object.isRequired,
-  people: PropTypes.object.isRequired,
-  peopleFacets: PropTypes.object.isRequired,
-  organizations: PropTypes.object.isRequired,
-  organizationsFacets: PropTypes.object.isRequired,
+  actors: PropTypes.object.isRequired,
+  actorsFacets: PropTypes.object.isRequired,
   places: PropTypes.object.isRequired,
   placesFacets: PropTypes.object.isRequired,
   clientSideFacetedSearch: PropTypes.object.isRequired,

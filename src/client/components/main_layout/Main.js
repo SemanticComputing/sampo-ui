@@ -61,6 +61,11 @@ let Main = props => {
       desc: 'Physical manuscript objects.'
     },
     {
+      id: 'collections',
+      label: 'Collections',
+      desc: ''
+    },
+    {
       id: 'works',
       label: 'Works',
       desc: 'Intellectual content carried out by manuscripts.'
@@ -71,14 +76,9 @@ let Main = props => {
       desc: 'Events related to manuscripts.'
     },
     {
-      id: 'people',
-      label: 'People',
-      desc: 'People related to manuscripts and works.'
-    },
-    {
-      id: 'organizations',
-      label: 'Organizations',
-      desc: 'Organizations related to manuscripts.'
+      id: 'actors',
+      label: 'Actors',
+      desc: 'Actor related to manuscripts and works.'
     },
     {
       id: 'places',
