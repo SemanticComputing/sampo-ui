@@ -60,11 +60,11 @@ let Main = props => {
       label: 'Manuscripts',
       desc: 'Physical manuscript objects.'
     },
-    {
-      id: 'collections',
-      label: 'Collections',
-      desc: ''
-    },
+    // {
+    //   id: 'collections',
+    //   label: 'Collections',
+    //   desc: ''
+    // },
     {
       id: 'works',
       label: 'Works',
