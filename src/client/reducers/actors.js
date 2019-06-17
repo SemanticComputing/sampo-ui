@@ -72,7 +72,7 @@ export const INITIAL_STATE = {
     {
       id: 'place',
       label: 'Place / nationality',
-      desc: 'Place / nationality description',
+      desc: 'Activity location',
       valueType: 'object',
       makeLink: true,
       sortValues: true,
@@ -83,6 +83,16 @@ export const INITIAL_STATE = {
       id: 'work',
       label: 'Work',
       desc: 'Work description',
+      valueType: 'object',
+      makeLink: true,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250
+    },
+    {
+      id: 'manuscript',
+      label: 'Manuscript',
+      desc: 'Manuscript',
       valueType: 'object',
       makeLink: true,
       sortValues: true,

@@ -38,4 +38,40 @@ export const actorProperties = `
       ?work__id skos:prefLabel ?work__prefLabel .
       BIND(?work__id AS ?work__dataProviderUrl)
     }
+    UNION
+    {
+      ?id ^crm:P51_has_former_or_current_owner ?manuscript__id .
+      ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
+      BIND(?manuscript__id AS ?manuscript__dataProviderUrl)
+    }
+    UNION
+    {
+      ?id (^mmm-schema:carried_out_by_as_commissioner
+          |^mmm-schema:carried_out_by_as_illuminator
+          |^mmm-schema:carried_out_by_as_printer
+          |^mmm-schema:carried_out_by_as_scribe)
+          /crm:P108_has_produced ?manuscript__id .
+      ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
+      BIND(?manuscript__id AS ?manuscript__dataProviderUrl)
+    }
+    UNION
+    {
+      ?id (^mmm-schema:carried_out_by_as_possible_author
+          |^mmm-schema:carried_out_by_as_author
+          |^mmm-schema:carried_out_by_as_commissioner
+          |^mmm-schema:carried_out_by_as_editor)
+          /frbroo:R16_initiated/^mmm-schema:manuscript_work ?manuscript__id .
+      ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
+      BIND(?manuscript__id AS ?manuscript__dataProviderUrl)
+    }
+    UNION
+    {
+      ?id (^crm:P11_had_participant
+          |^crm:P28_custody_surrendered_by
+          |^crm:P29_custody_received_by
+          |^mmm-schema:carried_out_by_as_selling_agent)
+          /^crm:P30_transferred_custody_of|mmm-schema:observed_manuscript ?manuscript__id .
+      ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
+      BIND(?manuscript__id AS ?manuscript__dataProviderUrl)
+    }
 `;
