@@ -70,7 +70,7 @@ export const actorProperties = `
           |^crm:P28_custody_surrendered_by
           |^crm:P29_custody_received_by
           |^mmm-schema:carried_out_by_as_selling_agent)
-          /^crm:P30_transferred_custody_of|mmm-schema:observed_manuscript ?manuscript__id .
+          /^crm:P30_transferred_custody_of|^mmm-schema:observed_manuscript ?manuscript__id .
       ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
       BIND(?manuscript__id AS ?manuscript__dataProviderUrl)
     }
