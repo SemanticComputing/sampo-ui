@@ -46,7 +46,8 @@ export const INITIAL_STATE = {
       valueType: 'object',
       makeLink: true,
       sortValues: true,
-      numberedList: false
+      numberedList: false,
+      minWidth: 170
     },
     {
       id: 'placeType',
@@ -55,12 +56,33 @@ export const INITIAL_STATE = {
       valueType: 'string',
       makeLink: false,
       sortValues: true,
-      numberedList: false
+      numberedList: false,
+      minWidth: 170
     },
     {
       id: 'area',
       label: 'Broader area',
       desc: 'Broader area description',
+      valueType: 'object',
+      makeLink: true,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 170
+    },
+    {
+      id: 'actor',
+      label: 'Actor',
+      desc: 'Actor description',
+      valueType: 'object',
+      makeLink: true,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 200
+    },
+    {
+      id: 'manuscript',
+      label: 'Manuscript',
+      desc: 'Manuscript description',
       valueType: 'object',
       makeLink: true,
       sortValues: true,
