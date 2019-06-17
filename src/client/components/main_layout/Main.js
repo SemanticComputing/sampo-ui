@@ -78,7 +78,7 @@ let Main = props => {
     {
       id: 'actors',
       label: 'Actors',
-      desc: 'Actor related to manuscripts and works.'
+      desc: 'People and institutions related to manuscripts and works.'
     },
     {
       id: 'places',
