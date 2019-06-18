@@ -61,7 +61,12 @@ export const updateSortBy = (state, action) => {
 
 export const updateFacetOption = (state, action) => {
   const { facetID, option, value } = action;
-  const filterTypes = [ 'uriFilter', 'spatialFilter', 'textFilter' ];
+  const filterTypes = [
+    'uriFilter',
+    'spatialFilter',
+    'textFilter',
+    'timespanFilter'
+  ];
   if (filterTypes.includes(action.option)) {
     return updateFacetFilter(state, action);
   } else {
@@ -77,8 +82,6 @@ export const updateFacetOption = (state, action) => {
     };
   }
 };
-
-
 
 const updateFacetFilter = (state, action) => {
   const { facetID, value } = action;
@@ -110,6 +113,14 @@ const updateFacetFilter = (state, action) => {
     newFacet = {
       ...state.facets[facetID],
       textFilter: value
+    };
+  } else if (oldFacet.filterType === 'timespanFilter') {
+    newFacet = {
+      ...state.facets[facetID],
+      timespanFilter: {
+        start: value[0],
+        end: value[1]
+      }
     };
   }
   return {
@@ -178,17 +189,32 @@ export const fetchFacetFailed = (state, action) => {
 };
 
 export const updateFacetValues = (state, action) => {
-  return {
-    ...state,
-    facets: {
-      ...state.facets,
-      [ action.id ]: {
-        ...state.facets[action.id],
-        distinctValueCount: action.distinctValueCount,
-        values: action.values,
-        flatValues: action.flatValues || [],
-        isFetching: false
+  if (state.facets[action.id].type === 'timespan') {
+    return {
+      ...state,
+      facets: {
+        ...state.facets,
+        [ action.id ]: {
+          ...state.facets[action.id],
+          min: action.min || null,
+          max: action.max || null,
+          isFetching: false
+        }
       }
-    }
-  };
+    };
+  } else {
+    return {
+      ...state,
+      facets: {
+        ...state.facets,
+        [ action.id ]: {
+          ...state.facets[action.id],
+          distinctValueCount: action.distinctValueCount || null,
+          values: action.values || null,
+          flatValues: action.flatValues || [],
+          isFetching: false
+        }
+      }
+    };
+  }
 };

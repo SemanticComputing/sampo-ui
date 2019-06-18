@@ -11,6 +11,7 @@ import { generateFilter, generateSelectedFilter } from './Filters';
 import {
   mapFacet,
   mapHierarchicalFacet,
+  mapTimespanFacet
 } from './Mappers';
 
 export const getFacet = ({
@@ -23,24 +24,30 @@ export const getFacet = ({
   textFilters
 }) => {
   const facetConfig = facetConfigs[facetClass][facetID];
-  // choose a query template:
+  // choose query template and result mapper:
   let q = '';
+  let mapper = null;
   switch(facetConfig.type) {
     case 'list':
+      q = facetValuesQuery;
+      mapper = mapFacet;
+      break;
     case 'hierarchical':
       q = facetValuesQuery;
+      mapper = mapHierarchicalFacet;
       break;
     case 'timespan':
       q = facetValuesQueryTimespan;
+      mapper = mapTimespanFacet;
       break;
     default:
       q = facetValuesQuery;
+      mapper = mapFacet;
   }
   let selectedBlock = '# no selections';
   let selectedNoHitsBlock = '# no filters from other facets';
   let filterBlock = '# no filters';
   let parentBlock = '# no parents';
-  let mapper = mapFacet;
   const hasFilters = uriFilters !== null
     || spatialFilters !== null
     || textFilters !== null;
@@ -61,16 +68,21 @@ export const getFacet = ({
       facetID,
       uriFilters
     });
-    selectedNoHitsBlock = generateSelectedNoHitsBlock({
-      facetClass,
-      facetID,
-      uriFilters,
-      spatialFilters,
-      textFilters
-    });
+    /*
+      if there are also filters from other facets, we need this
+      additional block for facet values that return 0 hits
+    */
+    if (Object.keys(uriFilters).length > 1) {
+      selectedNoHitsBlock = generateSelectedNoHitsBlock({
+        facetClass,
+        facetID,
+        uriFilters,
+        spatialFilters,
+        textFilters
+      });
+    }
   }
   if (facetConfig.type === 'hierarchical') {
-    mapper = mapHierarchicalFacet;
     const { parentPredicate } = facetConfig;
     parentBlock = generateParentBlock({
       facetClass,
@@ -85,10 +97,22 @@ export const getFacet = ({
   q = q.replace('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock);
   q = q.replace('<FACET_VALUE_FILTER>', facetConfig.facetValueFilter);
   q = q.replace('<PARENTS>', parentBlock);
-  q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
+  // TODO: order only when facet type is list
+  if (facetConfig.type === 'list') {
+    q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
+  } else {
+    q = q.replace('<ORDER_BY>', '# no need for ordering');
+  }
   q = q.replace(/<FACET_CLASS>/g, facetConfigs[facetClass].facetClass);
   q = q.replace(/<FILTER>/g, filterBlock );
   q = q.replace(/<PREDICATE>/g, facetConfig.predicate);
+  if (facetConfig.type === 'timespan') {
+    q = q.replace('<START_PROPERTY>', facetConfig.startProperty);
+    q = q.replace('<END_PROPERTY>', facetConfig.endProperty);
+  }
+  // if (facetID == 'productionPlace') {
+  //   console.log(prefixes + q)
+  // }
   return runSelectQuery(prefixes + q, endpoint, mapper);
 };
 
@@ -115,20 +139,16 @@ const generateSelectedNoHitsBlock = ({
   spatialFilters,
   textFilters
 }) => {
-  const facetIDs = Object.keys(uriFilters);
-  // get selected values with no hits, only when there are filters from
-  // other facets
-  if (facetIDs.length > 1) {
-    const noHitsFilter = generateFilter({
-      facetClass: facetClass,
-      uriFilters: uriFilters,
-      spatialFilters: spatialFilters,
-      textFilters: textFilters,
-      filterTarget: 'instance',
-      facetID: facetID,
-      inverse: true,
-    });
-    return `
+  const noHitsFilter = generateFilter({
+    facetClass: facetClass,
+    uriFilters: uriFilters,
+    spatialFilters: spatialFilters,
+    textFilters: textFilters,
+    filterTarget: 'instance',
+    facetID: facetID,
+    inverse: true,
+  });
+  return `
   UNION
   {
   # facet values that have been selected but return no results
@@ -137,7 +157,6 @@ const generateSelectedNoHitsBlock = ({
     BIND(true AS ?selected_)
   }
     `;
-  }
 };
 
 const generateParentBlock = ({

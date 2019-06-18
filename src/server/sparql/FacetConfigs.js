@@ -33,9 +33,10 @@ export const facetConfigs = {
     productionTimespan: {
       id: 'productionTimespan',
       facetValueFilter: '',
+      labelPath: '^crm:P108_has_produced/crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
+      predicate: '^crm:P108_has_produced/crm:P4_has_time-span',
       startProperty: 'crm:P82a_begin_of_the_begin',
       endProperty: 'crm:P82b_end_of_the_end',
-      labelPath: '^crm:P108_has_produced/crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
       type: 'timespan',
     },
     language: {

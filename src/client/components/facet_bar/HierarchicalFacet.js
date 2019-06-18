@@ -376,7 +376,10 @@ HierarchicalFacet.propTypes = {
   someFacetIsFetching: PropTypes.bool.isRequired,
   updateFacetOption: PropTypes.func,
   facetUpdateID: PropTypes.number,
-  updatedFilter: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  updatedFilter: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string,
+    PropTypes.array]),
   updatedFacet: PropTypes.string,
 };
 

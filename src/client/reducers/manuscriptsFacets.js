@@ -33,7 +33,6 @@ export const INITIAL_STATE = {
       filterType: 'textFilter',
       textFilter: null,
     },
-
     productionPlace: {
       id: 'productionPlace',
       label: 'Production place',
@@ -53,24 +52,26 @@ export const INITIAL_STATE = {
       spatialFilter: null,
       type: 'hierarchical',
     },
-    // productionDate: {
-    //   id: 'productionDate',
-    //   label: 'Production date',
-    //   //predicate: defined in backend
-    //   distinctValueCount: 0,
-    //   values: [],
-    //   flatValues: [],
-    //   sortBy: 'prefLabel',
-    //   sortDirection: 'asc',
-    //   sortButton: false,
-    //   spatialFilterButton: false,
-    //   isFetching: false,
-    //   searchField: false,
-    //   containerClass: 'ten',
-    //   filterType: 'timespan',
-    //   startValue: null,
-    //   endValue: null
-    // },
+    productionTimespan: {
+      id: 'productionTimespan',
+      label: 'Production date',
+      //predicate: defined in backend
+      distinctValueCount: null,
+      values: null,
+      flatValues: null,
+      sortBy: null,
+      sortDirection: null,
+      sortButton: false,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: false,
+      containerClass: 'three',
+      filterType: 'timespanFilter',
+      min: null,
+      max: null,
+      timespanFilter: null,
+      type: 'timespan'
+    },
     author: {
       id: 'author',
       label: 'Author',

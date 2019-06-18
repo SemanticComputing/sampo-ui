@@ -106,13 +106,12 @@ app.get(`${apiPath}/:resultClass/instance/:uri`, async (req, res, next) => {
 });
 
 app.get(`${apiPath}/:facetClass/facet/:id`, async (req, res, next) => {
-  req.setTimeout(300000); // 5 minutes to avoid 504 errors
   try {
     const data = await getFacet({
       facetClass: req.params.facetClass,
       facetID: req.params.id,
-      sortBy: req.query.sortBy,
-      sortDirection: req.query.sortDirection,
+      sortBy: req.query.sortBy || null,
+      sortDirection: req.query.sortDirection || null,
       uriFilters: req.query.uriFilters == null ? null : JSON.parse(req.query.uriFilters),
       spatialFilters: req.query.spatialFilters == null ? null : JSON.parse(req.query.spatialFilters),
       textFilters: req.query.textFilters == null ? null : JSON.parse(req.query.textFilters)

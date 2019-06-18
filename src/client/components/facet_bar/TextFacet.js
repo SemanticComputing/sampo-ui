@@ -119,8 +119,6 @@ TextFacet.propTypes = {
   someFacetIsFetching: PropTypes.bool.isRequired,
   updateFacetOption: PropTypes.func,
   facetUpdateID: PropTypes.number,
-  updatedFilter: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  updatedFacet: PropTypes.string,
 };
 
 export default withStyles(styles)(TextFacet);

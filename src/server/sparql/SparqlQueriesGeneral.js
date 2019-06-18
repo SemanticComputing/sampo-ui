@@ -98,19 +98,22 @@ export const facetValuesQuery = `
 `;
 
 export const facetValuesQueryTimespan = `
+  # ignore selections from other facets
   SELECT ?min ?max {
-    <FILTER>
-    ?instance <PREDICATE> ?timespan .
-    VALUES ?facetClass { <FACET_CLASS> }
-    ?instance a ?facetClass .
     {
-      SELECT (MIN(?start)) AS ?min) {
+      SELECT (MIN(?start) AS ?min) {
+        ?instance <PREDICATE> ?timespan .
+        VALUES ?facetClass { <FACET_CLASS> }
+        ?instance a ?facetClass .
         ?timespan <START_PROPERTY> ?start .
       }
     }
     {
-      SELECT (MAX(?end)) AS ?max) {
-        ?timespan <END_PROPERTY> ?start .
+      SELECT (MAX(?end) AS ?max) {
+        ?instance <PREDICATE> ?timespan .
+        VALUES ?facetClass { <FACET_CLASS> }
+        ?instance a ?facetClass .
+        ?timespan <END_PROPERTY> ?end .
       }
     }
   }

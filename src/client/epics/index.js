@@ -41,7 +41,7 @@ const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_PAGINATED_RESULTS),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { resultClass, facetClass, sortBy, variant } = action;
+    const { resultClass, facetClass, sortBy } = action;
     const { page, pagesize, sortDirection } = state[resultClass];
     const params = stateToUrl({
       facets: state[`${facetClass}Facets`].facets,
@@ -50,7 +50,7 @@ const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
       pagesize: pagesize,
       sortBy: sortBy,
       sortDirection: sortDirection,
-      variant: variant
+      variant: null
     });
     const requestUrl = `${apiUrl}${resultClass}/paginated?${params}`;
     // https://rxjs-dev.firebaseapp.com/api/ajax/ajax
@@ -112,6 +112,7 @@ const fetchResultCountEpic = (action$, state$) => action$.pipe(
       pagesize: null,
       sortBy: null,
       sortDirection: null,
+      variant: null
     });
     const requestUrl = `${apiUrl}${resultClass}/count?${params}`;
     return ajax.getJSON(requestUrl).pipe(
@@ -214,9 +215,11 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
       map(res => updateFacetValues({
         facetClass: facetClass,
         id: facetID,
-        distinctValueCount: res.distinctValueCount,
-        values: res.values,
-        flatValues: res.flatValues
+        distinctValueCount: res.distinctValueCount || null,
+        values: res.values || null,
+        flatValues: res.flatValues || null,
+        min: res.min || null,
+        max: res.max || null
       })),
       catchError(error => of({
         type: FETCH_FACET_FAILED,
@@ -251,9 +254,11 @@ export const stateToUrl = ({
   let uriFilters = {};
   let spatialFilters = {};
   let textFilters = {};
+  let timespanFilters = {};
   let activeUriFilters = false;
   let activeSpatialFilters = false;
   let activeTextFilters = false;
+  let activeTimespanFilters = false;
   for (const [key, value] of Object.entries(facets)) {
     if (has(value, 'uriFilter') && value.uriFilter !== null) {
       activeUriFilters = true;
@@ -264,6 +269,9 @@ export const stateToUrl = ({
     }  else if (has(value, 'textFilter') && value.textFilter !== null) {
       activeTextFilters = true;
       textFilters[key] = value.textFilter;
+    } else if (has(value, 'timespanFilter') && value.timespanFilter !== null) {
+      activeTimespanFilters = true;
+      timespanFilters[key] = value.timespanFilter;
     }
   }
   if (activeUriFilters) {
@@ -275,7 +283,9 @@ export const stateToUrl = ({
   if (activeTextFilters) {
     params.textFilters = JSON.stringify(textFilters);
   }
-
+  if (activeTimespanFilters) {
+    params.timespanFilters = JSON.stringify(timespanFilters);
+  }
   return querystring.stringify(params);
 };
 

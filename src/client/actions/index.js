@@ -99,9 +99,9 @@ export const fetchFacetFailed = (facetClass, id, error, message) => ({
   type: FETCH_FACET_FAILED,
   facetClass, id, error, message
 });
-export const updateFacetValues = ({ facetClass, id, distinctValueCount, values, flatValues }) => ({
+export const updateFacetValues = ({ facetClass, id, distinctValueCount, values, flatValues, min, max }) => ({
   type: UPDATE_FACET_VALUES,
-  facetClass, id, distinctValueCount, values, flatValues
+  facetClass, id, distinctValueCount, values, flatValues, min, max
 });
 export const updateFacetOption = ({ facetClass, facetID, option, value }) => ({
   type: UPDATE_FACET_OPTION,
