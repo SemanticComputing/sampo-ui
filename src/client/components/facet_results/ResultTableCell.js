@@ -27,6 +27,12 @@ const ResultTableCell = props => {
     let year;
     let month;
     let day;
+    /* TODO: remove this when data has been fixed
+       problematic example http://ldf.fi/mmm/time/production_229499
+    */
+    if (Array.isArray(str)) {
+      str = str[0];
+    }
     if (str.charAt(0) == '-') {
       year = parseInt(str.substring(0,5));
       month = parseInt(str.substring(7,8));
