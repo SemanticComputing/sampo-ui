@@ -7,7 +7,11 @@ import {
 } from './SparqlQueriesGeneral';
 import { prefixes } from './SparqlQueriesPrefixes';
 import { facetConfigs } from './FacetConfigs';
-import { generateFilter, generateSelectedFilter } from './Filters';
+import {
+  hasFilters,
+  generateFilter,
+  generateSelectedFilter
+} from './Filters';
 import {
   mapFacet,
   mapHierarchicalFacet,
@@ -21,7 +25,8 @@ export const getFacet = ({
   sortDirection,
   uriFilters,
   spatialFilters,
-  textFilters
+  textFilters,
+  timespanFilters,
 }) => {
   const facetConfig = facetConfigs[facetClass][facetID];
   // choose query template and result mapper:
@@ -48,15 +53,19 @@ export const getFacet = ({
   let selectedNoHitsBlock = '# no filters from other facets';
   let filterBlock = '# no filters';
   let parentBlock = '# no parents';
-  const hasFilters = uriFilters !== null
-    || spatialFilters !== null
-    || textFilters !== null;
-  if (hasFilters) {
+  const hasActiveFilters = hasFilters({
+    uriFilters,
+    spatialFilters,
+    textFilters,
+    timespanFilters,
+  });
+  if (hasActiveFilters) {
     filterBlock = generateFilter({
       facetClass: facetClass,
       uriFilters: uriFilters,
       spatialFilters: spatialFilters,
       textFilters: textFilters,
+      timespanFilters: timespanFilters,
       filterTarget: 'instance',
       facetID: facetID,
       inverse: false,
@@ -137,13 +146,15 @@ const generateSelectedNoHitsBlock = ({
   facetID,
   uriFilters,
   spatialFilters,
-  textFilters
+  textFilters,
+  timespanFilters,
 }) => {
   const noHitsFilter = generateFilter({
     facetClass: facetClass,
     uriFilters: uriFilters,
     spatialFilters: spatialFilters,
     textFilters: textFilters,
+    timespanFilters: timespanFilters,
     filterTarget: 'instance',
     facetID: facetID,
     inverse: true,
@@ -165,6 +176,7 @@ const generateParentBlock = ({
   uriFilters,
   spatialFilters,
   textFilters,
+  timespanFilters,
   parentPredicate
 }) => {
   const parentFilterStr = generateFilter({
@@ -172,6 +184,7 @@ const generateParentBlock = ({
     uriFilters: uriFilters,
     spatialFilters: spatialFilters,
     textFilters: textFilters,
+    timespanFilters: timespanFilters,
     filterTarget: 'instance2',
     facetID: facetID,
     inverse: false

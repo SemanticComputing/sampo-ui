@@ -1,10 +1,23 @@
 import { facetConfigs } from './FacetConfigs';
 
+export const hasFilters = ({
+  uriFilters,
+  spatialFilters,
+  textFilters,
+  timespanFilters,
+}) => {
+  return uriFilters !== null
+      || spatialFilters !== null
+      || textFilters !== null
+      || timespanFilters !== null;
+};
+
 export const generateFilter = ({
   facetClass,
   uriFilters,
   spatialFilters,
   textFilters,
+  timespanFilters,
   filterTarget,
   facetID,
   inverse,
@@ -28,6 +41,21 @@ export const generateFilter = ({
         filterStr += `
           ?${property}Filter spatial:withinBox (${latMin} ${longMin} ${latMax} ${longMax} 1000000) .
           ?${filterTarget} ${facetConfigs[facetClass][property].predicate} ?${property}Filter .
+        `;
+      }
+    }
+  }
+  if (timespanFilters !== null) {
+    for (let property in timespanFilters) {
+      if (property !== facetProperty) {
+        const facetConfig = facetConfigs[facetClass][property];
+        const { start, end } = timespanFilters[property];
+        filterStr += `
+          ?${filterTarget} ${facetConfig.predicate} ?timespan .
+          ?timespan ${facetConfig.startProperty} ?start .
+          ?timespan ${facetConfig.endProperty} ?end .
+          FILTER(?start >= "${start}"^^xsd:date)
+          FILTER(?end <= "${end}"^^xsd:date)
         `;
       }
     }
