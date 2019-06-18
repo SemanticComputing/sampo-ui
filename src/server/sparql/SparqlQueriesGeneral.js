@@ -97,7 +97,7 @@ export const facetValuesQuery = `
   <ORDER_BY>
 `;
 
-export const timespanFacetQuery = `
+export const facetValuesQueryTimespan = `
   SELECT ?min ?max {
     <FILTER>
     ?instance <PREDICATE> ?timespan .
