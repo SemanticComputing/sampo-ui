@@ -50,12 +50,26 @@ export const generateFilter = ({
       if (property !== facetProperty) {
         const facetConfig = facetConfigs[facetClass][property];
         const { start, end } = timespanFilters[property];
+        const selectionStart = start;
+        const selectionEnd = end;
+        // filterStr += `
+        //   ?${filterTarget} ${facetConfig.predicate} ?timespan .
+        //   ?timespan ${facetConfig.startProperty} ?start .
+        //   ?timespan ${facetConfig.endProperty} ?end .
+        //   # both start and end is included in selected range
+        //   FILTER(?start >= "${start}"^^xsd:date)
+        //   FILTER(?end <= "${end}"^^xsd:date)
+        // `;
         filterStr += `
           ?${filterTarget} ${facetConfig.predicate} ?timespan .
-          ?timespan ${facetConfig.startProperty} ?start .
-          ?timespan ${facetConfig.endProperty} ?end .
-          FILTER(?start >= "${start}"^^xsd:date)
-          FILTER(?end <= "${end}"^^xsd:date)
+          ?timespan ${facetConfig.startProperty} ?timespanStart .
+          ?timespan ${facetConfig.endProperty} ?timespanEnd .
+          # either start or end is included in the selected range
+          FILTER(
+            ?timespanStart >= "${selectionStart}"^^xsd:date && ?timespanStart <= "${selectionEnd}"^^xsd:date
+            ||
+            ?timespanEnd >= "${selectionStart}"^^xsd:date && ?timespanEnd <= "${selectionEnd}"^^xsd:date
+          )
         `;
       }
     }
