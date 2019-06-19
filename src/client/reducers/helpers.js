@@ -209,8 +209,8 @@ export const updateFacetValues = (state, action) => {
         ...state.facets,
         [ action.id ]: {
           ...state.facets[action.id],
-          distinctValueCount: action.distinctValueCount || null,
-          values: action.values || null,
+          distinctValueCount: action.distinctValueCount || 0,
+          values: action.values || [],
           flatValues: action.flatValues || [],
           isFetching: false
         }

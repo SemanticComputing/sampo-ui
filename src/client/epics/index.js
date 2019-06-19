@@ -215,9 +215,9 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
       map(res => updateFacetValues({
         facetClass: facetClass,
         id: facetID,
-        distinctValueCount: res.distinctValueCount || null,
-        values: res.values || null,
-        flatValues: res.flatValues || null,
+        distinctValueCount: res.distinctValueCount || 0,
+        values: res.values || [],
+        flatValues: res.flatValues || [],
         min: res.min || null,
         max: res.max || null
       })),

@@ -106,7 +106,6 @@ export const getFacet = ({
   q = q.replace('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock);
   q = q.replace('<FACET_VALUE_FILTER>', facetConfig.facetValueFilter);
   q = q.replace('<PARENTS>', parentBlock);
-  // TODO: order only when facet type is list
   if (facetConfig.type === 'list') {
     q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
   } else {

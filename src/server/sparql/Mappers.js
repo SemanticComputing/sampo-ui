@@ -23,7 +23,10 @@ export const mapCount = sparqlBindings => {
 };
 
 export const mapFacet = sparqlBindings => {
-  const results = mapFacetValues(sparqlBindings);
+  let results = [];
+  if (sparqlBindings.length > 0) {
+    results = mapFacetValues(sparqlBindings);
+  } 
   return {
     distinctValueCount: results.length,
     values: results

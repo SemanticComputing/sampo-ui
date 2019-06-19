@@ -18,8 +18,7 @@ export const runSelectQuery = async (query, endpoint, resultMapper) => {
       url: endpoint,
       data: querystring.stringify({ query }),
     });
-    const { bindings } = response.data.results;
-    return bindings.length === 0 ? [] : resultMapper(bindings);
+    return resultMapper(response.data.results.bindings);
   } catch(error) {
     if (error.response) {
     // The request was made and the server responded with a status code
