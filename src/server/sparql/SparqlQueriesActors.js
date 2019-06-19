@@ -24,6 +24,20 @@ export const actorProperties = `
     }
     UNION
     {
+      ?id crm:P98i_was_born/crm:P4_has_time-span ?birthDateTimespan__id .
+      ?birthDateTimespan__id skos:prefLabel ?birthDateTimespan__prefLabel .
+      OPTIONAL { ?birthDateTimespan__id crm:P82a_begin_of_the_begin ?birthDateTimespan__start }
+      OPTIONAL { ?birthDateTimespan__id crm:P82b_end_of_the_end ?birthDateTimespan__end }
+    }
+    UNION
+    {
+      ?id crm:P100i_died_in/crm:P4_has_time-span ?deathDateTimespan__id .
+      ?deathDateTimespan__id skos:prefLabel ?deathDateTimespan__prefLabel .
+      OPTIONAL { ?deathDateTimespan__id crm:P82a_begin_of_the_begin ?deathDateTimespan__start }
+      OPTIONAL { ?deathDateTimespan__id crm:P82b_end_of_the_end ?deathDateTimespan__end }
+    }
+    UNION
+    {
       ?id mmm-schema:person_place ?place__id .
       ?place__id skos:prefLabel ?place__prefLabel .
       BIND(?place__id as ?place__dataProviderUrl)

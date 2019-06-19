@@ -57,21 +57,41 @@ export const INITIAL_STATE = {
       makeLink: true,
       sortValues: false,
       numberedList: false,
-      minWidth: 200,
+      minWidth: 150,
     },
     {
       id: 'birthPlace',
-      label: 'Place of birth',
+      label: 'Place of birth/formation',
       desc: 'Birth place description',
       valueType: 'object',
       makeLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 150
+      minWidth: 200
+    },
+    {
+      id: 'birthDateTimespan',
+      label: 'Date of birth/formation',
+      desc: 'Date of birth/formation description',
+      valueType: 'object',
+      makeLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 200
+    },
+    {
+      id: 'deathDateTimespan',
+      label: 'Date of death/dissolution',
+      desc: 'Date of death/dissolution description',
+      valueType: 'object',
+      makeLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 200
     },
     {
       id: 'place',
-      label: 'Place / nationality',
+      label: 'Activity location',
       desc: 'Activity location',
       valueType: 'object',
       makeLink: true,
