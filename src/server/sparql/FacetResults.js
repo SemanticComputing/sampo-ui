@@ -167,7 +167,14 @@ const getPaginatedData = ({
       facetID: null}));
   }
   q = q.replace('<FACET_CLASS>', facetConfig.facetClass);
-  q = q.replace('<ORDER_BY_PREDICATE>', facetConfig[sortBy].labelPath);
+  if (sortBy.endsWith('Timespan')) {
+    q = q.replace('<ORDER_BY_PREDICATE>',
+      sortDirection === 'asc'
+        ? facetConfig[sortBy].sortByAscPredicate
+        : facetConfig[sortBy].sortByDescPredicate);
+  } else {
+    q = q.replace('<ORDER_BY_PREDICATE>', facetConfig[sortBy].labelPath);
+  }
   q = q.replace('<SORT_DIRECTION>', sortDirection);
   q = q.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`);
   let resultSetProperties;
