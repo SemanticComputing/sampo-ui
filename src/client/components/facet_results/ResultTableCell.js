@@ -88,10 +88,10 @@ const ResultTableCell = props => {
               target='_blank' rel='noopener noreferrer'
               href={item.dataProviderUrl}
             >
-              {item.prefLabel}
+              {Array.isArray(item.prefLabel) ? item.prefLabel[0] : item.prefLabel}
             </a>
           }
-          {!makeLink && item.prefLabel}
+          {!makeLink && Array.isArray(item.prefLabel) ? item.prefLabel[0] : item.prefLabel}
         </li>
       );
       if (numberedList) {
@@ -104,13 +104,13 @@ const ResultTableCell = props => {
         return (
           <React.Fragment>
             {!props.expanded && !makeLink &&
-              <span>{firstValue.prefLabel} ...</span>}
+              <span>{Array.isArray(firstValue.prefLabel) ? firstValue.prefLabel[0] : firstValue.prefLabel} ...</span>}
             {!props.expanded && makeLink &&
               <a
                 target='_blank' rel='noopener noreferrer'
                 href={firstValue.dataProviderUrl}
               >
-                {firstValue.prefLabel} ...
+                {Array.isArray(firstValue.prefLabel) ? firstValue.prefLabel[0] : firstValue.prefLabel} ...
               </a>
             }
             <Collapse in={props.expanded} timeout="auto" unmountOnExit>
@@ -132,7 +132,7 @@ const ResultTableCell = props => {
       );
     } else {
       return (
-        <span>{cell.prefLabel}</span>
+        <span>{Array.isArray(cell.prefLabel) ? cell.prefLabel[0] : cell.prefLabel}</span>
       );
     }
   };

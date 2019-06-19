@@ -38,7 +38,8 @@ class DateSliderFacet extends Component {
   }
 
   handleSliderOnChange = values => {
-    // console.log(this.YearToISOString(values[0]))
+    values[0] = this.YearToISOString({ year: values[0], start: true });
+    values[1] = this.YearToISOString({ year: values[1], start: false });
     this.props.updateFacetOption({
       facetClass: this.props.facetClass,
       facetID: this.props.facetID,
@@ -57,10 +58,27 @@ class DateSliderFacet extends Component {
     return year;
   }
 
-  // YearToISOString = year => {
-  //   let str = null;
-  //   console.log(year)
-  // }
+  YearToISOString = ({ year, start }) => {
+    const abs = Math.abs(year);
+    let s = year.toString();
+    let negative = false;
+    if (s.charAt(0) == '-') {
+      s = s.substring(1);
+      negative = true;
+    }
+    if (abs < 10) {
+      s = '000' + s;
+    }
+    if (abs >= 10 && abs < 100) {
+      s = '00' + s;
+    }
+    if (abs >= 100 && abs < 1000) {
+      s = '0' + s;
+      s = negative ? s = '-' + s : s;
+    }
+    s = start ? s + '-01-01' :  s + '-12-31';
+    return s;
+  }
 
   render() {
     const { classes, someFacetIsFetching } = this.props;
