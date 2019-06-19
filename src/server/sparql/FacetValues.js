@@ -104,7 +104,7 @@ export const getFacet = ({
   }
   q = q.replace('<SELECTED_VALUES>', selectedBlock);
   q = q.replace('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock);
-  q = q.replace('<FACET_VALUE_FILTER>', facetConfig.facetValueFilter);
+  q = q.replace(/<FACET_VALUE_FILTER>/g, facetConfig.facetValueFilter);
   q = q.replace('<PARENTS>', parentBlock);
   if (facetConfig.type === 'list') {
     q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
@@ -118,7 +118,7 @@ export const getFacet = ({
     q = q.replace('<START_PROPERTY>', facetConfig.startProperty);
     q = q.replace('<END_PROPERTY>', facetConfig.endProperty);
   }
-  // if (facetID == 'productionPlace') {
+  // if (facetID == 'birthDateTimespan') {
   //   console.log(prefixes + q)
   // }
   return runSelectQuery(prefixes + q, endpoint, mapper);

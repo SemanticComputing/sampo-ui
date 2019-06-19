@@ -56,7 +56,7 @@ export const generateFilter = ({
         //   ?${filterTarget} ${facetConfig.predicate} ?timespan .
         //   ?timespan ${facetConfig.startProperty} ?start .
         //   ?timespan ${facetConfig.endProperty} ?end .
-        //   # both start and end is included in selected range
+        //   # both start and end is in selected range
         //   FILTER(?start >= "${start}"^^xsd:date)
         //   FILTER(?end <= "${end}"^^xsd:date)
         // `;
@@ -64,7 +64,7 @@ export const generateFilter = ({
           ?${filterTarget} ${facetConfig.predicate} ?timespan .
           ?timespan ${facetConfig.startProperty} ?timespanStart .
           ?timespan ${facetConfig.endProperty} ?timespanEnd .
-          # either start or end is included in the selected range
+          # either start or end is in selected range
           FILTER(
             ?timespanStart >= "${selectionStart}"^^xsd:date && ?timespanStart <= "${selectionEnd}"^^xsd:date
             ||

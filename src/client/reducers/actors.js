@@ -77,7 +77,7 @@ export const INITIAL_STATE = {
       makeLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 200
+      minWidth: 220
     },
     {
       id: 'deathDateTimespan',

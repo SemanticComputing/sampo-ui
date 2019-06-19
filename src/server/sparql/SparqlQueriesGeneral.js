@@ -106,6 +106,7 @@ export const facetValuesQueryTimespan = `
         VALUES ?facetClass { <FACET_CLASS> }
         ?instance a ?facetClass .
         ?timespan <START_PROPERTY> ?start .
+        <FACET_VALUE_FILTER>
       }
     }
     {
@@ -114,6 +115,7 @@ export const facetValuesQueryTimespan = `
         VALUES ?facetClass { <FACET_CLASS> }
         ?instance a ?facetClass .
         ?timespan <END_PROPERTY> ?end .
+        <FACET_VALUE_FILTER>
       }
     }
   }
