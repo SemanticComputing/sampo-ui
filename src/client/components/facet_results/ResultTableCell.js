@@ -90,7 +90,9 @@ const ResultTableCell = props => {
               {Array.isArray(item.prefLabel) ? item.prefLabel[0] : item.prefLabel}
             </a>
           }
-          {!makeLink && Array.isArray(item.prefLabel) ? item.prefLabel[0] : item.prefLabel}
+          {!makeLink &&
+            <span>{Array.isArray(item.prefLabel) ? item.prefLabel[0] : item.prefLabel}</span>
+          }
         </li>
       );
       if (numberedList) {

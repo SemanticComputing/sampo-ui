@@ -11,7 +11,7 @@ export const manuscriptProperties = `
   {
     ?id mmm-schema:manuscript_author ?author__id .
     ?author__id skos:prefLabel ?author__prefLabel .
-    OPTIONAL { ?author__id mmm-schema:data_provider_url ?author__dataProviderUrl }
+    BIND(?author__id AS ?author__dataProviderUrl)
   }
   UNION
   {
