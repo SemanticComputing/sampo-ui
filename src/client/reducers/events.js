@@ -34,7 +34,7 @@ export const INITIAL_STATE = {
   instance: {},
   page: -1,
   pagesize: 10,
-  sortBy: 'place',
+  sortBy: 'eventTimespan',
   sortDirection: 'asc',
   fetching: false,
   fetchingResultCount: false,
@@ -50,7 +50,7 @@ export const INITIAL_STATE = {
       minWidth: 200,
     },
     {
-      id: 'timespan',
+      id: 'eventTimespan',
       label: 'Date',
       desc: `
         Date description.

@@ -12,7 +12,9 @@ export const eventProperties = `
     }
     UNION
     {
-      ?id crm:P4_has_time-span ?timespan__id .
-      ?timespan__id skos:prefLabel ?timespan__prefLabel .
+      ?id crm:P4_has_time-span ?eventTimespan__id .
+      ?eventTimespan__id skos:prefLabel ?eventTimespan__prefLabel .
+      OPTIONAL { ?eventTimespan__id crm:P82a_begin_of_the_begin ?eventTimespan__start }
+      OPTIONAL { ?eventTimespan__id crm:P82b_end_of_the_end ?eventTimespan__end }
     }
 `;

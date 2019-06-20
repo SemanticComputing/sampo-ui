@@ -117,12 +117,14 @@ export const facetConfigs = {
       type: 'list',
       labelPath: 'a/(skos:prefLabel|rdfs:label)',
     },
-    timespan: {
-      id: 'productionTimespan',
+    eventTimespan: {
+      id: 'eventTimespan',
       facetValueFilter: '',
+      sortByAscPredicate: 'crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
+      sortByDescPredicate: 'crm:P4_has_time-span/crm:P82b_end_of_the_end',
+      predicate: 'crm:P4_has_time-span',
       startProperty: 'crm:P82a_begin_of_the_begin',
       endProperty: 'crm:P82b_end_of_the_end',
-      labelPath: 'crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
       type: 'timespan',
     },
     place: {

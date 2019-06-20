@@ -51,6 +51,26 @@ export const INITIAL_STATE = {
       uriFilter: null,
       spatialFilter: null
     },
+    eventTimespan: {
+      id: 'eventTimespan',
+      label: 'Year',
+      //predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: null,
+      sortDirection: null,
+      sortButton: false,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: false,
+      containerClass: 'three',
+      filterType: 'timespanFilter',
+      min: null,
+      max: null,
+      timespanFilter: null,
+      type: 'timespan'
+    },
     place: {
       id: 'place',
       label: 'Place',

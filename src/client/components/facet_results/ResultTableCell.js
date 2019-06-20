@@ -34,7 +34,6 @@ const ResultTableCell = props => {
     if (Array.isArray(str)) {
       str = str[0];
     }
-
     if (str.charAt(0) == '-') {
       year = parseInt(str.substring(0,5));
       month = parseInt(str.substring(7,8));
@@ -68,7 +67,7 @@ const ResultTableCell = props => {
       return '-';
     }
     else if (Array.isArray(cell)) {
-      if (props.columnId == 'productionTimespan') {
+      if (props.columnId.endsWith('Timespan')) {
         cell = sortValues
           ? cell.sort((a,b) => {
             a = has(a, 'start') ? ISOStringToDate(a.start) : ISOStringToDate(a.end);
