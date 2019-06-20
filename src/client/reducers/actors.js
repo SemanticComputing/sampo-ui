@@ -97,7 +97,7 @@ export const INITIAL_STATE = {
       makeLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 150
+      minWidth: 200
     },
     {
       id: 'work',

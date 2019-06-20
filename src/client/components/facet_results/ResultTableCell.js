@@ -128,7 +128,7 @@ const ResultTableCell = props => {
           target='_blank' rel='noopener noreferrer'
           href={cell.dataProviderUrl}
         >
-          {cell.prefLabel}
+          {Array.isArray(cell.prefLabel) ? cell.prefLabel[0] : cell.prefLabel}
         </a>
       );
     } else {
