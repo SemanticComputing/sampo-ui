@@ -99,6 +99,7 @@ export const getFacet = ({
       uriFilters,
       spatialFilters,
       textFilters,
+      timespanFilters,
       parentPredicate
     });
   }
@@ -118,7 +119,7 @@ export const getFacet = ({
     q = q.replace('<START_PROPERTY>', facetConfig.startProperty);
     q = q.replace('<END_PROPERTY>', facetConfig.endProperty);
   }
-  // if (facetID == 'birthDateTimespan') {
+  // if (facetID == 'productionPlace') {
   //   console.log(prefixes + q)
   // }
   return runSelectQuery(prefixes + q, endpoint, mapper);
