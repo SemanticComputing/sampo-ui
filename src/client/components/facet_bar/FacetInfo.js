@@ -39,9 +39,11 @@ class FacetInfo extends React.Component {
     let uriFilters = {};
     let spatialFilters = {};
     let textFilters = {};
+    let timespanFilters = {};
     let activeUriFilters = false;
     let activeSpatialFilters = false;
     let activeTextFilters = false;
+    let activeTimespanFilters = false;
     for (const [key, value] of Object.entries(facets)) {
       if (has(value, 'uriFilter') && value.uriFilter !== null) {
         activeUriFilters = true;
@@ -54,6 +56,10 @@ class FacetInfo extends React.Component {
       if (has(value, 'textFilter') && value.textFilter !== null) {
         activeTextFilters = true;
         textFilters[key] = value.textFilter;
+      }
+      if (has(value, 'timespanFilter') && value.timespanFilter !== null) {
+        activeTimespanFilters = true;
+        timespanFilters[key] = value.timespanFilter;
       }
     }
     return (
@@ -68,7 +74,11 @@ class FacetInfo extends React.Component {
           <Typography variant="h6">Results: {resultCount} {resultClass}</Typography>
         }
         <Divider className={classes.facetInfoDivider} />
-        {(activeUriFilters || activeSpatialFilters || activeTextFilters) &&
+        {(activeUriFilters
+          || activeSpatialFilters
+          || activeTextFilters
+          || activeTimespanFilters
+        ) &&
           <React.Fragment>
             <Typography variant="h6">Active filters:</Typography>
             <div className={classes.textContainer}>
@@ -78,6 +88,7 @@ class FacetInfo extends React.Component {
                 uriFilters={uriFilters}
                 spatialFilters={spatialFilters}
                 textFilters={textFilters}
+                timespanFilters={timespanFilters}
                 updateFacetOption={this.props.updateFacetOption}
               />
             </div>

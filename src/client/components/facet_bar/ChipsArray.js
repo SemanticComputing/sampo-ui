@@ -25,10 +25,20 @@ class ChipsArray extends React.Component {
     });
   };
 
-  generateLabel = (facetLabel, valueLabel) => {
-    return  valueLabel.length > 18
+  generateLabel = (facetLabel, valueLabel, filterType) => {
+    return  filterType !== 'timespanFilter' && valueLabel.length > 18
       ? `${facetLabel}: ${valueLabel.substring(0, 18)}...`
       : `${facetLabel}: ${valueLabel}`;
+  }
+
+  ISOStringToYear = str => {
+    let year = null;
+    if (str.charAt(0) == '-') {
+      year = parseInt(str.substring(0,5));
+    } else {
+      year = parseInt(str.substring(0,4));
+    }
+    return year;
   }
 
   render() {
@@ -47,11 +57,16 @@ class ChipsArray extends React.Component {
             key = item.value;
             valueLabel = item.value;
           }
+          if (item.filterType === 'timespanFilter') {
+            key = item.value;
+            valueLabel = `${this.ISOStringToYear(item.value.start)} to
+              ${this.ISOStringToYear(item.value.end)}`;
+          }
           return (
             <Chip
               key={key}
               icon={icon}
-              label={this.generateLabel(item.facetLabel, valueLabel)}
+              label={this.generateLabel(item.facetLabel, valueLabel, item.filterType)}
               className={classes.chip}
             />
           );
