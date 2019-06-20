@@ -54,7 +54,7 @@ export const INITIAL_STATE = {
     },
     productionTimespan: {
       id: 'productionTimespan',
-      label: 'Production date',
+      label: 'Production year',
       //predicate: defined in backend
       distinctValueCount: 0,
       values: [],

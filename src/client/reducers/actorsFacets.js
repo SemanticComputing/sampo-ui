@@ -51,9 +51,27 @@ export const INITIAL_STATE = {
       uriFilter: null,
       spatialFilter: null
     },
+    birthPlace: {
+      id: 'birthPlace',
+      label: 'Birth/formation location',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'prefLabel',
+      sortDirection: 'asc',
+      sortButton: true,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: true,
+      containerClass: 'ten',
+      filterType: 'uriFilter',
+      uriFilter: null,
+      type: 'hierarchical'
+    },
     birthDateTimespan: {
       id: 'birthDateTimespan',
-      label: 'Date of birth/formation',
+      label: 'Birth/formation year',
       //predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -71,23 +89,25 @@ export const INITIAL_STATE = {
       timespanFilter: null,
       type: 'timespan'
     },
-    birthPlace: {
-      id: 'birthPlace',
-      label: 'Place of birth/formation',
-      // predicate: defined in backend
+    deathDateTimespan: {
+      id: 'deathDateTimespan',
+      label: 'Death/dissolution year',
+      //predicate: defined in backend
       distinctValueCount: 0,
       values: [],
       flatValues: [],
-      sortBy: 'prefLabel',
-      sortDirection: 'asc',
-      sortButton: true,
+      sortBy: null,
+      sortDirection: null,
+      sortButton: false,
       spatialFilterButton: false,
       isFetching: false,
-      searchField: true,
-      containerClass: 'ten',
-      filterType: 'uriFilter',
-      uriFilter: null,
-      type: 'hierarchical'
+      searchField: false,
+      containerClass: 'three',
+      filterType: 'timespanFilter',
+      min: null,
+      max: null,
+      timespanFilter: null,
+      type: 'timespan'
     },
     place: {
       id: 'place',

@@ -61,7 +61,7 @@ export const INITIAL_STATE = {
     },
     {
       id: 'birthPlace',
-      label: 'Place of birth/formation',
+      label: 'Birth/formation place',
       desc: 'Birth place description',
       valueType: 'object',
       makeLink: true,
@@ -71,8 +71,8 @@ export const INITIAL_STATE = {
     },
     {
       id: 'birthDateTimespan',
-      label: 'Date of birth/formation',
-      desc: 'Date of birth/formation description',
+      label: 'Birth/formation year',
+      desc: 'Birth/formation year description',
       valueType: 'object',
       makeLink: false,
       sortValues: true,
@@ -81,7 +81,7 @@ export const INITIAL_STATE = {
     },
     {
       id: 'deathDateTimespan',
-      label: 'Date of death/dissolution',
+      label: 'Death/dissolution year',
       desc: 'Date of death/dissolution description',
       valueType: 'object',
       makeLink: false,
