@@ -38,9 +38,9 @@ export const facetResultSetQuery = `
         <FILTER>
         VALUES ?facetClass { <FACET_CLASS> }
         ?id a ?facetClass .
-        OPTIONAL { ?id <ORDER_BY_PREDICATE> ?orderBy }
+        <ORDER_BY_TRIPLE>
       }
-      ORDER BY (!BOUND(?orderBy)) <SORT_DIRECTION>(?orderBy)
+      <ORDER_BY>
       <PAGE>
     }
     FILTER(BOUND(?id))

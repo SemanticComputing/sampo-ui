@@ -65,8 +65,8 @@ ResultTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
   columns: PropTypes.array.isRequired,
   onSortBy: PropTypes.func.isRequired,
-  sortBy: PropTypes.string.isRequired,
-  sortDirection: PropTypes.string.isRequired,
+  sortBy: PropTypes.string,
+  sortDirection: PropTypes.string,
   routeProps: PropTypes.object.isRequired,
 };
 

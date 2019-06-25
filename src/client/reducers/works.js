@@ -34,8 +34,8 @@ export const INITIAL_STATE = {
   instance: {},
   page: -1,
   pagesize: 10,
-  sortBy: 'prefLabel',
-  sortDirection: 'asc',
+  sortBy: null,
+  sortDirection: null,
   fetching: false,
   fetchingResultCount: false,
   tableColumns: [

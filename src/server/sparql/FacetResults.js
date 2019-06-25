@@ -167,15 +167,23 @@ const getPaginatedData = ({
       facetID: null}));
   }
   q = q.replace('<FACET_CLASS>', facetConfig.facetClass);
-  if (sortBy.endsWith('Timespan')) {
-    q = q.replace('<ORDER_BY_PREDICATE>',
-      sortDirection === 'asc'
-        ? facetConfig[sortBy].sortByAscPredicate
-        : facetConfig[sortBy].sortByDescPredicate);
+  if (sortBy == null) {
+    q = q.replace('<ORDER_BY_TRIPLE>', '');
+    q = q.replace('<ORDER_BY>', '# no sorting');
   } else {
-    q = q.replace('<ORDER_BY_PREDICATE>', facetConfig[sortBy].labelPath);
+    let sortByPredicate = '';
+    if (sortBy.endsWith('Timespan')) {
+      sortByPredicate = sortDirection === 'asc'
+        ? facetConfig[sortBy].sortByAscPredicate
+        : facetConfig[sortBy].sortByDescPredicate;
+    } else {
+      sortByPredicate = facetConfig[sortBy].labelPath;
+    }
+    q = q.replace('<ORDER_BY_TRIPLE>',
+      `OPTIONAL { ?id ${sortByPredicate} ?orderBy }`);
+    q = q.replace('<ORDER_BY>',
+      `ORDER BY (!BOUND(?orderBy)) ${sortDirection}(?orderBy)`);
   }
-  q = q.replace('<SORT_DIRECTION>', sortDirection);
   q = q.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`);
   let resultSetProperties;
   switch (resultClass) {
@@ -198,7 +206,7 @@ const getPaginatedData = ({
       resultSetProperties = '';
   }
   q = q.replace('<RESULT_SET_PROPERTIES>', resultSetProperties);
-  // console.log(prefixes + q)
+  console.log(prefixes + q)
   return runSelectQuery(prefixes + q, endpoint, makeObjectList);
 };
 

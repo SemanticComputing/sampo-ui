@@ -1,81 +1,80 @@
-export const manuscriptProperties = `
-  ?id skos:prefLabel ?prefLabel__id .
-  BIND (?prefLabel__id as ?prefLabel__prefLabel)
-  BIND (?id as ?prefLabel__dataProviderUrl)
-  {
-    ?id mmm-schema:data_provider_url ?source__id .
-    BIND (?source__id AS ?source__prefLabel)
-    BIND (?source__id AS ?source__dataProviderUrl)
-  }
-  UNION
-  {
-    ?id mmm-schema:manuscript_author ?author__id .
-    ?author__id skos:prefLabel ?author__prefLabel .
-    BIND(?author__id AS ?author__dataProviderUrl)
-  }
-  UNION
-  {
-    ?production crm:P108_has_produced ?id .
-    ?production crm:P4_has_time-span ?productionTimespan__id .
-    ?productionTimespan__id skos:prefLabel ?productionTimespan__prefLabel .
-    OPTIONAL { ?productionTimespan__id crm:P82a_begin_of_the_begin ?productionTimespan__start }
-    OPTIONAL { ?productionTimespan__id crm:P82b_end_of_the_end ?productionTimespan__end }
-  }
-  UNION
-  {
-    ?production crm:P108_has_produced ?id .
-    ?production crm:P7_took_place_at ?productionPlace__id .
-    ?productionPlace__id skos:prefLabel ?productionPlace__prefLabel .
-    OPTIONAL { ?productionPlace__id owl:sameAs ?productionPlace__dataProviderUrl }
-    # FILTER NOT EXISTS {
-    #   ?production crm:P7_took_place_at ?productionPlace__id2 .
-    #   ?productionPlace__id2 crm:P89_falls_within+ ?productionPlace__id .
-    # }
-  }
-  UNION
-  {
-    ?id crm:P51_has_former_or_current_owner ?owner__id .
-    ?owner__id skos:prefLabel ?owner__prefLabel .
-    BIND (?owner__id AS ?owner__dataProviderUrl)
-    #OPTIONAL { ?owner__id mmm-schema:data_provider_url ?owner__dataProviderUrl }
-    #OPTIONAL {
-    #  [] rdf:subject ?id ;
-    #    rdf:predicate crm:P51_has_former_or_current_owner ;
-    #    rdf:object ?owner__id ;
-    #    mmm-schema:order ?order .
-    #  BIND(xsd:integer(?order) + 1 AS ?owner__order)
-    #}
-  }
-  UNION
-  {
-    ?id crm:P128_carries ?expression .
-    ?expression crm:P72_has_language ?language__id .
-    ?language__id skos:prefLabel ?language__prefLabel .
-    BIND(?language__id as ?language__dataProviderUrl)
+export const manuscriptProperties =
+`?id skos:prefLabel ?prefLabel__id .
+    BIND (?prefLabel__id as ?prefLabel__prefLabel)
+    BIND (?id as ?prefLabel__dataProviderUrl)
+    {
+      ?id mmm-schema:data_provider_url ?source__id .
+      BIND (?source__id AS ?source__prefLabel)
+      BIND (?source__id AS ?source__dataProviderUrl)
+    }
+    UNION
+    {
+      ?id mmm-schema:manuscript_author ?author__id .
+      ?author__id skos:prefLabel ?author__prefLabel .
+      BIND(?author__id AS ?author__dataProviderUrl)
+    }
+    UNION
+    {
+      ?production crm:P108_has_produced ?id .
+      ?production crm:P4_has_time-span ?productionTimespan__id .
+      ?productionTimespan__id skos:prefLabel ?productionTimespan__prefLabel .
+      OPTIONAL { ?productionTimespan__id crm:P82a_begin_of_the_begin ?productionTimespan__start }
+      OPTIONAL { ?productionTimespan__id crm:P82b_end_of_the_end ?productionTimespan__end }
+    }
+    UNION
+    {
+      ?production crm:P108_has_produced ?id .
+      ?production crm:P7_took_place_at ?productionPlace__id .
+      ?productionPlace__id skos:prefLabel ?productionPlace__prefLabel .
+      OPTIONAL { ?productionPlace__id owl:sameAs ?productionPlace__dataProviderUrl }
+      # FILTER NOT EXISTS {
+      #   ?production crm:P7_took_place_at ?productionPlace__id2 .
+      #   ?productionPlace__id2 crm:P89_falls_within+ ?productionPlace__id .
+      # }
+    }
+    UNION
+    {
+      ?id crm:P51_has_former_or_current_owner ?owner__id .
+      ?owner__id skos:prefLabel ?owner__prefLabel .
+      BIND (?owner__id AS ?owner__dataProviderUrl)
+      #OPTIONAL { ?owner__id mmm-schema:data_provider_url ?owner__dataProviderUrl }
+      #OPTIONAL {
+      #  [] rdf:subject ?id ;
+      #    rdf:predicate crm:P51_has_former_or_current_owner ;
+      #    rdf:object ?owner__id ;
+      #    mmm-schema:order ?order .
+      #  BIND(xsd:integer(?order) + 1 AS ?owner__order)
+      #}
+    }
+    UNION
+    {
+      ?id crm:P128_carries ?expression .
+      ?expression crm:P72_has_language ?language__id .
+      ?language__id skos:prefLabel ?language__prefLabel .
+      BIND(?language__id as ?language__dataProviderUrl)
 
-  }
-  UNION
-  {
-    ?event__id crm:P30_transferred_custody_of ?id .
-    ?event__id a ?event__type .
-    BIND("Transfer of Custody" AS ?event__prefLabel)
-    BIND(?event__id AS ?event__dataProviderUrl)
-  }
-  UNION
-  {
-    ?event__id mmm-schema:observed_manuscript ?id .
-    ?event__id a mmm-schema:On_Sale . # not yet in MMM data
-    BIND("On Sale" AS ?event__prefLabel)
-    BIND(?event__id AS ?event__dataProviderUrl)
-  }
-  UNION
-  {
-    ?event__id mmm-schema:observed_manuscript ?id .
-    ?event__id a ?event__type .
-    BIND("Provenance" AS ?event__prefLabel)
-    BIND(?event__id AS ?event__dataProviderUrl)
-  }
-`;
+    }
+    UNION
+    {
+      ?event__id crm:P30_transferred_custody_of ?id .
+      ?event__id a ?event__type .
+      BIND("Transfer of Custody" AS ?event__prefLabel)
+      BIND(?event__id AS ?event__dataProviderUrl)
+    }
+    UNION
+    {
+      ?event__id mmm-schema:observed_manuscript ?id .
+      ?event__id a mmm-schema:On_Sale . # not yet in MMM data
+      BIND("On Sale" AS ?event__prefLabel)
+      BIND(?event__id AS ?event__dataProviderUrl)
+    }
+    UNION
+    {
+      ?event__id mmm-schema:observed_manuscript ?id .
+      ?event__id a ?event__type .
+      BIND("Provenance" AS ?event__prefLabel)
+      BIND(?event__id AS ?event__dataProviderUrl)
+    }`;
 
 export const productionPlacesQuery = `
   SELECT ?id ?lat ?long ?prefLabel ?source ?dataProviderUrl

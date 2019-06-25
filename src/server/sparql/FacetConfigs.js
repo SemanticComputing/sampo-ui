@@ -102,6 +102,9 @@ export const facetConfigs = {
       predicate: '^frbroo:R16_initiated/(mmm-schema:carried_out_by_as_possible_author|mmm-schema:carried_out_by_as_author)',
       type: 'list'
     },
+    manuscript: {
+      labelPath: '^mmm-schema:manuscript_work/skos:prefLabel'
+    }
   },
   events: {
     facetClass: 'crm:E10_Transfer_of_Custody crm:E12_Production',
