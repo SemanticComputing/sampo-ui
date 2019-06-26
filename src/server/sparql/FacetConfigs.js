@@ -107,7 +107,7 @@ export const facetConfigs = {
     }
   },
   events: {
-    facetClass: 'crm:E10_Transfer_of_Custody crm:E12_Production',
+    facetClass: 'crm:E10_Transfer_of_Custody crm:E12_Production crm:E7_Activity',
     prefLabel: {
       id: 'prefLabel',
       labelPath: 'skos:prefLabel',
