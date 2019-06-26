@@ -16,23 +16,6 @@ export const INITIAL_STATE = {
   facetUpdateID: 0,
   updatedFilter: null,
   facets: {
-    label: {
-      id: 'label',
-      label: 'Label',
-      // predicate: defined in backend
-      distinctValueCount: 0,
-      values: [],
-      flatValues: [],
-      //sortBy: 'instanceCount',
-      //sortDirection: 'desc',
-      sortButton: false,
-      spatialFilterButton: false,
-      isFetching: false,
-      searchField: false,
-      containerClass: 'one',
-      filterType: 'textFilter',
-      textFilter: null,
-    },
     type: {
       id: 'type',
       label: 'Type',
@@ -49,7 +32,8 @@ export const INITIAL_STATE = {
       containerClass: 'three',
       filterType: 'uriFilter',
       uriFilter: null,
-      spatialFilter: null
+      spatialFilter: null,
+      priority: 3
     },
     eventTimespan: {
       id: 'eventTimespan',
@@ -69,7 +53,8 @@ export const INITIAL_STATE = {
       min: null,
       max: null,
       timespanFilter: null,
-      type: 'timespan'
+      type: 'timespan',
+      priority: 2
     },
     place: {
       id: 'place',
@@ -88,7 +73,8 @@ export const INITIAL_STATE = {
       filterType: 'uriFilter',
       uriFilter: null,
       spatialFilter: null,
-      type: 'hierarchical'
+      type: 'hierarchical',
+      priority: 1
     },
   }
 };

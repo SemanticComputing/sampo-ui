@@ -251,40 +251,36 @@ export const stateToUrl = ({
   if (sortBy !== null) { params.sortBy = sortBy; }
   if (sortDirection !== null) { params.sortDirection = sortDirection; }
   if (variant !== null) { params.variant = variant; }
-  let uriFilters = {};
-  let spatialFilters = {};
-  let textFilters = {};
-  let timespanFilters = {};
-  let activeUriFilters = false;
-  let activeSpatialFilters = false;
-  let activeTextFilters = false;
-  let activeTimespanFilters = false;
+  let constraints = {};
   for (const [key, value] of Object.entries(facets)) {
     if (has(value, 'uriFilter') && value.uriFilter !== null) {
-      activeUriFilters = true;
-      uriFilters[key] = Object.keys(value.uriFilter);
+      constraints[key] = {
+        filterType: value.filterType,
+        priority: value.priority,
+        values: Object.keys(value.uriFilter)
+      };
     } else if (has(value, 'spatialFilter') && value.spatialFilter !== null) {
-      activeSpatialFilters = true;
-      spatialFilters[key] = boundsToValues(value.spatialFilter._bounds);
+      constraints[key] = {
+        filterType: value.filterType,
+        priority: value.priority,
+        values: boundsToValues(value.spatialFilter._bounds)
+      };
     }  else if (has(value, 'textFilter') && value.textFilter !== null) {
-      activeTextFilters = true;
-      textFilters[key] = value.textFilter;
+      constraints[key] = {
+        filterType: value.filterType,
+        priority: value.priority,
+        values: value.textFilter
+      };
     } else if (has(value, 'timespanFilter') && value.timespanFilter !== null) {
-      activeTimespanFilters = true;
-      timespanFilters[key] = value.timespanFilter;
+      constraints[key] = {
+        filterType: value.filterType,
+        priority: value.priority,
+        values: value.timespanFilter
+      };
     }
   }
-  if (activeUriFilters) {
-    params.uriFilters = JSON.stringify(uriFilters);
-  }
-  if (activeSpatialFilters) {
-    params.spatialFilters = JSON.stringify(spatialFilters);
-  }
-  if (activeTextFilters) {
-    params.textFilters = JSON.stringify(textFilters);
-  }
-  if (activeTimespanFilters) {
-    params.timespanFilters = JSON.stringify(timespanFilters);
+  if (Object.keys(constraints).length > 0) {
+    params.constraints = JSON.stringify(constraints);
   }
   return querystring.stringify(params);
 };

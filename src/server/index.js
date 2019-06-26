@@ -48,7 +48,8 @@ app.get(`${apiPath}/:resultClass/paginated`, async (req, res, next) => {
       textFilters: req.query.textFilters == null ? null : JSON.parse(req.query.textFilters),
       timespanFilters: req.query.timespanFilters == null ? null : JSON.parse(req.query.timespanFilters),
       sortBy: req.query.sortBy || null,
-      sortDirection: req.query.sortDirection || null
+      sortDirection: req.query.sortDirection || null,
+      constraints: req.query.constraints
     });
     res.json(data);
   } catch(error) {
