@@ -25,6 +25,7 @@ export const getFacet = ({
   sortBy,
   sortDirection,
   constraints,
+  resultFormat
 }) => {
   const facetConfig = facetConfigs[facetClass][facetID];
   // choose query template and result mapper:
@@ -104,7 +105,7 @@ export const getFacet = ({
   // if (facetID == 'productionPlace') {
   //   console.log(prefixes + q)
   // }
-  return runSelectQuery(prefixes + q, endpoint, mapper);
+  return runSelectQuery(prefixes + q, endpoint, mapper, resultFormat);
 };
 
 const generateSelectedBlock = ({

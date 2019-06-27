@@ -41,12 +41,19 @@ app.get(`${apiPath}/:resultClass/paginated`, async (req, res, next) => {
   try {
     const data = await getPaginatedResults({
       resultClass: req.params.resultClass,
-      page: parseInt(req.query.page) || null,
+      page: req.query.page == null ? null : req.query.page,
       pagesize: parseInt(req.query.pagesize) || null,
       sortBy: req.query.sortBy || null,
       sortDirection: req.query.sortDirection || null,
       constraints: req.query.constraints == null ? null : JSON.parse(req.query.constraints),
+      resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
     });
+    // test csv result format
+    // res.writeHead(200, {
+    //   'Content-Type': 'text/csv',
+    //   'Content-Disposition': 'attachment; filename=results.csv'
+    // });
+    // res.end(data);
     res.json(data);
   } catch(error) {
     next(error);
@@ -60,6 +67,7 @@ app.get(`${apiPath}/:resultClass/all`, async (req, res, next) => {
       facetClass: req.query.facetClass || null,
       constraints: req.query.constraints == null ? null : JSON.parse(req.query.constraints),
       variant: req.query.variant || null,
+      resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
     });
     res.json({
       results: data
@@ -74,6 +82,7 @@ app.get(`${apiPath}/:resultClass/count`, async (req, res, next) => {
     const count = await getResultCount({
       resultClass: req.params.resultClass,
       constraints: req.query.constraints == null ? null : JSON.parse(req.query.constraints),
+      resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
     });
     res.json({ count });
   } catch(error) {
@@ -88,7 +97,8 @@ app.get(`${apiPath}/:resultClass/instance/:uri`, async (req, res, next) => {
       facetClass: req.query.facetClass || null,
       constraints: req.query.constraints == null ? null : JSON.parse(req.query.constraints),
       variant: req.query.variant || null,
-      uri: req.params.uri
+      uri: req.params.uri,
+      resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
     });
     // there is always one object in the 'data' array
     res.json(data[0]);
@@ -105,6 +115,7 @@ app.get(`${apiPath}/:facetClass/facet/:id`, async (req, res, next) => {
       sortBy: req.query.sortBy || null,
       sortDirection: req.query.sortDirection || null,
       constraints: req.query.constraints == null ? null : JSON.parse(req.query.constraints),
+      resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
     });
     res.json(data);
   } catch(error) {
@@ -134,6 +145,7 @@ app.get(`${apiPath}/search`, async (req, res, next) => {
       longMin: longMin,
       latMax: latMax,
       longMax: longMax,
+      resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
     });
     res.json(data);
   } catch(error) {

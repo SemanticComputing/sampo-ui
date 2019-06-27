@@ -24,7 +24,8 @@ export const getPaginatedResults = async ({
   pagesize,
   constraints,
   sortBy,
-  sortDirection
+  sortDirection,
+  resultFormat
 }) => {
   const data = await getPaginatedData({
     resultClass,
@@ -32,20 +33,26 @@ export const getPaginatedResults = async ({
     pagesize,
     constraints,
     sortBy,
-    sortDirection
+    sortDirection,
+    resultFormat
   });
-  return {
-    pagesize: pagesize,
-    page: page,
-    results: data
-  };
+  if (resultFormat === 'json') {
+    return {
+      pagesize: pagesize,
+      page: page,
+      results: data
+    };
+  } else {
+    return data;
+  }
 };
 
 export const getAllResults = ({
   // resultClass, // TODO: handle other classes than manuscripts
   facetClass,
   constraints,
-  variant
+  variant,
+  resultFormat
 }) => {
   let q = '';
   let filterTarget = '';
@@ -80,12 +87,13 @@ export const getAllResults = ({
   // if (variant == 'productionPlaces') {
   //   console.log(prefixes + q)
   // }
-  return runSelectQuery(prefixes + q, endpoint, makeObjectList);
+  return runSelectQuery(prefixes + q, endpoint, makeObjectList, resultFormat);
 };
 
 export const getResultCount = ({
   resultClass,
-  constraints
+  constraints,
+  resultFormat
 }) => {
   let q = countQuery;
   q = q.replace('<FACET_CLASS>', facetConfigs[resultClass].facetClass);
@@ -100,7 +108,7 @@ export const getResultCount = ({
       facetID: null
     }));
   }
-  return runSelectQuery(prefixes + q, endpoint, mapCount);
+  return runSelectQuery(prefixes + q, endpoint, mapCount, resultFormat);
 };
 
 const getPaginatedData = ({
@@ -109,7 +117,8 @@ const getPaginatedData = ({
   pagesize,
   constraints,
   sortBy,
-  sortDirection
+  sortDirection,
+  resultFormat
 }) => {
   let q = facetResultSetQuery;
   const facetConfig = facetConfigs[resultClass];
@@ -163,8 +172,8 @@ const getPaginatedData = ({
       resultSetProperties = '';
   }
   q = q.replace('<RESULT_SET_PROPERTIES>', resultSetProperties);
-  // console.log(prefixes + q)
-  return runSelectQuery(prefixes + q, endpoint, makeObjectList);
+  console.log(prefixes + q);
+  return runSelectQuery(prefixes + q, endpoint, makeObjectList, resultFormat);
 };
 
 export const getByURI = ({
@@ -172,7 +181,8 @@ export const getByURI = ({
   facetClass,
   constraints,
   //variant,
-  uri
+  uri,
+  resultFormat
 }) => {
   let q;
   switch (resultClass) {
@@ -194,5 +204,5 @@ export const getByURI = ({
   // if (variant === 'productionPlaces') {
   //   console.log(prefixes + q)
   // }
-  return runSelectQuery(prefixes + q, endpoint, makeObjectList);
+  return runSelectQuery(prefixes + q, endpoint, makeObjectList, resultFormat);
 };
