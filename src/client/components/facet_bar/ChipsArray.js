@@ -58,7 +58,7 @@ class ChipsArray extends React.Component {
             valueLabel = item.value;
           }
           if (item.filterType === 'timespanFilter') {
-            key = item.value;
+            key = item.facetID;
             valueLabel = `${this.ISOStringToYear(item.value.start)} to
               ${this.ISOStringToYear(item.value.end)}`;
           }

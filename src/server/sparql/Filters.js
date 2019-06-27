@@ -128,14 +128,14 @@ const generateTimespanFilter = ({
   //   FILTER(?end <= "${end}"^^xsd:date)
   // `;
   return `
-    ?${filterTarget} ${facetConfig.predicate} ?timespan .
-    ?timespan ${facetConfig.startProperty} ?timespanStart .
-    ?timespan ${facetConfig.endProperty} ?timespanEnd .
+    ?${filterTarget} ${facetConfig.predicate} ?${facetID} .
+    ?${facetID} ${facetConfig.startProperty} ?${facetID}Start .
+    ?${facetID} ${facetConfig.endProperty} ?${facetID}End .
     # either start or end is in selected range
     FILTER(
-      ?timespanStart >= "${selectionStart}"^^xsd:date && ?timespanStart <= "${selectionEnd}"^^xsd:date
+      ?${facetID}Start >= "${selectionStart}"^^xsd:date && ?${facetID}Start <= "${selectionEnd}"^^xsd:date
       ||
-      ?timespanEnd >= "${selectionStart}"^^xsd:date && ?timespanEnd <= "${selectionEnd}"^^xsd:date
+      ?${facetID}End >= "${selectionStart}"^^xsd:date && ?${facetID}End <= "${selectionEnd}"^^xsd:date
     )
   `;
 };
