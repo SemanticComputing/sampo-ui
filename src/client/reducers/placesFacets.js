@@ -32,6 +32,7 @@ export const INITIAL_STATE = {
       containerClass: 'one',
       filterType: 'textFilter',
       textFilter: null,
+      priority: 1,
     },
     area: {
       id: 'area',
@@ -49,7 +50,8 @@ export const INITIAL_STATE = {
       containerClass: 'ten',
       filterType: 'uriFilter',
       uriFilter: null,
-      spatialFilter: null
+      spatialFilter: null,
+      priority: 2,
     },
     source: {
       id: 'source',
@@ -66,7 +68,8 @@ export const INITIAL_STATE = {
       searchField: false,
       containerClass: 'five',
       filterType: 'uriFilter',
-      uriFilter: null
+      uriFilter: null,
+      priority: 3
     },
   }
 };

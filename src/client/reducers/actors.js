@@ -47,7 +47,8 @@ export const INITIAL_STATE = {
       makeLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 150
+      minWidth: 150,
+      priority: 1
     },
     {
       id: 'type',
@@ -58,6 +59,7 @@ export const INITIAL_STATE = {
       sortValues: false,
       numberedList: false,
       minWidth: 150,
+      priority: 8,
     },
     {
       id: 'birthPlace',
@@ -67,7 +69,8 @@ export const INITIAL_STATE = {
       makeLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 200
+      minWidth: 200,
+      priority: 6
     },
     {
       id: 'birthDateTimespan',
@@ -77,7 +80,8 @@ export const INITIAL_STATE = {
       makeLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 220
+      minWidth: 220,
+      priority: 3
     },
     {
       id: 'deathDateTimespan',
@@ -87,7 +91,8 @@ export const INITIAL_STATE = {
       makeLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 200
+      minWidth: 200,
+      priority: 4
     },
     {
       id: 'place',
@@ -97,7 +102,8 @@ export const INITIAL_STATE = {
       makeLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 200
+      minWidth: 200,
+      priority: 2
     },
     {
       id: 'work',
@@ -107,7 +113,8 @@ export const INITIAL_STATE = {
       makeLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 250
+      minWidth: 250,
+      priority: 5
     },
     {
       id: 'manuscript',
@@ -117,7 +124,8 @@ export const INITIAL_STATE = {
       makeLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 250
+      minWidth: 250,
+      priority: 7
     },
     {
       id: 'source',
@@ -126,7 +134,8 @@ export const INITIAL_STATE = {
       valueType: 'object',
       makeLink: true,
       sortValues: true,
-      numberedList: false
+      numberedList: false,
+      priority: 9
     },
 
   ],

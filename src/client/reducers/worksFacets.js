@@ -32,6 +32,7 @@ export const INITIAL_STATE = {
       containerClass: 'one',
       filterType: 'textFilter',
       textFilter: null,
+      priority: 2
     },
     author: {
       id: 'author',
@@ -48,7 +49,8 @@ export const INITIAL_STATE = {
       searchField: true,
       containerClass: 'ten',
       filterType: 'uriFilter',
-      uriFilter: null
+      uriFilter: null,
+      priority: 1
     },
     source: {
       id: 'source',
@@ -65,7 +67,8 @@ export const INITIAL_STATE = {
       searchField: false,
       containerClass: 'five',
       filterType: 'uriFilter',
-      uriFilter: null
+      uriFilter: null,
+      priority: 3,
     },
   },
 };
