@@ -89,3 +89,23 @@ export const actorProperties = `
       BIND(?manuscript__id AS ?manuscript__dataProviderUrl)
     }
 `;
+
+export const actorPlacesQuery = `
+  SELECT ?id ?lat ?long
+  (SAMPLE(?prefLabel_) AS ?prefLabel)
+  (COUNT(DISTINCT ?actor) as ?instanceCount)
+  WHERE {
+    <FILTER>
+    ?actor crm:P98i_was_born/crm:P7_took_place_at
+          #|crm:P100i_died_in/crm:P7_took_place_at
+          # |mmm-schema:person_place
+          ?id .
+    ?id skos:prefLabel ?prefLabel_ .
+    OPTIONAL {
+      ?id wgs84:lat ?lat ;
+          wgs84:long ?long .
+    }
+    FILTER(?id != <http://ldf.fi/mmm/places/tgn_7026519>)
+  }
+  GROUP BY ?id ?lat ?long
+`;

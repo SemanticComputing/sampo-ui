@@ -241,6 +241,7 @@ let SemanticPortal = (props) => {
                         filters={props.manuscriptsFacets.filters}
                         updatePage={props.updatePage}
                         updateRowsPerPage={props.updateRowsPerPage}
+                        updateFacetOption={props.updateFacetOption}
                         sortResults={props.sortResults}
                         routeProps={routeProps}
                       />

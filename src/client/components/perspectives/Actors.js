@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import PerspectiveTabs from '../main_layout/PerspectiveTabs';
 import ResultTable from '../facet_results/ResultTable';
+import LeafletMap from '../facet_results/LeafletMap';
 
 let Actors = props => {
   return (
@@ -15,11 +16,11 @@ let Actors = props => {
             value: 0,
             icon: 'CalendarViewDay',
           },
-          // '/people/map': {
-          //   label: 'map',
-          //   value: 1,
-          //   icon: 'AddLocation',
-          // },
+          '/actors/map': {
+            label: 'map',
+            value: 1,
+            icon: 'AddLocation',
+          },
         }}
       />
       <Route
@@ -42,6 +43,24 @@ let Actors = props => {
           />
         }
       />
+      <Route
+        path={'/actors/map'}
+        render={() =>
+          <LeafletMap
+            results={props.places.results}
+            facetUpdateID={props.facetData.facetUpdateID}
+            resultClass='places'
+            facetClass='actors'
+            mapMode={'cluster'}
+            variant='actorPlaces'
+            instance={props.places.instance}
+            fetchResults={props.fetchResults}
+            fetchByURI={props.fetchByURI}
+            fetching={props.places.fetching}
+            showInstanceCountInClusters={true}
+            updateFacetOption={props.updateFacetOption}
+          />}
+      />
     </React.Fragment>
   );
 };
@@ -56,7 +75,8 @@ Actors.propTypes = {
   updatePage: PropTypes.func.isRequired,
   updateRowsPerPage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
-  routeProps: PropTypes.object.isRequired
+  routeProps: PropTypes.object.isRequired,
+  updateFacetOption: PropTypes.func.isRequired
 };
 
 export default Actors;

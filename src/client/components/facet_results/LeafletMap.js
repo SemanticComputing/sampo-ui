@@ -329,7 +329,11 @@ class LeafletMap extends React.Component {
   createMarker = result => {
     // const color = typeof result.markerColor === 'undefined' ? 'grey' : result.markerColor;
     // const icon = new ColorIcon({iconUrl: 'img/markers/marker-icon-' + color + '.png'});
-    if (!has(result, 'lat') || !has(result, 'long')) {
+    if (!has(result, 'lat')
+        || !has(result, 'long')
+        || result.lat === 'Undefined'
+        || result.long === 'Undefined'
+    ) {
       return null;
     }
     else {

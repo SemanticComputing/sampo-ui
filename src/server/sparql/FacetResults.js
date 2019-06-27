@@ -9,10 +9,13 @@ import {
 } from './SparqlQueriesManuscripts';
 import { workProperties } from './SparqlQueriesWorks';
 import { eventProperties } from './SparqlQueriesEvents';
-import { actorProperties } from './SparqlQueriesActors';
+import {
+  actorProperties,
+  actorPlacesQuery,
+} from './SparqlQueriesActors';
 import { placeProperties, placeQuery, allPlacesQuery } from './SparqlQueriesPlaces';
 import { facetConfigs } from './FacetConfigs';
-import { mapCount } from './Mappers';
+import { mapCount, mapPlaces } from './Mappers';
 import { makeObjectList } from './SparqlObjectMapper';
 import {
   generateConstraintsBlock,
@@ -56,6 +59,7 @@ export const getAllResults = ({
 }) => {
   let q = '';
   let filterTarget = '';
+  let mapper = makeObjectList;
   switch (variant) {
     case 'allPlaces':
       q = allPlacesQuery;
@@ -64,6 +68,7 @@ export const getAllResults = ({
     case 'productionPlaces':
       q = productionPlacesQuery;
       filterTarget = 'manuscripts';
+      mapper = mapPlaces;
       break;
     case 'migrations':
       q = migrationsQuery;
@@ -72,6 +77,11 @@ export const getAllResults = ({
     case 'network':
       q = networkQuery;
       filterTarget = 'manuscript__id';
+      break;
+    case 'actorPlaces':
+      q = actorPlacesQuery;
+      filterTarget = null;
+      mapper = mapPlaces;
       break;
   }
   if (constraints == null) {
@@ -84,10 +94,10 @@ export const getAllResults = ({
       facetID: null
     }));
   }
-  // if (variant == 'productionPlaces') {
+  // if (variant == 'actorPlaces') {
   //   console.log(prefixes + q)
   // }
-  return runSelectQuery(prefixes + q, endpoint, makeObjectList, resultFormat);
+  return runSelectQuery(prefixes + q, endpoint, mapper, resultFormat);
 };
 
 export const getResultCount = ({
@@ -172,7 +182,7 @@ const getPaginatedData = ({
       resultSetProperties = '';
   }
   q = q.replace('<RESULT_SET_PROPERTIES>', resultSetProperties);
-  console.log(prefixes + q);
+  // console.log(prefixes + q);
   return runSelectQuery(prefixes + q, endpoint, makeObjectList, resultFormat);
 };
 
