@@ -1,120 +1,188 @@
 import { facetConfigs } from './FacetConfigs';
 
-export const hasFilters = ({
-  uriFilters,
-  spatialFilters,
-  textFilters,
-  timespanFilters,
-}) => {
-  return uriFilters !== null
-      || spatialFilters !== null
-      || textFilters !== null
-      || timespanFilters !== null;
+export const hasPreviousSelections = (constraints, facetID) => {
+  let hasPreviousSelections = false;
+  for (const [key, value] of Object.entries(constraints)) {
+    if (key === facetID && value.filterType === 'uriFilter') {
+      hasPreviousSelections = true;
+    }
+  }
+  return hasPreviousSelections;
 };
 
-export const generateFilter = ({
+export const hasPreviousSelectionsFromOtherFacets = (constraints, facetID) => {
+  for (const [key, value] of Object.entries(constraints)) {
+    if (key !== facetID && value.filterType === 'uriFilter') {
+      return true;
+    }
+  }
+  return false;
+};
+
+export const getUriFilters = (constraints, facetID) => {
+  for (const [key, value] of Object.entries(constraints)) {
+    if (key === facetID && value.filterType === 'uriFilter') {
+      return value.values;
+    }
+  }
+  return [];
+};
+
+export const generateConstraintsBlock = ({
   facetClass,
-  uriFilters,
-  spatialFilters,
-  textFilters,
-  timespanFilters,
+  constraints,
   filterTarget,
   facetID,
   inverse,
 }) => {
+  delete constraints[facetID]; // use only constraints from other facets
   let filterStr = '';
-  let facetProperty = facetID !== null ? facetID : '';
-  if (textFilters !== null) {
-    for (let property in textFilters) {
-      if (property !== facetProperty) {
-        const queryString = textFilters[property];
-        filterStr += `
-          ?${filterTarget} text:query (${facetConfigs[facetClass][property].textQueryProperty} '${queryString}') .
-        `;
-      }
-    }
+  let constraintsArr = [];
+  for (const [key, value] of Object.entries(constraints)) {
+    constraintsArr.push({
+      id: key,
+      filterType: value.filterType,
+      priority: value.priority,
+      values: value.values,
+    });
   }
-  if (spatialFilters !== null) {
-    for (let property in spatialFilters) {
-      if (property !== facetProperty) {
-        const { latMin, longMin, latMax, longMax } = spatialFilters[property];
-        filterStr += `
-          ?${property}Filter spatial:withinBox (${latMin} ${longMin} ${latMax} ${longMax} 1000000) .
-          ?${filterTarget} ${facetConfigs[facetClass][property].predicate} ?${property}Filter .
-        `;
-      }
+  constraintsArr.sort((a, b) => a.priority - b.priority);
+  constraintsArr.map(c => {
+    switch (c.filterType) {
+      case 'textFilter':
+        filterStr += generateTextFilter({
+          facetClass: facetClass,
+          facetID: c.id,
+          filterTarget: filterTarget,
+          queryString: c.values
+        });
+        break;
+      case 'uriFilter':
+        filterStr += generateUriFilter({
+          facetClass: facetClass,
+          facetID: c.id,
+          filterTarget: filterTarget,
+          values: c.values,
+          inverse: inverse
+        });
+        break;
+      case 'spatialFilter':
+        filterStr += generateSpatialFilter({
+          facetClass: facetClass,
+          facetID: c.id,
+          filterTarget: filterTarget,
+          values: c.values,
+        });
+        break;
+      case 'timespanFilter':
+        filterStr += generateTimespanFilter({
+          facetClass: facetClass,
+          facetID: c.id,
+          filterTarget: filterTarget,
+          values: c.values,
+        });
+        break;
     }
-  }
-  if (timespanFilters !== null) {
-    for (let property in timespanFilters) {
-      if (property !== facetProperty) {
-        const facetConfig = facetConfigs[facetClass][property];
-        const { start, end } = timespanFilters[property];
-        const selectionStart = start;
-        const selectionEnd = end;
-        // filterStr += `
-        //   ?${filterTarget} ${facetConfig.predicate} ?timespan .
-        //   ?timespan ${facetConfig.startProperty} ?start .
-        //   ?timespan ${facetConfig.endProperty} ?end .
-        //   # both start and end is in selected range
-        //   FILTER(?start >= "${start}"^^xsd:date)
-        //   FILTER(?end <= "${end}"^^xsd:date)
-        // `;
-        filterStr += `
-          ?${filterTarget} ${facetConfig.predicate} ?timespan .
-          ?timespan ${facetConfig.startProperty} ?timespanStart .
-          ?timespan ${facetConfig.endProperty} ?timespanEnd .
-          # either start or end is in selected range
-          FILTER(
-            ?timespanStart >= "${selectionStart}"^^xsd:date && ?timespanStart <= "${selectionEnd}"^^xsd:date
-            ||
-            ?timespanEnd >= "${selectionStart}"^^xsd:date && ?timespanEnd <= "${selectionEnd}"^^xsd:date
-          )
-        `;
-      }
-    }
-  }
-  if (uriFilters !== null) {
-    for (let property in uriFilters) {
-      // when filtering facet values, apply filters only from other facets
-      if (property !== facetProperty) {
-        let addChildren = facetConfigs[facetClass][property].type == 'hierarchical';
-        if (addChildren) {
-          filterStr += `
-              VALUES ?${property}Filter { <${uriFilters[property].join('> <')}> }
-              ?${property}FilterWithChildren gvp:broaderPreferred* ?${property}Filter .
-          `;
-        } else {
-          filterStr += `
-              VALUES ?${property}Filter { <${uriFilters[property].join('> <')}> }
-          `;
-        }
-        if (inverse) {
-          filterStr += `
-            FILTER NOT EXISTS {
-              ?${filterTarget} ${facetConfigs[facetClass][property].predicate} ?${property}Filter .
-              ?${filterTarget} ${facetConfigs[facetClass][facetID].predicate} ?id .
-            }
-          `;
-        } else {
-          const filterValue = addChildren
-            ? `?${property}FilterWithChildren`
-            : `?${property}Filter`;
-          filterStr += `
-            ?${filterTarget} ${facetConfigs[facetClass][property].predicate} ${filterValue} .
-          `;
-        }
-      }
-    }
-  }
+  });
   return filterStr;
 };
 
+const generateTextFilter = ({
+  facetClass,
+  facetID,
+  filterTarget,
+  queryString
+}) => {
+  return `?${filterTarget} text:query (${facetConfigs[facetClass][facetID].textQueryProperty} '${queryString}') . `;
+};
+
+const generateSpatialFilter = ({
+  facetClass,
+  facetID,
+  filterTarget,
+  values
+}) => {
+  const { latMin, longMin, latMax, longMax } = values;
+  return `
+    ?${facetID}Filter spatial:withinBox (${latMin} ${longMin} ${latMax} ${longMax} 1000000) .
+    ?${filterTarget} ${facetConfigs[facetClass][facetID].predicate} ?${facetID}Filter .
+  `;
+};
+
+const generateTimespanFilter = ({
+  facetClass,
+  facetID,
+  filterTarget,
+  values
+}) => {
+  const facetConfig = facetConfigs[facetClass][facetID];
+  const { start, end } = values;
+  const selectionStart = start;
+  const selectionEnd = end;
+  // return `
+  //   ?${filterTarget} ${facetConfig.predicate} ?timespan .
+  //   ?timespan ${facetConfig.startProperty} ?start .
+  //   ?timespan ${facetConfig.endProperty} ?end .
+  //   # both start and end is in selected range
+  //   FILTER(?start >= "${start}"^^xsd:date)
+  //   FILTER(?end <= "${end}"^^xsd:date)
+  // `;
+  return `
+    ?${filterTarget} ${facetConfig.predicate} ?timespan .
+    ?timespan ${facetConfig.startProperty} ?timespanStart .
+    ?timespan ${facetConfig.endProperty} ?timespanEnd .
+    # either start or end is in selected range
+    FILTER(
+      ?timespanStart >= "${selectionStart}"^^xsd:date && ?timespanStart <= "${selectionEnd}"^^xsd:date
+      ||
+      ?timespanEnd >= "${selectionStart}"^^xsd:date && ?timespanEnd <= "${selectionEnd}"^^xsd:date
+    )
+  `;
+};
+
+const generateUriFilter = ({
+  facetClass,
+  facetID,
+  filterTarget,
+  values,
+  inverse
+}) => {
+  let s = '';
+  let addChildren = facetConfigs[facetClass][facetID].type == 'hierarchical';
+  if (addChildren) {
+    s = `
+         VALUES ?${facetID}Filter { <${values.join('> <')}> }
+         ?${facetID}FilterWithChildren gvp:broaderPreferred* ?${facetID}Filter .
+     `;
+  } else {
+    s = `
+         VALUES ?${facetID}Filter { <${values.join('> <')}> }
+     `;
+  }
+  if (inverse) {
+    s += `
+       FILTER NOT EXISTS {
+         ?${filterTarget} ${facetConfigs[facetClass][facetID].predicate} ?${facetID}Filter .
+         ?${filterTarget} ${facetConfigs[facetClass][facetID].predicate} ?id .
+       }
+     `;
+  } else {
+    const filterValue = addChildren
+      ? `?${facetID}FilterWithChildren`
+      : `?${facetID}Filter`;
+    s += `
+       ?${filterTarget} ${facetConfigs[facetClass][facetID].predicate} ${filterValue} .
+     `;
+  }
+  return s;
+};
+
 export const generateSelectedFilter = ({
-  selectedValues,
+  facetID,
+  constraints,
   inverse
 }) => {
   return (`
-      FILTER(?id ${inverse ? 'NOT' : ''} IN ( <${selectedValues.join('>, <')}> ))
+      FILTER(?id ${inverse ? 'NOT' : ''} IN ( <${getUriFilters(constraints, facetID).join('>, <')}> ))
   `);
 };

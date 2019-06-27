@@ -32,6 +32,7 @@ export const INITIAL_STATE = {
       containerClass: 'one',
       filterType: 'textFilter',
       textFilter: null,
+      priority: 1
     },
     productionPlace: {
       id: 'productionPlace',
@@ -51,6 +52,7 @@ export const INITIAL_STATE = {
       uriFilter: null,
       spatialFilter: null,
       type: 'hierarchical',
+      priority: 4
     },
     productionTimespan: {
       id: 'productionTimespan',
@@ -70,7 +72,8 @@ export const INITIAL_STATE = {
       min: null,
       max: null,
       timespanFilter: null,
-      type: 'timespan'
+      type: 'timespan',
+      priority: 7
     },
     author: {
       id: 'author',
@@ -87,7 +90,8 @@ export const INITIAL_STATE = {
       searchField: true,
       containerClass: 'ten',
       filterType: 'uriFilter',
-      uriFilter: null
+      uriFilter: null,
+      priority: 2
     },
     language: {
       id: 'owner',
@@ -104,7 +108,8 @@ export const INITIAL_STATE = {
       searchField: true,
       containerClass: 'ten',
       filterType: 'uriFilter',
-      uriFilter: null
+      uriFilter: null,
+      priority: 5
     },
     collection: {
       id: 'collection',
@@ -121,7 +126,8 @@ export const INITIAL_STATE = {
       searchField: true,
       containerClass: 'ten',
       filterType: 'uriFilter',
-      uriFilter: null
+      uriFilter: null,
+      priority: 6
     },
     owner: {
       id: 'owner',
@@ -138,7 +144,8 @@ export const INITIAL_STATE = {
       searchField: true,
       containerClass: 'ten',
       filterType: 'uriFilter',
-      uriFilter: null
+      uriFilter: null,
+      priority: 3
     },
     source: {
       id: 'source',
@@ -155,7 +162,8 @@ export const INITIAL_STATE = {
       searchField: false,
       containerClass: 'three',
       filterType: 'uriFilter',
-      uriFilter: null
+      uriFilter: null,
+      priority: 8
     },
   }
 };

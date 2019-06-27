@@ -1,4 +1,3 @@
-import { has } from 'lodash';
 import { runSelectQuery } from './SparqlApi';
 import {
   endpoint,
@@ -8,8 +7,10 @@ import {
 import { prefixes } from './SparqlQueriesPrefixes';
 import { facetConfigs } from './FacetConfigs';
 import {
-  hasFilters,
-  generateFilter,
+  hasPreviousSelections,
+  hasPreviousSelectionsFromOtherFacets,
+  getUriFilters,
+  generateConstraintsBlock,
   generateSelectedFilter
 } from './Filters';
 import {
@@ -23,10 +24,7 @@ export const getFacet = ({
   facetID,
   sortBy,
   sortDirection,
-  uriFilters,
-  spatialFilters,
-  textFilters,
-  timespanFilters,
+  constraints,
 }) => {
   const facetConfig = facetConfigs[facetClass][facetID];
   // choose query template and result mapper:
@@ -53,42 +51,29 @@ export const getFacet = ({
   let selectedNoHitsBlock = '# no filters from other facets';
   let filterBlock = '# no filters';
   let parentBlock = '# no parents';
-  const hasActiveFilters = hasFilters({
-    uriFilters,
-    spatialFilters,
-    textFilters,
-    timespanFilters,
-  });
-  if (hasActiveFilters) {
-    filterBlock = generateFilter({
+  if (constraints !== null) {
+    filterBlock = generateConstraintsBlock({
       facetClass: facetClass,
-      uriFilters: uriFilters,
-      spatialFilters: spatialFilters,
-      textFilters: textFilters,
-      timespanFilters: timespanFilters,
+      constraints: constraints,
       filterTarget: 'instance',
       facetID: facetID,
       inverse: false,
     });
-  }
-  // if this facet has previous selections, include them in the query
-  if (uriFilters !== null && has(uriFilters, facetID)) {
-    selectedBlock = generateSelectedBlock({
-      facetID,
-      uriFilters
-    });
-    /*
-      if there are also filters from other facets, we need this
-      additional block for facet values that return 0 hits
-    */
-    if (Object.keys(uriFilters).length > 1) {
-      selectedNoHitsBlock = generateSelectedNoHitsBlock({
-        facetClass,
+    // if this facet has previous selections, include them in the query
+    if (hasPreviousSelections(constraints, facetID)) {
+      selectedBlock = generateSelectedBlock({
         facetID,
-        uriFilters,
-        spatialFilters,
-        textFilters
+        constraints
       });
+      /* if there are also filters from other facets, we need this
+         additional block for facet values that return 0 hits */
+      if (hasPreviousSelectionsFromOtherFacets(constraints, facetID)) {
+        selectedNoHitsBlock = generateSelectedNoHitsBlock({
+          facetClass,
+          facetID,
+          constraints
+        });
+      }
     }
   }
   if (facetConfig.type === 'hierarchical') {
@@ -96,10 +81,7 @@ export const getFacet = ({
     parentBlock = generateParentBlock({
       facetClass,
       facetID,
-      uriFilters,
-      spatialFilters,
-      textFilters,
-      timespanFilters,
+      constraints,
       parentPredicate
     });
   }
@@ -127,10 +109,11 @@ export const getFacet = ({
 
 const generateSelectedBlock = ({
   facetID,
-  uriFilters,
+  constraints,
 }) => {
   const selectedFilter = generateSelectedFilter({
-    selectedValues: uriFilters[facetID],
+    facetID,
+    constraints,
     inverse: false
   });
   return `
@@ -144,17 +127,11 @@ const generateSelectedBlock = ({
 const generateSelectedNoHitsBlock = ({
   facetClass,
   facetID,
-  uriFilters,
-  spatialFilters,
-  textFilters,
-  timespanFilters,
+  constraints
 }) => {
-  const noHitsFilter = generateFilter({
+  const noHitsFilter = generateConstraintsBlock({
     facetClass: facetClass,
-    uriFilters: uriFilters,
-    spatialFilters: spatialFilters,
-    textFilters: textFilters,
-    timespanFilters: timespanFilters,
+    constraints: constraints,
     filterTarget: 'instance',
     facetID: facetID,
     inverse: true,
@@ -163,7 +140,7 @@ const generateSelectedNoHitsBlock = ({
   UNION
   {
   # facet values that have been selected but return no results
-    VALUES ?id { <${uriFilters[facetID].join('> <')}> }
+    VALUES ?id { <${getUriFilters(constraints, facetID).join('> <')}> }
     ${noHitsFilter}
     BIND(true AS ?selected_)
   }
@@ -173,28 +150,26 @@ const generateSelectedNoHitsBlock = ({
 const generateParentBlock = ({
   facetClass,
   facetID,
-  uriFilters,
-  spatialFilters,
-  textFilters,
-  timespanFilters,
+  constraints,
   parentPredicate
 }) => {
-  const parentFilterStr = generateFilter({
-    facetClass: facetClass,
-    uriFilters: uriFilters,
-    spatialFilters: spatialFilters,
-    textFilters: textFilters,
-    timespanFilters: timespanFilters,
-    filterTarget: 'instance2',
-    facetID: facetID,
-    inverse: false
-  });
-  let ignoreSelectedValues = '';
-  if (uriFilters !== null && has(uriFilters, facetID)) {
-    ignoreSelectedValues = generateSelectedFilter({
-      selectedValues:uriFilters[facetID],
-      inverse: true
+  let parentFilterStr = '# no filters';
+  let ignoreSelectedValues = '# no selected values';
+  if (constraints !== null) {
+    parentFilterStr = generateConstraintsBlock({
+      facetClass: facetClass,
+      constraints: constraints,
+      filterTarget: 'instance2',
+      facetID: facetID,
+      inverse: false
     });
+    if (hasPreviousSelections) {
+      ignoreSelectedValues = generateSelectedFilter({
+        facetID: facetID,
+        constraints: constraints,
+        inverse: true
+      });
+    }
   }
   return `
         UNION

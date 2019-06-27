@@ -15,18 +15,14 @@ import { facetConfigs } from './FacetConfigs';
 import { mapCount } from './Mappers';
 import { makeObjectList } from './SparqlObjectMapper';
 import {
-  generateFilter,
-  hasFilters
+  generateConstraintsBlock,
 } from './Filters';
 
 export const getPaginatedResults = async ({
   resultClass,
   page,
   pagesize,
-  uriFilters,
-  spatialFilters,
-  textFilters,
-  timespanFilters,
+  constraints,
   sortBy,
   sortDirection
 }) => {
@@ -34,10 +30,7 @@ export const getPaginatedResults = async ({
     resultClass,
     page,
     pagesize,
-    uriFilters,
-    spatialFilters,
-    textFilters,
-    timespanFilters,
+    constraints,
     sortBy,
     sortDirection
   });
@@ -51,10 +44,7 @@ export const getPaginatedResults = async ({
 export const getAllResults = ({
   // resultClass, // TODO: handle other classes than manuscripts
   facetClass,
-  uriFilters,
-  spatialFilters,
-  textFilters,
-  timespanFilters,
+  constraints,
   variant
 }) => {
   let q = '';
@@ -77,21 +67,12 @@ export const getAllResults = ({
       filterTarget = 'manuscript__id';
       break;
   }
-  const hasActiveFilters = hasFilters({
-    uriFilters,
-    spatialFilters,
-    textFilters,
-    timespanFilters,
-  });
-  if (!hasActiveFilters) {
+  if (constraints == null) {
     q = q.replace('<FILTER>', '# no filters');
   } else {
-    q = q.replace('<FILTER>', generateFilter({
+    q = q.replace('<FILTER>', generateConstraintsBlock({
       facetClass: facetClass,
-      uriFilters: uriFilters,
-      spatialFilters: spatialFilters,
-      textFilters: textFilters,
-      timespanFilters: timespanFilters,
+      constraints: constraints,
       filterTarget: filterTarget,
       facetID: null
     }));
@@ -104,29 +85,17 @@ export const getAllResults = ({
 
 export const getResultCount = ({
   resultClass,
-  uriFilters,
-  spatialFilters,
-  textFilters,
-  timespanFilters,
+  constraints
 }) => {
   let q = countQuery;
   q = q.replace('<FACET_CLASS>', facetConfigs[resultClass].facetClass);
-  const hasActiveFilters = hasFilters({
-    uriFilters,
-    spatialFilters,
-    textFilters,
-    timespanFilters,
-  });
-  if (!hasActiveFilters) {
+  if (constraints == null) {
     q = q.replace('<FILTER>', '# no filters');
   } else {
-    q = q.replace('<FILTER>', generateFilter({
+    q = q.replace('<FILTER>', generateConstraintsBlock({
       resultClass: resultClass,
       facetClass: resultClass,
-      uriFilters: uriFilters,
-      spatialFilters: spatialFilters,
-      textFilters: textFilters,
-      timespanFilters: timespanFilters,
+      constraints: constraints,
       filterTarget: 'id',
       facetID: null
     }));
@@ -138,31 +107,19 @@ const getPaginatedData = ({
   resultClass,
   page,
   pagesize,
-  uriFilters,
-  spatialFilters,
-  textFilters,
-  timespanFilters,
+  constraints,
   sortBy,
   sortDirection
 }) => {
   let q = facetResultSetQuery;
   const facetConfig = facetConfigs[resultClass];
-  const hasActiveFilters = hasFilters({
-    uriFilters,
-    spatialFilters,
-    textFilters,
-    timespanFilters,
-  });
-  if (!hasActiveFilters) {
+  if (constraints == null) {
     q = q.replace('<FILTER>', '# no filters');
   } else {
-    q = q.replace('<FILTER>', generateFilter({
+    q = q.replace('<FILTER>', generateConstraintsBlock({
       resultClass: resultClass,
       facetClass: resultClass,
-      uriFilters: uriFilters,
-      spatialFilters: spatialFilters,
-      textFilters: textFilters,
-      timespanFilters: timespanFilters,
+      constraints: constraints,
       filterTarget: 'id',
       facetID: null}));
   }
@@ -206,17 +163,14 @@ const getPaginatedData = ({
       resultSetProperties = '';
   }
   q = q.replace('<RESULT_SET_PROPERTIES>', resultSetProperties);
-  console.log(prefixes + q)
+  // console.log(prefixes + q)
   return runSelectQuery(prefixes + q, endpoint, makeObjectList);
 };
 
 export const getByURI = ({
   resultClass,
   facetClass,
-  uriFilters,
-  spatialFilters,
-  textFilters,
-  timespanFilters,
+  constraints,
   //variant,
   uri
 }) => {
@@ -226,22 +180,13 @@ export const getByURI = ({
       q = placeQuery;
       break;
   }
-  const hasActiveFilters = hasFilters({
-    uriFilters,
-    spatialFilters,
-    textFilters,
-    timespanFilters,
-  });
-  if (!hasActiveFilters) {
+  if (constraints == null) {
     q = q.replace('<FILTER>', '# no filters');
   } else {
-    q = q.replace('<FILTER>', generateFilter({
+    q = q.replace('<FILTER>', generateConstraintsBlock({
       resultClass: resultClass,
       facetClass: facetClass,
-      uriFilters: uriFilters,
-      spatialFilters: spatialFilters,
-      textFilters: textFilters,
-      timespanFilters: timespanFilters,
+      constraints: constraints,
       filterTarget: 'manuscript__id',
       facetID: null}));
   }
