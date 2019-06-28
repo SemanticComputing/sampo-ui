@@ -13,19 +13,23 @@ export const runSelectQuery = async (query, endpoint, resultMapper, resultFormat
     'Content-Type': 'application/x-www-form-urlencoded',
     'Accept': MIMEtype
   };
+  const q = querystring.stringify({ query });
   try {
     const response = await axios({
       method: 'post',
       headers: headers,
       url: endpoint,
-      data: querystring.stringify({ query }),
+      data: q,
     });
     if (resultFormat === 'json') {
-      return resultMapper(response.data.results.bindings);
+      const mappedResults = resultMapper(response.data.results.bindings);
+      return {
+        data: mappedResults,
+        sparqlQuery: query
+      };
     } else {
       return response.data;
     }
-
   } catch(error) {
     if (error.response) {
     // The request was made and the server responded with a status code

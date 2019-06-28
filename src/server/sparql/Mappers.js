@@ -27,10 +27,7 @@ export const mapFacet = sparqlBindings => {
   if (sparqlBindings.length > 0) {
     results = mapFacetValues(sparqlBindings);
   }
-  return {
-    distinctValueCount: results.length,
-    values: results
-  };
+  return results;
 };
 
 export const mapHierarchicalFacet = sparqlBindings => {
@@ -44,11 +41,7 @@ export const mapHierarchicalFacet = sparqlBindings => {
   });
   treeData = recursiveSort(treeData);
   treeData.forEach(node => sumUpAndSelectChildren(node));
-  return {
-    distinctValueCount: results.length,
-    //flatValues: flatResults,
-    values: treeData
-  };
+  return treeData;
 };
 
 export const mapTimespanFacet = sparqlBindings => {

@@ -69,9 +69,7 @@ app.get(`${apiPath}/:resultClass/all`, async (req, res, next) => {
       variant: req.query.variant || null,
       resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
     });
-    res.json({
-      results: data
-    });
+    res.json(data);
   } catch(error) {
     next(error);
   }
@@ -79,12 +77,12 @@ app.get(`${apiPath}/:resultClass/all`, async (req, res, next) => {
 
 app.get(`${apiPath}/:resultClass/count`, async (req, res, next) => {
   try {
-    const count = await getResultCount({
+    const data = await getResultCount({
       resultClass: req.params.resultClass,
       constraints: req.query.constraints == null ? null : JSON.parse(req.query.constraints),
       resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
     });
-    res.json({ count });
+    res.json(data);
   } catch(error) {
     next(error);
   }
@@ -101,7 +99,7 @@ app.get(`${apiPath}/:resultClass/instance/:uri`, async (req, res, next) => {
       resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
     });
     // there is always one object in the 'data' array
-    res.json(data[0]);
+    res.json(data);
   } catch(error) {
     next(error);
   }

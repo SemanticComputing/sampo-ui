@@ -51,17 +51,17 @@ export const fetchResultsFailed = (resultClass, error, message) => ({
   type: FETCH_RESULTS_FAILED,
   resultClass, error, message
 });
-export const updateResultCount = ({ resultClass, count }) => ({
+export const updateResultCount = ({ resultClass, data, sparqlQuery }) => ({
   type: UPDATE_RESULT_COUNT,
-  resultClass, count
+  resultClass, data, sparqlQuery
 });
-export const updatePaginatedResults = ({ resultClass, data }) => ({
+export const updatePaginatedResults = ({ resultClass, page, pagesize, data, sparqlQuery }) => ({
   type: UPDATE_PAGINATED_RESULTS,
-  resultClass, data
+  resultClass, page, pagesize, data, sparqlQuery
 });
-export const updateResults = ({ resultClass, jenaIndex, query, data }) => ({
+export const updateResults = ({ resultClass, data, sparqlQuery }) => ({
   type: UPDATE_RESULTS,
-  resultClass, jenaIndex, query, data
+  resultClass, data, sparqlQuery
 });
 export const sortResults = (resultClass, sortBy) => ({
   type: SORT_RESULTS,
@@ -87,9 +87,9 @@ export const fetchByURIFailed = (resultClass, error, message) => ({
   type: FETCH_RESULTS_FAILED,
   resultClass, error, message
 });
-export const updateInstance = ({ resultClass, instance }) => ({
+export const updateInstance = ({ resultClass, data, sparqlQuery }) => ({
   type: UPDATE_INSTANCE,
-  resultClass, instance
+  resultClass, data, sparqlQuery
 });
 export const fetchFacet = ({ facetClass, facetID }) => ({
   type: FETCH_FACET,
@@ -99,9 +99,17 @@ export const fetchFacetFailed = (facetClass, id, error, message) => ({
   type: FETCH_FACET_FAILED,
   facetClass, id, error, message
 });
-export const updateFacetValues = ({ facetClass, id, distinctValueCount, values, flatValues, min, max }) => ({
+export const updateFacetValues = ({
+  facetClass,
+  id,
+  data,
+  flatValues,
+  min,
+  max,
+  sparqlQuery
+}) => ({
   type: UPDATE_FACET_VALUES,
-  facetClass, id, distinctValueCount, values, flatValues, min, max
+  facetClass, id, data, flatValues, min, max, sparqlQuery
 });
 export const updateFacetOption = ({ facetClass, facetID, option, value }) => ({
   type: UPDATE_FACET_OPTION,

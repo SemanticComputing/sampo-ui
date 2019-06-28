@@ -30,7 +30,7 @@ export const getPaginatedResults = async ({
   sortDirection,
   resultFormat
 }) => {
-  const data = await getPaginatedData({
+  const response = await getPaginatedData({
     resultClass,
     page,
     pagesize,
@@ -41,12 +41,14 @@ export const getPaginatedResults = async ({
   });
   if (resultFormat === 'json') {
     return {
-      pagesize: pagesize,
+      resultClass: resultClass,
       page: page,
-      results: data
+      pagesize: pagesize,
+      data: response.data,
+      sparqlQuery: response.sparqlQuery
     };
   } else {
-    return data;
+    return response;
   }
 };
 
@@ -100,7 +102,7 @@ export const getAllResults = ({
   return runSelectQuery(prefixes + q, endpoint, mapper, resultFormat);
 };
 
-export const getResultCount = ({
+export const getResultCount = async ({
   resultClass,
   constraints,
   resultFormat
@@ -118,7 +120,12 @@ export const getResultCount = ({
       facetID: null
     }));
   }
-  return runSelectQuery(prefixes + q, endpoint, mapCount, resultFormat);
+  const response = await runSelectQuery(prefixes + q, endpoint, mapCount, resultFormat);
+  return({
+    resultClass: resultClass,
+    data: response.data,
+    sparqlQuery: response.sparqlQuery
+  });
 };
 
 const getPaginatedData = ({
