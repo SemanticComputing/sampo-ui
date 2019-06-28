@@ -96,9 +96,6 @@ export const getAllResults = ({
       facetID: null
     }));
   }
-  // if (variant == 'actorPlaces') {
-  //   console.log(prefixes + q)
-  // }
   return runSelectQuery(prefixes + q, endpoint, mapper, resultFormat);
 };
 

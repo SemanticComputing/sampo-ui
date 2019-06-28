@@ -7,6 +7,7 @@ import LeafletMap from '../facet_results/LeafletMap';
 import Deck from '../facet_results/Deck';
 import Pie from '../facet_results/Pie';
 import Network from '../facet_results/Network';
+import Export from '../facet_results/Export';
 
 let Manuscripts = props => {
   return (
@@ -33,6 +34,11 @@ let Manuscripts = props => {
             label: 'migrations',
             value: 2,
             icon: 'Redo',
+          },
+          '/manuscripts/export': {
+            label: 'export',
+            value: 3,
+            icon: 'Download',
           },
           // '/manuscripts/network': {
           //   label: 'network',
@@ -104,6 +110,13 @@ let Manuscripts = props => {
             mapMode={'cluster'}
             variant='migrations'
             showInstanceCountInClusters={true}
+          />}
+      />
+      <Route
+        path={'/manuscripts/export'}
+        render={() =>
+          <Export
+            sparqlQuery={props.manuscripts.sparqlQuery}
           />}
       />
       <Route

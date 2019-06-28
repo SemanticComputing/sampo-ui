@@ -104,12 +104,10 @@ export const updateFacetValues = ({
   id,
   data,
   flatValues,
-  min,
-  max,
   sparqlQuery
 }) => ({
   type: UPDATE_FACET_VALUES,
-  facetClass, id, data, flatValues, min, max, sparqlQuery
+  facetClass, id, data, flatValues, sparqlQuery
 });
 export const updateFacetOption = ({ facetClass, facetID, option, value }) => ({
   type: UPDATE_FACET_OPTION,

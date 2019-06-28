@@ -102,11 +102,7 @@ export const getFacet = async ({
     q = q.replace('<START_PROPERTY>', facetConfig.startProperty);
     q = q.replace('<END_PROPERTY>', facetConfig.endProperty);
   }
-  // if (facetID == 'productionPlace') {
-  //   console.log(prefixes + q)
-  // }
   const response = await runSelectQuery(prefixes + q, endpoint, mapper, resultFormat);
-  console.log(response)
   return({
     facetClass: facetClass,
     id: facetID,

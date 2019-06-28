@@ -234,8 +234,6 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
         id: facetID,
         data: res.data || [],
         flatData: res.flatData || [],
-        min: res.min || null,
-        max: res.max || null,
         sparqlQuery: res.sparqlQuery
       })),
       catchError(error => of({

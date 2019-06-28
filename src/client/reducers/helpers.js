@@ -157,6 +157,7 @@ export const updatePaginatedResults = (state, action) => {
     ...state,
     resultsUpdateID: ++state.resultsUpdateID,
     paginatedResults: action.data || [],
+    sparqlQuery: action.sparqlQuery,
     fetching: false
   };
 };
@@ -196,14 +197,13 @@ export const updateFacetValues = (state, action) => {
         ...state.facets,
         [ action.id ]: {
           ...state.facets[action.id],
-          min: action.min || null,
-          max: action.max || null,
+          min: action.data.min || null,
+          max: action.data.max || null,
           isFetching: false
         }
       }
     };
   } else {
-    console.log(action)
     return {
       ...state,
       facets: {

@@ -38,6 +38,7 @@ export const INITIAL_STATE = {
   sortDirection: null,
   fetching: false,
   fetchingResultCount: false,
+  sparqlQuery: null,
   tableColumns: [
     {
       id: 'prefLabel',
