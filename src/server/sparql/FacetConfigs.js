@@ -120,6 +120,12 @@ export const facetConfigs = {
       type: 'list',
       labelPath: 'a/(skos:prefLabel|rdfs:label)',
     },
+    manuscript: {
+      labelPath: `(crm:P30_transferred_custody_of
+                  |crm:P108_has_produced
+                  |mmm-schema:observed_manuscript
+                  )/skos:prefLabel`
+    },
     eventTimespan: {
       id: 'eventTimespan',
       facetValueFilter: '',

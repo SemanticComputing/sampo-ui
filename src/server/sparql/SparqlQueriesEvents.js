@@ -17,4 +17,22 @@ export const eventProperties = `
       OPTIONAL { ?eventTimespan__id crm:P82a_begin_of_the_begin ?eventTimespan__start }
       OPTIONAL { ?eventTimespan__id crm:P82b_end_of_the_end ?eventTimespan__end }
     }
+    UNION
+    {
+      ?id crm:P30_transferred_custody_of ?manuscript__id .
+      ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
+      BIND(?manuscript__id AS ?manuscript__dataProviderUrl)
+    }
+    UNION
+    {
+      ?id mmm-schema:observed_manuscript ?manuscript__id .
+      ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
+      BIND(?manuscript__id AS ?manuscript__dataProviderUrl)
+    }
+    UNION
+    {
+      ?id crm:P108_has_produced ?manuscript__id .
+      ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
+      BIND(?manuscript__id AS ?manuscript__dataProviderUrl)
+    }
 `;

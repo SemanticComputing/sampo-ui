@@ -50,6 +50,16 @@ export const INITIAL_STATE = {
       minWidth: 200,
     },
     {
+      id: 'manuscript',
+      label: 'Manuscript / Collection',
+      desc: 'Manuscript / Collection description',
+      valueType: 'object',
+      makeLink: true,
+      sortValues: false,
+      numberedList: false,
+      minWidth: 200,
+    },
+    {
       id: 'eventTimespan',
       label: 'Date',
       desc: `
