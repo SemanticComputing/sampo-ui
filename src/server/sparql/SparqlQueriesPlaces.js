@@ -61,7 +61,7 @@ export const allPlacesQuery =  `
 `;
 
 export const placeQuery =  `
-  SELECT ?id ?prefLabel ?sameAs ?dataProviderUrl ?parent__id ?parent__prefLabel ?manuscript__id ?manuscript__dataProviderUrl
+  SELECT ?id ?prefLabel ?sameAs ?dataProviderUrl ?parent__id ?parent__prefLabel ?related__id ?related__prefLabel ?related__dataProviderUrl
   WHERE {
     BIND (<ID> AS ?id)
     OPTIONAL { ?id skos:prefLabel ?prefLabel_ }
@@ -72,10 +72,27 @@ export const placeQuery =  `
     }
     OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
     OPTIONAL { ?id owl:sameAs ?sameAs }
+    <RELATED_INSTANCES>
+  }
+`;
+
+export const manuscriptsProducedAt = `
     OPTIONAL {
       <FILTER>
-      ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?id .
-      BIND(?manuscript__id AS ?manuscript__dataProviderUrl)
+      ?related__id ^crm:P108_has_produced/crm:P7_took_place_at ?id .
+      BIND(?related__id AS ?related__dataProviderUrl)
     }
-  }
+`;
+
+export const actorsAt = `
+    OPTIONAL {
+      <FILTER>
+      { ?related__id crm:P98i_was_born/crm:P7_took_place_at ?id }
+      UNION
+      { ?related__id crm:P100i_died_in/crm:P7_took_place_at ?id }
+      UNION
+      { ?related__id mmm-schema:person_place ?id }
+      ?related__id skos:prefLabel ?related__prefLabel .
+      BIND(?related__id AS ?related__dataProviderUrl)
+    }
 `;

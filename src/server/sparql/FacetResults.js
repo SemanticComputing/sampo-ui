@@ -13,13 +13,17 @@ import {
   actorProperties,
   actorPlacesQuery,
 } from './SparqlQueriesActors';
-import { placeProperties, placeQuery, allPlacesQuery } from './SparqlQueriesPlaces';
+import {
+  placeProperties,
+  placeQuery,
+  manuscriptsProducedAt,
+  actorsAt,
+  allPlacesQuery,
+} from './SparqlQueriesPlaces';
 import { facetConfigs } from './FacetConfigs';
 import { mapCount, mapPlaces } from './Mappers';
 import { makeObjectList } from './SparqlObjectMapper';
-import {
-  generateConstraintsBlock,
-} from './Filters';
+import { generateConstraintsBlock } from './Filters';
 
 export const getPaginatedResults = async ({
   resultClass,
@@ -194,7 +198,7 @@ export const getByURI = ({
   resultClass,
   facetClass,
   constraints,
-  //variant,
+  variant,
   uri,
   resultFormat
 }) => {
@@ -204,6 +208,14 @@ export const getByURI = ({
       q = placeQuery;
       break;
   }
+  switch (variant) {
+    case 'productionPlaces':
+      q = q.replace('<RELATED_INSTANCES>', manuscriptsProducedAt);
+      break;
+    case 'actorPlaces':
+      q = q.replace('<RELATED_INSTANCES>', actorsAt);
+      break;
+  }
   if (constraints == null) {
     q = q.replace('<FILTER>', '# no filters');
   } else {
@@ -211,12 +223,9 @@ export const getByURI = ({
       resultClass: resultClass,
       facetClass: facetClass,
       constraints: constraints,
-      filterTarget: 'manuscript__id',
+      filterTarget: 'related__id',
       facetID: null}));
   }
   q = q.replace('<ID>', `<${uri}>`);
-  // if (variant === 'productionPlaces') {
-  //   console.log(prefixes + q)
-  // }
   return runSelectQuery(prefixes + q, endpoint, makeObjectList, resultFormat);
 };

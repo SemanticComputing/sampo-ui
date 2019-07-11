@@ -402,23 +402,27 @@ class LeafletMap extends React.Component {
     }
     if (this.props.variant === 'productionPlaces') {
       popUpTemplate += `<p>Manuscripts produced here:</p>`;
-      popUpTemplate += this.createManuscriptListing(result.manuscript);
+      popUpTemplate += this.createInstanceListing(result.related);
+    }
+    if (this.props.variant === 'actorPlaces') {
+      popUpTemplate += `<p>Actors:</p>`;
+      popUpTemplate += this.createInstanceListing(result.related);
     }
 
     return popUpTemplate;
   }
 
-  createManuscriptListing = manuscripts => {
+  createInstanceListing = instances => {
     let html = '';
-    if (Array.isArray(manuscripts)) {
-      manuscripts = orderBy(manuscripts, 'id');
+    if (Array.isArray(instances)) {
+      instances = orderBy(instances, 'prefLabel');
       html += '<ul>';
-      manuscripts.forEach(ms => {
-        html += '<li><a target="_blank" rel="noopener noreferrer" href=' + ms.dataProviderUrl + '>' + ms.dataProviderUrl + '</a></li>';
+      instances.forEach(i => {
+        html += '<li><a target="_blank" rel="noopener noreferrer" href=' + i.dataProviderUrl + '>' + i.prefLabel + '</a></li>';
       });
       html += '</ul>';
     } else {
-      html += '<p><a target="_blank" rel="noopener noreferrer" href=' + manuscripts.dataProviderUrl + '>' + manuscripts.dataProviderUrl + '</a></p>';
+      html += '<p><a target="_blank" rel="noopener noreferrer" href=' + instances.dataProviderUrl + '>' + instances.prefLabel + '</a></p>';
     }
     return html;
   }
