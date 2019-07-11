@@ -195,7 +195,8 @@ const fetchByURIEpic = (action$, state$) => action$.pipe(
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateInstance({
         resultClass: resultClass,
-        instance: response
+        data: response.data,
+        sparqlQuery: response.sparqlQuery
       })),
       catchError(error => of({
         type: FETCH_BY_URI_FAILED,

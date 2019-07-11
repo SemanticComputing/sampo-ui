@@ -91,21 +91,35 @@ export const actorProperties = `
 `;
 
 export const actorPlacesQuery = `
-  SELECT ?id ?lat ?long
+  SELECT ?id ?lat ?long ?instanceCount
   (SAMPLE(?prefLabel_) AS ?prefLabel)
-  (COUNT(DISTINCT ?actor) as ?instanceCount)
   WHERE {
     <FILTER>
-    ?actor crm:P98i_was_born/crm:P7_took_place_at
-          #|crm:P100i_died_in/crm:P7_took_place_at
-          # |mmm-schema:person_place
-          ?id .
+    {
+      SELECT ?id (COUNT(DISTINCT ?actor) as ?instanceCount) {
+        ?actor crm:P98i_was_born/crm:P7_took_place_at ?id .
+      }
+      GROUP BY ?id
+    }
+    UNION
+    {
+      SELECT ?id (COUNT(DISTINCT ?actor) as ?instanceCount) {
+        ?actor crm:P100i_died_in/crm:P7_took_place_at ?id .
+      }
+      GROUP BY ?id
+    }
+    UNION
+    {
+      SELECT ?id (COUNT(DISTINCT ?actor) as ?instanceCount) {
+        ?actor mmm-schema:person_place ?id .
+      }
+      GROUP BY ?id
+    }
     ?id skos:prefLabel ?prefLabel_ .
     OPTIONAL {
       ?id wgs84:lat ?lat ;
           wgs84:long ?long .
     }
-    FILTER(?id != <http://ldf.fi/mmm/places/tgn_7026519>)
   }
-  GROUP BY ?id ?lat ?long
+  GROUP BY ?id ?lat ?long ?instanceCount
 `;

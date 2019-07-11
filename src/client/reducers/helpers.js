@@ -24,7 +24,8 @@ export const fetchResultsFailed = state => {
 export const updateInstance = (state, action) => {
   return {
     ...state,
-    instance: action.instance,
+    instance: action.data[0], // data array has always 1 item
+    sparqlQuery: action.sparqlQuery,
     fetching: false
   };
 };

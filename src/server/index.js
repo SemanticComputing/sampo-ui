@@ -98,7 +98,6 @@ app.get(`${apiPath}/:resultClass/instance/:uri`, async (req, res, next) => {
       uri: req.params.uri,
       resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
     });
-    // there is always one object in the 'data' array
     res.json(data);
   } catch(error) {
     next(error);
