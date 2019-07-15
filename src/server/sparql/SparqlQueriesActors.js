@@ -91,35 +91,21 @@ export const actorProperties = `
 `;
 
 export const actorPlacesQuery = `
-  SELECT ?id ?lat ?long ?instanceCount
+  SELECT ?id ?lat ?long
+  (COUNT(DISTINCT ?actor) as ?instanceCount)
   (SAMPLE(?prefLabel_) AS ?prefLabel)
   WHERE {
     <FILTER>
-    {
-      SELECT ?id (COUNT(DISTINCT ?actor) as ?instanceCount) {
-        ?actor crm:P98i_was_born/crm:P7_took_place_at ?id .
-      }
-      GROUP BY ?id
-    }
+    { ?actor crm:P98i_was_born/crm:P7_took_place_at ?id }
     UNION
-    {
-      SELECT ?id (COUNT(DISTINCT ?actor) as ?instanceCount) {
-        ?actor crm:P100i_died_in/crm:P7_took_place_at ?id .
-      }
-      GROUP BY ?id
-    }
+    { ?actor crm:P100i_died_in/crm:P7_took_place_at ?id }
     UNION
-    {
-      SELECT ?id (COUNT(DISTINCT ?actor) as ?instanceCount) {
-        ?actor mmm-schema:person_place ?id .
-      }
-      GROUP BY ?id
-    }
+    { ?actor mmm-schema:person_place ?id }
     ?id skos:prefLabel ?prefLabel_ .
     OPTIONAL {
       ?id wgs84:lat ?lat ;
           wgs84:long ?long .
     }
   }
-  GROUP BY ?id ?lat ?long ?instanceCount
+  GROUP BY ?id ?lat ?long
 `;
