@@ -86,7 +86,7 @@ export const getAllResults = ({
       break;
     case 'actorPlaces':
       q = actorPlacesQuery;
-      filterTarget = null;
+      filterTarget = 'actor__id';
       mapper = mapPlaces;
       break;
   }
