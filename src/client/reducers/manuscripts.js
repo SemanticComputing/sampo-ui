@@ -117,19 +117,18 @@ export const INITIAL_STATE = {
     // //   sortValues: true
     // //   numberedList: false
     // // },
-    // {
-    //   id: 'event',
-    //   label: 'Event',
-    //   desc: `
-    //     Events related to the manuscript. Currently the are two main event
-    //     types: Transfer of custody (e.g. sale, gift, theft) and Observation.
-    //   `,
-    //   valueType: 'event',
-    //   makeLink: true,
-    //   sortValues: true,
-    //   numberedList: false,
-    //   minWidth: 250,
-    // },
+    {
+      id: 'event',
+      label: 'Event',
+      desc: `
+        Events related to the manuscript.
+      `,
+      valueType: 'object',
+      makeLink: true,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+    },
     {
       id: 'owner',
       label: 'Owner',

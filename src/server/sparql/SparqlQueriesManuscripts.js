@@ -58,6 +58,7 @@ export const manuscriptProperties =
     {
       ?event__id crm:P30_transferred_custody_of ?id .
       ?event__id a ?event__type .
+      OPTIONAL { ?event__id crm:P4_has_time-span/skos:prefLabel ?event__date }
       BIND("Transfer of Custody" AS ?event__prefLabel)
       BIND(?event__id AS ?event__dataProviderUrl)
     }
@@ -65,14 +66,19 @@ export const manuscriptProperties =
     {
       ?event__id mmm-schema:observed_manuscript ?id .
       ?event__id a mmm-schema:On_Sale . # not yet in MMM data
+      ?event__id a ?event__type .
+      OPTIONAL { ?event__id crm:P4_has_time-span/skos:prefLabel ?event__date }
       BIND("On Sale" AS ?event__prefLabel)
       BIND(?event__id AS ?event__dataProviderUrl)
     }
     UNION
     {
       ?event__id mmm-schema:observed_manuscript ?id .
+      ?event__id a crm:E7_Activity .
       ?event__id a ?event__type .
-      BIND("Provenance" AS ?event__prefLabel)
+      ?event__id mmm-schema:ownership_attributed_to/skos:prefLabel ?owner_prefLabel .
+      OPTIONAL { ?event__id crm:P4_has_time-span/skos:prefLabel ?event__date }
+      BIND("Owner: " + ?owner_prefLabel  AS ?event__prefLabel)
       BIND(?event__id AS ?event__dataProviderUrl)
     }`;
 
