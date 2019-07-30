@@ -80,6 +80,7 @@ export const manuscriptsProducedAt = `
     OPTIONAL {
       <FILTER>
       ?related__id ^crm:P108_has_produced/crm:P7_took_place_at ?id .
+      ?related__id skos:prefLabel ?related__prefLabel .
       BIND(?related__id AS ?related__dataProviderUrl)
     }
 `;
