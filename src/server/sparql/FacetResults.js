@@ -215,6 +215,11 @@ export const getByURI = ({
     case 'actorPlaces':
       q = q.replace('<RELATED_INSTANCES>', actorsAt);
       break;
+    case 'allPlaces':
+      q = q.replace('<RELATED_INSTANCES>', '');
+      break;
+    default:
+      q = q.replace('<RELATED_INSTANCES>', '');
   }
   if (constraints == null) {
     q = q.replace('<FILTER>', '# no filters');
