@@ -21,12 +21,72 @@ const styles = () => ({
 });
 
 const ObjectList = props => {
-  const { makeLink, sortValues, numberedList } = props;
+
+  const createBasicItem = (data, isArray) => {
+    const firstValue = data;
+    if (!props.makeLink) {
+      return (
+        <span>
+          {Array.isArray(firstValue.prefLabel) ?
+            firstValue.prefLabel[0]
+            : firstValue.prefLabel}
+          {isArray && '...'}
+        </span>
+      );
+    } else {
+      return (
+        <a
+          target='_blank' rel='noopener noreferrer'
+          href={firstValue.dataProviderUrl}
+        >
+          {Array.isArray(firstValue.prefLabel) ? firstValue.prefLabel[0] : firstValue.prefLabel}
+          {isArray && '...'}
+        </a>
+      );
+    }
+  };
+
+  const createBasicList = data => {
+    return data.map((item, i) =>
+      <li key={i}>
+        {props.makeLink &&
+          <a
+            target='_blank' rel='noopener noreferrer'
+            href={item.dataProviderUrl}
+          >
+            {Array.isArray(item.prefLabel) ? item.prefLabel[0] : item.prefLabel}
+          </a>
+        }
+        {!props.makeLink &&
+          <span>{Array.isArray(item.prefLabel) ? item.prefLabel[0] : item.prefLabel}</span>
+        }
+      </li>
+    );
+  };
+
+  const createEventList = data => {
+    return data.map((item, i) =>
+      <li key={i}>
+        {item.date == null ? <span className={props.classes.noDate}>No date</span> : item.date}
+        {' '}
+        <a
+          target='_blank' rel='noopener noreferrer'
+          href={item.dataProviderUrl}
+        >
+          {Array.isArray(item.prefLabel) ? item.prefLabel[0] : item.prefLabel}
+        </a>
+      </li>
+    );
+  };
+
+  const { sortValues } = props;
   let { data } = props;
-  if (data == null || data === '-'){
+  if (data == null || data === '-') {
     return '-';
   }
   else if (Array.isArray(data)) {
+    let listItems = null;
+    let firstValue = null;
     if (has(props, 'columnId') && props.columnId.endsWith('Timespan')) {
       data = sortValues
         ? data.sort((a,b) => {
@@ -36,65 +96,30 @@ const ObjectList = props => {
           return a > b ? 1 : a < b ? -1 : 0;
         })
         : data;
-    } else {
+      listItems = createBasicList(data);
+      firstValue = createBasicItem(data[0], true);
+    } else if (props.columnId === 'event') {
+      data = sortValues ? orderBy(data, 'date') : data;
+      listItems = createEventList(data);
+      firstValue = createBasicItem(data[0], true);
+    }
+    else {
       data = sortValues ? orderBy(data, 'prefLabel') : data;
+      listItems = createBasicList(data);
+      firstValue = createBasicItem(data[0], true);
     }
-    const firstValue = data[0];
-    const listItems = data.map((item, i) =>
-      <li key={i}>
-        {makeLink &&
-          <a
-            target='_blank' rel='noopener noreferrer'
-            href={item.dataProviderUrl}
-          >
-            {Array.isArray(item.prefLabel) ? item.prefLabel[0] : item.prefLabel}
-          </a>
-        }
-        {!makeLink &&
-          <span>{Array.isArray(item.prefLabel) ? item.prefLabel[0] : item.prefLabel}</span>
-        }
-      </li>
-    );
-    if (numberedList) {
-      return (
-        <ol className={props.classes.valueList}>
-          {listItems}
-        </ol>
-      );
-    } else {
-      return (
-        <React.Fragment>
-          {!props.expanded && !makeLink &&
-            <span>{Array.isArray(firstValue.prefLabel) ? firstValue.prefLabel[0] : firstValue.prefLabel} ...</span>}
-          {!props.expanded && makeLink &&
-            <a
-              target='_blank' rel='noopener noreferrer'
-              href={firstValue.dataProviderUrl}
-            >
-              {Array.isArray(firstValue.prefLabel) ? firstValue.prefLabel[0] : firstValue.prefLabel} ...
-            </a>
-          }
-          <Collapse in={props.expanded} timeout="auto" unmountOnExit>
-            <ul className={props.classes.valueList}>
-              {listItems}
-            </ul>
-          </Collapse>
-        </React.Fragment>
-      );
-    }
-  } else if (makeLink) {
     return (
-      <a
-        target='_blank' rel='noopener noreferrer'
-        href={data.dataProviderUrl}
-      >
-        {Array.isArray(data.prefLabel) ? data.prefLabel[0] : data.prefLabel}
-      </a>
+      <React.Fragment>
+        {!props.expanded && firstValue}
+        <Collapse in={props.expanded} timeout="auto" unmountOnExit>
+          <ul className={props.classes.valueList}>
+            {listItems}
+          </ul>
+        </Collapse>
+      </React.Fragment>
     );
   } else {
-    return (
-      <span>{Array.isArray(data.prefLabel) ? data.prefLabel[0] : data.prefLabel}</span>
-    );
+    return createBasicItem(data, false);
   }
 };
 
