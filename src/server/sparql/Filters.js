@@ -35,16 +35,18 @@ export const generateConstraintsBlock = ({
   facetID,
   inverse,
 }) => {
-  delete constraints[facetID]; // use only constraints from other facets
+  //delete constraints[facetID];
   let filterStr = '';
   let constraintsArr = [];
   for (const [key, value] of Object.entries(constraints)) {
-    constraintsArr.push({
-      id: key,
-      filterType: value.filterType,
-      priority: value.priority,
-      values: value.values,
-    });
+    if (key !== facetID) { // use only constraints from other facets
+      constraintsArr.push({
+        id: key,
+        filterType: value.filterType,
+        priority: value.priority,
+        values: value.values,
+      });
+    }
   }
   constraintsArr.sort((a, b) => a.priority - b.priority);
   constraintsArr.map(c => {
