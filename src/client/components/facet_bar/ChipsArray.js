@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = theme => ({
   root: {
@@ -16,13 +17,15 @@ const styles = theme => ({
 
 class ChipsArray extends React.Component {
 
-  handleDelete = data => () => {
-    this.props.updateFacetOption({
-      facetClass: this.props.facetClass,
-      facetID: data.facetID,
-      option: data.filterType,
-      value: data.value  // a react sortable tree object
-    });
+  handleDelete = item => () => {
+    if (item.filterType === 'uriFilter') {
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: item.facetID,
+        option: item.filterType,
+        value: item.value
+      });
+    }
   };
 
   generateLabel = (facetLabel, valueLabel, filterType) => {
@@ -63,12 +66,17 @@ class ChipsArray extends React.Component {
               ${this.ISOStringToYear(item.value.end)}`;
           }
           return (
-            <Chip
-              key={key}
-              icon={icon}
-              label={this.generateLabel(item.facetLabel, valueLabel, item.filterType)}
-              className={classes.chip}
-            />
+            <Tooltip key={key} title={`${item.facetLabel}: ${valueLabel}`}>
+              <Chip
+                key={key}
+                icon={icon}
+                label={this.generateLabel(item.facetLabel, valueLabel, item.filterType)}
+                className={classes.chip}
+                onDelete={this.handleDelete(item)}
+                color="primary"
+              />
+            </Tooltip>
+
           );
         })}
       </div>
