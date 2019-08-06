@@ -104,7 +104,15 @@ export const facetConfigs = {
     },
     manuscript: {
       labelPath: '^mmm-schema:manuscript_work/skos:prefLabel'
-    }
+    },
+    language: {
+      id: 'language',
+      facetValueFilter: '',
+      label: 'Language',
+      labelPath: '^frbroo:R19_created_a_realisation_of/frbroo:R17_created/crm:P72_has_language/skos:prefLabel',
+      predicate: '^frbroo:R19_created_a_realisation_of/frbroo:R17_created/crm:P72_has_language',
+      type: 'list',
+    },
   },
   events: {
     facetClass: 'crm:E10_Transfer_of_Custody crm:E12_Production crm:E7_Activity',

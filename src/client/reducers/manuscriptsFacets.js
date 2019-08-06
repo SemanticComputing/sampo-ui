@@ -94,7 +94,7 @@ export const INITIAL_STATE = {
       priority: 2
     },
     language: {
-      id: 'owner',
+      id: 'language',
       label: 'Language',
       // predicate: defined in backend
       distinctValueCount: 0,

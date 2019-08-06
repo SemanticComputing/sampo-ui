@@ -22,4 +22,11 @@ export const workProperties = `
       ?author__id skos:prefLabel ?author__prefLabel .
       BIND(?author__id AS ?author__dataProviderUrl)
     }
+    UNION
+    {
+      ?id ^frbroo:R19_created_a_realisation_of/frbroo:R17_created ?expression .
+      ?expression crm:P72_has_language ?language__id .
+      ?language__id skos:prefLabel ?language__prefLabel .
+      BIND(?language__id as ?language__dataProviderUrl)
+    }
 `;

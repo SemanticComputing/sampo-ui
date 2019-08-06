@@ -65,7 +65,20 @@ export const INITIAL_STATE = {
       valueType: 'object',
       makeLink: true,
       sortValues: true,
-      numberedList: false
+      numberedList: false,
+      minWidth: 150,
+    },
+    {
+      id: 'language',
+      label: 'Language',
+      desc: `
+        The language(s) of expression(s) of the work
+      `,
+      valueType: 'object',
+      makeLink: true,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150,
     },
     {
       id: 'source',
