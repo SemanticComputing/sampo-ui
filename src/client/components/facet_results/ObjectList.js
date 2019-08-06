@@ -24,9 +24,12 @@ const ObjectList = props => {
 
   const createBasicItem = (data, isArray) => {
     const firstValue = data;
+    const showDate = props.columnId === 'event';
     if (!props.makeLink) {
       return (
         <span>
+          {showDate && firstValue.date == null ? <span className={props.classes.noDate}>No date</span> : firstValue.date}
+          {showDate && ' '}
           {Array.isArray(firstValue.prefLabel) ?
             firstValue.prefLabel[0]
             : firstValue.prefLabel}
@@ -35,13 +38,19 @@ const ObjectList = props => {
       );
     } else {
       return (
-        <a
-          target='_blank' rel='noopener noreferrer'
-          href={firstValue.dataProviderUrl}
-        >
-          {Array.isArray(firstValue.prefLabel) ? firstValue.prefLabel[0] : firstValue.prefLabel}
-          {isArray && '...'}
-        </a>
+        <React.Fragment>
+          <React.Fragment>
+            {showDate && firstValue.date == null ? <span className={props.classes.noDate}>No date</span> : firstValue.date}
+            {showDate && ' '}
+          </React.Fragment>
+          <a
+            target='_blank' rel='noopener noreferrer'
+            href={firstValue.dataProviderUrl}
+          >
+            {Array.isArray(firstValue.prefLabel) ? firstValue.prefLabel[0] : firstValue.prefLabel}
+            {isArray && '...'}
+          </a>
+        </React.Fragment>
       );
     }
   };
@@ -78,6 +87,12 @@ const ObjectList = props => {
       </li>
     );
   };
+
+  // old code, sorting owners:
+  // cell.map(item => {
+  //   Array.isArray(item.order) ? item.earliestOrder = item.order[0] : item.earliestOrder = item.order;
+  // });
+  // cell.sort((a, b) => a.earliestOrder - b.earliestOrder);
 
   const { sortValues } = props;
   let { data } = props;
@@ -130,7 +145,7 @@ ObjectList.propTypes = {
   sortValues: PropTypes.bool.isRequired,
   numberedList: PropTypes.bool.isRequired,
   expanded: PropTypes.bool.isRequired,
-  columnId: PropTypes.string
+  columnId: PropTypes.string.isRequired
 } ;
 
 export default withStyles(styles)(ObjectList);

@@ -106,7 +106,7 @@ export const INITIAL_STATE = {
       makeLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 250,
+      minWidth: 280,
     },
     {
       id: 'language',
@@ -136,7 +136,7 @@ export const INITIAL_STATE = {
       desc: `
         Former or current owners (individual or institutional).
       `,
-      valueType: 'owner',
+      valueType: 'object',
       makeLink: true,
       sortValues: true,
       numberedList: false,

@@ -38,115 +38,12 @@ const ResultTableCell = props => {
     }
   };
 
-  // const eventRenderer = cell => {
-  //   if (cell == null || cell === '-'){
-  //     return '-';
-  //   }
-  //   if (Array.isArray(cell)) {
-  //     cell = orderBy(cell, 'date');
-  //     const items = cell.map((item, i) => {
-  //       // TODO: remove when this is fixed in data
-  //       if (Array.isArray(item.prefLabel)) {
-  //         item.prefLabel = 'Transfer of Custody';
-  //       }
-  //       return (
-  //         <li key={i}>
-  //           {item.date == null ? <span className={props.classes.noDate}>No date</span> : item.date}
-  //           {' '}
-  //           <a
-  //             target='_blank' rel='noopener noreferrer'
-  //             href={item.dataProviderUrl}
-  //           >
-  //             {item.prefLabel}
-  //           </a>
-  //         </li>
-  //       );
-  //     });
-  //     return (
-  //       <ul className={props.classes.valueList}>
-  //         {items}
-  //       </ul>
-  //     );
-  //   } else {
-  //     // TODO: remove when this is fixed in data
-  //     if (Array.isArray(cell.prefLabel)) {
-  //       cell.prefLabel = 'Transfer of Custody';
-  //     }
-  //     return (
-  //       <span>
-  //         {cell.date == null ? <span className={props.classes.noDate}>No date</span> : cell.date}
-  //         {' '}
-  //         <a
-  //           target='_blank' rel='noopener noreferrer'
-  //           href={cell.dataProviderUrl}
-  //         >
-  //           {cell.prefLabel}
-  //         </a>
-  //       </span>
-  //     );
-  //   }
-  // };
-
-  const ownerRenderer = (cell, makeLink, sortValues, numberedList, expanded) => {
-    if (cell == null || cell === '-'){
-      return '-';
-    }
-    if (Array.isArray(cell)) {
-      if (!has(cell[0], 'order')) {
-        return <ObjectList
-          data={cell}
-          makeLink={makeLink}
-          sortValues={sortValues}
-          numberedList={numberedList}
-          expanded={expanded}
-        />;
-      }
-      cell.map(item => {
-        Array.isArray(item.order) ? item.earliestOrder = item.order[0] : item.earliestOrder = item.order;
-      });
-      cell.sort((a, b) => a.earliestOrder - b.earliestOrder);
-
-      const items = cell.map((item, i) => {
-        return (
-          <li key={i}>
-            <span>{Array.isArray(item.order) ? item.order.toString() : item.order}. </span>
-            <a
-              target='_blank' rel='noopener noreferrer'
-              href={item.dataProviderUrl}
-            >
-              {item.prefLabel}
-            </a>
-          </li>
-        );
-      });
-      return (
-        <ul className={props.classes.valueListNoBullets}>
-          {items}
-        </ul>
-      );
-    } else {
-      if (!has(cell, 'order')) {
-        <ObjectList
-          data={cell}
-          makeLink={makeLink}
-          sortValues={sortValues}
-          numberedList={numberedList}
-          expanded={expanded}
-        />;
-      }
-      return (
-        <span>{cell.date}<br />{cell.location}</span>
-      );
-    }
-  };
-
   const { data, valueType, makeLink, sortValues, numberedList, minWidth,
     container, columnId, expanded } = props;
   let cellContent = null;
   let cellStyle = minWidth == null ? {} : { minWidth: minWidth };
   switch (valueType) {
     case 'object':
-    case 'event':
       cellContent =
         <ObjectList
           data={data}
@@ -159,9 +56,6 @@ const ResultTableCell = props => {
       break;
     case 'string':
       cellContent = stringListRenderer(data);
-      break;
-    case 'owner':
-      cellContent = ownerRenderer(data, makeLink, sortValues, numberedList, expanded);
       break;
   }
   if (container === 'div') {
