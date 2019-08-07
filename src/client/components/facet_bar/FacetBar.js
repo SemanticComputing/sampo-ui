@@ -192,6 +192,7 @@ class FacetBar extends React.Component {
             fetchingResultCount={this.props.fetchingResultCount}
             updateFacetOption={this.props.updateFacetOption}
             fetchResultCount={this.props.fetchResultCount}
+            someFacetIsFetching={someFacetIsFetching}
           />
         </Paper>
         {Object.keys(facets).map(facetID => this.renderFacet(facetID, someFacetIsFetching))}

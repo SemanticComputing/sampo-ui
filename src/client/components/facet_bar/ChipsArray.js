@@ -18,13 +18,15 @@ const styles = theme => ({
 class ChipsArray extends React.Component {
 
   handleDelete = item => () => {
-    if (item.filterType === 'uriFilter') {
-      this.props.updateFacetOption({
-        facetClass: this.props.facetClass,
-        facetID: item.facetID,
-        option: item.filterType,
-        value: item.value
-      });
+    if (!this.props.someFacetIsFetching) {
+      if (item.filterType === 'uriFilter') {
+        this.props.updateFacetOption({
+          facetClass: this.props.facetClass,
+          facetID: item.facetID,
+          option: item.filterType,
+          value: item.value
+        });
+      }
     }
   };
 
@@ -88,7 +90,8 @@ ChipsArray.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
   facetClass: PropTypes.string.isRequired,
-  updateFacetOption: PropTypes.func.isRequired
+  updateFacetOption: PropTypes.func.isRequired,
+  someFacetIsFetching: PropTypes.bool.isRequired
 };
 
 export default withStyles(styles)(ChipsArray);
