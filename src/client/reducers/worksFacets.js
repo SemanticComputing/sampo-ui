@@ -32,7 +32,7 @@ export const INITIAL_STATE = {
       containerClass: 'one',
       filterType: 'textFilter',
       textFilter: null,
-      priority: 2
+      priority: 1
     },
     author: {
       id: 'author',
@@ -50,7 +50,7 @@ export const INITIAL_STATE = {
       containerClass: 'ten',
       filterType: 'uriFilter',
       uriFilter: null,
-      priority: 1
+      priority: 2
     },
     language: {
       id: 'language',

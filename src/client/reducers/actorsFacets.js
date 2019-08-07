@@ -32,6 +32,7 @@ export const INITIAL_STATE = {
       containerClass: 'one',
       filterType: 'textFilter',
       textFilter: null,
+      priority: 1
     },
     type: {
       id: 'type',
@@ -49,7 +50,8 @@ export const INITIAL_STATE = {
       containerClass: 'three',
       filterType: 'uriFilter',
       uriFilter: null,
-      spatialFilter: null
+      spatialFilter: null,
+      priority: 6
     },
     birthPlace: {
       id: 'birthPlace',
@@ -67,7 +69,8 @@ export const INITIAL_STATE = {
       containerClass: 'ten',
       filterType: 'uriFilter',
       uriFilter: null,
-      type: 'hierarchical'
+      type: 'hierarchical',
+      priority: 3
     },
     birthDateTimespan: {
       id: 'birthDateTimespan',
@@ -87,7 +90,8 @@ export const INITIAL_STATE = {
       min: null,
       max: null,
       timespanFilter: null,
-      type: 'timespan'
+      type: 'timespan',
+      priority: 4
     },
     deathDateTimespan: {
       id: 'deathDateTimespan',
@@ -107,7 +111,8 @@ export const INITIAL_STATE = {
       min: null,
       max: null,
       timespanFilter: null,
-      type: 'timespan'
+      type: 'timespan',
+      priority: 5
     },
     place: {
       id: 'place',
@@ -125,7 +130,8 @@ export const INITIAL_STATE = {
       containerClass: 'ten',
       filterType: 'uriFilter',
       uriFilter: null,
-      type: 'hierarchical'
+      type: 'hierarchical',
+      priority: 2
 
     },
     source: {
@@ -143,7 +149,8 @@ export const INITIAL_STATE = {
       searchField: false,
       containerClass: 'five',
       filterType: 'uriFilter',
-      uriFilter: null
+      uriFilter: null,
+      priority: 7
     },
   }
 };
