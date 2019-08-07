@@ -113,9 +113,9 @@ class Deck extends React.Component {
     return arr;
   }
 
-  setTooltip(object) {
-    this.setState({tooltip: object});
-  }
+  // setTooltip(object) {
+  //   this.setState({tooltip: object});
+  // }
 
   setDialog(info) {
     this.setState({
@@ -198,13 +198,12 @@ class Deck extends React.Component {
      id: 'arc-layer',
      data: arcData,
      pickable: true,
-     //getStrokeWidth: d => this.getStrokeWidth(d.manuscriptCount),
-     getStrokeWidth: 1,
+     getWidth: 1.5,
      getSourceColor: [0, 0, 255, 255],
      getTargetColor: [255, 0, 0, 255],
      getSourcePosition: d => this.parseCoordinates(d.from),
      getTargetPosition: d => this.parseCoordinates(d.to),
-     onHover: info => this.setTooltip(info),
+     //onHover: info => this.setTooltip(info),
      onClick: info => this.setDialog(info),
    });
    // https://www.mapbox.com/mapbox-gl-js/api#map
