@@ -118,6 +118,7 @@ class HierarchicalFacet extends Component {
       }
       // else fetch new values, because some other facet was updated
       else {
+        // console.log(`fetching new values for ${this.props.facetID}`)
         this.props.fetchFacet({
           facetClass: this.props.facetClass,
           facetID: this.props.facetID,
