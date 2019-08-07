@@ -116,13 +116,20 @@ const updateFacetFilter = (state, action) => {
       textFilter: value
     };
   } else if (oldFacet.filterType === 'timespanFilter') {
-    newFacet = {
-      ...state.facets[facetID],
-      timespanFilter: {
-        start: value[0],
-        end: value[1]
-      }
-    };
+    if (value == null) {
+      newFacet = {
+        ...state.facets[facetID],
+        timespanFilter: null
+      };
+    } else {
+      newFacet = {
+        ...state.facets[facetID],
+        timespanFilter: {
+          start: value[0],
+          end: value[1]
+        }
+      };
+    }
   }
   return {
     ...state,

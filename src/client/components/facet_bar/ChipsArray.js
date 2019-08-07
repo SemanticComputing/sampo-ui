@@ -19,13 +19,35 @@ class ChipsArray extends React.Component {
 
   handleDelete = item => () => {
     if (!this.props.someFacetIsFetching) {
-      if (item.filterType === 'uriFilter') {
-        this.props.updateFacetOption({
-          facetClass: this.props.facetClass,
-          facetID: item.facetID,
-          option: item.filterType,
-          value: item.value
-        });
+      switch(item.filterType) {
+        case 'uriFilter':
+          this.props.updateFacetOption({
+            facetClass: this.props.facetClass,
+            facetID: item.facetID,
+            option: item.filterType,
+            value: item.value
+          });
+          break;
+        case 'textFilter':
+          this.props.updateFacetOption({
+            facetClass: this.props.facetClass,
+            facetID: item.facetID,
+            option: item.filterType,
+            value: null
+          });
+          break;
+        case 'timespanFilter': {    
+          this.props.updateFacetOption({
+            facetClass: this.props.facetClass,
+            facetID: item.facetID,
+            option: item.filterType,
+            value: null
+          });
+          this.props.fetchFacet({
+            facetClass: this.props.facetClass,
+            facetID: item.facetID,
+          });
+        }
       }
     }
   };
@@ -91,7 +113,8 @@ ChipsArray.propTypes = {
   data: PropTypes.array.isRequired,
   facetClass: PropTypes.string.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
-  someFacetIsFetching: PropTypes.bool.isRequired
+  someFacetIsFetching: PropTypes.bool.isRequired,
+  fetchFacet: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(ChipsArray);

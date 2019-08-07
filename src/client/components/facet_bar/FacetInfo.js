@@ -91,6 +91,7 @@ class FacetInfo extends React.Component {
                 timespanFilters={timespanFilters}
                 updateFacetOption={this.props.updateFacetOption}
                 someFacetIsFetching={someFacetIsFetching}
+                fetchFacet={this.props.fetchFacet}
               />
             </div>
             <Divider className={classes.facetInfoDivider} />
@@ -112,7 +113,8 @@ FacetInfo.propTypes = {
   fetchingResultCount: PropTypes.bool.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
   fetchResultCount: PropTypes.func.isRequired,
-  someFacetIsFetching: PropTypes.bool.isRequired
+  someFacetIsFetching: PropTypes.bool.isRequired,
+  fetchFacet: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(FacetInfo);

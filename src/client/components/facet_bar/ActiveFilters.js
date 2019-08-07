@@ -37,6 +37,7 @@ const ActiveFilters = props => {
       facetClass={props.facetClass}
       updateFacetOption={props.updateFacetOption}
       someFacetIsFetching={someFacetIsFetching}
+      fetchFacet={props.fetchFacet}
     />
   );
 };
@@ -49,7 +50,8 @@ ActiveFilters.propTypes = {
   textFilters: PropTypes.object.isRequired,
   timespanFilters: PropTypes.object.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
-  someFacetIsFetching: PropTypes.bool.isRequired
+  someFacetIsFetching: PropTypes.bool.isRequired,
+  fetchFacet: PropTypes.func.isRequired
 };
 
 export default ActiveFilters;
