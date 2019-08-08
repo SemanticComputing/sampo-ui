@@ -160,9 +160,10 @@ const fetchResultsClientSideEpic = (action$, state$) => action$.pipe(
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResults({
         resultClass: 'all',
-        jenaIndex: action.jenaIndex,
+        data: response.data,
+        sparqlQuery: response.sparqlQuery,
         query: action.query,
-        data: response
+        jenaIndex: action.jenaIndex
       })),
       catchError(error => of({
         type: FETCH_RESULTS_FAILED,

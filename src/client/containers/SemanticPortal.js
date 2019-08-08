@@ -295,12 +295,10 @@ let SemanticPortal = (props) => {
 
                   </Grid>
                   <Grid item xs={12} md={9} className={classes.resultsContainer}>
-                    <Paper className={classes.resultsContainerPaper}>
-                      <All
-                        clientSideFacetedSearch={props.clientSideFacetedSearch}
-                        routeProps={routeProps}
-                      />
-                    </Paper>
+                    <All
+                      clientSideFacetedSearch={props.clientSideFacetedSearch}
+                      routeProps={routeProps}
+                    />
                   </Grid>
                 </React.Fragment>
               }

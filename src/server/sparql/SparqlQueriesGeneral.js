@@ -20,13 +20,16 @@ export const jenaQuery = `
     BIND(STR(?type__prefLabel_) AS ?type__prefLabel)  # ignore language tags
     OPTIONAL {
       ?id dct:source ?source__id .
-      OPTIONAL { ?source__id skos:prefLabel ?source__prefLabel_ }
-      BIND(COALESCE(?source__prefLabel_, ?source__id) as ?source__prefLabel)
+      BIND(?source__id AS ?source__prefLabel)
+
+      # this used to work but now its painfully slow:
+      #OPTIONAL { ?source__id skos:prefLabel ?source__prefLabel_ }
+      #BIND(COALESCE(?source__prefLabel_, ?source__id) as ?source__prefLabel)
     }
     OPTIONAL {
       ?id mmm-schema:data_provider_url ?dataProviderUrl
     }
-    FILTER(?type__id != frbroo:F27_Work_Conception)
+    #FILTER(?type__id != frbroo:F27_Work_Conception)
   }
 `;
 

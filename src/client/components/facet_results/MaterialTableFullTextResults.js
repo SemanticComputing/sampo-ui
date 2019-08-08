@@ -10,6 +10,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
+import Paper from '@material-ui/core/Paper';
 import { has } from 'lodash';
 
 const styles = () => ({
@@ -24,14 +25,15 @@ const styles = () => ({
 
 class MaterialTableFullTextResults extends React.Component {
 
+
   render() {
-    let resultText = this.props.data.length == 1 ? 'result' : 'results';
-    //console.log(this.props.data)
+    const results  = this.props.data;
+    let resultText = results == 1 ? 'result' : 'results';
     if (this.props.fetching) {
       return (
-        <div className={this.props.classes.progressContainer}>
+        <Paper className={this.props.classes.progressContainer}>
           <CircularProgress style={{ color: purple[500] }} thickness={5} />
-        </div>
+        </Paper>
       );
     } else {
       return (
@@ -71,9 +73,9 @@ class MaterialTableFullTextResults extends React.Component {
                 }
               },
             ]}
-            data={this.props.data}
-            title={this.props.data.length > 1 ?
-              `Search term: "${this.props.query}", ${this.props.data.length} ${resultText}` :
+            data={results}
+            title={results > 1 ?
+              `Search term: "${this.props.query}", ${results.length} ${resultText}` :
               ''
             }
             icons={{

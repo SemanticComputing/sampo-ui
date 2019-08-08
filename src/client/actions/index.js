@@ -59,9 +59,9 @@ export const updatePaginatedResults = ({ resultClass, page, pagesize, data, spar
   type: UPDATE_PAGINATED_RESULTS,
   resultClass, page, pagesize, data, sparqlQuery
 });
-export const updateResults = ({ resultClass, data, sparqlQuery }) => ({
+export const updateResults = ({ resultClass, data, sparqlQuery, query, jenaIndex }) => ({
   type: UPDATE_RESULTS,
-  resultClass, data, sparqlQuery
+  resultClass, data, sparqlQuery, query, jenaIndex
 });
 export const sortResults = (resultClass, sortBy) => ({
   type: SORT_RESULTS,
