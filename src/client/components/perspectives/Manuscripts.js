@@ -8,6 +8,7 @@ import Deck from '../facet_results/Deck';
 import Pie from '../facet_results/Pie';
 import Network from '../facet_results/Network';
 import Export from '../facet_results/Export';
+import InstanceHomePage from '../main_layout/InstanceHomePage';
 
 let Manuscripts = props => {
   return (
@@ -15,12 +16,12 @@ let Manuscripts = props => {
       <PerspectiveTabs
         routeProps={props.routeProps}
         tabs={{
-          '/manuscripts/table': {
+          '/manuscripts/faceted-search/table': {
             label: 'table',
             value: 0,
             icon: 'CalendarViewDay',
           },
-          '/manuscripts/production_places': {
+          '/manuscripts/faceted-search/production_places': {
             label: 'production places',
             value: 1,
             icon: 'AddLocation',
@@ -30,12 +31,12 @@ let Manuscripts = props => {
           //   value: 2,
           //   icon: 'AddLocation',
           // },
-          '/manuscripts/migrations': {
+          '/manuscripts/faceted-search/migrations': {
             label: 'migrations',
             value: 2,
             icon: 'Redo',
           },
-          '/manuscripts/export': {
+          '/manuscripts/faceted-search/export': {
             label: 'export',
             value: 3,
             icon: 'Download',
@@ -48,11 +49,11 @@ let Manuscripts = props => {
         }}
       />
       <Route
-        exact path='/manuscripts'
-        render={() => <Redirect to='manuscripts/table' />}
+        exact path='/manuscripts/faceted-search'
+        render={() => <Redirect to='/manuscripts/faceted-search/table' />}
       />
       <Route
-        path={'/manuscripts/table'}
+        path={'/manuscripts/faceted-search/table'}
         render={routeProps =>
           <ResultTable
             data={props.manuscripts}
@@ -68,7 +69,7 @@ let Manuscripts = props => {
         }
       />
       <Route
-        path={'/manuscripts/production_places'}
+        path={'/manuscripts/faceted-search/production_places'}
         render={() =>
           <LeafletMap
             results={props.places.results}
@@ -88,7 +89,7 @@ let Manuscripts = props => {
           />}
       />
       <Route
-        path={'/manuscripts/statistics'}
+        path={'/manuscripts/faceted-search/statistics'}
         render={() =>
           <Pie
             data={props.places.results}
@@ -96,7 +97,7 @@ let Manuscripts = props => {
           />}
       />
       <Route
-        path={'/manuscripts/migrations'}
+        path={'/manuscripts/faceted-search/migrations'}
         render={() =>
           <Deck
             results={props.places.results}
@@ -113,14 +114,14 @@ let Manuscripts = props => {
           />}
       />
       <Route
-        path={'/manuscripts/export'}
+        path={'/manuscripts/faceted-search/export'}
         render={() =>
           <Export
             sparqlQuery={props.manuscripts.sparqlQuery}
           />}
       />
       <Route
-        path={'/manuscripts/network'}
+        path={'/manuscripts/faceted-search/network'}
         render={() =>
           <Network
 

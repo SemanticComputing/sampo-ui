@@ -88,7 +88,7 @@ class TopBar extends React.Component {
           <MenuItem
             key={perspective}
             component={AdapterLink}
-            to={`/${perspective}`}
+            to={`/${perspective}/faceted-search`}
           >
             {perspective.toUpperCase()}
           </MenuItem>
@@ -122,7 +122,7 @@ class TopBar extends React.Component {
                   key={perspective}
                   className={classes.appBarButton}
                   component={AdapterNavLink}
-                  to={`/${perspective}`}
+                  to={`/${perspective}/faceted-search`}
                   isActive={(match, location) => location.pathname.startsWith(`/${perspective}`)}
                   activeClassName={classes.appBarButtonActive}
                 >

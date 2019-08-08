@@ -74,7 +74,12 @@ class PerspectiveTabs extends React.Component {
           variant="fullWidth"
         >
           {Object.keys(tabs).map(key =>
-            <Tab key={key} icon={this.renderIcon(tabs[key].icon)} label={tabs[key].label} component={Link} to={key} />
+            <Tab key={key}
+              icon={this.renderIcon(tabs[key].icon)}
+              label={tabs[key].label}
+              component={Link}
+              to={key}
+            />
           )}
         </Tabs>
       </Paper>

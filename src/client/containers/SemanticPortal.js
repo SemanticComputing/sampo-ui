@@ -7,7 +7,6 @@ import { withRouter } from 'react-router-dom';
 import compose from 'recompose/compose';
 import { Route } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import TopBar from '../components/main_layout/TopBar';
 import Main from '../components/main_layout/Main';
 import Footer from '../components/main_layout/Footer';
@@ -19,6 +18,7 @@ import Events from '../components/perspectives/Events';
 import Places from '../components//perspectives/Places';
 import Actors from '../components//perspectives/Actors';
 import All from '../components/perspectives/All';
+import InstanceHomePage from '../components/main_layout/InstanceHomePage';
 import {
   fetchResultCount,
   fetchPaginatedResults,
@@ -88,6 +88,55 @@ const styles = theme => ({
 
 let SemanticPortal = (props) => {
   const { classes, /* browser */ error } = props;
+  const perspectives = [
+    {
+      id: 'manuscripts',
+      label: 'Manuscripts',
+      desc: 'Physical manuscript objects.'
+    },
+    {
+      id: 'works',
+      label: 'Works',
+      desc: 'Intellectual content carried out by manuscripts.'
+    },
+    {
+      id: 'events',
+      label: 'Events',
+      desc: 'Events related to manuscripts.'
+    },
+    {
+      id: 'actors',
+      label: 'Actors',
+      desc: 'People and institutions related to manuscripts and works.'
+    },
+    {
+      id: 'places',
+      label: 'Places',
+      desc: 'Places related to manuscripts and works.'
+    },
+  ];
+
+  const renderPerspective = (perspective, routeProps) => {
+    switch(perspective) {
+      case 'manuscripts':
+        return(
+          <Manuscripts
+            manuscripts={props.manuscripts}
+            places={props.places}
+            facetData={props.manuscriptsFacets}
+            fetchPaginatedResults={props.fetchPaginatedResults}
+            fetchResults={props.fetchResults}
+            fetchByURI={props.fetchByURI}
+            updatePage={props.updatePage}
+            updateRowsPerPage={props.updateRowsPerPage}
+            updateFacetOption={props.updateFacetOption}
+            sortResults={props.sortResults}
+            routeProps={routeProps}
+          />
+        );
+    }
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
@@ -108,44 +157,48 @@ let SemanticPortal = (props) => {
                 </React.Fragment>
               }
             />
+            {perspectives.map(perspective =>
+              <React.Fragment key={perspective}>
+                <Route
+                  path={`/${perspective}/faceted-search`}
+                  render={routeProps => {
+                    return (
+                      <React.Fragment>
+                        <Grid item xs={12} md={3} className={classes.facetBarContainer}>
+                          <FacetBar
+                            facetData={props.manuscriptsFacets}
+                            facetClass={perspective}
+                            resultClass={perspective}
+                            fetchingResultCount={props[perspective].fetchingResultCount}
+                            resultCount={props[perspective].resultCount}
+                            fetchFacet={props.fetchFacet}
+                            fetchResultCount={props.fetchResultCount}
+                            updateFacetOption={props.updateFacetOption}
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={9} className={classes.resultsContainer}>
+                          {renderPerspective(perspective, routeProps)}
+                        </Grid>
+                      </React.Fragment>
+                    );
+                  }}
+                />
+                <Route
+                  path={`/${perspective}/:id`}
+                  render={() => {
+                    return (
+                      <InstanceHomePage />
+                    );
+                  }}
+                />
+
+              </React.Fragment>
+
+            )}
+
+
             <Route
-              path="/manuscripts"
-              render={routeProps => {
-                return (
-                  <React.Fragment>
-                    <Grid item xs={12} md={3} className={classes.facetBarContainer}>
-                      <FacetBar
-                        facetData={props.manuscriptsFacets}
-                        facetClass='manuscripts'
-                        resultClass='manuscripts'
-                        fetchingResultCount={props.manuscripts.fetchingResultCount}
-                        resultCount={props.manuscripts.resultCount}
-                        fetchFacet={props.fetchFacet}
-                        fetchResultCount={props.fetchResultCount}
-                        updateFacetOption={props.updateFacetOption}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={9} className={classes.resultsContainer}>
-                      <Manuscripts
-                        manuscripts={props.manuscripts}
-                        places={props.places}
-                        facetData={props.manuscriptsFacets}
-                        fetchPaginatedResults={props.fetchPaginatedResults}
-                        fetchResults={props.fetchResults}
-                        fetchByURI={props.fetchByURI}
-                        updatePage={props.updatePage}
-                        updateRowsPerPage={props.updateRowsPerPage}
-                        updateFacetOption={props.updateFacetOption}
-                        sortResults={props.sortResults}
-                        routeProps={routeProps}
-                      />
-                    </Grid>
-                  </React.Fragment>
-                );
-              }}
-            />
-            <Route
-              path="/works"
+              path="/works/faceted-search"
               render={routeProps => {
                 return (
                   <React.Fragment>
@@ -180,7 +233,7 @@ let SemanticPortal = (props) => {
               }}
             />
             <Route
-              path="/events"
+              path="/events/faceted-search"
               render={routeProps => {
                 return(
                   <React.Fragment>
@@ -214,7 +267,7 @@ let SemanticPortal = (props) => {
               }}
             />
             <Route
-              path="/actors"
+              path="/actors/faceted-search"
               render={routeProps => {
                 return(
                   <React.Fragment>

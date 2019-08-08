@@ -87,7 +87,7 @@ class ResultTable extends React.Component {
     }
     this.props.updatePage(this.props.resultClass, page);
     history.push({
-      pathname: `/${this.props.resultClass}/table`,
+      pathname: `/${this.props.resultClass}/faceted-search/table`,
       search: `?page=${page}`,
     });
     if (this.props.data.resultsUpdateID !== -1 && this.props.data.resultsUpdateID !== this.props.facetUpdateID) {
@@ -101,7 +101,7 @@ class ResultTable extends React.Component {
     if (prevProps.data.page != this.props.data.page) {
       this.fetchResults();
       history.push({
-        pathname: `/${this.props.resultClass}/table`,
+        pathname: `/${this.props.resultClass}/faceted-search/table`,
         search: `?page=${this.props.data.page}`,
       });
     }

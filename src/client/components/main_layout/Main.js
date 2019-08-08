@@ -54,38 +54,7 @@ const styles = theme => ({
 
 let Main = props => {
   const { classes } = props;
-  const perspectives = [
-    {
-      id: 'manuscripts',
-      label: 'Manuscripts',
-      desc: 'Physical manuscript objects.'
-    },
-    // {
-    //   id: 'collections',
-    //   label: 'Collections',
-    //   desc: ''
-    // },
-    {
-      id: 'works',
-      label: 'Works',
-      desc: 'Intellectual content carried out by manuscripts.'
-    },
-    {
-      id: 'events',
-      label: 'Events',
-      desc: 'Events related to manuscripts.'
-    },
-    {
-      id: 'actors',
-      label: 'Actors',
-      desc: 'People and institutions related to manuscripts and works.'
-    },
-    {
-      id: 'places',
-      label: 'Places',
-      desc: 'Places related to manuscripts and works.'
-    },
-  ];
+
 
   return (
     <div className={classes.root}>
