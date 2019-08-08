@@ -36,7 +36,14 @@ class PerspectiveTabs extends React.Component {
   }
 
   pathnameToValue = pathname => {
-    return has(this.props.tabs, pathname) ? this.props.tabs[pathname].value : 0;
+    const activeID = pathname.split('/').pop();
+    let value = 0;
+    this.props.tabs.map(tab => {
+      if (tab.id == activeID) {
+        value = tab.value;
+      }
+    });
+    return value;
   }
 
   renderIcon = iconString => {
