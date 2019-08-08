@@ -19,6 +19,7 @@ import Places from '../components//perspectives/Places';
 import Actors from '../components//perspectives/Actors';
 import All from '../components/perspectives/All';
 import InstanceHomePage from '../components/main_layout/InstanceHomePage';
+import { perspectiveArr } from '../components/perspectives/PerspectiveArray';
 import {
   fetchResultCount,
   fetchPaginatedResults,
@@ -88,36 +89,9 @@ const styles = theme => ({
 
 let SemanticPortal = (props) => {
   const { classes, /* browser */ error } = props;
-  const perspectives = [
-    {
-      id: 'manuscripts',
-      label: 'Manuscripts',
-      desc: 'Physical manuscript objects.'
-    },
-    {
-      id: 'works',
-      label: 'Works',
-      desc: 'Intellectual content carried out by manuscripts.'
-    },
-    {
-      id: 'events',
-      label: 'Events',
-      desc: 'Events related to manuscripts.'
-    },
-    {
-      id: 'actors',
-      label: 'Actors',
-      desc: 'People and institutions related to manuscripts and works.'
-    },
-    {
-      id: 'places',
-      label: 'Places',
-      desc: 'Places related to manuscripts and works.'
-    },
-  ];
 
   const renderPerspective = (perspective, routeProps) => {
-    switch(perspective) {
+    switch(perspective.id) {
       case 'manuscripts':
         return(
           <Manuscripts
@@ -132,6 +106,7 @@ let SemanticPortal = (props) => {
             updateFacetOption={props.updateFacetOption}
             sortResults={props.sortResults}
             routeProps={routeProps}
+            perspective={perspective}
           />
         );
     }
@@ -152,25 +127,25 @@ let SemanticPortal = (props) => {
               exact path="/"
               render={() =>
                 <React.Fragment>
-                  <Main />
+                  <Main perspectives={perspectiveArr}/>
                   <Footer />
                 </React.Fragment>
               }
             />
-            {perspectives.map(perspective =>
-              <React.Fragment key={perspective}>
+            {perspectiveArr.map(perspective =>
+              <React.Fragment key={perspective.id}>
                 <Route
-                  path={`/${perspective}/faceted-search`}
+                  path={`/${perspective.id}/faceted-search`}
                   render={routeProps => {
                     return (
                       <React.Fragment>
                         <Grid item xs={12} md={3} className={classes.facetBarContainer}>
                           <FacetBar
                             facetData={props.manuscriptsFacets}
-                            facetClass={perspective}
-                            resultClass={perspective}
-                            fetchingResultCount={props[perspective].fetchingResultCount}
-                            resultCount={props[perspective].resultCount}
+                            facetClass={perspective.id}
+                            resultClass={perspective.id}
+                            fetchingResultCount={props[perspective.id].fetchingResultCount}
+                            resultCount={props[perspective.id].resultCount}
                             fetchFacet={props.fetchFacet}
                             fetchResultCount={props.fetchResultCount}
                             updateFacetOption={props.updateFacetOption}

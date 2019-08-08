@@ -54,8 +54,6 @@ const styles = theme => ({
 
 let Main = props => {
   const { classes } = props;
-
-
   return (
     <div className={classes.root}>
       <div className={classes.layout}>
@@ -72,10 +70,10 @@ let Main = props => {
       </div>
       <div className={classNames(classes.layout, classes.cardGrid)}>
         <Grid container spacing={5}>
-          {perspectives.map(perspective =>
+          {props.perspectives.map(perspective =>
             <Grid key={perspective.id} item xs={12} sm={6} md={4}>
               <Card className={classes.card}>
-                <CardActionArea component={Link} to={`/${perspective.id}`}>
+                <CardActionArea component={Link} to={`/${perspective.id}/faceted-search`}>
                   <CardMedia
                     className={classes.media}
                     image={thumbImage}
@@ -101,6 +99,7 @@ let Main = props => {
 
 Main.propTypes = {
   classes: PropTypes.object.isRequired,
+  perspectives: PropTypes.array.isRequired
 };
 
 export default withStyles(styles)(Main);

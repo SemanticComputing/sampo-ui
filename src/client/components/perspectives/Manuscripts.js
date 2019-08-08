@@ -8,45 +8,13 @@ import Deck from '../facet_results/Deck';
 import Pie from '../facet_results/Pie';
 import Network from '../facet_results/Network';
 import Export from '../facet_results/Export';
-import InstanceHomePage from '../main_layout/InstanceHomePage';
 
 let Manuscripts = props => {
   return (
     <React.Fragment>
       <PerspectiveTabs
         routeProps={props.routeProps}
-        tabs={{
-          '/manuscripts/faceted-search/table': {
-            label: 'table',
-            value: 0,
-            icon: 'CalendarViewDay',
-          },
-          '/manuscripts/faceted-search/production_places': {
-            label: 'production places',
-            value: 1,
-            icon: 'AddLocation',
-          },
-          // '/manuscripts/statistics': {
-          //   label: 'statistics',
-          //   value: 2,
-          //   icon: 'AddLocation',
-          // },
-          '/manuscripts/faceted-search/migrations': {
-            label: 'migrations',
-            value: 2,
-            icon: 'Redo',
-          },
-          '/manuscripts/faceted-search/export': {
-            label: 'export',
-            value: 3,
-            icon: 'Download',
-          },
-          // '/manuscripts/network': {
-          //   label: 'network',
-          //   value: 3,
-          //   icon: 'Redo',
-          // }
-        }}
+        tabs={props.perspective.tabs}
       />
       <Route
         exact path='/manuscripts/faceted-search'
@@ -142,7 +110,8 @@ Manuscripts.propTypes = {
   updateRowsPerPage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired,
-  updateFacetOption: PropTypes.func.isRequired
+  updateFacetOption: PropTypes.func.isRequired,
+  perspective: PropTypes.object.isRequired
 };
 
 export default Manuscripts;
