@@ -235,7 +235,7 @@ class ResultTable extends React.Component {
               <CircularProgress style={{ color: purple[500] }} thickness={5} />
             </div>
             :
-            <Table className={classes.table}>
+            <Table>
               <ResultTableHead
                 columns={this.props.data.tableColumns}
                 onSortBy={this.handleSortBy}

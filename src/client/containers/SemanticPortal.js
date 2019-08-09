@@ -246,10 +246,15 @@ let SemanticPortal = (props) => {
                   }}
                 />
                 <Route
-                  path={`/${perspective.id}/:id`}
-                  render={() => {
+                  path={`/${perspective.id}/page/:id`}
+                  render={routeProps => {
                     return (
-                      <InstanceHomePage />
+                      <InstanceHomePage
+                        fetchByURI={props.fetchByURI}
+                        resultClass={perspective.id}
+                        data={props[perspective.id].instance}
+                        routeProps={routeProps}
+                      />
                     );
                   }}
                 />

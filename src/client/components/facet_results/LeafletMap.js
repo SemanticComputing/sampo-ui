@@ -389,7 +389,12 @@ class LeafletMap extends React.Component {
   }
 
   markerOnClick = event => {
-    this.props.fetchByURI(this.props.resultClass, this.props.facetClass, this.props.variant, event.target.options.id,);
+    this.props.fetchByURI({
+      resultClass: this.props.resultClass,
+      facetClass: this.props.facetClass,
+      variant: this.props.variant,
+      uri: event.target.options.id
+    });
   };
 
   createPopUpContent = result => {

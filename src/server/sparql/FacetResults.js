@@ -1,6 +1,11 @@
 import { runSelectQuery } from './SparqlApi';
 import { prefixes } from './SparqlQueriesPrefixes';
-import { endpoint, countQuery, facetResultSetQuery } from './SparqlQueriesGeneral';
+import {
+  endpoint,
+  countQuery,
+  facetResultSetQuery,
+  instanceQuery
+} from './SparqlQueriesGeneral';
 import {
   manuscriptProperties,
   productionPlacesQuery,
@@ -204,6 +209,10 @@ export const getByURI = ({
 }) => {
   let q;
   switch (resultClass) {
+    case 'manuscripts':
+      q = instanceQuery;
+      q = q.replace('<PROPERTIES>', manuscriptProperties);
+      break;
     case 'places':
       q = placeQuery;
       break;

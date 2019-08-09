@@ -79,7 +79,7 @@ export const updateRowsPerPage = (resultClass, rowsPerPage) => ({
   type: UPDATE_ROWS_PER_PAGE,
   resultClass, rowsPerPage
 });
-export const fetchByURI = (resultClass, facetClass, variant, uri) => ({
+export const fetchByURI = ({ resultClass, facetClass, variant, uri }) => ({
   type: FETCH_BY_URI,
   resultClass, facetClass, variant, uri
 });
