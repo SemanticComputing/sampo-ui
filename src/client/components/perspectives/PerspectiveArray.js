@@ -27,26 +27,71 @@ export const perspectiveArr = [
         label: 'export',
         value: 3,
         icon: 'Download',
-      }]
+      }
+    ]
   },
   {
     id: 'works',
     label: 'Works',
-    desc: 'Intellectual content carried out by manuscripts.'
+    desc: 'Intellectual content carried out by manuscripts.',
+    tabs: [
+      {
+        id: 'table',
+        label: 'table',
+        value: 0,
+        icon: 'CalendarViewDay',
+      }
+    ]
   },
   {
     id: 'events',
     label: 'Events',
-    desc: 'Events related to manuscripts.'
+    desc: 'Events related to manuscripts.',
+    tabs: [
+      {
+        id: 'table',
+        label: 'table',
+        value: 0,
+        icon: 'CalendarViewDay',
+      }
+    ]
   },
   {
     id: 'actors',
     label: 'Actors',
-    desc: 'People and institutions related to manuscripts and works.'
+    desc: 'People and institutions related to manuscripts and works.',
+    tabs: [
+      {
+        id: 'table',
+        label: 'table',
+        value: 0,
+        icon: 'CalendarViewDay',
+      },
+      {
+        id: 'map',
+        label: 'map',
+        value: 1,
+        icon: 'AddLocation',
+      },
+    ]
   },
   {
     id: 'places',
     label: 'Places',
-    desc: 'Places related to manuscripts and works.'
+    desc: 'Places related to manuscripts and works.',
+    tabs: [
+      {
+        id: 'table',
+        label: 'table',
+        value: 0,
+        icon: 'CalendarViewDay',
+      },
+      {
+        id: 'map',
+        label: 'map',
+        value: 1,
+        icon: 'AddLocation',
+      },
+    ]
   },
 ];

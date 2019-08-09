@@ -10,25 +10,14 @@ let Actors = props => {
     <React.Fragment>
       <PerspectiveTabs
         routeProps={props.routeProps}
-        tabs={{
-          '/actors/table': {
-            label: 'table',
-            value: 0,
-            icon: 'CalendarViewDay',
-          },
-          '/actors/map': {
-            label: 'map',
-            value: 1,
-            icon: 'AddLocation',
-          },
-        }}
+        tabs={props.perspective.tabs}
       />
       <Route
-        exact path='/actors'
-        render={() => <Redirect to='actors/table' />}
+        exact path='/actors/faceted-search'
+        render={() => <Redirect to='/actors/faceted-search/table' />}
       />
       <Route
-        path={'/actors/table'}
+        path={'/actors/faceted-search/table'}
         render={routeProps =>
           <ResultTable
             data={props.actors}
@@ -44,7 +33,7 @@ let Actors = props => {
         }
       />
       <Route
-        path={'/actors/map'}
+        path={'/actors/faceted-search/map'}
         render={() =>
           <LeafletMap
             results={props.places.results}
@@ -76,7 +65,8 @@ Actors.propTypes = {
   updateRowsPerPage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired,
-  updateFacetOption: PropTypes.func.isRequired
+  updateFacetOption: PropTypes.func.isRequired,
+  perspective: PropTypes.object.isRequired
 };
 
 export default Actors;

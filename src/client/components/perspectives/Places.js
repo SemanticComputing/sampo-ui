@@ -13,25 +13,14 @@ let Places = props => {
     <React.Fragment>
       <PerspectiveTabs
         routeProps={props.routeProps}
-        tabs={{
-          '/places/table': {
-            label: 'table',
-            value: 0,
-            icon: 'CalendarViewDay',
-          },
-          '/places/map': {
-            label: 'map',
-            value: 1,
-            icon: 'AddLocation',
-          },
-        }}
+        tabs={props.perspective.tabs}
       />
       <Route
-        exact path='/places'
-        render={() => <Redirect to='places/map' />}
+        exact path='/places/faceted-search'
+        render={() => <Redirect to='/places/faceted-search/map' />}
       />
       <Route
-        path={'/places/table'}
+        path={'/places/faceted-search/table'}
         render={routeProps =>
           <ResultTable
             data={props.places}
@@ -46,19 +35,8 @@ let Places = props => {
           />
         }
       />
-      {/*<Route
-        path={'/places/tree'}
-        render={() =>
-          <Tree
-            facetFunctionality={false}
-            searchField={true}
-            data={props.search.places}
-            fetchData={props.fetchPlaces()}
-          />
-        }
-      />*/}
       <Route
-        path={'/places/map'}
+        path={'/places/faceted-search/map'}
         render={() =>
           <LeafletMap
             results={props.places.results}
@@ -87,7 +65,8 @@ Places.propTypes = {
   updatePage: PropTypes.func.isRequired,
   updateRowsPerPage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
-  routeProps: PropTypes.object.isRequired
+  routeProps: PropTypes.object.isRequired,
+  perspective: PropTypes.object.isRequired
 };
 
 export default Places;

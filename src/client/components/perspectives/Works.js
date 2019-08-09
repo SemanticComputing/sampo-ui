@@ -9,25 +9,14 @@ let Works = props => {
     <React.Fragment>
       <PerspectiveTabs
         routeProps={props.routeProps}
-        tabs={{
-          '/works/table': {
-            label: 'table',
-            value: 0,
-            icon: 'CalendarViewDay',
-          },
-          // '/works/map': {
-          //   label: 'map',
-          //   value: 1,
-          //   icon: 'AddLocation',
-          // },
-        }}
+        tabs={props.perspective.tabs}
       />
       <Route
-        exact path='/works'
-        render={() => <Redirect to='works/table' />}
+        exact path='/works/faceted-search'
+        render={() => <Redirect to='/works/faceted-search/table' />}
       />
       <Route
-        path={'/works/table'}
+        path={'/works/faceted-search/table'}
         render={routeProps =>
           <ResultTable
             data={props.works}
@@ -56,7 +45,8 @@ Works.propTypes = {
   updatePage: PropTypes.func.isRequired,
   updateRowsPerPage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
-  routeProps: PropTypes.object.isRequired
+  routeProps: PropTypes.object.isRequired,
+  perspective: PropTypes.object.isRequired
 };
 
 export default Works;

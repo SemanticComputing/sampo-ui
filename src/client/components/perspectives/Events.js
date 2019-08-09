@@ -9,20 +9,14 @@ let Events = props => {
     <React.Fragment>
       <PerspectiveTabs
         routeProps={props.routeProps}
-        tabs={{
-          '/events/table': {
-            label: 'table',
-            value: 0,
-            icon: 'CalendarViewDay',
-          }
-        }}
+        tabs={props.perspective.tabs}
       />
       <Route
-        exact path='/events'
-        render={() => <Redirect to='events/table' />}
+        exact path='/events/faceted-search'
+        render={() => <Redirect to='/events/faceted-search/table' />}
       />
       <Route
-        path={'/events/table'}
+        path={'/events/faceted-search/table'}
         render={routeProps =>
           <ResultTable
             data={props.events}
@@ -51,7 +45,8 @@ Events.propTypes = {
   updatePage: PropTypes.func.isRequired,
   updateRowsPerPage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
-  routeProps: PropTypes.object.isRequired
+  routeProps: PropTypes.object.isRequired,
+  perspective: PropTypes.object.isRequired
 };
 
 export default Events;
