@@ -228,7 +228,7 @@ let SemanticPortal = (props) => {
                       <React.Fragment>
                         <Grid item xs={12} md={3} className={classes.facetBarContainer}>
                           <FacetBar
-                            facetData={props.manuscriptsFacets}
+                            facetData={props[`${perspective.id}Facets`]}
                             facetClass={perspective.id}
                             resultClass={perspective.id}
                             fetchingResultCount={props[perspective.id].fetchingResultCount}
