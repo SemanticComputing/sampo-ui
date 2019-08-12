@@ -398,9 +398,11 @@ class LeafletMap extends React.Component {
   };
 
   createPopUpContent = result => {
-    let popUpTemplate = `<a target="_blank" rel="noopener noreferrer" href=${result.id}><h3>${result.prefLabel}</h3></a>`;
-    if (has(result, 'dataProviderUrl')) {
-      popUpTemplate += `<p>Data provider url: <a target="_blank" rel="noopener noreferrer" href=${result.dataProviderUrl}>${result.dataProviderUrl}</a></p>`;
+    let popUpTemplate = '';
+    if (has(result.prefLabel, 'dataProviderUrl')) {
+      popUpTemplate += `<a href=${result.prefLabel.dataProviderUrl}><h3>${result.prefLabel.prefLabel}</h3></a>`;
+    } else {
+      popUpTemplate += `<h3>${result.prefLabel.prefLabel}</h3>`;
     }
     if (has(result, 'sameAs')) {
       popUpTemplate += `<p>Place authority: <a target="_blank" rel="noopener noreferrer" href=${result.sameAs}>${result.sameAs}</a></p>`;

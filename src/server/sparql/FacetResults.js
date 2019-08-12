@@ -20,7 +20,6 @@ import {
 } from './SparqlQueriesActors';
 import {
   placeProperties,
-  placeQuery,
   manuscriptsProducedAt,
   actorsAt,
   allPlacesQuery,
@@ -226,7 +225,8 @@ export const getByURI = ({
       q = q.replace('<PROPERTIES>', actorProperties);
       break;
     case 'places':
-      q = placeQuery;
+      q = instanceQuery;
+      q = q.replace('<PROPERTIES>', placeProperties);
       break;
   }
   switch (variant) {

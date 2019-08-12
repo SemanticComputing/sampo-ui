@@ -8,6 +8,7 @@ import { has } from 'lodash';
 import ManuscriptsPageTable from '../perspectives/ManuscriptsPageTable';
 import WorksPageTable from '../perspectives/WorksPageTable';
 import ActorsPageTable from '../perspectives/ActorsPageTable';
+import PlacesPageTable from '../perspectives/PlacesPageTable';
 
 const styles = theme => ({
   root: {
@@ -60,6 +61,12 @@ class InstanceHomePage extends React.Component {
         });
         uri = `${base}/actor/${localID}`;
         break;
+      case 'places':
+        this.setState({
+          instanceHeading: 'Place',
+        });
+        uri = `${base}/place/${localID}`;
+        break;
     }
     this.props.fetchByURI({
       resultClass: this.props.resultClass,
@@ -81,6 +88,9 @@ class InstanceHomePage extends React.Component {
           break;
         case 'Actor':
           tableEl = <ActorsPageTable data={this.props.data} />;
+          break;
+        case 'Place':
+          tableEl = <PlacesPageTable data={this.props.data} />;
           break;
         default:
           tableEl = <div></div>;

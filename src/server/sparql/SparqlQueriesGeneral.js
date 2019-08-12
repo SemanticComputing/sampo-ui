@@ -5,6 +5,7 @@ export const instanceQuery = `
   SELECT * {
     BIND(<ID> as ?id)
     <PROPERTIES>
+    <RELATED_INSTANCES>
   }
 `;
 
