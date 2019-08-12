@@ -7,6 +7,7 @@ import Divider from '@material-ui/core/Divider';
 import { has } from 'lodash';
 import ManuscriptsPageTable from '../perspectives/ManuscriptsPageTable';
 import WorksPageTable from '../perspectives/WorksPageTable';
+import ActorsPageTable from '../perspectives/ActorsPageTable';
 
 const styles = theme => ({
   root: {
@@ -36,7 +37,6 @@ class InstanceHomePage extends React.Component {
     };
   }
 
-
   componentDidMount = () => {
     let uri = '';
     let base = 'http://ldf.fi/mmm';
@@ -54,7 +54,12 @@ class InstanceHomePage extends React.Component {
         });
         uri = `${base}/work/${localID}`;
         break;
-
+      case 'actors':
+        this.setState({
+          instanceHeading: 'Actor',
+        });
+        uri = `${base}/actor/${localID}`;
+        break;
     }
     this.props.fetchByURI({
       resultClass: this.props.resultClass,
@@ -73,6 +78,9 @@ class InstanceHomePage extends React.Component {
           break;
         case 'Work':
           tableEl = <WorksPageTable data={this.props.data} />;
+          break;
+        case 'Actor':
+          tableEl = <ActorsPageTable data={this.props.data} />;
           break;
         default:
           tableEl = <div></div>;

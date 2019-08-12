@@ -216,14 +216,14 @@ export const getByURI = ({
     case 'works':
       q = instanceQuery;
       q = q.replace('<PROPERTIES>', workProperties);
-      break; 
+      break;
     case 'events':
       q = instanceQuery;
       q = q.replace('<PROPERTIES>', eventProperties);
       break;
     case 'actors':
       q = instanceQuery;
-      q = q.replace('<PROPERTIES>', eventProperties);
+      q = q.replace('<PROPERTIES>', actorProperties);
       break;
     case 'places':
       q = placeQuery;
