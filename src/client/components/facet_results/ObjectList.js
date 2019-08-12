@@ -37,6 +37,7 @@ const ObjectList = props => {
         </span>
       );
     } else {
+      const target = has(props.externalLink) && props.externalLink ? '_blank' : '_self';
       return (
         <React.Fragment>
           <React.Fragment>
@@ -44,7 +45,7 @@ const ObjectList = props => {
             {showDate && ' '}
           </React.Fragment>
           <a
-            target='_blank' rel='noopener noreferrer'
+            target={target} rel='noopener noreferrer'
             href={firstValue.dataProviderUrl}
           >
             {Array.isArray(firstValue.prefLabel) ? firstValue.prefLabel[0] : firstValue.prefLabel}
@@ -56,11 +57,12 @@ const ObjectList = props => {
   };
 
   const createBasicList = data => {
+    const target = has(props.externalLink) && props.externalLink ? '_blank' : '_self';
     return data.map((item, i) =>
       <li key={i}>
         {props.makeLink &&
           <a
-            target='_blank' rel='noopener noreferrer'
+            target={target} rel='noopener noreferrer'
             href={item.dataProviderUrl}
           >
             {Array.isArray(item.prefLabel) ? item.prefLabel[0] : item.prefLabel}
@@ -74,12 +76,13 @@ const ObjectList = props => {
   };
 
   const createEventList = data => {
+    const target = has(props.externalLink) && props.externalLink ? '_blank' : '_self';
     return data.map((item, i) =>
       <li key={i}>
         {item.date == null ? <span className={props.classes.noDate}>No date</span> : item.date}
         {' '}
         <a
-          target='_blank' rel='noopener noreferrer'
+          target={target}  rel='noopener noreferrer'
           href={item.dataProviderUrl}
         >
           {Array.isArray(item.prefLabel) ? item.prefLabel[0] : item.prefLabel}
