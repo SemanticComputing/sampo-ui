@@ -13,6 +13,11 @@ export const manuscriptProperties =
       ?author__id skos:prefLabel ?author__prefLabel .
       BIND(?author__id AS ?author__dataProviderUrl)
     }
+    {
+      ?id mmm-schema:manuscript_work ?work__id .
+      ?work__id skos:prefLabel ?work__prefLabel .
+      BIND(?work__id AS ?work__dataProviderUrl)
+    }
     UNION
     {
       ?production crm:P108_has_produced ?id .

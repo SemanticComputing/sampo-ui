@@ -1,17 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-//import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 import { has } from 'lodash';
-import ResultTableCell from '../facet_results/ResultTableCell';
+import ManuscriptsPageTable from '../perspectives/ManuscriptsPageTable';
 
-const styles = () => ({
+const styles = theme => ({
   root: {
     overflow: 'auto',
     width: '100%',
@@ -20,7 +16,13 @@ const styles = () => ({
     justifyContent: 'center'
   },
   content: {
-    maxWidth: 600
+    padding: theme.spacing(1),
+    minWidth: 800,
+    maxWidth: 1200
+  },
+  divider: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1)
   }
 });
 
@@ -29,7 +31,7 @@ class InstanceHomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      instanceClass: '',
+      instanceHeading: '',
     };
   }
 
@@ -41,7 +43,7 @@ class InstanceHomePage extends React.Component {
     switch(this.props.resultClass) {
       case 'manuscripts':
         this.setState({
-          instanceClass: 'Manuscript'
+          instanceHeading: 'Manuscript',
         });
         uri = `${base}/manifestation_singleton/${localID}`;
     }
@@ -53,37 +55,32 @@ class InstanceHomePage extends React.Component {
     });
   }
 
+  renderTable = () => {
+    let tableEl = null;
+    if (this.state.instanceClass !== '') {
+      switch (this.state.instanceHeading) {
+        case 'Manuscript':
+          tableEl = <ManuscriptsPageTable data={this.props.data} />;
+      }
+    }
+    return tableEl;
+  }
+
 
   render = () => {
     const { classes, data } = this.props;
     // console.log(data);
     return(
-      <Paper className={classes.root}>
+      <div className={classes.root}>
         {has(data, 'prefLabel') &&
-          <div className={classes.content}>
-            <Typography variant='h5'>{this.state.instanceClass}</Typography>
+          <Paper className={classes.content}>
+            <Typography variant='h4'>{this.state.instanceHeading}</Typography>
+            <Divider className={classes.divider} />
             <Typography variant='h6'>{data.prefLabel.prefLabel}</Typography>
-            <Table className={classes.table}>
-              <TableBody>
-                <TableRow key={0}>
-                  <TableCell>Author</TableCell>
-                  <ResultTableCell
-                    columnId='author'
-                    data={data.author}
-                    valueType='object'
-                    makeLink={true}
-                    sortValues={true}
-                    numberedList={false}
-                    minWidth={150}
-                    container='cell'
-                    expanded={true}
-                  />
-                </TableRow>
-              </TableBody>
-            </Table>
-          </div>
+            {this.renderTable()}
+          </Paper>
         }
-      </Paper>
+      </div>
     );
   }
 }
