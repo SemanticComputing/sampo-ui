@@ -45,6 +45,7 @@ export const INITIAL_STATE = {
       desc: 'Label description',
       valueType: 'object',
       makeLink: true,
+      externalLink: true,
       sortValues: true,
       numberedList: false
     },
