@@ -10,18 +10,11 @@ const All = props => {
     <React.Fragment>
       <PerspectiveTabs
         routeProps={props.routeProps}
-        tabs={{
-          [`${perspectiveUrl}/table`]: {
-            label: 'table',
-            value: 0,
-            icon: 'CalendarViewDay',
-          },
-          // [`${perspectiveUrl}/map`]: {
-          //   label: 'map',
-          //   value: 1,
-          //   icon: 'AddLocation',
-          // },
-        }}
+        tabs={[{
+          id: 'table',
+          label: 'table',
+          value: 0,
+        }]}
       />
       <Route
         exact path={perspectiveUrl}
