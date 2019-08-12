@@ -98,7 +98,7 @@ class FacetHeader extends React.Component {
         value: 'spatialFilter'
       });
       if (this.props.facetID === 'productionPlace') {
-        history.push({ pathname: `/manuscripts/production_places`});
+        history.push({ pathname: `/manuscripts/faceted-search/production_places`});
       }
     }
   }
