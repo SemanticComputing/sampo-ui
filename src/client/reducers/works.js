@@ -45,7 +45,7 @@ export const INITIAL_STATE = {
       desc: 'Label description',
       valueType: 'object',
       makeLink: true,
-      externalLink: true,
+      externalLink: false,
       sortValues: true,
       numberedList: false
     },
@@ -87,6 +87,7 @@ export const INITIAL_STATE = {
       desc: 'Source description',
       valueType: 'object',
       makeLink: true,
+      externalLink: true,
       sortValues: true,
       numberedList: false,
       minWidth: 200

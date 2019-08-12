@@ -37,7 +37,7 @@ const ObjectList = props => {
         </span>
       );
     } else {
-      const target = has(props.externalLink) && props.externalLink ? '_blank' : '_self';
+      const target = has(props, 'externalLink') && props.externalLink ? '_blank' : '_self';
       return (
         <React.Fragment>
           <React.Fragment>
@@ -57,7 +57,7 @@ const ObjectList = props => {
   };
 
   const createBasicList = data => {
-    const target = has(props.externalLink) && props.externalLink ? '_blank' : '_self';
+    const target = has(props, 'externalLink') && props.externalLink ? '_blank' : '_self';
     return data.map((item, i) =>
       <li key={i}>
         {props.makeLink &&
@@ -76,7 +76,7 @@ const ObjectList = props => {
   };
 
   const createEventList = data => {
-    const target = has(props.externalLink) && props.externalLink ? '_blank' : '_self';
+    const target = has(props, 'externalLink') && props.externalLink ? '_blank' : '_self';
     return data.map((item, i) =>
       <li key={i}>
         {item.date == null ? <span className={props.classes.noDate}>No date</span> : item.date}
@@ -145,6 +145,7 @@ ObjectList.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.string]),
   makeLink: PropTypes.bool.isRequired,
+  externalLink: PropTypes.bool,
   sortValues: PropTypes.bool.isRequired,
   numberedList: PropTypes.bool.isRequired,
   expanded: PropTypes.bool.isRequired,

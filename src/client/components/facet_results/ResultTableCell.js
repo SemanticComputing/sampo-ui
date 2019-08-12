@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { has } from 'lodash';
 import TableCell from '@material-ui/core/TableCell';
 import ObjectList from './ObjectList';
 import { withStyles } from '@material-ui/core/styles';
@@ -38,7 +37,7 @@ const ResultTableCell = props => {
     }
   };
 
-  const { data, valueType, makeLink, sortValues, numberedList, minWidth,
+  const { data, valueType, makeLink, externalLink, sortValues, numberedList, minWidth,
     container, columnId, expanded } = props;
   let cellContent = null;
   let cellStyle = minWidth == null ? {} : { minWidth: minWidth };
@@ -48,6 +47,7 @@ const ResultTableCell = props => {
         <ObjectList
           data={data}
           makeLink={makeLink}
+          externalLink={externalLink}
           sortValues={sortValues}
           numberedList={numberedList}
           columnId={columnId}
@@ -77,9 +77,10 @@ const ResultTableCell = props => {
 ResultTableCell.propTypes = {
   classes: PropTypes.object.isRequired,
   columnId: PropTypes.string.isRequired,
-  data: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.string]).isRequired,
+  data: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.string]),
   valueType: PropTypes.string.isRequired,
   makeLink: PropTypes.bool.isRequired,
+  externalLink: PropTypes.bool,
   sortValues: PropTypes.bool.isRequired,
   numberedList: PropTypes.bool.isRequired,
   minWidth: PropTypes.number,

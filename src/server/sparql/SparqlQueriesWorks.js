@@ -2,7 +2,7 @@ export const workProperties = `
     {
       ?id skos:prefLabel ?prefLabel__id .
       BIND(?prefLabel__id AS ?prefLabel__prefLabel)
-      BIND(?id AS ?prefLabel__dataProviderUrl)
+      BIND(CONCAT("/works/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
     }
     UNION
     {

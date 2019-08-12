@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { has } from 'lodash';
 import ManuscriptsPageTable from '../perspectives/ManuscriptsPageTable';
+import WorksPageTable from '../perspectives/WorksPageTable';
 
 const styles = theme => ({
   root: {
@@ -18,7 +19,7 @@ const styles = theme => ({
   content: {
     padding: theme.spacing(1),
     minWidth: 800,
-    maxWidth: 1200
+    maxWidth: 900
   },
   divider: {
     marginTop: theme.spacing(1),
@@ -46,6 +47,14 @@ class InstanceHomePage extends React.Component {
           instanceHeading: 'Manuscript',
         });
         uri = `${base}/manifestation_singleton/${localID}`;
+        break;
+      case 'works':
+        this.setState({
+          instanceHeading: 'Work',
+        });
+        uri = `${base}/work/${localID}`;
+        break;
+
     }
     this.props.fetchByURI({
       resultClass: this.props.resultClass,
@@ -61,6 +70,12 @@ class InstanceHomePage extends React.Component {
       switch (this.state.instanceHeading) {
         case 'Manuscript':
           tableEl = <ManuscriptsPageTable data={this.props.data} />;
+          break;
+        case 'Work':
+          tableEl = <WorksPageTable data={this.props.data} />;
+          break;
+        default:
+          tableEl = <div></div>;
       }
     }
     return tableEl;
@@ -69,7 +84,6 @@ class InstanceHomePage extends React.Component {
 
   render = () => {
     const { classes, data } = this.props;
-    // console.log(data);
     return(
       <div className={classes.root}>
         {has(data, 'prefLabel') &&
