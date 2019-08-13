@@ -18,6 +18,7 @@ export const placeProperties = `
     UNION {
       ?id gvp:broaderPreferred ?area__id .
       ?area__id skos:prefLabel ?area__prefLabel .
+      BIND(CONCAT("/places/page/", REPLACE(STR(?area__id), "^.*\\\\/(.+)", "$1")) AS ?area__dataProviderUrl)
     }
     UNION {
       ?id ^mmm-schema:person_place ?actor__id .
