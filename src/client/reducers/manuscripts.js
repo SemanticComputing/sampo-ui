@@ -68,6 +68,30 @@ export const INITIAL_STATE = {
       minWidth: 200
     },
     {
+      id: 'work',
+      label: 'Work',
+      desc: 'Work description',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+      priority: 5
+    },
+    {
+      id: 'expression',
+      label: 'Expression',
+      desc: 'Expression description',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+      priority: 5
+    },
+    {
       id: 'productionPlace',
       label: 'Production place',
       desc: `

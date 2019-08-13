@@ -20,6 +20,12 @@ export const manuscriptProperties =
     }
     UNION
     {
+      ?id crm:P128_carries ?expression__id .
+      ?expression__id skos:prefLabel ?expression__prefLabel .
+      BIND(CONCAT("/expressions/page/", REPLACE(STR(?expression__id), "^.*\\\\/(.+)", "$1")) AS ?expression__dataProviderUrl)
+    }
+    UNION
+    {
       ?production crm:P108_has_produced ?id .
       ?production crm:P4_has_time-span ?productionTimespan__id .
       ?productionTimespan__id skos:prefLabel ?productionTimespan__prefLabel .

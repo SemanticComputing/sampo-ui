@@ -48,20 +48,18 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 150,
-      priority: 1
+      minWidth: 150
     },
     {
       id: 'type',
       label: 'Type',
       desc: 'Type description',
       valueType: 'object',
-      makeLink: true,
-      externalLink: true,
+      makeLink: false,
+      externalLink: false,
       sortValues: false,
       numberedList: false,
-      minWidth: 150,
-      priority: 8,
+      minWidth: 150
     },
     {
       id: 'birthPlace',
@@ -72,8 +70,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 200,
-      priority: 6
+      minWidth: 200
     },
     {
       id: 'birthDateTimespan',
@@ -84,8 +81,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 220,
-      priority: 3
+      minWidth: 220
     },
     {
       id: 'deathDateTimespan',
@@ -96,8 +92,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 200,
-      priority: 4
+      minWidth: 200
     },
     {
       id: 'place',
@@ -108,8 +103,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 200,
-      priority: 2
+      minWidth: 200
     },
     {
       id: 'work',
@@ -120,8 +114,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 250,
-      priority: 5
+      minWidth: 250
     },
     {
       id: 'manuscript',
@@ -132,8 +125,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 250,
-      priority: 7
+      minWidth: 250
     },
     {
       id: 'source',
@@ -143,10 +135,8 @@ export const INITIAL_STATE = {
       makeLink: true,
       externalLink: true,
       sortValues: true,
-      numberedList: false,
-      priority: 9
+      numberedList: false
     },
-
   ],
 };
 
