@@ -121,7 +121,7 @@ export const INITIAL_STATE = {
       `,
       valueType: 'object',
       makeLink: true,
-      externalLink: false,
+      externalLink: true,
       sortValues: true,
       numberedList: false,
       minWidth: 150,
