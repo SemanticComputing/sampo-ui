@@ -2,7 +2,8 @@ export const eventProperties = `
     {
       ?id a ?type__id .
       ?type__id skos:prefLabel|rdfs:label ?type__prefLabel .
-      BIND(CONCAT("/events/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?type__dataProviderUrl)
+      BIND(?id as ?type__dataProviderUrl)
+      #BIND(CONCAT("/events/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?type__dataProviderUrl)
     }
     UNION
     {

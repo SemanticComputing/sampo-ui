@@ -51,6 +51,9 @@ const ObjectList = props => {
   };
 
   const createLink = (id, dataProviderUrl, prefLabel, isArray) => {
+    if (id.startsWith('http://erlangen-crm.org/current/')) {
+      id = dataProviderUrl;
+    }
     return (
       <React.Fragment>
         {props.externalLink &&
