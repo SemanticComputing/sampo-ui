@@ -31,10 +31,14 @@ export const updateInstance = (state, action) => {
 };
 
 export const updatePage = (state, action) => {
-  return {
-    ...state,
-    page: action.page
-  };
+  if (isNaN(action.page)) {
+    return state;
+  } else {
+    return {
+      ...state,
+      page: action.page
+    };
+  }
 };
 
 export const updateRowsPerPage = (state, action) => {
