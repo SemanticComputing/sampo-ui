@@ -123,6 +123,21 @@ class ManuscriptsPageTable extends React.Component {
               expanded={true}
             />
           </TableRow>
+          <TableRow key='material'>
+            <TableCell>Material</TableCell>
+            <ResultTableCell
+              columnId='material'
+              data={data.material}
+              valueType='object'
+              makeLink={true}
+              externalLink={true}
+              sortValues={true}
+              numberedList={false}
+              minWidth={150}
+              container='cell'
+              expanded={true}
+            />
+          </TableRow>
           <TableRow key='owner'>
             <TableCell>Owner</TableCell>
             <ResultTableCell

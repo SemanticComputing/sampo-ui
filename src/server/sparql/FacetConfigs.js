@@ -48,13 +48,14 @@ export const facetConfigs = {
       predicate: 'crm:P128_carries/crm:P72_has_language',
       type: 'list',
     },
-    // event: {
-    //   id: 'event',
-    //   facetValueFilter: '',
-    //   label: 'Event',
-    //   labelPath: '^mmm-schema:observed_manuscript/mmm-schema:observed_time-span',
-    //   type: 'list',
-    // },
+    material: {
+      id: 'material',
+      facetValueFilter: '',
+      label: 'Language',
+      labelPath: 'crm:P45_consists_of',
+      predicate: 'crm:P45_consists_of',
+      type: 'list',
+    },
     collection: {
       id: 'collection',
       facetValueFilter: '',

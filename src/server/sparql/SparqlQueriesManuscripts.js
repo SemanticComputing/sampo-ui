@@ -49,6 +49,11 @@ export const manuscriptProperties =
     }
     UNION
     {
+      ?id crm:P45_consists_of ?material__id .
+      ?material__id skos:prefLabel ?material__prefLabel .
+    }
+    UNION
+    {
       ?id crm:P51_has_former_or_current_owner ?owner__id .
       ?owner__id skos:prefLabel ?owner__prefLabel .
       BIND(CONCAT("/actors/page/", REPLACE(STR(?owner__id), "^.*\\\\/(.+)", "$1")) AS ?owner__dataProviderUrl)

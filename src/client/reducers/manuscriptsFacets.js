@@ -111,6 +111,24 @@ export const INITIAL_STATE = {
       uriFilter: null,
       priority: 5
     },
+    material: {
+      id: 'material',
+      label: 'Material',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'instanceCount',
+      sortDirection: 'desc',
+      sortButton: true,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: true,
+      containerClass: 'ten',
+      filterType: 'uriFilter',
+      uriFilter: null,
+      priority: 8
+    },
     collection: {
       id: 'collection',
       label: 'Collection',
@@ -163,7 +181,7 @@ export const INITIAL_STATE = {
       containerClass: 'three',
       filterType: 'uriFilter',
       uriFilter: null,
-      priority: 8
+      priority: 9
     },
   }
 };

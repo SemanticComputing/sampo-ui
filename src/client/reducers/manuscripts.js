@@ -150,16 +150,19 @@ export const INITIAL_STATE = {
       numberedList: false,
       minWidth: 150,
     },
-    // // {
-    // //   id: 'material',
-    // //   label: 'Material'
-    // //   desc: 'Material description'
-    // //   valueType: 'string',
-    // //   makeLink: true,
-    // //   sortValues: true
-    // //   numberedList: false
-    // // },
-
+    {
+      id: 'material',
+      label: 'Material',
+      desc: `
+        Material info.
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: true,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150,
+    },
     {
       id: 'owner',
       label: 'Owner',
