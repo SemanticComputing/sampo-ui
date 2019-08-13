@@ -55,7 +55,7 @@ class PlacesPageTable extends React.Component {
               data={data.manuscript}
               valueType='object'
               makeLink={true}
-              externalLink={true}
+              externalLink={false}
               sortValues={true}
               numberedList={false}
               minWidth={150}
@@ -70,7 +70,7 @@ class PlacesPageTable extends React.Component {
               data={data.actor}
               valueType='object'
               makeLink={true}
-              externalLink={true}
+              externalLink={false}
               sortValues={true}
               numberedList={false}
               minWidth={150}

@@ -55,6 +55,7 @@ export const INITIAL_STATE = {
       desc: 'Author description',
       valueType: 'object',
       makeLink: true,
+      externalLink: false,
       sortValues: true,
       numberedList: false,
       minWidth: 250
@@ -65,6 +66,7 @@ export const INITIAL_STATE = {
       desc: 'Manuscript description',
       valueType: 'object',
       makeLink: true,
+      externalLink: false,
       sortValues: true,
       numberedList: false,
       minWidth: 150,
@@ -77,6 +79,7 @@ export const INITIAL_STATE = {
       `,
       valueType: 'object',
       makeLink: true,
+      externalLink: true,
       sortValues: true,
       numberedList: false,
       minWidth: 150,

@@ -180,6 +180,7 @@ class ResultTable extends React.Component {
           data={row[column.id] == null ? '-' : row[column.id]}
           valueType={column.valueType}
           makeLink={column.makeLink}
+          externalLink={column.externalLink}
           sortValues={column.sortValues}
           numberedList={column.numberedList}
           minWidth={column.minWidth}

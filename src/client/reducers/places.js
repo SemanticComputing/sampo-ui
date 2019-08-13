@@ -45,6 +45,7 @@ export const INITIAL_STATE = {
       desc: 'Label description',
       valueType: 'object',
       makeLink: true,
+      externalLink: false,
       sortValues: true,
       numberedList: false,
       minWidth: 170
@@ -55,6 +56,7 @@ export const INITIAL_STATE = {
       desc: 'Place type description',
       valueType: 'string',
       makeLink: false,
+      externalLink: false,
       sortValues: true,
       numberedList: false,
       minWidth: 170
@@ -65,6 +67,7 @@ export const INITIAL_STATE = {
       desc: 'Broader area description',
       valueType: 'object',
       makeLink: true,
+      externalLink: false,
       sortValues: true,
       numberedList: false,
       minWidth: 170
@@ -75,6 +78,7 @@ export const INITIAL_STATE = {
       desc: 'Actor description',
       valueType: 'object',
       makeLink: true,
+      externalLink: false,
       sortValues: true,
       numberedList: false,
       minWidth: 200
@@ -85,6 +89,7 @@ export const INITIAL_STATE = {
       desc: 'Manuscript description',
       valueType: 'object',
       makeLink: true,
+      externalLink: false,
       sortValues: true,
       numberedList: false,
       minWidth: 170
@@ -95,6 +100,7 @@ export const INITIAL_STATE = {
       desc: 'Source description',
       valueType: 'object',
       makeLink: true,
+      externalLink: true,
       sortValues: true,
       numberedList: false
     },

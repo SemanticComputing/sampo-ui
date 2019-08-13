@@ -12,16 +12,15 @@ import PlacesPageTable from '../perspectives/PlacesPageTable';
 
 const styles = theme => ({
   root: {
-    overflow: 'auto',
     width: '100%',
-    height: 'auto',
+    height: '100%',
     display: 'flex',
     justifyContent: 'center'
   },
   content: {
     padding: theme.spacing(1),
-    minWidth: 800,
-    maxWidth: 900
+    width: 800,
+    overflowY: 'auto'
   },
   divider: {
     marginTop: theme.spacing(1),

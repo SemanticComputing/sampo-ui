@@ -40,6 +40,7 @@ class WorksPageTable extends React.Component {
               data={data.author}
               valueType='object'
               makeLink={true}
+              externalLink={false}
               sortValues={true}
               numberedList={false}
               minWidth={150}
@@ -54,6 +55,7 @@ class WorksPageTable extends React.Component {
               data={data.language}
               valueType='object'
               makeLink={true}
+              externalLink={true}
               sortValues={true}
               numberedList={false}
               minWidth={150}
@@ -68,6 +70,7 @@ class WorksPageTable extends React.Component {
               data={data.manuscript}
               valueType='object'
               makeLink={true}
+              externalLink={false}
               sortValues={true}
               numberedList={false}
               minWidth={150}

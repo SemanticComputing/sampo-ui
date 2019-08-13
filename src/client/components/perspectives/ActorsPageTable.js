@@ -39,7 +39,8 @@ class ActorsPageTable extends React.Component {
               columnId='type'
               data={data.type}
               valueType='object'
-              makeLink={true}
+              makeLink={false}
+              externalLink={false}
               sortValues={true}
               numberedList={false}
               minWidth={150}
@@ -53,7 +54,8 @@ class ActorsPageTable extends React.Component {
               columnId='type'
               data={data.birthDateTimespan}
               valueType='object'
-              makeLink={true}
+              makeLink={false}
+              externalLink={false}
               sortValues={true}
               numberedList={false}
               minWidth={150}
@@ -68,6 +70,7 @@ class ActorsPageTable extends React.Component {
               data={data.birthPlace}
               valueType='object'
               makeLink={true}
+              externalLink={false}
               sortValues={true}
               numberedList={false}
               minWidth={150}
@@ -81,7 +84,8 @@ class ActorsPageTable extends React.Component {
               columnId='type'
               data={data.deathDateTimespan}
               valueType='object'
-              makeLink={true}
+              makeLink={false}
+              externalLink={false}
               sortValues={true}
               numberedList={false}
               minWidth={150}
@@ -96,6 +100,7 @@ class ActorsPageTable extends React.Component {
               data={data.manuscript}
               valueType='object'
               makeLink={true}
+              externalLink={false}
               sortValues={true}
               numberedList={false}
               minWidth={150}

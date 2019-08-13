@@ -31,7 +31,7 @@ export const manuscriptProperties =
       ?production crm:P108_has_produced ?id .
       ?production crm:P7_took_place_at ?productionPlace__id .
       ?productionPlace__id skos:prefLabel ?productionPlace__prefLabel .
-      OPTIONAL { ?productionPlace__id owl:sameAs ?productionPlace__dataProviderUrl }
+      BIND(CONCAT("/places/page/", REPLACE(STR(?productionPlace__id), "^.*\\\\/(.+)", "$1")) AS ?productionPlace__dataProviderUrl)
       # FILTER NOT EXISTS {
       #   ?production crm:P7_took_place_at ?productionPlace__id2 .
       #   ?productionPlace__id2 crm:P89_falls_within+ ?productionPlace__id .
@@ -41,7 +41,7 @@ export const manuscriptProperties =
     {
       ?id crm:P51_has_former_or_current_owner ?owner__id .
       ?owner__id skos:prefLabel ?owner__prefLabel .
-      BIND (?owner__id AS ?owner__dataProviderUrl)
+      BIND(CONCAT("/actors/page/", REPLACE(STR(?owner__id), "^.*\\\\/(.+)", "$1")) AS ?owner__dataProviderUrl)
       #OPTIONAL { ?owner__id mmm-schema:data_provider_url ?owner__dataProviderUrl }
       #OPTIONAL {
       #  [] rdf:subject ?id ;

@@ -40,7 +40,7 @@ export const actorProperties = `
     {
       ?id mmm-schema:person_place ?place__id .
       ?place__id skos:prefLabel ?place__prefLabel .
-      BIND(?place__id as ?place__dataProviderUrl)
+      BIND(CONCAT("/places/page/", REPLACE(STR(?place__id), "^.*\\\\/(.+)", "$1")) AS ?place__dataProviderUrl)
     }
     UNION
     {
@@ -56,7 +56,14 @@ export const actorProperties = `
     {
       ?id ^crm:P51_has_former_or_current_owner ?manuscript__id .
       ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
-      BIND(?manuscript__id AS ?manuscript__dataProviderUrl)
+      OPTIONAL {
+        ?manuscript__id a frbroo:F4_Manifestation_Singleton .
+        BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
+      }
+      OPTIONAL {
+        ?manuscript__id a crm:E78_Collection  .
+        BIND(CONCAT("/collections/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
+      }
     }
     UNION
     {
@@ -66,7 +73,7 @@ export const actorProperties = `
           |^mmm-schema:carried_out_by_as_scribe)
           /crm:P108_has_produced ?manuscript__id .
       ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
-      BIND(?manuscript__id AS ?manuscript__dataProviderUrl)
+      BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
     }
     UNION
     {
@@ -76,7 +83,7 @@ export const actorProperties = `
           |^mmm-schema:carried_out_by_as_editor)
           /frbroo:R16_initiated/^mmm-schema:manuscript_work ?manuscript__id .
       ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
-      BIND(?manuscript__id AS ?manuscript__dataProviderUrl)
+      BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
     }
     UNION
     {
@@ -86,7 +93,14 @@ export const actorProperties = `
           |^mmm-schema:carried_out_by_as_selling_agent)
           /^crm:P30_transferred_custody_of|^mmm-schema:observed_manuscript ?manuscript__id .
       ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
-      BIND(?manuscript__id AS ?manuscript__dataProviderUrl)
+      OPTIONAL {
+        ?manuscript__id a frbroo:F4_Manifestation_Singleton .
+        BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
+      }
+      OPTIONAL {
+        ?manuscript__id a crm:E78_Collection  .
+        BIND(CONCAT("/collections/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
+      }
     }
 `;
 

@@ -80,7 +80,7 @@ ResultTableCell.propTypes = {
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.string]),
   valueType: PropTypes.string.isRequired,
   makeLink: PropTypes.bool.isRequired,
-  externalLink: PropTypes.bool,
+  externalLink: PropTypes.bool.isRequired,
   sortValues: PropTypes.bool.isRequired,
   numberedList: PropTypes.bool.isRequired,
   minWidth: PropTypes.number,

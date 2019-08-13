@@ -40,6 +40,7 @@ class ManuscriptsPageTable extends React.Component {
               data={data.author}
               valueType='object'
               makeLink={true}
+              externalLink={false}
               sortValues={true}
               numberedList={false}
               minWidth={150}
@@ -54,6 +55,7 @@ class ManuscriptsPageTable extends React.Component {
               data={data.work}
               valueType='object'
               makeLink={true}
+              externalLink={false}
               sortValues={true}
               numberedList={false}
               minWidth={150}
@@ -68,6 +70,7 @@ class ManuscriptsPageTable extends React.Component {
               data={data.productionPlace}
               valueType='object'
               makeLink={true}
+              externalLink={false}
               sortValues={true}
               numberedList={false}
               minWidth={150}
@@ -81,7 +84,8 @@ class ManuscriptsPageTable extends React.Component {
               columnId='productionTimespan'
               data={data.productionTimespan}
               valueType='object'
-              makeLink={true}
+              makeLink={false}
+              externalLink={false}
               sortValues={true}
               numberedList={false}
               minWidth={150}
@@ -96,6 +100,7 @@ class ManuscriptsPageTable extends React.Component {
               data={data.language}
               valueType='object'
               makeLink={true}
+              externalLink={true}
               sortValues={true}
               numberedList={false}
               minWidth={150}
@@ -110,6 +115,7 @@ class ManuscriptsPageTable extends React.Component {
               data={data.owner}
               valueType='object'
               makeLink={true}
+              externalLink={false}
               sortValues={true}
               numberedList={false}
               minWidth={150}
@@ -124,6 +130,7 @@ class ManuscriptsPageTable extends React.Component {
               data={data.event}
               valueType='object'
               makeLink={true}
+              externalLink={true}
               sortValues={true}
               numberedList={false}
               minWidth={150}
@@ -138,6 +145,7 @@ class ManuscriptsPageTable extends React.Component {
               data={data.source}
               valueType='object'
               makeLink={true}
+              externalLink={true}
               sortValues={true}
               numberedList={false}
               minWidth={150}
