@@ -22,6 +22,10 @@ export const manuscriptProperties =
     {
       ?id crm:P128_carries ?expression__id .
       ?expression__id skos:prefLabel ?expression__prefLabel .
+      OPTIONAL {
+        ?expression__id crm:P72_has_language ?language__id .
+        ?language__id skos:prefLabel ?language__prefLabel .
+      }
       BIND(CONCAT("/expressions/page/", REPLACE(STR(?expression__id), "^.*\\\\/(.+)", "$1")) AS ?expression__dataProviderUrl)
     }
     UNION
@@ -56,12 +60,6 @@ export const manuscriptProperties =
       #    mmm-schema:order ?order .
       #  BIND(xsd:integer(?order) + 1 AS ?owner__order)
       #}
-    }
-    UNION
-    {
-      ?id crm:P128_carries ?expression .
-      ?expression crm:P72_has_language ?language__id .
-      ?language__id skos:prefLabel ?language__prefLabel .
     }
     UNION
     {
