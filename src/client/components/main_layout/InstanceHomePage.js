@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
 import { has } from 'lodash';
 import ManuscriptsPageTable from '../perspectives/ManuscriptsPageTable';
 import WorksPageTable from '../perspectives/WorksPageTable';
@@ -25,6 +26,9 @@ const styles = theme => ({
   divider: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1)
+  },
+  sahaButton: {
+    marginTop: theme.spacing(2),
   }
 });
 
@@ -98,7 +102,6 @@ class InstanceHomePage extends React.Component {
     return tableEl;
   }
 
-
   render = () => {
     const { classes, data } = this.props;
     return(
@@ -109,6 +112,15 @@ class InstanceHomePage extends React.Component {
             <Divider className={classes.divider} />
             <Typography variant='h6'>{data.prefLabel.prefLabel}</Typography>
             {this.renderTable()}
+            <Button
+              className={classes.sahaButton}
+              variant='contained'
+              target='_blank'
+              rel='noopener noreferrer'
+              href={data.id}
+            >
+              Open in Linked Data Browser
+            </Button>
           </Paper>
         }
       </div>
