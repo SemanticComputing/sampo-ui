@@ -106,6 +106,7 @@ class ManuscriptsPageTable extends React.Component {
               minWidth={150}
               container='cell'
               expanded={true}
+              addSource={this.props.addSource}
             />
           </TableRow>
           <TableRow key='language'>
@@ -207,6 +208,7 @@ class ManuscriptsPageTable extends React.Component {
 ManuscriptsPageTable.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
+  addSource: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(ManuscriptsPageTable);

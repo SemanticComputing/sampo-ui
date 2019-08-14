@@ -33,6 +33,8 @@ export const manuscriptProperties =
       ?production crm:P108_has_produced ?id .
       ?production crm:P4_has_time-span ?productionTimespan__id .
       ?productionTimespan__id skos:prefLabel ?productionTimespan__prefLabel .
+      ?productionTimespan__id dct:source ?productionTimespan__source__id .
+      ?productionTimespan__source__id skos:prefLabel ?productionTimespan__source__prefLabel .
       OPTIONAL { ?productionTimespan__id crm:P82a_begin_of_the_begin ?productionTimespan__start }
       OPTIONAL { ?productionTimespan__id crm:P82b_end_of_the_end ?productionTimespan__end }
     }
@@ -123,7 +125,7 @@ export const expressionProperties =
     }
  `;
 
- export const collectionProperties =
+export const collectionProperties =
  `?id skos:prefLabel ?prefLabel__id .
      BIND (?prefLabel__id as ?prefLabel__prefLabel)
      BIND(CONCAT("/collections/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
