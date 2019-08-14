@@ -471,7 +471,7 @@ LeafletMap.propTypes = {
   results: PropTypes.array.isRequired,
   facetID: PropTypes.string,
   facet: PropTypes.object,
-  instance: PropTypes.object.isRequired,
+  instance: PropTypes.object,
   facetUpdateID: PropTypes.number,
   fetchResults: PropTypes.func,
   resultClass: PropTypes.string,

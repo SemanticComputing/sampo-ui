@@ -31,7 +31,7 @@ export const INITIAL_STATE = {
   paginatedResults: [],
   resultCount: 0,
   resultsUpdateID: -1,
-  instance: {},
+  instance: null,
   page: -1,
   pagesize: 10,
   sortBy: null,
@@ -45,7 +45,7 @@ export const INITIAL_STATE = {
       desc: 'Type description',
       valueType: 'object',
       makeLink: true,
-      externalLink: true,
+      externalLink: false,
       sortValues: false,
       numberedList: false,
       minWidth: 200,
@@ -84,6 +84,17 @@ export const INITIAL_STATE = {
       sortValues: true,
       numberedList: false,
       minWidth: 250
+    },
+    {
+      id: 'source',
+      label: 'Source',
+      desc: 'Source description',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: true,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 200
     },
   ],
 };

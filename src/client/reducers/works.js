@@ -31,7 +31,7 @@ export const INITIAL_STATE = {
   paginatedResults: [],
   resultCount: 0,
   resultsUpdateID: -1,
-  instance: {},
+  instance: null,
   page: -1,
   pagesize: 10,
   sortBy: null,

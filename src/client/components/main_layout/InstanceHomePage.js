@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import { has } from 'lodash';
 import ManuscriptsPageTable from '../perspectives/ManuscriptsPageTable';
 import WorksPageTable from '../perspectives/WorksPageTable';
+import EventsPageTable from '../perspectives/EventsPageTable';
 import ActorsPageTable from '../perspectives/ActorsPageTable';
 import PlacesPageTable from '../perspectives/PlacesPageTable';
 
@@ -58,6 +59,12 @@ class InstanceHomePage extends React.Component {
         });
         uri = `${base}/work/${localID}`;
         break;
+      case 'events':
+        this.setState({
+          instanceHeading: 'Event',
+        });
+        uri = `${base}/event/${localID}`;
+        break;
       case 'actors':
         this.setState({
           instanceHeading: 'Actor',
@@ -89,6 +96,9 @@ class InstanceHomePage extends React.Component {
         case 'Work':
           tableEl = <WorksPageTable data={this.props.data} />;
           break;
+        case 'Event':
+          tableEl = <EventsPageTable data={this.props.data} />;
+          break;
         case 'Actor':
           tableEl = <ActorsPageTable data={this.props.data} />;
           break;
@@ -106,7 +116,7 @@ class InstanceHomePage extends React.Component {
     const { classes, data } = this.props;
     return(
       <div className={classes.root}>
-        {has(data, 'prefLabel') &&
+        {data !== null &&
           <Paper className={classes.content}>
             <Typography variant='h4'>{this.state.instanceHeading}</Typography>
             <Divider className={classes.divider} />
@@ -132,7 +142,7 @@ InstanceHomePage.propTypes = {
   classes: PropTypes.object.isRequired,
   fetchByURI: PropTypes.func.isRequired,
   resultClass: PropTypes.string.isRequired,
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object,
   routeProps: PropTypes.object.isRequired
 };
 
