@@ -47,7 +47,8 @@ export const INITIAL_STATE = {
       makeLink: true,
       externalLink: false,
       sortValues: true,
-      numberedList: false
+      numberedList: false,
+      minWidth: 250
     },
     {
       id: 'author',
@@ -76,6 +77,19 @@ export const INITIAL_STATE = {
       label: 'Language',
       desc: `
         The language(s) of expression(s) of the work
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: true,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150,
+    },
+    {
+      id: 'material',
+      label: 'Material',
+      desc: `
+        Material info.
       `,
       valueType: 'object',
       makeLink: true,

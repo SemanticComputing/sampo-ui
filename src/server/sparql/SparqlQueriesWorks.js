@@ -12,6 +12,11 @@ export const workProperties = `
     }
     UNION
     {
+      ?id ^mmm-schema:manuscript_work/crm:P45_consists_of ?material__id .
+      ?material__id skos:prefLabel ?material__prefLabel .
+    }
+    UNION
+    {
       ?id mmm-schema:data_provider_url ?source__id .
       BIND(?source__id AS ?source__prefLabel)
     }
