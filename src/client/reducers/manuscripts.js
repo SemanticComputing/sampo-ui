@@ -177,6 +177,19 @@ export const INITIAL_STATE = {
       minWidth: 250
     },
     {
+      id: 'collection',
+      label: 'Collection',
+      desc: `
+        Collection
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 200
+    },
+    {
       id: 'source',
       label: 'Source',
       desc: `
