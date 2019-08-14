@@ -56,7 +56,8 @@ export const generateConstraintsBlock = ({
           facetClass: facetClass,
           facetID: c.id,
           filterTarget: filterTarget,
-          queryString: c.values
+          queryString: c.values,
+          inverse: inverse
         });
         break;
       case 'uriFilter':
@@ -74,6 +75,7 @@ export const generateConstraintsBlock = ({
           facetID: c.id,
           filterTarget: filterTarget,
           values: c.values,
+          inverse: inverse
         });
         break;
       case 'timespanFilter':
@@ -82,6 +84,7 @@ export const generateConstraintsBlock = ({
           facetID: c.id,
           filterTarget: filterTarget,
           values: c.values,
+          inverse: inverse
         });
         break;
     }
@@ -93,29 +96,50 @@ const generateTextFilter = ({
   facetClass,
   facetID,
   filterTarget,
-  queryString
+  queryString,
+  inverse
 }) => {
-  return `?${filterTarget} text:query (${facetConfigs[facetClass][facetID].textQueryProperty} '${queryString}') . `;
+  const filterStr = `?${filterTarget} text:query (${facetConfigs[facetClass][facetID].textQueryProperty} '${queryString}') . `;
+  if (inverse) {
+    return `
+      FILTER NOT EXISTS {
+        ${filterStr}
+      }
+    `;
+  } else {
+    return filterStr;
+  }
 };
 
 const generateSpatialFilter = ({
   facetClass,
   facetID,
   filterTarget,
-  values
+  values,
+  inverse
 }) => {
   const { latMin, longMin, latMax, longMax } = values;
-  return `
+  const filterStr = `
     ?${facetID}Filter spatial:withinBox (${latMin} ${longMin} ${latMax} ${longMax} 1000000) .
     ?${filterTarget} ${facetConfigs[facetClass][facetID].predicate} ?${facetID}Filter .
   `;
+  if (inverse) {
+    return `
+      FILTER NOT EXISTS {
+        ${filterStr}
+      }
+    `;
+  } else {
+    return filterStr;
+  }
 };
 
 const generateTimespanFilter = ({
   facetClass,
   facetID,
   filterTarget,
-  values
+  values,
+  inverse
 }) => {
   const facetConfig = facetConfigs[facetClass][facetID];
   const { start, end } = values;
@@ -129,7 +153,7 @@ const generateTimespanFilter = ({
   //   FILTER(?start >= "${start}"^^xsd:date)
   //   FILTER(?end <= "${end}"^^xsd:date)
   // `;
-  return `
+  const filterStr = `
     ?${filterTarget} ${facetConfig.predicate} ?${facetID} .
     ?${facetID} ${facetConfig.startProperty} ?${facetID}Start .
     ?${facetID} ${facetConfig.endProperty} ?${facetID}End .
@@ -140,6 +164,15 @@ const generateTimespanFilter = ({
       ?${facetID}End >= "${selectionStart}"^^xsd:date && ?${facetID}End <= "${selectionEnd}"^^xsd:date
     )
   `;
+  if (inverse) {
+    return `
+    FILTER NOT EXISTS {
+        ${filterStr}
+    }
+    `;
+  } else {
+    return filterStr;
+  }
 };
 
 const generateUriFilter = ({
