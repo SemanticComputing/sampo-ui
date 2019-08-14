@@ -5,8 +5,9 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
-import { has } from 'lodash';
 import ManuscriptsPageTable from '../perspectives/ManuscriptsPageTable';
+import ExpressionsPageTable from '../perspectives/ExpressionsPageTable';
+import CollectionsPageTable from '../perspectives/CollectionsPageTable';
 import WorksPageTable from '../perspectives/WorksPageTable';
 import EventsPageTable from '../perspectives/EventsPageTable';
 import ActorsPageTable from '../perspectives/ActorsPageTable';
@@ -53,6 +54,18 @@ class InstanceHomePage extends React.Component {
         });
         uri = `${base}/manifestation_singleton/${localID}`;
         break;
+      case 'expressions':
+        this.setState({
+          instanceHeading: 'Expression',
+        });
+        uri = `${base}/expression/${localID}`;
+        break;
+      case 'collections':
+        this.setState({
+          instanceHeading: 'Collection',
+        });
+        uri = `${base}/collection/${localID}`;
+        break;
       case 'works':
         this.setState({
           instanceHeading: 'Work',
@@ -92,6 +105,12 @@ class InstanceHomePage extends React.Component {
       switch (this.state.instanceHeading) {
         case 'Manuscript':
           tableEl = <ManuscriptsPageTable data={this.props.data} />;
+          break;
+        case 'Expression':
+          tableEl = <ExpressionsPageTable data={this.props.data} />;
+          break;
+        case 'Collection':
+          tableEl = <CollectionsPageTable data={this.props.data} />;
           break;
         case 'Work':
           tableEl = <WorksPageTable data={this.props.data} />;

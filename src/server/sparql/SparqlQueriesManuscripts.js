@@ -100,6 +100,47 @@ export const manuscriptProperties =
       BIND(CONCAT("/events/page/", REPLACE(STR(?event__id), "^.*\\\\/(.+)", "$1")) AS ?event__dataProviderUrl)
     }`;
 
+export const expressionProperties =
+`?id skos:prefLabel ?prefLabel__id .
+    BIND (?prefLabel__id as ?prefLabel__prefLabel)
+    BIND(CONCAT("/expressions/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
+    {
+      ?id mmm-schema:data_provider_url ?source__id .
+      BIND (?source__id AS ?source__prefLabel)
+      BIND (?source__id AS ?source__dataProviderUrl)
+    }
+    UNION
+    {
+      ?id ^crm:P128_carries ?manuscript__id .
+      ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
+      BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
+    }
+    UNION
+    {
+      ?id crm:P72_has_language ?language__id .
+      ?language__id skos:prefLabel ?language__prefLabel .
+      BIND(?language__id as ?language__dataProviderUrl)
+    }
+ `;
+
+ export const collectionProperties =
+ `?id skos:prefLabel ?prefLabel__id .
+     BIND (?prefLabel__id as ?prefLabel__prefLabel)
+     BIND(CONCAT("/collections/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
+     {
+       ?id dct:source ?source__id .
+       ?source__id skos:prefLabel ?source__prefLabel .
+       BIND (?source__id AS ?source__dataProviderUrl)
+     }
+     UNION
+     {
+       ?id ^crm:P46i_forms_part_of ?manuscript__id .
+       ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
+       BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
+     }
+  `;
+
+
 export const productionPlacesQuery = `
   SELECT ?id ?lat ?long ?prefLabel ?source ?dataProviderUrl
   (COUNT(DISTINCT ?manuscripts) as ?instanceCount)

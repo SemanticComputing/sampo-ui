@@ -8,6 +8,8 @@ import {
 } from './SparqlQueriesGeneral';
 import {
   manuscriptProperties,
+  expressionProperties,
+  collectionProperties,
   productionPlacesQuery,
   migrationsQuery,
   networkQuery,
@@ -211,6 +213,14 @@ export const getByURI = ({
     case 'manuscripts':
       q = instanceQuery;
       q = q.replace('<PROPERTIES>', manuscriptProperties);
+      break;
+    case 'expressions':
+      q = instanceQuery;
+      q = q.replace('<PROPERTIES>', expressionProperties);
+      break;
+    case 'collections':
+      q = instanceQuery;
+      q = q.replace('<PROPERTIES>', collectionProperties);
       break;
     case 'works':
       q = instanceQuery;
