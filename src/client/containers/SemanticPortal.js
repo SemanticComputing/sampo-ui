@@ -260,6 +260,32 @@ let SemanticPortal = (props) => {
                 />
               </React.Fragment>
             )}
+            <Route
+              path={`/collections/page/:id`}
+              render={routeProps => {
+                return (
+                  <InstanceHomePage
+                    fetchByURI={props.fetchByURI}
+                    resultClass='collections'
+                    data={props.collections.instance}
+                    routeProps={routeProps}
+                  />
+                );
+              }}
+            />
+            <Route
+              path={`/expressions/page/:id`}
+              render={routeProps => {
+                return (
+                  <InstanceHomePage
+                    fetchByURI={props.fetchByURI}
+                    resultClass='expressions'
+                    data={props.expressions.instance}
+                    routeProps={routeProps}
+                  />
+                );
+              }}
+            />
           </Grid>
         </React.Fragment>
       </div>
@@ -282,6 +308,8 @@ const mapStateToProps = state => {
     actorsFacets: state.actorsFacets,
     places: state.places,
     placesFacets: state.placesFacets,
+    collections: state.collections,
+    expressions: state.expressions,
     clientSideFacetedSearch: state.clientSideFacetedSearch,
     error: state.error
     //browser: state.browser,
@@ -318,6 +346,8 @@ SemanticPortal.propTypes = {
   actorsFacets: PropTypes.object.isRequired,
   places: PropTypes.object.isRequired,
   placesFacets: PropTypes.object.isRequired,
+  collections: PropTypes.object.isRequired,
+  expressions:  PropTypes.object.isRequired,
   clientSideFacetedSearch: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
   fetchResultCount: PropTypes.func.isRequired,

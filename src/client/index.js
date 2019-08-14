@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { createStore, applyMiddleware, compose, bindActionCreators } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
-import {responsiveStoreEnhancer} from 'redux-responsive';
+//import {responsiveStoreEnhancer} from 'redux-responsive';
 import { Provider } from 'react-redux';
 import ReduxToastr, { actions as toastrActions } from 'react-redux-toastr';
 import { Router } from 'react-router-dom';
@@ -23,7 +23,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   reducer,
   compose(
-    responsiveStoreEnhancer,
+    //responsiveStoreEnhancer,
     composeEnhancers(middleware)
   )
 );
