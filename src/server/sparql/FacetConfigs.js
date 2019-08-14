@@ -122,6 +122,13 @@ export const facetConfigs = {
       predicate: '^mmm-schema:manuscript_work/crm:P45_consists_of',
       type: 'list',
     },
+    collection: {
+      id: 'collection',
+      facetValueFilter: '',
+      labelPath: '^mmm-schema:manuscript_work/crm:P46i_forms_part_of/skos:prefLabel',
+      predicate: '^mmm-schema:manuscript_work/crm:P46i_forms_part_of',
+      type: 'list',
+    },
   },
   events: {
     facetClass: 'crm:E10_Transfer_of_Custody crm:E12_Production crm:E7_Activity',

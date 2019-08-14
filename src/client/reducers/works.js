@@ -73,6 +73,19 @@ export const INITIAL_STATE = {
       minWidth: 150,
     },
     {
+      id: 'collection',
+      label: 'Collection',
+      desc: `
+        Collection
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 200
+    },
+    {
       id: 'language',
       label: 'Language',
       desc: `
