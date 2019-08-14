@@ -30,7 +30,6 @@ class EventsPageTable extends React.Component {
 
   render = () => {
     const { classes, data } = this.props;
-    console.log(data.type.id)
     return(
       <Table className={classes.table}>
         <TableBody>
@@ -111,7 +110,7 @@ class EventsPageTable extends React.Component {
                   expanded={true}
                 />
               </TableRow>
-            </React.Fragment>      
+            </React.Fragment>
           }
           <TableRow key='source'>
             <TableCell>Source</TableCell>
