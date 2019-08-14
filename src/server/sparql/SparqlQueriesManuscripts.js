@@ -72,6 +72,7 @@ export const manuscriptProperties =
       ?event__id a ?event__type .
       OPTIONAL { ?event__id crm:P4_has_time-span/skos:prefLabel ?event__date }
       BIND("Transfer of Custody" AS ?event__prefLabel)
+      BIND(CONCAT("/events/page/", REPLACE(STR(?event__id), "^.*\\\\/(.+)", "$1")) AS ?event__dataProviderUrl)
     }
     UNION
     {
@@ -80,6 +81,7 @@ export const manuscriptProperties =
       ?event__id a ?event__type .
       OPTIONAL { ?event__id crm:P4_has_time-span/skos:prefLabel ?event__date }
       BIND("On Sale" AS ?event__prefLabel)
+      BIND(CONCAT("/events/page/", REPLACE(STR(?event__id), "^.*\\\\/(.+)", "$1")) AS ?event__dataProviderUrl)
     }
     UNION
     {
@@ -89,6 +91,7 @@ export const manuscriptProperties =
       ?event__id mmm-schema:ownership_attributed_to/skos:prefLabel ?owner_prefLabel .
       OPTIONAL { ?event__id crm:P4_has_time-span/skos:prefLabel ?event__date }
       BIND("Owner: " + ?owner_prefLabel  AS ?event__prefLabel)
+      BIND(CONCAT("/events/page/", REPLACE(STR(?event__id), "^.*\\\\/(.+)", "$1")) AS ?event__dataProviderUrl)
     }`;
 
 export const productionPlacesQuery = `
