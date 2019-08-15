@@ -52,6 +52,27 @@ export const INITIAL_STATE = {
       uriFilter: null,
       priority: 2
     },
+    productionTimespan: {
+      id: 'productionTimespan',
+      label: 'Manuscript production date',
+      //predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: null,
+      sortDirection: null,
+      sortButton: false,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: false,
+      containerClass: 'three',
+      filterType: 'timespanFilter',
+      min: null,
+      max: null,
+      timespanFilter: null,
+      type: 'timespan',
+      priority: 6
+    },
     language: {
       id: 'language',
       label: 'Language',
@@ -122,7 +143,7 @@ export const INITIAL_STATE = {
       containerClass: 'five',
       filterType: 'uriFilter',
       uriFilter: null,
-      priority: 6,
+      priority: 7,
     },
   },
 };

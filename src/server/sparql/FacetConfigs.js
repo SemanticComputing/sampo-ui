@@ -129,6 +129,16 @@ export const facetConfigs = {
       predicate: '^mmm-schema:manuscript_work/crm:P46i_forms_part_of',
       type: 'list',
     },
+    productionTimespan: {
+      id: 'productionTimespan',
+      facetValueFilter: '',
+      sortByAscPredicate: '^mmm-schema:manuscript_work/^crm:P108_has_produced/crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
+      sortByDescPredicate: '^mmm-schema:manuscript_work/^crm:P108_has_produced/crm:P4_has_time-span/crm:P82b_end_of_the_end',
+      predicate: '^mmm-schema:manuscript_work/^crm:P108_has_produced/crm:P4_has_time-span',
+      startProperty: 'crm:P82a_begin_of_the_begin',
+      endProperty: 'crm:P82b_end_of_the_end',
+      type: 'timespan',
+    },
   },
   events: {
     facetClass: 'crm:E10_Transfer_of_Custody crm:E12_Production crm:E7_Activity',

@@ -70,7 +70,23 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 150,
+      minWidth: 250,
+    },
+    {
+      id: 'productionTimespan',
+      label: 'Manuscript production date',
+      desc: `
+        The date when the manuscript was written. Multiple production dates
+        may appear for a single manuscript, when there are discrepancies
+        between the contributing data sources or when the precise date is
+        uncertain.
+      `,
+      valueType: 'object',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
     },
     {
       id: 'collection',

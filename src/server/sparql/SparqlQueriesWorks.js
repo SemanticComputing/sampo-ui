@@ -38,4 +38,13 @@ export const workProperties = `
       ?expression crm:P72_has_language ?language__id .
       ?language__id skos:prefLabel ?language__prefLabel .
     }
+    UNION
+    {
+      ?id ^mmm-schema:manuscript_work/^crm:P108_has_produced/crm:P4_has_time-span ?productionTimespan__id .
+      ?productionTimespan__id skos:prefLabel ?productionTimespan__prefLabel .
+      ?productionTimespan__id dct:source ?productionTimespan__source__id .
+      ?productionTimespan__source__id skos:prefLabel ?productionTimespan__source__prefLabel .
+      OPTIONAL { ?productionTimespan__id crm:P82a_begin_of_the_begin ?productionTimespan__start }
+      OPTIONAL { ?productionTimespan__id crm:P82b_end_of_the_end ?productionTimespan__end }
+    }
 `;
