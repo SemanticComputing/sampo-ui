@@ -73,13 +73,20 @@ const ObjectList = props => {
   };
 
   const createBasicList = data => {
-    return data.map((item, i) =>
-      <li key={i}>
-        {props.makeLink && createLink(item.id, item.dataProviderUrl, item.prefLabel, false)}
-        {!props.makeLink &&
-          <span>{Array.isArray(item.prefLabel) ? item.prefLabel[0] : item.prefLabel}</span>
-        }
-      </li>
+    return data.map((item, i) => {
+      const hasSource = has(item, 'source');
+      // if (hasSource) {
+      //   props.addSource(item.source);
+      // }
+      return(
+        <li key={i}>
+          {props.makeLink && createLink(item.id, item.dataProviderUrl, item.prefLabel, false)}
+          {!props.makeLink && <span>{Array.isArray(item.prefLabel) ? item.prefLabel[0] : item.prefLabel}</span>}
+          {hasSource && <sup>{item.source.prefLabel}</sup>}
+        </li>
+      );
+    }
+
     );
   };
 
@@ -152,7 +159,8 @@ ObjectList.propTypes = {
   sortValues: PropTypes.bool.isRequired,
   numberedList: PropTypes.bool.isRequired,
   expanded: PropTypes.bool.isRequired,
-  columnId: PropTypes.string.isRequired
+  columnId: PropTypes.string.isRequired,
+  addSource: PropTypes.func
 } ;
 
 export default withStyles(styles)(ObjectList);

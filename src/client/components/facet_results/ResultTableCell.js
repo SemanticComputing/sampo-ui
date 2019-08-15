@@ -38,7 +38,7 @@ const ResultTableCell = props => {
   };
 
   const { data, valueType, makeLink, externalLink, sortValues, numberedList, minWidth,
-    container, columnId, expanded } = props;
+    container, columnId, expanded, addSource } = props;
   let cellContent = null;
   let cellStyle = minWidth == null ? {} : { minWidth: minWidth };
   switch (valueType) {
@@ -52,6 +52,7 @@ const ResultTableCell = props => {
           numberedList={numberedList}
           columnId={columnId}
           expanded={expanded}
+          addSource={addSource}
         />;
       break;
     case 'string':
@@ -84,7 +85,8 @@ ResultTableCell.propTypes = {
   sortValues: PropTypes.bool.isRequired,
   numberedList: PropTypes.bool.isRequired,
   minWidth: PropTypes.number,
-  expanded: PropTypes.bool.isRequired
+  expanded: PropTypes.bool.isRequired,
+  addSource: PropTypes.func
 };
 
 export default withStyles(styles)(ResultTableCell);

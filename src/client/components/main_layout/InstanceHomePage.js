@@ -40,7 +40,16 @@ class InstanceHomePage extends React.Component {
     super(props);
     this.state = {
       instanceHeading: '',
+      sources: []
     };
+  }
+
+  handleAddSource = source => {
+    let updatedSources = this.state.sources;
+    updatedSources.push(source);
+    this.setState({
+      sources: updatedSources
+    });
   }
 
   componentDidMount = () => {
@@ -104,7 +113,11 @@ class InstanceHomePage extends React.Component {
     if (this.state.instanceClass !== '') {
       switch (this.state.instanceHeading) {
         case 'Manuscript':
-          tableEl = <ManuscriptsPageTable data={this.props.data} />;
+          tableEl =
+            <ManuscriptsPageTable
+              data={this.props.data}
+              addSource={this.handleAddSource}
+            />;
           break;
         case 'Expression':
           tableEl = <ExpressionsPageTable data={this.props.data} />;
@@ -133,6 +146,7 @@ class InstanceHomePage extends React.Component {
 
   render = () => {
     const { classes, data } = this.props;
+    console.log(this.state.sources)
     return(
       <div className={classes.root}>
         {data !== null &&
