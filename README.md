@@ -12,12 +12,19 @@ Node.js https://nodejs.org/en/ (tested with 10.15.3 LTS)
 
 Nodemon https://nodemon.io/
 
+If your home directory is mounted from a network drive, Node.js should
+be installed using Node Version Manager https://github.com/nvm-sh/nvm  
+
 ## Local development
 
-```
-npm install
-npm run dev
-```
+Install the dependencies specified in `package.json` (this command needs to be run only once,
+  as long as you don't modify the dependencies):
+
+`npm install`
+
+Run client and server concurrently:
+
+`npm run dev`
 
 ## Deploy with Docker
 
