@@ -49,7 +49,7 @@ class TopBar extends React.Component {
     mobileMoreAnchorEl: null,
   };
 
-  handleProfileMenuOpen = event => {
+  handleInfoMenuOpen = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
@@ -96,8 +96,6 @@ class TopBar extends React.Component {
       </Menu>
     );
 
-
-
     return (
       <div className={classes.root}>
         <AppBar position="absolute">
@@ -129,6 +127,9 @@ class TopBar extends React.Component {
                   {perspective}
                 </Button>
               )}
+              {/* <Button className={classes.appBarButton} aria-haspopup="true" onClick={this.handleInfoMenuOpen}>
+                <span>Info</span>
+              </Button> */}
             </div>
             <div className={classes.sectionMobile}>
               <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
