@@ -48,6 +48,21 @@ class ActorsPageTable extends React.Component {
               expanded={true}
             />
           </TableRow>
+          <TableRow key='altLabel'>
+            <TableCell>Alternative label</TableCell>
+            <ResultTableCell
+              columnId='altLabel'
+              data={data.altLabel}
+              valueType='string'
+              makeLink={false}
+              externalLink={false}
+              sortValues={true}
+              numberedList={false}
+              minWidth={150}
+              container='cell'
+              expanded={true}
+            />
+          </TableRow>
           <TableRow key='birthDateTimespan'>
             <TableCell>Birth / formation date</TableCell>
             <ResultTableCell

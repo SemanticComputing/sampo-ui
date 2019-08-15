@@ -6,6 +6,10 @@ export const actorProperties = `
     }
     UNION
     {
+      ?id skos:altLabel ?altLabel .
+    }
+    UNION
+    {
       ?id a ?type__id .
       ?type__id skos:prefLabel|rdfs:label ?type__prefLabel .
       BIND(?id AS ?type__dataProviderUrl)
