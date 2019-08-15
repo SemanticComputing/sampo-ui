@@ -5,6 +5,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import purple from '@material-ui/core/colors/purple';
 import ManuscriptsPageTable from '../perspectives/ManuscriptsPageTable';
 import ExpressionsPageTable from '../perspectives/ExpressionsPageTable';
 import CollectionsPageTable from '../perspectives/CollectionsPageTable';
@@ -31,7 +33,14 @@ const styles = theme => ({
   },
   sahaButton: {
     marginTop: theme.spacing(2),
-  }
+  },
+  spinnerContainer: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
 });
 
 class InstanceHomePage extends React.Component {
@@ -145,27 +154,33 @@ class InstanceHomePage extends React.Component {
   }
 
   render = () => {
-    const { classes, data } = this.props;
-    console.log(this.state.sources)
+    const { classes, data, isLoading } = this.props;
     return(
       <div className={classes.root}>
-        {data !== null &&
-          <Paper className={classes.content}>
-            <Typography variant='h4'>{this.state.instanceHeading}</Typography>
-            <Divider className={classes.divider} />
-            <Typography variant='h6'>{data.prefLabel.prefLabel}</Typography>
-            {this.renderTable()}
-            <Button
-              className={classes.sahaButton}
-              variant='contained'
-              target='_blank'
-              rel='noopener noreferrer'
-              href={data.id}
-            >
-              Open in Linked Data Browser
-            </Button>
-          </Paper>
-        }
+        <Paper className={classes.content}>
+          {isLoading &&
+            <div className={classes.spinnerContainer}>
+              <CircularProgress style={{ color: purple[500] }} thickness={5} />
+            </div>
+          }
+          {data !== null &&
+            <React.Fragment>
+              <Typography variant='h4'>{this.state.instanceHeading}</Typography>
+              <Divider className={classes.divider} />
+              <Typography variant='h6'>{data.prefLabel.prefLabel}</Typography>
+              {this.renderTable()}
+              <Button
+                className={classes.sahaButton}
+                variant='contained'
+                target='_blank'
+                rel='noopener noreferrer'
+                href={data.id}
+              >
+                Open in Linked Data Browser
+              </Button>
+            </React.Fragment>
+          }
+        </Paper>
       </div>
     );
   }
@@ -176,6 +191,7 @@ InstanceHomePage.propTypes = {
   fetchByURI: PropTypes.func.isRequired,
   resultClass: PropTypes.string.isRequired,
   data: PropTypes.object,
+  isLoading: PropTypes.bool.isRequired,
   routeProps: PropTypes.object.isRequired
 };
 

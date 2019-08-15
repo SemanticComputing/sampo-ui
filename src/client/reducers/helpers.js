@@ -3,7 +3,8 @@ import { has, isEmpty } from 'lodash';
 export const fetchResults = state => {
   return {
     ...state,
-    fetching: true
+    fetching: true,
+    instance: null
   };
 };
 
@@ -24,7 +25,7 @@ export const fetchResultsFailed = state => {
 export const updateInstance = (state, action) => {
   return {
     ...state,
-    instance: action.data.length == 1 ? action.data[0] : {}, 
+    instance: action.data.length == 1 ? action.data[0] : {},
     sparqlQuery: action.sparqlQuery,
     fetching: false
   };
