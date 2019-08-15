@@ -55,22 +55,22 @@ You can name it how you like and you can rename your local folder to match that.
 
 4. With terminal go to the folder with the cloned mmm-repo on your local computer.
 
-5. Change remote origin from mmm-web-app to your new repo.
+5. Change remote origin from mmm-web-app to your new repo:
 `git remote set-url origin [your new github repo here]`
 
-6. Check that the origin changed to your new github repo.
+6. Check that the origin changed to your new github repo:
 `git remote -v`
 
-7. Push your local clone of mmm-web-app to your new github repo.
+7. Push your local clone of mmm-web-app to your new github repo:
 `git push`
 
-8. Set the original github repo of mmm-web-app as the upstream of your new project.
+8. Set the original github repo of mmm-web-app as the upstream of your new project:
 `git remote add upstream git@github.com:SemanticComputing/mmm-web-app.git`
 
 9. When new commits appear on the original mmm-web-app you can fetch them to your project.
-The example fetches only master branch.
+The example fetches only master branch:
 `git fetch upstream master`
 
 10. Go to the branch of your project where you want to merge the changes in upstream.
-Merge, solve conflicts and enjoy.
+Merge, solve conflicts and enjoy:
 `git merge upstream/master`
