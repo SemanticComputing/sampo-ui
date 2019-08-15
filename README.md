@@ -42,8 +42,7 @@ docker rm mmm-web-app
 docker run -d -p 3006:3001 --name mmm-web-app mmm-web-app-c
 ```
 
-## Set up a new project using this repository as a base, with the possibility of
-## merging the new commits added to this repository
+## Set up a new project using this repository as a base, with the possibility of merging the new commits added to this repository
 
 1. Normally clone the project to your local computer:
 `git clone git@github.com:SemanticComputing/mmm-web-app.git`
