@@ -157,7 +157,6 @@ ObjectList.propTypes = {
   numberedList: PropTypes.bool.isRequired,
   expanded: PropTypes.bool.isRequired,
   columnId: PropTypes.string.isRequired,
-  addSource: PropTypes.func
 } ;
 
 export default withStyles(styles)(ObjectList);

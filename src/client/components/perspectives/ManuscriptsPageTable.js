@@ -208,7 +208,6 @@ class ManuscriptsPageTable extends React.Component {
 ManuscriptsPageTable.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
-  addSource: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(ManuscriptsPageTable);
