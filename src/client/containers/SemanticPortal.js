@@ -191,6 +191,7 @@ let SemanticPortal = (props) => {
             search={props.clientSideFacetedSearch}
             fetchResultsClientSide={props.fetchResultsClientSide}
             clearResults={props.clearResults}
+            perspectives={perspectiveArr}
           />
           <Grid container spacing={1} className={classes.mainContainer}>
             <Route

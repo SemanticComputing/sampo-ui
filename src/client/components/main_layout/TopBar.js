@@ -11,6 +11,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import { Link, NavLink } from 'react-router-dom';
 import TopBarSearchField from './TopBarSearchField';
+import { has } from 'lodash';
 
 const styles = theme => ({
   root: {
@@ -27,6 +28,9 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       display: 'flex',
     },
+  },
+  link: {
+    textDecoration: 'none'
   },
   sectionMobile: {
     display: 'flex',
@@ -66,43 +70,89 @@ class TopBar extends React.Component {
     this.setState({ mobileMoreAnchorEl: null });
   };
 
-  render() {
-    const { mobileMoreAnchorEl } = this.state;
-    const { classes } = this.props;
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-    // https://material-ui.com/components/buttons/#third-party-routing-library
-    const AdapterLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />);
-    const AdapterNavLink = React.forwardRef((props, ref) => <NavLink innerRef={ref} {...props} />);
+  // https://material-ui.com/components/buttons/#third-party-routing-library
+  AdapterLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />);
+  AdapterNavLink = React.forwardRef((props, ref) => <NavLink innerRef={ref} {...props} />);
 
-    const perspectives = [ 'manuscripts', 'works', 'events', 'actors', 'places' ];
-
-    const renderMobileMenu = (
-      <Menu
-        anchorEl={mobileMoreAnchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMobileMenuOpen}
-        onClose={this.handleMobileMenuClose}
-      >
-        {perspectives.map(perspective =>
-          <MenuItem
-            key={perspective}
-            component={AdapterLink}
-            to={`/${perspective}/faceted-search`}
-          >
-            {perspective.toUpperCase()}
+  renderMobileMenuItem = perspective => {
+    if (has(perspective, 'externalUrl')) {
+      return(
+        <a className={this.props.classes.link}
+          key={perspective.id}
+          href={perspective.externalUrl}
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <MenuItem>
+            {perspective.label.toUpperCase()}
           </MenuItem>
-        )}
-      </Menu>
-    );
+        </a>
+      );
+    } else {
+      return(
+        <MenuItem
+          key={perspective.id}
+          component={this.AdapterLink}
+          to={`/${perspective.id}/faceted-search`}
+        >
+          {perspective.label.toUpperCase()}
+        </MenuItem>
+      );
+    }
+  }
 
+  renderDesktopTopMenuItem = perspective => {
+    if (has(perspective, 'externalUrl')) {
+      return(
+        <a className={this.props.classes.link}
+          key={perspective.id}
+          href={perspective.externalUrl}
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <Button
+            className={this.props.classes.appBarButton}
+          >
+            {perspective.label}
+          </Button>
+        </a>
+      );
+    } else {
+      return(
+        <Button
+          key={perspective.id}
+          className={this.props.classes.appBarButton}
+          component={this.AdapterNavLink}
+          to={`/${perspective.id}/faceted-search`}
+          isActive={(match, location) => location.pathname.startsWith(`/${perspective.id}`)}
+          activeClassName={this.props.classes.appBarButtonActive}
+        >
+          {perspective.label}
+        </Button>
+      );
+    }
+  }
+
+  renderMobileMenu = perspectives =>
+    <Menu
+      anchorEl={this.state.mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={Boolean(this.state.mobileMoreAnchorEl)}
+      onClose={this.handleMobileMenuClose}
+    >
+      {perspectives.map(perspective => this.renderMobileMenuItem(perspective))}
+    </Menu>
+
+  render() {
+    const { classes, perspectives } = this.props;
     return (
       <div className={classes.root}>
         <AppBar position="absolute">
           <Toolbar>
             <Button
               className={classes.appBarButton}
-              component={AdapterLink}
+              component={this.AdapterLink}
               to='/'
             >
               <Typography className={classes.title} variant="h6" color="inherit">
@@ -115,18 +165,7 @@ class TopBar extends React.Component {
             />
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              {perspectives.map(perspective =>
-                <Button
-                  key={perspective}
-                  className={classes.appBarButton}
-                  component={AdapterNavLink}
-                  to={`/${perspective}/faceted-search`}
-                  isActive={(match, location) => location.pathname.startsWith(`/${perspective}`)}
-                  activeClassName={classes.appBarButtonActive}
-                >
-                  {perspective}
-                </Button>
-              )}
+              {perspectives.map(perspective => this.renderDesktopTopMenuItem(perspective))}
               {/* <Button className={classes.appBarButton} aria-haspopup="true" onClick={this.handleInfoMenuOpen}>
                 <span>Info</span>
               </Button> */}
@@ -138,7 +177,7 @@ class TopBar extends React.Component {
             </div>
           </Toolbar>
         </AppBar>
-        {renderMobileMenu}
+        {this.renderMobileMenu(perspectives)}
       </div>
     );
   }
@@ -148,6 +187,7 @@ TopBar.propTypes = {
   classes: PropTypes.object.isRequired,
   fetchResultsClientSide: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
+  perspectives: PropTypes.array.isRequired
 };
 
 export default withStyles(styles)(TopBar);
