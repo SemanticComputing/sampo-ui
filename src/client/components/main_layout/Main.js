@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { has } from 'lodash';
-import thumbImage from '../../img/thumb.png';
+import defaultThumbImage from '../../img/thumb.png';
 
 const styles = theme => ({
   root: {
@@ -84,7 +84,9 @@ let Main = props => {
                       <CardActionArea>
                         <CardMedia
                           className={classes.media}
-                          image={thumbImage}
+                          image={has(perspective, 'thumbImage')
+                            ? perspective.thumbImage
+                            : defaultThumbImage}
                           title={perspective.label}
                         />
                         <CardContent className={classes.cardContent}>
@@ -102,7 +104,9 @@ let Main = props => {
                     <CardActionArea component={Link} to={`/${perspective.id}/faceted-search`}>
                       <CardMedia
                         className={classes.media}
-                        image={thumbImage}
+                        image={has(perspective, 'thumbImage')
+                          ? perspective.thumbImage
+                          : defaultThumbImage}
                         title={perspective.label}
                       />
                       <CardContent className={classes.cardContent}>

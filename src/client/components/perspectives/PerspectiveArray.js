@@ -1,9 +1,12 @@
+// import akaLogo from '../../img/logos/funders/aka_en_vaaka_rgb.jpg';
+
 export const perspectiveArr = [
   {
     id: 'manuscripts',
     label: 'Manuscripts',
     desc: 'Physical manuscript objects.',
     // externalUrl: 'https://seco.cs.aalto.fi/',
+    // thumbImage: akaLogo, // note: the image has to be imported in this js file
     tabs: [
       {
         id: 'table',
