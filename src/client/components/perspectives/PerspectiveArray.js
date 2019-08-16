@@ -3,7 +3,7 @@ export const perspectiveArr = [
     id: 'manuscripts',
     label: 'Manuscripts',
     desc: 'Physical manuscript objects.',
-    externalUrl: 'https://seco.cs.aalto.fi/',
+    // externalUrl: 'https://seco.cs.aalto.fi/',
     tabs: [
       {
         id: 'table',
