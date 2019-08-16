@@ -49,22 +49,15 @@ class InstanceHomePage extends React.Component {
     super(props);
     this.state = {
       instanceHeading: '',
-      sources: []
+      localID: []
     };
-  }
-
-  handleAddSource = source => {
-    let updatedSources = this.state.sources;
-    updatedSources.push(source);
-    this.setState({
-      sources: updatedSources
-    });
   }
 
   componentDidMount = () => {
     let uri = '';
     let base = 'http://ldf.fi/mmm';
     const localID = this.props.routeProps.location.pathname.split('/').pop();
+    this.setState({ localID: localID });
     switch(this.props.resultClass) {
       case 'manuscripts':
         this.setState({
@@ -125,7 +118,6 @@ class InstanceHomePage extends React.Component {
           tableEl =
             <ManuscriptsPageTable
               data={this.props.data}
-              addSource={this.handleAddSource}
             />;
           break;
         case 'Expression':
@@ -155,6 +147,7 @@ class InstanceHomePage extends React.Component {
 
   render = () => {
     const { classes, data, isLoading } = this.props;
+    const hasData = data !== null && Object.values(data).length >= 1;
     return(
       <div className={classes.root}>
         <Paper className={classes.content}>
@@ -163,7 +156,16 @@ class InstanceHomePage extends React.Component {
               <CircularProgress style={{ color: purple[500] }} thickness={5} />
             </div>
           }
-          {data !== null &&
+          {!hasData &&
+            <React.Fragment>
+              <Typography variant='h4'>{this.state.instanceHeading}</Typography>
+              <Divider className={classes.divider} />
+              <Typography variant='h6'>
+                No data found for id: <span style={{ fontStyle: 'italic'}}>{this.state.localID}</span>
+              </Typography>
+            </React.Fragment>
+          }
+          {hasData &&
             <React.Fragment>
               <Typography variant='h4'>{this.state.instanceHeading}</Typography>
               <Divider className={classes.divider} />
