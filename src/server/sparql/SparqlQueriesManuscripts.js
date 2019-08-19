@@ -93,6 +93,10 @@ export const manuscriptProperties =
     }
     UNION
     {
+      ?id crm:P3_has_note ?note .
+    }
+    UNION
+    {
       ?event__id mmm-schema:observed_manuscript ?id .
       ?event__id a crm:E7_Activity .
       ?event__id a ?event__type .

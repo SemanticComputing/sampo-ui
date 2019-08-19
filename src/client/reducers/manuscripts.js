@@ -125,6 +125,19 @@ export const INITIAL_STATE = {
       minWidth: 250,
     },
     {
+      id: 'note',
+      label: 'Note',
+      desc: `
+        Note
+      `,
+      valueType: 'string',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+    },
+    {
       id: 'event',
       label: 'Event',
       desc: `

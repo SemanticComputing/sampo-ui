@@ -78,6 +78,21 @@ class ManuscriptsPageTable extends React.Component {
               expanded={true}
             />
           </TableRow>
+          <TableRow key='note'>
+            <TableCell>Note</TableCell>
+            <ResultTableCell
+              columnId='note'
+              data={data.note}
+              valueType='string'
+              makeLink={true}
+              externalLink={false}
+              sortValues={true}
+              numberedList={false}
+              minWidth={150}
+              container='cell'
+              expanded={true}
+            />
+          </TableRow>
           <TableRow key='productionPlace'>
             <TableCell>Production place</TableCell>
             <ResultTableCell
@@ -106,7 +121,6 @@ class ManuscriptsPageTable extends React.Component {
               minWidth={150}
               container='cell'
               expanded={true}
-              addSource={this.props.addSource}
             />
           </TableRow>
           <TableRow key='language'>
