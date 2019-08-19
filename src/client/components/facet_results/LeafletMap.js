@@ -168,7 +168,7 @@ class LeafletMap extends React.Component {
     }
 
     // check if instance have changed
-    if (prevProps.instance !== this.props.instance) {
+    if ((this.props.instance !== null) && prevProps.instance !== this.props.instance) {
       this.markers[this.props.instance.id]
         .bindPopup(this.createPopUpContent(this.props.instance), {
           maxHeight: 300,
