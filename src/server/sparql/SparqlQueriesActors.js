@@ -24,7 +24,7 @@ export const actorProperties = `
     {
       ?id crm:P98i_was_born/crm:P7_took_place_at ?birthPlace__id .
       ?birthPlace__id skos:prefLabel ?birthPlace__prefLabel .
-      BIND(?birthPlace__id as ?birthPlace__dataProviderUrl)
+      BIND(CONCAT("/places/page/", REPLACE(STR(?birthPlace__id), "^.*\\\\/(.+)", "$1")) AS ?birthPlace__dataProviderUrl)
     }
     UNION
     {
