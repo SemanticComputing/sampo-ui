@@ -23,17 +23,17 @@ export const UPDATE_CLIENT_SIDE_FILTER = 'UPDATE_CLIENT_SIDE_FILTER';
 export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP';
 export const SHOW_ERROR = 'SHOW_ERROR';
 
-export const fetchPaginatedResults = (resultClass, facetClass, sortBy, variant) => ({
+export const fetchPaginatedResults = (resultClass, facetClass, sortBy) => ({
   type: FETCH_PAGINATED_RESULTS,
-  resultClass, facetClass, sortBy, variant
+  resultClass, facetClass, sortBy
 });
 export const fetchPaginatedResultsFailed = (resultClass, error, message) => ({
   type: FETCH_PAGINATED_RESULTS_FAILED,
   resultClass, error, message
 });
-export const fetchResults = ({ resultClass, facetClass, sortBy, variant }) => ({
+export const fetchResults = ({ resultClass, facetClass, sortBy }) => ({
   type: FETCH_RESULTS,
-  resultClass, facetClass, sortBy, variant
+  resultClass, facetClass, sortBy
 });
 export const fetchResultCount = ({ resultClass, facetClass }) => ({
   type: FETCH_RESULT_COUNT,
@@ -79,9 +79,9 @@ export const updateRowsPerPage = (resultClass, rowsPerPage) => ({
   type: UPDATE_ROWS_PER_PAGE,
   resultClass, rowsPerPage
 });
-export const fetchByURI = ({ resultClass, facetClass, variant, uri }) => ({
+export const fetchByURI = ({ resultClass, facetClass, uri }) => ({
   type: FETCH_BY_URI,
-  resultClass, facetClass, variant, uri
+  resultClass, facetClass, uri
 });
 export const fetchByURIFailed = (resultClass, error, message) => ({
   type: FETCH_RESULTS_FAILED,

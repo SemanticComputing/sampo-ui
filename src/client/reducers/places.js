@@ -107,8 +107,16 @@ export const INITIAL_STATE = {
   ],
 };
 
+const resultClasses = new Set([
+  'places',
+  'placesAll',
+  'placesActors',
+  'placesMsProduced',
+  'placesMsMigrations'
+]);
+
 const places = (state = INITIAL_STATE, action) => {
-  if (action.resultClass === 'places') {
+  if (resultClasses.has(action.resultClass)) {
     switch (action.type) {
       case FETCH_RESULTS:
       case FETCH_PAGINATED_RESULTS:

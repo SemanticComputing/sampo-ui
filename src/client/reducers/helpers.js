@@ -3,6 +3,7 @@ import { has, isEmpty } from 'lodash';
 export const fetchResults = state => {
   return {
     ...state,
+    // results: [],
     fetching: true,
     instance: null
   };

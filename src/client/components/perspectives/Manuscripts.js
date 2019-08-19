@@ -41,13 +41,11 @@ let Manuscripts = props => {
         render={() =>
           <LeafletMap
             results={props.places.results}
-            facetID={'productionPlace'}
             facetUpdateID={props.facetData.facetUpdateID}
             facet={props.facetData.facets.productionPlace}
-            resultClass='places'
+            resultClass='placesMsProduced'
             facetClass='manuscripts'
-            mapMode={'cluster'}
-            variant='productionPlaces'
+            mapMode='cluster'
             instance={props.places.instance}
             fetchResults={props.fetchResults}
             fetchByURI={props.fetchByURI}
@@ -70,15 +68,15 @@ let Manuscripts = props => {
           <Deck
             results={props.places.results}
             facetUpdateID={props.facetData.facetUpdateID}
-            resultClass='places'
+            resultClass='placesMsMigrations'
             facetClass='manuscripts'
+            mapMode='cluster'
             instance={props.places.instance}
             fetchResults={props.fetchResults}
             fetchByURI={props.fetchByURI}
             fetching={props.places.fetching}
-            mapMode={'cluster'}
-            variant='migrations'
             showInstanceCountInClusters={true}
+            updateFacetOption={props.updateFacetOption}
           />}
       />
       <Route

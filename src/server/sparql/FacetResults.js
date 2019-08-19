@@ -18,10 +18,11 @@ import { workProperties } from './SparqlQueriesWorks';
 import { eventProperties } from './SparqlQueriesEvents';
 import {
   actorProperties,
-  actorPlacesQuery,
+  placesActorsQuery,
 } from './SparqlQueriesActors';
 import {
   placeProperties,
+  placePropertiesInfoWindow,
   manuscriptsProducedAt,
   actorsAt,
   allPlacesQuery,
@@ -63,26 +64,30 @@ export const getPaginatedResults = async ({
 };
 
 export const getAllResults = ({
-  // resultClass, // TODO: handle other classes than manuscripts
+  resultClass,
   facetClass,
   constraints,
-  variant,
   resultFormat
 }) => {
   let q = '';
   let filterTarget = '';
   let mapper = makeObjectList;
-  switch (variant) {
-    case 'allPlaces':
+  switch (resultClass) {
+    case 'placesAll':
       q = allPlacesQuery;
       filterTarget = 'id';
       break;
-    case 'productionPlaces':
+    case 'placesMsProduced':
       q = productionPlacesQuery;
       filterTarget = 'manuscripts';
       mapper = mapPlaces;
       break;
-    case 'migrations':
+    case 'placesActors':
+      q = placesActorsQuery;
+      filterTarget = 'actor__id';
+      mapper = mapPlaces;
+      break;
+    case 'placesMsMigrations':
       q = migrationsQuery;
       filterTarget = 'manuscript__id';
       break;
@@ -90,22 +95,19 @@ export const getAllResults = ({
       q = networkQuery;
       filterTarget = 'manuscript__id';
       break;
-    case 'actorPlaces':
-      q = actorPlacesQuery;
-      filterTarget = 'actor__id';
-      mapper = mapPlaces;
-      break;
   }
   if (constraints == null) {
     q = q.replace('<FILTER>', '# no filters');
   } else {
     q = q.replace('<FILTER>', generateConstraintsBlock({
+      resultClass: resultClass,
       facetClass: facetClass,
       constraints: constraints,
       filterTarget: filterTarget,
       facetID: null
     }));
   }
+  // console.log(prefixes + q)
   return runSelectQuery(prefixes + q, endpoint, mapper, resultFormat);
 };
 
@@ -204,7 +206,6 @@ export const getByURI = ({
   resultClass,
   facetClass,
   constraints,
-  variant,
   uri,
   resultFormat
 }) => {
@@ -213,44 +214,53 @@ export const getByURI = ({
     case 'manuscripts':
       q = instanceQuery;
       q = q.replace('<PROPERTIES>', manuscriptProperties);
+      q = q.replace('<RELATED_INSTANCES>', '');
       break;
     case 'expressions':
       q = instanceQuery;
       q = q.replace('<PROPERTIES>', expressionProperties);
+      q = q.replace('<RELATED_INSTANCES>', '');
       break;
     case 'collections':
       q = instanceQuery;
       q = q.replace('<PROPERTIES>', collectionProperties);
+      q = q.replace('<RELATED_INSTANCES>', '');
       break;
     case 'works':
       q = instanceQuery;
       q = q.replace('<PROPERTIES>', workProperties);
+      q = q.replace('<RELATED_INSTANCES>', '');
       break;
     case 'events':
       q = instanceQuery;
       q = q.replace('<PROPERTIES>', eventProperties);
+      q = q.replace('<RELATED_INSTANCES>', '');
       break;
     case 'actors':
       q = instanceQuery;
       q = q.replace('<PROPERTIES>', actorProperties);
+      q = q.replace('<RELATED_INSTANCES>', '');
       break;
     case 'places':
       q = instanceQuery;
       q = q.replace('<PROPERTIES>', placeProperties);
+      q = q.replace('<RELATED_INSTANCES>', '');
       break;
-  }
-  switch (variant) {
-    case 'productionPlaces':
-      q = q.replace('<RELATED_INSTANCES>', manuscriptsProducedAt);
+    case 'placesAll':
+      q = instanceQuery;
+      q = q.replace('<PROPERTIES>', placePropertiesInfoWindow);
+      q = q.replace('<RELATED_INSTANCES>', '');
       break;
-    case 'actorPlaces':
+    case 'placesActors':
+      q = instanceQuery;
+      q = q.replace('<PROPERTIES>', placePropertiesInfoWindow);
       q = q.replace('<RELATED_INSTANCES>', actorsAt);
       break;
-    case 'allPlaces':
-      q = q.replace('<RELATED_INSTANCES>', '');
+    case 'placesMsProduced':
+      q = instanceQuery;
+      q = q.replace('<PROPERTIES>', placePropertiesInfoWindow);
+      q = q.replace('<RELATED_INSTANCES>', manuscriptsProducedAt);
       break;
-    default:
-      q = q.replace('<RELATED_INSTANCES>', '');
   }
   if (constraints == null) {
     q = q.replace('<FILTER>', '# no filters');
@@ -263,5 +273,6 @@ export const getByURI = ({
       facetID: null}));
   }
   q = q.replace('<ID>', `<${uri}>`);
+  // console.log(prefixes + q)
   return runSelectQuery(prefixes + q, endpoint, makeObjectList, resultFormat);
 };

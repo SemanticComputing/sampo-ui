@@ -41,14 +41,13 @@ let Places = props => {
           <LeafletMap
             results={props.places.results}
             facetUpdateID={props.facetData.facetUpdateID}
-            resultClass='places'
+            resultClass='placesAll'
             facetClass='places'
             instance={props.places.instance}
             fetchResults={props.fetchResults}
             fetchByURI={props.fetchByURI}
             fetching={props.places.fetching}
-            mapMode={'cluster'}
-            variant='allPlaces'
+            mapMode='cluster'
             showInstanceCountInClusters={false}
           />}
       />

@@ -144,22 +144,15 @@ export const collectionProperties =
 
 
 export const productionPlacesQuery = `
-  SELECT ?id ?lat ?long ?prefLabel ?source ?dataProviderUrl
+  SELECT ?id ?lat ?long
   (COUNT(DISTINCT ?manuscripts) as ?instanceCount)
   WHERE {
     <FILTER>
     ?manuscripts ^crm:P108_has_produced/crm:P7_took_place_at ?id .
-    ?id skos:prefLabel ?prefLabel .
-    ?id dct:source ?source .
-    ?id dct:source <http://vocab.getty.edu/tgn/> .
-    OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl }
-    OPTIONAL {
-      ?id wgs84:lat ?lat ;
-          wgs84:long ?long .
-    }
-    FILTER(?id != <http://ldf.fi/mmm/places/tgn_7026519>)
+    ?id wgs84:lat ?lat ;
+        wgs84:long ?long .
   }
-  GROUP BY ?id ?lat ?long ?prefLabel ?source ?dataProviderUrl
+  GROUP BY ?id ?lat ?long
 `;
 
 //# https://github.com/uber/deck.gl/blob/master/docs/layers/arc-layer.md

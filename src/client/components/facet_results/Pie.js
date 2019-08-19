@@ -68,7 +68,6 @@ class Pie extends React.Component {
       resultClass: 'places',
       facetClass: 'manuscripts',
       sortBy: null,
-      variant: 'productionPlaces',
     });
   }
 

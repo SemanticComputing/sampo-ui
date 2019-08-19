@@ -38,6 +38,12 @@ export const placeProperties = `
     }
 `;
 
+export const placePropertiesInfoWindow = `
+    ?id skos:prefLabel ?prefLabel__id .
+    BIND(?prefLabel__id AS ?prefLabel__prefLabel)
+    BIND(CONCAT("/places/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
+`;
+
 export const allPlacesQuery =  `
   SELECT *
   WHERE {
@@ -72,7 +78,6 @@ export const manuscriptsProducedAt = `
 
 export const actorsAt = `
     OPTIONAL {
-      <FILTER>
       { ?related__id crm:P98i_was_born/crm:P7_took_place_at ?id }
       UNION
       { ?related__id crm:P100i_died_in/crm:P7_took_place_at ?id }

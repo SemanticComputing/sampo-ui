@@ -89,7 +89,6 @@ class Deck extends React.Component {
       resultClass: this.props.resultClass,
       facetClass: this.props.facetClass,
       sortBy: null,
-      variant: this.props.variant,
     });
   }
 
@@ -100,7 +99,6 @@ class Deck extends React.Component {
         resultClass: this.props.resultClass,
         facetClass: this.props.facetClass,
         sortBy: null,
-        variant: this.props.variant,
       });
     }
   }
@@ -247,7 +245,6 @@ Deck.propTypes = {
   resultClass: PropTypes.string,
   facetClass: PropTypes.string,
   fetching: PropTypes.bool.isRequired,
-  variant: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(Deck);

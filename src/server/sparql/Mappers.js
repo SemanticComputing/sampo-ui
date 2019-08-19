@@ -7,12 +7,9 @@ export const mapPlaces = sparqlBindings => {
   const results = sparqlBindings.map(b => {
     return {
       id: b.id.value,
-      prefLabel: b.prefLabel.value,
-      lat: has(b, 'lat',) ? b.lat.value : 'Undefined',
-      long: has(b, 'long',) ? b.long.value : 'Undefined',
-      source: has(b, 'source',) ? b.source.value : 'Undefined',
-      dataProviderUrl: has(b, 'dataProviderUrl',) ? b.dataProviderUrl.value : 'Undefined',
-      instanceCount: has(b, 'instanceCount',) ? b.instanceCount.value : 'Undefined',
+      lat: b.lat.value,
+      long: b.long.value,
+      instanceCount: b.instanceCount.value,
     };
   });
   return results;

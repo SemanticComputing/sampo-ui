@@ -108,10 +108,9 @@ export const actorProperties = `
     }
 `;
 
-export const actorPlacesQuery = `
+export const placesActorsQuery = `
   SELECT ?id ?lat ?long
   (COUNT(DISTINCT ?actor__id) as ?instanceCount)
-  (SAMPLE(?prefLabel_) AS ?prefLabel)
   WHERE {
     <FILTER>
     { ?actor__id crm:P98i_was_born/crm:P7_took_place_at ?id }
@@ -119,11 +118,8 @@ export const actorPlacesQuery = `
     { ?actor__id crm:P100i_died_in/crm:P7_took_place_at ?id }
     UNION
     { ?actor__id mmm-schema:person_place ?id }
-    ?id skos:prefLabel ?prefLabel_ .
-    OPTIONAL {
-      ?id wgs84:lat ?lat ;
-          wgs84:long ?long .
-    }
+    ?id wgs84:lat ?lat ;
+        wgs84:long ?long .
   }
   GROUP BY ?id ?lat ?long
 `;
