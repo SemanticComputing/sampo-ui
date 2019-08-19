@@ -30,7 +30,6 @@ export const INITIAL_STATE = {
   results: [],
   paginatedResults: [],
   resultCount: 0,
-  resultsUpdateID: -1,
   instance: null,
   page: -1,
   pagesize: 10,
