@@ -108,8 +108,6 @@ export const getFacet = async ({
     id: facetID,
     data: response.data,
     flatData: response.flatData || null,
-    min: response.min || null,
-    max: response.max || null,
     sparqlQuery: response.sparqlQuery
   });
 };

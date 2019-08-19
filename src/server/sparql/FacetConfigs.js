@@ -207,10 +207,10 @@ export const facetConfigs = {
       id: 'birthDateTimespan',
       facetValueFilter: `
        FILTER(?timespan NOT IN (
-         <http://ldf.fi/mmm/actor/sdbm_39923_birth_timespan>,
-         <http://ldf.fi/mmm/actor/sdbm_2814_birth_timespan>,
-         <http://ldf.fi/mmm/actor/sdbm_4391_birth_timespan>,
-         <http://ldf.fi/mmm/actor/sdbm_45865_birth_timespan>,
+         <http://ldf.fi/mmm/time/sdbm_39923_birth_timespan>,
+         <http://ldf.fi/mmm/time/sdbm_2814_birth_timespan>,
+         <http://ldf.fi/mmm/time/sdbm_4391_birth_timespan>,
+         <http://ldf.fi/mmm/time/sdbm_45865_birth_timespan>,
          <http://ldf.fi/mmm/time/bibale_element_876634-269>,
          <http://ldf.fi/mmm/time/bibale_element_876940-269>,
          <http://ldf.fi/mmm/time/bibale_element_877018-269>,
@@ -218,10 +218,10 @@ export const facetConfigs = {
          <http://ldf.fi/mmm/time/bibale_element_877167-269>,
          <http://ldf.fi/mmm/time/bibale_element_877167-269>,
          <http://ldf.fi/mmm/time/bibale_element_882490-269>,
-         <http://ldf.fi/mmm/actor/sdbm_44872_birth_timespan>,
-         <http://ldf.fi/mmm/actor/sdbm_45182_birth_timespan>,
-         <http://ldf.fi/mmm/actor/sdbm_40695_birth_timespan>,
-         <http://ldf.fi/mmm/actor/sdbm_44762_birth_timespan>
+         <http://ldf.fi/mmm/time/sdbm_44872_birth_timespan>,
+         <http://ldf.fi/mmm/time/sdbm_45182_birth_timespan>,
+         <http://ldf.fi/mmm/time/sdbm_40695_birth_timespan>,
+         <http://ldf.fi/mmm/time/sdbm_44762_birth_timespan>
        ))
       `,
       sortByAscPredicate: 'crm:P98i_was_born/crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
@@ -235,10 +235,10 @@ export const facetConfigs = {
       id: 'deathDateTimespan',
       facetValueFilter: `
        FILTER(?timespan NOT IN (
-         <http://ldf.fi/mmm/actor/sdbm_39923_birth_timespan>,
-         <http://ldf.fi/mmm/actor/sdbm_2814_birth_timespan>,
-         <http://ldf.fi/mmm/actor/sdbm_4391_birth_timespan>,
-         <http://ldf.fi/mmm/actor/sdbm_45865_birth_timespan>,
+         <http://ldf.fi/mmm/time/sdbm_39923_birth_timespan>,
+         <http://ldf.fi/mmm/time/sdbm_2814_birth_timespan>,
+         <http://ldf.fi/mmm/time/sdbm_4391_birth_timespan>,
+         <http://ldf.fi/mmm/time/sdbm_45865_birth_timespan>,
          <http://ldf.fi/mmm/time/bibale_element_876634-269>,
          <http://ldf.fi/mmm/time/bibale_element_876940-269>,
          <http://ldf.fi/mmm/time/bibale_element_877018-269>,
@@ -246,10 +246,10 @@ export const facetConfigs = {
          <http://ldf.fi/mmm/time/bibale_element_877167-269>,
          <http://ldf.fi/mmm/time/bibale_element_877167-269>,
          <http://ldf.fi/mmm/time/bibale_element_882490-269>,
-         <http://ldf.fi/mmm/actor/sdbm_44872_birth_timespan>,
-         <http://ldf.fi/mmm/actor/sdbm_45182_birth_timespan>,
-         <http://ldf.fi/mmm/actor/sdbm_40695_birth_timespan>,
-         <http://ldf.fi/mmm/actor/sdbm_44762_birth_timespan>
+         <http://ldf.fi/mmm/time/sdbm_44872_birth_timespan>,
+         <http://ldf.fi/mmm/time/sdbm_45182_birth_timespan>,
+         <http://ldf.fi/mmm/time/sdbm_40695_birth_timespan>,
+         <http://ldf.fi/mmm/time/sdbm_44762_birth_timespan>
        ))
       `,
       sortByAscPredicate: 'crm:P100i_died_in/crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
