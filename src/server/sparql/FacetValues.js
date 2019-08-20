@@ -2,7 +2,8 @@ import { runSelectQuery } from './SparqlApi';
 import {
   endpoint,
   facetValuesQuery,
-  facetValuesQueryTimespan
+  facetValuesQueryTimespan,
+  facetValuesRange
 } from './SparqlQueriesGeneral';
 import { prefixes } from './SparqlQueriesPrefixes';
 import { facetConfigs } from './FacetConfigs';
@@ -42,6 +43,10 @@ export const getFacet = async ({
       break;
     case 'timespan':
       q = facetValuesQueryTimespan;
+      mapper = mapTimespanFacet;
+      break;
+    case 'integer':
+      q = facetValuesRange;
       mapper = mapTimespanFacet;
       break;
     default:
@@ -102,6 +107,7 @@ export const getFacet = async ({
     q = q.replace('<START_PROPERTY>', facetConfig.startProperty);
     q = q.replace('<END_PROPERTY>', facetConfig.endProperty);
   }
+  // console.log(prefixes + q)
   const response = await runSelectQuery(prefixes + q, endpoint, mapper, resultFormat);
   return({
     facetClass: facetClass,

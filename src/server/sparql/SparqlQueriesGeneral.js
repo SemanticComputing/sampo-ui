@@ -131,3 +131,13 @@ export const facetValuesQueryTimespan = `
     }
   }
 `;
+
+export const facetValuesRange = `
+  # ignore selections from other facets
+  SELECT (MIN(?value) AS ?min) (MAX(?value) AS ?max) {
+    ?instance <PREDICATE> ?value .
+    VALUES ?facetClass { <FACET_CLASS> }
+    ?instance a ?facetClass .
+    <FACET_VALUE_FILTER>
+  }
+`;

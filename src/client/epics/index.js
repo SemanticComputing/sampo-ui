@@ -288,6 +288,12 @@ export const stateToUrl = ({
           priority: value.priority,
           values: value.timespanFilter
         };
+      } else if (has(value, 'integerFilter') && value.integerFilter !== null) {
+        constraints[key] = {
+          filterType: value.filterType,
+          priority: value.priority,
+          values: value.integerFilter
+        };
       }
     }
     if (Object.keys(constraints).length > 0) {

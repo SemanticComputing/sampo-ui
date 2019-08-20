@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ChipsArray from './ChipsArray';
 
 const ActiveFilters = props => {
-  const { uriFilters, textFilters, timespanFilters, facets, someFacetIsFetching } = props;
+  const { uriFilters, textFilters, timespanFilters, integerFilters, facets, someFacetIsFetching } = props;
   const facetValues = [];
   Object.keys(uriFilters).map(activeFacetID => {
     Object.values(uriFilters[activeFacetID]).forEach(value => {
@@ -31,6 +31,14 @@ const ActiveFilters = props => {
       value: timespanFilters[facetID]
     });
   });
+  Object.keys(integerFilters).map(facetID => {
+    facetValues.push({
+      facetID: facetID,
+      facetLabel: facets[facetID].label,
+      filterType: 'integerFilter',
+      value: integerFilters[facetID]
+    });
+  });
   return (
     <ChipsArray
       data={facetValues}
@@ -49,6 +57,7 @@ ActiveFilters.propTypes = {
   spatialFilters: PropTypes.object.isRequired,
   textFilters: PropTypes.object.isRequired,
   timespanFilters: PropTypes.object.isRequired,
+  integerFilters: PropTypes.object.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
   someFacetIsFetching: PropTypes.bool.isRequired,
   fetchFacet: PropTypes.func.isRequired

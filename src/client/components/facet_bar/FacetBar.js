@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import HierarchicalFacet from './HierarchicalFacet';
 import TextFacet from './TextFacet';
-import DateSliderFacet from './DateSliderFacet';
+import SliderFacet from './SliderFacet';
 import Paper from '@material-ui/core/Paper';
 import FacetHeader from './FacetHeader';
 import FacetInfo from './FacetInfo';
@@ -108,7 +108,7 @@ class FacetBar extends React.Component {
         break;
       case 'timespanFilter':
         facetComponent = (
-          <DateSliderFacet
+          <SliderFacet
             facetID={facetID}
             facet={facet}
             facetClass={this.props.facetClass}
@@ -117,6 +117,22 @@ class FacetBar extends React.Component {
             fetchFacet={this.props.fetchFacet}
             someFacetIsFetching={someFacetIsFetching}
             updateFacetOption={this.props.updateFacetOption}
+            dataType='ISOString'
+          />
+        );
+        break;
+      case 'integerFilter':
+        facetComponent = (
+          <SliderFacet
+            facetID={facetID}
+            facet={facet}
+            facetClass={this.props.facetClass}
+            resultClass={this.props.resultClass}
+            facetUpdateID={facetUpdateID}
+            fetchFacet={this.props.fetchFacet}
+            someFacetIsFetching={someFacetIsFetching}
+            updateFacetOption={this.props.updateFacetOption}
+            dataType='integer'
           />
         );
         break;

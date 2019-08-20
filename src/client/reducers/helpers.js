@@ -72,7 +72,8 @@ export const updateFacetOption = (state, action) => {
     'uriFilter',
     'spatialFilter',
     'textFilter',
-    'timespanFilter'
+    'timespanFilter',
+    'integerFilter'
   ];
   if (filterTypes.includes(action.option)) {
     return updateFacetFilter(state, action);
@@ -131,6 +132,21 @@ const updateFacetFilter = (state, action) => {
       newFacet = {
         ...state.facets[facetID],
         timespanFilter: {
+          start: value[0],
+          end: value[1]
+        }
+      };
+    }
+  } else if (oldFacet.filterType === 'integerFilter') {
+    if (value == null) {
+      newFacet = {
+        ...state.facets[facetID],
+        integerFilter: null
+      };
+    } else {
+      newFacet = {
+        ...state.facets[facetID],
+        integerFilter: {
           start: value[0],
           end: value[1]
         }
@@ -202,7 +218,8 @@ export const fetchFacetFailed = (state, action) => {
 };
 
 export const updateFacetValues = (state, action) => {
-  if (state.facets[action.id].type === 'timespan') {
+  if (state.facets[action.id].type === 'timespan'
+    || state.facets[action.id].type === 'integer' ) {
     return {
       ...state,
       facets: {

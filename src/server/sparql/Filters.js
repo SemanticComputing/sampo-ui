@@ -87,6 +87,15 @@ export const generateConstraintsBlock = ({
           inverse: inverse
         });
         break;
+      case 'integerFilter':
+        filterStr += generateIntegerFilter({
+          facetClass: facetClass,
+          facetID: c.id,
+          filterTarget: filterTarget,
+          values: c.values,
+          inverse: inverse
+        });
+        break;
     }
   });
   return filterStr;
@@ -162,6 +171,34 @@ const generateTimespanFilter = ({
       ?${facetID}Start >= "${selectionStart}"^^xsd:date && ?${facetID}Start <= "${selectionEnd}"^^xsd:date
       ||
       ?${facetID}End >= "${selectionStart}"^^xsd:date && ?${facetID}End <= "${selectionEnd}"^^xsd:date
+    )
+  `;
+  if (inverse) {
+    return `
+    FILTER NOT EXISTS {
+        ${filterStr}
+    }
+    `;
+  } else {
+    return filterStr;
+  }
+};
+
+const generateIntegerFilter = ({
+  facetClass,
+  facetID,
+  filterTarget,
+  values,
+  inverse
+}) => {
+  const facetConfig = facetConfigs[facetClass][facetID];
+  const { start, end } = values;
+  const selectionStart = start;
+  const selectionEnd = end;
+  const filterStr = `
+    ?${filterTarget} ${facetConfig.predicate} ?value .
+    FILTER(
+      ?value >= ${selectionStart} && ?value <= ${selectionEnd}
     )
   `;
   if (inverse) {

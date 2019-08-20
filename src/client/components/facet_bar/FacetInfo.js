@@ -40,10 +40,12 @@ class FacetInfo extends React.Component {
     let spatialFilters = {};
     let textFilters = {};
     let timespanFilters = {};
+    let integerFilters = {};
     let activeUriFilters = false;
     let activeSpatialFilters = false;
     let activeTextFilters = false;
     let activeTimespanFilters = false;
+    let activeIntegerFilters = false;
     for (const [key, value] of Object.entries(facets)) {
       if (has(value, 'uriFilter') && value.uriFilter !== null) {
         activeUriFilters = true;
@@ -60,6 +62,10 @@ class FacetInfo extends React.Component {
       if (has(value, 'timespanFilter') && value.timespanFilter !== null) {
         activeTimespanFilters = true;
         timespanFilters[key] = value.timespanFilter;
+      }
+      if (has(value, 'integerFilter') && value.integerFilter !== null) {
+        activeIntegerFilters = true;
+        integerFilters[key] = value.integerFilter;
       }
     }
     return (
@@ -78,6 +84,7 @@ class FacetInfo extends React.Component {
           || activeSpatialFilters
           || activeTextFilters
           || activeTimespanFilters
+          || activeIntegerFilters
         ) &&
           <React.Fragment>
             <Typography variant="h6">Active filters:</Typography>
@@ -89,6 +96,7 @@ class FacetInfo extends React.Component {
                 spatialFilters={spatialFilters}
                 textFilters={textFilters}
                 timespanFilters={timespanFilters}
+                integerFilters={integerFilters}
                 updateFacetOption={this.props.updateFacetOption}
                 someFacetIsFetching={someFacetIsFetching}
                 fetchFacet={this.props.fetchFacet}

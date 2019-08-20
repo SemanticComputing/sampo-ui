@@ -56,6 +56,13 @@ export const facetConfigs = {
       predicate: 'crm:P45_consists_of',
       type: 'list',
     },
+    width: {
+      id: 'width',
+      facetValueFilter: '',
+      labelPath: 'crm:P43_has_dimension/crm:P90_has_value',
+      predicate: 'crm:P43_has_dimension/crm:P90_has_value',
+      type: 'integer',
+    },
     collection: {
       id: 'collection',
       facetValueFilter: '',
