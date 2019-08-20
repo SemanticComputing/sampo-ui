@@ -198,7 +198,7 @@ const generateIntegerFilter = ({
   const filterStr = `
     ?${filterTarget} ${facetConfig.predicate} ?value .
     FILTER(
-      ?value >= ${selectionStart} && ?value <= ${selectionEnd}
+      xsd:integer(?value) >= ${selectionStart} && xsd:integer(?value) <= ${selectionEnd}
     )
   `;
   if (inverse) {
