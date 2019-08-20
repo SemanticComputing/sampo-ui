@@ -34,7 +34,7 @@ const ObjectList = props => {
           {Array.isArray(firstValue.prefLabel) ?
             firstValue.prefLabel[0]
             : firstValue.prefLabel}
-          {isArray && '...'}
+          {isArray && ' ...'}
         </span>
       );
     } else {
@@ -59,15 +59,14 @@ const ObjectList = props => {
             href={id}
           >
             {Array.isArray(prefLabel) ? prefLabel[0] : prefLabel}
-            {isArray && '...'}
           </a>
         }
         {!props.externalLink &&
           <Link to={dataProviderUrl}>
             {Array.isArray(prefLabel) ? prefLabel[0] : prefLabel}
-            {isArray && '...'}
           </Link>
         }
+        {isArray && <span> ...</span>}
       </React.Fragment>
     );
   };
