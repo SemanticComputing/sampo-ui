@@ -38,17 +38,20 @@ class SliderFacet extends Component {
   }
 
   handleSliderOnChange = values => {
-    console.log(values)
-    if (this.props.dataType === 'ISOString') {
-      values[0] = this.YearToISOString({ year: values[0], start: true });
-      values[1] = this.YearToISOString({ year: values[1], start: false });
+    const defaultValues = parseInt(values[0]) === parseInt(this.props.facet.min)
+      && parseInt(values[1]) == parseInt(this.props.facet.max);
+    if (!defaultValues) {
+      if (this.props.dataType === 'ISOString') {
+        values[0] = this.YearToISOString({ year: values[0], start: true });
+        values[1] = this.YearToISOString({ year: values[1], start: false });
+      }
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+        option: this.props.facet.filterType,
+        value: values
+      });
     }
-    this.props.updateFacetOption({
-      facetClass: this.props.facetClass,
-      facetID: this.props.facetID,
-      option: this.props.facet.filterType,
-      value: values
-    });
   }
 
   ISOStringToYear = str => {
