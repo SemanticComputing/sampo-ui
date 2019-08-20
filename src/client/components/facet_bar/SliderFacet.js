@@ -102,9 +102,9 @@ class SliderFacet extends Component {
         const maxYear = this.ISOStringToYear(max);
         domain = [ minYear, maxYear ]; // use as default values
       } else if (this.props.dataType === 'integer') {
-        domain = [ min, max ];
-        // domain = [ 0, 10000 ];
+        domain = [ parseInt(min), parseInt(max) ];
       }
+
       // Slider documentation: https://github.com/sghall/react-compound-slider
       return (
         <div className={classes.root}>
