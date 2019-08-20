@@ -16,6 +16,7 @@ import ResultTableHead from './ResultTableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import ResultTablePaginationActions from './ResultTablePaginationActions';
 import history from '../../History';
+import has from 'lodash';
 
 const styles = theme => ({
   tableContainer: {
@@ -189,6 +190,7 @@ class ResultTable extends React.Component {
           minWidth={column.minWidth}
           container='cell'
           expanded={expanded}
+          linkAsButton={has(column, 'linkAsButton') ? column.linkAsButton : null}
         />
       );
     });

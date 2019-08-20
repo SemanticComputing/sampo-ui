@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Collapse from '@material-ui/core/Collapse';
+import Button from '@material-ui/core/Button';
 import { ISOStringToDate } from './Dates';
 import { Link } from 'react-router-dom';
 import { orderBy, has } from 'lodash';
@@ -53,13 +54,23 @@ const ObjectList = props => {
   const createLink = (id, dataProviderUrl, prefLabel, isArray) => {
     return (
       <React.Fragment>
-        {props.externalLink &&
+        {props.externalLink && props.linkAsButton == null &&
           <a
             target='_blank' rel='noopener noreferrer'
             href={id}
           >
             {Array.isArray(prefLabel) ? prefLabel[0] : prefLabel}
           </a>
+        }
+        {props.externalLink && props.linkAsButton &&
+          <Button
+            variant='contained'
+            target='_blank'
+            rel='noopener noreferrer'
+            href={id}
+          >
+            {Array.isArray(prefLabel) ? prefLabel[0] : prefLabel}
+          </Button>
         }
         {!props.externalLink &&
           <Link to={dataProviderUrl}>
@@ -156,6 +167,7 @@ ObjectList.propTypes = {
   numberedList: PropTypes.bool.isRequired,
   expanded: PropTypes.bool.isRequired,
   columnId: PropTypes.string.isRequired,
+  linkAsButton: PropTypes.bool
 } ;
 
 export default withStyles(styles)(ObjectList);
