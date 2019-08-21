@@ -25,6 +25,22 @@ const invalidActorTimespans = `
         <http://ldf.fi/mmm/time/sdbm_5963_birth_timespan>
 `;
 
+const invalidTransferOfCustodyTimespans = `
+        <http://ldf.fi/mmm/time/bibale_element_478356>,
+        <http://ldf.fi/mmm/time/bibale_element_503431>,
+        <http://ldf.fi/mmm/time/bibale_element_515064>,
+        <http://ldf.fi/mmm/time/bibale_element_515527>,
+        <http://ldf.fi/mmm/time/bibale_element_524327>,
+        <http://ldf.fi/mmm/time/bibale_element_524686>,
+        <http://ldf.fi/mmm/time/bibale_element_526456>,
+        <http://ldf.fi/mmm/time/bibale_element_527378>,
+        <http://ldf.fi/mmm/time/bibale_element_528274>,
+        <http://ldf.fi/mmm/time/bibale_element_530550>,
+        <http://ldf.fi/mmm/time/bibale_element_456150>,
+        <http://ldf.fi/mmm/time/bibale_element_466496>,
+        <http://ldf.fi/mmm/time/bibale_element_471075>
+`;
+
 export const facetConfigs = {
   manuscripts: {
     facetClass: 'frbroo:F4_Manifestation_Singleton',
@@ -76,7 +92,11 @@ export const facetConfigs = {
     },
     transferOfCustodyTimespan: {
       id: 'transferOfCustodyTimespan',
-      facetValueFilter: '',
+      facetValueFilter: `
+       FILTER(?timespan NOT IN (
+         ${invalidTransferOfCustodyTimespans}
+       ))
+      `,
       sortByAscPredicate: '^crm:P30_transferred_custody_of/crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
       sortByDescPredicate: '^crm:P30_transferred_custody_of/crm:P4_has_time-span/crm:P82b_end_of_the_end',
       predicate: '^crm:P30_transferred_custody_of/crm:P4_has_time-span',
