@@ -52,7 +52,27 @@ export const INITIAL_STATE = {
       uriFilter: null,
       spatialFilter: null,
       type: 'hierarchical',
-      priority: 4
+      priority: 5
+    },
+    transferOfCustodyPlace: {
+      id: 'transferOfCustodyPlace',
+      label: 'Transfer of custody place',
+      //predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'prefLabel',
+      sortDirection: 'asc',
+      sortButton: false,
+      spatialFilterButton: true,
+      isFetching: false,
+      searchField: true,
+      containerClass: 'ten',
+      filterType: 'uriFilter',
+      uriFilter: null,
+      spatialFilter: null,
+      type: 'hierarchical',
+      priority: 6
     },
     productionTimespan: {
       id: 'productionTimespan',
@@ -73,7 +93,28 @@ export const INITIAL_STATE = {
       max: null,
       timespanFilter: null,
       type: 'timespan',
-      priority: 7
+      priority: 8
+    },
+    transferOfCustodyTimespan: {
+      id: 'transferOfCustodyTimespan',
+      label: 'Transfer of custody date',
+      //predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: null,
+      sortDirection: null,
+      sortButton: false,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: false,
+      containerClass: 'three',
+      filterType: 'timespanFilter',
+      min: null,
+      max: null,
+      timespanFilter: null,
+      type: 'timespan',
+      priority: 9
     },
     author: {
       id: 'author',
@@ -127,7 +168,7 @@ export const INITIAL_STATE = {
       containerClass: 'ten',
       filterType: 'uriFilter',
       uriFilter: null,
-      priority: 8
+      priority: 10
     },
     // width: {
     //   id: 'width',
@@ -164,7 +205,7 @@ export const INITIAL_STATE = {
       containerClass: 'ten',
       filterType: 'uriFilter',
       uriFilter: null,
-      priority: 6
+      priority: 7
     },
     owner: {
       id: 'owner',
@@ -200,7 +241,7 @@ export const INITIAL_STATE = {
       containerClass: 'three',
       filterType: 'uriFilter',
       uriFilter: null,
-      priority: 10
+      priority: 11
     },
   }
 };

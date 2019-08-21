@@ -30,12 +30,33 @@ export const facetConfigs = {
       parentPredicate: '^crm:P108_has_produced/crm:P7_took_place_at/gvp:broaderPreferred+',
       type: 'hierarchical',
     },
+    transferOfCustodyPlace: {
+      id: 'productionPlace',
+      facetValueFilter: `
+      ?id dct:source <http://vocab.getty.edu/tgn/> .
+      `,
+      label: 'Transfer of custody place',
+      labelPath: '^crm:P30_transferred_custody_of/crm:P7_took_place_at/skos:prefLabel',
+      predicate: '^crm:P30_transferred_custody_of/crm:P7_took_place_at',
+      parentPredicate: '^crm:P30_transferred_custody_of/crm:P7_took_place_at/gvp:broaderPreferred+',
+      type: 'hierarchical',
+    },
     productionTimespan: {
       id: 'productionTimespan',
       facetValueFilter: '',
       sortByAscPredicate: '^crm:P108_has_produced/crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
       sortByDescPredicate: '^crm:P108_has_produced/crm:P4_has_time-span/crm:P82b_end_of_the_end',
       predicate: '^crm:P108_has_produced/crm:P4_has_time-span',
+      startProperty: 'crm:P82a_begin_of_the_begin',
+      endProperty: 'crm:P82b_end_of_the_end',
+      type: 'timespan',
+    },
+    transferOfCustodyTimespan: {
+      id: 'transferOfCustodyTimespan',
+      facetValueFilter: '',
+      sortByAscPredicate: '^crm:P30_transferred_custody_of/crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
+      sortByDescPredicate: '^crm:P30_transferred_custody_of/crm:P4_has_time-span/crm:P82b_end_of_the_end',
+      predicate: '^crm:P30_transferred_custody_of/crm:P4_has_time-span',
       startProperty: 'crm:P82a_begin_of_the_begin',
       endProperty: 'crm:P82b_end_of_the_end',
       type: 'timespan',
