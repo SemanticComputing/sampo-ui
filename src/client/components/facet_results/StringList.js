@@ -35,8 +35,8 @@ const StringList = props => {
     if (props.collapsedMaxWords) {
       const wordCount = data.split(' ').length;
       if (wordCount > props.collapsedMaxWords) {
-        data = data.split(' ').splice(0, props.collapsedMaxWords).join(' ');
-        data = `${data} ...`;
+        data = data.trim().split(' ').splice(0, props.collapsedMaxWords).join(' ');
+        data = `${data}...`;
       }
     }
     return(
