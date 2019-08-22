@@ -43,6 +43,7 @@ let Manuscripts = props => {
             results={props.places.results}
             facetUpdateID={props.facetData.facetUpdateID}
             facet={props.facetData.facets.productionPlace}
+            facetID='productionPlace'
             resultClass='placesMsProduced'
             facetClass='manuscripts'
             mapMode='cluster'

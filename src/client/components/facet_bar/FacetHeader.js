@@ -97,9 +97,7 @@ class FacetHeader extends React.Component {
         option: 'filterType',
         value: 'spatialFilter'
       });
-      if (this.props.facetID === 'productionPlace') {
-        history.push({ pathname: `/manuscripts/faceted-search/production_places`});
-      }
+      history.push({ pathname: `/${this.props.resultClass}/faceted-search/${this.props.facet.spatialFilterTab}` });
     }
   }
 
