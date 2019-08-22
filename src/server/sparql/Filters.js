@@ -1,4 +1,4 @@
-import { facetConfigs } from './FacetConfigs';
+import { facetConfigs } from './FacetConfigsMMM';
 
 export const hasPreviousSelections = (constraints, facetID) => {
   let hasPreviousSelections = false;
