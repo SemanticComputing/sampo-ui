@@ -11,6 +11,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import { Link, NavLink } from 'react-router-dom';
 import TopBarSearchField from './TopBarSearchField';
+import Divider from '@material-ui/core/Divider';
 import { has } from 'lodash';
 
 const styles = theme => ({
@@ -25,7 +26,7 @@ const styles = theme => ({
   },
   sectionDesktop: {
     display: 'none',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('lg')]: {
       display: 'flex',
     },
   },
@@ -34,7 +35,7 @@ const styles = theme => ({
   },
   sectionMobile: {
     display: 'flex',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('lg')]: {
       display: 'none',
     },
   },
@@ -44,22 +45,26 @@ const styles = theme => ({
   },
   appBarButtonActive: {
     border: '1px solid white'
+  },
+  appBarDivider: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    borderLeft: '2px solid white'
   }
 });
 
 class TopBar extends React.Component {
   state = {
-    anchorEl: null,
+    infoAnchorEl: null,
     mobileMoreAnchorEl: null,
   };
 
   handleInfoMenuOpen = event => {
-    this.setState({ anchorEl: event.currentTarget });
+    this.setState({ infoAnchorEl: event.currentTarget });
   };
 
-  handleMenuClose = () => {
-    this.setState({ anchorEl: null });
-    this.handleMobileMenuClose();
+  handleInfoMenuClose = () => {
+    this.setState({ infoAnchorEl: null });
   };
 
   handleMobileMenuOpen = event => {
@@ -142,6 +147,48 @@ class TopBar extends React.Component {
       onClose={this.handleMobileMenuClose}
     >
       {perspectives.map(perspective => this.renderMobileMenuItem(perspective))}
+      <Divider />
+      <MenuItem
+        key='feedback'
+        component={this.AdapterLink}
+        to={`/feedback`}
+      >
+        FEEDBACK
+      </MenuItem>
+      <MenuItem
+        key='info'
+        component={this.AdapterLink}
+        to={`/instructions`}
+      >
+        INSTRUCTIONS
+      </MenuItem>
+    </Menu>
+
+  renderInfoMenu = () =>
+    <Menu
+      anchorEl={this.state.infoAnchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={Boolean(this.state.infoAnchorEl)}
+      onClose={this.handleInfoMenuClose}
+    >
+      <MenuItem
+        key={0}
+        component={this.AdapterLink}
+        to={`/feedback`}
+      >
+        About the project
+      </MenuItem>
+      <a className={this.props.classes.link}
+        key={1}
+        href='http://mappingmanuscriptmigrations.org'
+        target='_blank'
+        rel='noopener noreferrer'
+      >
+        <MenuItem>
+          Blog
+        </MenuItem>
+      </a>
     </Menu>
 
   render() {
@@ -165,10 +212,29 @@ class TopBar extends React.Component {
             />
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              {perspectives.map(perspective => this.renderDesktopTopMenuItem(perspective))}
-              {/* <Button className={classes.appBarButton} aria-haspopup="true" onClick={this.handleInfoMenuOpen}>
-                <span>Info</span>
-              </Button> */}
+              {perspectives.map((perspective, index) => this.renderDesktopTopMenuItem(perspective, index))}
+              <div className={classes.appBarDivider}></div>
+              <Button
+                className={classes.appBarButton}
+                component={this.AdapterNavLink}
+                to={`/feedback`}
+                isActive={(match, location) => location.pathname.startsWith(`/feedback`)}
+                activeClassName={this.props.classes.appBarButtonActive}
+              >
+                Feedback
+              </Button>
+              <Button className={classes.appBarButton} aria-haspopup="true" onClick={this.handleInfoMenuOpen}>
+                Info
+              </Button>
+              <Button
+                className={classes.appBarButton}
+                component={this.AdapterNavLink}
+                to={`/instructions`}
+                isActive={(match, location) => location.pathname.startsWith(`/instructions`)}
+                activeClassName={this.props.classes.appBarButtonActive}
+              >
+                Instructions
+              </Button>
             </div>
             <div className={classes.sectionMobile}>
               <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
@@ -178,6 +244,7 @@ class TopBar extends React.Component {
           </Toolbar>
         </AppBar>
         {this.renderMobileMenu(perspectives)}
+        {this.renderInfoMenu()}
       </div>
     );
   }
