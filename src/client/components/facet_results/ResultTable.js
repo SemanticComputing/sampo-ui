@@ -174,7 +174,14 @@ class ResultTable extends React.Component {
     let hasExpandableContent = false;
     const dataCells = this.props.data.tableColumns.map(column => {
       const columnData = row[column.id];
-      if (Array.isArray(columnData)) {
+      const isArray = Array.isArray(columnData);
+      if (isArray) {
+        hasExpandableContent = true;
+      }
+      if (!isArray
+        && column.valueType === 'string'
+        && column.collapsedMaxWords
+        && columnData.split(' ').length > column.collapsedMaxWords) {
         hasExpandableContent = true;
       }
       return (
@@ -190,7 +197,14 @@ class ResultTable extends React.Component {
           minWidth={column.minWidth}
           container='cell'
           expanded={expanded}
-          linkAsButton={has(column, 'linkAsButton') ? column.linkAsButton : null}
+          linkAsButton={has(column, 'linkAsButton')
+            ? column.linkAsButton
+            : null
+          }
+          collapsedMaxWords={has(column, 'collapsedMaxWords')
+            ? column.collapsedMaxWords
+            : null
+          }
         />
       );
     });
