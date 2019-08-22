@@ -123,8 +123,8 @@ export const facetConfigs = {
     width: {
       id: 'width',
       facetValueFilter: '',
-      labelPath: 'crm:P43_has_dimension/crm:P90_has_value',
-      predicate: 'crm:P43_has_dimension/crm:P90_has_value',
+      labelPath: 'mmm-schema:width/crm:P90_has_value',
+      predicate: 'mmm-schema:width/crm:P90_has_value',
       type: 'integer',
     },
     collection: {

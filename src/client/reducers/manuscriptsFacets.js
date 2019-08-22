@@ -168,27 +168,27 @@ export const INITIAL_STATE = {
       containerClass: 'ten',
       filterType: 'uriFilter',
       uriFilter: null,
+      priority: 11
+    },
+    width: {
+      id: 'width',
+      label: 'Width',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'instanceCount',
+      sortDirection: 'desc',
+      sortButton: true,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: true,
+      containerClass: 'three',
+      type: 'integer',
+      filterType: 'integerFilter',
+      integerFilter: null,
       priority: 10
     },
-    // width: {
-    //   id: 'width',
-    //   label: 'Width',
-    //   // predicate: defined in backend
-    //   distinctValueCount: 0,
-    //   values: [],
-    //   flatValues: [],
-    //   sortBy: 'instanceCount',
-    //   sortDirection: 'desc',
-    //   sortButton: true,
-    //   spatialFilterButton: false,
-    //   isFetching: false,
-    //   searchField: true,
-    //   containerClass: 'three',
-    //   type: 'integer',
-    //   filterType: 'integerFilter',
-    //   integerFilter: null,
-    //   priority: 9
-    // },
     collection: {
       id: 'collection',
       label: 'Collection',
@@ -241,7 +241,7 @@ export const INITIAL_STATE = {
       containerClass: 'three',
       filterType: 'uriFilter',
       uriFilter: null,
-      priority: 11
+      priority: 12
     },
   }
 };
