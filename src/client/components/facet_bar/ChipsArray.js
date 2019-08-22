@@ -37,6 +37,7 @@ class ChipsArray extends React.Component {
           });
           break;
         case 'timespanFilter':
+        case 'integerFilter':
           this.props.updateFacetOption({
             facetClass: this.props.facetClass,
             facetID: item.facetID,
