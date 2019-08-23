@@ -117,6 +117,25 @@ export const INITIAL_STATE = {
       type: 'timespan',
       priority: 9
     },
+    // salesPrice: {
+    //   id: 'salesPrice',
+    //   label: 'Sales price',
+    //   // predicate: defined in backend
+    //   distinctValueCount: 0,
+    //   values: [],
+    //   flatValues: [],
+    //   sortBy: 'instanceCount',
+    //   sortDirection: 'desc',
+    //   sortButton: true,
+    //   spatialFilterButton: false,
+    //   isFetching: false,
+    //   searchField: true,
+    //   containerClass: 'three',
+    //   type: 'integer',
+    //   filterType: 'integerFilter',
+    //   integerFilter: null,
+    //   priority: 19
+    // },
     author: {
       id: 'author',
       label: 'Author',
@@ -169,7 +188,7 @@ export const INITIAL_STATE = {
       containerClass: 'ten',
       filterType: 'uriFilter',
       uriFilter: null,
-      priority: 19,
+      priority: 20,
     },
     height: {
       id: 'height',
@@ -375,7 +394,7 @@ export const INITIAL_STATE = {
       containerClass: 'three',
       filterType: 'uriFilter',
       uriFilter: null,
-      priority: 12
+      priority: 21
     },
   }
 };
