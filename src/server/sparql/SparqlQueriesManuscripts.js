@@ -172,8 +172,8 @@ export const migrationsQuery = `
               wgs84:long ?from__long .
     ?event__id crm:P30_transferred_custody_of|mmm-schema:observed_manuscript ?manuscript__id .
     OPTIONAL { ?event__id skos:prefLabel ?event__prefLabel }
-    ?event__id crm:P4_has_time-span|mmm-schema:observed_time-span ?event__date .
-    ?event__id crm:P7_took_place_at|mmm-schema:observed_location ?to__id .
+    ?event__id crm:P4_has_time-span ?event__date .
+    ?event__id crm:P7_took_place_at ?to__id .
     ?to__id skos:prefLabel ?to__name .
     ?to__id wgs84:lat ?to__lat ;
             wgs84:long ?to__long .
