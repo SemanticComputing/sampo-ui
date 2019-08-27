@@ -21,7 +21,8 @@ import {
   placesActorsQuery,
 } from './SparqlQueriesActors';
 import {
-  placeProperties,
+  placePropertiesInstancePage,
+  placePropertiesFacetResults,
   placePropertiesInfoWindow,
   manuscriptsProducedAt,
   actorsAt,
@@ -189,7 +190,7 @@ const getPaginatedData = ({
       resultSetProperties = eventProperties;
       break;
     case 'places':
-      resultSetProperties = placeProperties;
+      resultSetProperties = placePropertiesFacetResults;
       break;
     case 'actors':
       resultSetProperties = actorProperties;
@@ -243,7 +244,7 @@ export const getByURI = ({
       break;
     case 'places':
       q = instanceQuery;
-      q = q.replace('<PROPERTIES>', placeProperties);
+      q = q.replace('<PROPERTIES>', placePropertiesInstancePage);
       q = q.replace('<RELATED_INSTANCES>', '');
       break;
     case 'placesAll':

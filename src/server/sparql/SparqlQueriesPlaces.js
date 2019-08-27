@@ -1,4 +1,4 @@
-export const placeProperties = `
+export const placePropertiesInstancePage = `
     {
       ?id skos:prefLabel ?prefLabel__id .
       BIND(?prefLabel__id AS ?prefLabel__prefLabel)
@@ -35,6 +35,30 @@ export const placeProperties = `
         (crm:P30_transferred_custody_of|mmm-schema:observed_manuscript) ?manuscript__id .
       ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
       BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
+    }
+`;
+
+export const placePropertiesFacetResults = `
+    {
+      ?id skos:prefLabel ?prefLabel__id .
+      BIND(?prefLabel__id AS ?prefLabel__prefLabel)
+      BIND(CONCAT("/places/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
+    }
+    UNION
+    {
+      ?id  owl:sameAs
+          |mmm-schema:data_provider_url
+          |mmm-schema:geonames_uri
+          ?source__id .
+      OPTIONAL { ?source__id skos:prefLabel ?source__prefLabel_}
+      BIND(?source__id AS ?source__dataProviderUrl)
+      BIND(COALESCE(?source__prefLabel_, ?source__id) AS ?source__prefLabel)
+    }
+    UNION { ?id gvp:placeTypePreferred ?placeType }
+    UNION {
+      ?id gvp:broaderPreferred ?area__id .
+      ?area__id skos:prefLabel ?area__prefLabel .
+      BIND(CONCAT("/places/page/", REPLACE(STR(?area__id), "^.*\\\\/(.+)", "$1")) AS ?area__dataProviderUrl)
     }
 `;
 
