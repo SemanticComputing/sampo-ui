@@ -54,7 +54,7 @@ class FacetBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeFacets: new Set(),
+      activeFacets: this.props.defaultActiveFacets,
     };
   }
 
@@ -227,7 +227,8 @@ FacetBar.propTypes = {
   fetchingResultCount: PropTypes.bool.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   fetchResultCount: PropTypes.func.isRequired,
-  updateFacetOption: PropTypes.func.isRequired
+  updateFacetOption: PropTypes.func.isRequired,
+  defaultActiveFacets: PropTypes.instanceOf(Set).isRequired,
 };
 
 export default withStyles(styles)(FacetBar);

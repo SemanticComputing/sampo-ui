@@ -19,8 +19,8 @@ import Places from '../components//perspectives/Places';
 import Actors from '../components//perspectives/Actors';
 import All from '../components/perspectives/All';
 import InstanceHomePage from '../components/main_layout/InstanceHomePage';
-import FeedbackPage from '../components/main_layout/FeedbackPage';
-import { perspectiveArr } from '../components/perspectives/PerspectiveArray';
+//import FeedbackPage from '../components/main_layout/FeedbackPage';
+import { perspectiveArr } from '../components/perspectives/PerspectiveArrayMMM';
 import { has } from 'lodash';
 import {
   fetchResultCount,
@@ -242,6 +242,7 @@ let SemanticPortal = (props) => {
                                 fetchFacet={props.fetchFacet}
                                 fetchResultCount={props.fetchResultCount}
                                 updateFacetOption={props.updateFacetOption}
+                                defaultActiveFacets={perspective.defaultActiveFacets}
                               />
                             </Grid>
                             <Grid item xs={12} md={9} className={classes.resultsContainer}>

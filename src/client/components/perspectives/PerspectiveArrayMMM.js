@@ -1,12 +1,9 @@
-// import akaLogo from '../../img/logos/funders/aka_en_vaaka_rgb.jpg';
-
 export const perspectiveArr = [
   {
     id: 'manuscripts',
     label: 'Manuscripts',
     desc: 'Physical manuscript objects.',
-    // externalUrl: 'https://seco.cs.aalto.fi/',
-    // thumbImage: akaLogo, // note: the image has to be imported in this js file
+    defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {
         id: 'table',
@@ -38,6 +35,7 @@ export const perspectiveArr = [
     id: 'works',
     label: 'Works',
     desc: 'Intellectual content carried out by manuscripts.',
+    defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {
         id: 'table',
@@ -51,6 +49,7 @@ export const perspectiveArr = [
     id: 'events',
     label: 'Events',
     desc: 'Events related to manuscripts.',
+    defaultActiveFacets: new Set(['type']),
     tabs: [
       {
         id: 'table',
@@ -64,6 +63,7 @@ export const perspectiveArr = [
     id: 'actors',
     label: 'Actors',
     desc: 'People and institutions related to manuscripts and works.',
+    defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {
         id: 'table',
@@ -83,6 +83,7 @@ export const perspectiveArr = [
     id: 'places',
     label: 'Places',
     desc: 'Places related to manuscripts and works.',
+    defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {
         id: 'table',
