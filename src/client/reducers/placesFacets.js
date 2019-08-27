@@ -18,7 +18,7 @@ export const INITIAL_STATE = {
   facets: {
     prefLabel: {
       id: 'prefLabel',
-      label: 'Label',
+      label: 'Name',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
