@@ -57,7 +57,7 @@ const ObjectList = props => {
         {props.externalLink && props.linkAsButton == null &&
           <a
             target='_blank' rel='noopener noreferrer'
-            href={id}
+            href={dataProviderUrl}
           >
             {Array.isArray(prefLabel) ? prefLabel[0] : prefLabel}
           </a>

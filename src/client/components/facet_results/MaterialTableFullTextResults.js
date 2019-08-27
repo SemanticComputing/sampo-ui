@@ -9,9 +9,10 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ResultTableCell from './ResultTableCell';
 import purple from '@material-ui/core/colors/purple';
 import Paper from '@material-ui/core/Paper';
-import { has } from 'lodash';
+//import { has } from 'lodash';
 
 const styles = () => ({
   progressContainer: {
@@ -43,34 +44,53 @@ class MaterialTableFullTextResults extends React.Component {
               {
                 title: 'Label',
                 field: 'prefLabel',
-                render: rowData =>
-                  <a
-                    target='_blank' rel='noopener noreferrer'
-                    href={rowData.id}
-                  >
-                    {rowData.prefLabel}
-                  </a>
+                render: data =>
+                  <ResultTableCell
+                    columnId='prefLabel'
+                    data={data.prefLabel}
+                    valueType='object'
+                    makeLink={true}
+                    externalLink={true}
+                    sortValues={true}
+                    numberedList={false}
+                    minWidth={150}
+                    container='div'
+                    expanded={true}
+                  />
               },
               {
                 title: 'Type',
-                field: 'type.prefLabel',
-                render: rowData => rowData.type.prefLabel
+                field: 'type',
+                render: data =>
+                  <ResultTableCell
+                    columnId='type'
+                    data={data.type}
+                    valueType='object'
+                    makeLink={false}
+                    externalLink={false}
+                    sortValues={true}
+                    numberedList={false}
+                    minWidth={150}
+                    container='div'
+                    expanded={true}
+                  />
               },
               {
-                title: 'Data provider link',
-                field: 'dataProviderUrl',
-                render: rowData => {
-                  if (has(rowData, 'source') && has(rowData, 'dataProviderUrl')) {
-                    return(
-                      <a
-                        target='_blank' rel='noopener noreferrer'
-                        href={rowData.dataProviderUrl}
-                      >
-                        {rowData.source.prefLabel}
-                      </a>
-                    );
-                  }
-                }
+                title: 'Source',
+                field: 'source',
+                render: data =>
+                  <ResultTableCell
+                    columnId='source'
+                    data={data.source}
+                    valueType='object'
+                    makeLink={true}
+                    externalLink={true}
+                    sortValues={true}
+                    numberedList={false}
+                    minWidth={150}
+                    container='div'
+                    expanded={true}
+                  />
               },
             ]}
             data={results}
