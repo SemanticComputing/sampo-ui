@@ -210,7 +210,7 @@ export const INITIAL_STATE = {
         The dates of “Transfer of Custody” events related to the manuscript.
       `,
       valueType: 'object',
-      makeLink: true,
+      makeLink: false,
       externalLink: false,
       sortValues: true,
       numberedList: false,
@@ -240,7 +240,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 150,
+      minWidth: 140,
     },
     {
       id: 'width',

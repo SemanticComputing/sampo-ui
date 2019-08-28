@@ -179,24 +179,17 @@ export const facetConfigs = {
       type: 'integer',
     },
     decoratedInitials: {
-      id: 'folios',
+      id: 'decoratedInitials',
       facetValueFilter: '',
       labelPath: 'mmm-schema:decorated_initials/crm:P90_has_value',
       predicate: 'mmm-schema:decorated_initials/crm:P90_has_value',
       type: 'integer',
     },
     historiatedInitials: {
-      id: 'folios',
+      id: 'historiatedInitials',
       facetValueFilter: '',
       labelPath: 'mmm-schema:historiated_initials/crm:P90_has_value',
       predicate: 'mmm-schema:historiated_initials/crm:P90_has_value',
-      type: 'integer',
-    },
-    salesPrice: {
-      id: 'folios',
-      facetValueFilter: '',
-      labelPath: '^crm:P30_transferred_custody_of/mmm-schema:had_sales_price/crm:P181_has_amount',
-      predicate: '^crm:P30_transferred_custody_of/mmm-schema:had_sales_price/crm:P181_has_amount',
       type: 'integer',
     },
     collection: {
