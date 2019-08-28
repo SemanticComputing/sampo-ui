@@ -62,8 +62,8 @@ export const INITIAL_STATE = {
     },
     {
       id: 'area',
-      label: 'Broader area',
-      desc: 'Broader area description',
+      label: 'Area',
+      desc: 'Area description',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
