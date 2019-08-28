@@ -129,7 +129,9 @@ export const INITIAL_STATE = {
       id: 'note',
       label: 'Note',
       desc: `
-        Note
+        Other info such as distinguishing characteristics, notes on the physical structure
+        of the manuscript, script types, note glosses, physical relationships among various
+        texts and/or parts of a miscellany, such as multiple types of page layout.
       `,
       valueType: 'string',
       makeLink: false,
@@ -325,14 +327,27 @@ export const INITIAL_STATE = {
       minWidth: 150,
     },
     {
+      id: 'historiatedInitials',
+      label: 'Historiated initials',
+      desc: `
+        The number of historiated initials.
+      `,
+      valueType: 'string',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150,
+    },
+    {
       id: 'source',
       label: 'Source',
       desc: `
         The source dataset(s) (Bibale, Bodleian, or SDBM) contributing the
         information on the manuscript. If two or more source datasets include
         the same manuscript and this has been manually verified, the information
-        from the source datasets has been merged into one table row. Click on
-        the source name to view the original record on the source’s website.
+        from the source datasets have been merged into one manuscript (table row).
+         Click on the links to view the original record on the source’s website.
       `,
       valueType: 'object',
       makeLink: true,
