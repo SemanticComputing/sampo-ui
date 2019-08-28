@@ -43,7 +43,7 @@ export const INITIAL_STATE = {
       id: 'prefLabel',
       label: 'Label',
       desc: `
-        A short label describing the manuscript
+        A short label describing the manuscript.
       `,
       valueType: 'object',
       makeLink: true,
@@ -69,7 +69,7 @@ export const INITIAL_STATE = {
     {
       id: 'work',
       label: 'Work',
-      desc: 'Work description',
+      desc: 'The intellectual content (works) contained in the manuscript.',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -81,7 +81,7 @@ export const INITIAL_STATE = {
     {
       id: 'expression',
       label: 'Expression',
-      desc: 'Expression description',
+      desc: 'The linguistic versions of the works contained in the manuscript.',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -94,11 +94,12 @@ export const INITIAL_STATE = {
       id: 'productionPlace',
       label: 'Production place',
       desc: `
-        The location where the manuscript was written. Multiple places of
-        production may appear for a single manuscript, when there are
-        discrepancies between the contributing data sources or when the
-        precise location is uncertain, or when the production indeed took
-        place in several places (e.g. for composite manuscripts).
+        The location where the manuscript was written. Multiple production places
+        may appear for a single manuscript due to the following reasons:  1) there
+        are discrepancies in the contributing data source,  2) there are discrepancies
+        between several contributing data sources, 3) the precise date is uncertain,
+        4) the production indeed took place on several occasions (e.g. for composite
+        manuscripts).
       `,
       valueType: 'object',
       makeLink: true,
@@ -111,10 +112,11 @@ export const INITIAL_STATE = {
       id: 'productionTimespan',
       label: 'Production date',
       desc: `
-        The date when the manuscript was written. Multiple production dates
-        may appear for a single manuscript, when there are discrepancies
-        between the contributing data sources or when the precise date is
-        uncertain.
+        The date when the manuscript was written. Multiple production dates may appear
+        for a single manuscript due to the following reasons:  1) there are discrepancies
+        in the contributing data source,  2) there are discrepancies between several
+        contributing data sources, 3) the precise date is uncertain, 4) the production
+        indeed took place on several occasions (e.g. for composite manuscripts).
       `,
       valueType: 'object',
       makeLink: false,
@@ -137,19 +139,6 @@ export const INITIAL_STATE = {
       minWidth: 250,
     },
     {
-      id: 'event',
-      label: 'Event',
-      desc: `
-        Events related to the manuscript.
-      `,
-      valueType: 'object',
-      makeLink: true,
-      externalLink: false,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 280,
-    },
-    {
       id: 'language',
       label: 'Language',
       desc: `
@@ -163,17 +152,17 @@ export const INITIAL_STATE = {
       minWidth: 150,
     },
     {
-      id: 'material',
-      label: 'Material',
+      id: 'event',
+      label: 'Event',
       desc: `
-        Material info.
+        Events related to the manuscript.
       `,
       valueType: 'object',
       makeLink: true,
-      externalLink: true,
+      externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 150,
+      minWidth: 280,
     },
     {
       id: 'owner',
@@ -192,7 +181,7 @@ export const INITIAL_STATE = {
       id: 'collection',
       label: 'Collection',
       desc: `
-        Collection
+        The collection(s) that the manuscript has been part of at some point in time.
       `,
       valueType: 'object',
       makeLink: true,
@@ -201,6 +190,147 @@ export const INITIAL_STATE = {
       numberedList: false,
       minWidth: 200
     },
+    {
+      id: 'transferOfCustodyPlace',
+      label: 'Transfer of Custody Place',
+      desc: `
+        The locations of “Transfer of Custody” events related to the manuscript.
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 200,
+    },
+    {
+      id: 'transferOfCustodyTimespan',
+      label: 'Transfer of Custody Date',
+      desc: `
+        The dates of “Transfer of Custody” events related to the manuscript.
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 200,
+    },
+    {
+      id: 'material',
+      label: 'Material',
+      desc: `
+        The physical material on which the text is written.
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: true,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150,
+    },
+    {
+      id: 'height',
+      label: 'Height',
+      desc: `
+        The height of the manuscript in millimeters.
+      `,
+      valueType: 'string',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150,
+    },
+    {
+      id: 'width',
+      label: 'Width',
+      desc: `
+        The width of the manuscript in millimeters.
+      `,
+      valueType: 'string',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150,
+    },
+    {
+      id: 'folios',
+      label: 'Folios',
+      desc: `
+        The number of folios (leaves).
+      `,
+      valueType: 'string',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150,
+    },
+    {
+      id: 'lines',
+      label: 'Lines',
+      desc: `
+        The number of lines in a text block. Left blank if the number of lines
+        occurring throughout the manuscript is too irregular to be a useful
+        descriptor for searching.
+      `,
+      valueType: 'string',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150,
+    },
+    {
+      id: 'columns',
+      label: 'Columns',
+      desc: `
+        The number of columns. Left blank if the number of columns
+        occurring throughout the manuscript is too irregular to be a useful
+        descriptor for searching.
+      `,
+      valueType: 'string',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150,
+    },
+    {
+      id: 'miniatures',
+      label: 'Miniatures',
+      desc: `
+        The number of miniatures.
+      `,
+      valueType: 'string',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150,
+    },
+    {
+      id: 'decoratedInitials',
+      label: 'Decorated initials',
+      desc: `
+        The number of miniatures.
+      `,
+      valueType: 'string',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150,
+    },
+
+
+
+
+
+
+
     {
       id: 'source',
       label: 'Source',

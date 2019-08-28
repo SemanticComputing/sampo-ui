@@ -148,6 +148,7 @@ export const INITIAL_STATE = {
       uriFilter: null,
       priority: 5
     },
+    // event only as a result table column
     owner: {
       id: 'owner',
       label: 'Owner',
@@ -186,7 +187,7 @@ export const INITIAL_STATE = {
     },
     transferOfCustodyPlace: {
       id: 'transferOfCustodyPlace',
-      label: 'Transfer of custody place',
+      label: 'Transfer of Custody Place',
       //predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -206,7 +207,7 @@ export const INITIAL_STATE = {
     },
     transferOfCustodyTimespan: {
       id: 'transferOfCustodyTimespan',
-      label: 'Transfer of custody date',
+      label: 'Transfer of Custody Date',
       //predicate: defined in backend
       distinctValueCount: 0,
       values: [],
