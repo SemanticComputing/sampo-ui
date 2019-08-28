@@ -243,6 +243,7 @@ let SemanticPortal = (props) => {
                                 fetchResultCount={props.fetchResultCount}
                                 updateFacetOption={props.updateFacetOption}
                                 defaultActiveFacets={perspective.defaultActiveFacets}
+                                resultTableColumns={props[perspective.id].tableColumns}
                               />
                             </Grid>
                             <Grid item xs={12} md={9} className={classes.resultsContainer}>

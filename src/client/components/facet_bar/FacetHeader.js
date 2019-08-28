@@ -7,6 +7,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Typography from '@material-ui/core/Typography';
+import InfoIcon from '@material-ui/icons/InfoOutlined';
 import history from '../../History';
 
 const styles = theme => ({
@@ -17,12 +18,8 @@ const styles = theme => ({
   headingContainer: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    //justifyContent: 'space-between',
     width: '100%'
-    //paddingLeft: theme.spacing(1),
-    //borderBottomLeftRadius: 0,
-    //borderBottomRightRadius: 0,
-    //height: 48
   },
   facetValuesContainerTen: {
     height: 345,
@@ -167,12 +164,20 @@ class FacetHeader extends React.Component {
   }
 
   render() {
-    const { classes, isActive } = this.props;
+    const { classes, isActive, description } = this.props;
     const { label, sortButton, spatialFilterButton } = this.props.facet;
     let showMenuButton = isActive && (sortButton || spatialFilterButton);
     return (
       <div className={classes.headingContainer}>
         <Typography variant="body1">{label} </Typography>
+        <Tooltip
+          title={description}
+          enterDelay={300}
+        >
+          <IconButton>
+            <InfoIcon />
+          </IconButton>
+        </Tooltip>
         {showMenuButton &&
           <div className={classes.facetHeaderButtons}>
             {this.renderFacetMenu()}
@@ -192,6 +197,7 @@ FacetHeader.propTypes = {
   resultClass: PropTypes.string,
   fetchFacet: PropTypes.func,
   updateFacetOption: PropTypes.func,
+  description: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(FacetHeader);
