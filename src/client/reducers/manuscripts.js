@@ -324,13 +324,6 @@ export const INITIAL_STATE = {
       numberedList: false,
       minWidth: 150,
     },
-
-
-
-
-
-
-
     {
       id: 'source',
       label: 'Source',
