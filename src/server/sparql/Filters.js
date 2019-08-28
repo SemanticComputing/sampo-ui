@@ -108,7 +108,17 @@ const generateTextFilter = ({
   queryString,
   inverse
 }) => {
-  const filterStr = `?${filterTarget} text:query (${facetConfigs[facetClass][facetID].textQueryProperty} '${queryString}') . `;
+  const facetConfig = facetConfigs[facetClass][facetID];
+  let filterStr = '';
+  if (facetConfig.textQueryPredicate === '') {
+    filterStr = `?${filterTarget} text:query (${facetConfig.textQueryProperty} '${queryString}') .`;
+  } else {
+    filterStr = `
+      ?textQueryTarget text:query (${facetConfig.textQueryProperty} '${queryString}') .
+      ?${filterTarget} ${facetConfig.textQueryPredicate} ?textQueryTarget .
+
+    `;
+  }
   if (inverse) {
     return `
       FILTER NOT EXISTS {

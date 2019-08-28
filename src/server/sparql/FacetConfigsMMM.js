@@ -47,7 +47,15 @@ export const facetConfigs = {
     prefLabel: {
       id: 'prefLabel',
       labelPath: 'skos:prefLabel',
-      textQueryProperty: 'skos:prefLabel',
+      textQueryPredicate: '', // empty for querying the facetClass
+      textQueryProperty: 'skos:prefLabel', // limit only to prefLabels
+      type: 'text',
+    },
+    work: {
+      id: 'work',
+      labelPath: 'mmm-schema:manuscript_work/skos:prefLabel',
+      textQueryPredicate: 'mmm-schema:manuscript_work', // text query for works
+      textQueryProperty: '', // query everything in text index
       type: 'text',
     },
     author: {
@@ -212,7 +220,8 @@ export const facetConfigs = {
     prefLabel: {
       id: 'prefLabel',
       labelPath: 'skos:prefLabel',
-      textQueryProperty: 'skos:prefLabel',
+      textQueryPredicate: '', // empty for querying the facetClass
+      textQueryProperty: 'skos:prefLabel', // limit only to prefLabels
       type: 'text',
     },
     source: {
@@ -314,7 +323,8 @@ export const facetConfigs = {
     prefLabel: {
       id: 'prefLabel',
       labelPath: 'skos:prefLabel',
-      textQueryProperty: 'skos:prefLabel',
+      textQueryPredicate: '', // empty for querying the facetClass
+      textQueryProperty: 'skos:prefLabel', // limit only to prefLabels
       type: 'text',
     },
     type: {
@@ -393,7 +403,8 @@ export const facetConfigs = {
     prefLabel: {
       id: 'prefLabel',
       labelPath: 'skos:prefLabel',
-      textQueryProperty: 'skos:prefLabel',
+      textQueryPredicate: '', // empty for querying the facetClass
+      textQueryProperty: 'skos:prefLabel', // limit only to prefLabels
       type: 'text',
     },
     source: {
