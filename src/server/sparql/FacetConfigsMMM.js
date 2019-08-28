@@ -51,13 +51,6 @@ export const facetConfigs = {
       textQueryProperty: 'skos:prefLabel', // limit only to prefLabels
       type: 'text',
     },
-    work: {
-      id: 'work',
-      labelPath: 'mmm-schema:manuscript_work/skos:prefLabel',
-      textQueryPredicate: 'mmm-schema:manuscript_work', // text query for works
-      textQueryProperty: '', // query everything in text index
-      type: 'text',
-    },
     author: {
       id: 'author',
       facetValueFilter: '',
@@ -65,6 +58,13 @@ export const facetConfigs = {
       labelPath: 'mmm-schema:manuscript_author/skos:prefLabel',
       predicate: 'mmm-schema:manuscript_author',
       type: 'list'
+    },
+    work: {
+      id: 'work',
+      labelPath: 'mmm-schema:manuscript_work/skos:prefLabel',
+      textQueryPredicate: 'mmm-schema:manuscript_work', // text query for works
+      textQueryProperty: '', // query everything in text index
+      type: 'text',
     },
     productionPlace: {
       id: 'productionPlace',
@@ -77,6 +77,23 @@ export const facetConfigs = {
       parentPredicate: '^crm:P108_has_produced/crm:P7_took_place_at/gvp:broaderPreferred+',
       type: 'hierarchical',
     },
+    productionTimespan: {
+      id: 'productionTimespan',
+      facetValueFilter: '',
+      sortByAscPredicate: '^crm:P108_has_produced/crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
+      sortByDescPredicate: '^crm:P108_has_produced/crm:P4_has_time-span/crm:P82b_end_of_the_end',
+      predicate: '^crm:P108_has_produced/crm:P4_has_time-span',
+      startProperty: 'crm:P82a_begin_of_the_begin',
+      endProperty: 'crm:P82b_end_of_the_end',
+      type: 'timespan',
+    },
+    note: {
+      id: 'note',
+      labelPath: 'crm:P3_has_note',
+      textQueryPredicate: '', // empty for querying the facetClass
+      textQueryProperty: 'crm:P3_has_note',
+      type: 'text',
+    },
     transferOfCustodyPlace: {
       id: 'productionPlace',
       facetValueFilter: `
@@ -88,16 +105,7 @@ export const facetConfigs = {
       parentPredicate: '^crm:P30_transferred_custody_of/crm:P7_took_place_at/gvp:broaderPreferred+',
       type: 'hierarchical',
     },
-    productionTimespan: {
-      id: 'productionTimespan',
-      facetValueFilter: '',
-      sortByAscPredicate: '^crm:P108_has_produced/crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
-      sortByDescPredicate: '^crm:P108_has_produced/crm:P4_has_time-span/crm:P82b_end_of_the_end',
-      predicate: '^crm:P108_has_produced/crm:P4_has_time-span',
-      startProperty: 'crm:P82a_begin_of_the_begin',
-      endProperty: 'crm:P82b_end_of_the_end',
-      type: 'timespan',
-    },
+
     transferOfCustodyTimespan: {
       id: 'transferOfCustodyTimespan',
       facetValueFilter: `
