@@ -173,22 +173,24 @@ class ResultTable extends React.Component {
     const expanded = this.state.expandedRows.has(row.id);
     let hasExpandableContent = false;
     const dataCells = this.props.data.tableColumns.map(column => {
-      const columnData = row[column.id];
+      const columnData = row[column.id] == null ? '-' : row[column.id];
       const isArray = Array.isArray(columnData);
       if (isArray) {
         hasExpandableContent = true;
       }
       if (!isArray
+        && columnData !== '-'
         && column.valueType === 'string'
         && column.collapsedMaxWords
-        && columnData.split(' ').length > column.collapsedMaxWords) {
+        && columnData.split(' ').length > column.collapsedMaxWords
+      ) {
         hasExpandableContent = true;
       }
       return (
         <ResultTableCell
           key={column.id}
           columnId={column.id}
-          data={row[column.id] == null ? '-' : row[column.id]}
+          data={columnData}
           valueType={column.valueType}
           makeLink={column.makeLink}
           externalLink={column.externalLink}

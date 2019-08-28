@@ -31,9 +31,9 @@ const StringList = props => {
   const createFirstValue = (data, isArray) => {
     let firstValue = isArray ? data[0] : data;
     if (props.collapsedMaxWords) {
-      const wordCount = data.split(' ').length;
+      const wordCount = firstValue.split(' ').length;
       if (wordCount > props.collapsedMaxWords) {
-        firstValue = data.trim().split(' ').splice(0, props.collapsedMaxWords).join(' ');
+        firstValue = firstValue.trim().split(' ').splice(0, props.collapsedMaxWords).join(' ');
         firstValue = `${firstValue}...`;
       }
     } else if (isArray) {
