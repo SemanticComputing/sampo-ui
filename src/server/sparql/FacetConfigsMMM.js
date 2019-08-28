@@ -376,24 +376,14 @@ export const facetConfigs = {
       endProperty: 'crm:P82b_end_of_the_end',
       type: 'timespan',
     },
-    birthPlace: {
-      id: 'birthPlace',
-      facetValueFilter: `
-      ?id dct:source <http://vocab.getty.edu/tgn/> .
-      `,
-      labelPath: 'crm:P98i_was_born/crm:P7_took_place_at/skos:prefLabel',
-      predicate: 'crm:P98i_was_born/crm:P7_took_place_at',
-      parentPredicate: 'crm:P98i_was_born/crm:P7_took_place_at/gvp:broaderPreferred+',
-      type: 'hierarchical',
-    },
     place: {
       id: 'source',
       facetValueFilter: `
       ?id dct:source <http://vocab.getty.edu/tgn/> .
       `,
-      labelPath: 'mmm-schema:person_place/skos:prefLabel',
-      predicate: 'mmm-schema:person_place',
-      parentPredicate: 'mmm-schema:person_place/gvp:broaderPreferred+',
+      labelPath: '^crm:P11_had_participant/crm:P7_took_place_at/skos:prefLabel',
+      predicate: '^crm:P11_had_participant/crm:P7_took_place_at',
+      parentPredicate: '^crm:P11_had_participant/crm:P7_took_place_at/gvp:broaderPreferred+',
       type: 'hierarchical',
     },
     work: {

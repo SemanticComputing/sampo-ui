@@ -51,30 +51,32 @@ export const INITIAL_STATE = {
       filterType: 'uriFilter',
       uriFilter: null,
       spatialFilter: null,
-      priority: 6
-    },
-    birthPlace: {
-      id: 'birthPlace',
-      label: 'Birth/formation location',
-      // predicate: defined in backend
-      distinctValueCount: 0,
-      values: [],
-      flatValues: [],
-      sortBy: 'prefLabel',
-      sortDirection: 'asc',
-      sortButton: true,
-      spatialFilterButton: false,
-      isFetching: false,
-      searchField: true,
-      containerClass: 'ten',
-      filterType: 'uriFilter',
-      uriFilter: null,
-      type: 'hierarchical',
-      priority: 3
+      priority: 5
     },
     birthDateTimespan: {
       id: 'birthDateTimespan',
-      label: 'Birth/formation year',
+      label: 'Birth / formation date',
+      //predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: null,
+      sortDirection: null,
+      sortButton: false,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: false,
+      containerClass: 'three',
+      filterType: 'timespanFilter',
+      min: null,
+      max: null,
+      timespanFilter: null,
+      type: 'timespan',
+      priority: 3
+    },
+    deathDateTimespan: {
+      id: 'deathDateTimespan',
+      label: 'Death / dissolution date',
       //predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -92,27 +94,6 @@ export const INITIAL_STATE = {
       timespanFilter: null,
       type: 'timespan',
       priority: 4
-    },
-    deathDateTimespan: {
-      id: 'deathDateTimespan',
-      label: 'Death/dissolution year',
-      //predicate: defined in backend
-      distinctValueCount: 0,
-      values: [],
-      flatValues: [],
-      sortBy: null,
-      sortDirection: null,
-      sortButton: false,
-      spatialFilterButton: false,
-      isFetching: false,
-      searchField: false,
-      containerClass: 'three',
-      filterType: 'timespanFilter',
-      min: null,
-      max: null,
-      timespanFilter: null,
-      type: 'timespan',
-      priority: 5
     },
     place: {
       id: 'place',
@@ -150,7 +131,7 @@ export const INITIAL_STATE = {
       containerClass: 'five',
       filterType: 'uriFilter',
       uriFilter: null,
-      priority: 7
+      priority: 6
     },
   }
 };

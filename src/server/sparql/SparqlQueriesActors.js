@@ -42,7 +42,7 @@ export const actorProperties = `
     }
     UNION
     {
-      ?id mmm-schema:person_place ?place__id .
+      ?id ^crm:P11_had_participant/crm:P7_took_place_at ?place__id .
       ?place__id skos:prefLabel ?place__prefLabel .
       BIND(CONCAT("/places/page/", REPLACE(STR(?place__id), "^.*\\\\/(.+)", "$1")) AS ?place__dataProviderUrl)
     }
@@ -117,7 +117,7 @@ export const placesActorsQuery = `
     UNION
     { ?actor__id crm:P100i_died_in/crm:P7_took_place_at ?id }
     UNION
-    { ?actor__id mmm-schema:person_place ?id }
+    { ?actor__id ^crm:P11_had_participant/crm:P7_took_place_at ?id }
     ?id wgs84:lat ?lat ;
         wgs84:long ?long .
   }
