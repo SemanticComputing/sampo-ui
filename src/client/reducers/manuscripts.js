@@ -139,6 +139,7 @@ export const INITIAL_STATE = {
       sortValues: true,
       numberedList: false,
       minWidth: 250,
+      collapsedMaxWords: 12,
     },
     {
       id: 'language',
