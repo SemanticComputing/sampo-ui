@@ -37,7 +37,7 @@ export const INITIAL_STATE = {
     },
     eventTimespan: {
       id: 'eventTimespan',
-      label: 'Year',
+      label: 'Date',
       //predicate: defined in backend
       distinctValueCount: 0,
       values: [],
