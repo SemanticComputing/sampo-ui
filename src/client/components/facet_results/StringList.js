@@ -36,8 +36,8 @@ const StringList = props => {
         firstValue = data.trim().split(' ').splice(0, props.collapsedMaxWords).join(' ');
         firstValue = `${firstValue}...`;
       }
-    } else {
-      firstValue = `${firstValue} ...`;
+    } else if (isArray) {
+      firstValue = `${firstValue}...`;
     }
     return(
       <div className={props.classes.stringContainer}>{firstValue}</div>
