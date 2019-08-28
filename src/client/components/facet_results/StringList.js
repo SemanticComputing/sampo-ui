@@ -29,18 +29,18 @@ const styles = () => ({
 const StringList = props => {
 
   const createFirstValue = (data, isArray) => {
-    if (isArray) {
-      data = data[0];
-    }
+    let firstValue = isArray ? data[0] : data;
     if (props.collapsedMaxWords) {
       const wordCount = data.split(' ').length;
       if (wordCount > props.collapsedMaxWords) {
-        data = data.trim().split(' ').splice(0, props.collapsedMaxWords).join(' ');
-        data = `${data}...`;
+        firstValue = data.trim().split(' ').splice(0, props.collapsedMaxWords).join(' ');
+        firstValue = `${firstValue}...`;
       }
+    } else {
+      firstValue = `${firstValue} ...`;
     }
     return(
-      <div className={props.classes.stringContainer}>{data}</div>
+      <div className={props.classes.stringContainer}>{firstValue}</div>
     );
   };
 
