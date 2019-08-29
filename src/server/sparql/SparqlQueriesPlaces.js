@@ -106,7 +106,7 @@ export const actorsAt = `
       UNION
       { ?related__id crm:P100i_died_in/crm:P7_took_place_at ?id }
       UNION
-      { ?related__id mmm-schema:person_place ?id }
+      { ?related__id ^crm:P11_had_participant/crm:P7_took_place_at ?id }
       ?related__id skos:prefLabel ?related__prefLabel .
       BIND(CONCAT("/actors/page/", REPLACE(STR(?related__id), "^.*\\\\/(.+)", "$1")) AS ?related__dataProviderUrl)
     }
