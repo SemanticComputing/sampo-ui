@@ -318,7 +318,7 @@ export const INITIAL_STATE = {
       id: 'decoratedInitials',
       label: 'Decorated initials',
       desc: `
-        The number of miniatures.
+        The number of decorated initials.
       `,
       valueType: 'string',
       makeLink: false,
