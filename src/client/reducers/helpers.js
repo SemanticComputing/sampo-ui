@@ -248,3 +248,10 @@ export const updateFacetValues = (state, action) => {
     };
   }
 };
+
+export const updateHeaderExpanded = state => {
+  return {
+    ...state,
+    headerExpanded: !state.headerExpanded
+  };
+};

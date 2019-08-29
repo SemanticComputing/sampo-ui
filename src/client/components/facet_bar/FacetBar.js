@@ -23,6 +23,14 @@ const styles = theme => ({
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0
   },
+  expansionPanelRoot: {
+    margin: 0,
+    //marginBottom: theme.spacing(1)
+  },
+  expansionPanelRootExpanded: {
+    margin: theme.spacing(1),
+    //marginBottom: theme.spacing(1)
+  },
   expansionPanelSummaryRoot: {
     paddingLeft: theme.spacing(1),
     cursor: 'default !important'
@@ -159,6 +167,10 @@ class FacetBar extends React.Component {
       <ExpansionPanel
         key={facetID}
         expanded={isActive}
+        classes={{
+          root: classes.expansionPanelRoot,
+          expanded: classes.expansionPanelRootExpanded
+        }}
       >
         <ExpansionPanelSummary
           classes={{

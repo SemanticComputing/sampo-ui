@@ -22,6 +22,7 @@ export const UPDATE_FACET_OPTION = 'UPDATE_FACET_OPTION';
 export const UPDATE_CLIENT_SIDE_FILTER = 'UPDATE_CLIENT_SIDE_FILTER';
 export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP';
 export const SHOW_ERROR = 'SHOW_ERROR';
+export const UPDATE_PERSPECTIVE_HEADER_EXPANDED = 'UPDATE_PERSPECTIVE_HEADER_EXPANDED';
 
 export const fetchPaginatedResults = (resultClass, facetClass, sortBy) => ({
   type: FETCH_PAGINATED_RESULTS,
@@ -124,4 +125,8 @@ export const openMarkerPopup = uri => ({
 export const showError = message => ({
   type: SHOW_ERROR,
   message
+});
+export const updatePerspectiveHeaderExpanded = resultClass => ({
+  type: UPDATE_PERSPECTIVE_HEADER_EXPANDED,
+  resultClass
 });

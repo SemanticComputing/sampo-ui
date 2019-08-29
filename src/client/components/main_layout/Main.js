@@ -94,7 +94,7 @@ let Main = props => {
                             {perspective.label}
                           </Typography>
                           <Typography component="p">
-                            {perspective.desc}
+                            {perspective.mainPageDesc}
                           </Typography>
                         </CardContent>
                       </CardActionArea>
@@ -114,7 +114,7 @@ let Main = props => {
                           {perspective.label}
                         </Typography>
                         <Typography component="p">
-                          {perspective.desc}
+                          {perspective.mainPageDesc}
                         </Typography>
                       </CardContent>
                     </CardActionArea>
