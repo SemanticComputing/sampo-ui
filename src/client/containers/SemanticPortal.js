@@ -78,12 +78,12 @@ const styles = theme => ({
     backgroundColor: '#bdbdbd',
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 56 + 200,
-      height: 'calc(100% - 56px - 200px)',
+      marginTop: 56 + 212,
+      height: 'calc(100% - 56px - 212px)',
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 64 + 200,
-      height: 'calc(100% - 64px - 200px)',
+      marginTop: 64 + 212,
+      height: 'calc(100% - 64px - 212px)',
     },
   },
   perspectiveHeaderContainer: {
@@ -91,12 +91,12 @@ const styles = theme => ({
     backgroundColor: '#bdbdbd',
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 56 + 73,
-      height: 'calc(100% - 56px - 73px)',
+      marginTop: 56 + 81,
+      height: 'calc(100% - 56px - 81px)',
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 64 + 73,
-      height: 'calc(100% - 64px - 73px)',
+      marginTop: 64 + 81,
+      height: 'calc(100% - 64px - 81px)',
     },
   },
   // main container is divided into two columns:

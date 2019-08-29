@@ -13,6 +13,7 @@ const styles = theme => ({
   root: {
     position: 'absolute',
     marginTop: 64,
+    paddingTop: theme.spacing(1),
     paddingLeft: theme.spacing(1.5),
     paddingRight: theme.spacing(1.5),
     backgroundColor: '#bdbdbd',
