@@ -1,4 +1,5 @@
 import { runSelectQuery } from './SparqlApi';
+import { has } from 'lodash';
 import {
   endpoint,
   facetValuesQuery,
@@ -94,6 +95,11 @@ export const getFacet = async ({
   q = q.replace('<SELECTED_VALUES>', selectedBlock);
   q = q.replace('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock);
   q = q.replace(/<FACET_VALUE_FILTER>/g, facetConfig.facetValueFilter);
+  q = q.replace(/<FACET_LABEL_FILTER>/g,
+    has(facetConfig.facetLabelFilter)
+      ? facetConfig.facetLabelFilter
+      : ''
+  );
   q = q.replace('<PARENTS>', parentBlock);
   if (facetConfig.type === 'list') {
     q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
