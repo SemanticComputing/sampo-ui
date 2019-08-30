@@ -101,13 +101,13 @@ const styles = theme => ({
   },
   // main container is divided into two columns:
   facetBarContainer: {
-  //height: '100%',
+    height: '100%',
     overflow: 'auto',
     paddingTop: '0px !important',
     paddingBottom: '0px !important'
   },
   resultsContainer: {
-  //height: '100%',
+    height: '100%',
     overflow: 'auto',
     paddingTop: '0px !important',
     paddingBottom: '0px !important',
