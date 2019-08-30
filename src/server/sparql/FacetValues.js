@@ -96,7 +96,7 @@ export const getFacet = async ({
   q = q.replace('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock);
   q = q.replace(/<FACET_VALUE_FILTER>/g, facetConfig.facetValueFilter);
   q = q.replace(/<FACET_LABEL_FILTER>/g,
-    has(facetConfig.facetLabelFilter, 'facetLabelFilter')
+    has(facetConfig, 'facetLabelFilter')
       ? facetConfig.facetLabelFilter
       : ''
   );
