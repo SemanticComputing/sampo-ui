@@ -190,7 +190,7 @@ class FacetBar extends React.Component {
             resultClass={this.props.resultClass}
             fetchFacet={this.props.fetchFacet}
             updateFacetOption={this.props.updateFacetOption}
-            description={resultTableColumn.desc}
+            description={resultTableColumn == null ? '' : resultTableColumn.desc}
           />
         </ExpansionPanelSummary>
         <ExpansionPanelDetails
