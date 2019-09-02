@@ -7,9 +7,13 @@ const theme = createMuiTheme({
   palette: {
     primary: deepPurple,
   },
-  typography: {
-    useNextVariants: true,
-  },
+  overrides: {
+    MuiTooltip: {
+      tooltip: {
+        fontSize: '1 rem'
+      }
+    }
+  }
 });
 
 const App = () => (
