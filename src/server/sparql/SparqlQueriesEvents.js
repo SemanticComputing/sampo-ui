@@ -65,6 +65,7 @@ export const eventProperties = `
     {
       ?id dct:source ?source__id .
       ?source__id skos:prefLabel ?source__prefLabel .
-      BIND(?source__id AS ?source__dataProviderUrl)
+      OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl_ }
+      BIND(COALESCE(?dataProviderUrl_, ?source__id) AS ?source__dataProviderUrl)
     }
 `;

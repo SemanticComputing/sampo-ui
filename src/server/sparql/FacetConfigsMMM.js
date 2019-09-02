@@ -318,6 +318,13 @@ export const facetConfigs = {
       parentPredicate: 'crm:P7_took_place_at/gvp:broaderPreferred+',
       type: 'hierarchical',
     },
+    source: {
+      id: 'source',
+      facetValueFilter: '',
+      labelPath: 'dct:source/skos:prefLabel',
+      predicate: 'dct:source',
+      type: 'list',
+    },
   },
   actors: {
     facetClass: 'crm:E21_Person crm:E74_Group crm:E39_Actor',

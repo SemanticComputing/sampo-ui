@@ -33,7 +33,25 @@ export const INITIAL_STATE = {
       filterType: 'uriFilter',
       uriFilter: null,
       spatialFilter: null,
-      priority: 3
+      priority: 4
+    },
+    manuscript: {
+      id: 'manuscript',
+      label: 'Manuscript / Collection',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: null,
+      sortDirection: null,
+      sortButton: false,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: false,
+      containerClass: 'one',
+      filterType: 'textFilter',
+      textFilter: null,
+      priority: 2
     },
     eventTimespan: {
       id: 'eventTimespan',
@@ -54,7 +72,7 @@ export const INITIAL_STATE = {
       max: null,
       timespanFilter: null,
       type: 'timespan',
-      priority: 2
+      priority: 3
     },
     place: {
       id: 'place',
@@ -76,6 +94,24 @@ export const INITIAL_STATE = {
       type: 'hierarchical',
       priority: 1
     },
+    // source: {
+    //   id: 'source',
+    //   label: 'Source',
+    //   // predicate: defined in backend
+    //   distinctValueCount: 0,
+    //   values: [],
+    //   flatValues: [],
+    //   sortBy: 'instanceCount',
+    //   sortDirection: 'desc',
+    //   sortButton: false,
+    //   spatialFilterButton: false,
+    //   isFetching: false,
+    //   searchField: false,
+    //   containerClass: 'three',
+    //   filterType: 'uriFilter',
+    //   uriFilter: null,
+    //   priority: 5
+    // },
   }
 };
 

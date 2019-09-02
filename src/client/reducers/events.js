@@ -45,7 +45,10 @@ export const INITIAL_STATE = {
     {
       id: 'type',
       label: 'Type',
-      desc: 'Type description',
+      desc: `
+        Distinguish between “Transfer of Custody”, “Production”, and other
+        types of “Activity” events.
+      `,
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -56,7 +59,9 @@ export const INITIAL_STATE = {
     {
       id: 'manuscript',
       label: 'Manuscript / Collection',
-      desc: 'Manuscript / Collection description',
+      desc: `
+        The manuscript or manuscript collection associated with the event.
+      `,
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -68,7 +73,7 @@ export const INITIAL_STATE = {
       id: 'eventTimespan',
       label: 'Date',
       desc: `
-        Date description.
+        The date or time period associated with the event.
       `,
       valueType: 'object',
       makeLink: false,
@@ -80,7 +85,7 @@ export const INITIAL_STATE = {
     {
       id: 'place',
       label: 'Place',
-      desc: 'Place description',
+      desc: 'The specific place associated with the event.',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -91,7 +96,10 @@ export const INITIAL_STATE = {
     {
       id: 'source',
       label: 'Source',
-      desc: 'Source description',
+      desc: `
+        The source database (Schoenberg, Bibale, and Bodleian) that provided
+        the information about the event.
+      `,
       valueType: 'object',
       makeLink: true,
       externalLink: true,
