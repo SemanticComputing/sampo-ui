@@ -44,7 +44,7 @@ const styles = theme => ({
     justifyContent: 'center'
   },
   labelCell: {
-    minWidth: 150
+    minWidth: 220
   }
 });
 
