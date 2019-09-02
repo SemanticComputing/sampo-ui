@@ -44,7 +44,7 @@ export const INITIAL_STATE = {
   tableColumns: [
     {
       id: 'prefLabel',
-      label: 'Label',
+      label: 'Name',
       desc: 'Label description',
       valueType: 'object',
       makeLink: true,

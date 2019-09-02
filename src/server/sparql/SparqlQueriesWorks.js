@@ -25,6 +25,7 @@ export const workProperties = `
     {
       ?id mmm-schema:data_provider_url ?source__id .
       BIND(?source__id AS ?source__prefLabel)
+      BIND(?source__id AS ?source__dataProviderUrl)
     }
     UNION
     {

@@ -44,8 +44,8 @@ export const INITIAL_STATE = {
   tableColumns: [
     {
       id: 'prefLabel',
-      label: 'Label',
-      desc: 'Label description',
+      label: 'Title',
+      desc: 'The name or title of the Work.',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -56,7 +56,12 @@ export const INITIAL_STATE = {
     {
       id: 'author',
       label: 'Possible author',
-      desc: 'Author description',
+      desc: `
+        The author(s) associated with the Work. Because of the structure of
+        entries in the Schoenberg Database, the authors shown as being
+        associated with a Work may actually be associated with other
+        Works in the same manuscript instead.
+      `,
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -65,9 +70,25 @@ export const INITIAL_STATE = {
       minWidth: 250
     },
     {
+      id: 'language',
+      label: 'Language',
+      desc: `
+        The language in which a Work is written in the manuscript
+        (i.e., an “Expression” of a Work). One manuscript may contain multiple languages.
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: true,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150,
+    },
+    {
       id: 'manuscript',
       label: 'Manuscript',
-      desc: 'Manuscript description',
+      desc: `
+        The specific manuscript(s) in which the Work can be found.
+      `,
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -79,10 +100,10 @@ export const INITIAL_STATE = {
       id: 'productionTimespan',
       label: 'Manuscript production date',
       desc: `
-        The date when the manuscript was written. Multiple production dates
-        may appear for a single manuscript, when there are discrepancies
-        between the contributing data sources or when the precise date is
-        uncertain.
+        The date when the manuscript(s) in which the Work can be found were written.
+        Multiple production dates may appear for a single manuscript,
+        when there are discrepancies between the contributing data source
+        or when the precise date is uncertain.
       `,
       valueType: 'object',
       makeLink: false,
@@ -95,7 +116,7 @@ export const INITIAL_STATE = {
       id: 'collection',
       label: 'Collection',
       desc: `
-        Collection
+        The specific collection(s) of manuscripts in which a Work can be found.
       `,
       valueType: 'object',
       makeLink: true,
@@ -105,23 +126,10 @@ export const INITIAL_STATE = {
       minWidth: 200
     },
     {
-      id: 'language',
-      label: 'Language',
-      desc: `
-        The language(s) of expression(s) of the work
-      `,
-      valueType: 'object',
-      makeLink: true,
-      externalLink: true,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 150,
-    },
-    {
       id: 'material',
       label: 'Material',
       desc: `
-        Material info.
+        The support material of each manuscript in which the Work occurs.
       `,
       valueType: 'object',
       makeLink: true,
@@ -133,7 +141,12 @@ export const INITIAL_STATE = {
     {
       id: 'source',
       label: 'Source',
-      desc: 'Source description',
+      desc: `
+        The source database (Schoenberg, Bibale, and Bodleian) that the Work
+        occurs in. Currently one Work has always only one dataset as a source.
+        Click on the result table link to view the original record on the
+        source’s website.
+      `,
       valueType: 'object',
       makeLink: true,
       externalLink: true,

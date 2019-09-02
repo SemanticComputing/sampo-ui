@@ -18,7 +18,7 @@ export const INITIAL_STATE = {
   facets: {
     prefLabel: {
       id: 'prefLabel',
-      label: 'Label',
+      label: 'Title',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -52,6 +52,24 @@ export const INITIAL_STATE = {
       uriFilter: null,
       priority: 2
     },
+    language: {
+      id: 'language',
+      label: 'Language',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'instanceCount',
+      sortDirection: 'desc',
+      sortButton: true,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: true,
+      containerClass: 'ten',
+      filterType: 'uriFilter',
+      uriFilter: null,
+      priority: 3
+    },
     productionTimespan: {
       id: 'productionTimespan',
       label: 'Manuscript production date',
@@ -73,9 +91,9 @@ export const INITIAL_STATE = {
       type: 'timespan',
       priority: 6
     },
-    language: {
-      id: 'language',
-      label: 'Language',
+    collection: {
+      id: 'collection',
+      label: 'Collection',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -89,7 +107,7 @@ export const INITIAL_STATE = {
       containerClass: 'ten',
       filterType: 'uriFilter',
       uriFilter: null,
-      priority: 3
+      priority: 5
     },
     material: {
       id: 'material',
@@ -109,24 +127,7 @@ export const INITIAL_STATE = {
       uriFilter: null,
       priority: 4
     },
-    collection: {
-      id: 'collection',
-      label: 'Collection',
-      // predicate: defined in backend
-      distinctValueCount: 0,
-      values: [],
-      flatValues: [],
-      sortBy: 'instanceCount',
-      sortDirection: 'desc',
-      sortButton: true,
-      spatialFilterButton: false,
-      isFetching: false,
-      searchField: true,
-      containerClass: 'ten',
-      filterType: 'uriFilter',
-      uriFilter: null,
-      priority: 5
-    },
+
     source: {
       id: 'source',
       label: 'Source',
