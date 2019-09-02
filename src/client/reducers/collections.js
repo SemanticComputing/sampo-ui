@@ -39,7 +39,47 @@ export const INITIAL_STATE = {
   fetching: false,
   fetchingResultCount: false,
   sparqlQuery: null,
-  tableColumns: [],
+  tableColumns: [
+    {
+      id: 'prefLabel',
+      label: 'Title',
+      desc: 'The name or title of the Collection.',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250
+    },
+    {
+      id: 'manuscript',
+      label: 'Manuscript',
+      desc: `
+        The manuscript(s) that have been a part of the collection at some
+        point in time.
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+    },
+    {
+      id: 'source',
+      label: 'Source',
+      desc: `
+        The source database (Schoenberg, Bibale, and Bodleian) that the Collection
+        occurs in. Currently one Collection has always only one dataset as a source.
+      `,
+      valueType: 'object',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 200
+    },
+  ]
 };
 
 const collections = (state = INITIAL_STATE, action) => {

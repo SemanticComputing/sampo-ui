@@ -7,13 +7,15 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
-import ManuscriptsPageTable from '../perspectives/ManuscriptsPageTable';
-import ExpressionsPageTable from '../perspectives/ExpressionsPageTable';
-import CollectionsPageTable from '../perspectives/CollectionsPageTable';
-import WorksPageTable from '../perspectives/WorksPageTable';
-import EventsPageTable from '../perspectives/EventsPageTable';
-import ActorsPageTable from '../perspectives/ActorsPageTable';
-import PlacesPageTable from '../perspectives/PlacesPageTable';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import ResultTableCell from '../facet_results/ResultTableCell';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/InfoOutlined';
+import has from 'lodash';
 
 const styles = theme => ({
   root: {
@@ -41,6 +43,9 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  labelCell: {
+    minWidth: 150
+  }
 });
 
 class InstanceHomePage extends React.Component {
@@ -110,41 +115,6 @@ class InstanceHomePage extends React.Component {
     });
   }
 
-  renderTable = () => {
-    let tableEl = null;
-    if (this.state.instanceClass !== '') {
-      switch (this.state.instanceHeading) {
-        case 'Manuscript':
-          tableEl =
-            <ManuscriptsPageTable
-              data={this.props.data}
-            />;
-          break;
-        case 'Expression':
-          tableEl = <ExpressionsPageTable data={this.props.data} />;
-          break;
-        case 'Collection':
-          tableEl = <CollectionsPageTable data={this.props.data} />;
-          break;
-        case 'Work':
-          tableEl = <WorksPageTable data={this.props.data} />;
-          break;
-        case 'Event':
-          tableEl = <EventsPageTable data={this.props.data} />;
-          break;
-        case 'Actor':
-          tableEl = <ActorsPageTable data={this.props.data} />;
-          break;
-        case 'Place':
-          tableEl = <PlacesPageTable data={this.props.data} />;
-          break;
-        default:
-          tableEl = <div></div>;
-      }
-    }
-    return tableEl;
-  }
-
   render = () => {
     const { classes, data, isLoading } = this.props;
     const hasData = data !== null && Object.values(data).length >= 1;
@@ -170,7 +140,50 @@ class InstanceHomePage extends React.Component {
               <Typography variant='h4'>{this.state.instanceHeading}</Typography>
               <Divider className={classes.divider} />
               <Typography variant='h6'>{data.prefLabel.prefLabel}</Typography>
-              {this.renderTable()}
+              <Table>
+                <TableBody>
+                  {this.props.tableRows.map(row => {
+                    if (row.id !== 'prefLabel') {
+                      return (
+                        <TableRow key={row.id}>
+                          <TableCell className={classes.labelCell}>
+                            {row.label}
+                            <Tooltip
+                              title={row.desc}
+                              enterDelay={300}
+                            >
+                              <IconButton>
+                                <InfoIcon />
+                              </IconButton>
+                            </Tooltip>
+                          </TableCell>
+                          <ResultTableCell
+                            columnId={row.id}
+                            data={data[row.id]}
+                            valueType={row.valueType}
+                            makeLink={row.makeLink}
+                            externalLink={row.externalLink}
+                            sortValues={row.sortValues}
+                            numberedList={row.numberedList}
+                            minWidth={row.minWidth}
+                            container='cell'
+                            expanded={true}
+                            linkAsButton={has(row, 'linkAsButton')
+                              ? row.linkAsButton
+                              : null
+                            }
+                            collapsedMaxWords={has(row, 'collapsedMaxWords')
+                              ? row.collapsedMaxWords
+                              : null
+                            }
+                          />
+                        </TableRow>
+                      );
+                    }
+                  }
+                  )}
+                </TableBody>
+              </Table>
               <Button
                 className={classes.sahaButton}
                 variant='contained'
@@ -193,6 +206,7 @@ InstanceHomePage.propTypes = {
   fetchByURI: PropTypes.func.isRequired,
   resultClass: PropTypes.string.isRequired,
   data: PropTypes.object,
+  tableRows: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
   routeProps: PropTypes.object.isRequired
 };

@@ -300,6 +300,7 @@ let SemanticPortal = props => {
                           <InstanceHomePage
                             fetchByURI={props.fetchByURI}
                             resultClass={perspective.id}
+                            tableRows={props[perspective.id].tableColumns}
                             data={props[perspective.id].instance}
                             isLoading={props[perspective.id].fetching}
                             routeProps={routeProps}
@@ -321,6 +322,7 @@ let SemanticPortal = props => {
                   <InstanceHomePage
                     fetchByURI={props.fetchByURI}
                     resultClass='collections'
+                    tableRows={props.collections.tableColumns}
                     data={props.collections.instance}
                     isLoading={props.collections.fetching}
                     routeProps={routeProps}
@@ -337,6 +339,7 @@ let SemanticPortal = props => {
                   <InstanceHomePage
                     fetchByURI={props.fetchByURI}
                     resultClass='expressions'
+                    tableRows={props.expressions.tableColumns}
                     data={props.expressions.instance}
                     isLoading={props.expressions.fetching}
                     routeProps={routeProps}

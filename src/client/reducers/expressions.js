@@ -39,7 +39,46 @@ export const INITIAL_STATE = {
   fetching: false,
   fetchingResultCount: false,
   sparqlQuery: null,
-  tableColumns: [],
+  tableColumns: [
+    {
+      id: 'prefLabel',
+      label: 'Title',
+      desc: 'The name or title of the Expression.',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250
+    },
+    {
+      id: 'language',
+      label: 'Language',
+      desc: `
+        The language of the Expression.
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: true,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150,
+    },
+    {
+      id: 'source',
+      label: 'Source',
+      desc: `
+        The source database (Schoenberg, Bibale, and Bodleian) that the Expression
+        occurs in. Currently one Expression has always only one dataset as a source.
+      `,
+      valueType: 'object',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 200
+    },
+  ]
 };
 
 const expressions = (state = INITIAL_STATE, action) => {
