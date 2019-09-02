@@ -21,7 +21,7 @@ export const placePropertiesInstancePage = `
       BIND(CONCAT("/places/page/", REPLACE(STR(?area__id), "^.*\\\\/(.+)", "$1")) AS ?area__dataProviderUrl)
     }
     UNION {
-      ?id ^mmm-schema:person_place ?actor__id .
+      ?id ^crm:P7_took_place_at/crm:P11_had_participant ?actor__id .
       ?actor__id skos:prefLabel ?actor__prefLabel .
       BIND(CONCAT("/actors/page/", REPLACE(STR(?actor__id), "^.*\\\\/(.+)", "$1")) AS ?actor__dataProviderUrl)
     }

@@ -76,7 +76,35 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 170
+      minWidth: 170,
+    },
+    {
+      id: 'manuscript',
+      label: 'Manuscript',
+      desc: `
+        The manuscript(s) associated with the place.
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+      onlyOnInstancePage: true
+    },
+    {
+      id: 'actor',
+      label: 'Actor',
+      desc: `
+        The actor(s) associated with the place.
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+      onlyOnInstancePage: true
     },
     {
       id: 'source',

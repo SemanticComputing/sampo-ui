@@ -25,6 +25,7 @@ const ResultTableHead = props => {
       <TableRow>
         <TableCell className={classes.headerCol} key={'empty'} />
         {columns.map(column => {
+          if (column.onlyOnInstancePage) { return null; }
           return (
             <TableCell
               className={classes.headerCol}

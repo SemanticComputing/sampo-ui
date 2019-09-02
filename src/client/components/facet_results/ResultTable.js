@@ -173,6 +173,7 @@ class ResultTable extends React.Component {
     const expanded = this.state.expandedRows.has(row.id);
     let hasExpandableContent = false;
     const dataCells = this.props.data.tableColumns.map(column => {
+      if (column.onlyOnInstancePage) { return null; }
       const columnData = row[column.id] == null ? '-' : row[column.id];
       const isArray = Array.isArray(columnData);
       if (isArray) {
