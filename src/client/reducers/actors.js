@@ -45,7 +45,7 @@ export const INITIAL_STATE = {
     {
       id: 'prefLabel',
       label: 'Name',
-      desc: 'Label description',
+      desc: 'The standardized name of the actor.',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -56,7 +56,10 @@ export const INITIAL_STATE = {
     {
       id: 'type',
       label: 'Type',
-      desc: 'Type description',
+      desc: `
+        Indicates whether the actor is an individual (Person) or an institution,
+        corporation, or family (Group)
+      `,
       valueType: 'object',
       makeLink: false,
       externalLink: false,
@@ -67,7 +70,7 @@ export const INITIAL_STATE = {
     {
       id: 'birthDateTimespan',
       label: 'Birth / formation date',
-      desc: 'Birth/formation year description',
+      desc: 'The date when the actor was born or established.',
       valueType: 'object',
       makeLink: false,
       externalLink: false,
@@ -78,7 +81,7 @@ export const INITIAL_STATE = {
     {
       id: 'deathDateTimespan',
       label: 'Death / dissolution date',
-      desc: 'Date of death/dissolution description',
+      desc: 'The date when the actor died or dissolved.',
       valueType: 'object',
       makeLink: false,
       externalLink: false,
@@ -89,7 +92,7 @@ export const INITIAL_STATE = {
     {
       id: 'place',
       label: 'Activity location',
-      desc: 'Activity location',
+      desc: 'Place(s) of activity linked to this actor.',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -100,7 +103,7 @@ export const INITIAL_STATE = {
     {
       id: 'work',
       label: 'Work',
-      desc: 'Work description',
+      desc: 'Work(s) linked to the actor. ',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -111,7 +114,7 @@ export const INITIAL_STATE = {
     {
       id: 'manuscript',
       label: 'Manuscript',
-      desc: 'Manuscript',
+      desc: 'Manuscript(s) linked to the actor.',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -122,7 +125,14 @@ export const INITIAL_STATE = {
     {
       id: 'source',
       label: 'Source',
-      desc: 'Source description',
+      desc: `
+        The source dataset(s) (Bibale, Bodleian, or SDBM) contributing the
+        information on the actor. If two or more source datasets include the
+        same actor and this has been manually verified, the information from
+        the source datasets has been merged into one MMM actor.
+        Click on the result table link(s) to view the original record on the
+        source’s website.
+      `,
       valueType: 'object',
       makeLink: true,
       externalLink: true,

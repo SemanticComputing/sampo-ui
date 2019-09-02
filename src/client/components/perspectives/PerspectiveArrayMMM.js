@@ -124,11 +124,12 @@ export const perspectiveArr = [
     label: 'Places',
     mainPageDesc: 'Places related to manuscripts and works.',
     perspectiveDesc: `
-      Use this perspective to access data related to places. The map is default,
-      showing clusters of places named in the datasets. This includes everything
-      from continents ("North America") to countries ("Canada") to
-      regions/provinces ("British Columbia") to cities ("Vancouver").
-      The table view will give you a list of the same places.
+      Use this perspective to access data related to places named in the source datasets
+      (Schoenberg, Bibale, and Bodleian). The places have been linked to Getty Thesaurus
+      of Geographic Names when possible. Place types include everything from continents
+      ("North America") to countries ("Canada") to regions/provinces ("British Columbia")
+      to cities ("Vancouver"). The map result view is default, showing all the places that
+      have coordinates. The table result view includes all places in MMM data.
     `,
     perspectiveDescHeight: 99,
     defaultActiveFacets: new Set(['prefLabel']),

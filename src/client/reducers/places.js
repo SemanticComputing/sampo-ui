@@ -44,8 +44,8 @@ export const INITIAL_STATE = {
   tableColumns: [
     {
       id: 'prefLabel',
-      label: 'Label',
-      desc: 'Label description',
+      label: 'Name',
+      desc: 'The name of the place. ',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -56,7 +56,7 @@ export const INITIAL_STATE = {
     {
       id: 'placeType',
       label: 'Place type',
-      desc: 'Place type description',
+      desc: 'The place type from Getty Thesaurus of Geographic Names.',
       valueType: 'string',
       makeLink: false,
       externalLink: false,
@@ -66,8 +66,11 @@ export const INITIAL_STATE = {
     },
     {
       id: 'area',
-      label: 'Area',
-      desc: 'Area description',
+      label: 'Parent Place',
+      desc: `
+        The preferred parent place in the hierarchy used by the Getty
+        Thesaurus of Geographic Names.
+      `,
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -78,7 +81,11 @@ export const INITIAL_STATE = {
     {
       id: 'source',
       label: 'Source',
-      desc: 'Source description',
+      desc: `
+        The source dataset (Schoenberg, Bibale, and Bodleian) and the place
+        authority (Getty Thesaurus of Geographic Names and GeoNames)
+        contributing the information on the place.
+      `,
       valueType: 'object',
       makeLink: true,
       externalLink: true,
