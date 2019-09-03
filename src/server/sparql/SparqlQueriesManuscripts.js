@@ -193,7 +193,7 @@ export const allManuscriptsQuery = `
 `;
 
 export const productionPlacesQuery = `
-  SELECT ?id ?prefLabel
+  SELECT ?id ?lat ?long
   (COUNT(DISTINCT ?manuscripts) as ?instanceCount)
   WHERE {
     <FILTER>
