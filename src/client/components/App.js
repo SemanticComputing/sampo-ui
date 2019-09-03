@@ -12,6 +12,15 @@ const theme = createMuiTheme({
       tooltip: {
         fontSize: '1 rem'
       }
+    },
+    MuiExpansionPanel: {
+      root: {
+        '&$expanded': {
+          marginTop: 8,
+          marginBottom: 8
+        }
+
+      }
     }
   }
 });
