@@ -183,8 +183,17 @@ export const collectionProperties =
   `;
 
 
+export const allManuscriptsQuery = `
+  SELECT ?id ?prefLabel
+  WHERE {
+    <FILTER>
+    ?id a frbroo:F4_Manifestation_Singleton ;
+        skos:prefLabel ?prefLabel .
+  }
+`;
+
 export const productionPlacesQuery = `
-  SELECT ?id ?lat ?long
+  SELECT ?id ?prefLabel
   (COUNT(DISTINCT ?manuscripts) as ?instanceCount)
   WHERE {
     <FILTER>

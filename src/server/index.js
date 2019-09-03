@@ -48,12 +48,6 @@ app.get(`${apiPath}/:resultClass/paginated`, async (req, res, next) => {
       constraints: req.query.constraints == null ? null : JSON.parse(req.query.constraints),
       resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
     });
-    // test csv result format
-    // res.writeHead(200, {
-    //   'Content-Type': 'text/csv',
-    //   'Content-Disposition': 'attachment; filename=results.csv'
-    // });
-    // res.end(data);
     res.json(data);
   } catch(error) {
     next(error);
@@ -62,13 +56,22 @@ app.get(`${apiPath}/:resultClass/paginated`, async (req, res, next) => {
 
 app.get(`${apiPath}/:resultClass/all`, async (req, res, next) => {
   try {
+    const resultFormat = req.query.resultFormat == null ? 'json' : req.query.resultFormat;
     const data = await getAllResults({
       resultClass: req.params.resultClass,
       facetClass: req.query.facetClass || null,
       constraints: req.query.constraints == null ? null : JSON.parse(req.query.constraints),
-      resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
+      resultFormat: resultFormat
     });
-    res.json(data);
+    if (resultFormat === 'csv') {
+      res.writeHead(200, {
+        'Content-Type': 'text/csv',
+        'Content-Disposition': 'attachment; filename=results.csv'
+      });
+      res.end(data);
+    } else {
+      res.json(data);
+    }
   } catch(error) {
     next(error);
   }

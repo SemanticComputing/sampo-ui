@@ -13,6 +13,7 @@ import {
   productionPlacesQuery,
   migrationsQuery,
   networkQuery,
+  allManuscriptsQuery
 } from './SparqlQueriesManuscripts';
 import { workProperties } from './SparqlQueriesWorks';
 import { eventProperties } from './SparqlQueriesEvents';
@@ -95,6 +96,10 @@ export const getAllResults = ({
     case 'network':
       q = networkQuery;
       filterTarget = 'manuscript__id';
+      break;
+    case 'allManuscripts':
+      q = allManuscriptsQuery;
+      filterTarget = 'id';
       break;
   }
   if (constraints == null) {
