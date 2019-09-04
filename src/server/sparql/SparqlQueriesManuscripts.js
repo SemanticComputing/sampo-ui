@@ -29,8 +29,11 @@ export const manuscriptProperties =
     }
     UNION
     {
-      ?id ^crm:P108_has_produced/crm:P7_took_place_at ?productionPlace__id .
+      ?id ^crm:P108_has_produced ?production .
+      ?production crm:P7_took_place_at ?productionPlace__id .
       ?productionPlace__id skos:prefLabel ?productionPlace__prefLabel .
+      ?production dct:source ?productionPlace__source__id .
+      ?productionPlace__source__id skos:prefLabel ?productionPlace__source__prefLabel .
       BIND(CONCAT("/places/page/", REPLACE(STR(?productionPlace__id), "^.*\\\\/(.+)", "$1")) AS ?productionPlace__dataProviderUrl)
     }
     UNION
@@ -43,6 +46,8 @@ export const manuscriptProperties =
       ?expression__id skos:prefLabel ?expression__prefLabel .
       OPTIONAL {
         ?expression__id crm:P72_has_language ?language__id .
+        ?expression__id dct:source ?language__source__id .
+        ?language__source__id skos:prefLabel ?language__source__prefLabel .
         ?language__id skos:prefLabel ?language__prefLabel .
       }
       BIND(CONCAT("/expressions/page/", REPLACE(STR(?expression__id), "^.*\\\\/(.+)", "$1")) AS ?expression__dataProviderUrl)

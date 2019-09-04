@@ -84,12 +84,12 @@ const ObjectList = props => {
 
   const createBasicList = data => {
     return data.map((item, i) => {
-      //const hasSource = has(item, 'source');
+      const hasSource = has(item, 'source');
       return(
         <li key={i}>
           {props.makeLink && createLink(item.id, item.dataProviderUrl, item.prefLabel, false)}
           {!props.makeLink && <span>{Array.isArray(item.prefLabel) ? item.prefLabel[0] : item.prefLabel}</span>}
-          { /* {hasSource && <sup>{item.source.prefLabel}</sup>} */ }
+          {hasSource && <sup>{item.source.prefLabel}</sup>} 
         </li>
       );
     }
