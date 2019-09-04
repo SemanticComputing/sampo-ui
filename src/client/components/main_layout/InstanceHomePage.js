@@ -139,7 +139,12 @@ class InstanceHomePage extends React.Component {
             <React.Fragment>
               <Typography variant='h4'>{this.state.instanceHeading}</Typography>
               <Divider className={classes.divider} />
-              <Typography variant='h6'>{data.prefLabel.prefLabel}</Typography>
+              <Typography variant='h6'>
+                {Array.isArray(data.prefLabel)
+                  ? data.prefLabel[0].prefLabel
+                  : data.prefLabel.prefLabel
+                }
+              </Typography>
               <Table>
                 <TableBody>
                   {this.props.tableRows.map(row => {
