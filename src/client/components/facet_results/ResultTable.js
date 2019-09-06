@@ -94,6 +94,11 @@ class ResultTable extends React.Component {
       search: `?page=${page}`,
     });
 
+    // check if facet updates have been made before
+    if (this.props.facetUpdateID > 0) {
+      this.fetchResults();
+    }
+
   }
 
   componentDidUpdate = prevProps => {
