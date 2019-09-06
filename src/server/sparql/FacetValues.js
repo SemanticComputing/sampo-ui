@@ -58,6 +58,7 @@ export const getFacet = async ({
   let selectedNoHitsBlock = '# no filters from other facets';
   let filterBlock = '# no filters';
   let parentBlock = '# no parents';
+  let parentsForFacetValues = '# no parents for facet values';
   if (constraints !== null) {
     filterBlock = generateConstraintsBlock({
       facetClass: facetClass,
@@ -91,6 +92,10 @@ export const getFacet = async ({
       constraints,
       parentPredicate
     });
+    parentsForFacetValues = `
+      OPTIONAL { ?id ${facetConfig.parentProperty} ?parent_ }
+      BIND(COALESCE(?parent_, '0') as ?parent)
+    `;
   }
   q = q.replace('<SELECTED_VALUES>', selectedBlock);
   q = q.replace('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock);
@@ -101,6 +106,7 @@ export const getFacet = async ({
       : ''
   );
   q = q.replace('<PARENTS>', parentBlock);
+  q = q.replace('<PARENTS_FOR_FACET_VALUES>', parentsForFacetValues);
   if (facetConfig.type === 'list') {
     q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
   } else {

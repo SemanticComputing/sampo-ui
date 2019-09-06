@@ -1,5 +1,5 @@
-export const endpoint = 'http://ldf.fi/mmm-cidoc/sparql';
-// export const endpoint = 'http://localhost:3050/ds/sparql';
+//export const endpoint = 'http://ldf.fi/mmm-cidoc/sparql';
+export const endpoint = 'http://localhost:3050/ds/sparql';
 
 export const instanceQuery = `
   SELECT * {
@@ -79,12 +79,11 @@ export const facetValuesQuery = `
       }
       FILTER(BOUND(?id))
       <FACET_VALUE_FILTER>
-      OPTIONAL { ?id gvp:broaderPreferred ?parent_ }
       OPTIONAL {
         ?id skos:prefLabel|rdfs:label ?prefLabel_
         <FACET_LABEL_FILTER>
       }
-      BIND(COALESCE(?parent_, '0') as ?parent)
+      <PARENTS_FOR_FACET_VALUES>
       BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
     }
     UNION
