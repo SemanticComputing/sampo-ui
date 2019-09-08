@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { stateToUrl, apiUrl } from '../../epics/index.js';
+import { apiUrl } from '../../epics/index.js';
+import { stateToUrl } from '../../helpers/helpers';
 
 const styles = theme => ({
   root: {

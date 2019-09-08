@@ -15,14 +15,15 @@ import FacetBar from '../components/facet_bar/FacetBar';
 import Manuscripts from '../components/perspectives/Manuscripts';
 import Works from '../components/perspectives/Works';
 import Events from '../components/perspectives/Events';
-import Places from '../components//perspectives/Places';
-import Actors from '../components//perspectives/Actors';
+import Places from '../components/perspectives/Places';
+import Actors from '../components/perspectives/Actors';
 import All from '../components/perspectives/All';
 import InstanceHomePage from '../components/main_layout/InstanceHomePage';
 //import FeedbackPage from '../components/main_layout/FeedbackPage';
 import { perspectiveArr } from '../components/perspectives/PerspectiveArrayMMM';
 import PerspectiveHeader from '../components/perspectives/PerspectiveHeader';
 import { has } from 'lodash';
+import { urlToState } from '../helpers/helpers';
 import {
   fetchResultCount,
   fetchPaginatedResults,
@@ -362,7 +363,15 @@ let SemanticPortal = props => {
 // <img className={classes.heldigLogo} src='img/logos/heldig-logo-small.png' alt='HELDIG logo'/>
 // <img className={classes.uhLogo} src='img/logos/university-of-helsinki-logo-white-no-background-small.png' alt='University of Helsinki logo'/>
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, routeProps) => {
+  if (routeProps.location.search !== '') {
+    const params = urlToState({
+      initialState: state,
+      queryString: routeProps.location.search.substring(1) // remove question mark from beginning
+    });
+    console.log(params)
+  }
+
   return {
     manuscripts: state.manuscripts,
     manuscriptsFacets: state.manuscriptsFacets,
