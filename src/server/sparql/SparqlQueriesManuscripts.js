@@ -96,7 +96,7 @@ export const manuscriptProperties =
     {
       ?id crm:P46i_forms_part_of ?collection__id .
       ?collection__id skos:prefLabel ?collection__prefLabel .
-      BIND(CONCAT("/collections/page/", REPLACE(STR(?collection__id), "^.*\\\\/(.+)", "$1")) AS ?collection__dataProviderUrl)
+      BIND(CONCAT("/collections/page/", ENCODE_FOR_URI(REPLACE(STR(?collection__id), "^.*\\\\/(.+)", "$1"))) AS ?collection__dataProviderUrl)
     }
     UNION
     {
@@ -173,7 +173,7 @@ export const expressionProperties =
 export const collectionProperties =
  `?id skos:prefLabel ?prefLabel__id .
      BIND (?prefLabel__id as ?prefLabel__prefLabel)
-     BIND(CONCAT("/collections/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
+     BIND(CONCAT("/collections/page/", ENCODE_FOR_URI(REPLACE(STR(?id), "^.*\\\\/(.+)", "$1"))) AS ?prefLabel__dataProviderUrl)
      {
        ?id dct:source ?source__id .
        ?source__id skos:prefLabel ?source__prefLabel .

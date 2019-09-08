@@ -14,7 +14,7 @@ export const workProperties = `
     {
       ?id  ^mmm-schema:manuscript_work/crm:P46i_forms_part_of ?collection__id .
       ?collection__id skos:prefLabel ?collection__prefLabel .
-      BIND(CONCAT("/collections/page/", REPLACE(STR(?collection__id), "^.*\\\\/(.+)", "$1")) AS ?collection__dataProviderUrl)
+      BIND(CONCAT("/collections/page/", ENCODE_FOR_URI(REPLACE(STR(?collection__id), "^.*\\\\/(.+)", "$1"))) AS ?collection__dataProviderUrl)
     }
     UNION
     {

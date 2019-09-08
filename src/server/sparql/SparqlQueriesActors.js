@@ -66,7 +66,7 @@ export const actorProperties = `
       }
       OPTIONAL {
         ?manuscript__id a crm:E78_Collection  .
-        BIND(CONCAT("/collections/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
+        BIND(CONCAT("/collections/page/", ENCODE_FOR_URI(REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1"))) AS ?manuscript__dataProviderUrl)
       }
     }
     UNION
@@ -103,7 +103,7 @@ export const actorProperties = `
       }
       OPTIONAL {
         ?manuscript__id a crm:E78_Collection  .
-        BIND(CONCAT("/collections/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
+        BIND(CONCAT("/collections/page/", ENCODE_FOR_URI(REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1"))) AS ?manuscript__dataProviderUrl)
       }
     }
 `;
