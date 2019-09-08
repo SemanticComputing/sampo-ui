@@ -22,6 +22,10 @@ const styles = () => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  tableContainer: {
+    maxWidth: '100%',
+    height: 'calc(100% - 72px)'
+  }
 });
 
 class MaterialTableFullTextResults extends React.Component {
@@ -32,14 +36,17 @@ class MaterialTableFullTextResults extends React.Component {
     let resultText = results == 1 ? 'result' : 'results';
     if (this.props.fetching) {
       return (
-        <Paper className={this.props.classes.progressContainer}>
+        <Paper square className={this.props.classes.progressContainer}>
           <CircularProgress style={{ color: purple[500] }} thickness={5} />
         </Paper>
       );
     } else {
       return (
-        <div style={{ maxWidth: '100%' }}>
+        <div className={this.props.classes.tableContainer}>
           <MaterialTable
+            options={{
+              maxBodyHeight: '100%'
+            }}
             columns={[
               {
                 title: 'Label',

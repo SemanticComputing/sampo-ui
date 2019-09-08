@@ -13,6 +13,7 @@ const All = props => {
         tabs={[{
           id: 'table',
           label: 'table',
+          icon: 'CalendarViewDay',
           value: 0,
         }]}
       />
