@@ -12,7 +12,8 @@ import {
   UPDATE_PAGE,
   UPDATE_ROWS_PER_PAGE,
   SORT_RESULTS,
-  UPDATE_PERSPECTIVE_HEADER_EXPANDED
+  UPDATE_PERSPECTIVE_HEADER_EXPANDED,
+  UPDATE_URL
 } from '../actions';
 import {
   fetchResults,
@@ -391,6 +392,8 @@ const manuscripts = (state = INITIAL_STATE, action) => {
         return updateRowsPerPage(state, action);
       case UPDATE_PERSPECTIVE_HEADER_EXPANDED:
         return updateHeaderExpanded(state);
+      case UPDATE_URL:
+        return(state);
       default:
         return state;
     }

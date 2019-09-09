@@ -23,6 +23,7 @@ export const UPDATE_CLIENT_SIDE_FILTER = 'UPDATE_CLIENT_SIDE_FILTER';
 export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP';
 export const SHOW_ERROR = 'SHOW_ERROR';
 export const UPDATE_PERSPECTIVE_HEADER_EXPANDED = 'UPDATE_PERSPECTIVE_HEADER_EXPANDED';
+export const UPDATE_URL = 'UPDATE_URL';
 
 export const fetchPaginatedResults = (resultClass, facetClass, sortBy) => ({
   type: FETCH_PAGINATED_RESULTS,
@@ -129,4 +130,8 @@ export const showError = message => ({
 export const updatePerspectiveHeaderExpanded = resultClass => ({
   type: UPDATE_PERSPECTIVE_HEADER_EXPANDED,
   resultClass
+});
+export const updateURL = ({ resultClass = 'manuscripts', newURL }) => ({
+  type: UPDATE_URL,
+  resultClass, newURL
 });

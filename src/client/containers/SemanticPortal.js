@@ -363,15 +363,7 @@ let SemanticPortal = props => {
 // <img className={classes.heldigLogo} src='img/logos/heldig-logo-small.png' alt='HELDIG logo'/>
 // <img className={classes.uhLogo} src='img/logos/university-of-helsinki-logo-white-no-background-small.png' alt='University of Helsinki logo'/>
 
-const mapStateToProps = (state, routeProps) => {
-  if (routeProps.location.search !== '') {
-    const params = urlToState({
-      initialState: state,
-      queryString: routeProps.location.search.substring(1) // remove question mark from beginning
-    });
-    console.log(params)
-  }
-
+const mapStateToProps = state => {
   return {
     manuscripts: state.manuscripts,
     manuscriptsFacets: state.manuscriptsFacets,
