@@ -66,6 +66,32 @@ export const INITIAL_STATE = {
       minWidth: 250,
     },
     {
+      id: 'owner',
+      label: 'Owner',
+      desc: `
+        Former or current owners (individual or institutional).
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250
+    },
+    {
+      id: 'place',
+      label: 'Place',
+      desc: `
+        Location of the collection at some point during its existence
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 200,
+    },
+    {
       id: 'source',
       label: 'Source',
       desc: `

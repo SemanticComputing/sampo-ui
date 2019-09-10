@@ -185,6 +185,18 @@ export const collectionProperties =
        ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
        BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
      }
+     UNION
+     {
+       ?id crm:P51_has_former_or_current_owner ?owner__id .
+       ?owner__id skos:prefLabel ?owner__prefLabel .
+       BIND(CONCAT("/actors/page/", REPLACE(STR(?owner__id), "^.*\\\\/(.+)", "$1")) AS ?owner__dataProviderUrl)
+     }
+     UNION
+     {
+       ?id mmm-schema:collection_location ?place__id .
+       ?place__id skos:prefLabel ?place__prefLabel .
+       BIND(CONCAT("/places/page/", REPLACE(STR(?place__id), "^.*\\\\/(.+)", "$1")) AS ?place__dataProviderUrl)
+     }
   `;
 
 
