@@ -15,26 +15,41 @@ export const placePropertiesInstancePage = `
       BIND(COALESCE(?source__prefLabel_, ?source__id) AS ?source__prefLabel)
     }
     UNION { ?id gvp:placeTypePreferred ?placeType }
-    UNION {
+    UNION
+    {
       ?id gvp:broaderPreferred ?area__id .
       ?area__id skos:prefLabel ?area__prefLabel .
       BIND(CONCAT("/places/page/", REPLACE(STR(?area__id), "^.*\\\\/(.+)", "$1")) AS ?area__dataProviderUrl)
     }
-    UNION {
+    UNION
+    {
       ?id ^crm:P7_took_place_at/crm:P11_had_participant ?actor__id .
       ?actor__id skos:prefLabel ?actor__prefLabel .
       BIND(CONCAT("/actors/page/", REPLACE(STR(?actor__id), "^.*\\\\/(.+)", "$1")) AS ?actor__dataProviderUrl)
     }
-    UNION {
-      ?id ^crm:P7_took_place_at/crm:P108_has_produced ?manuscript__id .
-      ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
-      BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
+    UNION
+    {
+      ?productionPlace gvp:broaderPreferred* ?id .
+      ?productionPlace ^crm:P7_took_place_at/crm:P108_has_produced ?manuscriptProduced__id .
+      ?manuscriptProduced__id skos:prefLabel ?manuscriptProduced__prefLabel .
+      BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscriptProduced__id), "^.*\\\\/(.+)", "$1")) AS ?manuscriptProduced__dataProviderUrl)
+      FILTER (?id != <http://ldf.fi/mmm/place/tgn_7029392>) # exclude the top concept
     }
-    UNION {
-      ?id ^crm:P7_took_place_at/
-        (crm:P30_transferred_custody_of|mmm-schema:observed_manuscript) ?manuscript__id .
-      ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
-      BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
+    UNION
+    {
+      ?transferPlace gvp:broaderPreferred* ?id .
+      ?transferPlace ^crm:P7_took_place_at/crm:P30_transferred_custody_of ?manuscriptTransferred__id .
+      ?manuscriptTransferred__id skos:prefLabel ?manuscriptTransferred__prefLabel .
+      BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscriptTransferred__id), "^.*\\\\/(.+)", "$1")) AS ?manuscriptTransferred__dataProviderUrl)
+      FILTER (?id != <http://ldf.fi/mmm/place/tgn_7029392>) # exclude the top concept
+    }
+    UNION
+    {
+      ?observedPlace gvp:broaderPreferred* ?id .
+      ?observedPlace ^crm:P7_took_place_at/mmm-schema:observed_manuscript ?manuscriptObserved__id .
+      ?manuscriptObserved__id skos:prefLabel ?manuscriptObserved__prefLabel .
+      BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscriptObserved__id), "^.*\\\\/(.+)", "$1")) AS ?manuscriptObserved__dataProviderUrl)
+      FILTER (?id != <http://ldf.fi/mmm/place/tgn_7029392>) # exclude the top concept
     }
 `;
 

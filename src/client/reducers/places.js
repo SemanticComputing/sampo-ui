@@ -79,10 +79,38 @@ export const INITIAL_STATE = {
       minWidth: 170,
     },
     {
-      id: 'manuscript',
-      label: 'Manuscript',
+      id: 'manuscriptProduced',
+      label: 'Manuscripts produced',
       desc: `
-        The manuscript(s) associated with the place.
+        Manuscript(s) produced here.
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+      onlyOnInstancePage: true
+    },
+    {
+      id: 'manuscriptTransferred',
+      label: 'Manuscripts transferred',
+      desc: `
+        The manuscript(s) that have a "Transfer of Custody" event located here.
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+      onlyOnInstancePage: true
+    },
+    {
+      id: 'manuscriptObserved',
+      label: 'Manuscripts observed',
+      desc: `
+        The manuscript(s) that have a provenance event located here.
       `,
       valueType: 'object',
       makeLink: true,
