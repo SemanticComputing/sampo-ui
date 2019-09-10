@@ -23,7 +23,11 @@ export const placePropertiesInstancePage = `
     }
     UNION
     {
-      ?id ^crm:P7_took_place_at/crm:P11_had_participant ?actor__id .
+      { ?actorPredicate rdfs:subPropertyOf* crm:P14_carried_out_by }
+      UNION
+      { ?actorPredicate rdfs:subPropertyOf* crm:P11_had_participant }
+      ?id ^crm:P7_took_place_at ?event .
+      ?event ?actorPredicate ?actor__id .
       ?actor__id skos:prefLabel ?actor__prefLabel .
       BIND(CONCAT("/actors/page/", REPLACE(STR(?actor__id), "^.*\\\\/(.+)", "$1")) AS ?actor__dataProviderUrl)
     }
