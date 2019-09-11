@@ -121,13 +121,22 @@ export const getFacet = async ({
   }
   // console.log(prefixes + q)
   const response = await runSelectQuery(prefixes + q, endpoint, mapper, resultFormat);
-  return({
-    facetClass: facetClass,
-    id: facetID,
-    data: response.data,
-    flatData: response.flatData || null,
-    sparqlQuery: response.sparqlQuery
-  });
+  if (facetConfig.type === 'hierarchical') {
+    return({
+      facetClass: facetClass,
+      id: facetID,
+      data: response.data.treeData,
+      flatData: response.data.flatData,
+      sparqlQuery: response.sparqlQuery
+    });
+  } else {
+    return({
+      facetClass: facetClass,
+      id: facetID,
+      data: response.data,
+      sparqlQuery: response.sparqlQuery
+    });
+  }
 };
 
 const generateSelectedBlock = ({

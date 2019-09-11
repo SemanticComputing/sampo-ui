@@ -29,7 +29,6 @@ export const mapFacet = sparqlBindings => {
 
 export const mapHierarchicalFacet = sparqlBindings => {
   const results = mapFacetValues(sparqlBindings);
-  //const flatResults = results;
   let treeData = getTreeFromFlatData({
     flatData: results,
     getKey: node => node.id, // resolve a node's key
@@ -38,7 +37,10 @@ export const mapHierarchicalFacet = sparqlBindings => {
   });
   treeData = recursiveSort(treeData);
   treeData.forEach(node => sumUpAndSelectChildren(node));
-  return treeData;
+  return ({
+    treeData,
+    flatData: results
+  });
 };
 
 export const mapTimespanFacet = sparqlBindings => {
