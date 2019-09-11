@@ -33,6 +33,7 @@ export const getFacet = async ({
   // choose query template and result mapper:
   let q = '';
   let mapper = null;
+  let previousSelections = null;
   switch(facetConfig.type) {
     case 'list':
       q = facetValuesQuery;
@@ -67,6 +68,7 @@ export const getFacet = async ({
       facetID: facetID,
       inverse: false,
     });
+    previousSelections = new Set(getUriFilters(constraints, facetID));
     // if this facet has previous selections, include them in the query
     if (hasPreviousSelections(constraints, facetID)) {
       selectedBlock = generateSelectedBlock({
@@ -120,7 +122,13 @@ export const getFacet = async ({
     q = q.replace('<END_PROPERTY>', facetConfig.endProperty);
   }
   // console.log(prefixes + q)
-  const response = await runSelectQuery(prefixes + q, endpoint, mapper, resultFormat);
+  const response = await runSelectQuery({
+    query: prefixes + q,
+    endpoint,
+    resultMapper: mapper,
+    previousSelections,
+    resultFormat
+  });
   if (facetConfig.type === 'hierarchical') {
     return({
       facetClass: facetClass,

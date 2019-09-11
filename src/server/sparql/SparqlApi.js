@@ -5,7 +5,13 @@ import querystring from 'querystring';
 //   'Accept': 'text/turtle'
 // };
 
-export const runSelectQuery = async (query, endpoint, resultMapper, resultFormat) => {
+export const runSelectQuery = async ({
+  query,
+  endpoint,
+  resultMapper,
+  previousSelections = null,
+  resultFormat
+}) => {
   let MIMEtype = resultFormat === 'json'
     ? 'application/sparql-results+json; charset=utf-8'
     : 'text/csv; charset=utf-8';
@@ -22,7 +28,7 @@ export const runSelectQuery = async (query, endpoint, resultMapper, resultFormat
       data: q,
     });
     if (resultFormat === 'json') {
-      const mappedResults = resultMapper(response.data.results.bindings);
+      const mappedResults = resultMapper(response.data.results.bindings, previousSelections);
       return {
         data: mappedResults,
         sparqlQuery: query

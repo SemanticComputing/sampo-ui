@@ -69,9 +69,7 @@ export const facetValuesQuery = `
             ?instance <PREDICATE> ?id .
             VALUES ?facetClass { <FACET_CLASS> }
             ?instance a ?facetClass .
-            <SELECTED_VALUES>
           }
-          <SELECTED_VALUES_NO_HITS>
           <PARENTS>
           BIND(COALESCE(?selected_, false) as ?selected)
         }
