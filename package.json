@@ -78,7 +78,7 @@
     "react-redux-toastr": "^7.4.1",
     "react-router-dom": "^5.0.0",
     "react-sortable-tree": "^2.6.2",
-    "react-sortable-tree-theme-file-explorer": "^2.0.0",
+    "react-sortable-tree-theme-file-explorer": "git+https://github.com/SemanticComputing/react-sortable-tree-theme-file-explorer.git",
     "recompose": "^0.28.2",
     "redux": "^4.0.1",
     "redux-observable": "^1.0.0",
