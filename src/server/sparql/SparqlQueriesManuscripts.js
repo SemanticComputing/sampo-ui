@@ -232,18 +232,18 @@ export const migrationsQuery = `
     ?from__id skos:prefLabel ?from__name .
     ?from__id wgs84:lat ?from__lat ;
               wgs84:long ?from__long .
-    ?event__id crm:P30_transferred_custody_of|mmm-schema:observed_manuscript ?manuscript__id .
-    OPTIONAL { ?event__id skos:prefLabel ?event__prefLabel }
-    ?event__id crm:P4_has_time-span ?event__date .
-    ?event__id crm:P7_took_place_at ?to__id .
+    ?event crm:P30_transferred_custody_of|mmm-schema:observed_manuscript ?manuscript__id .
+    ?event crm:P4_has_time-span/crm:P82b_end_of_the_end ?event_timespan_end .
+    ?event crm:P7_took_place_at ?to__id .
     ?to__id skos:prefLabel ?to__name .
     ?to__id wgs84:lat ?to__lat ;
             wgs84:long ?to__long .
     BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/mmm/place/", ""))) as ?id)
+    # choose the latest transfer of custody / provenance event
     FILTER NOT EXISTS {
-      ?event__id2 crm:P30_transferred_custody_of ?manuscript__id .
-      ?event__id2 crm:P4_has_time-span ?event__date2 .
-      filter (?event__date2 > ?event__date)
+      ?event2 crm:P30_transferred_custody_of|mmm-schema:observed_manuscript ?manuscript__id .
+      ?event2 crm:P4_has_time-span/crm:P82b_end_of_the_end ?event2_timespan_end .
+      filter (?event2_timespan_end > ?event_timespan_end)
     }
   }
 `;
