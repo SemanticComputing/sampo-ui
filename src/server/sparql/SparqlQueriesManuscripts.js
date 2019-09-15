@@ -54,9 +54,29 @@ export const manuscriptProperties =
     }
     UNION
     {
+      ?event__id crm:P108_has_produced ?id .
+      ?event__id a ?event__type .
+      OPTIONAL {
+        ?event__id crm:P4_has_time-span ?prodTimespan .
+        OPTIONAL { ?prodTimespan crm:P82a_begin_of_the_begin ?prodTimespanBegin_ }
+        OPTIONAL { ?prodTimespan crm:P82b_end_of_the_end ?prodTimespanEnd_ }
+        # choose the latest transfer of custody / provenance event
+        # FILTER NOT EXISTS {
+        #   ?event2 crm:P30_transferred_custody_of|mmm-schema:observed_manuscript ?manuscript__id .
+        #   ?event2 crm:P4_has_time-span/crm:P82b_end_of_the_end ?event2_timespan_end .
+        #   filter (?event2_timespan_end > ?event_timespan_end)
+        # }
+      }
+      OPTIONAL { ?event__id crm:P7_took_place_at ?event__place }
+      BIND("Production" AS ?event__prefLabel)
+      BIND(CONCAT("/events/page/", REPLACE(STR(?event__id), "^.*\\\\/(.+)", "$1")) AS ?event__dataProviderUrl)
+    }
+    UNION
+    {
       ?event__id crm:P30_transferred_custody_of ?id .
       ?event__id a ?event__type .
       OPTIONAL { ?event__id crm:P4_has_time-span/skos:prefLabel ?event__date }
+      OPTIONAL { ?event__id crm:P7_took_place_at ?event__place }
       BIND("Transfer of Custody" AS ?event__prefLabel)
       BIND(CONCAT("/events/page/", REPLACE(STR(?event__id), "^.*\\\\/(.+)", "$1")) AS ?event__dataProviderUrl)
     }
@@ -74,9 +94,10 @@ export const manuscriptProperties =
       ?event__id mmm-schema:observed_manuscript ?id .
       ?event__id a crm:E7_Activity .
       ?event__id a ?event__type .
-      ?event__id mmm-schema:ownership_attributed_to/skos:prefLabel ?owner_prefLabel .
+      OPTIONAL { ?event__id mmm-schema:ownership_attributed_to/skos:prefLabel ?event__owner }
       OPTIONAL { ?event__id crm:P4_has_time-span/skos:prefLabel ?event__date }
-      BIND("Owner: " + ?owner_prefLabel  AS ?event__prefLabel)
+      OPTIONAL { ?event__id crm:P7_took_place_at ?event__place }
+      BIND("Provenance" AS ?event__prefLabel)
       BIND(CONCAT("/events/page/", REPLACE(STR(?event__id), "^.*\\\\/(.+)", "$1")) AS ?event__dataProviderUrl)
     }
     UNION
