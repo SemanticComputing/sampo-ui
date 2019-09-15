@@ -169,7 +169,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 280,
+      minWidth: 330,
     },
     {
       id: 'owner',
