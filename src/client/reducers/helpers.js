@@ -258,7 +258,7 @@ export const updateHeaderExpanded = (state, action) => {
   } else {
     return {
       ...state,
-      facetedSearchHeaderExpanded: !state.instancePageHeaderExpanded
+      facetedSearchHeaderExpanded: !state.facetedSearchHeaderExpanded
     };
   }
 };

@@ -36,7 +36,10 @@ const styles = theme => ({
 const InfoHeader = props => {
 
   const handleExpandButtonOnClick = () => {
-    props.updateExpanded(props.resultClass, props.pageType);
+    props.updateExpanded({
+      resultClass: props.resultClass,
+      pageType: props.pageType
+    });
   };
 
   return(

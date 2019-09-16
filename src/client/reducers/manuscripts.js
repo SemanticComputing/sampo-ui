@@ -392,7 +392,7 @@ const manuscripts = (state = INITIAL_STATE, action) => {
       case UPDATE_ROWS_PER_PAGE:
         return updateRowsPerPage(state, action);
       case UPDATE_PERSPECTIVE_HEADER_EXPANDED:
-        return updateHeaderExpanded(state);
+        return updateHeaderExpanded(state, action);
       case UPDATE_URL:
         return(state);
       default:
