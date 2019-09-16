@@ -249,9 +249,16 @@ export const updateFacetValues = (state, action) => {
   }
 };
 
-export const updateHeaderExpanded = state => {
-  return {
-    ...state,
-    headerExpanded: !state.headerExpanded
-  };
+export const updateHeaderExpanded = (state, action) => {
+  if (action.pageType === 'instancePage') {
+    return {
+      ...state,
+      instancePageHeaderExpanded: !state.instancePageHeaderExpanded
+    };
+  } else {
+    return {
+      ...state,
+      facetedSearchHeaderExpanded: !state.instancePageHeaderExpanded
+    };
+  }
 };

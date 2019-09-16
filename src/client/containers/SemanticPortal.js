@@ -21,7 +21,7 @@ import All from '../components/perspectives/All';
 import InstanceHomePage from '../components/main_layout/InstanceHomePage';
 //import FeedbackPage from '../components/main_layout/FeedbackPage';
 import { perspectiveArr } from '../components/perspectives/PerspectiveArrayMMM';
-import PerspectiveHeader from '../components/perspectives/PerspectiveHeader';
+import InfoHeader from '../components/main_layout/InfoHeader';
 import { has } from 'lodash';
 import { urlToState } from '../helpers/helpers';
 import {
@@ -74,7 +74,7 @@ const styles = theme => ({
       height: 'calc(100% - 64px)',
     },
   },
-  perspectiveHeaderContainerExpanded: {
+  perspectiveContainerHeaderExpanded: {
     height: 'auto',
     backgroundColor: '#bdbdbd',
     padding: theme.spacing(1),
@@ -87,7 +87,7 @@ const styles = theme => ({
       height: 'calc(100% - 276px)',
     },
   },
-  perspectiveHeaderContainer: {
+  perspectiveContainer: {
     height: 'auto',
     backgroundColor: '#bdbdbd',
     padding: theme.spacing(1),
@@ -100,7 +100,7 @@ const styles = theme => ({
       height: 'calc(100% - 145px)',
     },
   },
-  // main container is divided into two columns:
+  // perspective container is divided into two columns:
   facetBarContainer: {
     height: '100%',
     overflow: 'auto',
@@ -116,6 +116,12 @@ const styles = theme => ({
       marginTop: theme.spacing(1)
     },
   },
+  instancePageContainer: {
+    height: '100%',
+    //overflow: 'auto',
+    paddingTop: '0px !important',
+    paddingBottom: '0px !important'
+  }
 });
 
 let SemanticPortal = props => {
@@ -257,19 +263,19 @@ let SemanticPortal = props => {
                     render={routeProps => {
                       return (
                         <React.Fragment>
-                          <PerspectiveHeader
+                          <InfoHeader
                             resultClass={perspective.id}
-                            expanded={props[perspective.id].headerExpanded}
+                            pageType='facetedSearch'
+                            expanded={props[perspective.id].facetedSearchHeaderExpanded}
                             updateExpanded={props.updatePerspectiveHeaderExpanded}
                             title={perspective.label}
                             description={perspective.perspectiveDesc}
                             descriptionHeight={perspective.perspectiveDescHeight}
                           />
-                          <Grid container spacing={1} className={props[perspective.id].headerExpanded
-                            ? classes.perspectiveHeaderContainerExpanded
-                            : classes.perspectiveHeaderContainer
-                          }
-                          >
+                          <Grid container spacing={1} className={props[perspective.id].facetedSearchHeaderExpanded
+                            ? classes.perspectiveContainerHeaderExpanded
+                            : classes.perspectiveContainer
+                          }>
                             <Grid item xs={12} md={3} className={classes.facetBarContainer}>
                               <FacetBar
                                 facetData={props[`${perspective.id}Facets`]}
@@ -289,7 +295,6 @@ let SemanticPortal = props => {
                             </Grid>
                           </Grid>
                         </React.Fragment>
-
                       );
                     }}
                   />
@@ -297,16 +302,33 @@ let SemanticPortal = props => {
                     path={`/${perspective.id}/page/:id`}
                     render={routeProps => {
                       return (
-                        <Grid container spacing={1} className={classes.mainContainer}>
-                          <InstanceHomePage
-                            fetchByURI={props.fetchByURI}
+                        <React.Fragment>
+                          <InfoHeader
                             resultClass={perspective.id}
-                            tableRows={props[perspective.id].tableColumns}
-                            data={props[perspective.id].instance}
-                            isLoading={props[perspective.id].fetching}
-                            routeProps={routeProps}
+                            pageType='instancePage'
+                            instanceData={props[perspective.id].instance}
+                            expanded={props[perspective.id].instancePageHeaderExpanded}
+                            updateExpanded={props.updatePerspectiveHeaderExpanded}
+                            title={perspective.label}
+                            description={perspective.perspectiveDesc}
+                            descriptionHeight={perspective.perspectiveDescHeight}
                           />
-                        </Grid>
+                          <Grid container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
+                            ? classes.perspectiveContainerHeaderExpanded
+                            : classes.perspectiveContainer
+                          }>
+                            <Grid item xs={12} className={classes.instancePageContainer}>
+                              <InstanceHomePage
+                                fetchByURI={props.fetchByURI}
+                                resultClass={perspective.id}
+                                tableRows={props[perspective.id].tableColumns}
+                                data={props[perspective.id].instance}
+                                isLoading={props[perspective.id].fetching}
+                                routeProps={routeProps}
+                              />
+                            </Grid>
+                          </Grid>
+                        </React.Fragment>
                       );
                     }}
                   />

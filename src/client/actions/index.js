@@ -127,9 +127,9 @@ export const showError = message => ({
   type: SHOW_ERROR,
   message
 });
-export const updatePerspectiveHeaderExpanded = resultClass => ({
+export const updatePerspectiveHeaderExpanded = (resultClass, pageType) => ({
   type: UPDATE_PERSPECTIVE_HEADER_EXPANDED,
-  resultClass
+  resultClass, pageType
 });
 export const updateURL = ({ resultClass = 'manuscripts', newURL }) => ({
   type: UPDATE_URL,

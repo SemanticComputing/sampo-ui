@@ -16,25 +16,37 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 import has from 'lodash';
+import PerspectiveTabs from '../main_layout/PerspectiveTabs';
 
 const styles = theme => ({
   root: {
     width: '100%',
     height: '100%',
-    display: 'flex',
-    justifyContent: 'center'
   },
   content: {
-    padding: theme.spacing(1),
-    width: 800,
-    overflowY: 'auto'
+    width: '100%',
+    height: 'calc(100% - 72px)',
+    overflow: 'auto'
+    //padding: theme.spacing(1),
+    //width: 800,
+    //overflowY: 'auto'
+  },
+  instanceTableContainer: {
+    //display: 'flex',
+    //justifyContent: 'center'
+  },
+  instanceTable: {
+    //maxWidth: 800,
+    //width: '100%',
+    height: '100%',
+    borderTop: '1px solid rgba(224, 224, 224, 1);',
   },
   divider: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1)
   },
   sahaButton: {
-    marginTop: theme.spacing(2),
+    margin: theme.spacing(2),
   },
   spinnerContainer: {
     display: 'flex',
@@ -44,7 +56,7 @@ const styles = theme => ({
     justifyContent: 'center'
   },
   labelCell: {
-    minWidth: 240
+    width: 240,
   }
 });
 
@@ -121,7 +133,24 @@ class InstanceHomePage extends React.Component {
     // console.log(data)
     return(
       <div className={classes.root}>
-        <Paper className={classes.content}>
+        <PerspectiveTabs
+          routeProps={this.props.routeProps}
+          tabs={[
+            {
+              id: 'table',
+              label: 'table',
+              value: 0,
+              icon: 'CalendarViewDay',
+            },
+            {
+              id: 'map',
+              label: 'map',
+              value: 1,
+              icon: 'AddLocation',
+            },
+          ]}
+        />
+        <Paper square className={classes.content}>
           {isLoading &&
             <div className={classes.spinnerContainer}>
               <CircularProgress style={{ color: purple[500] }} thickness={5} />
@@ -138,57 +167,51 @@ class InstanceHomePage extends React.Component {
           }
           {hasData &&
             <React.Fragment>
-              <Typography variant='h4'>{this.state.instanceHeading}</Typography>
-              <Divider className={classes.divider} />
-              <Typography variant='h6'>
-                {Array.isArray(data.prefLabel)
-                  ? data.prefLabel[0].prefLabel
-                  : data.prefLabel.prefLabel
-                }
-              </Typography>
-              <Table>
-                <TableBody>
-                  {this.props.tableRows.map(row => {
-                    if (row.id !== 'prefLabel') {
-                      return (
-                        <TableRow key={row.id}>
-                          <TableCell className={classes.labelCell}>
-                            {row.label}
-                            <Tooltip
-                              title={row.desc}
-                              enterDelay={300}
-                            >
-                              <IconButton>
-                                <InfoIcon />
-                              </IconButton>
-                            </Tooltip>
-                          </TableCell>
-                          <ResultTableCell
-                            columnId={row.id}
-                            data={data[row.id]}
-                            valueType={row.valueType}
-                            makeLink={row.makeLink}
-                            externalLink={row.externalLink}
-                            sortValues={row.sortValues}
-                            numberedList={row.numberedList}
-                            container='cell'
-                            expanded={true}
-                            linkAsButton={has(row, 'linkAsButton')
-                              ? row.linkAsButton
-                              : null
-                            }
-                            collapsedMaxWords={has(row, 'collapsedMaxWords')
-                              ? row.collapsedMaxWords
-                              : null
-                            }
-                          />
-                        </TableRow>
-                      );
+              <div className={classes.instanceTableContainer}>
+                <Table className={classes.instanceTable}>
+                  <TableBody>
+                    {this.props.tableRows.map(row => {
+                      if (row.id !== 'prefLabel') {
+                        return (
+                          <TableRow key={row.id}>
+                            <TableCell className={classes.labelCell}>
+                              {row.label}
+                              <Tooltip
+                                title={row.desc}
+                                enterDelay={300}
+                              >
+                                <IconButton>
+                                  <InfoIcon />
+                                </IconButton>
+                              </Tooltip>
+                            </TableCell>
+                            <ResultTableCell
+                              columnId={row.id}
+                              data={data[row.id]}
+                              valueType={row.valueType}
+                              makeLink={row.makeLink}
+                              externalLink={row.externalLink}
+                              sortValues={row.sortValues}
+                              numberedList={row.numberedList}
+                              container='cell'
+                              expanded={true}
+                              linkAsButton={has(row, 'linkAsButton')
+                                ? row.linkAsButton
+                                : null
+                              }
+                              collapsedMaxWords={has(row, 'collapsedMaxWords')
+                                ? row.collapsedMaxWords
+                                : null
+                              }
+                            />
+                          </TableRow>
+                        );
+                      }
                     }
-                  }
-                  )}
-                </TableBody>
-              </Table>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
               <Button
                 className={classes.sahaButton}
                 variant='contained'

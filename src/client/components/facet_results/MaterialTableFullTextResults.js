@@ -44,9 +44,6 @@ class MaterialTableFullTextResults extends React.Component {
       return (
         <div className={this.props.classes.tableContainer}>
           <MaterialTable
-            options={{
-              maxBodyHeight: '100%'
-            }}
             columns={[
               {
                 title: 'Label',
@@ -114,6 +111,7 @@ class MaterialTableFullTextResults extends React.Component {
               PreviousPage: ChevronLeftIcon
             }}
             options={{
+              maxBodyHeight: '100%',
               pageSize: 15,
               pageSizeOptions: [10, 15, 20, 25]
             }}

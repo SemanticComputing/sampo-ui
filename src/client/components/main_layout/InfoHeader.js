@@ -33,10 +33,10 @@ const styles = theme => ({
   }
 });
 
-const PerspectiveHeader = props => {
+const InfoHeader = props => {
 
   const handleExpandButtonOnClick = () => {
-    props.updateExpanded(props.resultClass);
+    props.updateExpanded(props.resultClass, props.pageType);
   };
 
   return(
@@ -64,9 +64,10 @@ const PerspectiveHeader = props => {
   );
 };
 
-PerspectiveHeader.propTypes = {
+InfoHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   resultClass: PropTypes.string.isRequired,
+  pageType: PropTypes.string.isRequired,
   expanded: PropTypes.bool.isRequired,
   updateExpanded: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
@@ -74,4 +75,4 @@ PerspectiveHeader.propTypes = {
   descriptionHeight: PropTypes.number.isRequired,
 };
 
-export default withStyles(styles)(PerspectiveHeader);
+export default withStyles(styles)(InfoHeader);
