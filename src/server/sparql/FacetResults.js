@@ -7,7 +7,8 @@ import {
   instanceQuery
 } from './SparqlQueriesGeneral';
 import {
-  manuscriptProperties,
+  manuscriptPropertiesFacetResults,
+  manuscriptPropertiesInstancePage,
   expressionProperties,
   collectionProperties,
   productionPlacesQuery,
@@ -196,7 +197,7 @@ const getPaginatedData = ({
   let resultSetProperties;
   switch (resultClass) {
     case 'manuscripts':
-      resultSetProperties = manuscriptProperties;
+      resultSetProperties = manuscriptPropertiesFacetResults;
       break;
     case 'works':
       resultSetProperties = workProperties;
@@ -234,7 +235,7 @@ export const getByURI = ({
   switch (resultClass) {
     case 'manuscripts':
       q = instanceQuery;
-      q = q.replace('<PROPERTIES>', manuscriptProperties);
+      q = q.replace('<PROPERTIES>', manuscriptPropertiesInstancePage);
       q = q.replace('<RELATED_INSTANCES>', '');
       break;
     case 'expressions':
