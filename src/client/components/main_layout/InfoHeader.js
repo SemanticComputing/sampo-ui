@@ -7,7 +7,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-
+//import Divider from '@material-ui/core/Divider';
 
 const styles = theme => ({
   root: {
@@ -22,7 +22,15 @@ const styles = theme => ({
     width: '100%'
   },
   summary: {
-    paddingLeft: theme.spacing(1)
+    paddingLeft: theme.spacing(1),
+  },
+  summaryContent: {
+    display: 'block'
+  },
+  label: {
+    marginTop: theme.spacing(1),
+    maxHeight: 32,
+    overflow: 'auto'
   },
   content: {
     paddingTop: 0,
@@ -42,6 +50,14 @@ const InfoHeader = props => {
     });
   };
 
+  const generateLabel = () => {
+    let label = '';
+    const data = props.instanceData;
+    const hasData = data !== null && Object.values(data).length >= 1;
+    if (hasData) { label = data.prefLabel.prefLabel; }
+    return label;
+  };
+
   return(
     <Grid container spacing={1} className={props.classes.root}>
       <ExpansionPanel
@@ -49,12 +65,20 @@ const InfoHeader = props => {
         expanded={props.expanded}>
         <ExpansionPanelSummary
           className={props.classes.summary}
+          classes={{
+            content: props.classes.summaryContent
+          }}
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
           IconButtonProps={{ onClick: handleExpandButtonOnClick }}
         >
           <Typography component="h1" variant="h3">{props.title}</Typography>
+          {props.pageType === 'instancePage' &&
+            <React.Fragment>
+              <Typography className={props.classes.label} component="h1" variant="h6">{generateLabel()}</Typography>
+            </React.Fragment>
+          }
         </ExpansionPanelSummary>
         <ExpansionPanelDetails
           className={props.classes.content}
@@ -70,6 +94,7 @@ const InfoHeader = props => {
 InfoHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   resultClass: PropTypes.string.isRequired,
+  instanceData: PropTypes.object,
   pageType: PropTypes.string.isRequired,
   expanded: PropTypes.bool.isRequired,
   updateExpanded: PropTypes.func.isRequired,

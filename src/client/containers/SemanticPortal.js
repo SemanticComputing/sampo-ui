@@ -23,7 +23,7 @@ import InstanceHomePage from '../components/main_layout/InstanceHomePage';
 import { perspectiveArr } from '../components/perspectives/PerspectiveArrayMMM';
 import InfoHeader from '../components/main_layout/InfoHeader';
 import { has } from 'lodash';
-import { urlToState } from '../helpers/helpers';
+//import { urlToState } from '../helpers/helpers';
 import {
   fetchResultCount,
   fetchPaginatedResults,
@@ -100,6 +100,32 @@ const styles = theme => ({
       height: 'calc(100% - 145px)',
     },
   },
+  instancePageContainerHeaderExpanded: {
+    height: 'auto',
+    backgroundColor: '#bdbdbd',
+    padding: theme.spacing(1),
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 308, // 56 + 244 + 8
+      height: 'calc(100% - 308px)',
+    },
+    [theme.breakpoints.up('sm')]: {
+      marginTop: 316, // 64 + 244 + 8
+      height: 'calc(100% - 316px)',
+    },
+  },
+  instancePageContainer: {
+    height: 'auto',
+    backgroundColor: '#bdbdbd',
+    padding: theme.spacing(1),
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 177, // 56 + 113 + 8
+      height: 'calc(100% - 177px)',
+    },
+    [theme.breakpoints.up('sm')]: {
+      marginTop: 185, // 64 + 113 + 8
+      height: 'calc(100% - 185px)',
+    },
+  },
   // perspective container is divided into two columns:
   facetBarContainer: {
     height: '100%',
@@ -116,7 +142,7 @@ const styles = theme => ({
       marginTop: theme.spacing(1)
     },
   },
-  instancePageContainer: {
+  instancePageContent: {
     height: '100%',
     //overflow: 'auto',
     paddingTop: '0px !important',
@@ -309,15 +335,15 @@ let SemanticPortal = props => {
                             instanceData={props[perspective.id].instance}
                             expanded={props[perspective.id].instancePageHeaderExpanded}
                             updateExpanded={props.updatePerspectiveHeaderExpanded}
-                            title={perspective.label}
-                            description={perspective.perspectiveDesc}
+                            title={perspective.instancePageLabel}
+                            description={perspective.instancePageDesc}
                             descriptionHeight={perspective.perspectiveDescHeight}
                           />
                           <Grid container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
-                            ? classes.perspectiveContainerHeaderExpanded
-                            : classes.perspectiveContainer
+                            ? classes.instancePageContainerHeaderExpanded
+                            : classes.instancePageContainer
                           }>
-                            <Grid item xs={12} className={classes.instancePageContainer}>
+                            <Grid item xs={12} className={classes.instancePageContent}>
                               <InstanceHomePage
                                 fetchByURI={props.fetchByURI}
                                 resultClass={perspective.id}
