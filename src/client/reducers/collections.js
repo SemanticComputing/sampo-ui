@@ -41,6 +41,8 @@ export const INITIAL_STATE = {
   fetching: false,
   fetchingResultCount: false,
   sparqlQuery: null,
+  facetedSearchHeaderExpanded: true,
+  instancePageHeaderExpanded: true,
   tableColumns: [
     {
       id: 'prefLabel',

@@ -3,20 +3,13 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import ResultTableCell from '../facet_results/ResultTableCell';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
-import has from 'lodash';
-import PerspectiveTabs from '../main_layout/PerspectiveTabs';
+import PerspectiveTabs from './PerspectiveTabs';
+import InstanceHomePageTable from './InstanceHomePageTable';
+import LeafletMap from '../facet_results/LeafletMap';
+import { Route, Redirect } from 'react-router-dom';
+import { has } from 'lodash';
 
 const styles = theme => ({
   root: {
@@ -45,9 +38,7 @@ const styles = theme => ({
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1)
   },
-  sahaButton: {
-    margin: theme.spacing(2),
-  },
+
   spinnerContainer: {
     display: 'flex',
     width: '100%',
@@ -65,57 +56,41 @@ class InstanceHomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      instanceHeading: '',
-      localID: []
+      localID: null
     };
   }
 
   componentDidMount = () => {
     let uri = '';
     let base = 'http://ldf.fi/mmm';
-    const localID = this.props.routeProps.location.pathname.split('/').pop();
+    const locationArr = this.props.routeProps.location.pathname.split('/');
+    let localID = locationArr.pop();
+    this.props.tabs.map(tab => {
+      if (localID === tab.id) {
+        localID = locationArr.pop(); // pop again if tab id
+      }
+    });
     this.setState({ localID: localID });
     switch(this.props.resultClass) {
       case 'manuscripts':
-        this.setState({
-          instanceHeading: 'Manuscript',
-        });
         uri = `${base}/manifestation_singleton/${localID}`;
         break;
       case 'expressions':
-        this.setState({
-          instanceHeading: 'Expression',
-        });
         uri = `${base}/expression/${localID}`;
         break;
       case 'collections':
-        this.setState({
-          instanceHeading: 'Collection',
-        });
         uri = `${base}/collection/${localID}`;
         break;
       case 'works':
-        this.setState({
-          instanceHeading: 'Work',
-        });
         uri = `${base}/work/${localID}`;
         break;
       case 'events':
-        this.setState({
-          instanceHeading: 'Event',
-        });
         uri = `${base}/event/${localID}`;
         break;
       case 'actors':
-        this.setState({
-          instanceHeading: 'Actor',
-        });
         uri = `${base}/actor/${localID}`;
         break;
       case 'places':
-        this.setState({
-          instanceHeading: 'Place',
-        });
         uri = `${base}/place/${localID}`;
         break;
     }
@@ -127,28 +102,39 @@ class InstanceHomePage extends React.Component {
     });
   }
 
+  createPlaceArray = events => {
+    let places = {};
+    if (!Array.isArray(events)) {
+      events = [ events ];
+    }
+    events.map(event => {
+      if (has(event, 'place')) {
+        if (!has(places, event.place.id)) {
+          places[event.place.id] = {
+            id: event.place.id,
+            prefLabel: event.place.prefLabel,
+            lat: event.place.lat,
+            long: event.place.long,
+            events: [ event ]
+          };
+        } else {
+          places[event.place.id].events.push(event);
+        }
+      }
+    });
+    return Object.values(places);
+  }
+
+
+
   render = () => {
-    const { classes, data, isLoading } = this.props;
+    const { classes, data, isLoading, resultClass } = this.props;
     const hasData = data !== null && Object.values(data).length >= 1;
-    // console.log(data)
     return(
       <div className={classes.root}>
         <PerspectiveTabs
           routeProps={this.props.routeProps}
-          tabs={[
-            {
-              id: 'table',
-              label: 'table',
-              value: 0,
-              icon: 'CalendarViewDay',
-            },
-            {
-              id: 'map',
-              label: 'map',
-              value: 1,
-              icon: 'AddLocation',
-            },
-          ]}
+          tabs={this.props.tabs}
         />
         <Paper square className={classes.content}>
           {isLoading &&
@@ -158,8 +144,6 @@ class InstanceHomePage extends React.Component {
           }
           {!hasData &&
             <React.Fragment>
-              <Typography variant='h4'>{this.state.instanceHeading}</Typography>
-              <Divider className={classes.divider} />
               <Typography variant='h6'>
                 No data found for id: <span style={{ fontStyle: 'italic'}}>{this.state.localID}</span>
               </Typography>
@@ -167,60 +151,31 @@ class InstanceHomePage extends React.Component {
           }
           {hasData &&
             <React.Fragment>
-              <div className={classes.instanceTableContainer}>
-                <Table className={classes.instanceTable}>
-                  <TableBody>
-                    {this.props.tableRows.map(row => {
-                      if (row.id !== 'prefLabel') {
-                        return (
-                          <TableRow key={row.id}>
-                            <TableCell className={classes.labelCell}>
-                              {row.label}
-                              <Tooltip
-                                title={row.desc}
-                                enterDelay={300}
-                              >
-                                <IconButton>
-                                  <InfoIcon />
-                                </IconButton>
-                              </Tooltip>
-                            </TableCell>
-                            <ResultTableCell
-                              columnId={row.id}
-                              data={data[row.id]}
-                              valueType={row.valueType}
-                              makeLink={row.makeLink}
-                              externalLink={row.externalLink}
-                              sortValues={row.sortValues}
-                              numberedList={row.numberedList}
-                              container='cell'
-                              expanded={true}
-                              linkAsButton={has(row, 'linkAsButton')
-                                ? row.linkAsButton
-                                : null
-                              }
-                              collapsedMaxWords={has(row, 'collapsedMaxWords')
-                                ? row.collapsedMaxWords
-                                : null
-                              }
-                            />
-                          </TableRow>
-                        );
-                      }
-                    }
-                    )}
-                  </TableBody>
-                </Table>
-              </div>
-              <Button
-                className={classes.sahaButton}
-                variant='contained'
-                target='_blank'
-                rel='noopener noreferrer'
-                href={data.id}
-              >
-                Open in Linked Data Browser
-              </Button>
+              <Route
+                exact path={`/${resultClass}/page/${this.state.localID}`}
+                render={() => <Redirect to={`/${resultClass}/page/${this.state.localID}/table`} />}
+              />
+              <Route
+                path={`/${resultClass}/page/${this.state.localID}/table`}
+                render={() =>
+                  <InstanceHomePageTable
+                    data={data}
+                    tableRows={this.props.tableRows}
+                  />}
+              />
+              <Route
+                path={`/${resultClass}/page/${this.state.localID}/map`}
+                render={() =>
+                  <LeafletMap
+                    results={this.createPlaceArray(data.event)}
+                    pageType='instancePage'
+                    mapMode='noCluster'
+                    instance={null}
+                    fetchByURI={this.props.fetchByURI}
+                    fetching={this.props.isLoading}
+                    showInstanceCountInClusters={true}
+                  />}
+              />
             </React.Fragment>
           }
         </Paper>
@@ -235,6 +190,7 @@ InstanceHomePage.propTypes = {
   resultClass: PropTypes.string.isRequired,
   data: PropTypes.object,
   tableRows: PropTypes.array.isRequired,
+  tabs: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
   routeProps: PropTypes.object.isRequired
 };

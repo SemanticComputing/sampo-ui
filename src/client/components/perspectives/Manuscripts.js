@@ -41,6 +41,7 @@ let Manuscripts = props => {
         render={() =>
           <LeafletMap
             results={props.places.results}
+            pageType='facetResults'
             facetUpdateID={props.facetData.facetUpdateID}
             facet={props.facetData.facets.productionPlace}
             facetID='productionPlace'

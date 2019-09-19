@@ -46,6 +46,20 @@ export const perspectiveArr = [
         value: 3,
         icon: 'Download',
       }
+    ],
+    instancePageTabs: [
+      {
+        id: 'table',
+        label: 'table',
+        value: 0,
+        icon: 'CalendarViewDay',
+      },
+      {
+        id: 'map',
+        label: 'map',
+        value: 1,
+        icon: 'AddLocation',
+      },
     ]
   },
   {
@@ -70,6 +84,14 @@ export const perspectiveArr = [
         value: 0,
         icon: 'CalendarViewDay',
       }
+    ],
+    instancePageTabs: [
+      {
+        id: 'table',
+        label: 'table',
+        value: 0,
+        icon: 'CalendarViewDay',
+      }
     ]
   },
   {
@@ -88,6 +110,14 @@ export const perspectiveArr = [
     perspectiveDescHeight: 99,
     defaultActiveFacets: new Set(['type']),
     tabs: [
+      {
+        id: 'table',
+        label: 'table',
+        value: 0,
+        icon: 'CalendarViewDay',
+      }
+    ],
+    instancePageTabs: [
       {
         id: 'table',
         label: 'table',
@@ -133,6 +163,14 @@ export const perspectiveArr = [
         value: 1,
         icon: 'AddLocation',
       },
+    ],
+    instancePageTabs: [
+      {
+        id: 'table',
+        label: 'table',
+        value: 0,
+        icon: 'CalendarViewDay',
+      }
     ]
   },
   {
@@ -166,6 +204,14 @@ export const perspectiveArr = [
         value: 1,
         icon: 'AddLocation',
       },
+    ],
+    instancePageTabs: [
+      {
+        id: 'table',
+        label: 'table',
+        value: 0,
+        icon: 'CalendarViewDay',
+      }
     ]
   },
 ];

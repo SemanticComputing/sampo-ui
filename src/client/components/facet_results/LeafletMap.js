@@ -38,10 +38,16 @@ const style = {
 };
 
 const styles = theme => ({
-  leafletContainer: {
+  leafletContainerfacetResults: {
     height: 400,
     [theme.breakpoints.up('md')]: {
       height: 'calc(100% - 72px)'
+    }
+  },
+  leafletContainerinstancePage: {
+    height: 400,
+    [theme.breakpoints.up('md')]: {
+      height: '100%'
     }
   },
   spinner: {
@@ -69,23 +75,26 @@ const ColorIcon = L.Icon.extend({
 class LeafletMap extends React.Component {
 
   componentDidMount = () => {
-    this.props.fetchResults({
-      resultClass: this.props.resultClass,
-      facetClass: this.props.facetClass,
-      sortBy: null,
-    });
+
+    if (this.props.pageType === 'facetResults') {
+      this.props.fetchResults({
+        resultClass: this.props.resultClass,
+        facetClass: this.props.facetClass,
+        sortBy: null,
+      });
+    }
+
 
     // Base layers
+
     // const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     //   attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     // });
-
     const mapboxLight = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/{z}/{x}/{y}?access_token=' + MAPBOX_ACCESS_TOKEN, {
       attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       tileSize: 512,
       zoomOffset: -1
     });
-
     // const parisTest = L.tileLayer('http://mapwarper.net/maps/tile/28345/{z}/{x}/{y}.png', {
     //   attribution: 'SeCo'
     // });
@@ -117,36 +126,11 @@ class LeafletMap extends React.Component {
       this.addDrawButtons();
     }
 
-    // layer controls
-    // const baseMaps = {
-    //   'OpenStreetMap': OSMBaseLayer,
-    // };
-    // const overlayMaps = {
-    //   // 'Search results': this.resultMarkerLayer,
-    //   // 'Karelian maps (MapWarper)': karelianMaps,
-    //   // 'Senate atlas (MapWarper)': senateAtlas,
-    //   'Paris': parisTest
-    // };
-
-    // this.layerControl = L.control.layers(
-    //   //baseMaps,
-    //   overlayMaps,
-    // ).addTo(this.leafletMap);
-
-    // L.control.opacity(
-    //   overlayMaps, {
-    //     collapsed: true,
-    //     position: 'bottomleft'
-    //   }).addTo(this.leafletMap);
-
-    // L.Marker.setBouncingOptions({ exclusive: true });
-
-    //L.control.sidebar({ container: 'sidebar' }).addTo(this.leafletMap).open('home');
   }
 
   componentDidUpdate = prevProps => {
     // check if filters have changed
-    if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
+    if (has(prevProps, 'facetUpdateID') && prevProps.facetUpdateID !== this.props.facetUpdateID) {
       this.props.fetchResults({
         resultClass: this.props.resultClass,
         facetClass: this.props.facetClass,
@@ -351,12 +335,9 @@ class LeafletMap extends React.Component {
           icon: icon,
           instanceCount: result.instanceCount ? result.instanceCount : null,
           id: result.id
-        })
-          .on('click', this.markerOnClick);
+        });
       } else {
-
         const color = 'green';
-
         let markerIcon = '';
         switch(color) {
           case 'violet':
@@ -372,14 +353,14 @@ class LeafletMap extends React.Component {
             markerIcon = markerIconOrange;
             break;
         }
-
         marker = L.marker(latLng, {
           icon: new ColorIcon({iconUrl: markerIcon }),
           id: result.id
-        })
-          .on('click', this.markerOnClick);
+        });
       }
-
+      if (this.props.pageType === 'facetResults') {
+        marker.on('click', this.markerOnClick);
+      }
       return marker;
     }
   }
@@ -453,7 +434,7 @@ class LeafletMap extends React.Component {
   render = () => {
     return (
       <React.Fragment>
-        <div className={this.props.classes.leafletContainer}>
+        <div className={this.props.classes[`leafletContainer${this.props.pageType}`]}>
           {/*<LeafletSidebar />*/}
           <div id="map" style={style} />
         </div>
@@ -465,6 +446,7 @@ class LeafletMap extends React.Component {
 
 LeafletMap.propTypes = {
   classes: PropTypes.object.isRequired,
+  pageType: PropTypes.string.isRequired,
   results: PropTypes.array.isRequired,
   facetID: PropTypes.string,
   facet: PropTypes.object,

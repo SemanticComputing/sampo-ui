@@ -29,7 +29,7 @@ const styles = theme => ({
   },
   label: {
     marginTop: theme.spacing(1),
-    maxHeight: 32,
+    height: 32,
     overflow: 'auto'
   },
   content: {

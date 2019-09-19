@@ -348,6 +348,7 @@ let SemanticPortal = props => {
                                 fetchByURI={props.fetchByURI}
                                 resultClass={perspective.id}
                                 tableRows={props[perspective.id].tableColumns}
+                                tabs={perspective.instancePageTabs}
                                 data={props[perspective.id].instance}
                                 isLoading={props[perspective.id].fetching}
                                 routeProps={routeProps}
@@ -367,16 +368,41 @@ let SemanticPortal = props => {
             path={`/collections/page/:id`}
             render={routeProps => {
               return (
-                <Grid container spacing={1} className={classes.mainContainer}>
-                  <InstanceHomePage
-                    fetchByURI={props.fetchByURI}
+                <React.Fragment>
+                  <InfoHeader
                     resultClass='collections'
-                    tableRows={props.collections.tableColumns}
-                    data={props.collections.instance}
-                    isLoading={props.collections.fetching}
-                    routeProps={routeProps}
+                    pageType='instancePage'
+                    instanceData={props['collections'].instance}
+                    expanded={props['collections'].instancePageHeaderExpanded}
+                    updateExpanded={props.updatePerspectiveHeaderExpanded}
+                    title='Collection'
+                    description='[ landing page description ]'
+                    descriptionHeight={99}
                   />
-                </Grid>
+                  <Grid container spacing={1} className={props['collections'].instancePageHeaderExpanded
+                    ? classes.instancePageContainerHeaderExpanded
+                    : classes.instancePageContainer
+                  }>
+                    <Grid item xs={12} className={classes.instancePageContent}>
+                      <InstanceHomePage
+                        fetchByURI={props.fetchByURI}
+                        resultClass='collections'
+                        tableRows={props['collections'].tableColumns}
+                        tabs={[
+                          {
+                            id: 'table',
+                            label: 'table',
+                            value: 0,
+                            icon: 'CalendarViewDay',
+                          }
+                        ]}
+                        data={props['collections'].instance}
+                        isLoading={props['collections'].fetching}
+                        routeProps={routeProps}
+                      />
+                    </Grid>
+                  </Grid>
+                </React.Fragment>
               );
             }}
           />
@@ -384,16 +410,41 @@ let SemanticPortal = props => {
             path={`/expressions/page/:id`}
             render={routeProps => {
               return (
-                <Grid container spacing={1} className={classes.mainContainer}>
-                  <InstanceHomePage
-                    fetchByURI={props.fetchByURI}
+                <React.Fragment>
+                  <InfoHeader
                     resultClass='expressions'
-                    tableRows={props.expressions.tableColumns}
-                    data={props.expressions.instance}
-                    isLoading={props.expressions.fetching}
-                    routeProps={routeProps}
+                    pageType='instancePage'
+                    instanceData={props['expressions'].instance}
+                    expanded={props['expressions'].instancePageHeaderExpanded}
+                    updateExpanded={props.updatePerspectiveHeaderExpanded}
+                    title='Expression'
+                    description='[ landing page description ]'
+                    descriptionHeight={99}
                   />
-                </Grid>
+                  <Grid container spacing={1} className={props['expressions'].instancePageHeaderExpanded
+                    ? classes.instancePageContainerHeaderExpanded
+                    : classes.instancePageContainer
+                  }>
+                    <Grid item xs={12} className={classes.instancePageContent}>
+                      <InstanceHomePage
+                        fetchByURI={props.fetchByURI}
+                        resultClass='expressions'
+                        tableRows={props['expressions'].tableColumns}
+                        tabs={[
+                          {
+                            id: 'table',
+                            label: 'table',
+                            value: 0,
+                            icon: 'CalendarViewDay',
+                          }
+                        ]}
+                        data={props['expressions'].instance}
+                        isLoading={props['expressions'].fetching}
+                        routeProps={routeProps}
+                      />
+                    </Grid>
+                  </Grid>
+                </React.Fragment>
               );
             }}
           />
