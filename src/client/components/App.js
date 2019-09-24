@@ -19,8 +19,7 @@ const theme = createMuiTheme({
           marginTop: 8,
           marginBottom: 8
         }
-
-      }
+      },
     }
   }
 });

@@ -105,12 +105,12 @@ const styles = theme => ({
     backgroundColor: '#bdbdbd',
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 308, // 56 + 244 + 8
-      height: 'calc(100% - 308px)',
+      marginTop: 296, // 56 + 232 + 8
+      height: 'calc(100% - 296px)',
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 316, // 64 + 244 + 8
-      height: 'calc(100% - 316px)',
+      marginTop: 304, // 64 + 232 + 8
+      height: 'calc(100% - 304px)',
     },
   },
   instancePageContainer: {
@@ -122,7 +122,7 @@ const styles = theme => ({
       height: 'calc(100% - 177px)',
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 185, // 64 + 113 + 8
+      marginTop: 181,
       height: 'calc(100% - 185px)',
     },
   },
