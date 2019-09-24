@@ -128,7 +128,9 @@ export const perspectiveArr = [
           To cite this record, use its url.
         </Typography>
         <Typography paragraph={true}>
-          The MMM data model follows the FRBRoo definition of a work, which refers to
+          The MMM data model follows the
+          <a href='https://www.ifla.org/publications/node/11240' target='_blank' rel='noopener noreferrer'>FRBRoo</a>
+           definition of a work, which refers to
           “distinct concepts or combinations of concepts identified in artistic and
           intellectual expressions.” Works contain title and author information.
           This definition is not shared by the Bibale or Oxford Libraries’ conception
