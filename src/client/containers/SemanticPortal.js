@@ -66,11 +66,11 @@ const styles = theme => ({
     backgroundColor: '#bdbdbd',
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 56,
+      marginTop: 56, // app bar
       height: 'calc(100% - 56px)',
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 64,
+      marginTop: 64, // app bar
       height: 'calc(100% - 64px)',
     },
   },
@@ -79,12 +79,12 @@ const styles = theme => ({
     backgroundColor: '#bdbdbd',
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 268, // 56 + 212
-      height: 'calc(100% - 268px)',
+      marginTop: 256, // app bar + header
+      height: 'calc(100% - 256px)',
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 276, // 64 + 212
-      height: 'calc(100% - 276px)',
+      marginTop: 264, // app bar + header
+      height: 'calc(100% - 264px)',
     },
   },
   perspectiveContainer: {
@@ -92,12 +92,12 @@ const styles = theme => ({
     backgroundColor: '#bdbdbd',
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 137, // 56 + 81
-      height: 'calc(100% - 137px)',
+      marginTop: 133, // app bar + header
+      height: 'calc(100% - 1333px)',
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 145, // 64 + 81
-      height: 'calc(100% - 145px)',
+      marginTop: 141, // app bar + header
+      height: 'calc(100% - 141px)',
     },
   },
   instancePageContainerHeaderExpanded: {
@@ -105,11 +105,11 @@ const styles = theme => ({
     backgroundColor: '#bdbdbd',
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 296, // 56 + 232 + 8
+      marginTop: 296, 
       height: 'calc(100% - 296px)',
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 304, // 64 + 232 + 8
+      marginTop: 304,
       height: 'calc(100% - 304px)',
     },
   },
@@ -118,8 +118,8 @@ const styles = theme => ({
     backgroundColor: '#bdbdbd',
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 177, // 56 + 113 + 8
-      height: 'calc(100% - 177px)',
+      marginTop: 173,
+      height: 'calc(100% - 173px)',
     },
     [theme.breakpoints.up('sm')]: {
       marginTop: 181,
