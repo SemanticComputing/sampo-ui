@@ -45,6 +45,7 @@ const styles = theme => ({
     paddingBottom: theme.spacing(1),
     marginBottom: theme.spacing(1),
     overflow: 'auto',
+    display: 'block'
   }
 });
 
@@ -91,7 +92,7 @@ const InfoHeader = props => {
           className={props.classes.content}
           style={{ height: props.descriptionHeight }}
         >
-          <Typography>{props.description}</Typography>
+          {props.description}
         </ExpansionPanelDetails>
       </ExpansionPanel>
     </Grid>
@@ -106,7 +107,7 @@ InfoHeader.propTypes = {
   expanded: PropTypes.bool.isRequired,
   updateExpanded: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.object.isRequired,
   descriptionHeight: PropTypes.number.isRequired,
 };
 
