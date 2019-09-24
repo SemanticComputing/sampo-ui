@@ -21,6 +21,7 @@ import All from '../components/perspectives/All';
 import InstanceHomePage from '../components/main_layout/InstanceHomePage';
 //import FeedbackPage from '../components/main_layout/FeedbackPage';
 import { perspectiveArr } from '../components/perspectives/PerspectiveArrayMMM';
+import { perspectiveArrOnlyInfoPages } from '../components/perspectives/PerspectiveArrayOnlyInfoPagesMMM';
 import InfoHeader from '../components/main_layout/InfoHeader';
 import { has } from 'lodash';
 //import { urlToState } from '../helpers/helpers';
@@ -105,7 +106,7 @@ const styles = theme => ({
     backgroundColor: '#bdbdbd',
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 296, 
+      marginTop: 296,
       height: 'calc(100% - 296px)',
     },
     [theme.breakpoints.up('sm')]: {
@@ -364,90 +365,44 @@ let SemanticPortal = props => {
             }
           })}
           { /* create routes for classes that have only info pages and no perspective */}
-          <Route
-            path={`/collections/page/:id`}
-            render={routeProps => {
-              return (
-                <React.Fragment>
-                  <InfoHeader
-                    resultClass='collections'
-                    pageType='instancePage'
-                    instanceData={props['collections'].instance}
-                    expanded={props['collections'].instancePageHeaderExpanded}
-                    updateExpanded={props.updatePerspectiveHeaderExpanded}
-                    title='Collection'
-                    description='[ landing page description ]'
-                    descriptionHeight={99}
-                  />
-                  <Grid container spacing={1} className={props['collections'].instancePageHeaderExpanded
-                    ? classes.instancePageContainerHeaderExpanded
-                    : classes.instancePageContainer
-                  }>
-                    <Grid item xs={12} className={classes.instancePageContent}>
-                      <InstanceHomePage
-                        fetchByURI={props.fetchByURI}
-                        resultClass='collections'
-                        tableRows={props['collections'].tableColumns}
-                        tabs={[
-                          {
-                            id: 'table',
-                            label: 'table',
-                            value: 0,
-                            icon: 'CalendarViewDay',
-                          }
-                        ]}
-                        data={props['collections'].instance}
-                        isLoading={props['collections'].fetching}
-                        routeProps={routeProps}
-                      />
+          {perspectiveArrOnlyInfoPages.map(perspective =>
+            <Route
+              key={perspective.id}
+              path={`/${perspective.id}/page/:id`}
+              render={routeProps => {
+                return (
+                  <React.Fragment>
+                    <InfoHeader
+                      resultClass={perspective.id}
+                      pageType='instancePage'
+                      instanceData={props[perspective.id].instance}
+                      expanded={props[perspective.id].instancePageHeaderExpanded}
+                      updateExpanded={props.updatePerspectiveHeaderExpanded}
+                      title={perspective.instancePageLabel}
+                      description={perspective.instancePageDesc}
+                      descriptionHeight={99}
+                    />
+                    <Grid container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
+                      ? classes.instancePageContainerHeaderExpanded
+                      : classes.instancePageContainer
+                    }>
+                      <Grid item xs={12} className={classes.instancePageContent}>
+                        <InstanceHomePage
+                          fetchByURI={props.fetchByURI}
+                          resultClass={perspective.id}
+                          tableRows={props[perspective.id].tableColumns}
+                          tabs={perspective.instancePageTabs}
+                          data={props[perspective.id].instance}
+                          isLoading={props[perspective.id].fetching}
+                          routeProps={routeProps}
+                        />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </React.Fragment>
-              );
-            }}
-          />
-          <Route
-            path={`/expressions/page/:id`}
-            render={routeProps => {
-              return (
-                <React.Fragment>
-                  <InfoHeader
-                    resultClass='expressions'
-                    pageType='instancePage'
-                    instanceData={props['expressions'].instance}
-                    expanded={props['expressions'].instancePageHeaderExpanded}
-                    updateExpanded={props.updatePerspectiveHeaderExpanded}
-                    title='Expression'
-                    description='[ landing page description ]'
-                    descriptionHeight={99}
-                  />
-                  <Grid container spacing={1} className={props['expressions'].instancePageHeaderExpanded
-                    ? classes.instancePageContainerHeaderExpanded
-                    : classes.instancePageContainer
-                  }>
-                    <Grid item xs={12} className={classes.instancePageContent}>
-                      <InstanceHomePage
-                        fetchByURI={props.fetchByURI}
-                        resultClass='expressions'
-                        tableRows={props['expressions'].tableColumns}
-                        tabs={[
-                          {
-                            id: 'table',
-                            label: 'table',
-                            value: 0,
-                            icon: 'CalendarViewDay',
-                          }
-                        ]}
-                        data={props['expressions'].instance}
-                        isLoading={props['expressions'].fetching}
-                        routeProps={routeProps}
-                      />
-                    </Grid>
-                  </Grid>
-                </React.Fragment>
-              );
-            }}
-          />
+                  </React.Fragment>
+                );
+              }}
+            />
+          )}
           { /* create routes for info buttons */ }
           <Route
             path={`/feedback`}
