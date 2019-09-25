@@ -284,8 +284,6 @@ export const facetConfigs = {
     prefLabel: {
       id: 'prefLabel',
       labelPath: 'skos:prefLabel',
-      textQueryProperty: 'skos:prefLabel',
-      type: 'text',
     },
     type: {
       predicate: 'a',
@@ -294,6 +292,13 @@ export const facetConfigs = {
       labelPath: 'a/(skos:prefLabel|rdfs:label)',
     },
     manuscript: {
+      textQueryPredicate: `
+        (crm:P30_transferred_custody_of
+         |crm:P108_has_produced
+         |mmm-schema:observed_manuscript)`
+      ,
+      textQueryProperty: 'skos:prefLabel', // limit only to prefLabels
+      type: 'text',
       labelPath: `(crm:P30_transferred_custody_of
                   |crm:P108_has_produced
                   |mmm-schema:observed_manuscript
