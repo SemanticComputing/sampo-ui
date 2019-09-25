@@ -37,7 +37,7 @@ export const INITIAL_STATE = {
     },
     manuscript: {
       id: 'manuscript',
-      label: 'Manuscript / Collection',
+      label: 'Manuscript / Collection label',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
