@@ -128,9 +128,9 @@ export const perspectiveArr = [
           To cite this record, use its url.
         </Typography>
         <Typography paragraph={true}>
-          The MMM data model follows the
+          The MMM data model follows the &nbsp;
           <a href='https://www.ifla.org/publications/node/11240' target='_blank' rel='noopener noreferrer'>FRBRoo</a>
-           definition of a work, which refers to
+          &nbsp; definition of a work, which refers to
           “distinct concepts or combinations of concepts identified in artistic and
           intellectual expressions.” Works contain title and author information.
           This definition is not shared by the Bibale or Oxford Libraries’ conception
@@ -290,7 +290,7 @@ export const perspectiveArr = [
           This landing page provides a human-readable summary of the data points that link
           to this Place. The data included in this summary reflects only those data points
           used in the MMM interface. Click the Open in Linked Data Browser button to
-          view the complete set of classes and properties linked to this record. To cite this record, use its url. 
+          view the complete set of classes and properties linked to this record. To cite this record, use its url.
         </Typography>
         <Typography paragraph={true}>
           MMM utilizes the Getty Thesaurus of Geographic Names as its hierarchy for geographic data.
