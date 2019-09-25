@@ -43,8 +43,15 @@ export const placePropertiesInstancePage = `
     {
       ?transferPlace gvp:broaderPreferred* ?id .
       ?transferPlace ^crm:P7_took_place_at/crm:P30_transferred_custody_of ?manuscriptTransferred__id .
+      OPTIONAL {
+        ?manuscriptTransferred__id a frbroo:F4_Manifestation_Singleton .
+        BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscriptTransferred__id), "^.*\\\\/(.+)", "$1")) AS ?manuscriptTransferred__dataProviderUrl)
+      }
+      OPTIONAL {
+        ?manuscriptTransferred__id a crm:E78_Collection  .
+        BIND(CONCAT("/collections/page/", REPLACE(STR(?manuscriptTransferred__id), "^.*\\\\/(.+)", "$1")) AS ?manuscriptTransferred__dataProviderUrl)
+      }
       ?manuscriptTransferred__id skos:prefLabel ?manuscriptTransferred__prefLabel .
-      BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscriptTransferred__id), "^.*\\\\/(.+)", "$1")) AS ?manuscriptTransferred__dataProviderUrl)
       FILTER (?id != <http://ldf.fi/mmm/place/tgn_7029392>) # exclude the top concept
     }
     UNION
