@@ -1,7 +1,10 @@
 export const manuscriptPropertiesInstancePage =
-`?id skos:prefLabel ?prefLabel__id .
-    BIND (?prefLabel__id as ?prefLabel__prefLabel)
-    BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
+`{
+      ?id skos:prefLabel ?prefLabel__id .
+      BIND (?prefLabel__id as ?prefLabel__prefLabel)
+      BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
+    }
+    UNION
     {
       ?id mmm-schema:data_provider_url ?source__id .
       BIND (?source__id AS ?source__prefLabel)
@@ -13,6 +16,7 @@ export const manuscriptPropertiesInstancePage =
       ?author__id skos:prefLabel ?author__prefLabel .
       BIND(CONCAT("/actors/page/", REPLACE(STR(?author__id), "^.*\\\\/(.+)", "$1")) AS ?author__dataProviderUrl)
     }
+    UNION
     {
       ?id mmm-schema:manuscript_work ?work__id .
       ?work__id skos:prefLabel ?work__prefLabel .
@@ -59,22 +63,12 @@ export const manuscriptPropertiesInstancePage =
       OPTIONAL { ?event__id crm:P4_has_time-span/skos:prefLabel ?event__date }
       OPTIONAL {
         ?event__id crm:P7_took_place_at ?event__place__id .
-        ?event__place__id skos:prefLabel ?event__place__prefLabel .
+        ?event__place__id skos:prefLabel ?event__place__prefLabel__id .
+        BIND(?event__place__prefLabel__id as ?event__place__prefLabel__prefLabel)
+        BIND(CONCAT("/places/page/", REPLACE(STR(?event__place__id), "^.*\\\\/(.+)", "$1")) AS ?event__place__prefLabel__dataProviderUrl)
         ?event__place__id wgs84:lat ?event__place__lat ;
                            wgs84:long ?event__place__long .
       }
-      #OPTIONAL {
-        #?event__id crm:P4_has_time-span ?prodTimespan .
-        #?productionTimespan skos:prefLabel ?event__date .
-        #OPTIONAL { ?productionTimespan crm:P82a_begin_of_the_begin ?prodTimespanBegin_ }
-        #OPTIONAL { ?productionTimespan crm:P82b_end_of_the_end ?prodTimespanEnd_ }
-        # choose the latest transfer of custody / provenance event
-        # FILTER NOT EXISTS {
-        #   ?event2 crm:P30_transferred_custody_of|mmm-schema:observed_manuscript ?manuscript__id .
-        #   ?event2 crm:P4_has_time-span/crm:P82b_end_of_the_end ?event2_timespan_end .
-        #   filter (?event2_timespan_end > ?event_timespan_end)
-        # }
-      #}
       BIND("Production" AS ?event__prefLabel)
       BIND(CONCAT("/events/page/", REPLACE(STR(?event__id), "^.*\\\\/(.+)", "$1")) AS ?event__dataProviderUrl)
     }
@@ -85,40 +79,33 @@ export const manuscriptPropertiesInstancePage =
       OPTIONAL { ?event__id crm:P4_has_time-span/skos:prefLabel ?event__date }
       OPTIONAL {
         ?event__id crm:P7_took_place_at ?event__place__id .
-        ?event__place__id skos:prefLabel ?event__place__prefLabel .
+        ?event__place__id skos:prefLabel ?event__place__prefLabel__id .
+        BIND(?event__place__prefLabel__id as ?event__place__prefLabel__prefLabel)
+        BIND(CONCAT("/places/page/", REPLACE(STR(?event__place__id), "^.*\\\\/(.+)", "$1")) AS ?event__place__prefLabel__dataProviderUrl)
         ?event__place__id wgs84:lat ?event__place__lat ;
                            wgs84:long ?event__place__long .
       }
       BIND("Transfer of Custody" AS ?event__prefLabel)
       BIND(CONCAT("/events/page/", REPLACE(STR(?event__id), "^.*\\\\/(.+)", "$1")) AS ?event__dataProviderUrl)
     }
-    # UNION
-    # {
-    #   ?event__id mmm-schema:observed_manuscript ?id .
-    #   ?event__id a mmm-schema:On_Sale . # not yet in MMM data
-    #   ?event__id a ?event__type .
-    #   OPTIONAL { ?event__id crm:P4_has_time-span/skos:prefLabel ?event__date }
-    #   BIND("On Sale" AS ?event__prefLabel)
-    #   BIND(CONCAT("/events/page/", REPLACE(STR(?event__id), "^.*\\\\/(.+)", "$1")) AS ?event__dataProviderUrl)
-    # }
     UNION
     {
       ?event__id mmm-schema:observed_manuscript ?id .
       ?event__id a crm:E7_Activity .
       ?event__id a ?event__type .
-      OPTIONAL { ?event__id crm:P7_took_place_at ?eventPlace_ }
       OPTIONAL { ?event__id crm:P4_has_time-span/skos:prefLabel ?event__date }
+      OPTIONAL {
+        ?event__id crm:P7_took_place_at ?event__place__id .
+        ?event__place__id skos:prefLabel ?event__place__prefLabel__id .
+        BIND(?event__place__prefLabel__id as ?event__place__prefLabel__prefLabel)
+        BIND(CONCAT("/places/page/", REPLACE(STR(?event__place__id), "^.*\\\\/(.+)", "$1")) AS ?event__place__prefLabel__dataProviderUrl)
+        ?event__place__id wgs84:lat ?event__place__lat ;
+                           wgs84:long ?event__place__long .
+      }
       OPTIONAL {
         ?event__id mmm-schema:ownership_attributed_to ?event__owner__id .
         ?event__owner__id skos:prefLabel ?event__owner__prefLabel .
-        ?event__owner__id skos:prefLabel ?event__owner__prefLabel .
-        OPTIONAL { ?event__owner__id ^crm:P11_had_participant/crm:P7_took_place_at ?eventActorPlace_ }
       }
-      # try event place, then actor activity place
-      BIND(COALESCE(?eventPlace_, ?eventActorPlace_) as ?event__place__id)
-      ?event__place__id skos:prefLabel ?event__place__prefLabel .
-      ?event__place__id wgs84:lat ?event__place__lat ;
-                         wgs84:long ?event__place__long .
       BIND("Provenance" AS ?event__prefLabel)
       BIND(CONCAT("/events/page/", REPLACE(STR(?event__id), "^.*\\\\/(.+)", "$1")) AS ?event__dataProviderUrl)
     }
