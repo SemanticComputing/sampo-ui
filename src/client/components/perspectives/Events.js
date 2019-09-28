@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import PerspectiveTabs from '../main_layout/PerspectiveTabs';
 import ResultTable from '../facet_results/ResultTable';
+import Export from '../facet_results/Export';
 
 let Events = props => {
   return (
@@ -30,6 +31,14 @@ let Events = props => {
             routeProps={routeProps}
           />
         }
+      />
+      <Route
+        path={'/events/faceted-search/export'}
+        render={() =>
+          <Export
+            sparqlQuery={props.events.paginatedResultsSparqlQuery}
+            pageType='facetResults'
+          />}
       />
     </React.Fragment>
   );

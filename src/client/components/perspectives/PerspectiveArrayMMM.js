@@ -102,6 +102,12 @@ export const perspectiveArr = [
         value: 1,
         icon: 'AddLocation',
       },
+      {
+        id: 'export',
+        label: 'export',
+        value: 2,
+        icon: 'Download',
+      },
     ]
   },
   {
@@ -153,6 +159,12 @@ export const perspectiveArr = [
         label: 'table',
         value: 0,
         icon: 'CalendarViewDay',
+      },
+      {
+        id: 'export',
+        label: 'export',
+        value: 1,
+        icon: 'Download',
       }
     ],
     instancePageTabs: [
@@ -161,7 +173,13 @@ export const perspectiveArr = [
         label: 'table',
         value: 0,
         icon: 'CalendarViewDay',
-      }
+      },
+      {
+        id: 'export',
+        label: 'export',
+        value: 1,
+        icon: 'Download',
+      },
     ]
   },
   {
@@ -197,6 +215,12 @@ export const perspectiveArr = [
         label: 'table',
         value: 0,
         icon: 'CalendarViewDay',
+      },
+      {
+        id: 'export',
+        label: 'export',
+        value: 1,
+        icon: 'Download',
       }
     ],
     instancePageTabs: [
@@ -205,7 +229,13 @@ export const perspectiveArr = [
         label: 'table',
         value: 0,
         icon: 'CalendarViewDay',
-      }
+      },
+      {
+        id: 'export',
+        label: 'export',
+        value: 1,
+        icon: 'Download',
+      },
     ]
   },
   {
@@ -257,6 +287,12 @@ export const perspectiveArr = [
         value: 1,
         icon: 'AddLocation',
       },
+      {
+        id: 'export',
+        label: 'export',
+        value: 2,
+        icon: 'Download',
+      }
     ],
     instancePageTabs: [
       {
@@ -264,7 +300,13 @@ export const perspectiveArr = [
         label: 'table',
         value: 0,
         icon: 'CalendarViewDay',
-      }
+      },
+      {
+        id: 'export',
+        label: 'export',
+        value: 1,
+        icon: 'Download',
+      },
     ]
   },
   {
@@ -313,6 +355,12 @@ export const perspectiveArr = [
         value: 1,
         icon: 'AddLocation',
       },
+      {
+        id: 'export',
+        label: 'export',
+        value: 2,
+        icon: 'Download',
+      }
     ],
     instancePageTabs: [
       {
@@ -320,7 +368,13 @@ export const perspectiveArr = [
         label: 'table',
         value: 0,
         icon: 'CalendarViewDay',
-      }
+      },
+      {
+        id: 'export',
+        label: 'export',
+        value: 1,
+        icon: 'Download',
+      },
     ]
   },
 ];

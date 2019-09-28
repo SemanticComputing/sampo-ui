@@ -31,16 +31,18 @@ import {
 
 export const INITIAL_STATE = {
   results: [],
+  resultsSparqlQuery: null,
   paginatedResults: [],
-  resultCount: 0,
+  paginatedResultsSparqlQuery: null,
   instance: null,
+  instanceSparqlQuery: null,
+  resultCount: 0,
   page: -1,
   pagesize: 10,
   sortBy: null,
   sortDirection: null,
   fetching: false,
   fetchingResultCount: false,
-  sparqlQuery: null,
   facetedSearchHeaderExpanded: true,
   instancePageHeaderExpanded: true,
   tableColumns: [

@@ -351,6 +351,7 @@ let SemanticPortal = props => {
                                 tableRows={props[perspective.id].tableColumns}
                                 tabs={perspective.instancePageTabs}
                                 data={props[perspective.id].instance}
+                                sparqlQuery={props[perspective.id].instanceSparqlQuery}
                                 isLoading={props[perspective.id].fetching}
                                 routeProps={routeProps}
                               />
@@ -393,6 +394,7 @@ let SemanticPortal = props => {
                           tableRows={props[perspective.id].tableColumns}
                           tabs={perspective.instancePageTabs}
                           data={props[perspective.id].instance}
+                          sparqlQuery={props[perspective.id].instanceSparqlQuery}
                           isLoading={props[perspective.id].fetching}
                           routeProps={routeProps}
                         />

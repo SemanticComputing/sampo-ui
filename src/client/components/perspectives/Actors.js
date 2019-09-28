@@ -4,6 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import PerspectiveTabs from '../main_layout/PerspectiveTabs';
 import ResultTable from '../facet_results/ResultTable';
 import LeafletMap from '../facet_results/LeafletMap';
+import Export from '../facet_results/Export';
 
 let Actors = props => {
   return (
@@ -48,6 +49,14 @@ let Actors = props => {
             fetching={props.places.fetching}
             showInstanceCountInClusters={true}
             updateFacetOption={props.updateFacetOption}
+          />}
+      />
+      <Route
+        path={'/actors/faceted-search/export'}
+        render={() =>
+          <Export
+            sparqlQuery={props.actors.paginatedResultsSparqlQuery}
+            pageType='facetResults'
           />}
       />
     </React.Fragment>

@@ -8,10 +8,11 @@ import purple from '@material-ui/core/colors/purple';
 import PerspectiveTabs from './PerspectiveTabs';
 import InstanceHomePageTable from './InstanceHomePageTable';
 import LeafletMap from '../facet_results/LeafletMap';
+import Export from '../facet_results/Export';
 import { Route, Redirect } from 'react-router-dom';
 import { has } from 'lodash';
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     width: '100%',
     height: '100%',
@@ -20,34 +21,13 @@ const styles = theme => ({
     width: '100%',
     height: 'calc(100% - 72px)',
     overflow: 'auto'
-    //padding: theme.spacing(1),
-    //width: 800,
-    //overflowY: 'auto'
   },
-  instanceTableContainer: {
-    //display: 'flex',
-    //justifyContent: 'center'
-  },
-  instanceTable: {
-    //maxWidth: 800,
-    //width: '100%',
-    height: '100%',
-    borderTop: '1px solid rgba(224, 224, 224, 1);',
-  },
-  divider: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1)
-  },
-
   spinnerContainer: {
     display: 'flex',
     width: '100%',
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  labelCell: {
-    width: 240,
   }
 });
 
@@ -179,6 +159,15 @@ class InstanceHomePage extends React.Component {
                     showInstanceCountInClusters={true}
                   />}
               />
+              <Route
+                path={`/${resultClass}/page/${this.state.localID}/data`}
+                render={() =>
+                  <Export
+                    sparqlQuery={this.props.sparqlQuery}
+                    pageType='instancePage'
+                    id={data.id}
+                  />}
+              />
             </React.Fragment>
           }
         </Paper>
@@ -192,6 +181,7 @@ InstanceHomePage.propTypes = {
   fetchByURI: PropTypes.func.isRequired,
   resultClass: PropTypes.string.isRequired,
   data: PropTypes.object,
+  sparqlQuery: PropTypes.string,
   tableRows: PropTypes.array.isRequired,
   tabs: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,

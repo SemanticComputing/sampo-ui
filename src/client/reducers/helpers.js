@@ -27,7 +27,7 @@ export const updateInstance = (state, action) => {
   return {
     ...state,
     instance: action.data.length == 1 ? action.data[0] : {},
-    sparqlQuery: action.sparqlQuery,
+    instanceSparqlQuery: action.sparqlQuery,
     fetching: false
   };
 };
@@ -177,6 +177,7 @@ export const updateResults = (state, action) => {
   return {
     ...state,
     results: action.data,
+    resultsSparqlQuery: action.sparqlQuery,
     fetching: false,
   };
 };
@@ -185,7 +186,7 @@ export const updatePaginatedResults = (state, action) => {
   return {
     ...state,
     paginatedResults: action.data || [],
-    sparqlQuery: action.sparqlQuery,
+    paginatedResultsSparqlQuery: action.sparqlQuery,
     fetching: false
   };
 };

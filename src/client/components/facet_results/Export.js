@@ -45,9 +45,21 @@ class Export extends React.Component {
           rel='noopener noreferrer'
         >
           <Button variant="contained" color="primary"  className={classes.button}>
-            Open result table SPARQL query in yasgui.org
+            Open SPARQL query in yasgui.org
           </Button>
         </a>
+        {this.props.pageType === 'instancePage' &&
+          <a
+            className={classes.link}
+            href={this.props.id}
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <Button variant="contained" color="primary"  className={classes.button}>
+              Open in Linked Data Browser
+            </Button>
+          </a>
+        }
       </div>
     );
   }
@@ -56,7 +68,9 @@ class Export extends React.Component {
 
 Export.propTypes = {
   classes: PropTypes.object.isRequired,
-  sparqlQuery: PropTypes.string
+  pageType: PropTypes.string.isRequired,
+  sparqlQuery: PropTypes.string,
+  id: PropTypes.string
 };
 
 export default withStyles(styles)(Export);

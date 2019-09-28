@@ -85,7 +85,8 @@ let Manuscripts = props => {
         path={'/manuscripts/faceted-search/export'}
         render={() =>
           <Export
-            sparqlQuery={props.manuscripts.sparqlQuery}
+            sparqlQuery={props.manuscripts.paginatedResultsSparqlQuery}
+            pageType='facetResults'
           />}
       />
       <Route

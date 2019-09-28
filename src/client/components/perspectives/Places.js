@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import PerspectiveTabs from '../main_layout/PerspectiveTabs';
 import ResultTable from '../facet_results/ResultTable';
-// import Tree from './Tree';
 import LeafletMap from '../facet_results/LeafletMap';
-// import Deck from './Deck';
+import Export from '../facet_results/Export';
 
 let Places = props => {
-  //console.log(props.search.places)
   return (
     <React.Fragment>
       <PerspectiveTabs
@@ -50,6 +48,14 @@ let Places = props => {
             fetching={props.places.fetching}
             mapMode='cluster'
             showInstanceCountInClusters={false}
+          />}
+      />
+      <Route
+        path={'/places/faceted-search/export'}
+        render={() =>
+          <Export
+            sparqlQuery={props.places.paginatedResultsSparqlQuery}
+            pageType='facetResults'
           />}
       />
     </React.Fragment>

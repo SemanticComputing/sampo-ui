@@ -45,42 +45,40 @@ const InstanceHomePageTable = props => {
     <Table className={classes.instanceTable}>
       <TableBody>
         {tableRows.map(row => {
-          if (row.id !== 'prefLabel') {
-            return (
-              <TableRow key={row.id}>
-                <TableCell className={classes.labelCell}>
-                  {row.label}
-                  <Tooltip
-                    title={row.desc}
-                    enterDelay={300}
-                  >
-                    <IconButton>
-                      <InfoIcon />
-                    </IconButton>
-                  </Tooltip>
-                </TableCell>
-                <ResultTableCell
-                  columnId={row.id}
-                  data={data[row.id]}
-                  valueType={row.valueType}
-                  makeLink={row.makeLink}
-                  externalLink={row.externalLink}
-                  sortValues={row.sortValues}
-                  numberedList={row.numberedList}
-                  container='cell'
-                  expanded={true}
-                  linkAsButton={has(row, 'linkAsButton')
-                    ? row.linkAsButton
-                    : null
-                  }
-                  collapsedMaxWords={has(row, 'collapsedMaxWords')
-                    ? row.collapsedMaxWords
-                    : null
-                  }
-                />
-              </TableRow>
-            );
-          }
+          return (
+            <TableRow key={row.id}>
+              <TableCell className={classes.labelCell}>
+                {row.label}
+                <Tooltip
+                  title={row.desc}
+                  enterDelay={300}
+                >
+                  <IconButton>
+                    <InfoIcon />
+                  </IconButton>
+                </Tooltip>
+              </TableCell>
+              <ResultTableCell
+                columnId={row.id}
+                data={data[row.id]}
+                valueType={row.valueType}
+                makeLink={row.makeLink}
+                externalLink={row.externalLink}
+                sortValues={row.sortValues}
+                numberedList={row.numberedList}
+                container='cell'
+                expanded={true}
+                linkAsButton={has(row, 'linkAsButton')
+                  ? row.linkAsButton
+                  : null
+                }
+                collapsedMaxWords={has(row, 'collapsedMaxWords')
+                  ? row.collapsedMaxWords
+                  : null
+                }
+              />
+            </TableRow>
+          );
         }
         )}
       </TableBody>
