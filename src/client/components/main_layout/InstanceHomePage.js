@@ -160,7 +160,7 @@ class InstanceHomePage extends React.Component {
                   />}
               />
               <Route
-                path={`/${resultClass}/page/${this.state.localID}/data`}
+                path={`/${resultClass}/page/${this.state.localID}/export`}
                 render={() =>
                   <Export
                     sparqlQuery={this.props.sparqlQuery}
