@@ -104,32 +104,34 @@ class InstanceHomePage extends React.Component {
 
   createPlaceArray = events => {
     let places = {};
-    if (!Array.isArray(events)) {
-      events = [ events ];
-    }
+    events = Array.isArray(events) ? events : [ events ];
     events.map(event => {
       if (has(event, 'place')) {
-        if (!has(places, event.place.id)) {
-          places[event.place.id] = {
-            id: event.place.id,
-            prefLabel: event.place.prefLabel,
-            lat: event.place.lat,
-            long: event.place.long,
-            events: [ event ]
-          };
-        } else {
-          places[event.place.id].events.push(event);
-        }
+        const eventPlaces = Array.isArray(event.place) ? event.place : [ event.place ];
+        eventPlaces.map(place => {
+          if (!has(places, place.id)) {
+            places[place.id] = {
+              id: place.id,
+              prefLabel: place.prefLabel,
+              lat: place.lat,
+              long: place.long,
+              events: [ event ] // gather events here
+            };
+          } else {
+            places[place.id].events.push(event);
+          }
+        });
       }
     });
-    return Object.values(places);
+    places = Object.values(places);
+    places.map(place => place.instanceCount = place.events.length);
+    return places;
   }
-
-
 
   render = () => {
     const { classes, data, isLoading, resultClass } = this.props;
     const hasData = data !== null && Object.values(data).length >= 1;
+    //console.log(data)
     return(
       <div className={classes.root}>
         <PerspectiveTabs
@@ -168,8 +170,9 @@ class InstanceHomePage extends React.Component {
                 render={() =>
                   <LeafletMap
                     results={this.createPlaceArray(data.event)}
+                    resultClass='instanceEvents'
                     pageType='instancePage'
-                    mapMode='noCluster'
+                    mapMode='cluster'
                     instance={null}
                     fetchByURI={this.props.fetchByURI}
                     fetching={this.props.isLoading}

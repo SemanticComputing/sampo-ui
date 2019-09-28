@@ -334,7 +334,9 @@ class LeafletMap extends React.Component {
         marker = L.marker(latLng, {
           icon: icon,
           instanceCount: result.instanceCount ? result.instanceCount : null,
-          id: result.id
+          id: result.id,
+          prefLabel: result.prefLabel ? result.prefLabel : null,
+          events: result.events ? result.events : null
         });
       } else {
         const color = 'green';
@@ -355,17 +357,22 @@ class LeafletMap extends React.Component {
         }
         marker = L.marker(latLng, {
           icon: new ColorIcon({iconUrl: markerIcon }),
-          id: result.id
+          id: result.id,
+          prefLabel: result.prefLabel ? result.prefLabel : null,
+          events: result.events ? result.events : null
         });
       }
       if (this.props.pageType === 'facetResults') {
-        marker.on('click', this.markerOnClick);
+        marker.on('click', this.markerOnClickFacetResults);
+      }
+      if (this.props.pageType === 'instancePage') {
+        marker.bindPopup(this.createPopUpContent(marker.options));
       }
       return marker;
     }
   }
 
-  markerOnClick = event => {
+  markerOnClickFacetResults = event => {
     this.props.fetchByURI({
       resultClass: this.props.resultClass,
       facetClass: this.props.facetClass,
@@ -393,6 +400,10 @@ class LeafletMap extends React.Component {
     if (this.props.resultClass === 'placesActors') {
       popUpTemplate += `<p>Actors:</p>`;
       popUpTemplate += this.createInstanceListing(result.related);
+    }
+    if (this.props.resultClass === 'instanceEvents') {
+      popUpTemplate += `<p>Events:</p>`;
+      popUpTemplate += this.createInstanceListing(result.events);
     }
     return popUpTemplate;
   }
