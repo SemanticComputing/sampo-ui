@@ -73,7 +73,8 @@ export const updateFacetOption = (state, action) => {
     'spatialFilter',
     'textFilter',
     'timespanFilter',
-    'integerFilter'
+    'integerFilter',
+    'integerFilterRange'
   ];
   if (filterTypes.includes(action.option)) {
     return updateFacetFilter(state, action);
@@ -137,7 +138,8 @@ const updateFacetFilter = (state, action) => {
         }
       };
     }
-  } else if (oldFacet.filterType === 'integerFilter') {
+  } else if (oldFacet.filterType === 'integerFilter'
+          || oldFacet.filterType === 'integerFilterRange') {
     if (value == null) {
       newFacet = {
         ...state.facets[facetID],

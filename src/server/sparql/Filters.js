@@ -88,6 +88,7 @@ export const generateConstraintsBlock = ({
         });
         break;
       case 'integerFilter':
+      case 'integerFilterRange':
         filterStr += generateIntegerFilter({
           facetClass: facetClass,
           facetID: c.id,

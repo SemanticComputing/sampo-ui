@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import HierarchicalFacet from './HierarchicalFacet';
 import TextFacet from './TextFacet';
 import SliderFacet from './SliderFacet';
+import RangeFacet from './RangeFacet';
 import Paper from '@material-ui/core/Paper';
 import FacetHeader from './FacetHeader';
 import FacetInfo from './FacetInfo';
@@ -43,6 +44,9 @@ const styles = theme => ({
   },
   five: {
     height: 150,
+  },
+  six: {
+    height: 180,
   },
   ten: {
     height: 357,
@@ -125,6 +129,21 @@ class FacetBar extends React.Component {
       case 'integerFilter':
         facetComponent = (
           <SliderFacet
+            facetID={facetID}
+            facet={facet}
+            facetClass={this.props.facetClass}
+            resultClass={this.props.resultClass}
+            facetUpdateID={facetUpdateID}
+            fetchFacet={this.props.fetchFacet}
+            someFacetIsFetching={someFacetIsFetching}
+            updateFacetOption={this.props.updateFacetOption}
+            dataType='integer'
+          />
+        );
+        break;
+      case 'integerFilterRange':
+        facetComponent = (
+          <RangeFacet
             facetID={facetID}
             facet={facet}
             facetClass={this.props.facetClass}
