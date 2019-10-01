@@ -98,6 +98,45 @@ export const INITIAL_STATE = {
       minWidth: 250
     },
     {
+      id: 'surrender',
+      label: 'Custody surrendered by',
+      desc: 'Custody surrendered by',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+      onlyOnInstancePage: true,
+      onlyForClass: 'http://erlangen-crm.org/current/E10_Transfer_of_Custody'
+    },
+    {
+      id: 'receiver',
+      label: 'Custody received by',
+      desc: 'Custody received by',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+      onlyOnInstancePage: true,
+      onlyForClass: 'http://erlangen-crm.org/current/E10_Transfer_of_Custody'
+    },
+    {
+      id: 'observedOwner',
+      label: 'Observed owner',
+      desc: 'Observed owner',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+      onlyOnInstancePage: true,
+      onlyForClass: 'http://erlangen-crm.org/current/E7_Activity'
+    },
+    {
       id: 'source',
       label: 'Source',
       desc: `

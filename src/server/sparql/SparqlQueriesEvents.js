@@ -47,6 +47,11 @@ export const eventProperties = `
       ?id mmm-schema:observed_manuscript ?manuscript__id .
       ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
       OPTIONAL {
+        ?id mmm-schema:ownership_attributed_to ?observedOwner__id .
+        ?observedOwner__id skos:prefLabel ?observedOwner__prefLabel .
+        BIND(CONCAT("/actors/page/", REPLACE(STR(?observedOwner__id), "^.*\\\\/(.+)", "$1")) AS ?observedOwner__dataProviderUrl) 
+      }
+      OPTIONAL {
         ?manuscript__id a frbroo:F4_Manifestation_Singleton .
         BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
       }

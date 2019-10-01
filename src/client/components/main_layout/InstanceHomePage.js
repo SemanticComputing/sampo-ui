@@ -108,10 +108,22 @@ class InstanceHomePage extends React.Component {
     return places;
   }
 
+  getVisibleRows = rows => {
+    let visibleRows = [];
+    const instanceClass = this.props.data.type ? this.props.data.type.id : '';
+    rows.map(row => {
+      if ((has(row, 'onlyForClass') && row.onlyForClass == instanceClass)
+       || !has(row, 'onlyForClass')) {
+        visibleRows.push(row);
+      }
+    });
+    return visibleRows;
+  }
+
   render = () => {
     const { classes, data, isLoading, resultClass } = this.props;
     const hasData = data !== null && Object.values(data).length >= 1;
-    //console.log(data)
+    // console.log(data)
     return(
       <div className={classes.root}>
         <PerspectiveTabs
@@ -142,7 +154,7 @@ class InstanceHomePage extends React.Component {
                 render={() =>
                   <InstanceHomePageTable
                     data={data}
-                    tableRows={this.props.tableRows}
+                    tableRows={this.getVisibleRows(this.props.tableRows)}
                   />}
               />
               <Route
