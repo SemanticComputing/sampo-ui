@@ -5,7 +5,7 @@ import purple from '@material-ui/core/colors/purple';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { YearToISOString, ISOStringToYear } from './FacetHelpers';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 const styles = theme => ({
   root: {
@@ -13,7 +13,8 @@ const styles = theme => ({
     display: 'flex',
   },
   textFields: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
+    maxWidth: 150
   },
   textField: {
     display: 'block'
@@ -36,20 +37,25 @@ const styles = theme => ({
 class RangeFacet extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      min: '',
-      max: ''
-    };
+    let min = '';
+    let max = '';
+    const { integerFilter } = props.facet;
+    if (integerFilter !== null) {
+      min = integerFilter.start;
+      max = integerFilter.end;
+    }
+    this.state = { min, max };
   }
 
   componentDidMount = () => {
-    const { isFetching, min, max } = this.props.facet;
-    if (!isFetching && (min == null || max == null)) {
-      this.props.fetchFacet({
-        facetClass: this.props.facetClass,
-        facetID: this.props.facetID,
-      });
+    const { integerFilter } = this.props.facet;
+    let min = '';
+    let max = '';
+    if (integerFilter !== null) {
+      min = integerFilter.start;
+      max = integerFilter.end;
     }
+    this.setState({ min, max });
   }
 
   handleMinChange = event => {
@@ -63,10 +69,6 @@ class RangeFacet extends Component {
   handleApplyOnClick = event => {
     let { min, max } = this.state;
     let values = [ min, max ];
-    if (this.props.dataType === 'ISOString') {
-      values[0] = YearToISOString({ year: values[0], start: true });
-      values[1] = YearToISOString({ year: values[1], start: false });
-    }
     this.props.updateFacetOption({
       facetClass: this.props.facetClass,
       facetID: this.props.facetID,
@@ -76,38 +78,27 @@ class RangeFacet extends Component {
     event.preventDefault();
   }
 
+  disableApply = () => {
+    let disabled = false;
+    if (this.props.someFacetIsFetching) {
+      disabled = true;
+    }
+    if (this.state.min === '' && this.state.max === '') {
+      disabled = true;
+    }
+    return disabled;
+  }
+
   render() {
     const { classes, someFacetIsFetching } = this.props;
-    const { isFetching, min, max } = this.props.facet;
-    let domain = null;
-    let values = null;
-    if (isFetching || min == null || max == null) {
+    const { isFetching, unit } = this.props.facet;
+    if (isFetching) {
       return(
         <div className={classes.spinnerContainer}>
           <CircularProgress style={{ color: purple[500] }} thickness={5} />
         </div>
       );
     } else {
-      if (this.props.dataType === 'ISOString') {
-        const minYear = this.ISOStringToYear(min);
-        const maxYear = this.ISOStringToYear(max);
-        domain = [ minYear, maxYear ];
-        if (this.props.facet.timespanFilter == null) {
-          values = domain;
-        } else {
-          const { start, end } = this.props.facet.timespanFilter;
-          values = [ this.ISOStringToYear(start), this.ISOStringToYear(end) ];
-        }
-      } else if (this.props.dataType === 'integer') {
-        domain = [ parseInt(min), parseInt(max) ];
-        if (this.props.facet.integerFilter == null) {
-          values = domain;
-        } else {
-          const { start, end } = this.props.facet.integerFilter;
-          values = [ start, end ];
-        }
-      }
-
       return (
         <div className={classes.root}>
           <div className={classes.textFields}>
@@ -120,6 +111,9 @@ class RangeFacet extends Component {
               type="number"
               variant="outlined"
               className={classes.textField}
+              InputProps={{
+                endAdornment: <InputAdornment position="end">{unit}</InputAdornment>
+              }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -134,6 +128,9 @@ class RangeFacet extends Component {
               type="number"
               variant="outlined"
               className={classes.textField}
+              InputProps={{
+                endAdornment: <InputAdornment position="end">{unit}</InputAdornment>
+              }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -146,7 +143,7 @@ class RangeFacet extends Component {
               color="primary"
               className={classes.button}
               onClick={this.handleApplyOnClick}
-              disabled={this.state.min === '' && this.state.max === ''}
+              disabled={this.disableApply()}
             >
               apply
             </Button>
@@ -170,7 +167,6 @@ RangeFacet.propTypes = {
   facetUpdateID: PropTypes.number,
   updatedFilter: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   updatedFacet: PropTypes.string,
-  dataType: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(RangeFacet);

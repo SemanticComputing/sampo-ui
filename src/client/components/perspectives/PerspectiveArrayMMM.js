@@ -62,7 +62,7 @@ export const perspectiveArr = [
       </React.Fragment>
     ,
     perspectiveDescHeight: 99,
-    defaultActiveFacets: new Set(['prefLabel', 'height']),
+    defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {
         id: 'table',
