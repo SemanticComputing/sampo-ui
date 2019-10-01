@@ -26,40 +26,51 @@ const styles = () => ({
 const ObjectList = props => {
 
   const createBasicItem = ({ data, collapsed, firstValue }) => {
-    const showDate = props.columnId === 'event';
-    if (!props.makeLink) {
-      return (
-        <span>
-          {showDate &&
-            <span className={firstValue ? null : props.classes.dateContainer}>
-              {data.date == null ? 'No date ' : `${data.date} `}
-            </span>
-          }
-          {Array.isArray(data.prefLabel) ?
-            data.prefLabel[0]
-            : data.prefLabel}
-          {collapsed && ' ...'}
-        </span>
-      );
-    } else {
-      return (
-        <React.Fragment>
-          <React.Fragment>
-            {showDate &&
-              <span className={firstValue ? null : props.classes.dateContainer}>
-                {data.date == null ? 'No date ' : `${data.date} `}
-              </span>
-            }
-          </React.Fragment>
-          {createLink({
-            id: data.id,
-            dataProviderUrl: data.dataProviderUrl,
-            prefLabel: data.prefLabel,
-            collapsed
-          })}
-        </React.Fragment>
-      );
+    let date = '';
+    let observedOwner = '';
+    if (props.columnId === 'event') {
+      date =
+        <span className={firstValue ? null : props.classes.dateContainer}>
+          {data.date == null ? 'No date ' : `${data.date} `}
+        </span>;
+      if (data.observedOwner) {  // currently no separate class for provenance events
+        observedOwner = createLink({
+          id: data.observedOwner.id,
+          dataProviderUrl: data.observedOwner.dataProviderUrl,
+          prefLabel: data.observedOwner.prefLabel,
+          collapsed: false
+        });
+      }
     }
+    return (
+      <span>
+        {date}
+        {!props.makeLink &&
+          <React.Fragment>
+            {Array.isArray(data.prefLabel) ?
+              data.prefLabel[0]
+              : data.prefLabel}
+            {collapsed && ' ...'}
+          </React.Fragment>
+        }
+        {props.makeLink &&
+          <React.Fragment>
+            {createLink({
+              id: data.id,
+              dataProviderUrl: data.dataProviderUrl,
+              prefLabel: data.prefLabel,
+              collapsed
+            })}
+          </React.Fragment>
+        }
+        {data.observedOwner &&
+          <React.Fragment>
+            {': '}
+            {observedOwner}
+          </React.Fragment>
+        }
+      </span>
+    );
   };
 
   const createLink = ({ id, dataProviderUrl, prefLabel, collapsed }) => {

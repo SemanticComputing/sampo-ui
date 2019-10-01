@@ -113,8 +113,9 @@ export const manuscriptPropertiesInstancePage =
                            wgs84:long ?event__place__long .
       }
       OPTIONAL {
-        ?event__id mmm-schema:ownership_attributed_to ?event__owner__id .
-        ?event__owner__id skos:prefLabel ?event__owner__prefLabel .
+        ?event__id mmm-schema:ownership_attributed_to ?event__observedOwner__id .
+        ?event__observedOwner__id skos:prefLabel ?event__observedOwner__prefLabel .
+        BIND(CONCAT("/actors/page/", REPLACE(STR(?event__observedOwner__id), "^.*\\\\/(.+)", "$1")) AS ?event__observedOwner__dataProviderUrl)
       }
       BIND("Provenance" AS ?event__prefLabel)
       BIND(CONCAT("/events/page/", REPLACE(STR(?event__id), "^.*\\\\/(.+)", "$1")) AS ?event__dataProviderUrl)
@@ -263,8 +264,20 @@ export const manuscriptPropertiesFacetResults =
         ?event__id mmm-schema:observed_manuscript ?id .
         ?event__id a crm:E7_Activity .
         ?event__id a ?event__type .
-        OPTIONAL { ?event__id mmm-schema:ownership_attributed_to/skos:prefLabel ?event__owner }
         OPTIONAL { ?event__id crm:P4_has_time-span/skos:prefLabel ?event__date }
+        OPTIONAL {
+          ?event__id crm:P7_took_place_at ?event__place__id .
+          ?event__place__id skos:prefLabel ?event__place__prefLabel__id .
+          BIND(?event__place__prefLabel__id as ?event__place__prefLabel__prefLabel)
+          BIND(CONCAT("/places/page/", REPLACE(STR(?event__place__id), "^.*\\\\/(.+)", "$1")) AS ?event__place__prefLabel__dataProviderUrl)
+          ?event__place__id wgs84:lat ?event__place__lat ;
+                             wgs84:long ?event__place__long .
+        }
+        OPTIONAL {
+          ?event__id mmm-schema:ownership_attributed_to ?event__observedOwner__id .
+          ?event__observedOwner__id skos:prefLabel ?event__observedOwner__prefLabel .
+          BIND(CONCAT("/actors/page/", REPLACE(STR(?event__observedOwner__id), "^.*\\\\/(.+)", "$1")) AS ?event__observedOwner__dataProviderUrl)
+        }
         BIND("Provenance" AS ?event__prefLabel)
         BIND(CONCAT("/events/page/", REPLACE(STR(?event__id), "^.*\\\\/(.+)", "$1")) AS ?event__dataProviderUrl)
       }
