@@ -107,15 +107,11 @@ const ObjectList = props => {
     );
   };
 
-  // old code, sorting owners:
-  // cell.map(item => {
-  //   Array.isArray(item.order) ? item.earliestOrder = item.order[0] : item.earliestOrder = item.order;
-  // });
-  // cell.sort((a, b) => a.earliestOrder - b.earliestOrder);
-
   const { sortValues } = props;
   let { data } = props;
-  //console.log(data)
+  // if (props.columnId === 'event') {
+  //   console.log(data)
+  // }
   if (data == null || data === '-') {
     return '-';
   }
@@ -167,3 +163,9 @@ ObjectList.propTypes = {
 } ;
 
 export default withStyles(styles)(ObjectList);
+
+// old code, sorting owners:
+// cell.map(item => {
+//   Array.isArray(item.order) ? item.earliestOrder = item.order[0] : item.earliestOrder = item.order;
+// });
+// cell.sort((a, b) => a.earliestOrder - b.earliestOrder);

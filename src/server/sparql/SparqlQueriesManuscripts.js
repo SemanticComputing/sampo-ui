@@ -85,6 +85,16 @@ export const manuscriptPropertiesInstancePage =
         ?event__place__id wgs84:lat ?event__place__lat ;
                            wgs84:long ?event__place__long .
       }
+      OPTIONAL {
+        ?event__id crm:P28_custody_surrendered_by ?event__from__id .
+        ?event__from__id skos:prefLabel ?event__from__prefLabel .
+        BIND(CONCAT("/actors/page/", REPLACE(STR(?event__from__id), "^.*\\\\/(.+)", "$1")) AS ?event__from__dataProviderUrl)
+      }
+      OPTIONAL {
+        ?event__id crm:P29_custody_received_by ?event__to__id .
+        ?event__to__id skos:prefLabel ?event__to__prefLabel .
+        BIND(CONCAT("/actors/page/", REPLACE(STR(?event__to__id), "^.*\\\\/(.+)", "$1")) AS ?event__to__dataProviderUrl)
+      }
       BIND("Transfer of Custody" AS ?event__prefLabel)
       BIND(CONCAT("/events/page/", REPLACE(STR(?event__id), "^.*\\\\/(.+)", "$1")) AS ?event__dataProviderUrl)
     }
