@@ -258,15 +258,6 @@ export const manuscriptPropertiesFacetResults =
         BIND("Transfer of Custody" AS ?event__prefLabel)
         BIND(CONCAT("/events/page/", REPLACE(STR(?event__id), "^.*\\\\/(.+)", "$1")) AS ?event__dataProviderUrl)
       }
-      # UNION
-      # {
-      #   ?event__id mmm-schema:observed_manuscript ?id .
-      #   ?event__id a mmm-schema:On_Sale . # not yet in MMM data
-      #   ?event__id a ?event__type .
-      #   OPTIONAL { ?event__id crm:P4_has_time-span/skos:prefLabel ?event__date }
-      #   BIND("On Sale" AS ?event__prefLabel)
-      #   BIND(CONCAT("/events/page/", REPLACE(STR(?event__id), "^.*\\\\/(.+)", "$1")) AS ?event__dataProviderUrl)
-      # }
       UNION
       {
         ?event__id mmm-schema:observed_manuscript ?id .
@@ -282,13 +273,6 @@ export const manuscriptPropertiesFacetResults =
         ?id crm:P51_has_former_or_current_owner ?owner__id .
         ?owner__id skos:prefLabel ?owner__prefLabel .
         BIND(CONCAT("/actors/page/", REPLACE(STR(?owner__id), "^.*\\\\/(.+)", "$1")) AS ?owner__dataProviderUrl)
-        #OPTIONAL {
-        #  [] rdf:subject ?id ;
-        #    rdf:predicate crm:P51_has_former_or_current_owner ;
-        #    rdf:object ?owner__id ;
-        #    mmm-schema:order ?order .
-        #  BIND(xsd:integer(?order) + 1 AS ?owner__order)
-        #}
       }
       UNION
       {
