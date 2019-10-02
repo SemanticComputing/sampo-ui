@@ -380,6 +380,8 @@ class LeafletMap extends React.Component {
     });
   };
 
+  // TODO: add click events instead of a tags:
+  // https://stackoverflow.com/questions/54744762/click-event-on-leaflet-popup-content
   createPopUpContent = result => {
     let popUpTemplate = '';
     if (Array.isArray(result.prefLabel)) {
@@ -405,6 +407,7 @@ class LeafletMap extends React.Component {
       popUpTemplate += `<p>Events:</p>`;
       popUpTemplate += this.createInstanceListing(result.events);
     }
+    // console.log(popUpTemplate)
     return popUpTemplate;
   }
 
@@ -414,11 +417,11 @@ class LeafletMap extends React.Component {
       instances = orderBy(instances, 'prefLabel');
       html += '<ul>';
       instances.forEach(i => {
-        html += '<li><a target="_blank" rel="noopener noreferrer" href=' + i.dataProviderUrl + '>' + i.prefLabel + '</a></li>';
+        html += '<li><a href=' + i.dataProviderUrl + '>' + i.prefLabel + '</a></li>';
       });
       html += '</ul>';
     } else {
-      html += '<p><a target="_blank" rel="noopener noreferrer" href=' + instances.dataProviderUrl + '>' + instances.prefLabel + '</a></p>';
+      html += '<p><a href=' + instances.dataProviderUrl + '>' + instances.prefLabel + '</a></p>';
     }
     return html;
   }
