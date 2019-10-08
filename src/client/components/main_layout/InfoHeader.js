@@ -16,7 +16,6 @@ const styles = theme => ({
     paddingTop: theme.spacing(1),
     paddingLeft: theme.spacing(1.5),
     paddingRight: theme.spacing(1.5),
-    backgroundColor: '#bdbdbd',
     [theme.breakpoints.down('sm')]: {
       marginTop: 56,
     },
