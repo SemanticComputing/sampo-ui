@@ -64,7 +64,6 @@ const styles = theme => ({
   },
   mainContainer: {
     height: 'auto',
-    // backgroundColor: '#bdbdbd',
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       marginTop: 56, // app bar
@@ -77,7 +76,6 @@ const styles = theme => ({
   },
   perspectiveContainerHeaderExpanded: {
     height: 'auto',
-    // backgroundColor: '#bdbdbd',
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       marginTop: 256, // app bar + header
@@ -90,7 +88,6 @@ const styles = theme => ({
   },
   perspectiveContainer: {
     height: 'auto',
-    // backgroundColor: '#bdbdbd',
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       marginTop: 133, // app bar + header
@@ -103,7 +100,6 @@ const styles = theme => ({
   },
   instancePageContainerHeaderExpanded: {
     height: 'auto',
-    // backgroundColor: '#bdbdbd',
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       marginTop: 296,
@@ -116,7 +112,6 @@ const styles = theme => ({
   },
   instancePageContainer: {
     height: 'auto',
-    // backgroundColor: '#bdbdbd',
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       marginTop: 173,
