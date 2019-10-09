@@ -96,16 +96,16 @@ export const perspectiveArr = [
         value: 0,
         icon: 'CalendarViewDay',
       },
-      {
-        id: 'map',
-        label: 'map',
-        value: 1,
-        icon: 'AddLocation',
-      },
+      // {
+      //   id: 'map',
+      //   label: 'map',
+      //   value: 1,
+      //   icon: 'AddLocation',
+      // },
       {
         id: 'export',
         label: 'export',
-        value: 2,
+        value: 1,
         icon: 'Download',
       },
     ]
