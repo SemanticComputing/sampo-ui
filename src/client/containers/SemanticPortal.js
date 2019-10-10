@@ -19,7 +19,7 @@ import Places from '../components/perspectives/Places';
 import Actors from '../components/perspectives/Actors';
 import All from '../components/perspectives/All';
 import InstanceHomePage from '../components/main_layout/InstanceHomePage';
-import FeedbackPage from '../components/main_layout/FeedbackPage';
+// import FeedbackPage from '../components/main_layout/FeedbackPage';
 import AboutPage from '../components/main_layout/AboutPage';
 import InstructionsPage from '../components/main_layout/InstructionsPage';
 import { perspectiveArr } from '../components/perspectives/PerspectiveArrayMMM';
@@ -424,7 +424,7 @@ let SemanticPortal = props => {
             path={`/feedback`}
             render={() =>
               <div className={classes.mainContainer}>
-                <FeedbackPage />
+                
               </div>
             }
           />
