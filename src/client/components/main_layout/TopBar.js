@@ -175,7 +175,7 @@ class TopBar extends React.Component {
       <MenuItem
         key={0}
         component={this.AdapterLink}
-        to={`/feedback`}
+        to={`/about`}
       >
         About the project
       </MenuItem>

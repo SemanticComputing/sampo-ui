@@ -50,20 +50,15 @@ const styles = theme => ({
     transform: 'translate(-50%,-50%)',
     zIndex: 500
   },
-
 });
 
-class FeedbackDialog extends React.Component {
+class FeedbackPage extends React.Component {
   state = {
-    open: false,
-    zoomMessage: '',
     loading: true
   };
 
   hideSpinner = () => {
-    this.setState({
-      loading: false
-    });
+    this.setState({ loading: false });
   };
 
   render() {
@@ -90,8 +85,8 @@ class FeedbackDialog extends React.Component {
   }
 }
 
-FeedbackDialog.propTypes = {
+FeedbackPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(FeedbackDialog);
+export default withStyles(styles)(FeedbackPage);
