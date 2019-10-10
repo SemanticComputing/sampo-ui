@@ -44,10 +44,16 @@ import {
 const styles = theme => ({
   root: {
     flexGrow: 1,
+    // Set app height for different screen sizes
     height: 'auto',
     [theme.breakpoints.up('md')]: {
       height: '100%',
-    }
+    },
+    /* Background color of the app.
+       In order to use both 'auto' and '100%' heights, bg-color
+       needs to be defined also in index.html (for #app and #root elements)
+    */
+    backgroundColor: '#bdbdbd'
   },
   flex: {
     flexGrow: 1,
@@ -67,7 +73,7 @@ const styles = theme => ({
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       marginTop: 56, // app bar
-      height: 'calc(100% - 56px)',
+      //height: 'calc(100% - 56px)',
     },
     [theme.breakpoints.up('sm')]: {
       marginTop: 64, // app bar
