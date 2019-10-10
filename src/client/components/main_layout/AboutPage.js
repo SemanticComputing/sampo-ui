@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   root: {
@@ -10,13 +11,22 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center'
   },
-  content: {
-    padding: theme.spacing(1),
-    width: '100%',
-    overflowY: 'auto',
-    [theme.breakpoints.up('md')]: {
-      width: 800,
+  layout: {
+    width: 'auto',
+    padding: theme.spacing(3),
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(1),
+      marginLeft: 0,
+      marginRight: 0,
     },
+    [theme.breakpoints.up(1100 + theme.spacing(6))]: {
+      width: 1100,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+    overflow: 'auto'
   },
 });
 
