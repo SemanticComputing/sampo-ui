@@ -420,7 +420,11 @@ let SemanticPortal = props => {
           { /* create routes for info buttons */ }
           <Route
             path={`/feedback`}
-            render={() => null /* <FeedbackPage /> */ }
+            render={() =>
+              <div className={classes.mainContainer}>
+                <FeedbackPage />
+              </div>
+            }
           />
         </React.Fragment>
       </div>

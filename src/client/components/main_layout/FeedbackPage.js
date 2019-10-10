@@ -14,15 +14,11 @@ const styles = theme => ({
   },
   content: {
     padding: theme.spacing(1),
-    width: 800,
-    overflowY: 'auto'
-  },
-  spinnerContainer: {
-    display: 'flex',
     width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center'
+    overflowY: 'auto',
+    [theme.breakpoints.up('md')]: {
+      width: 800,
+    },
   },
   // https://benmarshall.me/responsive-iframes/
   iframeContainer: {
@@ -37,6 +33,13 @@ const styles = theme => ({
     position: 'absolute',
     top: 0,
     width: '100%',
+  },
+  spinnerContainer: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   spinner: {
     height: 40,
