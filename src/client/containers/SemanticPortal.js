@@ -65,12 +65,12 @@ const styles = theme => ({
     position: 'relative',
     display: 'flex',
     width: '100%',
-    minWidth: 300,
   },
   mainContainer: {
     height: 'auto',
+    width: '100%',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 64px)',
+      height: 'calc(100% - 80px)', // 100% - app bar - padding
     },
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
