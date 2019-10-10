@@ -19,7 +19,7 @@ import Places from '../components/perspectives/Places';
 import Actors from '../components/perspectives/Actors';
 import All from '../components/perspectives/All';
 import InstanceHomePage from '../components/main_layout/InstanceHomePage';
-//import FeedbackPage from '../components/main_layout/FeedbackPage';
+import FeedbackPage from '../components/main_layout/FeedbackPage';
 import { perspectiveArr } from '../components/perspectives/PerspectiveArrayMMM';
 import { perspectiveArrOnlyInfoPages } from '../components/perspectives/PerspectiveArrayOnlyInfoPagesMMM';
 import InfoHeader from '../components/main_layout/InfoHeader';
@@ -66,87 +66,98 @@ const styles = theme => ({
     display: 'flex',
     width: '100%',
     minWidth: 300,
-  //minHeight: 700
   },
   mainContainer: {
     height: 'auto',
+    [theme.breakpoints.up('md')]: {
+      height: 'calc(100% - 64px)',
+    },
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       marginTop: 56, // app bar
-      //height: 'calc(100% - 56px)',
     },
     [theme.breakpoints.up('sm')]: {
       marginTop: 64, // app bar
-      height: 'calc(100% - 64px)',
-    },
-  },
-  perspectiveContainerHeaderExpanded: {
-    height: 'auto',
-    padding: theme.spacing(1),
-    [theme.breakpoints.down('sm')]: {
-      marginTop: 256, // app bar + header
-      height: 'calc(100% - 256px)',
-    },
-    [theme.breakpoints.up('sm')]: {
-      marginTop: 264, // app bar + header
-      height: 'calc(100% - 264px)',
-    },
+    }
   },
   perspectiveContainer: {
     height: 'auto',
+    [theme.breakpoints.up('md')]: {
+      height: 'calc(100% - 141px)',
+    },
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       marginTop: 133, // app bar + header
-      height: 'calc(100% - 133px)',
     },
     [theme.breakpoints.up('sm')]: {
       marginTop: 141, // app bar + header
-      height: 'calc(100% - 141px)',
-    },
+    }
   },
-  instancePageContainerHeaderExpanded: {
+  perspectiveContainerHeaderExpanded: {
     height: 'auto',
+    [theme.breakpoints.up('md')]: {
+      height: 'calc(100% - 264px)',
+    },
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 296,
-      height: 'calc(100% - 296px)',
+      marginTop: 256, // app bar + header
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 304,
-      height: 'calc(100% - 304px)',
-    },
-  },
-  instancePageContainer: {
-    height: 'auto',
-    padding: theme.spacing(1),
-    [theme.breakpoints.down('sm')]: {
-      marginTop: 173,
-      height: 'calc(100% - 173px)',
-    },
-    [theme.breakpoints.up('sm')]: {
-      marginTop: 181,
-      height: 'calc(100% - 181px)',
-    },
+      marginTop: 264, // app bar + header
+    }
   },
   // perspective container is divided into two columns:
   facetBarContainer: {
-    height: '100%',
+    height: 'auto',
+    [theme.breakpoints.up('md')]: {
+      height: '100%',
+    },
     overflow: 'auto',
     paddingTop: '0px !important',
     paddingBottom: '0px !important'
   },
   resultsContainer: {
-    height: '100%',
-    overflow: 'auto',
+    height: 'auto',
+    [theme.breakpoints.up('md')]: {
+      height: '100%',
+    },
     paddingTop: '0px !important',
     paddingBottom: '0px !important',
     [theme.breakpoints.down('sm')]: {
       marginTop: theme.spacing(1)
+    }
+  },
+  instancePageContainer: {
+    height: 'auto',
+    [theme.breakpoints.up('md')]: {
+      height: 'calc(100% - 181px)',
     },
+    padding: theme.spacing(1),
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 173,
+    },
+    [theme.breakpoints.up('sm')]: {
+      marginTop: 181,
+    }
+  },
+  instancePageContainerHeaderExpanded: {
+    height: 'auto',
+    [theme.breakpoints.up('md')]: {
+      height: 'calc(100% - 304px)',
+    },
+    padding: theme.spacing(1),
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 296,
+    },
+    [theme.breakpoints.up('sm')]: {
+      marginTop: 304,
+    }
   },
   instancePageContent: {
-    height: '100%',
-    //overflow: 'auto',
+    height: 'auto',
+    [theme.breakpoints.up('md')]: {
+      height: '100%',
+    },
     paddingTop: '0px !important',
     paddingBottom: '0px !important'
   }
