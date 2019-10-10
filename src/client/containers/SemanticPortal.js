@@ -91,7 +91,7 @@ const styles = theme => ({
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       marginTop: 133, // app bar + header
-      height: 'calc(100% - 1333px)',
+      height: 'calc(100% - 133px)',
     },
     [theme.breakpoints.up('sm')]: {
       marginTop: 141, // app bar + header
@@ -119,7 +119,7 @@ const styles = theme => ({
     },
     [theme.breakpoints.up('sm')]: {
       marginTop: 181,
-      height: 'calc(100% - 185px)',
+      height: 'calc(100% - 181px)',
     },
   },
   // perspective container is divided into two columns:
