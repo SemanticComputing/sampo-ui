@@ -127,6 +127,17 @@ export const INITIAL_STATE = {
       minWidth: 250
     },
     {
+      id: 'role',
+      label: 'Role',
+      desc: 'Role(s)',
+      valueType: 'string',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250
+    },
+    {
       id: 'source',
       label: 'Source',
       desc: `

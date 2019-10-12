@@ -106,6 +106,102 @@ export const actorProperties = `
         BIND(CONCAT("/collections/page/", ENCODE_FOR_URI(REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1"))) AS ?manuscript__dataProviderUrl)
       }
     }
+    UNION
+    {
+      ?id ^mmm-schema:carried_out_by_as_author/a frbroo:F27_Work_Conception .
+      BIND("Author" as ?role)
+    }
+    UNION
+    {
+      ?id ^mmm-schema:carried_out_by_as_possible_author/a frbroo:F27_Work_Conception .
+      BIND("Possible author" as ?role)
+    }
+    UNION
+    {
+      ?id ^mmm-schema:carried_out_by_as_translator/a frbroo:F27_Work_Conception .
+      BIND("Translator" as ?role)
+    }
+    UNION
+    {
+      ?id ^mmm-schema:carried_out_by_as_editor/a frbroo:F27_Work_Conception .
+      BIND("Editor" as ?role)
+    }
+    UNION
+    {
+      ?id ^mmm-schema:carried_out_by_as_commissioner/a frbroo:F27_Work_Conception .
+      BIND("Commissioner" as ?role)
+    }
+    UNION
+    {
+      ?id ^mmm-schema:carried_out_by_as_recipient/a frbroo:F27_Work_Conception .
+      BIND("Recipient" as ?role)
+    }
+    UNION
+    {
+      ?id ^mmm-schema:carried_out_by_as_binder/a crm:E12_Production .
+      BIND("Binder" as ?role)
+    }
+    UNION
+    {
+      ?id ^mmm-schema:carried_out_by_as_commissioner/a crm:E12_Production .
+      BIND("Commissioner" as ?role)
+    }
+    UNION
+    {
+      ?id ^mmm-schema:carried_out_by_as_creator/a crm:E12_Production .
+      BIND("Creator" as ?role)
+    }
+    UNION
+    {
+      ?id ^mmm-schema:carried_out_by_as_illuminator/a crm:E12_Production .
+      BIND("Illuminator" as ?role)
+    }
+    UNION
+    {
+      ?id ^mmm-schema:carried_out_by_as_printer/a crm:E12_Production .
+      BIND("Printer" as ?role)
+    }
+    UNION
+    {
+      ?id ^mmm-schema:carried_out_by_as_scribe/a crm:E12_Production .
+      BIND("Scribe" as ?role)
+    }
+    UNION
+    {
+      ?id ^mmm-schema:carried_out_by_as_artist/a crm:E12_Production .
+      BIND("Artist" as ?role)
+    }
+    UNION
+    {
+      ?id ^mmm-schema:carried_out_by_as_patron/a crm:E12_Production .
+      BIND("Patron" as ?role)
+    }
+    UNION
+    {
+      ?id ^mmm-schema:carried_out_by_as_signer/a crm:E12_Production .
+      BIND("Signer" as ?role)
+    }
+    UNION
+    {
+      ?id ^mmm-schema:carried_out_by_as_dedicatee/a crm:E12_Production .
+      BIND("Dedicatee" as ?role)
+    }
+    UNION
+    {
+      ?id ^crm:P51_has_former_or_current_owner/a frbroo:F4_Manifestation_Singleton  .
+      BIND("Manuscript owner" as ?role)
+    }
+    UNION
+    {
+      ?id ^crm:P51_has_former_or_current_owner/a crm:E78_Collection  .
+      BIND("Collection owner" as ?role)
+    }
+    UNION 
+    {
+      ?id ^mmm-schema:carried_out_by_as_selling_agent [] .
+      BIND("Selling agent" as ?role)
+    }
+
 `;
 
 export const placesActorsQuery = `
