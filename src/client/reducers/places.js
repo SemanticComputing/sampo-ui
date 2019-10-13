@@ -160,7 +160,8 @@ const resultClasses = new Set([
   'placesAll',
   'placesActors',
   'placesMsProduced',
-  'placesMsMigrations'
+  'placesMsMigrations',
+  'placesEvents'
 ]);
 
 const places = (state = INITIAL_STATE, action) => {

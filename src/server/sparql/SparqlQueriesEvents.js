@@ -74,3 +74,15 @@ export const eventProperties = `
       BIND(COALESCE(?dataProviderUrl_, ?source__id) AS ?source__dataProviderUrl)
     }
 `;
+
+export const eventPlacesQuery = `
+  SELECT ?id ?lat ?long
+  (COUNT(DISTINCT ?event) as ?instanceCount)
+  WHERE {
+    <FILTER>
+    ?event crm:P7_took_place_at ?id .
+    ?id wgs84:lat ?lat ;
+        wgs84:long ?long .
+  }
+  GROUP BY ?id ?lat ?long
+`;

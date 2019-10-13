@@ -4,6 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import PerspectiveTabs from '../main_layout/PerspectiveTabs';
 import ResultTable from '../facet_results/ResultTable';
 import Export from '../facet_results/Export';
+import LeafletMap from '../facet_results/LeafletMap';
 
 let Events = props => {
   return (
@@ -33,6 +34,26 @@ let Events = props => {
         }
       />
       <Route
+        path={'/events/faceted-search/map'}
+        render={() =>
+          <LeafletMap
+            results={props.places.results}
+            pageType='facetResults'
+            facetUpdateID={props.facetData.facetUpdateID}
+            facet={props.facetData.facets.place}
+            facetID='place'
+            resultClass='placesEvents'
+            facetClass='events'
+            mapMode='cluster'
+            instance={props.places.instance}
+            fetchResults={props.fetchResults}
+            fetchByURI={props.fetchByURI}
+            fetching={props.places.fetching}
+            showInstanceCountInClusters={true}
+            updateFacetOption={props.updateFacetOption}
+          />}
+      />
+      <Route
         path={'/events/faceted-search/export'}
         render={() =>
           <Export
@@ -55,6 +76,7 @@ Events.propTypes = {
   updateRowsPerPage: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired,
+  updateFacetOption: PropTypes.func.isRequired,
   perspective: PropTypes.object.isRequired
 };
 

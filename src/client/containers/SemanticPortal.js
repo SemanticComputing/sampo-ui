@@ -208,12 +208,14 @@ let SemanticPortal = props => {
         perspectiveElement =
         <Events
           events={props.events}
+          places={props.places}
           facetData={props.eventsFacets}
           fetchPaginatedResults={props.fetchPaginatedResults}
           fetchResults={props.fetchResults}
           fetchByURI={props.fetchByURI}
           updatePage={props.updatePage}
           updateRowsPerPage={props.updateRowsPerPage}
+          updateFacetOption={props.updateFacetOption}
           sortResults={props.sortResults}
           routeProps={routeProps}
           perspective={perspective}
@@ -424,7 +426,7 @@ let SemanticPortal = props => {
             path={`/feedback`}
             render={() =>
               <div className={classes.mainContainer}>
-                
+
               </div>
             }
           />

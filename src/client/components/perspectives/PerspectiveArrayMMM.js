@@ -217,9 +217,15 @@ export const perspectiveArr = [
         icon: 'CalendarViewDay',
       },
       {
+        id: 'map',
+        label: 'map',
+        value: 1,
+        icon: 'AddLocation',
+      },
+      {
         id: 'export',
         label: 'export',
-        value: 1,
+        value: 2,
         icon: 'Download',
       }
     ],

@@ -17,7 +17,7 @@ import {
   allManuscriptsQuery
 } from './SparqlQueriesManuscripts';
 import { workProperties } from './SparqlQueriesWorks';
-import { eventProperties } from './SparqlQueriesEvents';
+import { eventProperties, eventPlacesQuery } from './SparqlQueriesEvents';
 import {
   actorProperties,
   placesActorsQuery,
@@ -93,6 +93,10 @@ export const getAllResults = ({
     case 'placesMsMigrations':
       q = migrationsQuery;
       filterTarget = 'manuscript__id';
+      break;
+    case 'placesEvents':
+      q = eventPlacesQuery;
+      filterTarget = 'event';
       break;
     case 'network':
       q = networkQuery;
@@ -282,6 +286,11 @@ export const getByURI = ({
       q = instanceQuery;
       q = q.replace('<PROPERTIES>', placePropertiesInfoWindow);
       q = q.replace('<RELATED_INSTANCES>', manuscriptsProducedAt);
+      break;
+    case 'placesEvents':
+      q = instanceQuery;
+      q = q.replace('<PROPERTIES>', placePropertiesInfoWindow);
+      q = q.replace('<RELATED_INSTANCES>', '');
       break;
   }
   if (constraints == null) {
