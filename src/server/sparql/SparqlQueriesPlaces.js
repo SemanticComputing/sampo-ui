@@ -26,8 +26,17 @@ export const placePropertiesInstancePage = `
       { ?actorPredicate rdfs:subPropertyOf* crm:P14_carried_out_by }
       UNION
       { ?actorPredicate rdfs:subPropertyOf* crm:P11_had_participant }
-      ?id ^crm:P7_took_place_at ?event .
-      ?event ?actorPredicate ?actor__id .
+
+      {
+        ?id ^crm:P7_took_place_at ?event .
+        ?event ?actorPredicate ?actor__id .
+      }
+      UNION
+      {
+        ?id ^crm:P7_took_place_at ?event .
+        ?actor__id crm:P98i_was_born|crm:P100i_died_in ?event
+      }
+
       ?actor__id skos:prefLabel ?actor__prefLabel .
       BIND(CONCAT("/actors/page/", REPLACE(STR(?actor__id), "^.*\\\\/(.+)", "$1")) AS ?actor__dataProviderUrl)
     }
