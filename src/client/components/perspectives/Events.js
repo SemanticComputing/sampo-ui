@@ -4,6 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import PerspectiveTabs from '../main_layout/PerspectiveTabs';
 import ResultTable from '../facet_results/ResultTable';
 import Export from '../facet_results/Export';
+import BarChart from '../facet_results/BarChart';
 import LeafletMap from '../facet_results/LeafletMap';
 
 let Events = props => {
@@ -51,6 +52,16 @@ let Events = props => {
             fetching={props.places.fetching}
             showInstanceCountInClusters={true}
             updateFacetOption={props.updateFacetOption}
+          />}
+      />
+      <Route
+        path={'/events/faceted-search/by_period'}
+        render={() =>
+          <BarChart
+            fetchResults={props.fetchResults}
+            resultClass='eventsByTimePeriod'
+            facetClass='events'
+            data={props.events.results}
           />}
       />
       <Route

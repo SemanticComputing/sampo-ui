@@ -153,8 +153,13 @@ export const INITIAL_STATE = {
   ],
 };
 
+const resultClasses = new Set([
+  'events',
+  'eventsByTimePeriod',
+]);
+
 const events = (state = INITIAL_STATE, action) => {
-  if (action.resultClass === 'events') {
+  if (resultClasses.has(action.resultClass)) {
     switch (action.type) {
       case FETCH_RESULTS:
       case FETCH_PAGINATED_RESULTS:

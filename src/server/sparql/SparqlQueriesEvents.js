@@ -87,29 +87,13 @@ export const eventPlacesQuery = `
   GROUP BY ?id ?lat ?long
 `;
 
-export const eventsByDecadeQuery = `
-  SELECT ?decade ?type
-  (COUNT(DISTINCT ?event) as ?instanceCount)
+export const eventsByTimePeriodQuery = `
+  SELECT ?id ?type__id ?type__prefLabel
+  (COUNT(DISTINCT ?event) as ?type__instanceCount)
   WHERE {
-    ?event crm:P4_has_time-span ?timespan .
-    ?event a ?type .
-    ?timespan crm:P82a_begin_of_the_begin ?begin .
-    ?timespan crm:P82b_end_of_the_end ?end .
-    OPTIONAL {
-      BIND("1600" as ?decade)
-      FILTER(?begin >= "1600-01-01"^^xsd:date)
-      FILTER(?end <= "1609-12-31"^^xsd:date)
-    }
-    OPTIONAL {
-      BIND("1610" as ?decade)
-      FILTER(?begin >= "1610-01-01"^^xsd:date)
-      FILTER(?end <= "1619-12-31"^^xsd:date)
-    }
-    OPTIONAL {
-      BIND("1620" as ?decade)
-      FILTER(?begin >= "1620-01-01"^^xsd:date)
-      FILTER(?end <= "1629-12-31"^^xsd:date)
-    }
+    <FILTER>
+    <TIME_PERIODS>
   }
-  GROUP BY ?decade ?instanceCount ?type
+  GROUP BY ?id ?type__id ?type__prefLabel
+  ORDER BY ?id
 `;

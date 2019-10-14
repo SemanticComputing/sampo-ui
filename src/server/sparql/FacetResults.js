@@ -18,6 +18,7 @@ import {
 } from './SparqlQueriesManuscripts';
 import { workProperties } from './SparqlQueriesWorks';
 import { eventProperties, eventPlacesQuery } from './SparqlQueriesEvents';
+import { generateEventsByPeriodQuery } from './FacetResultsEvents';
 import {
   actorProperties,
   placesActorsQuery,
@@ -96,6 +97,10 @@ export const getAllResults = ({
       break;
     case 'placesEvents':
       q = eventPlacesQuery;
+      filterTarget = 'event';
+      break;
+    case 'eventsByTimePeriod':
+      q = generateEventsByPeriodQuery({ startYear: 1600, endYear: 1700, periodLength: 10 });
       filterTarget = 'event';
       break;
     case 'network':
