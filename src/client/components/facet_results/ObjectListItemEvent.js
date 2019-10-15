@@ -1,30 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import ObjectListItemLink from './ObjectListItemLink';
 
+
+const styles = () => ({
+  dateContainer: {
+    width: 180,
+    display: 'inline-block'
+  }
+});
+
 const ObjectListItemEvent = props => {
-  const { data, collapsed } = props;
+  const { data, isFirstValue } = props;
   let label = Array.isArray(data.prefLabel) ? data.prefLabel[0] : data.prefLabel;
   return (
     <React.Fragment>
+      <span className={isFirstValue ? null : props.classes.dateContainer}>
+        {data.date == null ? 'No date ' : `${data.date} `}
+      </span>
       <ObjectListItemLink
         data={data}
         label={label}
+        externalLink={false}
       />
       {data.observedOwner &&
         <React.Fragment>
           {': '}
-          {data.observedOwner}
+          <ObjectListItemLink
+            data={data.observedOwner}
+            label={data.observedOwner.prefLabel}
+            externalLink={false}
+          />
         </React.Fragment>
       }
-      {collapsed && ' ...'}
     </React.Fragment>
   );
 };
 
-ObjectListItemEvent.PropTypes = {
-  data: PropTypes.bool.isRequired,
-  collapsed: PropTypes.bool.isRequired
+ObjectListItemEvent.propTypes = {
+  classes: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+  isFirstValue: PropTypes.bool.isRequired
 };
 
-export default ObjectListItemEvent;
+export default withStyles(styles)(ObjectListItemEvent);

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ObjectListItemLink from './ObjectListItemLink';
 
 const ObjectListItem = props => {
-  const { data, makeLink, externalLink, linkAsButton, collapsed } = props;
+  const { data, makeLink, externalLink, linkAsButton } = props;
   let label = Array.isArray(data.prefLabel) ? data.prefLabel[0] : data.prefLabel;
   return (
     <React.Fragment>
@@ -16,7 +16,6 @@ const ObjectListItem = props => {
           linkAsButton={linkAsButton}
         />
       }
-      {collapsed && ' ...'}
     </React.Fragment>
   );
 };
@@ -26,7 +25,6 @@ ObjectListItem.propTypes = {
   makeLink: PropTypes.bool.isRequired,
   externalLink: PropTypes.bool.isRequired,
   linkAsButton: PropTypes.bool,
-  collapsed: PropTypes.bool.isRequired
 };
 
 export default ObjectListItem;

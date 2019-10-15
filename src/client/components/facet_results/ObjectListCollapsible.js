@@ -5,6 +5,7 @@ import Collapse from '@material-ui/core/Collapse';
 import { ISOStringToDate } from './Dates';
 import { orderBy, has } from 'lodash';
 import ObjectListItem from './ObjectListItem';
+import ObjectListItemEvent from './ObjectListItemEvent';
 
 const styles = () => ({
   valueList: {
@@ -23,6 +24,9 @@ const styles = () => ({
 });
 
 const ObjectList = props => {
+
+  const { sortValues, makeLink, externalLink, linkAsButton, columnId } = props;
+  let { data } = props;
 
   const sortList = data => {
     if (has(props, 'columnId') && props.columnId.endsWith('Timespan')) {
@@ -43,8 +47,33 @@ const ObjectList = props => {
     return data;
   };
 
-  const { sortValues, makeLink, externalLink, linkAsButton } = props;
-  let { data } = props;
+  const renderItem = ({ collapsed, itemData, isFirstValue = false }) => {
+    if (columnId === 'event') {
+      return (
+        <React.Fragment>
+          <ObjectListItemEvent
+            data={itemData}
+            isFirstValue={isFirstValue}
+          />
+          {collapsed && <span> ...</span>}
+        </React.Fragment>
+
+      );
+    } else {
+      return(
+        <React.Fragment>
+          <ObjectListItem
+            data={itemData}
+            makeLink={makeLink}
+            externalLink={externalLink}
+            linkAsButton={linkAsButton}
+          />
+          {collapsed && <span> ...</span>}
+        </React.Fragment>
+      );
+    }
+  };
+
   if (data == null || data === '-') {
     return '-';
   }
@@ -52,26 +81,12 @@ const ObjectList = props => {
     data = sortList(data);
     return (
       <React.Fragment>
-        {!props.expanded &&
-          <ObjectListItem
-            data={data[0]}
-            makeLink={makeLink}
-            externalLink={externalLink}
-            linkAsButton={linkAsButton}
-            collapsed={true}
-          />
-        }
+        {!props.expanded && renderItem({ collapsed: true, itemData: data[0], isFirstValue: true })}
         <Collapse in={props.expanded} timeout="auto" unmountOnExit>
           <ul className={props.classes.valueList}>
             {data.map(item =>
               <li key={item.id}>
-                <ObjectListItem
-                  data={item}
-                  makeLink={makeLink}
-                  externalLink={externalLink}
-                  linkAsButton={linkAsButton}
-                  collapsed={false}
-                />
+                {renderItem({ collapsed: false, itemData: item })}
               </li>
             )}
           </ul>
@@ -79,15 +94,7 @@ const ObjectList = props => {
       </React.Fragment>
     );
   } else {
-    return (
-      <ObjectListItem
-        data={data}
-        makeLink={makeLink}
-        externalLink={externalLink}
-        linkAsButton={linkAsButton}
-        collapsed={false}
-      />
-    );
+    return renderItem({ collapsed: false, itemData: data, isFirstValue: true });
   }
 };
 
