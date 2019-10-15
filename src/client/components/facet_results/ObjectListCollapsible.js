@@ -70,7 +70,7 @@ const ObjectList = props => {
             linkAsButton={linkAsButton}
           />
           {collapsed && <span> ...</span>}
-          {showSource &&
+          {showSource && itemData.source &&
             <ObjectListItemSources
               data={itemData.source}
               externalLink={sourceExternalLink}
