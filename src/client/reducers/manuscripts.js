@@ -131,7 +131,7 @@ export const INITIAL_STATE = {
       sortValues: true,
       numberedList: false,
       showSource: true,
-      sourceExternalLink: false,
+      sourceExternalLink: true,
       minWidth: 250,
     },
     {
