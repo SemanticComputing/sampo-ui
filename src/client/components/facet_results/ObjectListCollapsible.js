@@ -5,6 +5,7 @@ import Collapse from '@material-ui/core/Collapse';
 import { ISOStringToDate } from './Dates';
 import { orderBy, has } from 'lodash';
 import ObjectListItem from './ObjectListItem';
+import ObjectListItemSources from './ObjectListItemSources';
 import ObjectListItemEvent from './ObjectListItemEvent';
 
 const styles = () => ({
@@ -25,7 +26,8 @@ const styles = () => ({
 
 const ObjectList = props => {
 
-  const { sortValues, makeLink, externalLink, linkAsButton, columnId } = props;
+  const { sortValues, makeLink, externalLink, linkAsButton, columnId, showSource,
+    sourceExternalLink } = props;
   let { data } = props;
 
   const sortList = data => {
@@ -57,7 +59,6 @@ const ObjectList = props => {
           />
           {collapsed && <span> ...</span>}
         </React.Fragment>
-
       );
     } else {
       return(
@@ -69,6 +70,12 @@ const ObjectList = props => {
             linkAsButton={linkAsButton}
           />
           {collapsed && <span> ...</span>}
+          {showSource &&
+            <ObjectListItemSources
+              data={itemData.source}
+              externalLink={sourceExternalLink}
+            />
+          }
         </React.Fragment>
       );
     }
@@ -107,7 +114,8 @@ ObjectList.propTypes = {
   numberedList: PropTypes.bool.isRequired,
   expanded: PropTypes.bool.isRequired,
   columnId: PropTypes.string.isRequired,
-  linkAsButton: PropTypes.bool
+  linkAsButton: PropTypes.bool,
+  showSource: PropTypes.bool
 };
 
 export default withStyles(styles)(ObjectList);

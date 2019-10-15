@@ -76,6 +76,14 @@ const InstanceHomePageTable = props => {
                   ? row.collapsedMaxWords
                   : null
                 }
+                showSource={has(row, 'showSource')
+                  ? row.showSource
+                  : null
+                }
+                sourceExternalLink={has(row, 'sourceExternalLink')
+                  ? row.sourceExternalLink
+                  : null
+                }
               />
             </TableRow>
           );

@@ -6,7 +6,7 @@ import StringList from './StringList';
 
 const ResultTableCell = props => {
   const { data, valueType, makeLink, externalLink, sortValues, numberedList, minWidth,
-    container, columnId, expanded, linkAsButton, collapsedMaxWords } = props;
+    container, columnId, expanded, linkAsButton, collapsedMaxWords, showSource, sourceExternalLink } = props;
   let cellContent = null;
   let cellStyle = minWidth == null ? {} : { minWidth: minWidth };
   switch (valueType) {
@@ -21,6 +21,8 @@ const ResultTableCell = props => {
           columnId={columnId}
           expanded={expanded}
           linkAsButton={linkAsButton}
+          showSource={showSource}
+          sourceExternalLink={sourceExternalLink}
         />;
       break;
     case 'string':
@@ -56,9 +58,11 @@ ResultTableCell.propTypes = {
   externalLink: PropTypes.bool.isRequired,
   sortValues: PropTypes.bool.isRequired,
   numberedList: PropTypes.bool.isRequired,
-  minWidth: PropTypes.number,
   expanded: PropTypes.bool.isRequired,
   collapsedMaxWords: PropTypes.number,
+  minWidth: PropTypes.number,
+  showSource: PropTypes.bool,
+  sourceExternalLink: PropTypes.bool
 };
 
 export default ResultTableCell;

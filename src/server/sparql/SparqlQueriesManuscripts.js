@@ -28,6 +28,7 @@ export const manuscriptPropertiesInstancePage =
       ?productionTimespan__id skos:prefLabel ?productionTimespan__prefLabel .
       ?productionTimespan__id dct:source ?productionTimespan__source__id .
       ?productionTimespan__source__id skos:prefLabel ?productionTimespan__source__prefLabel .
+      ?productionTimespan__source__id mmm-schema:data_provider_url ?productionTimespan__source__dataProviderUrl .
       OPTIONAL { ?productionTimespan__id crm:P82a_begin_of_the_begin ?productionTimespan__start }
       OPTIONAL { ?productionTimespan__id crm:P82b_end_of_the_end ?productionTimespan__end }
     }
