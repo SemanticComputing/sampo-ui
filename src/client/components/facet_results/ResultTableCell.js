@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TableCell from '@material-ui/core/TableCell';
-import ObjectList from './ObjectList';
+import ObjectListCollapsible from './ObjectListCollapsible';
 import StringList from './StringList';
 
 const ResultTableCell = props => {
@@ -12,7 +12,7 @@ const ResultTableCell = props => {
   switch (valueType) {
     case 'object':
       cellContent =
-        <ObjectList
+        <ObjectListCollapsible
           data={data}
           makeLink={makeLink}
           externalLink={externalLink}
