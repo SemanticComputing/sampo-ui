@@ -43,6 +43,9 @@ const styles = () => ({
     marginLeft: 6,
     marginRight: 4,
   },
+  searchMatch: {
+    boxShadow: '0 2px 0 #673ab7',
+  },
   label: {
     // no styling
   },
@@ -73,6 +76,7 @@ class HierarchicalFacet extends Component {
       searchString: '',
       searchFocusIndex: 0,
       searchFoundCount: null,
+      matches: []
     };
   }
 
@@ -225,9 +229,15 @@ class HierarchicalFacet extends Component {
 
   generateLabel = node => {
     let count = node.totalInstanceCount == null || node.totalInstanceCount == 0 ? node.instanceCount : node.totalInstanceCount;
+    let isSearchMatch = false;
+    if (this.state.matches.length > 0) {
+      // console.log(this.state.matches)
+      isSearchMatch = this.state.matches.some(match => match.node.id === node.id);
+    }
+
     return (
       <React.Fragment>
-        <Typography variant='body2'>
+        <Typography className={isSearchMatch ? this.props.classes.searchMatch : ''} variant='body2'>
           {node.prefLabel}
           <span> [{count}]</span>
         </Typography>
@@ -296,6 +306,7 @@ class HierarchicalFacet extends Component {
                 <Input
                   placeholder={`Search...`}
                   onChange={this.handleSearchFieldOnChange}
+                  value={this.state.searchString}
                 >
                 </Input>
                 {searchFoundCount > 0 &&
@@ -331,13 +342,14 @@ class HierarchicalFacet extends Component {
                   searchMethod={customSearchMethod}
                   searchQuery={searchString}
                   searchFocusOffset={searchFocusIndex}
-                  searchFinishCallback={matches =>
+                  searchFinishCallback={matches => {
                     this.setState({
                       searchFoundCount: matches.length,
                       searchFocusIndex:
                           matches.length > 0 ? searchFocusIndex % matches.length : 0,
-                    })
-                  }
+                      matches
+                    });
+                  }}
                   onlyExpandSearchedNodes={true}
                   theme={FileExplorerTheme}
                   generateNodeProps={this.generateNodeProps}
