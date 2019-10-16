@@ -20,9 +20,12 @@ import Actors from '../components/perspectives/Actors';
 import All from '../components/perspectives/All';
 import InstanceHomePage from '../components/main_layout/InstanceHomePage';
 // import FeedbackPage from '../components/main_layout/FeedbackPage';
-import AboutPage from '../components/main_layout/AboutPage';
-import InstructionsPage from '../components/main_layout/InstructionsPage';
-import { perspectiveArr } from '../components/perspectives/PerspectiveArrayMMM';
+import TextPage from '../components/main_layout/TextPage';
+import {
+  perspectiveArr,
+  aboutTheProject,
+  instructions
+} from '../components/perspectives/PerspectiveArrayMMM';
 import { perspectiveArrOnlyInfoPages } from '../components/perspectives/PerspectiveArrayOnlyInfoPagesMMM';
 import InfoHeader from '../components/main_layout/InfoHeader';
 import { has } from 'lodash';
@@ -434,7 +437,7 @@ let SemanticPortal = props => {
             path={`/about`}
             render={() =>
               <div className={classes.mainContainer}>
-                <AboutPage />
+                <TextPage>{aboutTheProject}</TextPage>
               </div>
             }
           />
@@ -442,7 +445,7 @@ let SemanticPortal = props => {
             path={`/instructions`}
             render={() =>
               <div className={classes.mainContainer}>
-                <InstructionsPage />
+                <TextPage>{instructions}</TextPage>
               </div>
             }
           />

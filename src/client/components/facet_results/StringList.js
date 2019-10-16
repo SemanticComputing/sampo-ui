@@ -2,10 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Collapse from '@material-ui/core/Collapse';
-// import Button from '@material-ui/core/Button';
-// import { ISOStringToDate } from './Dates';
-// import { Link } from 'react-router-dom';
-// import { orderBy, has } from 'lodash';
 
 const styles = () => ({
   valueList: {
@@ -16,13 +12,6 @@ const styles = () => ({
   valueListNoBullets: {
     listStyle: 'none',
     paddingLeft: 0
-  },
-  noDate: {
-    marginRight: 20
-  },
-  stringContainer: {
-    maxHeight: 200,
-    overflow: 'auto'
   }
 });
 

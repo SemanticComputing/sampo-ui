@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TableCell from '@material-ui/core/TableCell';
-import ObjectList from './ObjectList';
+import ObjectListCollapsible from './ObjectListCollapsible';
 import StringList from './StringList';
 
 const ResultTableCell = props => {
   const { data, valueType, makeLink, externalLink, sortValues, numberedList, minWidth,
-    container, columnId, expanded, linkAsButton, collapsedMaxWords } = props;
+    container, columnId, expanded, linkAsButton, collapsedMaxWords, showSource, sourceExternalLink } = props;
   let cellContent = null;
   let cellStyle = minWidth == null ? {} : { minWidth: minWidth };
   switch (valueType) {
     case 'object':
       cellContent =
-        <ObjectList
+        <ObjectListCollapsible
           data={data}
           makeLink={makeLink}
           externalLink={externalLink}
@@ -21,6 +21,8 @@ const ResultTableCell = props => {
           columnId={columnId}
           expanded={expanded}
           linkAsButton={linkAsButton}
+          showSource={showSource}
+          sourceExternalLink={sourceExternalLink}
         />;
       break;
     case 'string':
@@ -56,9 +58,11 @@ ResultTableCell.propTypes = {
   externalLink: PropTypes.bool.isRequired,
   sortValues: PropTypes.bool.isRequired,
   numberedList: PropTypes.bool.isRequired,
-  minWidth: PropTypes.number,
   expanded: PropTypes.bool.isRequired,
   collapsedMaxWords: PropTypes.number,
+  minWidth: PropTypes.number,
+  showSource: PropTypes.bool,
+  sourceExternalLink: PropTypes.bool
 };
 
 export default ResultTableCell;
