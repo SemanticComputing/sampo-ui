@@ -387,7 +387,7 @@ export const perspectiveArr = [
 
 export const aboutTheProject =
   <React.Fragment>
-    <Typography component="h1" variant="h3" color="textPrimary" gutterBottom>
+    <Typography component="h1" variant="h2" gutterBottom>
         About the project
     </Typography>
     <Typography paragraph={true}>
@@ -403,7 +403,7 @@ export const aboutTheProject =
       MMM is intended to enable large-scale exploration of data relating to the history and provenance
       of (primarily) Western European medieval and early modern manuscripts.
     </Typography>
-    <Typography component="h1" variant="h4" color="textPrimary" gutterBottom>
+    <Typography component="h2" variant="h4" gutterBottom>
         Data
     </Typography>
     <Typography paragraph={true}>
@@ -426,7 +426,7 @@ export const aboutTheProject =
       here</a>. The data have not been corrected or amended in any way. If you notice an error in the data,
       please report it to the custodians of the original database.
     </Typography>
-    <Typography component="h1" variant="h4" color="textPrimary" gutterBottom>
+    <Typography component="h2" variant="h4" gutterBottom>
         Features
     </Typography>
     <Typography paragraph={true}>
@@ -446,7 +446,7 @@ export const aboutTheProject =
       available here: <a href="http://ldf.fi/mmm-cidoc/sparql" target='_blank' rel='noopener noreferrer'>
       http://ldf.fi/mmm-cidoc/sparql</a>.
     </Typography>
-    <Typography component="h1" variant="h4" color="textPrimary" gutterBottom>
+    <Typography component="h2" variant="h4" gutterBottom>
         Data Reuse
     </Typography>
     <Typography paragraph={true}>
@@ -462,7 +462,7 @@ export const aboutTheProject =
     <Typography paragraph={true}>
       You may not use the data for commercial purposes.
     </Typography>
-    <Typography component="h1" variant="h4" color="textPrimary" gutterBottom>
+    <Typography component="h2" variant="h4" gutterBottom>
         More Information
     </Typography>
     <Typography paragraph={true}>
@@ -477,7 +477,88 @@ export const aboutTheProject =
 
 export const instructions =
   <React.Fragment>
-    <Typography component="h1" variant="h3" color="textPrimary" gutterBottom>
+    <Typography component="h1" variant="h2" gutterBottom>
         Instructions
+    </Typography>
+    <Typography paragraph={true}>
+      The search functionality of the MMM portal is based on the <a href="https://doi.org/10.2200/S00190ED1V01Y200904ICR005" target='_blank' rel='noopener noreferrer'>
+      faceted search</a> paradigm. By default each perspective displays
+      all results from the corresponding class (Manuscripts, Works, Events, Actors, or Places).
+      This default result set can be narrowed down by using the filters on the left.
+    </Typography>
+    <Typography component="h2" variant="h4" gutterBottom>
+        Using a single filter
+    </Typography>
+    <Typography component="h3" variant="h6"gutterBottom>
+        Selecting values within a filter
+    </Typography>
+    <Typography paragraph={true}>
+      All possible values for a filter are displayed either as a list or as a hierarchical
+      tree structure (if available). The number of results is shown in brackets for each value.
+      Once a value is selected, the results are automatically updated. To prevent further
+      selections that do not return any results, also the possible values for all
+      other filters are updated at the same time.
+    </Typography>
+    <Typography paragraph={true}>
+      Multiple values can be selected within a single filter. Selecting multiple values
+      generates results that contain any of the selected values. For example, selecting
+      both <i>Saint Augustine</i> and <i>Saint Jerome</i> as an Author returns results that
+      include either <i>Saint Augustine</i> <strong>OR</strong> <i>Saint Jerome</i> as an Author.
+    </Typography>
+    <Typography paragraph={true}>
+      Selected values of a filter appear in the Active filters section at the top of the list
+      of filters. To deselect a filter, click the X mark next to it within the Active filters
+      section. You can also deselect a filter value by unchecking the checkmark in the
+      filter’s value list. The Active filters section only appears if there are filter
+      values currently selected.
+    </Typography>
+    <Typography component="h3" variant="h6"gutterBottom>
+      Searching within a filter
+    </Typography>
+    <Typography paragraph={true}>
+      Search within a filter by using the search field at the top of each filter.
+      All possible values of a filter remain visible at all times. The values of
+      the filter that match the search term are indicated by a purple underline.
+    </Typography>
+    <Typography paragraph={true}>
+      Steps for searching within filters:
+    </Typography>
+    <ol>
+      <Typography>
+        <li>
+          Type search term into search field. If there are matches, a number
+          will appear to the right of the search field, indicating the number
+          of filter values that match the search term.
+        </li>
+        <li>
+          Click the arrows to the right of the search field to cycle
+          through the results. As you click the arrow, a different filter value
+          will appear at the top of the list. Matched filters are underlined in
+          purple.
+        </li>
+        <li>
+          Click the checkmark next to a filter value to activate it. The results
+          (and also other filters) are automatically updated.
+        </li>
+      </Typography>
+    </ol>
+    <Typography component="h2" variant="h4" gutterBottom>
+      Using multiple filters simultaneously
+    </Typography>
+    <Typography paragraph={true}>
+      The effectiveness of faceted search is realized when multiple filters are
+      applied at the same time. As in many e-commerce sites, a logical AND is
+      always used between the filters. For example selecting <i>Saint Augustine </i>
+      and <i>Saint Jerome</i> as an Author and <i>Sir Thomas Phillipps</i> and
+      <i> Thomas Thorpe</i> as an Owner, the results are narrowed down as follows:
+    </Typography>
+    <Typography>
+      (Author: <i>Saint Augustine</i> <strong>OR</strong> Author: <i>Saint Jerome</i>)
+    </Typography>
+    <Typography>
+      <strong>AND</strong>
+    </Typography>
+    <Typography>
+      (Owner: <i>Sir Thomas Phillipps</i> <strong>OR</strong> Owner: <i>Thomas Thorpe</i>)
     </Typography>
   </React.Fragment>;
