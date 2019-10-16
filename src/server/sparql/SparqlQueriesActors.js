@@ -3,6 +3,9 @@ export const actorProperties = `
       ?id skos:prefLabel ?prefLabel__id .
       BIND(?prefLabel__id AS ?prefLabel__prefLabel)
       BIND(CONCAT("/actors/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
+      BIND(?id as ?uri__id)
+      BIND(?id as ?uri__dataProviderUrl)
+      BIND(?id as ?uri__prefLabel)
     }
     UNION
     {
@@ -196,7 +199,7 @@ export const actorProperties = `
       ?id ^crm:P51_has_former_or_current_owner/a crm:E78_Collection  .
       BIND("Collection owner" as ?role)
     }
-    UNION 
+    UNION
     {
       ?id ^mmm-schema:carried_out_by_as_selling_agent [] .
       BIND("Selling agent" as ?role)

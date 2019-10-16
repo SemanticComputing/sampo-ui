@@ -5,6 +5,9 @@ export const eventProperties = `
       BIND(?type__id as ?prefLabel__id)
       BIND(?type__prefLabel as ?prefLabel__prefLabel)
       BIND(CONCAT("/events/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?type__dataProviderUrl)
+      BIND(?id as ?uri__id)
+      BIND(?id as ?uri__dataProviderUrl)
+      BIND(?id as ?uri__prefLabel)
     }
     UNION
     {
@@ -49,7 +52,7 @@ export const eventProperties = `
       OPTIONAL {
         ?id mmm-schema:ownership_attributed_to ?observedOwner__id .
         ?observedOwner__id skos:prefLabel ?observedOwner__prefLabel .
-        BIND(CONCAT("/actors/page/", REPLACE(STR(?observedOwner__id), "^.*\\\\/(.+)", "$1")) AS ?observedOwner__dataProviderUrl) 
+        BIND(CONCAT("/actors/page/", REPLACE(STR(?observedOwner__id), "^.*\\\\/(.+)", "$1")) AS ?observedOwner__dataProviderUrl)
       }
       OPTIONAL {
         ?manuscript__id a frbroo:F4_Manifestation_Singleton .

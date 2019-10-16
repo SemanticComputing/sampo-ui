@@ -47,19 +47,6 @@ export const INITIAL_STATE = {
   instancePageHeaderExpanded: true,
   tableColumns: [
     {
-      id: 'prefLabel',
-      label: 'Label',
-      desc: `
-        A short label describing the manuscript.
-      `,
-      valueType: 'object',
-      makeLink: true,
-      externalLink: false,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 250
-    },
-    {
       id: 'uri',
       label: 'URI',
       desc: `
@@ -68,6 +55,19 @@ export const INITIAL_STATE = {
       valueType: 'object',
       makeLink: true,
       externalLink: true,
+      sortValues: true,
+      numberedList: false,
+      onlyOnInstancePage: true
+    },
+    {
+      id: 'prefLabel',
+      label: 'Label',
+      desc: `
+        A short label describing the manuscript.
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
       sortValues: true,
       numberedList: false,
       minWidth: 250

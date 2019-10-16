@@ -47,6 +47,19 @@ export const INITIAL_STATE = {
   instancePageHeaderExpanded: true,
   tableColumns: [
     {
+      id: 'uri',
+      label: 'URI',
+      desc: `
+        Uniform Resource Identifier
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: true,
+      sortValues: true,
+      numberedList: false,
+      onlyOnInstancePage: true
+    },
+    {
       id: 'prefLabel',
       label: 'Name',
       desc: 'The standardized name of the actor.',
