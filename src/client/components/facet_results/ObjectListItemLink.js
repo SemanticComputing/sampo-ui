@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom';
 
 const ObjectListLink = props => {
   const { data, label, externalLink, linkAsButton } = props;
-
+  if (!data.dataProviderUrl) {
+    return(<span>{label}</span>);
+  }
   return (
     <React.Fragment>
       {externalLink && linkAsButton == null &&
@@ -16,7 +18,7 @@ const ObjectListLink = props => {
           {label}
         </a>
       }
-      {props.externalLink && props.linkAsButton &&
+      {externalLink && props.linkAsButton &&
         <Button
           variant='contained'
           target='_blank'
@@ -26,7 +28,7 @@ const ObjectListLink = props => {
           {label}
         </Button>
       }
-      {!props.externalLink &&
+      {!externalLink &&
         <Link to={data.dataProviderUrl}>
           {label}
         </Link>
