@@ -408,7 +408,9 @@ export const aboutTheProject =
     </Typography>
     <Typography paragraph={true}>
       MMM combines data from three specialist databases:
-      <ul>
+    </Typography>
+    <ul>
+      <Typography>
         <li><a href="https://sdbm.library.upenn.edu/" target='_blank' rel='noopener noreferrer'>
           Schoenberg Database of Manuscripts
         </a></li>
@@ -418,8 +420,8 @@ export const aboutTheProject =
         <li><a href="https://medieval.bodleian.ox.ac.uk/" target='_blank' rel='noopener noreferrer'>
           Medieval Manuscripts in Oxford Libraries
         </a></li>
-      </ul>
-    </Typography>
+      </Typography>
+    </ul>
     <Typography paragraph={true}>
       The data have been combined using a unified Data Model based on the CIDOC-CRM and FRBRoo
       ontologies. A diagram of the Data Model can be seen <a href="https://drive.google.com/open?id=1uyTA8Prwtts5g13eor48tKHk_g63NaaG" target='_blank' rel='noopener noreferrer'>
