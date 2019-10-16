@@ -156,6 +156,23 @@ class TopBar extends React.Component {
         FEEDBACK
       </MenuItem>
       <MenuItem
+        key={0}
+        component={this.AdapterLink}
+        to={`/about`}
+      >
+        ABOUT THE PROJECT
+      </MenuItem>
+      <a className={this.props.classes.link}
+        key={1}
+        href='http://mappingmanuscriptmigrations.org'
+        target='_blank'
+        rel='noopener noreferrer'
+      >
+        <MenuItem>
+          BLOG
+        </MenuItem>
+      </a>
+      <MenuItem
         key='info'
         component={this.AdapterLink}
         to={`/instructions`}
