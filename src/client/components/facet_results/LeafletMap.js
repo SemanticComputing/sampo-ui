@@ -42,15 +42,17 @@ const styles = theme => ({
     height: 400,
     [theme.breakpoints.up('md')]: {
       height: 'calc(100% - 72px)'
-    }
+    },
+    position: 'relative'
   },
   leafletContainerinstancePage: {
     height: 400,
     [theme.breakpoints.up('md')]: {
       height: '100%'
-    }
+    },
+    position: 'relative'
   },
-  spinner: {
+  spinnerContainer: {
     height: 40,
     width: 40,
     position: 'absolute',
@@ -247,18 +249,6 @@ class LeafletMap extends React.Component {
     this.leafletMap.removeControl(this.drawControlEditOnly);
   }
 
-  renderSpinner = () => {
-    if(this.props.fetching) {
-      return (
-        <div className={this.props.classes.spinner}>
-          <CircularProgress style={{ color: purple[500] }} thickness={5} />
-        </div>
-      );
-    }
-    return null;
-  }
-
-
   updateMarkers = results => {
     this.resultMarkerLayer.clearLayers();
     this.markers = {};
@@ -451,8 +441,12 @@ class LeafletMap extends React.Component {
         <div className={this.props.classes[`leafletContainer${this.props.pageType}`]}>
           {/*<LeafletSidebar />*/}
           <div id="map" style={style} />
+          {this.props.fetching &&
+            <div className={this.props.classes.spinnerContainer}>
+              <CircularProgress style={{ color: purple[500] }} thickness={5} />
+            </div>
+          }
         </div>
-        {this.renderSpinner()}
       </React.Fragment>
     );
   }
