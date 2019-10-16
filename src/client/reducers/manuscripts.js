@@ -60,6 +60,19 @@ export const INITIAL_STATE = {
       minWidth: 250
     },
     {
+      id: 'uri',
+      label: 'URI',
+      desc: `
+        Uniform Resource Identifier
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: true,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250
+    },
+    {
       id: 'author',
       label: 'Author',
       desc: `
