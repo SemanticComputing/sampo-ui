@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import intl from 'react-intl-universal';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,7 +13,7 @@ import Button from '@material-ui/core/Button';
 import { Link, NavLink } from 'react-router-dom';
 import TopBarSearchField from './TopBarSearchField';
 import TopBarInfoButton from './TopBarInfoButton';
-// import TopBarLanguageButton from './TopBarLanguageButton';
+import TopBarLanguageButton from './TopBarLanguageButton';
 import Divider from '@material-ui/core/Divider';
 import { has } from 'lodash';
 
@@ -91,7 +92,7 @@ class TopBar extends React.Component {
           rel='noopener noreferrer'
         >
           <MenuItem>
-            {perspective.label.toUpperCase()}
+            {intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
           </MenuItem>
         </a>
       );
@@ -102,7 +103,7 @@ class TopBar extends React.Component {
           component={this.AdapterLink}
           to={`/${perspective.id}/faceted-search`}
         >
-          {perspective.label.toUpperCase()}
+          {intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
         </MenuItem>
       );
     }
@@ -120,7 +121,7 @@ class TopBar extends React.Component {
           <Button
             className={this.props.classes.appBarButton}
           >
-            {perspective.label}
+            {intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
           </Button>
         </a>
       );
@@ -134,7 +135,7 @@ class TopBar extends React.Component {
           isActive={(match, location) => location.pathname.startsWith(`/${perspective.id}`)}
           activeClassName={this.props.classes.appBarButtonActive}
         >
-          {perspective.label}
+          {intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
         </Button>
       );
     }
@@ -225,11 +226,11 @@ class TopBar extends React.Component {
               >
                 Instructions
               </Button>
-              { /*<TopBarLanguageButton
+              <TopBarLanguageButton
                 currentLocale={currentLocale}
                 availableLocales={availableLocales}
                 loadLocales={this.props.loadLocales}
-              /> */ }
+              />
             </div>
             <div className={classes.sectionMobile}>
               <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">

@@ -8,6 +8,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 //import Divider from '@material-ui/core/Divider';
+import intl from 'react-intl-universal';
 
 const styles = theme => ({
   root: {
@@ -80,7 +81,10 @@ const InfoHeader = props => {
           id="panel1a-header"
           IconButtonProps={{ onClick: handleExpandButtonOnClick }}
         >
-          <Typography component="h1" variant="h3">{props.title}</Typography>
+          <Typography component="h1" variant="h3">
+            {props.pageType === 'facetResults' && intl.getHTML(`perspectives.${props.resultClass}.label`)}
+            {props.pageType === 'instancePage' && intl.getHTML(`perspectives.${props.resultClass}.instancePage.label`)}
+          </Typography>
           {props.pageType === 'instancePage' &&
             <React.Fragment>
               <Typography className={props.classes.label} component="h1" variant="h6">{generateLabel()}</Typography>
@@ -91,7 +95,8 @@ const InfoHeader = props => {
           className={props.classes.content}
           style={{ height: props.descriptionHeight }}
         >
-          {props.description}
+          {props.pageType === 'facetResults' && intl.getHTML(`perspectives.${props.resultClass}.longDescription`)}
+          {props.pageType === 'instancePage' && intl.getHTML(`perspectives.${props.resultClass}.instancePage.description`)}
         </ExpansionPanelDetails>
       </ExpansionPanel>
     </Grid>
@@ -105,8 +110,6 @@ InfoHeader.propTypes = {
   pageType: PropTypes.string.isRequired,
   expanded: PropTypes.bool.isRequired,
   updateExpanded: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.object.isRequired,
   descriptionHeight: PropTypes.number.isRequired,
 };
 

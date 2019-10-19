@@ -22,11 +22,11 @@ import InstanceHomePage from '../components/main_layout/InstanceHomePage';
 // import FeedbackPage from '../components/main_layout/FeedbackPage';
 import TextPage from '../components/main_layout/TextPage';
 import {
-  perspectiveArr,
+  perspectiveConfig,
   aboutTheProject,
   instructions
-} from '../components/perspectives/PerspectiveArrayMMM';
-import { perspectiveArrOnlyInfoPages } from '../components/perspectives/PerspectiveArrayOnlyInfoPagesMMM';
+} from '../components/perspectives/PerspectiveConfigMMM';
+import { perspectiveConfigOnlyInfoPages } from '../components/perspectives/PerspectiveConfigOnlyInfoPagesMMM';
 import InfoHeader from '../components/main_layout/InfoHeader';
 import { has } from 'lodash';
 //import { urlToState } from '../helpers/helpers';
@@ -274,7 +274,7 @@ let SemanticPortal = props => {
             search={props.clientSideFacetedSearch}
             fetchResultsClientSide={props.fetchResultsClientSide}
             clearResults={props.clearResults}
-            perspectives={perspectiveArr}
+            perspectives={perspectiveConfig}
             currentLocale={props.options.currentLocale}
             availableLocales={props.options.availableLocales}
             loadLocales={props.loadLocales}
@@ -283,7 +283,7 @@ let SemanticPortal = props => {
             exact path="/"
             render={() =>
               <Grid container spacing={1} className={classes.mainContainer}>
-                <Main perspectives={perspectiveArr}/>
+                <Main perspectives={perspectiveConfig}/>
                 <Footer />
               </Grid>
             }
@@ -303,7 +303,7 @@ let SemanticPortal = props => {
             }
           />
           { /* routes for perspectives that don't have an external url */ }
-          {perspectiveArr.map(perspective => {
+          {perspectiveConfig.map(perspective => {
             if (!has(perspective, 'externalUrl')) {
               return(
                 <React.Fragment key={perspective.id}>
@@ -314,11 +314,9 @@ let SemanticPortal = props => {
                         <React.Fragment>
                           <InfoHeader
                             resultClass={perspective.id}
-                            pageType='facetedSearch'
+                            pageType='facetResults'
                             expanded={props[perspective.id].facetedSearchHeaderExpanded}
                             updateExpanded={props.updatePerspectiveHeaderExpanded}
-                            title={perspective.label}
-                            description={perspective.perspectiveDesc}
                             descriptionHeight={perspective.perspectiveDescHeight}
                           />
                           <Grid container spacing={1} className={props[perspective.id].facetedSearchHeaderExpanded
@@ -358,8 +356,6 @@ let SemanticPortal = props => {
                             instanceData={props[perspective.id].instance}
                             expanded={props[perspective.id].instancePageHeaderExpanded}
                             updateExpanded={props.updatePerspectiveHeaderExpanded}
-                            title={perspective.instancePageLabel}
-                            description={perspective.instancePageDesc}
                             descriptionHeight={perspective.perspectiveDescHeight}
                           />
                           <Grid container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
@@ -388,7 +384,7 @@ let SemanticPortal = props => {
             }
           })}
           { /* create routes for classes that have only info pages and no perspective */}
-          {perspectiveArrOnlyInfoPages.map(perspective =>
+          {perspectiveConfigOnlyInfoPages.map(perspective =>
             <Route
               key={perspective.id}
               path={`/${perspective.id}/page/:id`}
@@ -401,8 +397,6 @@ let SemanticPortal = props => {
                       instanceData={props[perspective.id].instance}
                       expanded={props[perspective.id].instancePageHeaderExpanded}
                       updateExpanded={props.updatePerspectiveHeaderExpanded}
-                      title={perspective.instancePageLabel}
-                      description={perspective.instancePageDesc}
                       descriptionHeight={99}
                     />
                     <Grid container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
