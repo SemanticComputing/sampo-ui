@@ -142,7 +142,7 @@ export const loadLocalesFailed = (currentLanguage, error, message) => ({
   type: LOAD_LOCALES_FAILED,
   currentLanguage, error, message
 });
-export const updateLocale = language => ({
+export const updateLocale = ({ language }) => ({
   type: UPDATE_LOCALE,
   language
 });

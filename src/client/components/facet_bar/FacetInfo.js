@@ -78,7 +78,7 @@ class FacetInfo extends React.Component {
             size={26}
           />
           :
-          <Typography variant="h6">{intl.get('facetBar.results')} {resultCount} {resultClass}</Typography>
+          <Typography variant="h6">{intl.get('facetBar.results')}: {resultCount} {resultClass}</Typography>
         }
         <Divider className={classes.facetInfoDivider} />
         {(activeUriFilters
@@ -106,7 +106,7 @@ class FacetInfo extends React.Component {
             <Divider className={classes.facetInfoDivider} />
           </React.Fragment>
         }
-        <Typography variant="h6">Narrow down by:</Typography>
+        <Typography variant="h6">{intl.get('facetBar.narrowDownBy')}:</Typography>
       </div>
     );
   }

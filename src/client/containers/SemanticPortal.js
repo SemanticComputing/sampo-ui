@@ -44,6 +44,7 @@ import {
   updateRowsPerPage,
   showError,
   updatePerspectiveHeaderExpanded,
+  loadLocales
 } from '../actions';
 
 const styles = theme => ({
@@ -264,7 +265,6 @@ let SemanticPortal = props => {
     }
     return perspectiveElement;
   };
-
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
@@ -275,6 +275,9 @@ let SemanticPortal = props => {
             fetchResultsClientSide={props.fetchResultsClientSide}
             clearResults={props.clearResults}
             perspectives={perspectiveArr}
+            currentLocale={props.options.currentLocale}
+            availableLocales={props.options.availableLocales}
+            loadLocales={props.loadLocales}
           />
           <Route
             exact path="/"
@@ -473,6 +476,7 @@ const mapStateToProps = state => {
     collections: state.collections,
     expressions: state.expressions,
     clientSideFacetedSearch: state.clientSideFacetedSearch,
+    options: state.options,
     error: state.error
   //browser: state.browser,
   };
@@ -491,12 +495,14 @@ const mapDispatchToProps = ({
   updatePage,
   updateRowsPerPage,
   showError,
-  updatePerspectiveHeaderExpanded
+  updatePerspectiveHeaderExpanded,
+  loadLocales
 });
 
 SemanticPortal.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
+  options: PropTypes.object.isRequired,
   error: PropTypes.object.isRequired,
   // browser: PropTypes.object.isRequired,
   manuscripts: PropTypes.object.isRequired,
@@ -524,7 +530,8 @@ SemanticPortal.propTypes = {
   updateFacetOption: PropTypes.func.isRequired,
   fetchFacet: PropTypes.func.isRequired,
   showError: PropTypes.func.isRequired,
-  updatePerspectiveHeaderExpanded: PropTypes.func.isRequired
+  updatePerspectiveHeaderExpanded: PropTypes.func.isRequired,
+  loadLocales: PropTypes.func.isRequired
 };
 
 export default compose(

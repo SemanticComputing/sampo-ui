@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 import { Link, NavLink } from 'react-router-dom';
 import TopBarSearchField from './TopBarSearchField';
 import TopBarInfoButton from './TopBarInfoButton';
+// import TopBarLanguageButton from './TopBarLanguageButton';
 import Divider from '@material-ui/core/Divider';
 import { has } from 'lodash';
 
@@ -182,43 +183,8 @@ class TopBar extends React.Component {
       </MenuItem>
     </Menu>
 
-  renderInfoMenu = () =>
-    <Menu
-      anchorEl={this.state.infoAnchorEl}
-      getContentAnchorEl={null}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'center',
-      }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'center',
-      }}
-      keepMounted
-      open={Boolean(this.state.infoAnchorEl)}
-      onClose={this.handleInfoMenuClose}
-    >
-      <MenuItem
-        key={0}
-        component={this.AdapterLink}
-        to={`/about`}
-      >
-        About the project
-      </MenuItem>
-      <a className={this.props.classes.link}
-        key={1}
-        href='http://mappingmanuscriptmigrations.org'
-        target='_blank'
-        rel='noopener noreferrer'
-      >
-        <MenuItem>
-          Blog
-        </MenuItem>
-      </a>
-    </Menu>
-
   render() {
-    const { classes, perspectives } = this.props;
+    const { classes, perspectives, currentLocale, availableLocales } = this.props;
     return (
       <div className={classes.root}>
         <AppBar position="absolute">
@@ -259,6 +225,11 @@ class TopBar extends React.Component {
               >
                 Instructions
               </Button>
+              { /*<TopBarLanguageButton
+                currentLocale={currentLocale}
+                availableLocales={availableLocales}
+                loadLocales={this.props.loadLocales}
+              /> */ }
             </div>
             <div className={classes.sectionMobile}>
               <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
@@ -268,7 +239,6 @@ class TopBar extends React.Component {
           </Toolbar>
         </AppBar>
         {this.renderMobileMenu(perspectives)}
-        {this.renderInfoMenu()}
       </div>
     );
   }
@@ -278,7 +248,10 @@ TopBar.propTypes = {
   classes: PropTypes.object.isRequired,
   fetchResultsClientSide: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
-  perspectives: PropTypes.array.isRequired
+  loadLocales: PropTypes.func.isRequired,
+  perspectives: PropTypes.array.isRequired,
+  currentLocale: PropTypes.string.isRequired,
+  availableLocales: PropTypes.array.isRequired
 };
 
 export default withStyles(styles)(TopBar);

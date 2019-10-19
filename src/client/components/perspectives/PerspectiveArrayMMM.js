@@ -1,5 +1,9 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
+import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay';
+import AddLocationIcon from '@material-ui/icons/AddLocation';
+import RedoIcon from '@material-ui/icons/Redo';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 
 export const perspectiveArr = [
   {
@@ -66,47 +70,41 @@ export const perspectiveArr = [
     tabs: [
       {
         id: 'table',
-        label: 'table',
         value: 0,
-        icon: 'CalendarViewDay',
+        icon: <CalendarViewDayIcon />,
       },
       {
         id: 'production_places',
-        label: 'production places',
         value: 1,
-        icon: 'AddLocation',
+        icon: <AddLocationIcon />,
       },
       {
         id: 'migrations',
-        label: 'migrations',
         value: 2,
-        icon: 'Redo',
+        icon: <RedoIcon />,
       },
       {
         id: 'export',
-        label: 'export',
         value: 3,
-        icon: 'Download',
+        icon: <CloudDownloadIcon />,
       }
     ],
     instancePageTabs: [
       {
         id: 'table',
-        label: 'table',
         value: 0,
-        icon: 'CalendarViewDay',
+        icon:  <CalendarViewDayIcon />,
       },
       // {
       //   id: 'map',
       //   label: 'map',
       //   value: 1,
-      //   icon: 'AddLocation',
+      //   icon: <AddLocationIcon />,
       // },
       {
         id: 'export',
-        label: 'export',
         value: 1,
-        icon: 'Download',
+        icon: <CloudDownloadIcon />,
       },
     ]
   },
@@ -156,29 +154,25 @@ export const perspectiveArr = [
     tabs: [
       {
         id: 'table',
-        label: 'table',
         value: 0,
-        icon: 'CalendarViewDay',
+        icon: <CalendarViewDayIcon />,
       },
       {
         id: 'export',
-        label: 'export',
         value: 1,
-        icon: 'Download',
+        icon: <CloudDownloadIcon />,
       }
     ],
     instancePageTabs: [
       {
         id: 'table',
-        label: 'table',
         value: 0,
-        icon: 'CalendarViewDay',
+        icon: <CalendarViewDayIcon />,
       },
       {
         id: 'export',
-        label: 'export',
         value: 1,
-        icon: 'Download',
+        icon: <CloudDownloadIcon />,
       },
     ]
   },
@@ -212,35 +206,31 @@ export const perspectiveArr = [
     tabs: [
       {
         id: 'table',
-        label: 'table',
         value: 0,
-        icon: 'CalendarViewDay',
+        icon: <CalendarViewDayIcon />,
       },
       {
         id: 'map',
-        label: 'map',
         value: 1,
-        icon: 'AddLocation',
+        icon: <AddLocationIcon />,
       },
       {
         id: 'export',
         label: 'export',
         value: 2,
-        icon: 'Download',
+        icon: <CloudDownloadIcon />,
       }
     ],
     instancePageTabs: [
       {
         id: 'table',
-        label: 'table',
         value: 0,
-        icon: 'CalendarViewDay',
+        icon: <CalendarViewDayIcon />,
       },
       {
         id: 'export',
-        label: 'export',
         value: 1,
-        icon: 'Download',
+        icon: <CloudDownloadIcon />,
       },
     ]
   },
@@ -283,35 +273,30 @@ export const perspectiveArr = [
     tabs: [
       {
         id: 'table',
-        label: 'table',
         value: 0,
-        icon: 'CalendarViewDay',
+        icon: <CalendarViewDayIcon />,
       },
       {
         id: 'map',
-        label: 'map',
         value: 1,
-        icon: 'AddLocation',
+        icon: <AddLocationIcon />,
       },
       {
         id: 'export',
-        label: 'export',
         value: 2,
-        icon: 'Download',
+        icon: <CloudDownloadIcon />,
       }
     ],
     instancePageTabs: [
       {
         id: 'table',
-        label: 'table',
         value: 0,
-        icon: 'CalendarViewDay',
+        icon: <CalendarViewDayIcon />,
       },
       {
         id: 'export',
-        label: 'export',
         value: 1,
-        icon: 'Download',
+        icon: <CloudDownloadIcon />,
       },
     ]
   },
@@ -351,35 +336,30 @@ export const perspectiveArr = [
     tabs: [
       {
         id: 'table',
-        label: 'table',
         value: 0,
-        icon: 'CalendarViewDay',
+        icon: <CalendarViewDayIcon />,
       },
       {
         id: 'map',
-        label: 'map',
         value: 1,
-        icon: 'AddLocation',
+        icon: <AddLocationIcon />,
       },
       {
         id: 'export',
-        label: 'export',
         value: 2,
-        icon: 'Download',
+        icon: <CloudDownloadIcon />,
       }
     ],
     instancePageTabs: [
       {
         id: 'table',
-        label: 'table',
         value: 0,
-        icon: 'CalendarViewDay',
+        icon: <CalendarViewDayIcon />,
       },
       {
         id: 'export',
-        label: 'export',
         value: 1,
-        icon: 'Download',
+        icon: <CloudDownloadIcon />,
       },
     ]
   },

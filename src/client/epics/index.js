@@ -11,6 +11,8 @@ import {
 import { combineEpics, ofType } from 'redux-observable';
 import intl from 'react-intl-universal';
 import localeEN from '../translations/localeEN';
+import localeFI from '../translations/localeFI';
+import localeSV from '../translations/localeSV';
 import { stateToUrl } from '../helpers/helpers';
 import {
   FETCH_RESULT_COUNT,
@@ -40,8 +42,10 @@ export const apiUrl = (process.env.NODE_ENV === 'development')
 const backendErrorText = `Cannot connect to the MMM Knowledge Base.
 A data conversion process might be running. Please try again later.`;
 
-const locales = {
+export const availableLocales = {
   'en': localeEN,
+  'fi': localeFI,
+  'sv': localeSV
 };
 
 const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
@@ -246,7 +250,7 @@ const loadLocalesEpic = action$ => action$.pipe(
   mergeMap(async action => {
     await intl.init({
       currentLocale: action.currentLanguage,
-      locales
+      locales: availableLocales
     });
     return updateLocale({ language: action.currentLanguage });
   })

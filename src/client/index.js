@@ -34,7 +34,8 @@ epicMiddleware.run(rootEpic);
 bindActionCreators(toastrActions, store.dispatch);
 
 // init locale
-const lang = localStorage.getItem('locale') || 'en';
+//const lang = localStorage.getItem('locale') || 'en';
+const lang = 'en';
 store.dispatch(loadLocales(lang));
 
 // // update url on app load

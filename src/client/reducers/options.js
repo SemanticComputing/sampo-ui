@@ -1,9 +1,16 @@
 import {
   UPDATE_LOCALE
 } from '../actions';
+import { availableLocales } from '../epics/index.js';
+
+let localeArray = [];
+for (const [key, value] of Object.entries(availableLocales)) {
+  localeArray.push({ id: key, label: value.label });
+}
 
 export const INITIAL_STATE = {
-  locale: 'en',
+  currentLocale: '',
+  availableLocales: localeArray
 };
 
 const options = (state = INITIAL_STATE, action) => {
@@ -11,7 +18,7 @@ const options = (state = INITIAL_STATE, action) => {
     case UPDATE_LOCALE:
       return {
         ...state,
-        locale: action.language
+        currentLocale: action.language
       };
     default:
       return state;
