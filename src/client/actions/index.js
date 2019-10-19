@@ -24,6 +24,9 @@ export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP';
 export const SHOW_ERROR = 'SHOW_ERROR';
 export const UPDATE_PERSPECTIVE_HEADER_EXPANDED = 'UPDATE_PERSPECTIVE_HEADER_EXPANDED';
 export const UPDATE_URL = 'UPDATE_URL';
+export const LOAD_LOCALES = 'LOAD_LOCALES';
+export const LOAD_LOCALES_FAILED = 'LOAD_LOCALES_FAILED';
+export const UPDATE_LOCALE = 'UPDATE_LOCALE';
 
 export const fetchPaginatedResults = (resultClass, facetClass, sortBy) => ({
   type: FETCH_PAGINATED_RESULTS,
@@ -130,6 +133,18 @@ export const showError = message => ({
 export const updatePerspectiveHeaderExpanded = ({ resultClass, pageType }) => ({
   type: UPDATE_PERSPECTIVE_HEADER_EXPANDED,
   resultClass, pageType
+});
+export const loadLocales = currentLanguage => ({
+  type: LOAD_LOCALES,
+  currentLanguage
+});
+export const loadLocalesFailed = (currentLanguage, error, message) => ({
+  type: LOAD_LOCALES_FAILED,
+  currentLanguage, error, message
+});
+export const updateLocale = language => ({
+  type: UPDATE_LOCALE,
+  language
 });
 // export const updateURL = ({ resultClass = 'manuscripts', newURL }) => ({
 //   type: UPDATE_URL,

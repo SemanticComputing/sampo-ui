@@ -15,6 +15,7 @@ import eventsFacets from './eventsFacets';
 import actorsFacets from './actorsFacets';
 import placesFacets from './placesFacets';
 import clientSideFacetedSearch from './clientSideFacetedSearch';
+import options from './options';
 
 const reducer = combineReducers({
   manuscripts,
@@ -30,6 +31,7 @@ const reducer = combineReducers({
   collections,
   expressions,
   clientSideFacetedSearch,
+  options,
   error,
   toastr: toastrReducer,
   // browser: createResponsiveStateReducer({
