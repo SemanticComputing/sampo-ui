@@ -131,7 +131,7 @@ export const updatePerspectiveHeaderExpanded = ({ resultClass, pageType }) => ({
   type: UPDATE_PERSPECTIVE_HEADER_EXPANDED,
   resultClass, pageType
 });
-export const updateURL = ({ resultClass = 'manuscripts', newURL }) => ({
-  type: UPDATE_URL,
-  resultClass, newURL
-});
+// export const updateURL = ({ resultClass = 'manuscripts', newURL }) => ({
+//   type: UPDATE_URL,
+//   resultClass, newURL
+// });
