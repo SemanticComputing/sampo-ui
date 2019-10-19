@@ -11,6 +11,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import { Link, NavLink } from 'react-router-dom';
 import TopBarSearchField from './TopBarSearchField';
+import TopBarInfoButton from './TopBarInfoButton';
 import Divider from '@material-ui/core/Divider';
 import { has } from 'lodash';
 
@@ -184,8 +185,16 @@ class TopBar extends React.Component {
   renderInfoMenu = () =>
     <Menu
       anchorEl={this.state.infoAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      getContentAnchorEl={null}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'center',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+      }}
+      keepMounted
       open={Boolean(this.state.infoAnchorEl)}
       onClose={this.handleInfoMenuClose}
     >
@@ -240,9 +249,7 @@ class TopBar extends React.Component {
               >
                 Feedback
               </Button>
-              <Button className={classes.appBarButton} aria-haspopup="true" onClick={this.handleInfoMenuOpen}>
-                Info
-              </Button>
+              <TopBarInfoButton />
               <Button
                 className={classes.appBarButton}
                 component={this.AdapterNavLink}

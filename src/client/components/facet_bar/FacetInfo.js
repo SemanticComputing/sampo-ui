@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import intl from 'react-intl-universal';
 import { has } from 'lodash';
 import { withStyles } from '@material-ui/core/styles';
 import ActiveFilters from './ActiveFilters';
@@ -77,7 +78,7 @@ class FacetInfo extends React.Component {
             size={26}
           />
           :
-          <Typography variant="h6">Results: {resultCount} {resultClass}</Typography>
+          <Typography variant="h6">{intl.get('facetBar.results')} {resultCount} {resultClass}</Typography>
         }
         <Divider className={classes.facetInfoDivider} />
         {(activeUriFilters
