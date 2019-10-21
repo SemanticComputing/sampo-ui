@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import intl from 'react-intl-universal';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -74,7 +75,7 @@ class TopBarInfoButton extends React.Component {
             rel='noopener noreferrer'
           >
             <MenuItem onClick={this.handleInfoMenuClose}>
-              Blog
+              {intl.get('topBar.info.blog')}
             </MenuItem>
           </a>
         </Menu>

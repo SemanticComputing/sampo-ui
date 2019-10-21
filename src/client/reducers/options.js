@@ -5,7 +5,7 @@ import { availableLocales } from '../epics/index.js';
 
 let localeArray = [];
 for (const [key, value] of Object.entries(availableLocales)) {
-  localeArray.push({ id: key, label: value.label });
+  localeArray.push({ id: key, label: value.languageLabel });
 }
 
 export const INITIAL_STATE = {

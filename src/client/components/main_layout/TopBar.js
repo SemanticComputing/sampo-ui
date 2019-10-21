@@ -156,14 +156,14 @@ class TopBar extends React.Component {
         component={this.AdapterLink}
         to={`/feedback`}
       >
-        FEEDBACK
+        {intl.get('topBar.feedback').toUpperCase()}
       </MenuItem>
       <MenuItem
         key={0}
         component={this.AdapterLink}
         to={`/about`}
       >
-        ABOUT THE PROJECT
+        {intl.get('topBar.info.aboutTheProject').toUpperCase()}
       </MenuItem>
       <a className={this.props.classes.link}
         key={1}
@@ -172,7 +172,7 @@ class TopBar extends React.Component {
         rel='noopener noreferrer'
       >
         <MenuItem>
-          BLOG
+          {intl.get('topBar.info.blog').toUpperCase()}
         </MenuItem>
       </a>
       <MenuItem
@@ -180,7 +180,7 @@ class TopBar extends React.Component {
         component={this.AdapterLink}
         to={`/instructions`}
       >
-        INSTRUCTIONS
+        {intl.get('topBar.instructions').toUpperCase()}
       </MenuItem>
     </Menu>
 
@@ -196,7 +196,7 @@ class TopBar extends React.Component {
               to='/'
             >
               <Typography className={classes.title} variant="h6" color="inherit">
-                MMM
+                {intl.get('topBar.appTitle')}
               </Typography>
             </Button>
             <TopBarSearchField
@@ -214,7 +214,7 @@ class TopBar extends React.Component {
                 isActive={(match, location) => location.pathname.startsWith(`/feedback`)}
                 activeClassName={this.props.classes.appBarButtonActive}
               >
-                Feedback
+                {intl.get('topBar.feedback')}
               </Button>
               <TopBarInfoButton />
               <Button
@@ -224,7 +224,7 @@ class TopBar extends React.Component {
                 isActive={(match, location) => location.pathname.startsWith(`/instructions`)}
                 activeClassName={this.props.classes.appBarButtonActive}
               >
-                Instructions
+                {intl.get('topBar.instructions')}
               </Button>
               <TopBarLanguageButton
                 currentLocale={currentLocale}

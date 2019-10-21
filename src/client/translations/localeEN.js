@@ -1,5 +1,14 @@
 export default {
-  'label': 'English',
+  'languageLabel': 'English',
+  'topBar': {
+    'appTitle': 'MMM',
+    'feedback': 'feedback',
+    'info': {
+      'blog': 'Blog',
+      'aboutTheProject': 'About the project'
+    },
+    'instructions': 'instructions'
+  },
   'facetBar': {
     'results': 'Results',
     'narrowDownBy': 'Narrow down by'
