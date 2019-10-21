@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import intl from 'react-intl-universal';
 import { withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Table from '@material-ui/core/Table';
@@ -251,6 +252,7 @@ class ResultTable extends React.Component {
           }}
           count={resultCount}
           rowsPerPage={pagesize}
+          labelRowsPerPage={intl.get('table.rowsPerPage')}
           rowsPerPageOptions={[5, 10, 15, 25, 30, 50, 100]}
           page={page == -1 || resultCount == 0 ? 0 : page}
           onChangePage={this.handleChangePage}

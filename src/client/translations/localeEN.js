@@ -11,6 +11,10 @@ export default {
     'migrations': 'migrations',
     'export': 'export'
   },
+  'table': {
+    'rowsPerPage': 'Rows per page',
+    'of': 'of'
+  },
   'perspectives': {
     'manuscripts': {
       'label': 'Manuscripts',
