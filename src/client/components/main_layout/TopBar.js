@@ -226,11 +226,11 @@ class TopBar extends React.Component {
               >
                 {intl.get('topBar.instructions')}
               </Button>
-              <TopBarLanguageButton
+              { /* <TopBarLanguageButton
                 currentLocale={currentLocale}
                 availableLocales={availableLocales}
                 loadLocales={this.props.loadLocales}
-              />
+              /> */ }
             </div>
             <div className={classes.sectionMobile}>
               <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
