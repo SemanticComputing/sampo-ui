@@ -48,10 +48,6 @@ export const INITIAL_STATE = {
   properties: [
     {
       id: 'uri',
-      label: 'URI',
-      desc: `
-        Uniform Resource Identifier
-      `,
       valueType: 'object',
       makeLink: true,
       externalLink: true,
@@ -61,8 +57,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'prefLabel',
-      label: 'Name',
-      desc: 'The name of the place. ',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -72,8 +66,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'placeType',
-      label: 'Place type',
-      desc: 'The place type from Getty Thesaurus of Geographic Names.',
       valueType: 'string',
       makeLink: false,
       externalLink: false,
@@ -83,11 +75,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'area',
-      label: 'Parent Place',
-      desc: `
-        The preferred parent place in the hierarchy used by the Getty
-        Thesaurus of Geographic Names.
-      `,
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -97,10 +84,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'manuscriptProduced',
-      label: 'Manuscripts produced',
-      desc: `
-        Manuscript(s) produced here.
-      `,
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -111,10 +94,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'manuscriptTransferred',
-      label: 'Manuscripts transferred',
-      desc: `
-        The manuscript(s) that have a "Transfer of Custody" event located here.
-      `,
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -125,10 +104,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'manuscriptObserved',
-      label: 'Manuscripts observed',
-      desc: `
-        The manuscript(s) that have a provenance event located here.
-      `,
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -139,10 +114,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'actor',
-      label: 'Actor',
-      desc: `
-        The actor(s) associated with the place.
-      `,
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -153,12 +124,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'source',
-      label: 'Source',
-      desc: `
-        The source dataset (Schoenberg, Bibale, and Bodleian) and the place
-        authority (Getty Thesaurus of Geographic Names and GeoNames)
-        contributing the information on the place.
-      `,
       valueType: 'object',
       makeLink: true,
       externalLink: true,
