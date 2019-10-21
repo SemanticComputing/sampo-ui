@@ -164,14 +164,14 @@ class FacetHeader extends React.Component {
   }
 
   render() {
-    const { classes, isActive, description } = this.props;
-    const { label, sortButton, spatialFilterButton } = this.props.facet;
+    const { classes, isActive, facetDescription, facetLabel } = this.props;
+    const { sortButton, spatialFilterButton } = this.props.facet;
     let showMenuButton = isActive && (sortButton || spatialFilterButton);
     return (
       <div className={classes.headingContainer}>
-        <Typography variant="body1">{label} </Typography>
+        <Typography variant="body1">{facetLabel} </Typography>
         <Tooltip
-          title={description}
+          title={facetDescription}
           enterDelay={300}
         >
           <IconButton>
@@ -191,13 +191,14 @@ class FacetHeader extends React.Component {
 FacetHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   facetID: PropTypes.string,
+  facetLabel: PropTypes.string.isRequired,
   facet: PropTypes.object,
   isActive: PropTypes.bool.isRequired,
   facetClass: PropTypes.string,
   resultClass: PropTypes.string,
   fetchFacet: PropTypes.func,
   updateFacetOption: PropTypes.func,
-  description: PropTypes.string.isRequired
+  facetDescription: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(FacetHeader);

@@ -178,7 +178,7 @@ class ResultTable extends React.Component {
     const { classes } = this.props;
     const expanded = this.state.expandedRows.has(row.id);
     let hasExpandableContent = false;
-    const dataCells = this.props.data.tableColumns.map(column => {
+    const dataCells = this.props.data.properties.map(column => {
       if (column.onlyOnInstancePage) { return null; }
       const columnData = row[column.id] == null ? '-' : row[column.id];
       const isArray = Array.isArray(columnData);
@@ -267,7 +267,8 @@ class ResultTable extends React.Component {
             :
             <Table size='small'>
               <ResultTableHead
-                columns={this.props.data.tableColumns}
+                resultClass={this.props.resultClass}
+                columns={this.props.data.properties}
                 onSortBy={this.handleSortBy}
                 sortBy={sortBy}
                 sortDirection={sortDirection}

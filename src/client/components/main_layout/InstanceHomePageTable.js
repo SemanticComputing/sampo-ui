@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import intl from 'react-intl-universal';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -40,17 +41,19 @@ const styles = theme => ({
 
 
 const InstanceHomePageTable = props => {
-  const { classes, data, tableRows } = props;
+  const { classes, data, properties } = props;
   return (
     <Table className={classes.instanceTable}>
       <TableBody>
-        {tableRows.map(row => {
+        {properties.map(row => {
+          const label = intl.get(`perspectives.${props.resultClass}.properties.${row.id}.label`);
+          const description = intl.get(`perspectives.${props.resultClass}.properties.${row.id}.description`);
           return (
             <TableRow key={row.id}>
               <TableCell className={classes.labelCell}>
-                {row.label}
+                {label}
                 <Tooltip
-                  title={row.desc}
+                  title={description}
                   enterDelay={300}
                 >
                   <IconButton>
@@ -96,8 +99,9 @@ const InstanceHomePageTable = props => {
 
 InstanceHomePageTable.propTypes = {
   classes: PropTypes.object.isRequired,
+  resultClass: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
-  tableRows: PropTypes.array.isRequired
+  properties: PropTypes.array.isRequired
 };
 
 export default withStyles(styles)(InstanceHomePageTable);

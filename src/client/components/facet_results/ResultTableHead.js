@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import intl from 'react-intl-universal';
 import { withStyles } from '@material-ui/core/styles';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -26,6 +27,8 @@ const ResultTableHead = props => {
         <TableCell className={classes.headerCol} key={'empty'} />
         {columns.map(column => {
           if (column.onlyOnInstancePage) { return null; }
+          const label = intl.get(`perspectives.${props.resultClass}.properties.${column.id}.label`);
+          const description = intl.get(`perspectives.${props.resultClass}.properties.${column.id}.description`);
           return (
             <TableCell
               className={classes.headerCol}
@@ -33,7 +36,7 @@ const ResultTableHead = props => {
               sortDirection={sortBy === column.id ? sortDirection : false}
             >
               <Tooltip
-                title={`Sort by ${column.label}`}
+                title={`Sort by ${label}`}
                 enterDelay={300}
               >
                 <TableSortLabel
@@ -42,11 +45,11 @@ const ResultTableHead = props => {
                   hideSortIcon={true}
                   onClick={onSortBy(column.id)}
                 >
-                  {column.label}
+                  {label}
                 </TableSortLabel>
               </Tooltip>
               <Tooltip
-                title={column.desc}
+                title={description}
                 enterDelay={300}
               >
                 <IconButton>
@@ -63,6 +66,7 @@ const ResultTableHead = props => {
 
 ResultTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
+  resultClass: PropTypes.string.isRequired,
   columns: PropTypes.array.isRequired,
   onSortBy: PropTypes.func.isRequired,
   sortBy: PropTypes.string,

@@ -45,7 +45,7 @@ export const INITIAL_STATE = {
   sparqlQuery: null,
   facetedSearchHeaderExpanded: true,
   instancePageHeaderExpanded: true,
-  tableColumns: [
+  properties: [
     {
       id: 'uri',
       label: 'URI',

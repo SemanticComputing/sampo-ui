@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import intl from 'react-intl-universal';
 import { withStyles } from '@material-ui/core/styles';
 import { has } from 'lodash';
 import SortableTree, { changeNodeAtPath } from 'react-sortable-tree';
@@ -263,7 +264,7 @@ class HierarchicalFacet extends Component {
 
   render() {
     const { searchString, searchFocusIndex, searchFoundCount } = this.state;
-    const { classes, facet } = this.props;
+    const { classes, facet, facetClass, facetID } = this.props;
     const { isFetching, searchField } = facet;
     // if (this.props.facetID == 'owner') {
     //   console.log(this.state.treeData)
@@ -358,7 +359,7 @@ class HierarchicalFacet extends Component {
             {facet.filterType === 'spatialFilter' &&
               <div className={classes.spinnerContainer}>
                 <Typography>
-                  Draw a bounding box on the map to filter by {this.props.facet.label.toLowerCase()}.
+                  Draw a bounding box on the map to filter by {intl.get(`perspectives.${facetClass}.properties.${facetID}.label`)}.
                 </Typography>
               </div>
             }

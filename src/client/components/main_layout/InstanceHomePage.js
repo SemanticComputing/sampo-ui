@@ -153,8 +153,9 @@ class InstanceHomePage extends React.Component {
                 path={`/${resultClass}/page/${this.state.localID}/table`}
                 render={() =>
                   <InstanceHomePageTable
+                    resultClass={resultClass}
                     data={data}
-                    tableRows={this.getVisibleRows(this.props.tableRows)}
+                    properties={this.getVisibleRows(this.props.properties)}
                   />}
               />
               <Route
@@ -194,7 +195,7 @@ InstanceHomePage.propTypes = {
   resultClass: PropTypes.string.isRequired,
   data: PropTypes.object,
   sparqlQuery: PropTypes.string,
-  tableRows: PropTypes.array.isRequired,
+  properties: PropTypes.array.isRequired,
   tabs: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
   routeProps: PropTypes.object.isRequired

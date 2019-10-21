@@ -18,7 +18,6 @@ export const INITIAL_STATE = {
   facets: {
     prefLabel: {
       id: 'prefLabel',
-      label: 'Label',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -36,7 +35,6 @@ export const INITIAL_STATE = {
     },
     author: {
       id: 'author',
-      label: 'Author',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -54,7 +52,6 @@ export const INITIAL_STATE = {
     },
     work: {
       id: 'work',
-      label: 'Work',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -72,7 +69,6 @@ export const INITIAL_STATE = {
     },
     productionPlace: {
       id: 'productionPlace',
-      label: 'Production place',
       //predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -93,7 +89,6 @@ export const INITIAL_STATE = {
     },
     productionTimespan: {
       id: 'productionTimespan',
-      label: 'Production date',
       //predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -114,7 +109,6 @@ export const INITIAL_STATE = {
     },
     note: {
       id: 'note',
-      label: 'Note',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -132,7 +126,6 @@ export const INITIAL_STATE = {
     },
     language: {
       id: 'language',
-      label: 'Language',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -151,7 +144,6 @@ export const INITIAL_STATE = {
     // event only as a result table column
     owner: {
       id: 'owner',
-      label: 'Owner',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -169,7 +161,6 @@ export const INITIAL_STATE = {
     },
     collection: {
       id: 'collection',
-      label: 'Collection',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -187,7 +178,6 @@ export const INITIAL_STATE = {
     },
     transferOfCustodyPlace: {
       id: 'transferOfCustodyPlace',
-      label: 'Transfer of Custody Place',
       //predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -207,7 +197,6 @@ export const INITIAL_STATE = {
     },
     transferOfCustodyTimespan: {
       id: 'transferOfCustodyTimespan',
-      label: 'Transfer of Custody Date',
       //predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -228,7 +217,6 @@ export const INITIAL_STATE = {
     },
     material: {
       id: 'material',
-      label: 'Material',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -246,7 +234,6 @@ export const INITIAL_STATE = {
     },
     height: {
       id: 'height',
-      label: 'Height',
       // predicate: defined in backend
       sortButton: false,
       spatialFilterButton: false,
@@ -260,7 +247,6 @@ export const INITIAL_STATE = {
     },
     width: {
       id: 'width',
-      label: 'Width',
       // predicate: defined in backend
       sortButton: false,
       spatialFilterButton: false,
@@ -274,7 +260,6 @@ export const INITIAL_STATE = {
     },
     folios: {
       id: 'folios',
-      label: 'Folios',
       // predicate: defined in backend
       sortButton: false,
       spatialFilterButton: false,
@@ -288,7 +273,6 @@ export const INITIAL_STATE = {
     },
     lines: {
       id: 'lines',
-      label: 'Lines',
       // predicate: defined in backend
       sortButton: false,
       spatialFilterButton: false,
@@ -302,7 +286,6 @@ export const INITIAL_STATE = {
     },
     columns: {
       id: 'columns',
-      label: 'Columns',
       // predicate: defined in backend
       sortButton: false,
       spatialFilterButton: false,
@@ -316,7 +299,6 @@ export const INITIAL_STATE = {
     },
     miniatures: {
       id: 'miniatures',
-      label: 'Miniatures',
       // predicate: defined in backend
       sortButton: false,
       spatialFilterButton: false,
@@ -330,7 +312,6 @@ export const INITIAL_STATE = {
     },
     decoratedInitials: {
       id: 'decoratedInitials',
-      label: 'Decorated initials',
       // predicate: defined in backend
       sortButton: false,
       spatialFilterButton: false,
@@ -344,7 +325,6 @@ export const INITIAL_STATE = {
     },
     historiatedInitials: {
       id: 'historiatedInitials',
-      label: 'Historiated initials',
       // predicate: defined in backend
       sortButton: false,
       spatialFilterButton: false,
@@ -358,7 +338,6 @@ export const INITIAL_STATE = {
     },
     source: {
       id: 'source',
-      label: 'Source',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],

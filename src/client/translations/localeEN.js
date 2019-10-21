@@ -42,16 +42,6 @@ export default {
           Place” tab.
         </p>
       `,
-      'tableColumns': {
-        'uri': {
-          'label': 'URI',
-          'description': 'Uniform Resource Identifier'
-        },
-        'prefLabel': {
-          'label': 'Label',
-          'description': 'A short label describing the manuscript.'
-        }
-      },
       'instancePage': {
         'label': 'Manuscript',
         'description': `
@@ -92,7 +82,165 @@ export default {
             </li>
           </ul>
         `
-      }
+      },
+      'properties': {
+        'uri': {
+          'label': 'URI',
+          'description': 'Uniform Resource Identifier'
+        },
+        'prefLabel': {
+          'label': 'Label',
+          'description': 'A short label describing the manuscript.'
+        },
+        'author': {
+          'label': 'Author',
+          'description':`
+            The author(s) who have contributed to the intellectual content (works)
+            contained in the manuscript.
+          `
+        },
+        'work': {
+          'label': 'Work',
+          'description': 'The intellectual content (works) contained in the manuscript.'
+        },
+        'expression': {
+          'label': 'Label',
+          'description': 'The linguistic versions of the works contained in the manuscript.'
+        },
+        'productionPlace': {
+          'label': 'Production place',
+          'description': `
+            The location where the manuscript was written. Multiple production places
+            may appear for a single manuscript due to the following reasons:  1) there
+            are discrepancies in the contributing data source,  2) there are discrepancies
+            between several contributing data sources, 3) the precise date is uncertain,
+            4) the production indeed took place on several occasions (e.g. for composite
+            manuscripts).
+          `
+        },
+        'productionTimespan': {
+          'label': 'Production date',
+          'description': `
+            The date when the manuscript was written. Multiple production dates may appear
+            for a single manuscript due to the following reasons:  1) there are discrepancies
+            in the contributing data source,  2) there are discrepancies between several
+            contributing data sources, 3) the precise date is uncertain, 4) the production
+            indeed took place on several occasions (e.g. for composite manuscripts).
+          `
+        },
+        'note': {
+          'label': 'Note',
+          'description': `
+            Other info such as distinguishing characteristics, notes on the physical structure
+            of the manuscript, script types, note glosses, physical relationships among various
+            texts and/or parts of a miscellany, such as multiple types of page layout.
+          `
+        },
+        'language': {
+          'label': 'Language',
+          'description': `
+            The language(s) in which the manuscript was written.
+          `
+        },
+        'event': {
+          'label': 'Event',
+          'description': `
+            Events related to the manuscript.
+          `
+        },
+        'owner': {
+          'label': 'Owner',
+          'description': `
+            Former or current owners (individual or institutional).
+          `
+        },
+        'collection': {
+          'label': 'Collection',
+          'description': `
+            The collection(s) that the manuscript has been part of at some point in time.
+          `
+        },
+        'transferOfCustodyPlace': {
+          'label': 'Transfer of Custody Place',
+          'description': `
+            The locations of “Transfer of Custody” events related to the manuscript.
+          `
+        },
+        'transferOfCustodyTimespan': {
+          'label': 'Transfer of Custody Date',
+          'description': `
+            The dates of “Transfer of Custody” events related to the manuscript.
+          `
+        },
+        'material': {
+          'label': 'Material',
+          'description': `
+            The physical material on which the text is written.
+          `
+        },
+        'height': {
+          'label': 'Height',
+          'description': `
+            The height of the manuscript in millimeters.
+          `
+        },
+        'width': {
+          'label': 'Width',
+          'description': `
+            The width of the manuscript in millimeters.
+          `
+        },
+        'folios': {
+          'label': 'Folios',
+          'description': `
+            The number of folios (leaves).
+          `
+        },
+        'lines': {
+          'label': 'Lines',
+          'description': `
+            The number of lines in a text block. Left blank if the number of lines
+            occurring throughout the manuscript is too irregular to be a useful
+            descriptor for searching.
+          `
+        },
+        'columns': {
+          'label': 'Columns',
+          'description': `
+            The number of columns. Left blank if the number of columns
+            occurring throughout the manuscript is too irregular to be a useful
+            descriptor for searching.
+          `
+        },
+        'miniatures': {
+          'label': 'Miniatures',
+          'description': `
+            The number of miniatures.
+          `
+        },
+        'decoratedInitials': {
+          'label': 'Decorated initials',
+          'description': `
+            The number of decorated initials.
+          `
+        },
+        'historiatedInitials': {
+          'label': 'Historiated initials',
+          'description': `
+            The number of historiated initials.
+          `
+        },
+        'source': {
+          'label': 'Source',
+          'description': `
+            The source dataset(s) (Bibale, Bodleian, or SDBM) contributing the
+            information on the manuscript. If two or more source datasets include
+            the same manuscript and this has been manually verified, the information
+            from the source datasets have been merged into one manuscript (table row).
+             Click on the links to view the original record on the source’s website.
+          `
+        },
+      },
     },
     'works': {
       'label': 'Works',

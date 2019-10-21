@@ -334,7 +334,6 @@ let SemanticPortal = props => {
                                 fetchResultCount={props.fetchResultCount}
                                 updateFacetOption={props.updateFacetOption}
                                 defaultActiveFacets={perspective.defaultActiveFacets}
-                                resultTableColumns={props[perspective.id].tableColumns}
                               />
                             </Grid>
                             <Grid item xs={12} md={9} className={classes.resultsContainer}>
@@ -366,7 +365,7 @@ let SemanticPortal = props => {
                               <InstanceHomePage
                                 fetchByURI={props.fetchByURI}
                                 resultClass={perspective.id}
-                                tableRows={props[perspective.id].tableColumns}
+                                properties={props[perspective.id].properties}
                                 tabs={perspective.instancePageTabs}
                                 data={props[perspective.id].instance}
                                 sparqlQuery={props[perspective.id].instanceSparqlQuery}
@@ -407,7 +406,7 @@ let SemanticPortal = props => {
                         <InstanceHomePage
                           fetchByURI={props.fetchByURI}
                           resultClass={perspective.id}
-                          tableRows={props[perspective.id].tableColumns}
+                          properties={props[perspective.id].properties}
                           tabs={perspective.instancePageTabs}
                           data={props[perspective.id].instance}
                           sparqlQuery={props[perspective.id].instanceSparqlQuery}
