@@ -18,13 +18,10 @@ export const INITIAL_STATE = {
   facets: {
     prefLabel: {
       id: 'prefLabel',
-      label: 'Title',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
       flatValues: [],
-      //sortBy: 'instanceCount',
-      //sortDirection: 'desc',
       sortButton: false,
       spatialFilterButton: false,
       isFetching: false,
@@ -36,7 +33,6 @@ export const INITIAL_STATE = {
     },
     author: {
       id: 'author',
-      label: 'Possible author',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -54,7 +50,6 @@ export const INITIAL_STATE = {
     },
     language: {
       id: 'language',
-      label: 'Language',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -72,7 +67,6 @@ export const INITIAL_STATE = {
     },
     productionTimespan: {
       id: 'productionTimespan',
-      label: 'Manuscript production date',
       //predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -93,7 +87,6 @@ export const INITIAL_STATE = {
     },
     collection: {
       id: 'collection',
-      label: 'Collection',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -109,28 +102,8 @@ export const INITIAL_STATE = {
       uriFilter: null,
       priority: 5
     },
-    material: {
-      id: 'material',
-      label: 'Material',
-      // predicate: defined in backend
-      distinctValueCount: 0,
-      values: [],
-      flatValues: [],
-      sortBy: 'instanceCount',
-      sortDirection: 'desc',
-      sortButton: true,
-      spatialFilterButton: false,
-      isFetching: false,
-      searchField: true,
-      containerClass: 'ten',
-      filterType: 'uriFilter',
-      uriFilter: null,
-      priority: 4
-    },
-
     source: {
       id: 'source',
-      label: 'Source',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],

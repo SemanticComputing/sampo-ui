@@ -279,6 +279,61 @@ export default {
             contained within the combined dataset.
           </p>
         `
+      },
+      'properties': {
+        'uri': {
+          'label': 'URI',
+          'description': 'Uniform Resource Identifier'
+        },
+        'prefLabel': {
+          'label': 'Title',
+          'description': 'The name or title of the Work.'
+        },
+        'author': {
+          'label': 'Possible author',
+          'description': `
+            The author(s) associated with the Work. Because of the structure of
+            entries in the Schoenberg Database, the authors shown as being
+            associated with a Work may actually be associated with other
+            Works in the same manuscript instead.
+          `
+        },
+        'language': {
+          'label': 'Language',
+          'description':  `
+            The language in which a Work is written in the manuscript
+            (i.e., an “Expression” of a Work). One manuscript may contain multiple languages.
+          `
+        },
+        'manuscript': {
+          'label': 'Manuscript',
+          'description': `
+            The specific manuscript(s) in which the Work can be found.
+          `,
+        },
+        'productionTimespan': {
+          'label': 'Manuscript production date',
+          'description': `
+            The date(s) when the manuscript(s) in which the Work can be found were written.
+            Multiple production dates may appear for a single manuscript,
+            when there are discrepancies between the contributing data source
+            or when the precise date is uncertain.
+          `
+        },
+        'collection': {
+          'label': 'Collection',
+          'description': `
+            The specific collection(s) of manuscripts in which a Work can be found.
+          `
+        },
+        'source': {
+          'label': 'Source',
+          'description': `
+            The source database(s) (Schoenberg, Bibale, and Bodleian) that the Work
+            occurs in. Click on the result table link to view the original record on the
+            source’s website.
+          `
+        },
       }
     },
     'events': {
