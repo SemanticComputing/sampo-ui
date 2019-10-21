@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button';
 import { Link, NavLink } from 'react-router-dom';
 import TopBarSearchField from './TopBarSearchField';
 import TopBarInfoButton from './TopBarInfoButton';
-// import TopBarLanguageButton from './TopBarLanguageButton';
+import TopBarLanguageButton from './TopBarLanguageButton';
 import Divider from '@material-ui/core/Divider';
 import { has } from 'lodash';
 
@@ -226,11 +226,11 @@ class TopBar extends React.Component {
               >
                 Instructions
               </Button>
-              { /* <TopBarLanguageButton
+              <TopBarLanguageButton
                 currentLocale={currentLocale}
                 availableLocales={availableLocales}
                 loadLocales={this.props.loadLocales}
-              /> */}
+              />
             </div>
             <div className={classes.sectionMobile}>
               <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">

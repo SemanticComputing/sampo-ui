@@ -228,7 +228,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 200,
+      minWidth: 220,
     },
     {
       id: 'transferOfCustodyTimespan',
@@ -241,7 +241,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 200,
+      minWidth: 210,
     },
     {
       id: 'material',
@@ -349,7 +349,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 150,
+      minWidth: 170,
     },
     {
       id: 'historiatedInitials',
@@ -362,7 +362,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 150,
+      minWidth: 170,
     },
     {
       id: 'source',

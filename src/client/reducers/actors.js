@@ -104,7 +104,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 200
+      minWidth: 220
     },
     {
       id: 'place',
