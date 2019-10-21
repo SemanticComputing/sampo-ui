@@ -48,10 +48,6 @@ export const INITIAL_STATE = {
   properties: [
     {
       id: 'uri',
-      label: 'URI',
-      desc: `
-        Uniform Resource Identifier
-      `,
       valueType: 'object',
       makeLink: true,
       externalLink: true,
@@ -61,11 +57,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'type',
-      label: 'Type',
-      desc: `
-        Distinguish between “Transfer of Custody”, “Production”, and other
-        types of “Activity” events.
-      `,
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -75,10 +66,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'manuscript',
-      label: 'Manuscript / Collection',
-      desc: `
-        The manuscript or manuscript collection associated with the event.
-      `,
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -88,10 +75,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'eventTimespan',
-      label: 'Date',
-      desc: `
-        The date or time period associated with the event.
-      `,
       valueType: 'object',
       makeLink: false,
       externalLink: false,
@@ -101,8 +84,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'place',
-      label: 'Place',
-      desc: 'The specific place associated with the event.',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -112,8 +93,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'surrender',
-      label: 'Custody surrendered by',
-      desc: 'Custody surrendered by',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -125,8 +104,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'receiver',
-      label: 'Custody received by',
-      desc: 'Custody received by',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -138,8 +115,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'observedOwner',
-      label: 'Observed owner',
-      desc: 'Observed owner',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -151,11 +126,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'source',
-      label: 'Source',
-      desc: `
-        The source database (Schoenberg, Bibale, and Bodleian) that provided
-        the information about the event.
-      `,
       valueType: 'object',
       makeLink: true,
       externalLink: true,

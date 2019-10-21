@@ -18,7 +18,6 @@ export const INITIAL_STATE = {
   facets: {
     type: {
       id: 'type',
-      label: 'Type',
       //predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -37,7 +36,6 @@ export const INITIAL_STATE = {
     },
     manuscript: {
       id: 'manuscript',
-      label: 'Manuscript / Collection label',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -55,7 +53,6 @@ export const INITIAL_STATE = {
     },
     eventTimespan: {
       id: 'eventTimespan',
-      label: 'Date',
       //predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -76,7 +73,6 @@ export const INITIAL_STATE = {
     },
     place: {
       id: 'place',
-      label: 'Place',
       //predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -96,7 +92,6 @@ export const INITIAL_STATE = {
     },
     // source: {
     //   id: 'source',
-    //   label: 'Source',
     //   // predicate: defined in backend
     //   distinctValueCount: 0,
     //   values: [],

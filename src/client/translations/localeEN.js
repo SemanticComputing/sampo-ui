@@ -309,7 +309,7 @@ export default {
           'label': 'Manuscript',
           'description': `
             The specific manuscript(s) in which the Work can be found.
-          `,
+          `
         },
         'productionTimespan': {
           'label': 'Manuscript production date',
@@ -357,6 +357,69 @@ export default {
             To cite this record, use its url.
           </p>
         `
+      },
+      'properties': {
+        'uri': {
+          'label': 'URI',
+          'description': 'Uniform Resource Identifier'
+        },
+        'type': {
+          'label': 'Type',
+          'description': `
+            Distinguish between “Transfer of Custody”, “Production”, and other
+            types of “Activity” events.
+          `
+        },
+        'language': {
+          'label': 'Language',
+          'description':  `
+            The language in which a Work is written in the manuscript
+            (i.e., an “Expression” of a Work). One manuscript may contain multiple languages.
+          `
+        },
+        'manuscript': {
+          'label': 'Manuscript / Collection',
+          'description': `
+            The manuscript or manuscript collection associated with the event.
+          `
+        },
+        'eventTimespan': {
+          'label': 'Date',
+          'description': `
+            The date or time period associated with the event.
+          `
+        },
+        'place': {
+          'label': 'Place',
+          'description': `
+            The specific place(s) associated with the event.
+          `
+        },
+        'surrender': {
+          'label': 'Custody surrendered by',
+          'description': `
+            Custody surrendered by
+          `
+        },
+        'receiver': {
+          'label': 'Custody received by',
+          'description': `
+            Custody received by
+          `
+        },
+        'observedOwner': {
+          'label': 'Observed owner',
+          'description': `
+            Observed owner
+          `
+        },
+        'source': {
+          'label': 'Source',
+          'description': `
+            The source database (Schoenberg, Bibale, and Bodleian) that provided
+            the information about the event.
+          `
+        },
       }
     },
     'actors': {
@@ -389,6 +452,72 @@ export default {
             properties linked to this record. To cite this record, use its url.
           </p>
         `
+      },
+      'properties': {
+        'uri': {
+          'label': 'URI',
+          'description': 'Uniform Resource Identifier'
+        },
+        'prefLabel': {
+          'label': 'Name',
+          'description': `
+            The standardized name of the actor.
+          `
+        },
+        'type': {
+          'label': 'Type',
+          'description':  `
+            Indicates whether the actor is an individual (Person) or an institution,
+            corporation, or family (Group)
+          `
+        },
+        'birthDateTimespan': {
+          'label': 'Birth / formation date',
+          'description': `
+            The date when the actor was born or established.
+          `
+        },
+        'deathDateTimespan': {
+          'label': 'Death / dissolution date',
+          'description': `
+            The date when the actor died or dissolved.
+          `
+        },
+        'place': {
+          'label': 'Activity location',
+          'description': `
+            Place(s) of activity linked to this actor.
+          `
+        },
+        'work': {
+          'label': 'Work',
+          'description': `
+            Work(s) linked to the actor.
+          `
+        },
+        'manuscript': {
+          'label': 'Manuscript',
+          'description': `
+            Manuscript(s) linked to the actor.
+          `
+        },
+        'role': {
+          'label': 'Role',
+          'description': `
+            Role(s)
+          `
+        },
+        'source': {
+          'label': 'Source',
+          'description': `
+            The source dataset(s) (Bibale, Bodleian, or SDBM) contributing the
+            information on the actor. If two or more source datasets include the
+            same actor and this has been manually verified, the information from
+            the source datasets has been merged into one MMM actor.
+            Click on the result table link(s) to view the original record on the
+            source’s website.
+          `
+        }
       }
     },
     'places': {
@@ -405,7 +534,7 @@ export default {
         </p>
       `,
       'instancePage': {
-        'label': 'Work',
+        'label': 'Place',
         'description': `
           <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
             This landing page provides a human-readable summary of the data points that link
@@ -418,6 +547,63 @@ export default {
             Coordinate data is approximate for locations such as counties, regions, and nations.
           </p>
         `
+      },
+      'properties': {
+        'uri': {
+          'label': 'URI',
+          'description': 'Uniform Resource Identifier'
+        },
+        'prefLabel': {
+          'label': 'Name',
+          'description': `
+            The name of the place.
+          `
+        },
+        'placeType': {
+          'label': 'Place type',
+          'description':  `
+            The place type from Getty Thesaurus of Geographic Names.
+          `
+        },
+        'area': {
+          'label': 'Parent Place',
+          'description': `
+            The preferred parent place in the hierarchy used by the Getty
+            Thesaurus of Geographic Names.
+          `
+        },
+        'manuscriptProduced': {
+          'label': 'Manuscripts produced',
+          'description': `
+            Manuscript(s) produced here.
+          `
+        },
+        'manuscriptTransferred': {
+          'label': 'Manuscripts transferred',
+          'description': `
+            The manuscript(s) that have a "Transfer of Custody" event located here.
+          `
+        },
+        'manuscriptObserved': {
+          'label': 'Manuscripts observed',
+          'description': `
+            The manuscript(s) that have a provenance event located here.
+          `
+        },
+        'actor': {
+          'label': 'Actor',
+          'description': `
+            The actor(s) associated with the place.
+          `
+        },
+        'source': {
+          'label': 'Source',
+          'description': `
+            The source dataset (Schoenberg, Bibale, and Bodleian) and the place
+            authority (Getty Thesaurus of Geographic Names and GeoNames)
+            contributing the information on the place.
+          `
+        }
       }
     }
   },

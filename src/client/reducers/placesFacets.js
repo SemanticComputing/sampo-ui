@@ -18,7 +18,6 @@ export const INITIAL_STATE = {
   facets: {
     prefLabel: {
       id: 'prefLabel',
-      label: 'Name',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -36,7 +35,6 @@ export const INITIAL_STATE = {
     },
     area: {
       id: 'area',
-      label: 'Area',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
@@ -55,7 +53,6 @@ export const INITIAL_STATE = {
     },
     source: {
       id: 'source',
-      label: 'Source',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
