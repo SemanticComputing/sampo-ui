@@ -27,6 +27,7 @@ export default {
   'perspectives': {
     'manuscripts': {
       'label': 'Manuscripts',
+      'facetResultsType': 'manuscripts',
       'shortDescription': 'Physical manuscript objects',
       'longDescription': `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
@@ -244,6 +245,7 @@ export default {
     },
     'works': {
       'label': 'Works',
+      'facetResultsType': 'works',
       'shortDescription': 'Intellectual content carried out by manuscripts.',
       'longDescription': `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
@@ -338,6 +340,7 @@ export default {
     },
     'events': {
       'label': 'Events',
+      'facetResultsType': 'events',
       'shortDescription': 'Events related to manuscripts.',
       'longDescription': `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
@@ -424,6 +427,7 @@ export default {
     },
     'actors': {
       'label': 'Actors',
+      'facetResultsType': 'actors',
       'shortDescription': 'People and institutions related to manuscripts and works.',
       'longDescription': `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
@@ -522,6 +526,7 @@ export default {
     },
     'places': {
       'label': 'Places',
+      'facetResultsType': 'places',
       'shortDescription': 'Places related to manuscripts and works.',
       'longDescription': `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
