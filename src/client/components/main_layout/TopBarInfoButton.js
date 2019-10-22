@@ -43,7 +43,7 @@ class TopBarInfoButton extends React.Component {
           onClick={this.handleInfoMenuOpen}
           endIcon={<ExpandMoreIcon />}
         >
-          Info
+          {intl.get('topBar.info.info')}
         </Button>
         <Menu
           anchorEl={this.state.anchorEl}
@@ -66,7 +66,7 @@ class TopBarInfoButton extends React.Component {
             to={`/about`}
             onClick={this.handleInfoMenuClose}
           >
-            About the project
+            {intl.get('topBar.info.aboutTheProject')}
           </MenuItem>
           <a className={classes.link}
             key={1}

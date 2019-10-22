@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import intl from 'react-intl-universal';
 import { withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import SearchIcon from '@material-ui/icons/Search';
@@ -97,7 +98,7 @@ class TopBarSearchField extends React.Component {
           <SearchIcon />
         </div>
         <InputBase
-          placeholder="Search all MMM content"
+          placeholder={intl.get('topBar.searchBarPlaceHolder')}
           classes={{
             root: classes.inputRoot,
             input: classes.inputInput,

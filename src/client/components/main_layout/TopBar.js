@@ -196,7 +196,7 @@ class TopBar extends React.Component {
               to='/'
             >
               <Typography className={classes.title} variant="h6" color="inherit">
-                {intl.get('topBar.appTitle')}
+                {intl.get('appTitle.short')}
               </Typography>
             </Button>
             <TopBarSearchField

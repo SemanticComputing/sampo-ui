@@ -61,12 +61,10 @@ let Main = props => {
       <div className={classes.layout}>
         <div className={classes.heroContent}>
           <Typography component="h1" variant="h3" align="center" color="textPrimary" gutterBottom>
-              Mapping Manuscript Migrations
+            {intl.get('appTitle.long')}
           </Typography>
           <Typography variant="h6" align="center" color="textSecondary" paragraph>
-            MMM is a semantic portal for finding and studying pre-modern manuscripts and their movements,
-            based on linked collections of  Schoenberg Institute, Bodleian Library, and IRHT.
-            Select an application view below.
+            {intl.get('appDescription')}
           </Typography>
         </div>
       </div>
