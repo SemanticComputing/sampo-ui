@@ -45,9 +45,16 @@ export const INITIAL_STATE = {
   instancePageHeaderExpanded: true,
   properties: [
     {
+      id: 'uri',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: true,
+      sortValues: true,
+      numberedList: false,
+      onlyOnInstancePage: true
+    },
+    {
       id: 'prefLabel',
-      label: 'Title',
-      desc: 'The name or title of the Collection.',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -57,11 +64,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'manuscript',
-      label: 'Manuscript',
-      desc: `
-        The manuscript(s) that have been a part of the collection at some
-        point in time.
-      `,
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -71,10 +73,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'owner',
-      label: 'Owner',
-      desc: `
-        Former or current owners (individual or institutional).
-      `,
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -84,10 +82,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'place',
-      label: 'Place',
-      desc: `
-        Location of the collection at some point during its existence
-      `,
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -97,11 +91,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'source',
-      label: 'Source',
-      desc: `
-        The source database (Schoenberg, Bibale, and Bodleian) that the Collection
-        occurs in. Currently one Collection has always only one dataset as a source.
-      `,
       valueType: 'object',
       makeLink: false,
       externalLink: false,

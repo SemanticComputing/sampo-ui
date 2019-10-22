@@ -348,12 +348,19 @@ export const manuscriptPropertiesFacetResults =
 `;
 
 export const expressionProperties =
-`?id skos:prefLabel ?prefLabel__id .
-    BIND (?prefLabel__id as ?prefLabel__prefLabel)
-    BIND(CONCAT("/expressions/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
+`   {
+      ?id skos:prefLabel ?prefLabel__id .
+      BIND (?prefLabel__id as ?prefLabel__prefLabel)
+      BIND(CONCAT("/expressions/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
+      BIND(?id as ?uri__id)
+      BIND(?id as ?uri__dataProviderUrl)
+      BIND(?id as ?uri__prefLabel)
+    }
+    UNION
     {
       ?id dct:source ?source__id .
       ?source__id skos:prefLabel ?source__prefLabel .
+      ?source__id mmm-schema:data_provider_url ?source__dataProviderUrl .
     }
     UNION
     {
@@ -370,13 +377,19 @@ export const expressionProperties =
 `;
 
 export const collectionProperties =
- `?id skos:prefLabel ?prefLabel__id .
-     BIND (?prefLabel__id as ?prefLabel__prefLabel)
-     BIND(CONCAT("/collections/page/", ENCODE_FOR_URI(REPLACE(STR(?id), "^.*\\\\/(.+)", "$1"))) AS ?prefLabel__dataProviderUrl)
+ `  {
+       ?id skos:prefLabel ?prefLabel__id .
+       BIND (?prefLabel__id as ?prefLabel__prefLabel)
+       BIND(CONCAT("/collections/page/", ENCODE_FOR_URI(REPLACE(STR(?id), "^.*\\\\/(.+)", "$1"))) AS ?prefLabel__dataProviderUrl)
+       BIND(?id as ?uri__id)
+       BIND(?id as ?uri__dataProviderUrl)
+       BIND(?id as ?uri__prefLabel)
+     }
+     UNION
      {
        ?id dct:source ?source__id .
        ?source__id skos:prefLabel ?source__prefLabel .
-       BIND (?source__id AS ?source__dataProviderUrl)
+       ?source__id mmm-schema:data_provider_url ?source__dataProviderUrl .
      }
      UNION
      {

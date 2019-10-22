@@ -38,9 +38,15 @@ export const workProperties = `
     }
     UNION
     {
-      ?id ^frbroo:R19_created_a_realisation_of/frbroo:R17_created ?expression .
-      ?expression crm:P72_has_language ?language__id .
-      ?language__id skos:prefLabel ?language__prefLabel .
+      ?id ^frbroo:R19_created_a_realisation_of/frbroo:R17_created ?expression__id .
+      ?expression__id skos:prefLabel ?expression__prefLabel .
+      OPTIONAL {
+        ?expression__id crm:P72_has_language ?language__id .
+        ?expression__id dct:source ?language__source__id .
+        ?language__source__id skos:prefLabel ?language__source__prefLabel .
+        ?language__id skos:prefLabel ?language__prefLabel .
+      }
+      BIND(CONCAT("/expressions/page/", REPLACE(STR(?expression__id), "^.*\\\\/(.+)", "$1")) AS ?expression__dataProviderUrl)
     }
     UNION
     {

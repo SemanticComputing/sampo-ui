@@ -45,9 +45,16 @@ export const INITIAL_STATE = {
   instancePageHeaderExpanded: true,
   properties: [
     {
+      id: 'uri',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: true,
+      sortValues: true,
+      numberedList: false,
+      onlyOnInstancePage: true
+    },
+    {
       id: 'prefLabel',
-      label: 'Title',
-      desc: 'The name or title of the Expression.',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -57,10 +64,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'language',
-      label: 'Language',
-      desc: `
-        The language of the Expression.
-      `,
       valueType: 'object',
       makeLink: true,
       externalLink: true,
@@ -70,14 +73,9 @@ export const INITIAL_STATE = {
     },
     {
       id: 'source',
-      label: 'Source',
-      desc: `
-        The source database (Schoenberg, Bibale, and Bodleian) that the Expression
-        occurs in. Currently one Expression has always only one dataset as a source.
-      `,
       valueType: 'object',
-      makeLink: false,
-      externalLink: false,
+      makeLink: true,
+      externalLink: true,
       sortValues: true,
       numberedList: false,
       minWidth: 200

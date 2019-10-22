@@ -307,6 +307,12 @@ export default {
             (i.e., an “Expression” of a Work). One manuscript may contain multiple languages.
           `
         },
+        'expression': {
+          'label': 'Expression',
+          'description':  `
+            The expression(s) of the Work.
+          `
+        },
         'manuscript': {
           'label': 'Manuscript',
           'description': `
@@ -610,7 +616,115 @@ export default {
           `
         }
       }
-    }
+    },
+    'collections': {
+      'label': '',
+      'facetResultsType': '',
+      'shortDescription': '',
+      'longDescription': `
+      `,
+      'instancePage': {
+        'label': 'Collection',
+        'description': `
+          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+            This landing page provides a human-readable summary of the data points
+            that link to this Collection. The data included in this summary reflects
+            only those data points used in the MMM interface. Click the Open in
+            Linked Data Browser button to view the complete set of classes and
+            properties linked to this record. To cite this record, use its url.
+          </p>
+        `
+      },
+      'properties': {
+        'uri': {
+          'label': 'URI',
+          'description': 'Uniform Resource Identifier'
+        },
+        'prefLabel': {
+          'label': 'Name',
+          'description': `
+            The name or title of the Collection.
+          `
+        },
+        'manuscript': {
+          'label': 'Manuscript',
+          'description':  `
+            The manuscript(s) that have been a part of the collection at some
+            point in time.
+          `
+        },
+        'owner': {
+          'label': 'Owner',
+          'description': `
+            Former or current owners (individual or institutional).
+          `
+        },
+        'place': {
+          'label': 'Place',
+          'description': `
+            Location of the collection at some point during its existence
+          `
+        },
+        'source': {
+          'label': 'Source',
+          'description': `
+            The source database (Schoenberg, Bibale, and Bodleian) that the Collection
+            occurs in. Currently one Collection has always only one dataset as a source.
+          `
+        }
+      }
+    },
+    'expressions': {
+      'label': '',
+      'facetResultsType': '',
+      'shortDescription': '',
+      'longDescription': `
+      `,
+      'instancePage': {
+        'label': 'Expression',
+        'description': `
+          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+            This landing page provides a human-readable summary of the data points
+            that link to this Expression. The data included in this summary reflects
+            only those data points used in the MMM interface. Click the Open in
+            Linked Data Browser button to view the complete set of classes and
+            properties linked to this record. To cite this record, use its url.
+          </p>
+          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+            The MMM data model follows the FRBRoo definition of an Expression,
+            which refers to “the intellectual or artistic realisations of works
+            in the form of identifiable immaterial objects…” Expressions contain
+            author, title, and language information, and represent the various
+            versions of texts that appear in manuscripts.
+          </p>
+        `
+      },
+      'properties': {
+        'uri': {
+          'label': 'URI',
+          'description': 'Uniform Resource Identifier'
+        },
+        'prefLabel': {
+          'label': 'Name',
+          'description': `
+            The name or title of the Expression.
+          `
+        },
+        'language': {
+          'label': 'Language',
+          'description':  `
+            The language of the Expression.
+          `
+        },
+        'source': {
+          'label': 'Source',
+          'description': `
+            The source database (Schoenberg, Bibale, and Bodleian) that the Expression
+            occurs in. Currently one Expression has always only one dataset as a source.
+          `
+        }
+      }
+    },
   },
   'aboutTheProject': `
 

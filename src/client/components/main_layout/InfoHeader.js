@@ -82,8 +82,8 @@ const InfoHeader = props => {
           IconButtonProps={{ onClick: handleExpandButtonOnClick }}
         >
           <Typography component="h1" variant="h3">
-            {props.pageType === 'facetResults' && intl.getHTML(`perspectives.${props.resultClass}.label`)}
-            {props.pageType === 'instancePage' && intl.getHTML(`perspectives.${props.resultClass}.instancePage.label`)}
+            {props.pageType === 'facetResults' && intl.get(`perspectives.${props.resultClass}.label`)}
+            {props.pageType === 'instancePage' && intl.get(`perspectives.${props.resultClass}.instancePage.label`)}
           </Typography>
           {props.pageType === 'instancePage' &&
             <React.Fragment>

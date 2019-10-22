@@ -83,6 +83,16 @@ export const INITIAL_STATE = {
       minWidth: 150,
     },
     {
+      id: 'expression',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150,
+      onlyOnInstancePage: true
+    },
+    {
       id: 'manuscript',
       valueType: 'object',
       makeLink: true,
