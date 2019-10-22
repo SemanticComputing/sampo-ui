@@ -12,8 +12,8 @@ import {
   UPDATE_PAGE,
   UPDATE_ROWS_PER_PAGE,
   SORT_RESULTS,
-  UPDATE_PERSPECTIVE_HEADER_EXPANDED,
-} from '../actions';
+  UPDATE_PERSPECTIVE_HEADER_EXPANDED
+} from '../../actions';
 import {
   fetchResults,
   fetchResultsFailed,
@@ -26,14 +26,16 @@ import {
   updatePage,
   updateRowsPerPage,
   updateHeaderExpanded
-} from './helpers';
+} from '../helpers';
 
 export const INITIAL_STATE = {
   results: [],
+  resultsSparqlQuery: null,
   paginatedResults: [],
-  resultCount: 0,
-  resultsUpdateID: -1,
+  paginatedResultsSparqlQuery: null,
   instance: null,
+  instanceSparqlQuery: null,
+  resultCount: 0,
   page: -1,
   pagesize: 10,
   sortBy: null,
@@ -45,9 +47,61 @@ export const INITIAL_STATE = {
   instancePageHeaderExpanded: true,
   properties: [
     {
+      id: 'uri',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: true,
+      sortValues: true,
+      numberedList: false,
+      onlyOnInstancePage: true
+    },
+    {
       id: 'prefLabel',
-      label: 'Title',
-      desc: 'The name or title of the Collection.',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150
+    },
+    {
+      id: 'type',
+      valueType: 'object',
+      makeLink: false,
+      externalLink: false,
+      sortValues: false,
+      numberedList: false,
+      minWidth: 150
+    },
+    {
+      id: 'birthDateTimespan',
+      valueType: 'object',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 220
+    },
+    {
+      id: 'deathDateTimespan',
+      valueType: 'object',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 220
+    },
+    {
+      id: 'place',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 200
+    },
+    {
+      id: 'work',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -57,24 +111,6 @@ export const INITIAL_STATE = {
     },
     {
       id: 'manuscript',
-      label: 'Manuscript',
-      desc: `
-        The manuscript(s) that have been a part of the collection at some
-        point in time.
-      `,
-      valueType: 'object',
-      makeLink: true,
-      externalLink: false,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 250,
-    },
-    {
-      id: 'owner',
-      label: 'Owner',
-      desc: `
-        Former or current owners (individual or institutional).
-      `,
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -83,37 +119,27 @@ export const INITIAL_STATE = {
       minWidth: 250
     },
     {
-      id: 'place',
-      label: 'Place',
-      desc: `
-        Location of the collection at some point during its existence
-      `,
-      valueType: 'object',
-      makeLink: true,
-      externalLink: false,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 200,
-    },
-    {
-      id: 'source',
-      label: 'Source',
-      desc: `
-        The source database (Schoenberg, Bibale, and Bodleian) that the Collection
-        occurs in. Currently one Collection has always only one dataset as a source.
-      `,
-      valueType: 'object',
+      id: 'role',
+      valueType: 'string',
       makeLink: false,
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 200
+      minWidth: 250
     },
-  ]
+    {
+      id: 'source',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: true,
+      sortValues: true,
+      numberedList: false
+    },
+  ],
 };
 
-const collections = (state = INITIAL_STATE, action) => {
-  if (action.resultClass === 'collections') {
+const actors = (state = INITIAL_STATE, action) => {
+  if (action.resultClass === 'actors') {
     switch (action.type) {
       case FETCH_RESULTS:
       case FETCH_PAGINATED_RESULTS:
@@ -146,4 +172,4 @@ const collections = (state = INITIAL_STATE, action) => {
   } else return state;
 };
 
-export default collections;
+export default actors;

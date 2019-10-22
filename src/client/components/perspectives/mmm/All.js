@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
-import PerspectiveTabs from '../main_layout/PerspectiveTabs';
-import MaterialTableFullTextResults from '../facet_results/MaterialTableFullTextResults';
+import PerspectiveTabs from '../../main_layout/PerspectiveTabs';
+import MaterialTableFullTextResults from '../../facet_results/MaterialTableFullTextResults';
 
 const All = props => {
   const perspectiveUrl = '/all';

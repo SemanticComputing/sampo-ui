@@ -12,8 +12,8 @@ import {
   UPDATE_PAGE,
   UPDATE_ROWS_PER_PAGE,
   SORT_RESULTS,
-  UPDATE_PERSPECTIVE_HEADER_EXPANDED
-} from '../actions';
+  UPDATE_PERSPECTIVE_HEADER_EXPANDED,
+} from '../../actions';
 import {
   fetchResults,
   fetchResultsFailed,
@@ -26,20 +26,18 @@ import {
   updatePage,
   updateRowsPerPage,
   updateHeaderExpanded
-} from './helpers';
+} from '../helpers';
 
 export const INITIAL_STATE = {
   results: [],
-  resultsSparqlQuery: null,
   paginatedResults: [],
-  paginatedResultsSparqlQuery: null,
-  instance: null,
-  instanceSparqlQuery: null,
   resultCount: 0,
+  resultsUpdateID: -1,
+  instance: null,
   page: -1,
   pagesize: 10,
   sortBy: null,
-  sortDirection: 'asc',
+  sortDirection: null,
   fetching: false,
   fetchingResultCount: false,
   sparqlQuery: null,
@@ -47,103 +45,48 @@ export const INITIAL_STATE = {
   instancePageHeaderExpanded: true,
   properties: [
     {
-      id: 'uri',
-      valueType: 'object',
-      makeLink: true,
-      externalLink: true,
-      sortValues: true,
-      numberedList: false,
-      onlyOnInstancePage: true
-    },
-    {
       id: 'prefLabel',
+      label: 'Title',
+      desc: 'The name or title of the Expression.',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 170
+      minWidth: 250
     },
     {
-      id: 'placeType',
-      valueType: 'string',
+      id: 'language',
+      label: 'Language',
+      desc: `
+        The language of the Expression.
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: true,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 150,
+    },
+    {
+      id: 'source',
+      label: 'Source',
+      desc: `
+        The source database (Schoenberg, Bibale, and Bodleian) that the Expression
+        occurs in. Currently one Expression has always only one dataset as a source.
+      `,
+      valueType: 'object',
       makeLink: false,
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 170
+      minWidth: 200
     },
-    {
-      id: 'area',
-      valueType: 'object',
-      makeLink: true,
-      externalLink: false,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 170,
-    },
-    {
-      id: 'manuscriptProduced',
-      valueType: 'object',
-      makeLink: true,
-      externalLink: false,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 250,
-      onlyOnInstancePage: true
-    },
-    {
-      id: 'manuscriptTransferred',
-      valueType: 'object',
-      makeLink: true,
-      externalLink: false,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 250,
-      onlyOnInstancePage: true
-    },
-    {
-      id: 'manuscriptObserved',
-      valueType: 'object',
-      makeLink: true,
-      externalLink: false,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 250,
-      onlyOnInstancePage: true
-    },
-    {
-      id: 'actor',
-      valueType: 'object',
-      makeLink: true,
-      externalLink: false,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 250,
-      onlyOnInstancePage: true
-    },
-    {
-      id: 'source',
-      valueType: 'object',
-      makeLink: true,
-      externalLink: true,
-      sortValues: true,
-      numberedList: false
-    },
-  ],
+  ]
 };
 
-const resultClasses = new Set([
-  'places',
-  'placesAll',
-  'placesActors',
-  'placesMsProduced',
-  'placesMsMigrations',
-  'placesEvents'
-]);
-
-const places = (state = INITIAL_STATE, action) => {
-  if (resultClasses.has(action.resultClass)) {
+const expressions = (state = INITIAL_STATE, action) => {
+  if (action.resultClass === 'expressions') {
     switch (action.type) {
       case FETCH_RESULTS:
       case FETCH_PAGINATED_RESULTS:
@@ -176,4 +119,4 @@ const places = (state = INITIAL_STATE, action) => {
   } else return state;
 };
 
-export default places;
+export default expressions;

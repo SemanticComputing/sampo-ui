@@ -6,14 +6,14 @@ import {
   FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_BY_URI,
   UPDATE_RESULT_COUNT,
-  UPDATE_PAGINATED_RESULTS,
   UPDATE_RESULTS,
+  UPDATE_PAGINATED_RESULTS,
   UPDATE_INSTANCE,
   UPDATE_PAGE,
   UPDATE_ROWS_PER_PAGE,
   SORT_RESULTS,
   UPDATE_PERSPECTIVE_HEADER_EXPANDED
-} from '../actions';
+} from '../../actions';
 import {
   fetchResults,
   fetchResultsFailed,
@@ -26,7 +26,7 @@ import {
   updatePage,
   updateRowsPerPage,
   updateHeaderExpanded
-} from './helpers';
+} from '../helpers';
 
 export const INITIAL_STATE = {
   results: [],
@@ -56,34 +56,7 @@ export const INITIAL_STATE = {
       onlyOnInstancePage: true
     },
     {
-      id: 'type',
-      valueType: 'object',
-      makeLink: true,
-      externalLink: false,
-      sortValues: false,
-      numberedList: false,
-      minWidth: 200,
-    },
-    {
-      id: 'manuscript',
-      valueType: 'object',
-      makeLink: true,
-      externalLink: false,
-      sortValues: false,
-      numberedList: false,
-      minWidth: 200,
-    },
-    {
-      id: 'eventTimespan',
-      valueType: 'object',
-      makeLink: false,
-      externalLink: false,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 200,
-    },
-    {
-      id: 'place',
+      id: 'prefLabel',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -92,37 +65,49 @@ export const INITIAL_STATE = {
       minWidth: 250
     },
     {
-      id: 'surrender',
+      id: 'author',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 250,
-      onlyOnInstancePage: true,
-      onlyForClass: 'http://erlangen-crm.org/current/E10_Transfer_of_Custody'
+      minWidth: 250
     },
     {
-      id: 'receiver',
+      id: 'language',
       valueType: 'object',
       makeLink: true,
-      externalLink: false,
+      externalLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 250,
-      onlyOnInstancePage: true,
-      onlyForClass: 'http://erlangen-crm.org/current/E10_Transfer_of_Custody'
+      minWidth: 150,
     },
     {
-      id: 'observedOwner',
+      id: 'manuscript',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
       sortValues: true,
       numberedList: false,
       minWidth: 250,
-      onlyOnInstancePage: true,
-      onlyForClass: 'http://erlangen-crm.org/current/E7_Activity'
+    },
+    {
+      id: 'productionTimespan',
+      valueType: 'object',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+    },
+    {
+      id: 'collection',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 200
     },
     {
       id: 'source',
@@ -136,13 +121,8 @@ export const INITIAL_STATE = {
   ],
 };
 
-const resultClasses = new Set([
-  'events',
-  'eventsByTimePeriod',
-]);
-
-const events = (state = INITIAL_STATE, action) => {
-  if (resultClasses.has(action.resultClass)) {
+const works = (state = INITIAL_STATE, action) => {
+  if (action.resultClass === 'works') {
     switch (action.type) {
       case FETCH_RESULTS:
       case FETCH_PAGINATED_RESULTS:
@@ -175,4 +155,4 @@ const events = (state = INITIAL_STATE, action) => {
   } else return state;
 };
 
-export default events;
+export default works;

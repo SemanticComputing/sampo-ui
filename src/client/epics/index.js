@@ -10,9 +10,9 @@ import {
 } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
 import intl from 'react-intl-universal';
-import localeEN from '../translations/localeEN';
-import localeFI from '../translations/localeFI';
-import localeSV from '../translations/localeSV';
+import localeEN from '../translations/mmm/localeEN';
+import localeFI from '../translations/mmm/localeFI';
+import localeSV from '../translations/mmm/localeSV';
 import { stateToUrl } from '../helpers/helpers';
 import {
   FETCH_RESULT_COUNT,

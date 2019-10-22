@@ -1,21 +1,20 @@
 import { combineReducers } from 'redux';
 import {reducer as toastrReducer} from 'react-redux-toastr';
-// import {createResponsiveStateReducer} from 'redux-responsive';
-import manuscripts from './manuscripts';
-import works from './works';
-import events from './events';
-import actors from './actors';
-import places from './places';
-import collections from './collections';
-import expressions from './expressions';
 import error from './error';
-import manuscriptsFacets from './manuscriptsFacets';
-import worksFacets from './worksFacets';
-import eventsFacets from './eventsFacets';
-import actorsFacets from './actorsFacets';
-import placesFacets from './placesFacets';
-import clientSideFacetedSearch from './clientSideFacetedSearch';
 import options from './options';
+import manuscripts from './mmm/manuscripts';
+import works from './mmm/works';
+import events from './mmm/events';
+import actors from './mmm/actors';
+import places from './mmm/places';
+import collections from './mmm/collections';
+import expressions from './mmm/expressions';
+import manuscriptsFacets from './mmm/manuscriptsFacets';
+import worksFacets from './mmm/worksFacets';
+import eventsFacets from './mmm/eventsFacets';
+import actorsFacets from './mmm/actorsFacets';
+import placesFacets from './mmm/placesFacets';
+import clientSideFacetedSearch from './mmm/clientSideFacetedSearch';
 
 const reducer = combineReducers({
   manuscripts,

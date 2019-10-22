@@ -13,7 +13,7 @@ import {
   UPDATE_ROWS_PER_PAGE,
   SORT_RESULTS,
   UPDATE_PERSPECTIVE_HEADER_EXPANDED,
-} from '../actions';
+} from '../../actions';
 import {
   fetchResults,
   fetchResultsFailed,
@@ -26,7 +26,7 @@ import {
   updatePage,
   updateRowsPerPage,
   updateHeaderExpanded
-} from './helpers';
+} from '../helpers';
 
 export const INITIAL_STATE = {
   results: [],
@@ -47,7 +47,7 @@ export const INITIAL_STATE = {
     {
       id: 'prefLabel',
       label: 'Title',
-      desc: 'The name or title of the Expression.',
+      desc: 'The name or title of the Collection.',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
@@ -56,24 +56,51 @@ export const INITIAL_STATE = {
       minWidth: 250
     },
     {
-      id: 'language',
-      label: 'Language',
+      id: 'manuscript',
+      label: 'Manuscript',
       desc: `
-        The language of the Expression.
+        The manuscript(s) that have been a part of the collection at some
+        point in time.
       `,
       valueType: 'object',
       makeLink: true,
-      externalLink: true,
+      externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 150,
+      minWidth: 250,
+    },
+    {
+      id: 'owner',
+      label: 'Owner',
+      desc: `
+        Former or current owners (individual or institutional).
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250
+    },
+    {
+      id: 'place',
+      label: 'Place',
+      desc: `
+        Location of the collection at some point during its existence
+      `,
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 200,
     },
     {
       id: 'source',
       label: 'Source',
       desc: `
-        The source database (Schoenberg, Bibale, and Bodleian) that the Expression
-        occurs in. Currently one Expression has always only one dataset as a source.
+        The source database (Schoenberg, Bibale, and Bodleian) that the Collection
+        occurs in. Currently one Collection has always only one dataset as a source.
       `,
       valueType: 'object',
       makeLink: false,
@@ -85,8 +112,8 @@ export const INITIAL_STATE = {
   ]
 };
 
-const expressions = (state = INITIAL_STATE, action) => {
-  if (action.resultClass === 'expressions') {
+const collections = (state = INITIAL_STATE, action) => {
+  if (action.resultClass === 'collections') {
     switch (action.type) {
       case FETCH_RESULTS:
       case FETCH_PAGINATED_RESULTS:
@@ -119,4 +146,4 @@ const expressions = (state = INITIAL_STATE, action) => {
   } else return state;
 };
 
-export default expressions;
+export default collections;

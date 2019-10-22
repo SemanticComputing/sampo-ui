@@ -14,7 +14,7 @@ import {
   SORT_RESULTS,
   UPDATE_PERSPECTIVE_HEADER_EXPANDED,
   UPDATE_URL
-} from '../actions';
+} from '../../actions';
 import {
   fetchResults,
   fetchResultsFailed,
@@ -27,7 +27,7 @@ import {
   updatePage,
   updateRowsPerPage,
   updateHeaderExpanded
-} from './helpers';
+} from '../helpers';
 
 export const INITIAL_STATE = {
   results: [],

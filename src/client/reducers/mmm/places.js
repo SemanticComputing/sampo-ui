@@ -13,7 +13,7 @@ import {
   UPDATE_ROWS_PER_PAGE,
   SORT_RESULTS,
   UPDATE_PERSPECTIVE_HEADER_EXPANDED
-} from '../actions';
+} from '../../actions';
 import {
   fetchResults,
   fetchResultsFailed,
@@ -26,7 +26,7 @@ import {
   updatePage,
   updateRowsPerPage,
   updateHeaderExpanded
-} from './helpers';
+} from '../helpers';
 
 export const INITIAL_STATE = {
   results: [],
@@ -39,7 +39,7 @@ export const INITIAL_STATE = {
   page: -1,
   pagesize: 10,
   sortBy: null,
-  sortDirection: null,
+  sortDirection: 'asc',
   fetching: false,
   fetchingResultCount: false,
   sparqlQuery: null,
@@ -62,52 +62,65 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 250
+      minWidth: 170
     },
     {
-      id: 'author',
-      valueType: 'object',
-      makeLink: true,
-      externalLink: false,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 250
-    },
-    {
-      id: 'language',
-      valueType: 'object',
-      makeLink: true,
-      externalLink: true,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 150,
-    },
-    {
-      id: 'manuscript',
-      valueType: 'object',
-      makeLink: true,
-      externalLink: false,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 250,
-    },
-    {
-      id: 'productionTimespan',
-      valueType: 'object',
+      id: 'placeType',
+      valueType: 'string',
       makeLink: false,
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 250,
+      minWidth: 170
     },
     {
-      id: 'collection',
+      id: 'area',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 200
+      minWidth: 170,
+    },
+    {
+      id: 'manuscriptProduced',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+      onlyOnInstancePage: true
+    },
+    {
+      id: 'manuscriptTransferred',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+      onlyOnInstancePage: true
+    },
+    {
+      id: 'manuscriptObserved',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+      onlyOnInstancePage: true
+    },
+    {
+      id: 'actor',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+      onlyOnInstancePage: true
     },
     {
       id: 'source',
@@ -115,14 +128,22 @@ export const INITIAL_STATE = {
       makeLink: true,
       externalLink: true,
       sortValues: true,
-      numberedList: false,
-      minWidth: 200
+      numberedList: false
     },
   ],
 };
 
-const works = (state = INITIAL_STATE, action) => {
-  if (action.resultClass === 'works') {
+const resultClasses = new Set([
+  'places',
+  'placesAll',
+  'placesActors',
+  'placesMsProduced',
+  'placesMsMigrations',
+  'placesEvents'
+]);
+
+const places = (state = INITIAL_STATE, action) => {
+  if (resultClasses.has(action.resultClass)) {
     switch (action.type) {
       case FETCH_RESULTS:
       case FETCH_PAGINATED_RESULTS:
@@ -155,4 +176,4 @@ const works = (state = INITIAL_STATE, action) => {
   } else return state;
 };
 
-export default works;
+export default places;

@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
-import PerspectiveTabs from '../main_layout/PerspectiveTabs';
-import ResultTable from '../facet_results/ResultTable';
-import Export from '../facet_results/Export';
-import BarChart from '../facet_results/BarChart';
-import LeafletMap from '../facet_results/LeafletMap';
+import PerspectiveTabs from '../../main_layout/PerspectiveTabs';
+import ResultTable from '../../facet_results/ResultTable';
+import LeafletMap from '../../facet_results/LeafletMap';
+import Export from '../../facet_results/Export';
 
-let Events = props => {
+let Actors = props => {
   return (
     <React.Fragment>
       <PerspectiveTabs
@@ -15,17 +14,17 @@ let Events = props => {
         tabs={props.perspective.tabs}
       />
       <Route
-        exact path='/events/faceted-search'
-        render={() => <Redirect to='/events/faceted-search/table' />}
+        exact path='/actors/faceted-search'
+        render={() => <Redirect to='/actors/faceted-search/table' />}
       />
       <Route
-        path={'/events/faceted-search/table'}
+        path={'/actors/faceted-search/table'}
         render={routeProps =>
           <ResultTable
-            data={props.events}
+            data={props.actors}
             facetUpdateID={props.facetData.facetUpdateID}
-            resultClass='events'
-            facetClass='events'
+            resultClass='actors'
+            facetClass='actors'
             fetchPaginatedResults={props.fetchPaginatedResults}
             updatePage={props.updatePage}
             updateRowsPerPage={props.updateRowsPerPage}
@@ -35,16 +34,14 @@ let Events = props => {
         }
       />
       <Route
-        path={'/events/faceted-search/map'}
+        path={'/actors/faceted-search/map'}
         render={() =>
           <LeafletMap
             results={props.places.results}
             pageType='facetResults'
             facetUpdateID={props.facetData.facetUpdateID}
-            facet={props.facetData.facets.place}
-            facetID='place'
-            resultClass='placesEvents'
-            facetClass='events'
+            resultClass='placesActors'
+            facetClass='actors'
             mapMode='cluster'
             instance={props.places.instance}
             fetchResults={props.fetchResults}
@@ -55,20 +52,10 @@ let Events = props => {
           />}
       />
       <Route
-        path={'/events/faceted-search/by_period'}
-        render={() =>
-          <BarChart
-            fetchResults={props.fetchResults}
-            resultClass='eventsByTimePeriod'
-            facetClass='events'
-            data={props.events.results}
-          />}
-      />
-      <Route
-        path={'/events/faceted-search/export'}
+        path={'/actors/faceted-search/export'}
         render={() =>
           <Export
-            sparqlQuery={props.events.paginatedResultsSparqlQuery}
+            sparqlQuery={props.actors.paginatedResultsSparqlQuery}
             pageType='facetResults'
           />}
       />
@@ -76,9 +63,9 @@ let Events = props => {
   );
 };
 
-Events.propTypes = {
-  events: PropTypes.object.isRequired,
-  places: PropTypes.object,
+Actors.propTypes = {
+  actors: PropTypes.object.isRequired,
+  places: PropTypes.object.isRequired,
   facetData: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
   fetchPaginatedResults: PropTypes.func.isRequired,
@@ -91,4 +78,4 @@ Events.propTypes = {
   perspective: PropTypes.object.isRequired
 };
 
-export default Events;
+export default Actors;

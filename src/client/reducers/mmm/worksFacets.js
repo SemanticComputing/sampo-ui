@@ -3,13 +3,13 @@ import {
   FETCH_FACET_FAILED,
   UPDATE_FACET_VALUES,
   UPDATE_FACET_OPTION,
-} from '../actions';
+} from '../../actions';
 import {
   fetchFacet,
   fetchFacetFailed,
   updateFacetValues,
   updateFacetOption,
-} from './helpers';
+} from '../helpers';
 
 export const INITIAL_STATE = {
   updatedFacet: null,
@@ -22,8 +22,6 @@ export const INITIAL_STATE = {
       distinctValueCount: 0,
       values: [],
       flatValues: [],
-      //sortBy: 'instanceCount',
-      //sortDirection: 'desc',
       sortButton: false,
       spatialFilterButton: false,
       isFetching: false,
@@ -31,25 +29,78 @@ export const INITIAL_STATE = {
       containerClass: 'one',
       filterType: 'textFilter',
       textFilter: null,
-      priority: 1,
+      priority: 1
     },
-    area: {
-      id: 'area',
+    author: {
+      id: 'author',
       // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
       flatValues: [],
       sortBy: 'prefLabel',
       sortDirection: 'asc',
-      sortButton: false,
-      //spatialFilterButton: true,
+      sortButton: true,
+      spatialFilterButton: false,
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
       filterType: 'uriFilter',
       uriFilter: null,
-      spatialFilter: null,
-      priority: 2,
+      priority: 2
+    },
+    language: {
+      id: 'language',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'instanceCount',
+      sortDirection: 'desc',
+      sortButton: true,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: true,
+      containerClass: 'ten',
+      filterType: 'uriFilter',
+      uriFilter: null,
+      priority: 3
+    },
+    productionTimespan: {
+      id: 'productionTimespan',
+      //predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: null,
+      sortDirection: null,
+      sortButton: false,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: false,
+      containerClass: 'three',
+      filterType: 'timespanFilter',
+      min: null,
+      max: null,
+      timespanFilter: null,
+      type: 'timespan',
+      priority: 6
+    },
+    collection: {
+      id: 'collection',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'instanceCount',
+      sortDirection: 'desc',
+      sortButton: true,
+      spatialFilterButton: false,
+      isFetching: false,
+      searchField: true,
+      containerClass: 'ten',
+      filterType: 'uriFilter',
+      uriFilter: null,
+      priority: 5
     },
     source: {
       id: 'source',
@@ -66,13 +117,13 @@ export const INITIAL_STATE = {
       containerClass: 'five',
       filterType: 'uriFilter',
       uriFilter: null,
-      priority: 3
+      priority: 7,
     },
-  }
+  },
 };
 
-const placesFacets = (state = INITIAL_STATE, action) => {
-  if (action.facetClass === 'places') {
+const worksFacets = (state = INITIAL_STATE, action) => {
+  if (action.facetClass === 'works') {
     switch (action.type) {
       case FETCH_FACET:
         return fetchFacet(state, action);
@@ -88,4 +139,4 @@ const placesFacets = (state = INITIAL_STATE, action) => {
   } else return state;
 };
 
-export default placesFacets;
+export default worksFacets;

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
-import PerspectiveTabs from '../main_layout/PerspectiveTabs';
-import ResultTable from '../facet_results/ResultTable';
-import LeafletMap from '../facet_results/LeafletMap';
-import Export from '../facet_results/Export';
+import PerspectiveTabs from '../../main_layout/PerspectiveTabs';
+import ResultTable from '../../facet_results/ResultTable';
+import LeafletMap from '../../facet_results/LeafletMap';
+import Export from '../../facet_results/Export';
 
 let Places = props => {
   return (

@@ -6,14 +6,14 @@ import {
   FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_BY_URI,
   UPDATE_RESULT_COUNT,
-  UPDATE_RESULTS,
   UPDATE_PAGINATED_RESULTS,
+  UPDATE_RESULTS,
   UPDATE_INSTANCE,
   UPDATE_PAGE,
   UPDATE_ROWS_PER_PAGE,
   SORT_RESULTS,
   UPDATE_PERSPECTIVE_HEADER_EXPANDED
-} from '../actions';
+} from '../../actions';
 import {
   fetchResults,
   fetchResultsFailed,
@@ -26,7 +26,7 @@ import {
   updatePage,
   updateRowsPerPage,
   updateHeaderExpanded
-} from './helpers';
+} from '../helpers';
 
 export const INITIAL_STATE = {
   results: [],
@@ -56,40 +56,31 @@ export const INITIAL_STATE = {
       onlyOnInstancePage: true
     },
     {
-      id: 'prefLabel',
+      id: 'type',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
-      sortValues: true,
+      sortValues: false,
       numberedList: false,
-      minWidth: 150
+      minWidth: 200,
     },
     {
-      id: 'type',
+      id: 'manuscript',
       valueType: 'object',
-      makeLink: false,
+      makeLink: true,
       externalLink: false,
       sortValues: false,
       numberedList: false,
-      minWidth: 150
+      minWidth: 200,
     },
     {
-      id: 'birthDateTimespan',
+      id: 'eventTimespan',
       valueType: 'object',
       makeLink: false,
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 220
-    },
-    {
-      id: 'deathDateTimespan',
-      valueType: 'object',
-      makeLink: false,
-      externalLink: false,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 220
+      minWidth: 200,
     },
     {
       id: 'place',
@@ -98,34 +89,40 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 200
+      minWidth: 250
     },
     {
-      id: 'work',
+      id: 'surrender',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 250
+      minWidth: 250,
+      onlyOnInstancePage: true,
+      onlyForClass: 'http://erlangen-crm.org/current/E10_Transfer_of_Custody'
     },
     {
-      id: 'manuscript',
+      id: 'receiver',
       valueType: 'object',
       makeLink: true,
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 250
+      minWidth: 250,
+      onlyOnInstancePage: true,
+      onlyForClass: 'http://erlangen-crm.org/current/E10_Transfer_of_Custody'
     },
     {
-      id: 'role',
-      valueType: 'string',
-      makeLink: false,
+      id: 'observedOwner',
+      valueType: 'object',
+      makeLink: true,
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 250
+      minWidth: 250,
+      onlyOnInstancePage: true,
+      onlyForClass: 'http://erlangen-crm.org/current/E7_Activity'
     },
     {
       id: 'source',
@@ -133,13 +130,19 @@ export const INITIAL_STATE = {
       makeLink: true,
       externalLink: true,
       sortValues: true,
-      numberedList: false
+      numberedList: false,
+      minWidth: 200
     },
   ],
 };
 
-const actors = (state = INITIAL_STATE, action) => {
-  if (action.resultClass === 'actors') {
+const resultClasses = new Set([
+  'events',
+  'eventsByTimePeriod',
+]);
+
+const events = (state = INITIAL_STATE, action) => {
+  if (resultClasses.has(action.resultClass)) {
     switch (action.type) {
       case FETCH_RESULTS:
       case FETCH_PAGINATED_RESULTS:
@@ -172,4 +175,4 @@ const actors = (state = INITIAL_STATE, action) => {
   } else return state;
 };
 
-export default actors;
+export default events;

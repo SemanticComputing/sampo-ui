@@ -12,12 +12,12 @@ import Main from '../components/main_layout/Main';
 import Footer from '../components/main_layout/Footer';
 import Message from '../components/main_layout/Message';
 import FacetBar from '../components/facet_bar/FacetBar';
-import Manuscripts from '../components/perspectives/Manuscripts';
-import Works from '../components/perspectives/Works';
-import Events from '../components/perspectives/Events';
-import Places from '../components/perspectives/Places';
-import Actors from '../components/perspectives/Actors';
-import All from '../components/perspectives/All';
+import Manuscripts from '../components/perspectives/mmm/Manuscripts';
+import Works from '../components/perspectives/mmm/Works';
+import Events from '../components/perspectives/mmm/Events';
+import Places from '../components/perspectives/mmm/Places';
+import Actors from '../components/perspectives/mmm/Actors';
+import All from '../components/perspectives/mmm/All';
 import InstanceHomePage from '../components/main_layout/InstanceHomePage';
 // import FeedbackPage from '../components/main_layout/FeedbackPage';
 import TextPage from '../components/main_layout/TextPage';
@@ -25,11 +25,10 @@ import {
   perspectiveConfig,
   aboutTheProject,
   instructions
-} from '../components/perspectives/PerspectiveConfigMMM';
-import { perspectiveConfigOnlyInfoPages } from '../components/perspectives/PerspectiveConfigOnlyInfoPagesMMM';
+} from '../configs/mmm/PerspectiveConfig';
+import { perspectiveConfigOnlyInfoPages } from '../configs/mmm/PerspectiveConfigOnlyInfoPages';
 import InfoHeader from '../components/main_layout/InfoHeader';
 import { has } from 'lodash';
-//import { urlToState } from '../helpers/helpers';
 import {
   fetchResultCount,
   fetchPaginatedResults,

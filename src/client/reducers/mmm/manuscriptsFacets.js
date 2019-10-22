@@ -3,13 +3,13 @@ import {
   FETCH_FACET_FAILED,
   UPDATE_FACET_VALUES,
   UPDATE_FACET_OPTION,
-} from '../actions';
+} from '../../actions';
 import {
   fetchFacet,
   fetchFacetFailed,
   updateFacetValues,
   updateFacetOption,
-} from './helpers';
+} from '../helpers';
 
 export const INITIAL_STATE = {
   updatedFacet: null,
