@@ -28,7 +28,8 @@ export default {
     'map': 'map',
     'production_places': 'production places',
     'migrations': 'migrations',
-    'export': 'export'
+    'export': 'export',
+    'by-period': 'by period'
   },
   'table': {
     'rowsPerPage': 'Rows per page',

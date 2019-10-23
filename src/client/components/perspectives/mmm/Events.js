@@ -55,7 +55,7 @@ let Events = props => {
           />}
       />
       <Route
-        path={'/events/faceted-search/by_period'}
+        path={'/events/faceted-search/by-period'}
         render={() =>
           <BarChart
             fetchResults={props.fetchResults}
