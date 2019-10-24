@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import intl from 'react-intl-universal';
 import ChipsArray from './ChipsArray';
 
 const ActiveFilters = props => {
-  const { uriFilters, textFilters, timespanFilters, integerFilters, facets, someFacetIsFetching } = props;
+  const { uriFilters, textFilters, timespanFilters, integerFilters, facetClass, someFacetIsFetching } = props;
   const facetValues = [];
   Object.keys(uriFilters).map(activeFacetID => {
+    // URI filter may have multiple values
     Object.values(uriFilters[activeFacetID]).forEach(value => {
       facetValues.push({
         facetID: activeFacetID,
-        facetLabel: facets[activeFacetID].label,
+        facetLabel: intl.get(`perspectives.${facetClass}.properties.${activeFacetID}.label`),
         filterType: 'uriFilter',
         value: value // a react sortable tree object
       });
@@ -18,7 +20,7 @@ const ActiveFilters = props => {
   Object.keys(textFilters).map(facetID => {
     facetValues.push({
       facetID: facetID,
-      facetLabel: facets[facetID].label,
+      facetLabel: intl.get(`perspectives.${facetClass}.properties.${facetID}.label`),
       filterType: 'textFilter',
       value: textFilters[facetID]
     });
@@ -26,7 +28,7 @@ const ActiveFilters = props => {
   Object.keys(timespanFilters).map(facetID => {
     facetValues.push({
       facetID: facetID,
-      facetLabel: facets[facetID].label,
+      facetLabel: intl.get(`perspectives.${facetClass}.properties.${facetID}.label`),
       filterType: 'timespanFilter',
       value: timespanFilters[facetID]
     });
@@ -34,7 +36,7 @@ const ActiveFilters = props => {
   Object.keys(integerFilters).map(facetID => {
     facetValues.push({
       facetID: facetID,
-      facetLabel: facets[facetID].label,
+      facetLabel: intl.get(`perspectives.${facetClass}.properties.${facetID}.label`),
       filterType: 'integerFilter',
       value: integerFilters[facetID]
     });
@@ -51,7 +53,6 @@ const ActiveFilters = props => {
 };
 
 ActiveFilters.propTypes = {
-  facets: PropTypes.object.isRequired,
   facetClass: PropTypes.string.isRequired,
   uriFilters: PropTypes.object.isRequired,
   spatialFilters: PropTypes.object.isRequired,

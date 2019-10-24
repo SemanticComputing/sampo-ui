@@ -91,7 +91,6 @@ class FacetInfo extends React.Component {
             <Typography variant="h6">Active filters:</Typography>
             <div className={classes.textContainer}>
               <ActiveFilters
-                facets={facets}
                 facetClass={facetClass}
                 uriFilters={uriFilters}
                 spatialFilters={spatialFilters}
