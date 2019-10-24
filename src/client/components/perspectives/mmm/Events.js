@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs';
 import ResultTable from '../../facet_results/ResultTable';
 import Export from '../../facet_results/Export';
-import BarChart from '../../facet_results/BarChart';
+import ApexChart from '../../facet_results/ApexChart';
 import LeafletMap from '../../facet_results/LeafletMap';
 
 let Events = props => {
@@ -57,11 +57,33 @@ let Events = props => {
       <Route
         path={'/events/faceted-search/by-period'}
         render={() =>
-          <BarChart
+          <ApexChart
             fetchResults={props.fetchResults}
             resultClass='eventsByTimePeriod'
             facetClass='events'
             data={props.events.results}
+            options={{
+              chart: {
+                type: 'bar',
+                stacked: true,
+                height: '100%',
+                parentHeightOffset: 0,
+                width: '100%'
+              },
+              series: [{
+                name: 'PRODUCT A',
+                data: [44, 55, 41, 67, 22, 43, 21, 49]
+              },{
+                name: 'PRODUCT B',
+                data: [13, 23, 20, 8, 13, 27, 33, 12]
+              },{
+                name: 'PRODUCT C',
+                data: [11, 17, 15, 15, 21, 14, 15, 13]
+              }],
+              xaxis: {
+                categories: ['2011 Q1', '2011 Q2', '2011 Q3', '2011 Q4', '2012 Q1', '2012 Q2', '2012 Q3', '2012 Q4'],
+              },
+            }}
           />}
       />
       <Route
