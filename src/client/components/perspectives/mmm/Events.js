@@ -8,6 +8,7 @@ import ApexChart from '../../facet_results/ApexChart';
 import LeafletMap from '../../facet_results/LeafletMap';
 
 let Events = props => {
+  //console.log(props.events.results)
   return (
     <React.Fragment>
       <PerspectiveTabs
@@ -62,6 +63,7 @@ let Events = props => {
             resultClass='eventsByTimePeriod'
             facetClass='events'
             data={props.events.results}
+            fetching={props.events.fetching}
             options={{
               chart: {
                 type: 'bar',
@@ -69,20 +71,7 @@ let Events = props => {
                 height: '100%',
                 parentHeightOffset: 0,
                 width: '100%'
-              },
-              series: [{
-                name: 'PRODUCT A',
-                data: [44, 55, 41, 67, 22, 43, 21, 49]
-              },{
-                name: 'PRODUCT B',
-                data: [13, 23, 20, 8, 13, 27, 33, 12]
-              },{
-                name: 'PRODUCT C',
-                data: [11, 17, 15, 15, 21, 14, 15, 13]
-              }],
-              xaxis: {
-                categories: ['2011 Q1', '2011 Q2', '2011 Q3', '2011 Q4', '2012 Q1', '2012 Q2', '2012 Q3', '2012 Q4'],
-              },
+              }
             }}
           />}
       />

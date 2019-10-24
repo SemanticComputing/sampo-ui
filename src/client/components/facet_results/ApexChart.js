@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import ApexCharts from 'apexcharts';
-import { isEqual } from 'lodash';
 import Paper from '@material-ui/core/Paper';
+import purple from '@material-ui/core/colors/purple';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { has } from 'lodash';
 
 const styles = theme => ({
   root: {
@@ -17,6 +19,13 @@ const styles = theme => ({
     },
     display: 'flex',
     alignItems: 'center',
+  },
+  spinnerContainer: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   chart: {
     width: '100%',
@@ -35,17 +44,57 @@ class ApexChart extends React.Component {
   }
 
   componentDidMount() {
-    this.chart = new ApexCharts(
-      this.chartRef.current,
-      this.props.options,
-    );
-    this.chart.render();
+    this.props.fetchResults({
+      resultClass: this.props.resultClass,
+      facetClass: this.props.facetClass
+    });
   }
 
   componentDidUpdate(prevProps) {
-    // Rerender chart when the props changes
-    if (!isEqual(this.props.options, prevProps.options)) {
-      this.rerenderChart();
+    // Render the chart when data changes
+    if (prevProps.data != this.props.data) {
+      console.log(this.props.data)
+        
+      //let categories = this.props.data.reduce((obj, item) => (obj[item.id] = item.type, obj) ,{});
+      // for (let [key, value] of Object.entries(categories)) {
+      //   value.map(obj => {
+      //     if (!has(series, obj.id)) {
+      //       series[obj.id] = {
+      //         name: obj.prefLabel,
+      //         data: [  ]
+      //       }
+      //     }
+      //   })
+      // }
+      const options = {
+        ...this.props.options,
+        series: [
+          {
+            name: 'PRODUCT A',
+            data: [44, 55, 41, 67, 22, 43, 21, 49]
+          },
+          {
+            name: 'PRODUCT B',
+            data: [13, 23, 20, 8, 13, 27, 33, 12]
+          },
+          {
+            name: 'PRODUCT C',
+            data: [11, 17, 15, 15, 21, 14, 15, 13]
+          }
+        ],
+        xaxis: {
+          categories: ['2011 Q1', '2011 Q2', '2011 Q3', '2011 Q4', '2012 Q1', '2012 Q2', '2012 Q3', '2012 Q4'],
+        },
+      };
+      // Destroy the previous chart
+      if (this.chart) {
+        this.chart.destroy();
+      }
+      this.chart = new ApexCharts(
+        this.chartRef.current,
+        options,
+      );
+      this.chart.render();
     }
   }
 
@@ -54,33 +103,30 @@ class ApexChart extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, fetching } = this.props;
     return (
       <Paper square className={classes.root}>
-        <div className={classes.chart} ref={this.chartRef} />
+        {fetching &&
+          <div className={this.props.classes.spinnerContainer}>
+            <CircularProgress style={{ color: purple[500] }} thickness={5} />
+          </div>
+        }
+        {!fetching &&
+          <div className={classes.chart} ref={this.chartRef} />
+        }
       </Paper>
     );
-  }
-
-  /**
-   * Helper method for rerendering a chart
-   */
-  rerenderChart = () => {
-    // Destroy the previous chart
-    this.chart.destroy();
-    // Create a new chart
-    this.chart = new ApexCharts(
-      this.chartRef.current,
-      this.props.options,
-    );
-    // Render it
-    this.chart.render();
   }
 }
 
 ApexChart.propTypes = {
   classes: PropTypes.object.isRequired,
-  options: PropTypes.object.isRequired
+  fetching: PropTypes.bool.isRequired,
+  data: PropTypes.array,
+  options: PropTypes.object.isRequired,
+  fetchResults: PropTypes.func.isRequired,
+  resultClass: PropTypes.string.isRequired,
+  facetClass: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(ApexChart);
