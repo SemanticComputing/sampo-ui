@@ -54,18 +54,7 @@ class ApexChart extends React.Component {
     // Render the chart when data changes
     if (prevProps.data != this.props.data) {
       console.log(this.props.data)
-        
       //let categories = this.props.data.reduce((obj, item) => (obj[item.id] = item.type, obj) ,{});
-      // for (let [key, value] of Object.entries(categories)) {
-      //   value.map(obj => {
-      //     if (!has(series, obj.id)) {
-      //       series[obj.id] = {
-      //         name: obj.prefLabel,
-      //         data: [  ]
-      //       }
-      //     }
-      //   })
-      // }
       const options = {
         ...this.props.options,
         series: [
