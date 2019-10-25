@@ -57,7 +57,7 @@ export const actorProperties = `
           |^mmm-schema:carried_out_by_as_editor)
           /frbroo:R16_initiated ?work__id .
       ?work__id skos:prefLabel ?work__prefLabel .
-      BIND(?work__id AS ?work__dataProviderUrl)
+      BIND(CONCAT("/works/page/", REPLACE(STR(?work__id), "^.*\\\\/(.+)", "$1")) AS ?work__dataProviderUrl)
     }
     UNION
     {
