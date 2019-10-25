@@ -1,4 +1,4 @@
-import { eventsByTimePeriodQuery } from './SparqlQueriesEvents';
+import { eventsByTimePeriodQuery, eventsByTimePeriodQuery2 } from './SparqlQueriesEvents';
 
 export const generateEventsByPeriodQuery =  ({
   startYear,
@@ -16,6 +16,23 @@ export const generateEventsByPeriodQuery =  ({
       # both start and end within the decade
       FILTER(?begin >= "<PERIOD_BEGIN>"^^xsd:date)
       FILTER(?end <= "<PERIOD_END>"^^xsd:date)
+    }
+  `;
+  const timePeriodTemplate2 = `
+    {
+      SELECT ?id ?prefLabel ?period
+      (COUNT(DISTINCT ?event) as ?instanceCount) {
+        ?event crm:P4_has_time-span ?timespan .
+        ?event a ?id .
+        ?id skos:prefLabel|rdfs:label ?prefLabel .
+        ?timespan crm:P82a_begin_of_the_begin ?begin .
+        ?timespan crm:P82b_end_of_the_end ?end .
+        BIND(<PERIOD_LABEL> as ?period)
+        # both start and end within the decade
+        FILTER(?begin >= "<PERIOD_BEGIN>"^^xsd:date)
+        FILTER(?end <= "<PERIOD_END>"^^xsd:date)
+      }
+      GROUP BY ?id ?prefLabel ?period
     }
   `;
   let timePeriods = ``;

@@ -100,3 +100,11 @@ export const eventsByTimePeriodQuery = `
   GROUP BY ?id ?type__id ?type__prefLabel
   ORDER BY ?id
 `;
+
+export const eventsByTimePeriodQuery2 = `
+  SELECT ?id ?prefLabel ?period ?instanceCount
+  WHERE {
+    <FILTER>
+    <TIME_PERIODS>
+  }
+`;

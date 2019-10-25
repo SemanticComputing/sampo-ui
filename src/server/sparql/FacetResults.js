@@ -100,7 +100,7 @@ export const getAllResults = ({
       filterTarget = 'event';
       break;
     case 'eventsByTimePeriod':
-      q = generateEventsByPeriodQuery({ startYear: 1600, endYear: 1700, periodLength: 10 });
+      q = generateEventsByPeriodQuery({ startYear: 1600, endYear: 1620, periodLength: 10 });
       filterTarget = 'event';
       break;
     case 'network':
