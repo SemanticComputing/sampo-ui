@@ -5,10 +5,11 @@ export default {
     long: 'Mapping Manuscript Migrations'
   },
   appDescription: `
-    MMM is a semantic portal for finding and studying pre-modern manuscripts and
+    Mapping Manuscript Migrations (MMM) is a semantic portal for finding and studying pre-modern manuscripts and
     their movements, based on linked collections of Schoenberg Institute, Bodleian Library,
-    and IRHT. Select an application view below.
+    and IRHT.
   `,
+  selectPerspective: 'Select a perspective to search and browse the MMM data:',
   topBar: {
     feedback: 'feedback',
     info: {
