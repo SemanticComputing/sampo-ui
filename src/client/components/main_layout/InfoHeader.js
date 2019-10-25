@@ -81,7 +81,7 @@ const InfoHeader = props => {
           id="panel1a-header"
           IconButtonProps={{ onClick: handleExpandButtonOnClick }}
         >
-          <Typography component="h1" variant="h3">
+          <Typography component="h1" variant="h4">
             {props.pageType === 'facetResults' && intl.get(`perspectives.${props.resultClass}.label`)}
             {props.pageType === 'instancePage' && intl.get(`perspectives.${props.resultClass}.instancePage.label`)}
           </Typography>

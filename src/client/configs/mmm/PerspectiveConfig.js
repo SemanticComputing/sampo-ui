@@ -8,7 +8,7 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 export const perspectiveConfig = [
   {
     id: 'manuscripts',
-    perspectiveDescHeight: 99,
+    perspectiveDescHeight: 160,
     defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {
@@ -48,7 +48,7 @@ export const perspectiveConfig = [
   },
   {
     id: 'works',
-    perspectiveDescHeight: 99,
+    perspectiveDescHeight: 160,
     defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {
@@ -77,7 +77,7 @@ export const perspectiveConfig = [
   },
   {
     id: 'events',
-    perspectiveDescHeight: 99,
+    perspectiveDescHeight: 160,
     defaultActiveFacets: new Set(['type']),
     tabs: [
       {
@@ -117,7 +117,7 @@ export const perspectiveConfig = [
   },
   {
     id: 'actors',
-    perspectiveDescHeight: 99,
+    perspectiveDescHeight: 160,
     defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {
@@ -151,7 +151,7 @@ export const perspectiveConfig = [
   },
   {
     id: 'places',
-    perspectiveDescHeight: 99,
+    perspectiveDescHeight: 160,
     defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {

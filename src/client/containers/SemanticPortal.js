@@ -88,27 +88,27 @@ const styles = theme => ({
   perspectiveContainer: {
     height: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 141px)',
+      height: 'calc(100% - 130px)',
     },
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       marginTop: 133, // app bar + header
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 141, // app bar + header
+      marginTop: 130, // app bar + header
     }
   },
   perspectiveContainerHeaderExpanded: {
     height: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 264px)',
+      height: 'calc(100% - 316px)',
     },
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 256, // app bar + header
+      marginTop: 308, // app bar + header
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 264, // app bar + header
+      marginTop: 316, // app bar + header
     }
   },
   // perspective container is divided into two columns:
@@ -135,27 +135,27 @@ const styles = theme => ({
   instancePageContainer: {
     height: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 181px)',
+      height: 'calc(100% - 170px)',
     },
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 173,
+      marginTop: 164,
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 181,
+      marginTop: 170,
     }
   },
   instancePageContainerHeaderExpanded: {
     height: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 304px)',
+      height: 'calc(100% - 354px)',
     },
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 296,
+      marginTop: 348,
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 304,
+      marginTop: 354,
     }
   },
   instancePageContent: {
