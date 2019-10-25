@@ -25,7 +25,7 @@ const styles = theme => ({
     width: '100%',
     height: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 130px)'
+      height: 'calc(100% - 126px)'
     },
     backgroundColor: theme.palette.background.paper,
     borderTop: '1px solid rgba(224, 224, 224, 1);',
@@ -36,7 +36,7 @@ const styles = theme => ({
     borderTop: '1px solid rgba(224, 224, 224, 1);',
   },
   paginationCaption: {
-    minWidth: 94
+    minWidth: 110
   },
   paginationToolbar: {
     [theme.breakpoints.down('xs')]: {
