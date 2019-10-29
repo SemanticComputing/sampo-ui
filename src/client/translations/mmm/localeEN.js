@@ -36,6 +36,30 @@ export default {
     rowsPerPage: 'Rows per page',
     of: 'of'
   },
+  instancePageGeneral: {
+    introduction: `
+      <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+        This landing page provides a human-readable summary of the data points that link
+        to this {entity}. The data included in this summary reflect only those data points
+        used in the MMM Portal. Click the Open in Linked Data Browser on button on the
+        Export tab to view the complete set of classes and properties linked to this record.
+      </p>
+      <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+        To cite this record, use its url. You can use also use the url to return directly
+        to the record at any time.
+      </p>
+    `,
+    repetition: `
+      <h6 class="MuiTypography-root MuiTypography-h6">
+        Repetition of data
+      </h6>
+      <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+        The same or similar data may appear within a single data field multiple times.
+        This repetition occurs due to the merging of multiple records from different datasets
+        to create the MMM record.
+      </p>
+    `
+  },
   perspectives: {
     manuscripts: {
       label: 'Manuscripts',
@@ -72,17 +96,12 @@ export default {
         label: 'Manuscript',
         description: `
           <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-            This landing page provides a human-readable summary of the data points that link
-            to this Manuscript. The data included in this summary reflects only those data
-            points used in the MMM interface. Click the Open in Linked Data Browser button to
-            view the complete set of classes and properties linked to this record. To cite this
-            record, use its url.
-          </p>
-          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-            MMM’s Manuscript entity corresponds to FRBRoo’s Manifestation Singleton, defined as
-            "physical objects that each carry an instance of [an Expression], and that were
-            produced as unique objects…" The various types of records that describe manuscripts
-            in each of the three contributing MMM datasets have been mapped to this entity.
+            MMM’s Manuscript entity corresponds to
+            <a href='https://www.ifla.org/publications/node/11240' target='_blank' rel='noopener noreferrer'>FRBRoo’s</a>
+            Manifestation Singleton, defined as "physical objects that each carry an instance of
+            [an Expression], and that were produced as unique objects..." The various types
+            of records that describe manuscripts in each of the three contributing MMM
+            datasets have been mapped to this entity.
           </p>
           <h6 class="MuiTypography-root MuiTypography-h6">
             Manuscript labels
@@ -107,6 +126,7 @@ export default {
               SDBM_MS_part: a record identified as a fragment of a larger manuscript.
             </li>
           </ul>
+          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"></p>
         `
       },
       properties: {
@@ -298,16 +318,9 @@ export default {
         label: 'Work',
         description: `
           <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-            This landing page provides a human-readable summary of the data points that
-            link to this Work. The data included in this summary reflects only those data
-            points used in the MMM interface. Click the Open in Linked Data Browser button
-            to view the complete set of classes and properties linked to this record.
-            To cite this record, use its url.
-          </p>
-          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-            The MMM data model follows the &nbsp;
+            The MMM data model follows the
             <a href='https://www.ifla.org/publications/node/11240' target='_blank' rel='noopener noreferrer'>FRBRoo</a>
-            &nbsp; definition of a work, which refers to
+            definition of a work, which refers to
             “distinct concepts or combinations of concepts identified in artistic and
             intellectual expressions.” Works contain title and author information.
             This definition is not shared by the Bibale or Oxford Libraries’ conception
@@ -412,11 +425,12 @@ export default {
         label: 'Event',
         description: `
           <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-            This landing page provides a human-readable summary of the data points that link
-            to this Event. The data included in this summary reflects only those data points
-            used in the MMM interface. Click the Open in Linked Data Browser button to
-            view the complete set of classes and properties linked to this record.
-            To cite this record, use its url.
+            Events refer to various activities related to Manuscripts and Actors. Event
+            types include Production, Transfer of Custody, and Activity events.
+            Production events refer to the production of the physical manuscript.
+            Transfer of Custody events indicate a change of ownership that involved
+            a transaction of some kind, usually through an auction house or bookseller.
+            The generic Activity event type covers all other types of events.
           </p>
         `
       },
@@ -517,10 +531,11 @@ export default {
         label: 'Actor',
         description: `
           <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-            This landing page provides a human-readable summary of the data points that link to this Actor.
-            The data included in this summary reflects only those data points used in the MMM interface.
-            Click the Open in Linked Data Browser button to view the complete set of classes and
-            properties linked to this record. To cite this record, use its url.
+            Actors are individuals or groups who influenced the production or provenance
+            of a manuscript. Actor types include Person, Group, or Actor. Persons refer to
+            individuals, while Groups indicate corporate or institutional bodies.
+            The Actor type is used when a more specific type is unknown or not specified
+            in the source dataset.
           </p>
         `
       },
@@ -621,14 +636,10 @@ export default {
         label: 'Place',
         description: `
           <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-            This landing page provides a human-readable summary of the data points that link
-            to this Place. The data included in this summary reflects only those data points
-            used in the MMM interface. Click the Open in Linked Data Browser button to
-            view the complete set of classes and properties linked to this record. To cite this record, use its url.
-          </p>
-          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-            MMM utilizes the Getty Thesaurus of Geographic Names as its hierarchy for geographic data.
-            Coordinate data is approximate for locations such as counties, regions, and nations.
+            Places refer to geographic locations that relate to Manuscripts, Events, Actors, and
+            Collections. MMM uses the Getty Thesaurus of Geographic Names as its hierarchy for
+            geographic data. Coordinate data is approximate for locations such as counties,
+            regions, and nations.
           </p>
         `
       },
@@ -700,11 +711,13 @@ export default {
         label: 'Collection',
         description: `
           <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-            This landing page provides a human-readable summary of the data points
-            that link to this Collection. The data included in this summary reflects
-            only those data points used in the MMM interface. Click the Open in
-            Linked Data Browser button to view the complete set of classes and
-            properties linked to this record. To cite this record, use its url.
+            A collection refers to a group of manuscripts that were owned by the same actor,
+            including individuals, institutions, or other types of groups. A manuscript can
+            appear in multiple collections over time, and no explicit distinction
+            is made between a manuscript’s current or former collections. Similarly,
+            collections will include links to every manuscript that has ever been in
+            the collection, regardless of whether all of those manuscripts were within
+            the collection at the same time.
           </p>
         `
       },
@@ -757,18 +770,13 @@ export default {
         label: 'Expression',
         description: `
           <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-            This landing page provides a human-readable summary of the data points
-            that link to this Expression. The data included in this summary reflects
-            only those data points used in the MMM interface. Click the Open in
-            Linked Data Browser button to view the complete set of classes and
-            properties linked to this record. To cite this record, use its url.
-          </p>
-          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-            The MMM data model follows the FRBRoo definition of an Expression,
-            which refers to “the intellectual or artistic realisations of works
-            in the form of identifiable immaterial objects…” Expressions contain
-            author, title, and language information, and represent the various
-            versions of texts that appear in manuscripts.
+            The MMM data model follows the
+            <a href='https://www.ifla.org/publications/node/11240' target='_blank' rel='noopener noreferrer'>FRBRoo</a>
+            definition of an Expression, which
+            refers to “the intellectual or artistic realisations of works in the form
+            of identifiable immaterial objects...” Expressions contain title,
+            and language information, and represent the various versions of texts that
+            appear in manuscripts.
           </p>
         `
       },

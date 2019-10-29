@@ -96,7 +96,14 @@ const InfoHeader = props => {
           style={{ height: props.descriptionHeight }}
         >
           {props.pageType === 'facetResults' && intl.getHTML(`perspectives.${props.resultClass}.longDescription`)}
-          {props.pageType === 'instancePage' && intl.getHTML(`perspectives.${props.resultClass}.instancePage.description`)}
+          {props.pageType === 'instancePage' &&
+            <React.Fragment>
+              {intl.getHTML(`instancePageGeneral.introduction`,
+                { entity: intl.get(`perspectives.${props.resultClass}.instancePage.label`) })}
+              {intl.getHTML(`perspectives.${props.resultClass}.instancePage.description`)}
+              {intl.getHTML(`instancePageGeneral.repetition`)}
+            </React.Fragment>
+          }
         </ExpansionPanelDetails>
       </ExpansionPanel>
     </Grid>
