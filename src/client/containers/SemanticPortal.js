@@ -395,7 +395,7 @@ let SemanticPortal = props => {
                       instanceData={props[perspective.id].instance}
                       expanded={props[perspective.id].instancePageHeaderExpanded}
                       updateExpanded={props.updatePerspectiveHeaderExpanded}
-                      descriptionHeight={99}
+                      descriptionHeight={perspective.perspectiveDescHeight}
                     />
                     <Grid container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
                       ? classes.instancePageContainerHeaderExpanded
