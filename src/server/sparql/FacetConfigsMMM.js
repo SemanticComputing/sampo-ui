@@ -41,6 +41,10 @@ const invalidTransferOfCustodyTimespans = `
         <http://ldf.fi/mmm/time/bibale_element_471075>
 `;
 
+const invalidActors = `
+        <http://ldf.fi/mmm/actor/sdbm_names/>
+`;
+
 export const facetConfigs = {
   manuscripts: {
     facetClass: 'frbroo:F4_Manifestation_Singleton',
@@ -53,7 +57,11 @@ export const facetConfigs = {
     },
     author: {
       id: 'author',
-      facetValueFilter: '',
+      facetValueFilter: `
+       FILTER(?id NOT IN (
+        ${invalidActors}
+       ))
+      `,
       label: 'Author',
       labelPath: 'mmm-schema:manuscript_author/skos:prefLabel',
       predicate: 'mmm-schema:manuscript_author',
@@ -203,7 +211,11 @@ export const facetConfigs = {
     },
     owner: {
       id: 'owner',
-      facetValueFilter: '',
+      facetValueFilter: `
+       FILTER(?id NOT IN (
+        ${invalidActors}
+       ))
+      `,
       label: 'Owner',
       labelPath: 'crm:P51_has_former_or_current_owner/skos:prefLabel',
       predicate: 'crm:P51_has_former_or_current_owner',
@@ -236,7 +248,11 @@ export const facetConfigs = {
     },
     author: {
       id: 'author',
-      facetValueFilter: '',
+      facetValueFilter: `
+       FILTER(?id NOT IN (
+        ${invalidActors}
+       ))
+      `,
       label: 'Author',
       labelPath: '^frbroo:R16_initiated/(mmm-schema:carried_out_by_as_possible_author|mmm-schema:carried_out_by_as_author)/skos:prefLabel',
       predicate: '^frbroo:R16_initiated/(mmm-schema:carried_out_by_as_possible_author|mmm-schema:carried_out_by_as_author)',
