@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs';
 import MaterialTableFullTextResults from '../../facet_results/MaterialTableFullTextResults';
+import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay';
 
 const All = props => {
   const perspectiveUrl = '/all';
@@ -13,7 +14,7 @@ const All = props => {
         tabs={[{
           id: 'table',
           label: 'table',
-          icon: 'CalendarViewDay',
+          icon: <CalendarViewDayIcon />,
           value: 0,
         }]}
       />

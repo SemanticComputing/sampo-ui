@@ -111,9 +111,12 @@ class MaterialTableFullTextResults extends React.Component {
               PreviousPage: ChevronLeftIcon
             }}
             options={{
-              maxBodyHeight: '100%',
-              pageSize: 15,
-              pageSizeOptions: [10, 15, 20, 25]
+              pageSize: 5,
+              pageSizeOptions: [5, 10, 15, 20, 25]
+            }}
+            style={{
+              height: '100%',
+              overflow: 'auto'
             }}
           />
         </div>
