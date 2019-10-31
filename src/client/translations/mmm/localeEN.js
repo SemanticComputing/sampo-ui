@@ -150,7 +150,7 @@ export default {
           description: 'The intellectual content (works) contained in the manuscript.'
         },
         expression: {
-          label: 'Label',
+          label: 'Expression',
           description: 'The linguistic versions of the works contained in the manuscript.'
         },
         productionPlace: {
