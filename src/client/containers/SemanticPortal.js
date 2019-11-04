@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import intl from 'react-intl-universal';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
@@ -22,11 +23,7 @@ import InstanceHomePage from '../components/main_layout/InstanceHomePage';
 // import FeedbackPage from '../components/main_layout/FeedbackPage';
 import TextPage from '../components/main_layout/TextPage';
 import Typography from '@material-ui/core/Typography';
-import {
-  perspectiveConfig,
-  aboutTheProject,
-  instructions
-} from '../configs/mmm/PerspectiveConfig';
+import { perspectiveConfig } from '../configs/mmm/PerspectiveConfig';
 import { perspectiveConfigOnlyInfoPages } from '../configs/mmm/PerspectiveConfigOnlyInfoPages';
 import InfoHeader from '../components/main_layout/InfoHeader';
 import { has } from 'lodash';
@@ -430,7 +427,7 @@ let SemanticPortal = props => {
                       Feedback
                   </Typography>
                   <Typography>
-                    Under construction... 
+                    Under construction...
                   </Typography>
                 </TextPage>
               </div>
@@ -440,7 +437,7 @@ let SemanticPortal = props => {
             path={`/about`}
             render={() =>
               <div className={classes.mainContainer}>
-                <TextPage>{aboutTheProject}</TextPage>
+                <TextPage>{intl.getHTML('aboutTheProject')}</TextPage>
               </div>
             }
           />
@@ -448,7 +445,7 @@ let SemanticPortal = props => {
             path={`/instructions`}
             render={() =>
               <div className={classes.mainContainer}>
-                <TextPage>{instructions}</TextPage>
+                <TextPage>{intl.getHTML('instructions')}</TextPage>
               </div>
             }
           />
