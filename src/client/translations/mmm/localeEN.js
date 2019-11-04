@@ -994,11 +994,5 @@ export default {
     <p class="MuiTypography-root MuiTypography-body1">
       (Owner: <i>Sir Thomas Phillipps</i> <strong>OR</strong> Owner: <i>Thomas Thorpe</i>)
     </p>
-
-
-
-
-
-
   `
 };

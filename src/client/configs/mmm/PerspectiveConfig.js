@@ -1,5 +1,4 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
 import RedoIcon from '@material-ui/icons/Redo';
