@@ -1,0 +1,122 @@
+.time-slider {
+  &-button {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+
+    img {
+      height: 1.5rem;
+      border-radius: 50%;
+      background-color: $secondary_color;
+      padding: 0.5rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darken($secondary_color, 5%);
+      }
+    }
+  }
+
+  &-container {
+    position: absolute;
+    @include style-definition(row, flex-end, center);
+    min-width: 800px;
+    max-width: 815px;
+    left: 2rem;
+    bottom: 2rem;
+    padding: 1rem 1.5rem 0.5rem 1.5rem;
+    background-color: $main_color;
+    border: 1.5px solid $secondary_color;
+    border-radius: 0.25rem;
+
+    &-labels {
+      color: white;
+      font-size: 0.85rem;
+
+      .speed-buttons {
+        @include style-definition(row, flex-end, center);
+        color: lightgrey;
+        font-size: 0.85rem;
+
+        div {
+          cursor: pointer;
+          margin-left: 0.5rem;
+
+          &:hover {
+            color: darken(white, 10%);
+          }
+        }
+      }
+    }
+
+    .control-buttons {
+      margin-top: 2rem;
+      margin-right: 1rem;
+
+      .button {
+        @include style-definition(row, center, center);
+        height: 0.8rem;
+        width: 1.5rem;
+        background-color: lightgrey;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        margin-right: 0.15rem;
+        cursor: pointer;
+
+        &:nth-child(1) {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+
+        &:nth-child(2) {
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+
+        i {
+          font-size: 0.8em !important;
+          margin: 0 !important;
+        }
+
+        &:hover {
+          background-color: grey;
+        }
+      }
+    }
+  }
+
+  .bar-chart-container {
+    margin-left: 0.5rem;
+  }
+
+  .slider {
+    &-labels-container {
+      @include style-definition(row, space-between, null);
+      margin-top: -10px;
+
+      div {
+        font-size: 0.725rem;
+        color: white;
+      }
+    }
+  }
+
+  .column {
+    @include style-definition(column, null, null);
+    width: 100%;
+  }
+
+  .row {
+    @include style-definition(row, space-between, flex-start);
+  }
+
+  &-speed-button--active {
+    color: white;
+    border-bottom: 1px solid white;
+    padding-bottom: 2px;
+  }
+
+  &--close {
+    display: none;
+  }
+}

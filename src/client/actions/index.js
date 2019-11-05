@@ -27,6 +27,7 @@ export const UPDATE_URL = 'UPDATE_URL';
 export const LOAD_LOCALES = 'LOAD_LOCALES';
 export const LOAD_LOCALES_FAILED = 'LOAD_LOCALES_FAILED';
 export const UPDATE_LOCALE = 'UPDATE_LOCALE';
+export const ANIMATE_MAP = 'ANIMATE_MAP';
 
 export const fetchPaginatedResults = (resultClass, facetClass, sortBy) => ({
   type: FETCH_PAGINATED_RESULTS,
@@ -145,6 +146,10 @@ export const loadLocalesFailed = (currentLanguage, error, message) => ({
 export const updateLocale = ({ language }) => ({
   type: UPDATE_LOCALE,
   language
+});
+export const animateMap = value => ({
+  type: ANIMATE_MAP,
+  value
 });
 // export const updateURL = ({ resultClass = 'manuscripts', newURL }) => ({
 //   type: UPDATE_URL,

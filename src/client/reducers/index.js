@@ -15,6 +15,7 @@ import eventsFacets from './mmm/eventsFacets';
 import actorsFacets from './mmm/actorsFacets';
 import placesFacets from './mmm/placesFacets';
 import clientSideFacetedSearch from './mmm/clientSideFacetedSearch';
+import animation from './mmm/animation';
 
 const reducer = combineReducers({
   manuscripts,
@@ -30,6 +31,7 @@ const reducer = combineReducers({
   collections,
   expressions,
   clientSideFacetedSearch,
+  animation,
   options,
   error,
   toastr: toastrReducer,

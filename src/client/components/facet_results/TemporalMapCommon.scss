@@ -1,0 +1,225 @@
+$main_color: rgba(36, 39, 48, 0.8);
+$secondary_color: rgb(255, 153, 51);
+
+@mixin direction($direction) {
+  flex-direction: $direction;
+  -webkit-flex-direction: $direction;
+}
+
+@mixin justify($type) {
+  -webkit-justify-content: $type;
+  justify-content: $type;
+}
+
+@mixin align-center($align) {
+  -webkit-align-items: $align;
+  align-items: $align;
+}
+
+@mixin style-definition($direction, $justify, $align) {
+  display: flex;
+  display: -webkit-flex;
+
+  @if $direction {
+    @include direction($direction);
+  }
+
+  @if $justify {
+    @include justify($justify);
+  }
+
+  @if $align {
+    @include align-center($align);
+  }
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 1;
+  color: $secondary_color;
+  background-color: $main_color;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+}
+
+.mapboxgl-ctrl {
+  display: none !important;
+}
+
+.a.mapboxgl-ctrl-logo {
+  display: none !important;
+}
+
+.mapboxgl-ctrl.mapboxgl-ctrl-attrib {
+  display: none !important;
+}
+
+.time-slider {
+  &-button {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+
+    img {
+      height: 1.5rem;
+      border-radius: 50%;
+      background-color: $secondary_color;
+      padding: 0.5rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darken($secondary_color, 5%);
+      }
+    }
+  }
+
+  &-container {
+    position: absolute;
+    @include style-definition(row, flex-end, center);
+    min-width: 800px;
+    max-width: 815px;
+    left: 2rem;
+    bottom: 2rem;
+    padding: 1rem 1.5rem 0.5rem 1.5rem;
+    background-color: $main_color;
+    border: 1.5px solid $secondary_color;
+    border-radius: 0.25rem;
+
+    &-labels {
+      color: white;
+      font-size: 0.85rem;
+
+      .speed-buttons {
+        @include style-definition(row, flex-end, center);
+        color: lightgrey;
+        font-size: 0.85rem;
+
+        div {
+          cursor: pointer;
+          margin-left: 0.5rem;
+
+          &:hover {
+            color: darken(white, 10%);
+          }
+        }
+      }
+    }
+
+    .control-buttons {
+      margin-top: 2rem;
+      margin-right: 1rem;
+
+      .button {
+        @include style-definition(row, center, center);
+        height: 0.8rem;
+        width: 1.5rem;
+        background-color: lightgrey;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        margin-right: 0.15rem;
+        cursor: pointer;
+
+        &:nth-child(1) {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+
+        &:nth-child(2) {
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+
+        i {
+          font-size: 0.8em !important;
+          margin: 0 !important;
+        }
+
+        &:hover {
+          background-color: grey;
+        }
+      }
+    }
+  }
+
+  .bar-chart-container {
+    margin-left: 0.5rem;
+  }
+
+  .slider {
+    &-labels-container {
+      @include style-definition(row, space-between, null);
+      margin-top: -10px;
+
+      div {
+        font-size: 0.725rem;
+        color: white;
+      }
+    }
+  }
+
+  .column {
+    @include style-definition(column, null, null);
+    width: 100%;
+  }
+
+  .row {
+    @include style-definition(row, space-between, flex-start);
+  }
+
+  &-speed-button--active {
+    color: white;
+    border-bottom: 1px solid white;
+    padding-bottom: 2px;
+  }
+
+  &--close {
+    display: none;
+  }
+}
+
+.bar-chart {
+  &-tooltip {
+    @include style-definition(column, flex-start, null);
+    color: black;
+    background-color: $secondary_color;
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+    font-size: 0.8rem;
+
+    div {
+      b {
+        margin: 0 0.25rem 0 0.25rem;
+      }
+    }
+
+    &--open {
+      display: block;
+    }
+
+    &--close {
+      display: none;
+    }
+  }
+
+  &-svg {
+    rect {
+      transform: scaleY(-1);
+      cursor: crosshair;
+    }
+
+    &-colored {
+      stroke: grey;
+      stroke-width: 1;
+    }
+
+    &-non-colored {
+      stroke: grey;
+      stroke-width: 0.25;
+      margin: 0.25rem;
+
+      &:hover {
+        fill: rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+}

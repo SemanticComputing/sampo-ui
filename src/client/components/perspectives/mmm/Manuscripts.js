@@ -5,6 +5,7 @@ import PerspectiveTabs from '../../main_layout/PerspectiveTabs';
 import ResultTable from '../../facet_results/ResultTable';
 import LeafletMap from '../../facet_results/LeafletMap';
 import Deck from '../../facet_results/Deck';
+import TemporalMap from '../../facet_results/TemporalMap';
 import Pie from '../../facet_results/Pie';
 import Network from '../../facet_results/Network';
 import Export from '../../facet_results/Export';
@@ -81,6 +82,14 @@ let Manuscripts = props => {
             updateFacetOption={props.updateFacetOption}
           />}
       />
+      {/* <Route
+        path={'/manuscripts/faceted-search/animation'}
+        render={() =>
+          <TemporalMap
+            animationValue={props.animationValue}
+            animateMap={props.animateMap}
+          />}
+      /> */}
       <Route
         path={'/manuscripts/faceted-search/export'}
         render={() =>
@@ -112,7 +121,9 @@ Manuscripts.propTypes = {
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
-  perspective: PropTypes.object.isRequired
+  perspective: PropTypes.object.isRequired,
+  animationValue: PropTypes.array.isRequired,
+  animateMap: PropTypes.func.isRequired,
 };
 
 export default Manuscripts;
