@@ -6,21 +6,28 @@ import iconImg from './icon.png';
 import BarChart from './TemporalMapBarChart';
 
 
-const color = 'rgb(0, 126, 230)';
+const blue = 'rgb(0, 126, 230)';
 
 const styles = () => ({
-  slider: {
-    width: '99%',
+  // slider: {
+  //   color: blue,
+  //   width: '99%',
+  //   margin: '8px 0 30px 0',
+  //   padding: '0 6px 0 6px',
+  // },
+  sliderRoot: {
+    color: blue,
+    width: '98%',
     margin: '8px 0 30px 0',
     padding: '0 6px 0 6px',
-    '& button': {
-      backgroundColor: color,
-      '&:after': {
-        content: '""',
-        borderRight: `3px solid ${color}`,
-        height: '26px',
-        marginTop: '-36px'
-      }
+  },
+  sliderThumb: {
+    backgroundColor: blue,
+    '&:after': {
+      content: '""',
+      borderRight: `3px solid ${blue}`,
+      height: '26px',
+      marginTop: '-36px'
     }
   }
 });
@@ -55,6 +62,7 @@ class TemporalMapTimeSlider extends Component {
       const toSplitIn = 8;
       const interval = this.props.dateUniques.length / toSplitIn;
       const target = [];
+
 
       for (let i = 0; i < toSplitIn; i++) {
         target.push(this.props.dateUniques[Math.round(interval * i)]);
@@ -189,7 +197,6 @@ class TemporalMapTimeSlider extends Component {
       doubleSpeedEnabled,
       speedButtonActive
     } = this.state;
-
     return (
       <div className="time-slider">
         <div className="time-slider-button" onClick={this._containerVisibility}>
@@ -236,17 +243,19 @@ class TemporalMapTimeSlider extends Component {
                 <div className="bar-chart-container">
                   <BarChart memory={memory} />
                 </div>
-                <div>
-                  <Slider
-                    className={classes.slider}
-                    value={value}
-                    aria-labelledby="label"
-                    onChange={this._handleSliderChange}
-                    min={0}
-                    max={maxValue}
-                    step={1}
-                  />
-                </div>
+                <Slider
+                  classes={{
+                    root: classes.sliderRoot,
+                    thumb: classes.sliderThumb
+                  }}
+                  value={value}
+                  aria-labelledby="label"
+                  onChange={this._handleSliderChange}
+                  min={0}
+                  max={maxValue}
+                  step={1}
+                  marks={true}
+                />
                 <div className="slider-labels-container">
                   {currentDay && currentDay.map((f, i) => <div key={`label-${i}`}>{f}</div>)}
                 </div>
