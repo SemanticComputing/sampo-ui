@@ -4,13 +4,13 @@ import { withStyles } from '@material-ui/core/styles';
 import { has } from 'lodash';
 import DeckGL, { ArcLayer } from 'deck.gl';
 import ReactMapGL, { NavigationControl, HTMLOverlay } from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
 import InfoDialog from './InfoDialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { purple } from '@material-ui/core/colors';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import { MAPBOX_ACCESS_TOKEN } from '../../configs/config';
 
 // https://deck.gl/#/documentation/getting-started/using-with-react?section=adding-a-base-map
 
@@ -19,9 +19,6 @@ import Typography from '@material-ui/core/Typography';
 // http://deck.gl/#/documentation/deckgl-api-reference/layers/arc-layer
 
 // https://blog.mapbox.com/mapbox-gl-js-react-764da6cc074a
-
-// Set your mapbox access token here
-const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZWtrb25lbiIsImEiOiJjam5vampzZ28xd2dyM3BzNXR0Zzg4azl4In0.eozyF-bBaZbA3ibhvJlJpQ';
 
 const styles = theme => ({
   root: {
