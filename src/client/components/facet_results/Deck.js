@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { has } from 'lodash';
 import DeckGL, { ArcLayer } from 'deck.gl';
-import ReactMapGL, { NavigationControl, HTMLOverlay } from 'react-map-gl';
+import ReactMapGL, { NavigationControl, FullscreenControl, HTMLOverlay } from 'react-map-gl';
 import InfoDialog from './InfoDialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { purple } from '@material-ui/core/colors';
@@ -45,10 +45,15 @@ const styles = theme => ({
     top: '50%',
     transform: 'translate(-50%,-50%)'
   },
-  mapControls: {
+  navigationContainer: {
     position: 'absolute',
-    left: theme.spacing(1),
-    top: theme.spacing(1)
+    top: 0,
+    left: 0,
+    padding: theme.spacing(1),
+    zIndex: 1
+  },
+  fullscreenButton: {
+    marginTop: theme.spacing(1)
   },
   legend: {
     position: 'absolute',
@@ -87,6 +92,7 @@ class Deck extends React.Component {
       facetClass: this.props.facetClass,
       sortBy: null,
     });
+    this.setState({ mounted: true });
   }
 
   componentDidUpdate = prevProps => {
@@ -130,39 +136,40 @@ class Deck extends React.Component {
     });
   }
 
- _onViewportChange = viewport => this.setState({viewport});
+  _onViewportChange = viewport =>
+    this.state.mounted && this.setState({viewport});
 
- _renderSpinner() {
-   if(this.props.fetching) {
-     return (
-       <div className={this.props.classes.spinner}>
-         <CircularProgress style={{ color: purple[500] }} thickness={5} />
-       </div>
-     );
-   }
-   return null;
- }
+  _renderSpinner() {
+    if(this.props.fetching) {
+      return (
+        <div className={this.props.classes.spinner}>
+          <CircularProgress style={{ color: purple[500] }} thickness={5} />
+        </div>
+      );
+    }
+    return null;
+  }
 
- _renderLegend() {
-   return (
-     <Card className={this.props.classes.legend}>
-       <CardContent>
-         <Typography variant="h6" gutterBottom>Arc colouring:</Typography>
-         <Typography className={this.props.classes.blue} variant="body2" gutterBottom>Manuscript production place</Typography>
-         <br />
-         <Typography variant="body2" gutterBottom>
-           <span className={this.props.classes.red}>
+  _renderLegend() {
+    return (
+      <Card className={this.props.classes.legend}>
+        <CardContent>
+          <Typography variant="h6" gutterBottom>Arc colouring:</Typography>
+          <Typography className={this.props.classes.blue} variant="body2" gutterBottom>Manuscript production place</Typography>
+          <br />
+          <Typography variant="body2" gutterBottom>
+            <span className={this.props.classes.red}>
             Most recently observed location
-           </span><br />
+            </span><br />
            calculated as: <br />
           Most recent acquisition/observation <br />
           -&gt; Source agent <br />
           -&gt; Place
-         </Typography>
-       </CardContent>
-     </Card>
-   );
- }
+          </Typography>
+        </CardContent>
+      </Card>
+    );
+  }
 
   // getStrokeWidth = manuscriptCount => {
   //   //console.log(manuscriptCount)
@@ -182,57 +189,62 @@ class Deck extends React.Component {
   //   return (maxAllowed - minAllowed) * (unscaledNum - min) / (max - min) + minAllowed;
   // }
 
- render() {
-   // console.log(this.props.data)
-   let arcData = [];
-   if (has(this.props.results[0], 'to')) {
-     arcData = this.props.results;
-   }
+  render() {
+    const { classes } = this.props;
+    let arcData = [];
+    if (has(this.props.results[0], 'to')) {
+      arcData = this.props.results;
+    }
 
-   const layer = new ArcLayer({
-     id: 'arc-layer',
-     data: arcData,
-     pickable: true,
-     getWidth: 1.5,
-     getSourceColor: [0, 0, 255, 255],
-     getTargetColor: [255, 0, 0, 255],
-     getSourcePosition: d => this.parseCoordinates(d.from),
-     getTargetPosition: d => this.parseCoordinates(d.to),
-     //onHover: info => this.setTooltip(info),
-     onClick: info => this.setDialog(info),
-   });
-   // https://www.mapbox.com/mapbox-gl-js/api#map
-   { /* style={{marginTop: 72}} */}
-   return (
-     <div className={this.props.classes.root}>
-       <ReactMapGL
-         {...this.state.viewport}
-         width='100%'
-         height='100%'
-         onViewportChange={this._onViewportChange}
-         mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
-         mapOptions={{
-           style: 'mapbox://styles/mapbox/light-v9'
-         }}
-       >
-         <HTMLOverlay redraw={this._renderLegend.bind(this)} />
-         <DeckGL
-           viewState={this.state.viewport}
-           layers={[layer]}
-         />
-         <div className={this.props.classes.mapControls}>
-           <NavigationControl onViewportChange={this._onViewportChange} />
-         </div>
-         {this._renderSpinner()}
-         <InfoDialog
-           open={this.state.dialog.open}
-           onClose={this.closeDialog.bind(this)}
-           data={this.state.dialog.data}
-         />
-       </ReactMapGL>
-     </div>
-   );
- }
+    const layer = new ArcLayer({
+      id: 'arc-layer',
+      data: arcData,
+      pickable: true,
+      getWidth: 2,
+      getSourceColor: [0, 0, 255, 255],
+      getTargetColor: [255, 0, 0, 255],
+      getSourcePosition: d => this.parseCoordinates(d.from),
+      getTargetPosition: d => this.parseCoordinates(d.to),
+      //onHover: info => this.setTooltip(info),
+      onClick: info => this.setDialog(info),
+    });
+    // https://www.mapbox.com/mapbox-gl-js/api#map
+    { /* style={{marginTop: 72}} */}
+    return (
+      <div className={classes.root}>
+        <ReactMapGL
+          {...this.state.viewport}
+          width='100%'
+          height='100%'
+          reuseMaps
+          mapStyle='mapbox://styles/mapbox/light-v9'
+          preventStyleDiffing={true}
+          mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
+          onViewportChange={this._onViewportChange}
+        >
+          <div className={classes.navigationContainer}>
+            <NavigationControl />
+            <FullscreenControl
+              className={classes.fullscreenButton}
+              container={document.querySelector('mapboxgl-map')}
+            />
+          </div>
+          <HTMLOverlay redraw={this._renderLegend.bind(this)} />
+          <DeckGL
+            viewState={this.state.viewport}
+            layers={[layer]}
+          />
+
+          {this._renderSpinner()}
+          <InfoDialog
+            open={this.state.dialog.open}
+            onClose={this.closeDialog.bind(this)}
+            data={this.state.dialog.data}
+          />
+        </ReactMapGL>
+      </div>
+    );
+  }
 }
 
 Deck.propTypes = {
