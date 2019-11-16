@@ -54,7 +54,7 @@ class MaterialTableFullTextResults extends React.Component {
                     data={data.prefLabel}
                     valueType='object'
                     makeLink={true}
-                    externalLink={true}
+                    externalLink={false}
                     sortValues={true}
                     numberedList={false}
                     minWidth={150}

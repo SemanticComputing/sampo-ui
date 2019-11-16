@@ -73,8 +73,17 @@ export const eventProperties = `
     {
       ?id dct:source ?source__id .
       ?source__id skos:prefLabel ?source__prefLabel .
-      OPTIONAL { ?id mmm-schema:data_provider_url ?dataProviderUrl_ }
-      BIND(COALESCE(?dataProviderUrl_, ?source__id) AS ?source__dataProviderUrl)
+      ?source__id mmm-schema:data_provider_url ?source__dataProviderUrl .
+    }
+    UNION
+    {
+      ?id mmm-schema:data_provider_url ?source__id .
+      BIND(?source__id as ?source__dataProviderUrl)
+      BIND(?source__id as ?source__prefLabel)
+    }
+    UNION
+    {
+      ?id crm:P3_has_note ?note .
     }
 `;
 

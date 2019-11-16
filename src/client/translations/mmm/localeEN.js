@@ -791,6 +791,12 @@ export default {
             The name or title of the Expression.
           `
         },
+        manuscript: {
+          label: 'Manuscript',
+          description: `
+            The manuscript that carries the Expression.
+          `
+        },
         language: {
           label: 'Language',
           description:  `

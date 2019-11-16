@@ -125,6 +125,16 @@ export const INITIAL_STATE = {
       onlyForClass: 'http://erlangen-crm.org/current/E7_Activity'
     },
     {
+      id: 'note',
+      valueType: 'string',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 250,
+      collapsedMaxWords: 12,
+    },
+    {
       id: 'source',
       valueType: 'object',
       makeLink: true,
