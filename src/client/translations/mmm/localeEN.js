@@ -297,7 +297,8 @@ export default {
           Use this perspective to access data related to Works. The MMM data model follows
           the <a href='https://www.ifla.org/publications/node/11240' target='_blank' rel='noopener noreferrer'>FRBRoo</a>
           definition of a work, which refers to “distinct concepts or combinations
-          of concepts identified in artistic and intellectual expressions.” If two or more source
+          of concepts identified in artistic and intellectual expressions.” Works
+          contain title and author information. If two or more source
           datasets include the same Work and this has been verified, the information
           from the source datasets has been merged into one Work.  See
           <a href="/instructions">instructions</a> for using the filters.
@@ -663,8 +664,8 @@ export default {
         area: {
           label: 'Parent Place',
           description: `
-            The preferred parent place in the hierarchy used by the Getty
-            Thesaurus of Geographic Names.
+            A larger region or geographic division in which a place is contained.
+            MMM uses the hierarchy published by the Getty Thesaurus of Geographic Names.
           `
         },
         manuscriptProduced: {
