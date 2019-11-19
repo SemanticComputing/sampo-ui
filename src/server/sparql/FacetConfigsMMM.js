@@ -45,6 +45,14 @@ const invalidActors = `
         <http://ldf.fi/mmm/actor/sdbm_names/>
 `;
 
+const invalidLanguages = `
+        <http://ldf.fi/mmm/language/sdbm_languages/>
+`;
+
+const invalidMaterials = `
+        <http://ldf.fi/mmm/material/>
+`;
+
 export const facetConfigs = {
   manuscripts: {
     facetClass: 'frbroo:F4_Manifestation_Singleton',
@@ -132,7 +140,11 @@ export const facetConfigs = {
     },
     language: {
       id: 'language',
-      facetValueFilter: '',
+      facetValueFilter: `
+       FILTER(?id NOT IN (
+        ${invalidLanguages}
+       ))
+      `,
       label: 'Language',
       labelPath: 'crm:P128_carries/crm:P72_has_language/skos:prefLabel',
       predicate: 'crm:P128_carries/crm:P72_has_language',
@@ -140,7 +152,11 @@ export const facetConfigs = {
     },
     material: {
       id: 'material',
-      facetValueFilter: '',
+      facetValueFilter: `
+       FILTER(?id NOT IN (
+        ${invalidMaterials}
+       ))
+      `,
       label: 'Language',
       labelPath: 'crm:P45_consists_of/skos:prefLabel',
       predicate: 'crm:P45_consists_of',
