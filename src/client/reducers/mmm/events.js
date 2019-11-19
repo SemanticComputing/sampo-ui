@@ -133,6 +133,7 @@ export const INITIAL_STATE = {
       numberedList: false,
       minWidth: 250,
       collapsedMaxWords: 12,
+      onlyOnInstancePage: true,
     },
     {
       id: 'source',

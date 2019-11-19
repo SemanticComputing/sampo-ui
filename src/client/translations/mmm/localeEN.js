@@ -472,6 +472,12 @@ export default {
             The specific place(s) associated with the event.
           `
         },
+        note: {
+          label: 'Note',
+          description: `
+            Note
+          `
+        },
         surrender: {
           label: 'Custody surrendered by',
           description: `
