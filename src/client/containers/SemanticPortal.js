@@ -22,7 +22,7 @@ import All from '../components/perspectives/mmm/All';
 import InstanceHomePage from '../components/main_layout/InstanceHomePage';
 // import FeedbackPage from '../components/main_layout/FeedbackPage';
 import TextPage from '../components/main_layout/TextPage';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import { perspectiveConfig } from '../configs/mmm/PerspectiveConfig';
 import { perspectiveConfigOnlyInfoPages } from '../configs/mmm/PerspectiveConfigOnlyInfoPages';
 import InfoHeader from '../components/main_layout/InfoHeader';
@@ -425,14 +425,7 @@ let SemanticPortal = props => {
             path={`/feedback`}
             render={() =>
               <div className={classes.mainContainer}>
-                <TextPage>
-                  <Typography component="h1" variant="h2" gutterBottom>
-                      Feedback
-                  </Typography>
-                  <Typography>
-                    Under construction...
-                  </Typography>
-                </TextPage>
+                <TextPage>{intl.getHTML('feedback')}</TextPage>
               </div>
             }
           />

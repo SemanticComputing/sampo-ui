@@ -1007,5 +1007,29 @@ export default {
     <p class="MuiTypography-root MuiTypography-body1">
       (Owner: <i>Sir Thomas Phillipps</i> <strong>OR</strong> Owner: <i>Thomas Thorpe</i>)
     </p>
-  `
+  `,
+  feedback: `
+    <h1 class="MuiTypography-root MuiTypography-h2 MuiTypography-gutterBottom">
+      Feedback
+    </h1>
+    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+      This semantic portal has been developed by the research project “Mapping Manuscript Migrations”.
+    </p>
+    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+      We are interested in your feedback on the functionality, coverage, and usefulness of the portal and its data.
+    </p>
+    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+      Please complete our
+      <a href="https://tinyurl.com/uph7xkj" target='_blank' rel='noopener noreferrer'>Feedback Survey Form.</a>
+    </p>
+    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+    You can also contact us via email:
+    <a href="mailto:mappingmanuscriptmigrations@gmail.com">mappingmanuscriptmigrations@gmail.com</a>
+    or DM us on Twitter: @MSMigrations
+    </p>
+    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+      Please be aware that this portal’s response times may be affected by the size and complexity
+      of the dataset, especially in areas like the map visualizations, the date filters, and the Events perspective.
+    </p>
+    `
 };
