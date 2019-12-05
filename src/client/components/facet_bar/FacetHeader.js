@@ -8,6 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Typography from '@material-ui/core/Typography';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
+import PieChartIcon from '@material-ui/icons/PieChart';
 import history from '../../History';
 
 const styles = theme => ({
@@ -104,7 +105,7 @@ class FacetHeader extends React.Component {
 
   renderFacetMenu = () => {
     const { anchorEl } = this.state;
-    const { sortButton, spatialFilterButton, sortBy, filterType } = this.props.facet;
+    const { sortButton, spatialFilterButton, sortBy, filterType, chartButton = false } = this.props.facet;
     const open = Boolean(anchorEl);
     let menuButtons = [];
     if (sortButton) {
@@ -137,6 +138,16 @@ class FacetHeader extends React.Component {
     }
     return (
       <React.Fragment>
+        {chartButton && <Tooltip disableFocusListener={true} title="Chart">
+          <IconButton
+            aria-label="Chart"
+            aria-owns={open ? 'facet-option-menu' : undefined}
+            aria-haspopup="true"
+            onClick={{}}
+          >
+            <PieChartIcon />
+          </IconButton>
+        </Tooltip>}
         <Tooltip disableFocusListener={true} title="Filter options">
           <IconButton
             aria-label="Filter options"

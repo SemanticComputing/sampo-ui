@@ -169,6 +169,7 @@ export const INITIAL_STATE = {
       sortDirection: 'desc',
       sortButton: true,
       spatialFilterButton: false,
+      chartButton: false,
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
