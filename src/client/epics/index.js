@@ -25,6 +25,7 @@ import {
   FETCH_BY_URI,
   FETCH_BY_URI_FAILED,
   FETCH_FACET,
+  FETCH_FACET_CONSTRAIN_SELF,
   FETCH_FACET_FAILED,
   LOAD_LOCALES,
   updateResultCount,
@@ -32,6 +33,7 @@ import {
   updateResults,
   updateInstance,
   updateFacetValues,
+  updateFacetValuesConstrainSelf,
   updateLocale
 } from '../actions';
 
@@ -244,6 +246,43 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
   })
 );
 
+const fetchFacetConstrainSelfEpic = (action$, state$) => action$.pipe(
+  ofType(FETCH_FACET_CONSTRAIN_SELF),
+  withLatestFrom(state$),
+  mergeMap(([action, state]) => {
+    const { facetClass, facetID } = action;
+    const facets = state[`${facetClass}Facets`].facets;
+    const facet = facets[facetID];
+    const { sortBy, sortDirection } = facet;
+    const params = stateToUrl({
+      facets: facets,
+      sortBy: sortBy,
+      sortDirection: sortDirection,
+      constrainSelf: true
+    });
+    const requestUrl = `${apiUrl}${action.facetClass}/facet/${facetID}?${params}`;
+    return ajax.getJSON(requestUrl).pipe(
+      map(res => updateFacetValuesConstrainSelf({
+        facetClass: facetClass,
+        id: facetID,
+        data: res.data || [],
+        flatData: res.flatData || [],
+        sparqlQuery: res.sparqlQuery
+      })),
+      catchError(error => of({
+        type: FETCH_FACET_FAILED,
+        resultClass: action.facetClass,
+        id: action.id,
+        error: error,
+        message: {
+          text: backendErrorText,
+          title: 'Error'
+        }
+      }))
+    );
+  })
+);
+
 const loadLocalesEpic = action$ => action$.pipe(
   ofType(LOAD_LOCALES),
   // https://thecodebarbarian.com/a-beginners-guide-to-redux-observable
@@ -263,6 +302,7 @@ const rootEpic = combineEpics(
   fetchResultsClientSideEpic,
   fetchByURIEpic,
   fetchFacetEpic,
+  fetchFacetConstrainSelfEpic,
   loadLocalesEpic
 );
 

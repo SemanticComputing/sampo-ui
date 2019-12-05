@@ -27,7 +27,8 @@ export const getFacet = async ({
   sortBy,
   sortDirection,
   constraints,
-  resultFormat
+  resultFormat,
+  constrainSelf
 }) => {
   const facetConfig = facetConfigs[facetClass][facetID];
   // choose query template and result mapper:
@@ -67,6 +68,7 @@ export const getFacet = async ({
       filterTarget: 'instance',
       facetID: facetID,
       inverse: false,
+      constrainSelf
     });
     previousSelections = new Set(getUriFilters(constraints, facetID));
     // if this facet has previous selections, include them in the query

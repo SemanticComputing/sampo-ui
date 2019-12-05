@@ -34,12 +34,14 @@ export const generateConstraintsBlock = ({
   filterTarget,
   facetID,
   inverse,
+  constrainSelf = false
 }) => {
   //delete constraints[facetID];
   let filterStr = '';
   let constraintsArr = [];
+  let skipFacetID = constrainSelf ? '' : facetID;
   for (const [key, value] of Object.entries(constraints)) {
-    if (key !== facetID) { // use only constraints from other facets
+    if (key !== skipFacetID) { 
       constraintsArr.push({
         id: key,
         filterType: value.filterType,

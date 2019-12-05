@@ -114,7 +114,8 @@ app.get(`${apiPath}/:facetClass/facet/:id`, async (req, res, next) => {
       sortBy: req.query.sortBy || null,
       sortDirection: req.query.sortDirection || null,
       constraints: req.query.constraints == null ? null : JSON.parse(req.query.constraints),
-      resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
+      resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat,
+      constrainSelf: req.query.constrainSelf || false
     });
     res.json(data);
   } catch(error) {

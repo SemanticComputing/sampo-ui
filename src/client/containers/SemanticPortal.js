@@ -20,9 +20,7 @@ import Places from '../components/perspectives/mmm/Places';
 import Actors from '../components/perspectives/mmm/Actors';
 import All from '../components/perspectives/mmm/All';
 import InstanceHomePage from '../components/main_layout/InstanceHomePage';
-// import FeedbackPage from '../components/main_layout/FeedbackPage';
 import TextPage from '../components/main_layout/TextPage';
-// import Typography from '@material-ui/core/Typography';
 import { perspectiveConfig } from '../configs/mmm/PerspectiveConfig';
 import { perspectiveConfigOnlyInfoPages } from '../configs/mmm/PerspectiveConfigOnlyInfoPages';
 import InfoHeader from '../components/main_layout/InfoHeader';
@@ -35,6 +33,7 @@ import {
   clearResults,
   fetchByURI,
   fetchFacet,
+  fetchFacetConstrainSelf,
   sortResults,
   updateFacetOption,
   updatePage,
@@ -483,6 +482,7 @@ const mapDispatchToProps = ({
   fetchResultsClientSide,
   fetchByURI,
   fetchFacet,
+  fetchFacetConstrainSelf,
   sortResults,
   clearResults,
   updateFacetOption,
