@@ -1,7 +1,5 @@
 {
   "name": "mmm-web-app",
-  "version": "0.0.1",
-  "description": "",
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
@@ -15,8 +13,10 @@
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/src/client/setupTests.js"
   },
-  "keywords": [],
   "author": "Esko Ikkala",
+  "contributors": [
+    "Erkki Heino"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.1.5",
