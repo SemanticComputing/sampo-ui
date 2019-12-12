@@ -18,6 +18,7 @@ export const UPDATE_INSTANCE = 'UPDATE_INSTANCE';
 export const FETCH_FACET = 'FETCH_FACET';
 export const FETCH_FACET_CONSTRAIN_SELF = 'FETCH_FACET_CONSTRAIN_SELF';
 export const FETCH_FACET_FAILED = 'FETCH_FACET_FAILED';
+export const FETCH_FACET_CONSTRAIN_SELF_FAILED = 'FETCH_FACET_CONSTRAIN_SELF_FAILED';
 export const UPDATE_FACET_VALUES = 'UPDATE_FACET_VALUES';
 export const UPDATE_FACET_VALUES_CONSTRAIN_SELF = 'UPDATE_FACET_VALUES_CONSTRAIN_SELF';
 export const UPDATE_FACET_OPTION = 'UPDATE_FACET_OPTION';
@@ -105,6 +106,10 @@ export const fetchFacet = ({ facetClass, facetID }) => ({
 });
 export const fetchFacetFailed = (facetClass, id, error, message) => ({
   type: FETCH_FACET_FAILED,
+  facetClass, id, error, message
+});
+export const fetchFacetConstrainSelfFailed = (facetClass, id, error, message) => ({
+  type: FETCH_FACET_CONSTRAIN_SELF_FAILED,
   facetClass, id, error, message
 });
 export const fetchFacetConstrainSelf = ({ facetClass, facetID }) => ({

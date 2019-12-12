@@ -10,6 +10,7 @@ import places from './mmm/places';
 import collections from './mmm/collections';
 import expressions from './mmm/expressions';
 import manuscriptsFacets from './mmm/manuscriptsFacets';
+import manuscriptsFacetsConstrainSelf from './mmm/manuscriptsFacetsConstrainSelf';
 import worksFacets from './mmm/worksFacets';
 import eventsFacets from './mmm/eventsFacets';
 import actorsFacets from './mmm/actorsFacets';
@@ -20,6 +21,7 @@ import animation from './mmm/animation';
 const reducer = combineReducers({
   manuscripts,
   manuscriptsFacets,
+  manuscriptsFacetsConstrainSelf,
   works,
   worksFacets,
   events,

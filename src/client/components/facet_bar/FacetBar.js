@@ -79,6 +79,9 @@ class FacetBar extends React.Component {
     const label = intl.get(`perspectives.${facetClass}.properties.${facetID}.label`);
     const description = intl.get(`perspectives.${facetClass}.properties.${facetID}.description`);
     const facet = facets[facetID];
+    const facetConstrainSelf = this.props.facetDataConstrainSelf !== null
+      ? this.props.facetDataConstrainSelf.facets[facetID]
+      : null;
     let facetComponent = null;
     let isActive = this.state.activeFacets.has(facetID);
     switch (facet.filterType) {
@@ -195,10 +198,12 @@ class FacetBar extends React.Component {
             facetID={facetID}
             facetLabel={label}
             facet={facet}
+            facetConstrainSelf={facetConstrainSelf}
             isActive={isActive}
             facetClass={this.props.facetClass}
             resultClass={this.props.resultClass}
             fetchFacet={this.props.fetchFacet}
+            fetchFacetConstrainSelf={this.props.fetchFacetConstrainSelf}
             updateFacetOption={this.props.updateFacetOption}
             facetDescription={description}
           />
@@ -246,11 +251,13 @@ class FacetBar extends React.Component {
 FacetBar.propTypes = {
   classes: PropTypes.object.isRequired,
   facetData: PropTypes.object.isRequired,
+  facetDataConstrainSelf: PropTypes.object,
   facetClass: PropTypes.string.isRequired,
   resultClass: PropTypes.string.isRequired,
   resultCount: PropTypes.number.isRequired,
   fetchingResultCount: PropTypes.bool.isRequired,
   fetchFacet: PropTypes.func.isRequired,
+  fetchFacetConstrainSelf: PropTypes.func.isRequired,
   fetchResultCount: PropTypes.func.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
   defaultActiveFacets: PropTypes.instanceOf(Set).isRequired,

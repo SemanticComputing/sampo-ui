@@ -325,11 +325,16 @@ let SemanticPortal = props => {
                             <Grid item xs={12} md={3} className={classes.facetBarContainer}>
                               <FacetBar
                                 facetData={props[`${perspective.id}Facets`]}
+                                facetDataConstrainSelf={has(props, `${perspective.id}FacetsConstrainSelf`)
+                                  ? props[`${perspective.id}FacetsConstrainSelf`]
+                                  : null
+                                }
                                 facetClass={perspective.id}
                                 resultClass={perspective.id}
                                 fetchingResultCount={props[perspective.id].fetchingResultCount}
                                 resultCount={props[perspective.id].resultCount}
                                 fetchFacet={props.fetchFacet}
+                                fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
                                 fetchResultCount={props.fetchResultCount}
                                 updateFacetOption={props.updateFacetOption}
                                 defaultActiveFacets={perspective.defaultActiveFacets}
@@ -457,6 +462,7 @@ const mapStateToProps = state => {
   return {
     manuscripts: state.manuscripts,
     manuscriptsFacets: state.manuscriptsFacets,
+    manuscriptsFacetsConstrainSelf: state.manuscriptsFacetsConstrainSelf,
     works: state.works,
     worksFacets: state.worksFacets,
     events: state.events,
@@ -502,6 +508,7 @@ SemanticPortal.propTypes = {
   // browser: PropTypes.object.isRequired,
   manuscripts: PropTypes.object.isRequired,
   manuscriptsFacets: PropTypes.object.isRequired,
+  manuscriptsFacetsConstrainSelf: PropTypes.object.isRequired,
   works: PropTypes.object.isRequired,
   worksFacets: PropTypes.object.isRequired,
   events: PropTypes.object.isRequired,

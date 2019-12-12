@@ -1,38 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
+// import DialogTitle from '@material-ui/core/DialogTitle';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 
 const styles = () => ({
-  root: {
-    display: 'inline'
-  },
   dialogPaper: {
-    minHeight: '80vh',
-    maxHeight: '80vh',
-    minWidth: '60vh',
-  },
+    height: '100%'
+  }
 });
 
 const GeneralDialog = props => {
-  const { classes, open, onClose, /*data*/ } = props;
-  //console.log(data)
+  const { onClose, open, children, classes } = props;
 
   return (
-    <div className={classes.root}>
-      <Dialog
-        classes={{ paper: classes.dialogPaper }}
-        open={open}
-        onClose={onClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle>Test title</DialogTitle>
-        <DialogContent><Typography>test</Typography></DialogContent>
-      </Dialog>
-    </div>
+    <Dialog
+      classes={{
+        paper: classes.dialogPaper
+      }}
+      onClose={onClose}
+      aria-labelledby="simple-dialog-title"
+      open={open}
+      fullWidth={true}
+      maxWidth='xl'
+    >
+      {children}
+    </Dialog>
   );
 };
 
@@ -40,7 +33,8 @@ GeneralDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  data: PropTypes.object.isRequired
+  title: PropTypes.string,
+  children: PropTypes.node
 };
 
 export default withStyles(styles)(GeneralDialog);

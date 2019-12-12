@@ -8,8 +8,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Typography from '@material-ui/core/Typography';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
-import PieChartIcon from '@material-ui/icons/PieChart';
 import history from '../../History';
+import ChartDialog from './ChartDialog';
 
 const styles = theme => ({
   root: {
@@ -138,16 +138,15 @@ class FacetHeader extends React.Component {
     }
     return (
       <React.Fragment>
-        {chartButton && <Tooltip disableFocusListener={true} title="Chart">
-          <IconButton
-            aria-label="Chart"
-            aria-owns={open ? 'facet-option-menu' : undefined}
-            aria-haspopup="true"
-            onClick={{}}
-          >
-            <PieChartIcon />
-          </IconButton>
-        </Tooltip>}
+        {chartButton &&
+          <ChartDialog
+            data={this.props.facetConstrainSelf.values}
+            fetching={this.props.facetConstrainSelf.isFetching}
+            facetID={this.props.facetID}
+            facetClass={this.props.facetClass}
+            fetchFacetConstrainSelf={this.props.fetchFacetConstrainSelf}
+          />
+        }
         <Tooltip disableFocusListener={true} title="Filter options">
           <IconButton
             aria-label="Filter options"
@@ -176,8 +175,9 @@ class FacetHeader extends React.Component {
 
   render() {
     const { classes, isActive, facetDescription, facetLabel } = this.props;
-    const { sortButton, spatialFilterButton } = this.props.facet;
-    let showMenuButton = isActive && (sortButton || spatialFilterButton);
+    const { sortButton, spatialFilterButton, chartButton } = this.props.facet;
+    let showButtons = isActive && (sortButton || spatialFilterButton || chartButton);
+
     return (
       <div className={classes.headingContainer}>
         <Typography variant="body1">{facetLabel} </Typography>
@@ -189,7 +189,7 @@ class FacetHeader extends React.Component {
             <InfoIcon />
           </IconButton>
         </Tooltip>
-        {showMenuButton &&
+        {showButtons &&
           <div className={classes.facetHeaderButtons}>
             {this.renderFacetMenu()}
           </div>
@@ -204,10 +204,12 @@ FacetHeader.propTypes = {
   facetID: PropTypes.string,
   facetLabel: PropTypes.string.isRequired,
   facet: PropTypes.object,
+  facetConstrainSelf: PropTypes.object.isRequired,
   isActive: PropTypes.bool.isRequired,
   facetClass: PropTypes.string,
   resultClass: PropTypes.string,
   fetchFacet: PropTypes.func,
+  fetchFacetConstrainSelf: PropTypes.func,
   updateFacetOption: PropTypes.func,
   facetDescription: PropTypes.string.isRequired
 };

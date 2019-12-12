@@ -1,14 +1,13 @@
 import {
-  FETCH_FACET,
-  FETCH_FACET_FAILED,
-  UPDATE_FACET_VALUES,
-  UPDATE_FACET_OPTION,
+  FETCH_FACET_CONSTRAIN_SELF,
+  FETCH_FACET_CONSTRAIN_SELF_FAILED,
+  UPDATE_FACET_VALUES_CONSTRAIN_SELF,
 } from '../../actions';
 import {
   fetchFacet,
   fetchFacetFailed,
   updateFacetValues,
-  updateFacetOption,
+  //updateFacetOption,
 } from '../helpers';
 
 export const INITIAL_STATE = {
@@ -43,7 +42,6 @@ export const INITIAL_STATE = {
       sortDirection: 'desc',
       sortButton: true,
       spatialFilterButton: false,
-      chartButton: true,
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
@@ -135,7 +133,6 @@ export const INITIAL_STATE = {
       sortDirection: 'desc',
       sortButton: true,
       spatialFilterButton: false,
-      chartButton: true,
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
@@ -154,7 +151,6 @@ export const INITIAL_STATE = {
       sortDirection: 'desc',
       sortButton: true,
       spatialFilterButton: false,
-      chartButton: true,
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
@@ -229,7 +225,6 @@ export const INITIAL_STATE = {
       sortDirection: 'desc',
       sortButton: true,
       spatialFilterButton: false,
-      chartButton: true,
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
@@ -351,7 +346,6 @@ export const INITIAL_STATE = {
       sortDirection: 'desc',
       sortButton: false,
       spatialFilterButton: false,
-      chartButton: true,
       isFetching: false,
       searchField: false,
       containerClass: 'three',
@@ -365,14 +359,12 @@ export const INITIAL_STATE = {
 const manuscriptsFacets = (state = INITIAL_STATE, action) => {
   if (action.facetClass === 'manuscripts') {
     switch (action.type) {
-      case FETCH_FACET:
+      case FETCH_FACET_CONSTRAIN_SELF:
         return fetchFacet(state, action);
-      case FETCH_FACET_FAILED:
+      case FETCH_FACET_CONSTRAIN_SELF_FAILED:
         return fetchFacetFailed(state, action);
-      case UPDATE_FACET_VALUES:
+      case UPDATE_FACET_VALUES_CONSTRAIN_SELF:
         return updateFacetValues(state, action);
-      case UPDATE_FACET_OPTION:
-        return updateFacetOption(state, action);
       default:
         return state;
     }
