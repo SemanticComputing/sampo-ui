@@ -204,7 +204,7 @@ FacetHeader.propTypes = {
   facetID: PropTypes.string,
   facetLabel: PropTypes.string.isRequired,
   facet: PropTypes.object,
-  facetConstrainSelf: PropTypes.object.isRequired,
+  facetConstrainSelf: PropTypes.object,
   isActive: PropTypes.bool.isRequired,
   facetClass: PropTypes.string,
   resultClass: PropTypes.string,
