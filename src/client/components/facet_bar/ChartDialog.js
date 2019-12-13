@@ -51,9 +51,30 @@ const ChartDialog = props => {
             legend: {
               position: 'right',
               width: 400,
-              fontSize: 14,
+              fontSize: 16,
               itemMargin: {
                 horizontal: 5
+              },
+              onItemHover: {
+                highlightDataSeries: false
+              },
+              onItemClick: {
+                toggleDataSeries: false
+              },
+              markers: {
+                width: 18,
+                height: 18,
+              },
+              formatter: (seriesName, opts) => {
+                return `${seriesName} [${opts.w.globals.series[opts.seriesIndex]}]`;
+              }
+            },
+            tooltip: {
+              //enabled: false,
+              followCursor: false,
+              fixed: {
+                enabled: true,
+                position: 'topRight'
               }
             }
           }}
