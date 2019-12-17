@@ -456,9 +456,10 @@ export const migrationsQuery = `
     ?from__id skos:prefLabel ?from__name .
     ?from__id wgs84:lat ?from__lat ;
               wgs84:long ?from__long .
-    ?event crm:P30_transferred_custody_of|mmm-schema:observed_manuscript ?manuscript__id .
-    ?event crm:P4_has_time-span/crm:P82b_end_of_the_end ?event_timespan_end .
-    ?event crm:P7_took_place_at ?to__id .
+    #?event crm:P30_transferred_custody_of|mmm-schema:observed_manuscript ?manuscript__id .
+    #?event crm:P4_has_time-span/crm:P82b_end_of_the_end ?event_timespan_end .
+    #?event crm:P7_took_place_at ?to__id .
+    ?manuscript__id mmm-schema:last_known_location ?to__id .
     ?to__id skos:prefLabel ?to__name .
     ?to__id wgs84:lat ?to__lat ;
             wgs84:long ?to__long .
