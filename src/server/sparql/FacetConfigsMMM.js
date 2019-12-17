@@ -138,6 +138,18 @@ export const facetConfigs = {
       endProperty: 'crm:P82b_end_of_the_end',
       type: 'timespan',
     },
+    lastKnownLocation: {
+      id: 'lastKnownLocation',
+      facetValueFilter: `
+      ?id dct:source <http://vocab.getty.edu/tgn/> .
+      `,
+      label: 'Production place',
+      labelPath: 'mmm-schema:last_known_location/skos:prefLabel',
+      predicate: 'mmm-schema:last_known_location',
+      parentProperty: 'gvp:broaderPreferred',
+      parentPredicate: 'mmm-schema:last_known_location/gvp:broaderPreferred+',
+      type: 'hierarchical',
+    },
     language: {
       id: 'language',
       facetValueFilter: `

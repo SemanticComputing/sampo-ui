@@ -116,6 +116,15 @@ export const INITIAL_STATE = {
       minWidth: 250,
     },
     {
+      id: 'lastKnownLocation',
+      valueType: 'object',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 220,
+    },
+    {
       id: 'note',
       valueType: 'string',
       makeLink: false,

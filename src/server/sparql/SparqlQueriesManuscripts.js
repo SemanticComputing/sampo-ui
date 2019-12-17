@@ -78,6 +78,12 @@ export const manuscriptPropertiesInstancePage =
     }
     UNION
     {
+      ?id mmm-schema:last_known_location ?lastKnownLocation__id  .
+      ?lastKnownLocation__id skos:prefLabel ?lastKnownLocation__prefLabel .
+      BIND(CONCAT("/places/page/", REPLACE(STR(?lastKnownLocation__id), "^.*\\\\/(.+)", "$1")) AS ?lastKnownLocation__dataProviderUrl)
+    }
+    UNION
+    {
       ?event__id crm:P30_transferred_custody_of ?id .
       ?event__id a ?event__type .
       OPTIONAL { ?event__id crm:P4_has_time-span/skos:prefLabel ?event__date }
@@ -230,6 +236,12 @@ export const manuscriptPropertiesFacetResults =
         ?production dct:source ?productionPlace__source__id .
         ?productionPlace__source__id skos:prefLabel ?productionPlace__source__prefLabel .
         BIND(CONCAT("/places/page/", REPLACE(STR(?productionPlace__id), "^.*\\\\/(.+)", "$1")) AS ?productionPlace__dataProviderUrl)
+      }
+      UNION
+      {
+        ?id mmm-schema:last_known_location ?lastKnownLocation__id  .
+        ?lastKnownLocation__id skos:prefLabel ?lastKnownLocation__prefLabel .
+        BIND(CONCAT("/places/page/", REPLACE(STR(?lastKnownLocation__id), "^.*\\\\/(.+)", "$1")) AS ?lastKnownLocation__dataProviderUrl)
       }
       UNION
       {

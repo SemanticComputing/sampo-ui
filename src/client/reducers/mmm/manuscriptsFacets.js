@@ -219,6 +219,26 @@ export const INITIAL_STATE = {
       type: 'timespan',
       priority: 9
     },
+    lastKnownLocation: {
+      id: 'lastKnownLocation',
+      //predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'prefLabel',
+      sortDirection: 'asc',
+      sortButton: false,
+      spatialFilterButton: false,
+      //spatialFilterTab: 'production_places',
+      isFetching: false,
+      searchField: true,
+      containerClass: 'ten',
+      filterType: 'uriFilter',
+      uriFilter: null,
+      spatialFilter: null,
+      type: 'hierarchical',
+      priority: 22
+    },
     material: {
       id: 'material',
       // predicate: defined in backend

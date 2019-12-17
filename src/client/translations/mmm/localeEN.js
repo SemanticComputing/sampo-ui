@@ -218,6 +218,12 @@ export default {
             The dates of “Transfer of Custody” events related to the manuscript.
           `
         },
+        lastKnownLocation: {
+          label: 'Last known location',
+          description: `
+            Last known location
+          `
+        },
         material: {
           label: 'Material',
           description: `
