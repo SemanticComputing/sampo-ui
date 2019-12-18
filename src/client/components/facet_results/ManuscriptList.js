@@ -1,24 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
+
+const styles = theme => ({
+  root: {
+    marginTop: theme.spacing(1)
+  }
+});
 
 let ManuscriptList = (props) => {
-  const { manuscripts } = props;
+  const { classes, manuscripts } = props;
   let items = '';
-  if (Array.isArray(manuscripts)) {
-    items = manuscripts.map(m => <li key={m.id}><a target="_blank" rel="noopener noreferrer" href={m.url}>{m.url}</a></li>);
-  } else {
-    items = <li><a target="_blank" rel="noopener noreferrer" href={manuscripts.url}>{manuscripts.url}</a></li>;
+  const isArray = Array.isArray(manuscripts);
+  if (isArray) {
+    items = manuscripts.map(m =>
+      <li key={m.id}>
+        <Typography>
+          <Link to={m.dataProviderUrl}>{m.prefLabel}</Link>
+        </Typography>
+      </li>);
   }
   return(
-    <ul>
-      {items}
-    </ul>
+    <div className={classes.root}>
+      {isArray &&
+        <React.Fragment>
+          <Typography>Manuscripts:</Typography>
+          <ul>
+            {items}
+          </ul>
+        </React.Fragment>
+      }
+      {!isArray &&
+        <React.Fragment>
+          <Typography>Manuscript:</Typography>
+          <Typography>
+            <Link to={manuscripts.dataProviderUrl}>{manuscripts.prefLabel}</Link>
+          </Typography>
+        </React.Fragment>
+      }
+    </div>
   );
 };
 
 ManuscriptList.propTypes = {
-  //classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
   manuscripts:  PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 };
 
-export default ManuscriptList;
+export default withStyles(styles)(ManuscriptList);

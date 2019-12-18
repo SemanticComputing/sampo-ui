@@ -4,8 +4,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 //import DialogTitle from '@material-ui/core/DialogTitle';
 import { withStyles } from '@material-ui/core/styles';
-//import Typography from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography';
 import ManuscriptList from './ManuscriptList';
+import { Link } from 'react-router-dom';
 
 const styles = () => ({
   root: {
@@ -20,23 +21,7 @@ const styles = () => ({
 
 const InfoDialog = (props) => {
   const { classes, open, onClose, data } = props;
-  //console.log(data)
-
-  let content = '';
-  if (data.from) {
-    const fromSdbm = data.from.id.replace('http://ldf.fi/mmm/place/', 'https://sdbm.library.upenn.edu/places/');
-    if (Array.isArray(data.to)) {
-      data.to = data.to[0];
-    }
-    const toSdbm = data.to.id.replace('http://ldf.fi/mmm/place/', 'https://sdbm.library.upenn.edu/places/');
-    content = (
-      <DialogContent>
-        <p>Production place: <a target="_blank" rel="noopener noreferrer" href={fromSdbm}>{data.from.name}</a></p>
-        <p>Most recently observed location: <a target="_blank" rel="noopener noreferrer" href={toSdbm}>{data.to.name}</a></p>
-        <ManuscriptList manuscripts={data.manuscript} />
-      </DialogContent>
-    );
-  }
+  let hasData = data !== null && data.from && data.to && data.manuscript;
 
   return (
     <div className={classes.root}>
@@ -46,7 +31,23 @@ const InfoDialog = (props) => {
         onClose={onClose}
         aria-labelledby="form-dialog-title"
       >
-        {content}
+        <DialogContent>
+          {hasData &&
+            <React.Fragment>
+              <Typography>Production place: &nbsp;
+                <Link to={data.from.dataProviderUrl}>
+                  {Array.isArray(data.from.prefLabel) ? data.from.prefLabel[0] : data.from.prefLabel}
+                </Link>
+              </Typography>
+              <Typography>Last known location: &nbsp;
+                <Link to={data.to.dataProviderUrl}>
+                  {Array.isArray(data.to.prefLabel) ? data.to.prefLabel[0] : data.to.prefLabel}
+                </Link>
+              </Typography>
+              <ManuscriptList manuscripts={data.manuscript} />
+            </React.Fragment>
+          }
+        </DialogContent>
       </Dialog>
     </div>
   );
@@ -56,7 +57,7 @@ InfoDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  data: PropTypes.object.isRequired
+  data: PropTypes.object
 };
 
 export default withStyles(styles)(InfoDialog);

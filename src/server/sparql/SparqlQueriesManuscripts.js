@@ -459,29 +459,24 @@ export const lastKnownLocationsQuery = `
 
 //# https://github.com/uber/deck.gl/blob/master/docs/layers/arc-layer.md
 export const migrationsQuery = `
-  SELECT DISTINCT ?id ?manuscript__id ?manuscript__url ?from__id ?from__name
-    ?from__lat ?from__long ?to__id ?to__name ?to__lat ?to__long
+  SELECT DISTINCT ?id ?manuscript__id ?manuscript__prefLabel ?manuscript__dataProviderUrl
+    ?from__id ?from__prefLabel ?from__dataProviderUrl ?from__lat ?from__long
+    ?to__id ?to__prefLabel ?to__dataProviderUrl ?to__lat ?to__long
   WHERE {
     <FILTER>
     ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?from__id .
-    ?manuscript__id mmm-schema:data_provider_url ?manuscript__url .
-    ?from__id skos:prefLabel ?from__name .
-    ?from__id wgs84:lat ?from__lat ;
+    ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
+    BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
+    ?from__id skos:prefLabel ?from__prefLabel ;
+              wgs84:lat ?from__lat ;
               wgs84:long ?from__long .
-    #?event crm:P30_transferred_custody_of|mmm-schema:observed_manuscript ?manuscript__id .
-    #?event crm:P4_has_time-span/crm:P82b_end_of_the_end ?event_timespan_end .
-    #?event crm:P7_took_place_at ?to__id .
+    BIND(CONCAT("/places/page/", REPLACE(STR(?from__id), "^.*\\\\/(.+)", "$1")) AS ?from__dataProviderUrl)
     ?manuscript__id mmm-schema:last_known_location ?to__id .
-    ?to__id skos:prefLabel ?to__name .
-    ?to__id wgs84:lat ?to__lat ;
+    ?to__id skos:prefLabel ?to__prefLabel ;
+            wgs84:lat ?to__lat ;
             wgs84:long ?to__long .
+    BIND(CONCAT("/places/page/", REPLACE(STR(?to__id), "^.*\\\\/(.+)", "$1")) AS ?to__dataProviderUrl)
     BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/mmm/place/", ""))) as ?id)
-    # choose the latest transfer of custody / provenance event
-    FILTER NOT EXISTS {
-      ?event2 crm:P30_transferred_custody_of|mmm-schema:observed_manuscript ?manuscript__id .
-      ?event2 crm:P4_has_time-span/crm:P82b_end_of_the_end ?event2_timespan_end .
-      filter (?event2_timespan_end > ?event_timespan_end)
-    }
   }
 `;
 

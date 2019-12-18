@@ -82,7 +82,7 @@ class Deck extends React.Component {
     tooltip: null,
     dialog: {
       open: false,
-      data: {}
+      data: null
     }
   }
 
@@ -196,7 +196,7 @@ class Deck extends React.Component {
       id: 'arc-layer',
       data: arcData,
       pickable: true,
-      getWidth: 2,
+      getWidth: 3,
       getSourceColor: [0, 0, 255, 255],
       getTargetColor: [255, 0, 0, 255],
       getSourcePosition: d => this.parseCoordinates(d.from),
