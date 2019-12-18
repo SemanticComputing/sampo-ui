@@ -70,7 +70,7 @@ class TopBarInfoButton extends React.Component {
           </MenuItem>
           <a className={classes.link}
             key={1}
-            href='http://mappingmanuscriptmigrations.org'
+            href='https://blog.mappingmanuscriptmigrations.org'
             target='_blank'
             rel='noopener noreferrer'
           >
