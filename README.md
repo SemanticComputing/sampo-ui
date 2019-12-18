@@ -1,10 +1,8 @@
 # Mapping Manuscript Migrations Web App
 
-Project homepage: http://mappingmanuscriptmigrations.org/
+master branch visible at mappingmanuscriptmigrations.org
 
-master branch visible at http://dev.ui.mappingmanuscriptmigrations.org/
-
-test branch visible at http://test.ui.mappingmanuscriptmigrations.org/
+test branch visible at dev.mappingmanuscriptmigrations.org
 
 ## Requirements
 
