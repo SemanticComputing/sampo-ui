@@ -445,6 +445,18 @@ export const productionPlacesQuery = `
   GROUP BY ?id ?lat ?long
 `;
 
+export const lastKnownLocationsQuery = `
+  SELECT ?id ?lat ?long
+  (COUNT(DISTINCT ?manuscripts) as ?instanceCount)
+  WHERE {
+    <FILTER>
+    ?manuscripts mmm-schema:last_known_location ?id .
+    ?id wgs84:lat ?lat ;
+        wgs84:long ?long .
+  }
+  GROUP BY ?id ?lat ?long
+`;
+
 //# https://github.com/uber/deck.gl/blob/master/docs/layers/arc-layer.md
 export const migrationsQuery = `
   SELECT DISTINCT ?id ?manuscript__id ?manuscript__url ?from__id ?from__name

@@ -138,6 +138,15 @@ export const manuscriptsProducedAt = `
     }
 `;
 
+export const lastKnownLocationsAt = `
+    OPTIONAL {
+      <FILTER>
+      ?related__id mmm-schema:last_known_location ?id .
+      ?related__id skos:prefLabel ?related__prefLabel .
+      BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?related__id), "^.*\\\\/(.+)", "$1")) AS ?related__dataProviderUrl)
+    }
+`;
+
 export const actorsAt = `
     OPTIONAL {
       { ?related__id crm:P98i_was_born/crm:P7_took_place_at ?id }

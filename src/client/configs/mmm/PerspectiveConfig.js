@@ -1,6 +1,7 @@
 import React from 'react';
 import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 import RedoIcon from '@material-ui/icons/Redo';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 
@@ -21,13 +22,18 @@ export const perspectiveConfig = [
         icon: <AddLocationIcon />,
       },
       {
-        id: 'migrations',
+        id: 'last_known_locations',
         value: 2,
+        icon: <LocationOnIcon />,
+      },
+      {
+        id: 'migrations',
+        value: 3,
         icon: <RedoIcon />,
       },
       {
         id: 'export',
-        value: 3,
+        value: 4,
         icon: <CloudDownloadIcon />,
       }
     ],

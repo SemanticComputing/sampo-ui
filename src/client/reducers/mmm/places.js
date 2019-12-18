@@ -138,6 +138,7 @@ const resultClasses = new Set([
   'placesAll',
   'placesActors',
   'placesMsProduced',
+  'lastKnownLocations',
   'placesMsMigrations',
   'placesEvents'
 ]);

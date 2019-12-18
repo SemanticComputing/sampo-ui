@@ -12,6 +12,7 @@ import {
   expressionProperties,
   collectionProperties,
   productionPlacesQuery,
+  lastKnownLocationsQuery,
   migrationsQuery,
   networkQuery,
   allManuscriptsQuery
@@ -28,6 +29,7 @@ import {
   placePropertiesFacetResults,
   placePropertiesInfoWindow,
   manuscriptsProducedAt,
+  lastKnownLocationsAt,
   actorsAt,
   allPlacesQuery,
 } from './SparqlQueriesPlaces';
@@ -83,6 +85,11 @@ export const getAllResults = ({
       break;
     case 'placesMsProduced':
       q = productionPlacesQuery;
+      filterTarget = 'manuscripts';
+      mapper = mapPlaces;
+      break;
+    case 'lastKnownLocations':
+      q = lastKnownLocationsQuery;
       filterTarget = 'manuscripts';
       mapper = mapPlaces;
       break;
@@ -291,6 +298,11 @@ export const getByURI = ({
       q = instanceQuery;
       q = q.replace('<PROPERTIES>', placePropertiesInfoWindow);
       q = q.replace('<RELATED_INSTANCES>', manuscriptsProducedAt);
+      break;
+    case 'lastKnownLocations':
+      q = instanceQuery;
+      q = q.replace('<PROPERTIES>', placePropertiesInfoWindow);
+      q = q.replace('<RELATED_INSTANCES>', lastKnownLocationsAt);
       break;
     case 'placesEvents':
       q = instanceQuery;

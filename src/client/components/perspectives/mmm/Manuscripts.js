@@ -5,7 +5,7 @@ import PerspectiveTabs from '../../main_layout/PerspectiveTabs';
 import ResultTable from '../../facet_results/ResultTable';
 import LeafletMap from '../../facet_results/LeafletMap';
 import Deck from '../../facet_results/Deck';
-import TemporalMap from '../../facet_results/TemporalMap';
+// import TemporalMap from '../../facet_results/TemporalMap';
 import Pie from '../../facet_results/Pie';
 import Network from '../../facet_results/Network';
 import Export from '../../facet_results/Export';
@@ -47,6 +47,26 @@ let Manuscripts = props => {
             facet={props.facetData.facets.productionPlace}
             facetID='productionPlace'
             resultClass='placesMsProduced'
+            facetClass='manuscripts'
+            mapMode='cluster'
+            instance={props.places.instance}
+            fetchResults={props.fetchResults}
+            fetchByURI={props.fetchByURI}
+            fetching={props.places.fetching}
+            showInstanceCountInClusters={true}
+            updateFacetOption={props.updateFacetOption}
+          />}
+      />
+      <Route
+        path={'/manuscripts/faceted-search/last_known_locations'}
+        render={() =>
+          <LeafletMap
+            results={props.places.results}
+            pageType='facetResults'
+            facetUpdateID={props.facetData.facetUpdateID}
+            facet={props.facetData.facets.lastKnownLocation}
+            facetID='lastKnownLocation'
+            resultClass='lastKnownLocations'
             facetClass='manuscripts'
             mapMode='cluster'
             instance={props.places.instance}

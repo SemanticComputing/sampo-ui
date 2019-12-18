@@ -387,6 +387,10 @@ class LeafletMap extends React.Component {
       popUpTemplate += `<p>Manuscripts produced here:</p>`;
       popUpTemplate += this.createInstanceListing(result.related);
     }
+    if (this.props.resultClass === 'lastKnownLocations') {
+      popUpTemplate += `<p>Last known location of:</p>`;
+      popUpTemplate += this.createInstanceListing(result.related);
+    }
     if (this.props.resultClass === 'placesActors') {
       popUpTemplate += `<p>Actors:</p>`;
       popUpTemplate += this.createInstanceListing(result.related);

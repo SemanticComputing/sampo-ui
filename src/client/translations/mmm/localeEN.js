@@ -28,6 +28,7 @@ export default {
     table: 'table',
     map: 'map',
     production_places: 'production places',
+    last_known_locations: 'last known locations',
     migrations: 'migrations',
     export: 'export',
     'by-period': 'by period'
