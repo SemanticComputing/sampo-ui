@@ -2,7 +2,7 @@
 
 master branch visible at mappingmanuscriptmigrations.org
 
-test branch visible at dev.mappingmanuscriptmigrations.org
+dev branch visible at dev.mappingmanuscriptmigrations.org
 
 ## Requirements
 
