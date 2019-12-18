@@ -159,12 +159,8 @@ class Deck extends React.Component {
           <br />
           <Typography variant="body2" gutterBottom>
             <span className={this.props.classes.red}>
-            Most recently observed location
-            </span><br />
-           calculated as: <br />
-          Most recent acquisition/observation <br />
-          -&gt; Source agent <br />
-          -&gt; Place
+            Last known location
+            </span>
           </Typography>
         </CardContent>
       </Card>
