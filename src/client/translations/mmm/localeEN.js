@@ -15,6 +15,7 @@ export default {
     info: {
       info: 'Info',
       blog: 'Blog',
+      blogUrl: 'http://blog.mappingmanuscriptmigrations.org',
       aboutTheProject: 'About the project'
     },
     searchBarPlaceHolder: 'Search all MMM content',

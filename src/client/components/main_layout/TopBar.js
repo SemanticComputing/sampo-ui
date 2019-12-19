@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button';
 import { Link, NavLink } from 'react-router-dom';
 import TopBarSearchField from './TopBarSearchField';
 import TopBarInfoButton from './TopBarInfoButton';
-import TopBarLanguageButton from './TopBarLanguageButton';
+// import TopBarLanguageButton from './TopBarLanguageButton';
 import Divider from '@material-ui/core/Divider';
 import { has } from 'lodash';
 
@@ -167,7 +167,7 @@ class TopBar extends React.Component {
       </MenuItem>
       <a className={this.props.classes.link}
         key={1}
-        href='https://blog.mappingmanuscriptmigrations.org'
+        href={intl.get('topBar.info.blogUrl')}
         target='_blank'
         rel='noopener noreferrer'
       >
@@ -185,7 +185,7 @@ class TopBar extends React.Component {
     </Menu>
 
   render() {
-    const { classes, perspectives, currentLocale, availableLocales } = this.props;
+    const { classes, perspectives, /* currentLocale, availableLocales */ } = this.props;
     return (
       <div className={classes.root}>
         <AppBar position="absolute">
