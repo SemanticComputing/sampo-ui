@@ -1,8 +1,8 @@
 # Mapping Manuscript Migrations Web App
 
-master branch visible at mappingmanuscriptmigrations.org
+master branch visible at https://mappingmanuscriptmigrations.org/
 
-dev branch visible at dev.mappingmanuscriptmigrations.org
+dev branch visible at https://dev.mappingmanuscriptmigrations.org/
 
 ## Requirements
 
