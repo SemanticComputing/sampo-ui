@@ -26,9 +26,6 @@ Run client and server concurrently:
 
 ## Deploy with Docker
 
-Note: the Docker container is meant to run on a server (NODE_ENV=production). If you want
-to run it on localhost, the API url needs to be changed in `src/client/epics/index.js`.
-
 ### Build
  `docker build -t mmm-web-app-c .`
 

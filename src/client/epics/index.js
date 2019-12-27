@@ -36,10 +36,16 @@ import {
   updateFacetValuesConstrainSelf,
   updateLocale
 } from '../actions';
+import { rootUrl, publishedPort } from '../configs/config';
+
+// set port if running on localhost with NODE_ENV = 'production'
+const port = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+  ? `:${publishedPort}`
+  : '';
 
 export const apiUrl = (process.env.NODE_ENV === 'development')
-  ? 'http://localhost:3001/api/'
-  : `${location.protocol}//${location.hostname}/api/`;
+  ? `http://localhost:3001${rootUrl}/api/`
+  : `${location.protocol}//${location.hostname}${port}${rootUrl}/api/`;
 
 const backendErrorText = `Cannot connect to the MMM Knowledge Base. Please try again later.`;
 
