@@ -32,8 +32,13 @@ export const perspectiveConfig = [
         icon: <RedoIcon />,
       },
       {
-        id: 'export',
+        id: 'network',
         value: 4,
+        icon: <RedoIcon />,
+      },
+      {
+        id: 'export',
+        value: 5,
         icon: <CloudDownloadIcon />,
       }
     ],
