@@ -1,37 +1,28 @@
 import axios from 'axios';
-import querystring from 'querystring';
 
-export const runSelectQuery = async ({
-  query,
+export const runNetworkQuery = async({
   endpoint,
-  resultMapper,
-  previousSelections = null,
-  resultFormat
+  prefixes,
+  links,
+  nodes
 }) => {
-  let MIMEtype = resultFormat === 'json'
-    ? 'application/sparql-results+json; charset=utf-8'
-    : 'text/csv; charset=utf-8';
   const headers = {
     'Content-Type': 'application/x-www-form-urlencoded',
-    'Accept': MIMEtype
   };
-  const q = querystring.stringify({ query });
+  const params = JSON.stringify({
+    endpoint,
+    prefixes,
+    nodes,
+    links
+  });
   try {
     const response = await axios({
       method: 'post',
       headers: headers,
-      url: endpoint,
-      data: q,
+      url: 'http://127.0.0.1:5000/query',
+      data: params,
     });
-    if (resultFormat === 'json') {
-      const mappedResults = resultMapper(response.data.results.bindings, previousSelections);
-      return {
-        data: mappedResults,
-        sparqlQuery: query
-      };
-    } else {
-      return response.data;
-    }
+    return response.data;
   } catch(error) {
     if (error.response) {
     // The request was made and the server responded with a status code
@@ -51,3 +42,4 @@ export const runSelectQuery = async ({
     console.log(error.config);
   }
 };
+;

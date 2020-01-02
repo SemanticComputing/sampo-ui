@@ -424,11 +424,21 @@ export const collectionProperties =
 `;
 
 
-export const allManuscriptsQuery = `
-  SELECT ?id ?prefLabel
+export const networkLinksQuery = `
+  SELECT DISTINCT ?source ?target
   WHERE {
     <FILTER>
-    ?id a frbroo:F4_Manifestation_Singleton ;
+    ?source mmm-schema:manuscript_author ?target .
+  }
+  LIMIT 100
+`;
+
+export const networkNodesQuery = `
+  SELECT DISTINCT ?id ?prefLabel ?class
+  WHERE {
+    VALUES ?class { frbroo:F4_Manifestation_Singleton crm:E21_Person }
+    VALUES ?id { <ID_SET> }
+    ?id a ?class ;
         skos:prefLabel ?prefLabel .
   }
 `;
@@ -477,12 +487,5 @@ export const migrationsQuery = `
             wgs84:long ?to__long .
     BIND(CONCAT("/places/page/", REPLACE(STR(?to__id), "^.*\\\\/(.+)", "$1")) AS ?to__dataProviderUrl)
     BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/mmm/place/", ""))) as ?id)
-  }
-`;
-
-export const networkQuery = `
-  SELECT DISTINCT ?id
-  WHERE {
-
   }
 `;

@@ -1,4 +1,5 @@
 import { runSelectQuery } from './SparqlApi';
+import { runNetworkQuery } from './NetworkApi';
 import { prefixes } from './SparqlQueriesPrefixes';
 import {
   endpoint,
@@ -14,8 +15,8 @@ import {
   productionPlacesQuery,
   lastKnownLocationsQuery,
   migrationsQuery,
-  networkQuery,
-  allManuscriptsQuery
+  networkLinksQuery,
+  networkNodesQuery
 } from './SparqlQueriesManuscripts';
 import { workProperties } from './SparqlQueriesWorks';
 import { eventProperties, eventPlacesQuery } from './SparqlQueriesEvents';
@@ -110,13 +111,9 @@ export const getAllResults = ({
       q = generateEventsByPeriodQuery({ startYear: 1600, endYear: 1620, periodLength: 10 });
       filterTarget = 'event';
       break;
-    case 'network':
-      q = networkQuery;
-      filterTarget = 'manuscript__id';
-      break;
-    case 'allManuscripts':
-      q = allManuscriptsQuery;
-      filterTarget = 'id';
+    case 'manuscriptsNetwork':
+      q = networkLinksQuery;
+      filterTarget = 'source';
       break;
   }
   if (constraints == null) {
@@ -129,6 +126,15 @@ export const getAllResults = ({
       filterTarget: filterTarget,
       facetID: null
     }));
+  }
+  if (resultClass === 'manuscriptsNetwork') {
+    // console.log(prefixes + q)
+    return runNetworkQuery({
+      endpoint,
+      prefixes,
+      links: q,
+      nodes: networkNodesQuery,
+    });
   }
   // console.log(prefixes + q)
   return runSelectQuery({

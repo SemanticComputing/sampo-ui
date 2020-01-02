@@ -23,6 +23,12 @@ class Network extends React.Component {
   }
 
   componentDidMount = () => {
+
+    this.props.fetchResults({
+      resultClass: this.props.resultClass,
+      facetClass: this.props.facetClass,
+    });
+
     this.cy = cytoscape({
       container: this.cyRef.current
     });
@@ -45,7 +51,11 @@ class Network extends React.Component {
 }
 
 Network.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  results: PropTypes.object,
+  fetchResults: PropTypes.func.isRequired,
+  resultClass: PropTypes.string.isRequired,
+  facetClass: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(Network);

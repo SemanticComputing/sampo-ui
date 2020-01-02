@@ -81,7 +81,10 @@ let Manuscripts = props => {
         path={'/manuscripts/faceted-search/network'}
         render={() =>
           <Network
-
+            results={props.manuscripts.results}
+            fetchResults={props.fetchResults}
+            resultClass='manuscriptsNetwork'
+            facetClass='manuscripts'
           />}
       />
       <Route

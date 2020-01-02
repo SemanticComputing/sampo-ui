@@ -30,7 +30,7 @@ import {
 } from '../helpers';
 
 export const INITIAL_STATE = {
-  results: [],
+  results: null,
   resultsSparqlQuery: null,
   paginatedResults: [],
   paginatedResultsSparqlQuery: null,
