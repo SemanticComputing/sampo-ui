@@ -428,9 +428,8 @@ export const networkLinksQuery = `
   SELECT DISTINCT ?source ?target
   WHERE {
     <FILTER>
-    ?source mmm-schema:manuscript_author ?target .
+    ?target mmm-schema:manuscript_author ?source .
   }
-  LIMIT 100
 `;
 
 export const networkNodesQuery = `

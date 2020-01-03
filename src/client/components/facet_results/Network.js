@@ -16,6 +16,25 @@ const styles = theme => ({
   }
 });
 
+const layout = {
+  name: 'cose',
+  idealEdgeLength: 100,
+  nodeOverlap: 20,
+  refresh: 20,
+  fit: true,
+  padding: 30,
+  randomize: false,
+  componentSpacing: 100,
+  nodeRepulsion: 400000,
+  edgeElasticity: 100,
+  nestingFactor: 5,
+  gravity: 80,
+  numIter: 1000,
+  initialTemp: 200,
+  coolingFactor: 0.95,
+  minTemp: 1.0
+};
+
 class Network extends React.Component {
   constructor(props) {
     super(props);
@@ -23,20 +42,39 @@ class Network extends React.Component {
   }
 
   componentDidMount = () => {
-
     this.props.fetchResults({
       resultClass: this.props.resultClass,
       facetClass: this.props.facetClass,
     });
-
     this.cy = cytoscape({
-      container: this.cyRef.current
+      container: this.cyRef.current,
+      layout: { name: 'circle'},
+      style: [ // the stylesheet for the graph
+        {
+          selector: 'node',
+          style: {
+            'background-color': '#666',
+            'label': 'data(prefLabel)'
+          }
+        },
+        {
+          selector: 'edge',
+          style: {
+            'width': 3,
+            'line-color': '#ccc',
+            'target-arrow-color': '#ccc',
+            'target-arrow-shape': 'triangle'
+          }
+        }
+      ]
     });
-    this.cy.add([
-      { group: 'nodes', data: { id: 'n0' }, position: { x: 100, y: 100 } },
-      { group: 'nodes', data: { id: 'n1' }, position: { x: 200, y: 200 } },
-      { group: 'edges', data: { id: 'e0', source: 'n0', target: 'n1' } }
-    ]);
+  }
+
+  componentDidUpdate = () => {
+    if (this.props.results !== null) {
+      this.cy.add(this.props.results.elements);
+      this.cy.layout(layout).run();
+    }
   }
 
   render = () => {

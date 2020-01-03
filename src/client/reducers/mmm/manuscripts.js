@@ -281,8 +281,13 @@ export const INITIAL_STATE = {
   ],
 };
 
+const resultClasses = new Set([
+  'manuscripts',
+  'manuscriptsNetwork'
+]);
+
 const manuscripts = (state = INITIAL_STATE, action) => {
-  if (action.resultClass === 'manuscripts') {
+  if (resultClasses.has(action.resultClass)) {
     switch (action.type) {
       case FETCH_RESULTS:
       case FETCH_PAGINATED_RESULTS:

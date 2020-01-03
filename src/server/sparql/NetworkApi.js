@@ -6,23 +6,24 @@ export const runNetworkQuery = async({
   links,
   nodes
 }) => {
-  const headers = {
-    'Content-Type': 'application/x-www-form-urlencoded',
-  };
-  const params = JSON.stringify({
+  const payload = {
     endpoint,
     prefixes,
+    links,
     nodes,
-    links
-  });
+    limit: 500
+  };
+  const url = 'http://127.0.0.1:5000/query';
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
   try {
-    const response = await axios({
-      method: 'post',
-      headers: headers,
-      url: 'http://127.0.0.1:5000/query',
-      data: params,
-    });
-    return response.data;
+    const response = await axios.post(url, payload, config);
+    return {
+      data: response.data
+    };
   } catch(error) {
     if (error.response) {
     // The request was made and the server responded with a status code
