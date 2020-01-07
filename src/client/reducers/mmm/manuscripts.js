@@ -43,7 +43,7 @@ export const INITIAL_STATE = {
   sortDirection: null,
   fetching: false,
   fetchingResultCount: false,
-  facetedSearchHeaderExpanded: true,
+  facetedSearchHeaderExpanded: false,
   instancePageHeaderExpanded: true,
   properties: [
     {

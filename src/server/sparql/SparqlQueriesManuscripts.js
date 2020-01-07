@@ -428,7 +428,11 @@ export const networkLinksQuery = `
   SELECT DISTINCT ?source ?target
   WHERE {
     <FILTER>
-    ?target mmm-schema:manuscript_author ?source .
+    #VALUES ?source { <http://ldf.fi/mmm/actor/bodley_person_51697938> }
+    ?source ^mmm-schema:manuscript_author ?target .
+    #?source a frbroo:F4_Manifestation_Singleton .
+    #?target a crm:E21_Person .
+    #?target ^crm:P51_has_former_or_current_owner ?source .
   }
 `;
 

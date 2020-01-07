@@ -35,6 +35,9 @@ const layout = {
   minTemp: 1.0
 };
 
+//const layout = { name: 'concentric' };
+
+
 class Network extends React.Component {
   constructor(props) {
     super(props);
@@ -48,12 +51,13 @@ class Network extends React.Component {
     });
     this.cy = cytoscape({
       container: this.cyRef.current,
-      layout: { name: 'circle'},
+
       style: [ // the stylesheet for the graph
         {
           selector: 'node',
           style: {
-            'background-color': '#666',
+            'background-color': ele => ele.data('class') === 'http://erlangen-crm.org/efrbroo/F4_Manifestation_Singleton'
+              ? '#666' : '#000',
             'label': 'data(prefLabel)'
           }
         },
@@ -72,6 +76,7 @@ class Network extends React.Component {
 
   componentDidUpdate = () => {
     if (this.props.results !== null) {
+      console.log(this.props.results.elements)
       this.cy.add(this.props.results.elements);
       this.cy.layout(layout).run();
     }
