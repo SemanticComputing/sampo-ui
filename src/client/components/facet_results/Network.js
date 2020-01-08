@@ -64,10 +64,20 @@ class Network extends React.Component {
         {
           selector: 'edge',
           style: {
-            'width': 3,
-            'line-color': '#ccc',
-            'target-arrow-color': '#ccc',
-            'target-arrow-shape': 'triangle'
+            //'width': 'data(weight)',
+            'line-color': '#999',
+            'curve-style': 'bezier',
+            'content': 'data(prefLabel)',
+            'target-arrow-shape': 'triangle',
+            'target-arrow-color': '#999',
+            'color': '#555',
+            'font-size': '9',
+            'text-valign': 'top',
+            'text-halign': 'center',
+            'edge-text-rotation': 'autorotate',
+            'text-background-opacity': 1,
+            'text-background-color': '#FFF',
+            'text-background-shape': 'roundrectangle'
           }
         }
       ]
@@ -76,7 +86,7 @@ class Network extends React.Component {
 
   componentDidUpdate = () => {
     if (this.props.results !== null) {
-      console.log(this.props.results.elements)
+      // console.log(this.props.results.elements);
       this.cy.add(this.props.results.elements);
       this.cy.layout(layout).run();
     }

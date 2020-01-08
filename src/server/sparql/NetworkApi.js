@@ -11,7 +11,7 @@ export const runNetworkQuery = async({
     prefixes,
     links,
     nodes,
-    limit: 1000,
+    limit: 500,
     //id: 'http://ldf.fi/mmm/actor/bodley_person_51697938'
   };
   const url = 'http://127.0.0.1:5000/query';
