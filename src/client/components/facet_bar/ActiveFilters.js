@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import intl from 'react-intl-universal';
-import ChipsArray from './ChipsArray';
+import React from 'react'
+import PropTypes from 'prop-types'
+import intl from 'react-intl-universal'
+import ChipsArray from './ChipsArray'
 
 const ActiveFilters = props => {
-  const { uriFilters, textFilters, timespanFilters, integerFilters, facetClass, someFacetIsFetching } = props;
-  const facetValues = [];
+  const { uriFilters, textFilters, timespanFilters, integerFilters, facetClass, someFacetIsFetching } = props
+  const facetValues = []
   Object.keys(uriFilters).map(activeFacetID => {
     // URI filter may have multiple values
     Object.values(uriFilters[activeFacetID]).forEach(value => {
@@ -14,33 +14,33 @@ const ActiveFilters = props => {
         facetLabel: intl.get(`perspectives.${facetClass}.properties.${activeFacetID}.label`),
         filterType: 'uriFilter',
         value: value // a react sortable tree object
-      });
-    });
-  });
+      })
+    })
+  })
   Object.keys(textFilters).map(facetID => {
     facetValues.push({
       facetID: facetID,
       facetLabel: intl.get(`perspectives.${facetClass}.properties.${facetID}.label`),
       filterType: 'textFilter',
       value: textFilters[facetID]
-    });
-  });
+    })
+  })
   Object.keys(timespanFilters).map(facetID => {
     facetValues.push({
       facetID: facetID,
       facetLabel: intl.get(`perspectives.${facetClass}.properties.${facetID}.label`),
       filterType: 'timespanFilter',
       value: timespanFilters[facetID]
-    });
-  });
+    })
+  })
   Object.keys(integerFilters).map(facetID => {
     facetValues.push({
       facetID: facetID,
       facetLabel: intl.get(`perspectives.${facetClass}.properties.${facetID}.label`),
       filterType: 'integerFilter',
       value: integerFilters[facetID]
-    });
-  });
+    })
+  })
   return (
     <ChipsArray
       data={facetValues}
@@ -49,8 +49,8 @@ const ActiveFilters = props => {
       someFacetIsFetching={someFacetIsFetching}
       fetchFacet={props.fetchFacet}
     />
-  );
-};
+  )
+}
 
 ActiveFilters.propTypes = {
   facetClass: PropTypes.string.isRequired,
@@ -62,6 +62,6 @@ ActiveFilters.propTypes = {
   updateFacetOption: PropTypes.func.isRequired,
   someFacetIsFetching: PropTypes.bool.isRequired,
   fetchFacet: PropTypes.func.isRequired
-};
+}
 
-export default ActiveFilters;
+export default ActiveFilters

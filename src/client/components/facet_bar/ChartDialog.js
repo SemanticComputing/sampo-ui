@@ -1,30 +1,30 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import IconButton from '@material-ui/core/IconButton';
-import PieChartIcon from '@material-ui/icons/PieChart';
-import Tooltip from '@material-ui/core/Tooltip';
-import GeneralDialog from '../main_layout/GeneralDialog';
-import ApexChart from '../facet_results/ApexChart';
+import React from 'react'
+import PropTypes from 'prop-types'
+import IconButton from '@material-ui/core/IconButton'
+import PieChartIcon from '@material-ui/icons/PieChart'
+import Tooltip from '@material-ui/core/Tooltip'
+import GeneralDialog from '../main_layout/GeneralDialog'
+import ApexChart from '../facet_results/ApexChart'
 
 const ChartDialog = props => {
-  const [open, setOpen] = React.useState(false);
-  const { fetchFacetConstrainSelf, facetID, facetClass, data, fetching  } = props;
+  const [open, setOpen] = React.useState(false)
+  const { fetchFacetConstrainSelf, facetID, facetClass, data, fetching } = props
 
   const handleClickOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
-  return(
-    <React.Fragment>
-      <Tooltip disableFocusListener={true} title="Chart">
+  return (
+    <>
+      <Tooltip disableFocusListener title='Chart'>
         <IconButton
-          aria-label="Chart"
+          aria-label='Chart'
           aria-owns={open ? 'facet-option-menu' : undefined}
-          aria-haspopup="true"
+          aria-haspopup='true'
           onClick={handleClickOpen}
         >
           <PieChartIcon />
@@ -45,8 +45,8 @@ const ChartDialog = props => {
               type: 'pie',
               width: '100%',
               height: '100%',
-              //parentHeightOffset: 0,
-              fontFamily: 'Roboto',
+              // parentHeightOffset: 0,
+              fontFamily: 'Roboto'
             },
             legend: {
               position: 'right',
@@ -63,14 +63,14 @@ const ChartDialog = props => {
               },
               markers: {
                 width: 18,
-                height: 18,
+                height: 18
               },
               formatter: (seriesName, opts) => {
-                return `${seriesName} [${opts.w.globals.series[opts.seriesIndex]}]`;
+                return `${seriesName} [${opts.w.globals.series[opts.seriesIndex]}]`
               }
             },
             tooltip: {
-              //enabled: false,
+              // enabled: false,
               followCursor: false,
               fixed: {
                 enabled: true,
@@ -80,9 +80,9 @@ const ChartDialog = props => {
           }}
         />
       </GeneralDialog>
-    </React.Fragment>
-  );
-};
+    </>
+  )
+}
 
 ChartDialog.propTypes = {
   facetID: PropTypes.string,
@@ -90,6 +90,6 @@ ChartDialog.propTypes = {
   data: PropTypes.array,
   fetching: PropTypes.bool.isRequired,
   fetchFacetConstrainSelf: PropTypes.func
-};
+}
 
-export default ChartDialog;
+export default ChartDialog

@@ -1,23 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import IconButton from '@material-ui/core/IconButton'
+import SearchIcon from '@material-ui/icons/Search'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import FormControl from '@material-ui/core/FormControl'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const styles = theme => ({
   textSearch: {
-    margin: theme.spacing(1),
-  },
-});
+    margin: theme.spacing(1)
+  }
+})
 
 class TextFacet extends React.Component {
   state = {
-    value: '',
+    value: ''
   };
 
   // componentDidUpdate = prevProps => {
@@ -29,11 +29,11 @@ class TextFacet extends React.Component {
   // }
 
   handleChange = (event) => {
-    this.setState({ value: event.target.value });
+    this.setState({ value: event.target.value })
   };
 
   handleMouseDown = (event) => {
-    event.preventDefault();
+    event.preventDefault()
   };
 
   handleOnKeyDown = event => {
@@ -43,7 +43,7 @@ class TextFacet extends React.Component {
         facetID: this.props.facetID,
         option: this.props.facet.filterType,
         value: this.state.value
-      });
+      })
     }
   };
 
@@ -54,58 +54,58 @@ class TextFacet extends React.Component {
         facetID: this.props.facetID,
         option: this.props.facet.filterType,
         value: this.state.value
-      });
+      })
     }
   };
 
   hasValidQuery = () => {
-    return this.state.value.length > 2;
+    return this.state.value.length > 2
   }
 
-  render() {
-    const { classes } = this.props;
-    let searchButton = null;
-    const textResultsFetching = false;
+  render () {
+    const { classes } = this.props
+    let searchButton = null
+    const textResultsFetching = false
     if (textResultsFetching) {
       searchButton = (
         <IconButton
-          aria-label="Search places"
+          aria-label='Search places'
         >
           <CircularProgress size={24} />
         </IconButton>
-      );
+      )
     } else {
       searchButton = (
         <IconButton
-          aria-label="Search"
+          aria-label='Search'
           onClick={this.handleClick}
           onMouseDown={this.handleMouseDown}
         >
           <SearchIcon />
         </IconButton>
-      );
+      )
     }
 
     return (
       <div className={classes.root}>
         <FormControl className={classes.textSearch}>
-          <InputLabel htmlFor="adornment-search">Search</InputLabel>
+          <InputLabel htmlFor='adornment-search'>Search</InputLabel>
           <Input
-            id="adornment-search"
+            id='adornment-search'
             type='text'
             value={this.state.value}
             disabled={this.props.someFacetIsFetching}
             onChange={this.handleChange}
             onKeyDown={this.handleOnKeyDown}
             endAdornment={
-              <InputAdornment position="end">
+              <InputAdornment position='end'>
                 {searchButton}
               </InputAdornment>
             }
           />
         </FormControl>
       </div>
-    );
+    )
   }
 }
 
@@ -118,7 +118,7 @@ TextFacet.propTypes = {
   fetchFacet: PropTypes.func,
   someFacetIsFetching: PropTypes.bool.isRequired,
   updateFacetOption: PropTypes.func,
-  facetUpdateID: PropTypes.number,
-};
+  facetUpdateID: PropTypes.number
+}
 
-export default withStyles(styles)(TextFacet);
+export default withStyles(styles)(TextFacet)
