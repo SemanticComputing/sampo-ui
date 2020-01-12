@@ -63,11 +63,11 @@ const clientSideFacetedSearch = (state = INITIAL_STATE, action) => {
         return state
     }
   } else return state
-};
+}
 
 const updateResultsFilter = (state, action) => {
   const { property, value, latestValues } = action.filterObj
-  let nSet = state.resultsFilter[property]
+  const nSet = state.resultsFilter[property]
   if (nSet.has(value)) {
     nSet.delete(value)
   } else {
@@ -85,6 +85,6 @@ const updateResultsFilter = (state, action) => {
     },
     latestFilterValues: latestValues
   }
-};
+}
 
 export default clientSideFacetedSearch
