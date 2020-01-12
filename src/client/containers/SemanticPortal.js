@@ -470,7 +470,6 @@ const mapStateToProps = state => {
     animationValue: state.animation.value,
     options: state.options,
     error: state.error
-  // browser: state.browser,
   }
 }
 
@@ -526,7 +525,8 @@ SemanticPortal.propTypes = {
   showError: PropTypes.func.isRequired,
   updatePerspectiveHeaderExpanded: PropTypes.func.isRequired,
   loadLocales: PropTypes.func.isRequired,
-  animateMap: PropTypes.func.isRequired
+  animateMap: PropTypes.func.isRequired,
+  clientSideFacetedSearch: PropTypes.object.isRequired
 }
 
 export default compose(
