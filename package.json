@@ -85,6 +85,8 @@
   },
   "standard": {
     "parser": "babel-eslint",
-    "env": [ "jest "]
+    "env": {
+      "jest": true
+    }
   }
 }
