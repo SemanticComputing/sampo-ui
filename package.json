@@ -83,7 +83,7 @@
     "sass-loader": "^8.0.0",
     "victory": "^0.26.1"
   },
-  "standard": { 
+  "standard": {
     "parser": "babel-eslint"
   }
 }
