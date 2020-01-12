@@ -85,7 +85,7 @@ export const eventProperties = `
     {
       ?id crm:P3_has_note ?note .
     }
-`;
+`
 
 export const eventPlacesQuery = `
   SELECT ?id ?lat ?long
@@ -97,7 +97,7 @@ export const eventPlacesQuery = `
         wgs84:long ?long .
   }
   GROUP BY ?id ?lat ?long
-`;
+`
 
 export const eventsByTimePeriodQuery = `
   SELECT ?id ?type__id ?type__prefLabel
@@ -108,7 +108,7 @@ export const eventsByTimePeriodQuery = `
   }
   GROUP BY ?id ?type__id ?type__prefLabel
   ORDER BY ?id
-`;
+`
 
 export const eventsByTimePeriodQuery2 = `
   SELECT ?id ?prefLabel ?period ?instanceCount
@@ -116,4 +116,4 @@ export const eventsByTimePeriodQuery2 = `
     <FILTER>
     <TIME_PERIODS>
   }
-`;
+`

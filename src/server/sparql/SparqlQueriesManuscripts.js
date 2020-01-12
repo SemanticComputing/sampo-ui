@@ -197,7 +197,7 @@ export const manuscriptPropertiesInstancePage =
     {
       ?id mmm-schema:historiated_initials/crm:P90_has_value ?historiatedInitials .
     }
-`;
+`
 
 export const manuscriptPropertiesFacetResults =
   `?id skos:prefLabel ?prefLabel__id .
@@ -357,7 +357,7 @@ export const manuscriptPropertiesFacetResults =
       {
         ?id mmm-schema:historiated_initials/crm:P90_has_value ?historiatedInitials .
       }
-`;
+`
 
 export const expressionProperties =
 `   {
@@ -386,7 +386,7 @@ export const expressionProperties =
       ?language__id skos:prefLabel ?language__prefLabel .
       BIND(?language__id as ?language__dataProviderUrl)
     }
-`;
+`
 
 export const collectionProperties =
  `  {
@@ -421,8 +421,7 @@ export const collectionProperties =
        ?place__id skos:prefLabel ?place__prefLabel .
        BIND(CONCAT("/places/page/", REPLACE(STR(?place__id), "^.*\\\\/(.+)", "$1")) AS ?place__dataProviderUrl)
      }
-`;
-
+`
 
 export const allManuscriptsQuery = `
   SELECT ?id ?prefLabel
@@ -431,7 +430,7 @@ export const allManuscriptsQuery = `
     ?id a frbroo:F4_Manifestation_Singleton ;
         skos:prefLabel ?prefLabel .
   }
-`;
+`
 
 export const productionPlacesQuery = `
   SELECT ?id ?lat ?long
@@ -443,7 +442,7 @@ export const productionPlacesQuery = `
         wgs84:long ?long .
   }
   GROUP BY ?id ?lat ?long
-`;
+`
 
 export const lastKnownLocationsQuery = `
   SELECT ?id ?lat ?long
@@ -455,9 +454,9 @@ export const lastKnownLocationsQuery = `
         wgs84:long ?long .
   }
   GROUP BY ?id ?lat ?long
-`;
+`
 
-//# https://github.com/uber/deck.gl/blob/master/docs/layers/arc-layer.md
+// # https://github.com/uber/deck.gl/blob/master/docs/layers/arc-layer.md
 export const migrationsQuery = `
   SELECT DISTINCT ?id ?manuscript__id ?manuscript__prefLabel ?manuscript__dataProviderUrl
     ?from__id ?from__prefLabel ?from__dataProviderUrl ?from__lat ?from__long
@@ -478,11 +477,11 @@ export const migrationsQuery = `
     BIND(CONCAT("/places/page/", REPLACE(STR(?to__id), "^.*\\\\/(.+)", "$1")) AS ?to__dataProviderUrl)
     BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/mmm/place/", ""))) as ?id)
   }
-`;
+`
 
 export const networkQuery = `
   SELECT DISTINCT ?id
   WHERE {
 
   }
-`;
+`

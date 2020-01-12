@@ -74,7 +74,7 @@ export const placePropertiesInstancePage = `
       BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscriptObserved__id), "^.*\\\\/(.+)", "$1")) AS ?manuscriptObserved__dataProviderUrl)
       FILTER (?id != <http://ldf.fi/mmm/place/tgn_7029392>) # exclude the top concept
     }
-`;
+`
 
 export const placePropertiesFacetResults = `
     {
@@ -98,15 +98,15 @@ export const placePropertiesFacetResults = `
       ?area__id skos:prefLabel ?area__prefLabel .
       BIND(CONCAT("/places/page/", REPLACE(STR(?area__id), "^.*\\\\/(.+)", "$1")) AS ?area__dataProviderUrl)
     }
-`;
+`
 
 export const placePropertiesInfoWindow = `
     ?id skos:prefLabel ?prefLabel__id .
     BIND(?prefLabel__id AS ?prefLabel__prefLabel)
     BIND(CONCAT("/places/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
-`;
+`
 
-export const allPlacesQuery =  `
+export const allPlacesQuery = `
   SELECT *
   WHERE {
     <FILTER>
@@ -127,7 +127,7 @@ export const allPlacesQuery =  `
     OPTIONAL { ?id owl:sameAs ?placeAuthorityURI  }
     FILTER(?id != <http://ldf.fi/mmm/places/tgn_7031096>)
   }
-`;
+`
 
 export const manuscriptsProducedAt = `
     OPTIONAL {
@@ -136,7 +136,7 @@ export const manuscriptsProducedAt = `
       ?related__id skos:prefLabel ?related__prefLabel .
       BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?related__id), "^.*\\\\/(.+)", "$1")) AS ?related__dataProviderUrl)
     }
-`;
+`
 
 export const lastKnownLocationsAt = `
     OPTIONAL {
@@ -145,7 +145,7 @@ export const lastKnownLocationsAt = `
       ?related__id skos:prefLabel ?related__prefLabel .
       BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?related__id), "^.*\\\\/(.+)", "$1")) AS ?related__dataProviderUrl)
     }
-`;
+`
 
 export const actorsAt = `
     OPTIONAL {
@@ -157,4 +157,4 @@ export const actorsAt = `
       ?related__id skos:prefLabel ?related__prefLabel .
       BIND(CONCAT("/actors/page/", REPLACE(STR(?related__id), "^.*\\\\/(.+)", "$1")) AS ?related__dataProviderUrl)
     }
-`;
+`
