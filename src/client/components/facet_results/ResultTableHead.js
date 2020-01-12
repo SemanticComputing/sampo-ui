@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import intl from 'react-intl-universal';
-import { withStyles } from '@material-ui/core/styles';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import Tooltip from '@material-ui/core/Tooltip';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
+import React from 'react'
+import PropTypes from 'prop-types'
+import intl from 'react-intl-universal'
+import { withStyles } from '@material-ui/core/styles'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+import TableCell from '@material-ui/core/TableCell'
+import Tooltip from '@material-ui/core/Tooltip'
+import TableSortLabel from '@material-ui/core/TableSortLabel'
+import IconButton from '@material-ui/core/IconButton'
+import InfoIcon from '@material-ui/icons/InfoOutlined'
 
 const styles = theme => ({
   headerCol: {
@@ -17,18 +17,18 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     zIndex: 1
   }
-});
+})
 
 const ResultTableHead = props => {
-  const { classes, columns, sortBy, sortDirection, onSortBy } = props;
+  const { classes, columns, sortBy, sortDirection, onSortBy } = props
   return (
     <TableHead>
       <TableRow>
-        <TableCell className={classes.headerCol} key={'empty'} />
+        <TableCell className={classes.headerCol} key='empty' />
         {columns.map(column => {
-          if (column.onlyOnInstancePage) { return null; }
-          const label = intl.get(`perspectives.${props.resultClass}.properties.${column.id}.label`);
-          const description = intl.get(`perspectives.${props.resultClass}.properties.${column.id}.description`);
+          if (column.onlyOnInstancePage) { return null }
+          const label = intl.get(`perspectives.${props.resultClass}.properties.${column.id}.label`)
+          const description = intl.get(`perspectives.${props.resultClass}.properties.${column.id}.description`)
           return (
             <TableCell
               className={classes.headerCol}
@@ -42,7 +42,7 @@ const ResultTableHead = props => {
                 <TableSortLabel
                   active={sortBy === column.id}
                   direction={sortDirection}
-                  hideSortIcon={true}
+                  hideSortIcon
                   onClick={onSortBy(column.id)}
                 >
                   {label}
@@ -57,12 +57,12 @@ const ResultTableHead = props => {
                 </IconButton>
               </Tooltip>
             </TableCell>
-          );
+          )
         })}
       </TableRow>
     </TableHead>
-  );
-};
+  )
+}
 
 ResultTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -71,7 +71,7 @@ ResultTableHead.propTypes = {
   onSortBy: PropTypes.func.isRequired,
   sortBy: PropTypes.string,
   sortDirection: PropTypes.string,
-  routeProps: PropTypes.object.isRequired,
-};
+  routeProps: PropTypes.object.isRequired
+}
 
-export default withStyles(styles)(ResultTableHead);
+export default withStyles(styles)(ResultTableHead)

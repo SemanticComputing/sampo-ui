@@ -1,14 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import TableCell from '@material-ui/core/TableCell';
-import ObjectListCollapsible from './ObjectListCollapsible';
-import StringList from './StringList';
+import React from 'react'
+import PropTypes from 'prop-types'
+import TableCell from '@material-ui/core/TableCell'
+import ObjectListCollapsible from './ObjectListCollapsible'
+import StringList from './StringList'
 
 const ResultTableCell = props => {
-  const { data, valueType, makeLink, externalLink, sortValues, numberedList, minWidth,
-    container, columnId, expanded, linkAsButton, collapsedMaxWords, showSource, sourceExternalLink } = props;
-  let cellContent = null;
-  let cellStyle = minWidth == null ? {} : { minWidth: minWidth };
+  const {
+    data, valueType, makeLink, externalLink, sortValues, numberedList, minWidth,
+    container, columnId, expanded, linkAsButton, collapsedMaxWords, showSource, sourceExternalLink
+  } = props
+  let cellContent = null
+  const cellStyle = minWidth == null ? {} : { minWidth: minWidth }
   switch (valueType) {
     case 'object':
       cellContent =
@@ -23,32 +25,32 @@ const ResultTableCell = props => {
           linkAsButton={linkAsButton}
           showSource={showSource}
           sourceExternalLink={sourceExternalLink}
-        />;
-      break;
+        />
+      break
     case 'string':
       cellContent =
         <StringList
           data={data}
           expanded={expanded}
           collapsedMaxWords={collapsedMaxWords}
-        />;
-      break;
+        />
+      break
   }
   if (container === 'div') {
-    return(
+    return (
       <div>
         {cellContent}
       </div>
-    );
+    )
   }
   if (container === 'cell') {
-    return(
+    return (
       <TableCell style={cellStyle}>
         {cellContent}
       </TableCell>
-    );
+    )
   }
-};
+}
 
 ResultTableCell.propTypes = {
   columnId: PropTypes.string.isRequired,
@@ -63,6 +65,6 @@ ResultTableCell.propTypes = {
   minWidth: PropTypes.number,
   showSource: PropTypes.bool,
   sourceExternalLink: PropTypes.bool
-};
+}
 
-export default ResultTableCell;
+export default ResultTableCell

@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import ObjectListItemLink from './ObjectListItemLink';
-import { orderBy } from 'lodash';
+import React from 'react'
+import PropTypes from 'prop-types'
+import ObjectListItemLink from './ObjectListItemLink'
+import { orderBy } from 'lodash'
 
 const ObjectListItemSources = props => {
-  let { data, externalLink } = props;
-  data = Array.isArray(data) ? data : [ data ];
-  data = orderBy(data, 'prefLabel');
-  
+  let { data, externalLink } = props
+  data = Array.isArray(data) ? data : [data]
+  data = orderBy(data, 'prefLabel')
+
   return (
     <sup>
       {data.map((source, index) =>
@@ -21,12 +21,12 @@ const ObjectListItemSources = props => {
         </React.Fragment>
       )}
     </sup>
-  );
-};
+  )
+}
 
 ObjectListItemSources.propTypes = {
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   externalLink: PropTypes.bool.isRequired
-};
+}
 
-export default ObjectListItemSources;
+export default ObjectListItemSources

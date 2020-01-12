@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import purple from '@material-ui/core/colors/purple';
-import Paper from '@material-ui/core/Paper';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import purple from '@material-ui/core/colors/purple'
+import Paper from '@material-ui/core/Paper'
 
 const styles = theme => ({
   root: {
@@ -17,13 +17,13 @@ const styles = theme => ({
     width: '100%',
     overflowY: 'auto',
     [theme.breakpoints.up('md')]: {
-      width: 800,
-    },
+      width: 800
+    }
   },
   // https://benmarshall.me/responsive-iframes/
   iframeContainer: {
     overflow: 'hidden',
-    paddingTop: '93%',   // aspect ratio: 700 / 750
+    paddingTop: '93%', // aspect ratio: 700 / 750
     position: 'relative'
   },
   iframe: {
@@ -32,7 +32,7 @@ const styles = theme => ({
     left: 0,
     position: 'absolute',
     top: 0,
-    width: '100%',
+    width: '100%'
   },
   spinnerContainer: {
     display: 'flex',
@@ -49,22 +49,22 @@ const styles = theme => ({
     top: '50%',
     transform: 'translate(-50%,-50%)',
     zIndex: 500
-  },
-});
+  }
+})
 
 class FeedbackPage extends React.Component {
   state = {
     loading: true
   };
 
-  hideSpinner = () => {
-    this.setState({ loading: false });
+  handleHideSpinner = () => {
+    this.setState({ loading: false })
   };
 
-  render() {
-    const { classes } = this.props;
-    const { loading } = this.state;
-    return(
+  render () {
+    const { classes } = this.props
+    const { loading } = this.state
+    return (
       <div className={classes.root}>
         <Paper className={classes.content}>
           {loading ? (
@@ -75,18 +75,18 @@ class FeedbackPage extends React.Component {
           <div className={classes.iframeContainer}>
             <iframe
               className={classes.iframe}
-              src="https://link.webropolsurveys.com/S/3BA01B62823131EF"
-              onLoad={this.hideSpinner}
+              src='https://link.webropolsurveys.com/S/3BA01B62823131EF'
+              onLoad={this.handleHideSpinner}
             />
           </div>
         </Paper>
       </div>
-    );
+    )
   }
 }
 
 FeedbackPage.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(FeedbackPage);
+export default withStyles(styles)(FeedbackPage)
