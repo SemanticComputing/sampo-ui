@@ -1,11 +1,11 @@
-import React from 'react';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import SemanticPortal from '../containers/SemanticPortal';
-import deepPurple from '@material-ui/core/colors/deepPurple';
+import React from 'react'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import SemanticPortal from '../containers/SemanticPortal'
+import deepPurple from '@material-ui/core/colors/deepPurple'
 
 const theme = createMuiTheme({
   palette: {
-    primary: deepPurple,
+    primary: deepPurple
   },
   overrides: {
     MuiTooltip: {
@@ -19,7 +19,7 @@ const theme = createMuiTheme({
           marginTop: 8,
           marginBottom: 8
         }
-      },
+      }
     },
     MuiButton: {
       endIcon: {
@@ -27,12 +27,12 @@ const theme = createMuiTheme({
       }
     }
   }
-});
+})
 
 const App = () => (
   <MuiThemeProvider theme={theme}>
     <SemanticPortal />
   </MuiThemeProvider>
-);
+)
 
-export default App;
+export default App

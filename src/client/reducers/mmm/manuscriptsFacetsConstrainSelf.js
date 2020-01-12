@@ -1,14 +1,14 @@
 import {
   FETCH_FACET_CONSTRAIN_SELF,
   FETCH_FACET_CONSTRAIN_SELF_FAILED,
-  UPDATE_FACET_VALUES_CONSTRAIN_SELF,
-} from '../../actions';
+  UPDATE_FACET_VALUES_CONSTRAIN_SELF
+} from '../../actions'
 import {
   fetchFacet,
   fetchFacetFailed,
-  updateFacetValues,
-  //updateFacetOption,
-} from '../helpers';
+  updateFacetValues
+  // updateFacetOption,
+} from '../helpers'
 
 export const INITIAL_STATE = {
   updatedFacet: null,
@@ -68,7 +68,7 @@ export const INITIAL_STATE = {
     },
     productionPlace: {
       id: 'productionPlace',
-      //predicate: defined in backend
+      // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
       flatValues: [],
@@ -88,7 +88,7 @@ export const INITIAL_STATE = {
     },
     productionTimespan: {
       id: 'productionTimespan',
-      //predicate: defined in backend
+      // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
       flatValues: [],
@@ -178,7 +178,7 @@ export const INITIAL_STATE = {
     },
     transferOfCustodyPlace: {
       id: 'transferOfCustodyPlace',
-      //predicate: defined in backend
+      // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
       flatValues: [],
@@ -197,7 +197,7 @@ export const INITIAL_STATE = {
     },
     transferOfCustodyTimespan: {
       id: 'transferOfCustodyTimespan',
-      //predicate: defined in backend
+      // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
       flatValues: [],
@@ -230,7 +230,7 @@ export const INITIAL_STATE = {
       containerClass: 'ten',
       filterType: 'uriFilter',
       uriFilter: null,
-      priority: 20,
+      priority: 20
     },
     height: {
       id: 'height',
@@ -352,23 +352,23 @@ export const INITIAL_STATE = {
       filterType: 'uriFilter',
       uriFilter: null,
       priority: 21
-    },
+    }
   }
-};
+}
 
 const manuscriptsFacets = (state = INITIAL_STATE, action) => {
   if (action.facetClass === 'manuscripts') {
     switch (action.type) {
       case FETCH_FACET_CONSTRAIN_SELF:
-        return fetchFacet(state, action);
+        return fetchFacet(state, action)
       case FETCH_FACET_CONSTRAIN_SELF_FAILED:
-        return fetchFacetFailed(state, action);
+        return fetchFacetFailed(state, action)
       case UPDATE_FACET_VALUES_CONSTRAIN_SELF:
-        return updateFacetValues(state, action);
+        return updateFacetValues(state, action)
       default:
-        return state;
+        return state
     }
-  } else return state;
-};
+  } else return state
+}
 
-export default manuscriptsFacets;
+export default manuscriptsFacets

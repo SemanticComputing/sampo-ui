@@ -1,30 +1,29 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import intl from 'react-intl-universal';
-import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import withWidth from '@material-ui/core/withWidth';
-import { withRouter } from 'react-router-dom';
-import compose from 'recompose/compose';
-import { Route } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-import TopBar from '../components/main_layout/TopBar';
-import Main from '../components/main_layout/Main';
-import Footer from '../components/main_layout/Footer';
-import Message from '../components/main_layout/Message';
-import FacetBar from '../components/facet_bar/FacetBar';
-import Manuscripts from '../components/perspectives/mmm/Manuscripts';
-import Works from '../components/perspectives/mmm/Works';
-import Events from '../components/perspectives/mmm/Events';
-import Places from '../components/perspectives/mmm/Places';
-import Actors from '../components/perspectives/mmm/Actors';
-import All from '../components/perspectives/mmm/All';
-import InstanceHomePage from '../components/main_layout/InstanceHomePage';
-import TextPage from '../components/main_layout/TextPage';
-import { perspectiveConfig } from '../configs/mmm/PerspectiveConfig';
-import { perspectiveConfigOnlyInfoPages } from '../configs/mmm/PerspectiveConfigOnlyInfoPages';
-import InfoHeader from '../components/main_layout/InfoHeader';
-import { has } from 'lodash';
+import React from 'react'
+import PropTypes from 'prop-types'
+import intl from 'react-intl-universal'
+import { connect } from 'react-redux'
+import { withStyles } from '@material-ui/core/styles'
+import withWidth from '@material-ui/core/withWidth'
+import { withRouter, Route } from 'react-router-dom'
+import compose from 'recompose/compose'
+import Grid from '@material-ui/core/Grid'
+import TopBar from '../components/main_layout/TopBar'
+import Main from '../components/main_layout/Main'
+import Footer from '../components/main_layout/Footer'
+import Message from '../components/main_layout/Message'
+import FacetBar from '../components/facet_bar/FacetBar'
+import Manuscripts from '../components/perspectives/mmm/Manuscripts'
+import Works from '../components/perspectives/mmm/Works'
+import Events from '../components/perspectives/mmm/Events'
+import Places from '../components/perspectives/mmm/Places'
+import Actors from '../components/perspectives/mmm/Actors'
+import All from '../components/perspectives/mmm/All'
+import InstanceHomePage from '../components/main_layout/InstanceHomePage'
+import TextPage from '../components/main_layout/TextPage'
+import { perspectiveConfig } from '../configs/mmm/PerspectiveConfig'
+import { perspectiveConfigOnlyInfoPages } from '../configs/mmm/PerspectiveConfigOnlyInfoPages'
+import InfoHeader from '../components/main_layout/InfoHeader'
+import { has } from 'lodash'
 import {
   fetchResultCount,
   fetchPaginatedResults,
@@ -42,7 +41,7 @@ import {
   updatePerspectiveHeaderExpanded,
   loadLocales,
   animateMap
-} from '../actions';
+} from '../actions'
 
 const styles = theme => ({
   root: {
@@ -50,7 +49,7 @@ const styles = theme => ({
     // Set app height for different screen sizes
     height: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: '100%',
+      height: '100%'
     },
     /* Background color of the app.
        In order to use both 'auto' and '100%' heights, bg-color
@@ -59,7 +58,7 @@ const styles = theme => ({
     backgroundColor: '#bdbdbd'
   },
   flex: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   appFrame: {
     height: '100%',
@@ -67,53 +66,53 @@ const styles = theme => ({
     overflow: 'hidden',
     position: 'relative',
     display: 'flex',
-    width: '100%',
+    width: '100%'
   },
   mainContainer: {
     height: 'auto',
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 80px)', // 100% - app bar - padding
+      height: 'calc(100% - 80px)' // 100% - app bar - padding
     },
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 56, // app bar
+      marginTop: 56 // app bar
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 64, // app bar
+      marginTop: 64 // app bar
     }
   },
   perspectiveContainer: {
     height: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 130px)',
+      height: 'calc(100% - 130px)'
     },
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 133, // app bar + header
+      marginTop: 133 // app bar + header
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 130, // app bar + header
+      marginTop: 130 // app bar + header
     }
   },
   perspectiveContainerHeaderExpanded: {
     height: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 316px)',
+      height: 'calc(100% - 316px)'
     },
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 308, // app bar + header
+      marginTop: 308 // app bar + header
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 316, // app bar + header
+      marginTop: 316 // app bar + header
     }
   },
   // perspective container is divided into two columns:
   facetBarContainer: {
     height: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: '100%',
+      height: '100%'
     },
     overflow: 'auto',
     paddingTop: '0px !important',
@@ -122,7 +121,7 @@ const styles = theme => ({
   resultsContainer: {
     height: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: '100%',
+      height: '100%'
     },
     paddingTop: '0px !important',
     paddingBottom: '0px !important',
@@ -133,142 +132,142 @@ const styles = theme => ({
   instancePageContainer: {
     height: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 170px)',
+      height: 'calc(100% - 170px)'
     },
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 164,
+      marginTop: 164
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 170,
+      marginTop: 170
     }
   },
   instancePageContainerHeaderExpanded: {
     height: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 354px)',
+      height: 'calc(100% - 354px)'
     },
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 348,
+      marginTop: 348
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: 354,
+      marginTop: 354
     }
   },
   instancePageContent: {
     height: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: '100%',
+      height: '100%'
     },
     paddingTop: '0px !important',
     paddingBottom: '0px !important'
   }
-});
+})
 
-let SemanticPortal = props => {
-  const { classes, /* browser */ error } = props;
+const SemanticPortal = props => {
+  const { classes, /* browser */ error } = props
 
   const renderPerspective = (perspective, routeProps) => {
-    let perspectiveElement = null;
-    switch(perspective.id) {
+    let perspectiveElement = null
+    switch (perspective.id) {
       case 'manuscripts':
         perspectiveElement =
-        <Manuscripts
-          manuscripts={props.manuscripts}
-          places={props.places}
-          facetData={props.manuscriptsFacets}
-          fetchPaginatedResults={props.fetchPaginatedResults}
-          fetchResults={props.fetchResults}
-          fetchByURI={props.fetchByURI}
-          updatePage={props.updatePage}
-          updateRowsPerPage={props.updateRowsPerPage}
-          updateFacetOption={props.updateFacetOption}
-          sortResults={props.sortResults}
-          routeProps={routeProps}
-          perspective={perspective}
-          animationValue={props.animationValue}
-          animateMap={props.animateMap}
-        />;
-        break;
+          <Manuscripts
+            manuscripts={props.manuscripts}
+            places={props.places}
+            facetData={props.manuscriptsFacets}
+            fetchPaginatedResults={props.fetchPaginatedResults}
+            fetchResults={props.fetchResults}
+            fetchByURI={props.fetchByURI}
+            updatePage={props.updatePage}
+            updateRowsPerPage={props.updateRowsPerPage}
+            updateFacetOption={props.updateFacetOption}
+            sortResults={props.sortResults}
+            routeProps={routeProps}
+            perspective={perspective}
+            animationValue={props.animationValue}
+            animateMap={props.animateMap}
+          />
+        break
       case 'works':
         perspectiveElement =
-        <Works
-          works={props.works}
-          places={props.places}
-          facetData={props.worksFacets}
-          fetchPaginatedResults={props.fetchPaginatedResults}
-          fetchResults={props.fetchResults}
-          fetchByURI={props.fetchByURI}
-          updatePage={props.updatePage}
-          updateRowsPerPage={props.updateRowsPerPage}
-          sortResults={props.sortResults}
-          routeProps={routeProps}
-          perspective={perspective}
-        />;
-        break;
+          <Works
+            works={props.works}
+            places={props.places}
+            facetData={props.worksFacets}
+            fetchPaginatedResults={props.fetchPaginatedResults}
+            fetchResults={props.fetchResults}
+            fetchByURI={props.fetchByURI}
+            updatePage={props.updatePage}
+            updateRowsPerPage={props.updateRowsPerPage}
+            sortResults={props.sortResults}
+            routeProps={routeProps}
+            perspective={perspective}
+          />
+        break
       case 'events':
         perspectiveElement =
-        <Events
-          events={props.events}
-          places={props.places}
-          facetData={props.eventsFacets}
-          fetchPaginatedResults={props.fetchPaginatedResults}
-          fetchResults={props.fetchResults}
-          fetchByURI={props.fetchByURI}
-          updatePage={props.updatePage}
-          updateRowsPerPage={props.updateRowsPerPage}
-          updateFacetOption={props.updateFacetOption}
-          sortResults={props.sortResults}
-          routeProps={routeProps}
-          perspective={perspective}
-        />;
-        break;
+          <Events
+            events={props.events}
+            places={props.places}
+            facetData={props.eventsFacets}
+            fetchPaginatedResults={props.fetchPaginatedResults}
+            fetchResults={props.fetchResults}
+            fetchByURI={props.fetchByURI}
+            updatePage={props.updatePage}
+            updateRowsPerPage={props.updateRowsPerPage}
+            updateFacetOption={props.updateFacetOption}
+            sortResults={props.sortResults}
+            routeProps={routeProps}
+            perspective={perspective}
+          />
+        break
       case 'actors':
         perspectiveElement =
-        <Actors
-          actors={props.actors}
-          places={props.places}
-          facetData={props.actorsFacets}
-          fetchResults={props.fetchResults}
-          fetchPaginatedResults={props.fetchPaginatedResults}
-          fetchByURI={props.fetchByURI}
-          filters={props.manuscriptsFacets.filters}
-          updatePage={props.updatePage}
-          updateRowsPerPage={props.updateRowsPerPage}
-          updateFacetOption={props.updateFacetOption}
-          sortResults={props.sortResults}
-          routeProps={routeProps}
-          perspective={perspective}
-        />;
-        break;
+          <Actors
+            actors={props.actors}
+            places={props.places}
+            facetData={props.actorsFacets}
+            fetchResults={props.fetchResults}
+            fetchPaginatedResults={props.fetchPaginatedResults}
+            fetchByURI={props.fetchByURI}
+            filters={props.manuscriptsFacets.filters}
+            updatePage={props.updatePage}
+            updateRowsPerPage={props.updateRowsPerPage}
+            updateFacetOption={props.updateFacetOption}
+            sortResults={props.sortResults}
+            routeProps={routeProps}
+            perspective={perspective}
+          />
+        break
       case 'places':
         perspectiveElement =
-        <Places
-          places={props.places}
-          facetData={props.placesFacets}
-          fetchResults={props.fetchResults}
-          fetchPaginatedResults={props.fetchPaginatedResults}
-          fetchByURI={props.fetchByURI}
-          filters={props.manuscriptsFacets.filters}
-          updatePage={props.updatePage}
-          updateRowsPerPage={props.updateRowsPerPage}
-          sortResults={props.sortResults}
-          routeProps={routeProps}
-          perspective={perspective}
-        />;
-        break;
+          <Places
+            places={props.places}
+            facetData={props.placesFacets}
+            fetchResults={props.fetchResults}
+            fetchPaginatedResults={props.fetchPaginatedResults}
+            fetchByURI={props.fetchByURI}
+            filters={props.manuscriptsFacets.filters}
+            updatePage={props.updatePage}
+            updateRowsPerPage={props.updateRowsPerPage}
+            sortResults={props.sortResults}
+            routeProps={routeProps}
+            perspective={perspective}
+          />
+        break
       default:
-        perspectiveElement = <div></div>;
-        break;
+        perspectiveElement = <div />
+        break
     }
-    return perspectiveElement;
-  };
+    return perspectiveElement
+  }
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
         <Message error={error} />
-        <React.Fragment>
+        <>
           <TopBar
             search={props.clientSideFacetedSearch}
             fetchResultsClientSide={props.fetchResultsClientSide}
@@ -279,17 +278,16 @@ let SemanticPortal = props => {
             loadLocales={props.loadLocales}
           />
           <Route
-            exact path="/"
+            exact path='/'
             render={() =>
               <Grid container spacing={1} className={classes.mainContainer}>
-                <Main perspectives={perspectiveConfig}/>
+                <Main perspectives={perspectiveConfig} />
                 <Footer />
-              </Grid>
-            }
+              </Grid>}
           />
-          { /* route for full text search results */ }
+          {/* route for full text search results */}
           <Route
-            path="/all"
+            path='/all'
             render={routeProps =>
               <Grid container spacing={1} className={classes.mainContainer}>
                 <Grid item xs={12} className={classes.resultsContainer}>
@@ -298,19 +296,18 @@ let SemanticPortal = props => {
                     routeProps={routeProps}
                   />
                 </Grid>
-              </Grid>
-            }
+              </Grid>}
           />
-          { /* routes for perspectives that don't have an external url */ }
+          {/* routes for perspectives that don't have an external url */}
           {perspectiveConfig.map(perspective => {
             if (!has(perspective, 'externalUrl')) {
-              return(
+              return (
                 <React.Fragment key={perspective.id}>
                   <Route
                     path={`/${perspective.id}/faceted-search`}
                     render={routeProps => {
                       return (
-                        <React.Fragment>
+                        <>
                           <InfoHeader
                             resultClass={perspective.id}
                             pageType='facetResults'
@@ -318,17 +315,17 @@ let SemanticPortal = props => {
                             updateExpanded={props.updatePerspectiveHeaderExpanded}
                             descriptionHeight={perspective.perspectiveDescHeight}
                           />
-                          <Grid container spacing={1} className={props[perspective.id].facetedSearchHeaderExpanded
-                            ? classes.perspectiveContainerHeaderExpanded
-                            : classes.perspectiveContainer
-                          }>
+                          <Grid
+                            container spacing={1} className={props[perspective.id].facetedSearchHeaderExpanded
+                              ? classes.perspectiveContainerHeaderExpanded
+                              : classes.perspectiveContainer}
+                          >
                             <Grid item xs={12} md={3} className={classes.facetBarContainer}>
                               <FacetBar
                                 facetData={props[`${perspective.id}Facets`]}
                                 facetDataConstrainSelf={has(props, `${perspective.id}FacetsConstrainSelf`)
                                   ? props[`${perspective.id}FacetsConstrainSelf`]
-                                  : null
-                                }
+                                  : null}
                                 facetClass={perspective.id}
                                 resultClass={perspective.id}
                                 fetchingResultCount={props[perspective.id].fetchingResultCount}
@@ -344,15 +341,15 @@ let SemanticPortal = props => {
                               {renderPerspective(perspective, routeProps)}
                             </Grid>
                           </Grid>
-                        </React.Fragment>
-                      );
+                        </>
+                      )
                     }}
                   />
                   <Route
                     path={`/${perspective.id}/page/:id`}
                     render={routeProps => {
                       return (
-                        <React.Fragment>
+                        <>
                           <InfoHeader
                             resultClass={perspective.id}
                             pageType='instancePage'
@@ -361,10 +358,11 @@ let SemanticPortal = props => {
                             updateExpanded={props.updatePerspectiveHeaderExpanded}
                             descriptionHeight={perspective.perspectiveDescHeight}
                           />
-                          <Grid container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
-                            ? classes.instancePageContainerHeaderExpanded
-                            : classes.instancePageContainer
-                          }>
+                          <Grid
+                            container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
+                              ? classes.instancePageContainerHeaderExpanded
+                              : classes.instancePageContainer}
+                          >
                             <Grid item xs={12} className={classes.instancePageContent}>
                               <InstanceHomePage
                                 fetchByURI={props.fetchByURI}
@@ -378,22 +376,22 @@ let SemanticPortal = props => {
                               />
                             </Grid>
                           </Grid>
-                        </React.Fragment>
-                      );
+                        </>
+                      )
                     }}
                   />
                 </React.Fragment>
-              );
+              )
             }
           })}
-          { /* create routes for classes that have only info pages and no perspective */}
+          {/* create routes for classes that have only info pages and no perspective */}
           {perspectiveConfigOnlyInfoPages.map(perspective =>
             <Route
               key={perspective.id}
               path={`/${perspective.id}/page/:id`}
               render={routeProps => {
                 return (
-                  <React.Fragment>
+                  <>
                     <InfoHeader
                       resultClass={perspective.id}
                       pageType='instancePage'
@@ -402,10 +400,11 @@ let SemanticPortal = props => {
                       updateExpanded={props.updatePerspectiveHeaderExpanded}
                       descriptionHeight={perspective.perspectiveDescHeight}
                     />
-                    <Grid container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
-                      ? classes.instancePageContainerHeaderExpanded
-                      : classes.instancePageContainer
-                    }>
+                    <Grid
+                      container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
+                        ? classes.instancePageContainerHeaderExpanded
+                        : classes.instancePageContainer}
+                    >
                       <Grid item xs={12} className={classes.instancePageContent}>
                         <InstanceHomePage
                           fetchByURI={props.fetchByURI}
@@ -419,44 +418,38 @@ let SemanticPortal = props => {
                         />
                       </Grid>
                     </Grid>
-                  </React.Fragment>
-                );
+                  </>
+                )
               }}
             />
           )}
-          { /* create routes for info buttons */ }
+          {/* create routes for info buttons */}
           <Route
-            path={`/feedback`}
+            path='/feedback'
             render={() =>
               <div className={classes.mainContainer}>
                 <TextPage>{intl.getHTML('feedback')}</TextPage>
-              </div>
-            }
+              </div>}
           />
           <Route
-            path={`/about`}
+            path='/about'
             render={() =>
               <div className={classes.mainContainer}>
                 <TextPage>{intl.getHTML('aboutTheProject')}</TextPage>
-              </div>
-            }
+              </div>}
           />
           <Route
-            path={`/instructions`}
+            path='/instructions'
             render={() =>
               <div className={classes.mainContainer}>
                 <TextPage>{intl.getHTML('instructions')}</TextPage>
-              </div>
-            }
+              </div>}
           />
-        </React.Fragment>
+        </>
       </div>
     </div>
-  );
-};
-// <img className={classes.secoLogo} src='img/logos/seco-logo-white-no-background-small.png' alt='SeCo logo'/>
-// <img className={classes.heldigLogo} src='img/logos/heldig-logo-small.png' alt='HELDIG logo'/>
-// <img className={classes.uhLogo} src='img/logos/university-of-helsinki-logo-white-no-background-small.png' alt='University of Helsinki logo'/>
+  )
+}
 
 const mapStateToProps = state => {
   return {
@@ -477,9 +470,9 @@ const mapStateToProps = state => {
     animationValue: state.animation.value,
     options: state.options,
     error: state.error
-  //browser: state.browser,
-  };
-};
+  // browser: state.browser,
+  }
+}
 
 const mapDispatchToProps = ({
   fetchResultCount,
@@ -498,7 +491,7 @@ const mapDispatchToProps = ({
   updatePerspectiveHeaderExpanded,
   loadLocales,
   animateMap
-});
+})
 
 SemanticPortal.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -518,7 +511,7 @@ SemanticPortal.propTypes = {
   places: PropTypes.object.isRequired,
   placesFacets: PropTypes.object.isRequired,
   collections: PropTypes.object.isRequired,
-  expressions:  PropTypes.object.isRequired,
+  expressions: PropTypes.object.isRequired,
   clientSideFacetedSearch: PropTypes.object.isRequired,
   animationValue: PropTypes.array.isRequired,
   fetchResults: PropTypes.func.isRequired,
@@ -536,7 +529,7 @@ SemanticPortal.propTypes = {
   updatePerspectiveHeaderExpanded: PropTypes.func.isRequired,
   loadLocales: PropTypes.func.isRequired,
   animateMap: PropTypes.func.isRequired
-};
+}
 
 export default compose(
   withRouter,
@@ -545,5 +538,5 @@ export default compose(
     mapDispatchToProps
   ),
   withWidth(),
-  withStyles(styles, {withTheme: true}),
-)(SemanticPortal);
+  withStyles(styles, { withTheme: true })
+)(SemanticPortal)

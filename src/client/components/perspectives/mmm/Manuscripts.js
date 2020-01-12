@@ -1,17 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Route, Redirect } from 'react-router-dom';
-import PerspectiveTabs from '../../main_layout/PerspectiveTabs';
-import ResultTable from '../../facet_results/ResultTable';
-import LeafletMap from '../../facet_results/LeafletMap';
-import Deck from '../../facet_results/Deck';
-import Pie from '../../facet_results/Pie';
-import Network from '../../facet_results/Network';
-import Export from '../../facet_results/Export';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Route, Redirect } from 'react-router-dom'
+import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
+import ResultTable from '../../facet_results/ResultTable'
+import LeafletMap from '../../facet_results/LeafletMap'
+import Deck from '../../facet_results/Deck'
+import Pie from '../../facet_results/Pie'
+import Network from '../../facet_results/Network'
+import Export from '../../facet_results/Export'
 
-let Manuscripts = props => {
+const Manuscripts = props => {
   return (
-    <React.Fragment>
+    <>
       <PerspectiveTabs
         routeProps={props.routeProps}
         tabs={props.perspective.tabs}
@@ -21,7 +21,7 @@ let Manuscripts = props => {
         render={() => <Redirect to='/manuscripts/faceted-search/table' />}
       />
       <Route
-        path={'/manuscripts/faceted-search/table'}
+        path='/manuscripts/faceted-search/table'
         render={routeProps =>
           <ResultTable
             data={props.manuscripts}
@@ -33,11 +33,10 @@ let Manuscripts = props => {
             updateRowsPerPage={props.updateRowsPerPage}
             sortResults={props.sortResults}
             routeProps={routeProps}
-          />
-        }
+          />}
       />
       <Route
-        path={'/manuscripts/faceted-search/production_places'}
+        path='/manuscripts/faceted-search/production_places'
         render={() =>
           <LeafletMap
             results={props.places.results}
@@ -52,12 +51,12 @@ let Manuscripts = props => {
             fetchResults={props.fetchResults}
             fetchByURI={props.fetchByURI}
             fetching={props.places.fetching}
-            showInstanceCountInClusters={true}
+            showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
           />}
       />
       <Route
-        path={'/manuscripts/faceted-search/last_known_locations'}
+        path='/manuscripts/faceted-search/last_known_locations'
         render={() =>
           <LeafletMap
             results={props.places.results}
@@ -72,12 +71,12 @@ let Manuscripts = props => {
             fetchResults={props.fetchResults}
             fetchByURI={props.fetchByURI}
             fetching={props.places.fetching}
-            showInstanceCountInClusters={true}
+            showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
           />}
       />
       <Route
-        path={'/manuscripts/faceted-search/statistics'}
+        path='/manuscripts/faceted-search/statistics'
         render={() =>
           <Pie
             data={props.places.results}
@@ -85,7 +84,7 @@ let Manuscripts = props => {
           />}
       />
       <Route
-        path={'/manuscripts/faceted-search/migrations'}
+        path='/manuscripts/faceted-search/migrations'
         render={() =>
           <Deck
             results={props.places.results}
@@ -97,12 +96,12 @@ let Manuscripts = props => {
             fetchResults={props.fetchResults}
             fetchByURI={props.fetchByURI}
             fetching={props.places.fetching}
-            showInstanceCountInClusters={true}
+            showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
           />}
       />
       <Route
-        path={'/manuscripts/faceted-search/export'}
+        path='/manuscripts/faceted-search/export'
         render={() =>
           <Export
             sparqlQuery={props.manuscripts.paginatedResultsSparqlQuery}
@@ -110,15 +109,13 @@ let Manuscripts = props => {
           />}
       />
       <Route
-        path={'/manuscripts/faceted-search/network'}
+        path='/manuscripts/faceted-search/network'
         render={() =>
-          <Network
-
-          />}
+          <Network />}
       />
-    </React.Fragment>
-  );
-};
+    </>
+  )
+}
 
 Manuscripts.propTypes = {
   manuscripts: PropTypes.object.isRequired,
@@ -134,7 +131,7 @@ Manuscripts.propTypes = {
   updateFacetOption: PropTypes.func.isRequired,
   perspective: PropTypes.object.isRequired,
   animationValue: PropTypes.array.isRequired,
-  animateMap: PropTypes.func.isRequired,
-};
+  animateMap: PropTypes.func.isRequired
+}
 
-export default Manuscripts;
+export default Manuscripts

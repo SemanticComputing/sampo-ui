@@ -84,6 +84,7 @@
     "victory": "^0.26.1"
   },
   "standard": {
-    "parser": "babel-eslint"
+    "parser": "babel-eslint",
+    "env": [ "jest "]
   }
 }

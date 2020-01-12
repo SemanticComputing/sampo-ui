@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Route, Redirect } from 'react-router-dom';
-import PerspectiveTabs from '../../main_layout/PerspectiveTabs';
-import ResultTable from '../../facet_results/ResultTable';
-import LeafletMap from '../../facet_results/LeafletMap';
-import Export from '../../facet_results/Export';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Route, Redirect } from 'react-router-dom'
+import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
+import ResultTable from '../../facet_results/ResultTable'
+import LeafletMap from '../../facet_results/LeafletMap'
+import Export from '../../facet_results/Export'
 
-let Actors = props => {
+const Actors = props => {
   return (
-    <React.Fragment>
+    <>
       <PerspectiveTabs
         routeProps={props.routeProps}
         tabs={props.perspective.tabs}
@@ -18,7 +18,7 @@ let Actors = props => {
         render={() => <Redirect to='/actors/faceted-search/table' />}
       />
       <Route
-        path={'/actors/faceted-search/table'}
+        path='/actors/faceted-search/table'
         render={routeProps =>
           <ResultTable
             data={props.actors}
@@ -30,11 +30,10 @@ let Actors = props => {
             updateRowsPerPage={props.updateRowsPerPage}
             sortResults={props.sortResults}
             routeProps={routeProps}
-          />
-        }
+          />}
       />
       <Route
-        path={'/actors/faceted-search/map'}
+        path='/actors/faceted-search/map'
         render={() =>
           <LeafletMap
             results={props.places.results}
@@ -47,21 +46,21 @@ let Actors = props => {
             fetchResults={props.fetchResults}
             fetchByURI={props.fetchByURI}
             fetching={props.places.fetching}
-            showInstanceCountInClusters={true}
+            showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
           />}
       />
       <Route
-        path={'/actors/faceted-search/export'}
+        path='/actors/faceted-search/export'
         render={() =>
           <Export
             sparqlQuery={props.actors.paginatedResultsSparqlQuery}
             pageType='facetResults'
           />}
       />
-    </React.Fragment>
-  );
-};
+    </>
+  )
+}
 
 Actors.propTypes = {
   actors: PropTypes.object.isRequired,
@@ -76,6 +75,6 @@ Actors.propTypes = {
   routeProps: PropTypes.object.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
   perspective: PropTypes.object.isRequired
-};
+}
 
-export default Actors;
+export default Actors
