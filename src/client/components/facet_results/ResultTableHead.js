@@ -30,33 +30,52 @@ const ResultTableHead = props => {
           const label = intl.get(`perspectives.${props.resultClass}.properties.${column.id}.label`)
           const description = intl.get(`perspectives.${props.resultClass}.properties.${column.id}.description`)
           return (
-            <TableCell
-              className={classes.headerCol}
-              key={column.id}
-              sortDirection={sortBy === column.id ? sortDirection : false}
-            >
-              <Tooltip
-                title={`Sort by ${label}`}
-                enterDelay={300}
-              >
-                <TableSortLabel
-                  active={sortBy === column.id}
-                  direction={sortDirection}
-                  hideSortIcon
-                  onClick={onSortBy(column.id)}
-                >
-                  {label}
-                </TableSortLabel>
-              </Tooltip>
-              <Tooltip
-                title={description}
-                enterDelay={300}
-              >
-                <IconButton>
-                  <InfoIcon />
-                </IconButton>
-              </Tooltip>
-            </TableCell>
+            <>
+              {column.disableSort
+                ? (
+                  <TableCell
+                    className={classes.headerCol}
+                  >
+                    {label}
+                    <Tooltip
+                      title={description}
+                      enterDelay={300}
+                    >
+                      <IconButton>
+                        <InfoIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>
+                ) : (
+                  <TableCell
+                    className={classes.headerCol}
+                    key={column.id}
+                    sortDirection={sortBy === column.id ? sortDirection : false}
+                  >
+                    <Tooltip
+                      title={`Sort by ${label}`}
+                      enterDelay={300}
+                    >
+                      <TableSortLabel
+                        active={sortBy === column.id}
+                        direction={sortDirection}
+                        hideSortIcon
+                        onClick={onSortBy(column.id)}
+                      >
+                        {label}
+                      </TableSortLabel>
+                    </Tooltip>
+                    <Tooltip
+                      title={description}
+                      enterDelay={300}
+                    >
+                      <IconButton>
+                        <InfoIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>
+                )}
+            </>
           )
         })}
       </TableRow>
