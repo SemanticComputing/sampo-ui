@@ -4,7 +4,7 @@ import intl from 'react-intl-universal'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/Typography'
+// import Typography from '@material-ui/core/Typography'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import { withStyles } from '@material-ui/core/styles'
@@ -16,6 +16,7 @@ import TopBarInfoButton from './TopBarInfoButton'
 // import TopBarLanguageButton from './TopBarLanguageButton';
 import Divider from '@material-ui/core/Divider'
 import { has } from 'lodash'
+import mmmLogo from '../../img/mmm-logo-52x50.png'
 
 const styles = theme => ({
   root: {
@@ -24,8 +25,8 @@ const styles = theme => ({
   grow: {
     flexGrow: 1
   },
-  title: {
-    //
+  toolbar: {
+    paddingLeft: theme.spacing(1.5)
   },
   sectionDesktop: {
     display: 'none',
@@ -192,15 +193,13 @@ class TopBar extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar position='absolute'>
-          <Toolbar>
+          <Toolbar className={classes.toolbar}>
             <Button
               className={classes.appBarButton}
               component={this.AdapterLink}
               to='/'
             >
-              <Typography className={classes.title} variant='h6' color='inherit'>
-                {intl.get('appTitle.short')}
-              </Typography>
+              <img src={mmmLogo} />
             </Button>
             <TopBarSearchField
               fetchResultsClientSide={this.props.fetchResultsClientSide}

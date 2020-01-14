@@ -66,7 +66,7 @@ export default {
     manuscripts: {
       label: 'Manuscripts',
       facetResultsType: 'manuscripts',
-      shortDescription: 'Physical manuscript objects',
+      shortDescription: 'Physical manuscript objects.',
       longDescription: `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
           Use this perspective to access data related to physical manuscript objects.
@@ -299,7 +299,7 @@ export default {
     works: {
       label: 'Works',
       facetResultsType: 'works',
-      shortDescription: 'Intellectual content carried out by manuscripts.',
+      shortDescription: 'Intellectual content of manuscripts.',
       longDescription: `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
           Use this perspective to access data related to Works. The MMM data model follows
@@ -516,7 +516,7 @@ export default {
     actors: {
       label: 'Actors',
       facetResultsType: 'actors',
-      shortDescription: 'People and institutions related to manuscripts and works.',
+      shortDescription: 'People and institutions related to manuscripts.',
       longDescription: `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
           This perspective provides access to data related to the persons and institutions
@@ -624,7 +624,7 @@ export default {
     places: {
       label: 'Places',
       facetResultsType: 'places',
-      shortDescription: 'Places related to manuscripts and works.',
+      shortDescription: 'Places related to manuscripts.',
       longDescription: `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
           Use this perspective to access data related to places named in the source datasets

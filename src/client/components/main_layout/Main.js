@@ -2,16 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import classNames from 'classnames'
-import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
-import { Link } from 'react-router-dom'
-import { has } from 'lodash'
-import defaultThumbImage from '../../img/thumb.png'
+import MainCard from './MainCard'
 
 const styles = theme => ({
   root: {
@@ -21,12 +15,6 @@ const styles = theme => ({
       height: 'calc(100% - 150px)',
       overflow: 'auto'
     }
-  },
-  icon: {
-    marginRight: theme.spacing(2)
-  },
-  link: {
-    textDecoration: 'none'
   },
   heroContent: {
     maxWidth: 1100,
@@ -42,15 +30,6 @@ const styles = theme => ({
       marginLeft: 'auto',
       marginRight: 'auto'
     }
-  },
-  media: {
-    height: 100,
-    [theme.breakpoints.down('md')]: {
-      height: 60
-    }
-  },
-  cardContent: {
-    height: 85
   }
 })
 
@@ -63,68 +42,17 @@ const Main = props => {
           <Typography component='h1' variant='h3' align='center' color='textPrimary' gutterBottom>
             {intl.get('appTitle.long')}
           </Typography>
-          <Typography variant='h6' align='center' color='textSecondary' paragraph>
+          <Typography variant='h6' align='center' color='textPrimary' paragraph>
             {intl.get('appDescription')}
           </Typography>
-          <Typography variant='h6' align='center' color='textSecondary' paragraph>
+          <Typography variant='h6' align='center' color='textPrimary' paragraph>
             {intl.get('selectPerspective')}
           </Typography>
         </div>
       </div>
       <div className={classNames(classes.layout, classes.cardGrid)}>
-        <Grid container spacing={5}>
-          {props.perspectives.map(perspective => {
-            return (
-              <Grid key={perspective.id} item xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
-                  {has(perspective, 'externalUrl') &&
-                    <a
-                      className={classes.link}
-                      href={perspective.externalUrl}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                    >
-                      <CardActionArea>
-                        <CardMedia
-                          className={classes.media}
-                          image={has(perspective, 'thumbImage')
-                            ? perspective.thumbImage
-                            : defaultThumbImage}
-                          title={perspective.label}
-                        />
-                        <CardContent className={classes.cardContent}>
-                          <Typography gutterBottom variant='h5' component='h2'>
-                            {intl.get(`perspectives.${perspective.id}.label`)}
-                          </Typography>
-                          <Typography component='p'>
-                            {intl.get(`perspectives.${perspective.id}.shortDescription`)}
-                          </Typography>
-                        </CardContent>
-                      </CardActionArea>
-                    </a>}
-                  {!has(perspective, 'externalUrl') &&
-                    <CardActionArea component={Link} to={`/${perspective.id}/faceted-search`}>
-                      <CardMedia
-                        className={classes.media}
-                        image={has(perspective, 'thumbImage')
-                          ? perspective.thumbImage
-                          : defaultThumbImage}
-                        title={perspective.label}
-                      />
-                      <CardContent className={classes.cardContent}>
-                        <Typography gutterBottom variant='h5' component='h2'>
-                          {intl.get(`perspectives.${perspective.id}.label`)}
-                        </Typography>
-                        <Typography component='p'>
-                          {intl.get(`perspectives.${perspective.id}.shortDescription`)}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>}
-                </Card>
-              </Grid>
-            )
-          }
-          )}
+        <Grid container spacing={1}>
+          {props.perspectives.map(perspective => <MainCard key={perspective.id} perspective={perspective} />)}
         </Grid>
       </div>
     </div>

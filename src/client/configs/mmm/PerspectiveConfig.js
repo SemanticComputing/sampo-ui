@@ -4,10 +4,16 @@ import AddLocationIcon from '@material-ui/icons/AddLocation'
 import LocationOnIcon from '@material-ui/icons/LocationOn'
 import RedoIcon from '@material-ui/icons/Redo'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
+import manuscriptsImage from '../../img/manuscripts-214x124.jpg'
+import worksImage from '../../img/works-214x124.jpg'
+import eventsImage from '../../img/events-214x124.jpg'
+import actorsImage from '../../img/actors-214x124.jpg'
+import placesImage from '../../img/places-214x124.jpg'
 
 export const perspectiveConfig = [
   {
     id: 'manuscripts',
+    frontPageImage: manuscriptsImage,
     perspectiveDescHeight: 160,
     defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
@@ -53,6 +59,7 @@ export const perspectiveConfig = [
   },
   {
     id: 'works',
+    frontPageImage: worksImage,
     perspectiveDescHeight: 160,
     defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
@@ -82,6 +89,7 @@ export const perspectiveConfig = [
   },
   {
     id: 'events',
+    frontPageImage: eventsImage,
     perspectiveDescHeight: 160,
     defaultActiveFacets: new Set(['type']),
     tabs: [
@@ -122,6 +130,7 @@ export const perspectiveConfig = [
   },
   {
     id: 'actors',
+    frontPageImage: actorsImage,
     perspectiveDescHeight: 160,
     defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
@@ -156,6 +165,7 @@ export const perspectiveConfig = [
   },
   {
     id: 'places',
+    frontPageImage: placesImage,
     perspectiveDescHeight: 160,
     defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
