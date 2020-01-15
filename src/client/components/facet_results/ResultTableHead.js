@@ -30,12 +30,11 @@ const ResultTableHead = props => {
           const label = intl.get(`perspectives.${props.resultClass}.properties.${column.id}.label`)
           const description = intl.get(`perspectives.${props.resultClass}.properties.${column.id}.description`)
           return (
-            <>
+            <React.Fragment key={column.id}>
               {column.disableSort
                 ? (
                   <TableCell
                     className={classes.headerCol}
-                    key={column.id}
                   >
                     {label}
                     <Tooltip
@@ -50,7 +49,6 @@ const ResultTableHead = props => {
                 ) : (
                   <TableCell
                     className={classes.headerCol}
-                    key={column.id}
                     sortDirection={sortBy === column.id ? sortDirection : false}
                   >
                     <Tooltip
@@ -76,7 +74,7 @@ const ResultTableHead = props => {
                     </Tooltip>
                   </TableCell>
                 )}
-            </>
+            </React.Fragment>
           )
         })}
       </TableRow>
