@@ -35,6 +35,7 @@ const ResultTableHead = props => {
                 ? (
                   <TableCell
                     className={classes.headerCol}
+                    key={column.id}
                   >
                     {label}
                     <Tooltip

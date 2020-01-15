@@ -4,7 +4,7 @@ import intl from 'react-intl-universal'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
-// import Typography from '@material-ui/core/Typography'
+import Typography from '@material-ui/core/Typography'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import { withStyles } from '@material-ui/core/styles'
@@ -192,6 +192,9 @@ class TopBar extends React.Component {
     const { classes, perspectives /* currentLocale, availableLocales */ } = this.props
     return (
       <div className={classes.root}>
+        {/* Add an empty Typography element to ensure that that the MuiTypography class is loaded for
+         any lower level components that use MuiTypography class only in translation files */}
+        <Typography />
         <AppBar position='absolute'>
           <Toolbar className={classes.toolbar}>
             <Button
