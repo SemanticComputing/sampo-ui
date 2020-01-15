@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import classNames from 'classnames'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
@@ -30,6 +29,10 @@ const styles = theme => ({
       marginLeft: 'auto',
       marginRight: 'auto'
     }
+  },
+  licenceText: {
+    marginTop: theme.spacing(0.5),
+    fontSize: '0.7em'
   }
 })
 
@@ -50,10 +53,13 @@ const Main = props => {
           </Typography>
         </div>
       </div>
-      <div className={classNames(classes.layout, classes.cardGrid)}>
+      <div className={classes.layout}>
         <Grid container spacing={1}>
           {props.perspectives.map(perspective => <MainCard key={perspective.id} perspective={perspective} />)}
         </Grid>
+      </div>
+      <div className={classes.layout}>
+        <Typography className={classes.licenceText}>{intl.getHTML('mainPageImageLicence')}</Typography>
       </div>
     </div>
   )

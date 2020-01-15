@@ -10,6 +10,7 @@ export default {
     and IRHT.
   `,
   selectPerspective: 'Select a perspective to search and browse the MMM data:',
+  mainPageImageLicence: 'Logo and images used under license from Shutterstock.com',
   topBar: {
     feedback: 'feedback',
     info: {
