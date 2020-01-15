@@ -22,6 +22,10 @@ const useStyles = makeStyles(theme => ({
       backgroundSize: 'cover',
       backgroundPosition: 'center'
     },
+    [theme.breakpoints.up('lg')]: {
+      height: 180,
+      backgroundSize: 'cover'
+    },
     '&:hover': {
       background: `linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8) ), url(${props.perspective.frontPageImage})`
     }
@@ -35,7 +39,7 @@ const MainCard = props => {
     <Grid
       className={classes.link}
       key={perspective.id}
-      item xs={12} sm={4} md
+      item xs={12} sm={4} md lg={4}
       component={Link}
       to={`/${perspective.id}/faceted-search`}
     >

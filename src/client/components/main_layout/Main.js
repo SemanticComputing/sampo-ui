@@ -15,11 +15,6 @@ const styles = theme => ({
       overflow: 'auto'
     }
   },
-  heroContent: {
-    maxWidth: 1100,
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(1)
-  },
   layout: {
     width: 'auto',
     marginLeft: theme.spacing(3),
@@ -29,6 +24,10 @@ const styles = theme => ({
       marginLeft: 'auto',
       marginRight: 'auto'
     }
+  },
+  heroContent: {
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(1)
   },
   licenceText: {
     marginTop: theme.spacing(0.5),
@@ -52,13 +51,9 @@ const Main = props => {
             {intl.get('selectPerspective')}
           </Typography>
         </div>
-      </div>
-      <div className={classes.layout}>
         <Grid container spacing={1}>
           {props.perspectives.map(perspective => <MainCard key={perspective.id} perspective={perspective} />)}
         </Grid>
-      </div>
-      <div className={classes.layout}>
         <Typography className={classes.licenceText}>{intl.getHTML('mainPageImageLicence')}</Typography>
       </div>
     </div>
