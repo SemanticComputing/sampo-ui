@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
       backgroundSize: 'cover',
       backgroundPosition: 'center'
     },
-    [theme.breakpoints.up('lg')]: {
+    [theme.breakpoints.up('xl')]: {
       height: 180,
       backgroundSize: 'cover'
     },
@@ -34,17 +34,17 @@ const useStyles = makeStyles(theme => ({
 
 const MainCard = props => {
   const classes = useStyles(props)
-  const { perspective } = props
+  const { perspective, cardHeadingVariant } = props
   return (
     <Grid
       className={classes.link}
       key={perspective.id}
-      item xs={12} sm={4} md lg={4}
+      item xs={12} sm={4} md lg xl={4}
       component={Link}
       to={`/${perspective.id}/faceted-search`}
     >
       <Paper className={classes.perspectiveCard}>
-        <Typography gutterBottom variant='h5' component='h2'>
+        <Typography gutterBottom variant={cardHeadingVariant} component='h2'>
           {intl.get(`perspectives.${perspective.id}.label`)}
         </Typography>
         <Typography component='p'>
@@ -57,7 +57,8 @@ const MainCard = props => {
 }
 
 MainCard.propTypes = {
-  perspective: PropTypes.object.isRequired
+  perspective: PropTypes.object.isRequired,
+  cardHeadingVariant: PropTypes.string.isRequired
 }
 
 export default MainCard

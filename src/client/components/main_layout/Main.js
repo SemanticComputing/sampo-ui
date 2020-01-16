@@ -4,6 +4,7 @@ import intl from 'react-intl-universal'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import MainCard from './MainCard'
 
 const styles = theme => ({
@@ -32,11 +33,70 @@ const styles = theme => ({
   licenceText: {
     marginTop: theme.spacing(0.5),
     fontSize: '0.7em'
+  },
+  lowerRow: {
+    marginTop: theme.spacing(1)
+  },
+  licenceTextContainer: {
+    marginTop: theme.spacing(1),
+    display: 'flex',
+    justifyContent: 'center'
   }
 })
 
 const Main = props => {
-  const { classes } = props
+  const { classes, perspectives } = props
+  const xlScreen = useMediaQuery(theme => theme.breakpoints.up('xl'))
+
+  const gridForLargeScreen = () => {
+    const upperRowItems = []
+    const lowerRowItems = []
+    for (let i = 0; i < 3; i++) {
+      const perspective = perspectives[i]
+      upperRowItems.push(
+        <MainCard
+          key={perspective.id}
+          perspective={perspective}
+          cardHeadingVariant='h4'
+        />)
+    }
+    for (let i = 3; i < 5; i++) {
+      const perspective = perspectives[i]
+      lowerRowItems.push(
+        <MainCard
+          key={perspective.id}
+          perspective={perspective}
+          cardHeadingVariant='h4'
+        />)
+    }
+    return (
+      <>
+        <Grid container spacing={3}>
+          {upperRowItems}
+        </Grid>
+        <Grid className={classes.lowerRow} container justify='center' spacing={3}>
+          {lowerRowItems}
+        </Grid>
+        <div className={classes.licenceTextContainer}>
+          <Typography className={classes.licenceText}>{intl.getHTML('mainPageImageLicence')}</Typography>
+        </div>
+      </>
+    )
+  }
+
+  const basicGrid = () =>
+    <>
+      <Grid container spacing={1}>
+        {props.perspectives.map(perspective =>
+          <MainCard
+            key={perspective.id}
+            perspective={perspective}
+            cardHeadingVariant='h5'
+          />)}
+      </Grid>
+      <Typography className={classes.licenceText}>{intl.getHTML('mainPageImageLicence')}</Typography>
+    </>
+
   return (
     <div className={classes.root}>
       <div className={classes.layout}>
@@ -51,10 +111,7 @@ const Main = props => {
             {intl.get('selectPerspective')}
           </Typography>
         </div>
-        <Grid container spacing={1}>
-          {props.perspectives.map(perspective => <MainCard key={perspective.id} perspective={perspective} />)}
-        </Grid>
-        <Typography className={classes.licenceText}>{intl.getHTML('mainPageImageLicence')}</Typography>
+        {xlScreen ? gridForLargeScreen() : basicGrid()}
       </div>
     </div>
   )
