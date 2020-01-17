@@ -47,6 +47,7 @@ const styles = theme => ({
 const Main = props => {
   const { classes, perspectives } = props
   const xsScreen = useMediaQuery(theme => theme.breakpoints.down('xs'))
+  const smScreen = useMediaQuery(theme => theme.breakpoints.between('sm', 'md'))
   const xlScreen = useMediaQuery(theme => theme.breakpoints.up('xl'))
 
   const gridForLargeScreen = () => {
@@ -78,16 +79,13 @@ const Main = props => {
         <Grid className={classes.lowerRow} container justify='center' spacing={3}>
           {lowerRowItems}
         </Grid>
-        <div className={classes.licenceTextContainer}>
-          <Typography className={classes.licenceText}>{intl.getHTML('mainPageImageLicence')}</Typography>
-        </div>
       </>
     )
   }
 
   const basicGrid = () =>
     <>
-      <Grid container spacing={1} justify={xsScreen ? 'center' : 'flex-start'}>
+      <Grid container spacing={smScreen ? 2 : 1} justify={xsScreen || smScreen ? 'center' : 'flex-start'}>
         {props.perspectives.map(perspective =>
           <MainCard
             key={perspective.id}
@@ -95,7 +93,6 @@ const Main = props => {
             cardHeadingVariant='h5'
           />)}
       </Grid>
-      <Typography className={classes.licenceText}>{intl.getHTML('mainPageImageLicence')}</Typography>
     </>
 
   return (
@@ -113,6 +110,9 @@ const Main = props => {
           </Typography>
         </div>
         {xlScreen ? gridForLargeScreen() : basicGrid()}
+        <div className={classes.licenceTextContainer}>
+          <Typography className={classes.licenceText}>{intl.getHTML('mainPageImageLicence')}</Typography>
+        </div>
       </div>
     </div>
   )

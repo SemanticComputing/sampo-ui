@@ -5,16 +5,20 @@ import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import intl from 'react-intl-universal'
 import { makeStyles } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
-  link: {
-    textDecoration: 'none'
+  gridItem: {
+    textDecoration: 'none',
+    [theme.breakpoints.down('xs')]: {
+      justifyContent: 'center'
+    }
   },
   perspectiveCard: props => ({
     padding: theme.spacing(1.5),
     color: '#fff',
-    background: `linear-gradient( rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45) ), url(${props.perspective.frontPageImage})`,
+    background: `linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(${props.perspective.frontPageImage})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
@@ -24,9 +28,19 @@ const useStyles = makeStyles(theme => ({
       backgroundSize: 'cover',
       backgroundPosition: 'center'
     },
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('xs')]: {
+      width: 351 - theme.spacing(3),
       height: 180
     },
+    [theme.breakpoints.between(600, 780)]: {
+      height: 180
+    },
+    [theme.breakpoints.between(780, 960)]: {
+      height: 238
+    },
+    // [theme.breakpoints.between(801, 'md')]: {
+    //   height: 220
+    // },
     [theme.breakpoints.between('md', 'lg')]: {
       height: 100
     },
@@ -39,13 +53,16 @@ const useStyles = makeStyles(theme => ({
 const MainCard = props => {
   const classes = useStyles(props)
   const { perspective, cardHeadingVariant } = props
+  const xsScreen = useMediaQuery(theme => theme.breakpoints.down('xs'))
+  // const smScreen = useMediaQuery(theme => theme.breakpoints.between('sm', 'md'))
   return (
     <Grid
-      className={classes.link}
+      className={classes.gridItem}
       key={perspective.id}
       item xs={12} sm={6} md lg xl={4}
       component={Link}
       to={`/${perspective.id}/faceted-search`}
+      container={xsScreen}
     >
       <Paper className={classes.perspectiveCard}>
         <Typography gutterBottom variant={cardHeadingVariant} component='h2'>
