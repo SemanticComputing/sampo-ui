@@ -70,11 +70,11 @@ const styles = theme => ({
   },
   mainContainer: {
     height: 'auto',
-    width: '100%',
+    // width: '100%',
     [theme.breakpoints.up('md')]: {
       height: 'calc(100% - 80px)' // 100% - app bar - padding
     },
-    padding: theme.spacing(1),
+    // padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       marginTop: 56 // app bar
     },

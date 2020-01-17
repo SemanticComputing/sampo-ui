@@ -46,6 +46,7 @@ const styles = theme => ({
 
 const Main = props => {
   const { classes, perspectives } = props
+  const xsScreen = useMediaQuery(theme => theme.breakpoints.down('xs'))
   const xlScreen = useMediaQuery(theme => theme.breakpoints.up('xl'))
 
   const gridForLargeScreen = () => {
@@ -86,7 +87,7 @@ const Main = props => {
 
   const basicGrid = () =>
     <>
-      <Grid container spacing={1}>
+      <Grid container spacing={1} justify={xsScreen ? 'center' : 'flex-start'}>
         {props.perspectives.map(perspective =>
           <MainCard
             key={perspective.id}

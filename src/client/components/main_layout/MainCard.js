@@ -12,22 +12,26 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none'
   },
   perspectiveCard: props => ({
-    height: 100,
     padding: theme.spacing(1.5),
     color: '#fff',
     background: `linear-gradient( rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45) ), url(${props.perspective.frontPageImage})`,
-    backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
-    [theme.breakpoints.down('md')]: {
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    '&:hover': {
+      background: `linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8) ), url(${props.perspective.frontPageImage})`,
+      backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
       backgroundPosition: 'center'
     },
-    [theme.breakpoints.up('xl')]: {
-      height: 180,
-      backgroundSize: 'cover'
+    [theme.breakpoints.down('md')]: {
+      height: 180
     },
-    '&:hover': {
-      background: `linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8) ), url(${props.perspective.frontPageImage})`
+    [theme.breakpoints.between('md', 'lg')]: {
+      height: 100
+    },
+    [theme.breakpoints.up('xl')]: {
+      height: 180
     }
   })
 }))
@@ -39,7 +43,7 @@ const MainCard = props => {
     <Grid
       className={classes.link}
       key={perspective.id}
-      item xs={12} sm={4} md lg xl={4}
+      item xs={12} sm={6} md lg xl={4}
       component={Link}
       to={`/${perspective.id}/faceted-search`}
     >
@@ -52,7 +56,6 @@ const MainCard = props => {
         </Typography>
       </Paper>
     </Grid>
-
   )
 }
 
