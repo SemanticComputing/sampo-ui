@@ -2,7 +2,9 @@ export default {
   languageLabel: 'English',
   appTitle: {
     short: 'mmm',
-    long: 'Mapping Manuscript Migrations'
+    long: 'apping Manuscript Migrations',
+    subheading: `Navigating the network of connections between people, institutions and
+      places within European medieval and renaissance manuscripts`
   },
   appDescription: `
     Mapping Manuscript Migrations (MMM) is a semantic portal for finding and studying pre-modern manuscripts and
@@ -10,7 +12,7 @@ export default {
     and IRHT.
   `,
   selectPerspective: 'Select a perspective to search and browse the MMM data:',
-  mainPageImageLicence: 'Logo and images used under license from Shutterstock.com',
+  mainPageImageLicence: 'Images used under license from Shutterstock.com',
   topBar: {
     feedback: 'feedback',
     info: {

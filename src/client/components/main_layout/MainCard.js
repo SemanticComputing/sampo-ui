@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   perspectiveCard: props => ({
     padding: theme.spacing(1.5),
     color: '#fff',
-    background: `linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(${props.perspective.frontPageImage})`,
+    background: `linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url(${props.perspective.frontPageImage})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
@@ -38,9 +38,6 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.between(780, 960)]: {
       height: 238
     },
-    // [theme.breakpoints.between(801, 'md')]: {
-    //   height: 220
-    // },
     [theme.breakpoints.between('md', 'lg')]: {
       height: 100
     },

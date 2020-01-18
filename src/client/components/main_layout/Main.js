@@ -3,17 +3,62 @@ import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import MainCard from './MainCard'
+import bannerImage from '../../img/mmm-banner.jpg'
+import mmmLogo from '../../img/mmm-logo-94x90.png'
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     marginBottom: theme.spacing(1),
     [theme.breakpoints.up('md')]: {
       height: 'calc(100% - 150px)',
       overflow: 'auto'
+    }
+  },
+  banner: {
+    background: `linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(${bannerImage})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    height: 220,
+    [theme.breakpoints.up('xl')]: {
+      height: 300
+    },
+    width: '100%',
+    boxShadow: '0 -15px 15px 0px #bdbdbd inset',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  bannerContent: {
+    display: 'inline-block',
+    color: '#fff'
+  },
+  firstLetter: {
+    [theme.breakpoints.down('xs')]: {
+      height: 20
+    },
+    [theme.breakpoints.between('xs', 'md')]: {
+      height: 40
+    },
+    [theme.breakpoints.between('md', 'xl')]: {
+      height: 50,
+      marginRight: 2
+    },
+    [theme.breakpoints.up('xl')]: {
+      height: 88,
+      marginRight: 4
+    }
+  },
+  bannerSubheading: {
+    marginTop: theme.spacing(1.5),
+    display: 'flex',
+    '& div': {
+      flexGrow: 1,
+      width: 0
     }
   },
   layout: {
@@ -42,13 +87,34 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center'
   }
-})
+}))
 
 const Main = props => {
-  const { classes, perspectives } = props
+  const { perspectives } = props
+  const classes = useStyles(props)
   const xsScreen = useMediaQuery(theme => theme.breakpoints.down('xs'))
   const smScreen = useMediaQuery(theme => theme.breakpoints.between('sm', 'md'))
+  const mdScreen = useMediaQuery(theme => theme.breakpoints.between('md', 'lg'))
+  const lgScreen = useMediaQuery(theme => theme.breakpoints.between('lg', 'xl'))
   const xlScreen = useMediaQuery(theme => theme.breakpoints.up('xl'))
+  let headingVariant = 'h5'
+  let subheadingVariant = 'body1'
+  if (smScreen) {
+    headingVariant = 'h4'
+    subheadingVariant = 'h6'
+  }
+  if (mdScreen) {
+    headingVariant = 'h3'
+    subheadingVariant = 'h6'
+  }
+  if (lgScreen) {
+    headingVariant = 'h2'
+    subheadingVariant = 'h5'
+  }
+  if (xlScreen) {
+    headingVariant = 'h1'
+    subheadingVariant = 'h4'
+  }
 
   const gridForLargeScreen = () => {
     const upperRowItems = []
@@ -97,11 +163,27 @@ const Main = props => {
 
   return (
     <div className={classes.root}>
+      <div className={classes.banner}>
+        <div className={classes.bannerContent}>
+          <div className={classes.bannerHeading}>
+            <img className={classes.firstLetter} src={mmmLogo} />
+            <Typography component='span' variant={headingVariant} align='center'>
+              {intl.get('appTitle.long')}
+            </Typography>
+          </div>
+          <div className={classes.bannerSubheading}>
+            <div>
+              <Typography component='h2' variant={subheadingVariant} align='center'>
+                {intl.get('appTitle.subheading')}
+              </Typography>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
       <div className={classes.layout}>
         <div className={classes.heroContent}>
-          <Typography component='h1' variant='h3' align='center' color='textPrimary' gutterBottom>
-            {intl.get('appTitle.long')}
-          </Typography>
           <Typography variant='h6' align='center' color='textPrimary' paragraph>
             {intl.get('appDescription')}
           </Typography>
@@ -119,8 +201,7 @@ const Main = props => {
 }
 
 Main.propTypes = {
-  classes: PropTypes.object.isRequired,
   perspectives: PropTypes.array.isRequired
 }
 
-export default withStyles(styles)(Main)
+export default Main
