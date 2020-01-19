@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import { withRouter, Route } from 'react-router-dom'
+import classNames from 'classnames'
 import compose from 'recompose/compose'
 import Grid from '@material-ui/core/Grid'
 import TopBar from '../components/main_layout/TopBar'
@@ -70,17 +71,19 @@ const styles = theme => ({
   },
   mainContainer: {
     height: 'auto',
-    // width: '100%',
     [theme.breakpoints.up('md')]: {
       height: 'calc(100% - 80px)' // 100% - app bar - padding
     },
-    // padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       marginTop: 56 // app bar
     },
     [theme.breakpoints.up('sm')]: {
       marginTop: 64 // app bar
     }
+  },
+  textPageContainer: {
+    width: '100%',
+    padding: theme.spacing(1)
   },
   perspectiveContainer: {
     height: 'auto',
@@ -427,21 +430,21 @@ const SemanticPortal = props => {
           <Route
             path='/feedback'
             render={() =>
-              <div className={classes.mainContainer}>
+              <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
                 <TextPage>{intl.getHTML('feedback')}</TextPage>
               </div>}
           />
           <Route
             path='/about'
             render={() =>
-              <div className={classes.mainContainer}>
+              <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
                 <TextPage>{intl.getHTML('aboutTheProject')}</TextPage>
               </div>}
           />
           <Route
             path='/instructions'
             render={() =>
-              <div className={classes.mainContainer}>
+              <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
                 <TextPage>{intl.getHTML('instructions')}</TextPage>
               </div>}
           />

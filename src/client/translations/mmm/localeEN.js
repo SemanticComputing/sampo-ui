@@ -8,8 +8,10 @@ export default {
   },
   appDescription: `
     Mapping Manuscript Migrations (MMM) is a semantic portal for finding and studying pre-modern manuscripts and
-    their movements, based on linked collections of Schoenberg Institute, Bodleian Library,
-    and IRHT.
+    their movements, based on linked collections of 
+    <a href='https://sdbm.library.upenn.edu' target='_blank' rel='noopener noreferrer'>Schoenberg Institute,</a>
+    <a href='https://medieval.bodleian.ox.ac.uk' target='_blank' rel='noopener noreferrer'>Bodleian Library</a>, and
+    <a href='http://bibale.irht.cnrs.fr' target='_blank' rel='noopener noreferrer'>Institut de recherche et d'histoire des textes</a>.
   `,
   selectPerspective: 'Select a perspective to search and browse the MMM data:',
   mainPageImageLicence: 'Images used under license from Shutterstock.com',
@@ -69,7 +71,7 @@ export default {
     manuscripts: {
       label: 'Manuscripts',
       facetResultsType: 'manuscripts',
-      shortDescription: 'Physical manuscript objects.',
+      shortDescription: 'Physical manuscript objects',
       longDescription: `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
           Use this perspective to access data related to physical manuscript objects.
@@ -302,7 +304,7 @@ export default {
     works: {
       label: 'Works',
       facetResultsType: 'works',
-      shortDescription: 'Intellectual content of manuscripts.',
+      shortDescription: 'Intellectual content of manuscripts',
       longDescription: `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
           Use this perspective to access data related to Works. The MMM data model follows
@@ -412,7 +414,7 @@ export default {
     events: {
       label: 'Events',
       facetResultsType: 'events',
-      shortDescription: 'Events related to manuscripts.',
+      shortDescription: 'Events related to manuscripts',
       longDescription: `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
           Use this perspective to access data related to events associated with the
@@ -519,7 +521,7 @@ export default {
     actors: {
       label: 'Actors',
       facetResultsType: 'actors',
-      shortDescription: 'People and institutions related to manuscripts.',
+      shortDescription: 'People and institutions related to manuscripts',
       longDescription: `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
           This perspective provides access to data related to the persons and institutions
@@ -627,7 +629,7 @@ export default {
     places: {
       label: 'Places',
       facetResultsType: 'places',
-      shortDescription: 'Places related to manuscripts.',
+      shortDescription: 'Places related to manuscripts',
       longDescription: `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
           Use this perspective to access data related to places named in the source datasets

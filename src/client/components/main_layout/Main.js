@@ -99,21 +99,26 @@ const Main = props => {
   const xlScreen = useMediaQuery(theme => theme.breakpoints.up('xl'))
   let headingVariant = 'h5'
   let subheadingVariant = 'body1'
+  let descriptionVariant = 'body1'
   if (smScreen) {
     headingVariant = 'h4'
     subheadingVariant = 'h6'
+    descriptionVariant = 'h6'
   }
   if (mdScreen) {
     headingVariant = 'h3'
     subheadingVariant = 'h6'
+    descriptionVariant = 'h6'
   }
   if (lgScreen) {
     headingVariant = 'h2'
     subheadingVariant = 'h5'
+    descriptionVariant = 'h6'
   }
   if (xlScreen) {
     headingVariant = 'h1'
     subheadingVariant = 'h4'
+    descriptionVariant = 'h6'
   }
 
   const gridForLargeScreen = () => {
@@ -184,10 +189,10 @@ const Main = props => {
       </div>
       <div className={classes.layout}>
         <div className={classes.heroContent}>
-          <Typography variant='h6' align='center' color='textPrimary' paragraph>
-            {intl.get('appDescription')}
+          <Typography variant={descriptionVariant} color='textPrimary' paragraph>
+            {intl.getHTML('appDescription')}
           </Typography>
-          <Typography variant='h6' align='center' color='textPrimary' paragraph>
+          <Typography variant={descriptionVariant} align='center' color='textPrimary' paragraph>
             {intl.get('selectPerspective')}
           </Typography>
         </div>
