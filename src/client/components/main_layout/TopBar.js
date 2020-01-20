@@ -17,6 +17,7 @@ import TopBarInfoButton from './TopBarInfoButton'
 import Divider from '@material-ui/core/Divider'
 import { has } from 'lodash'
 import mmmLogo from '../../img/mmm-logo-52x50.png'
+import secoLogo from '../../img/seco-logo-48x50.png'
 
 const styles = theme => ({
   root: {
@@ -26,7 +27,8 @@ const styles = theme => ({
     flexGrow: 1
   },
   toolbar: {
-    paddingLeft: theme.spacing(1.5)
+    paddingLeft: theme.spacing(1.5),
+    paddingRight: theme.spacing(1.5)
   },
   sectionDesktop: {
     display: 'none',
@@ -54,6 +56,12 @@ const styles = theme => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     borderLeft: '2px solid white'
+  },
+  secoLogo: {
+    marginLeft: theme.spacing(1),
+    [theme.breakpoints.down('md')]: {
+      display: 'none'
+    }
   }
 })
 
@@ -197,16 +205,13 @@ class TopBar extends React.Component {
         <Typography />
         <AppBar position='absolute'>
           <Toolbar className={classes.toolbar}>
-            <Button
-              className={classes.appBarButton}
-              component={this.AdapterLink}
-              to='/'
-            >
+            <Button component={this.AdapterLink} to='/'>
               <img src={mmmLogo} />
             </Button>
             <TopBarSearchField
               fetchResultsClientSide={this.props.fetchResultsClientSide}
               clearResults={this.props.clearResults}
+              xsScreen={this.props.xsScreen}
             />
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
@@ -231,12 +236,21 @@ class TopBar extends React.Component {
               >
                 {intl.get('topBar.instructions')}
               </Button>
+
               {/* <TopBarLanguageButton
                 currentLocale={currentLocale}
                 availableLocales={availableLocales}
                 loadLocales={this.props.loadLocales}
               /> */}
             </div>
+            <a
+              className={classes.secoLogo}
+              href='https://seco.cs.aalto.fi/projects/mmm'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <Button><img src={secoLogo} /></Button>
+            </a>
             <div className={classes.sectionMobile}>
               <IconButton aria-haspopup='true' onClick={this.handleMobileMenuOpen} color='inherit'>
                 <MoreIcon />
@@ -257,7 +271,8 @@ TopBar.propTypes = {
   loadLocales: PropTypes.func.isRequired,
   perspectives: PropTypes.array.isRequired,
   currentLocale: PropTypes.string.isRequired,
-  availableLocales: PropTypes.array.isRequired
+  availableLocales: PropTypes.array.isRequired,
+  xsScreen: PropTypes.bool.isRequired
 }
 
 export default withStyles(styles)(TopBar)

@@ -24,6 +24,7 @@ import TextPage from '../components/main_layout/TextPage'
 import { perspectiveConfig } from '../configs/mmm/PerspectiveConfig'
 import { perspectiveConfigOnlyInfoPages } from '../configs/mmm/PerspectiveConfigOnlyInfoPages'
 import InfoHeader from '../components/main_layout/InfoHeader'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { has } from 'lodash'
 import {
   fetchResultCount,
@@ -170,6 +171,7 @@ const styles = theme => ({
 
 const SemanticPortal = props => {
   const { classes, /* browser */ error } = props
+  const xsScreen = useMediaQuery(theme => theme.breakpoints.down('xs'))
 
   const renderPerspective = (perspective, routeProps) => {
     let perspectiveElement = null
@@ -279,6 +281,7 @@ const SemanticPortal = props => {
             currentLocale={props.options.currentLocale}
             availableLocales={props.options.availableLocales}
             loadLocales={props.loadLocales}
+            xsScreen={xsScreen}
           />
           <Route
             exact path='/'

@@ -3,7 +3,7 @@ export default {
   appTitle: {
     short: 'mmm',
     long: 'apping Manuscript Migrations',
-    subheading: `Navigating the network of connections between people, institutions and
+    subheading: `Navigating the network of connections between people, institutions, and
       places within European medieval and renaissance manuscripts`
   },
   appDescription: `
@@ -24,6 +24,7 @@ export default {
       aboutTheProject: 'About the project'
     },
     searchBarPlaceHolder: 'Search all MMM content',
+    searchBarPlaceHolderShort: 'Search',
     instructions: 'instructions'
   },
   facetBar: {

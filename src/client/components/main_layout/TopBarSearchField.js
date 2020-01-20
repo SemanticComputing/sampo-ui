@@ -91,14 +91,15 @@ class TopBarSearchField extends React.Component {
   }
 
   render () {
-    const { classes } = this.props
+    const { classes, xsScreen } = this.props
+    const placeholder = xsScreen ? intl.get('topBar.searchBarPlaceHolderShort') : intl.get('topBar.searchBarPlaceHolder')
     return (
       <div className={classes.search}>
         <div className={classes.searchIcon}>
           <SearchIcon />
         </div>
         <InputBase
-          placeholder={intl.get('topBar.searchBarPlaceHolder')}
+          placeholder={placeholder}
           classes={{
             root: classes.inputRoot,
             input: classes.inputInput
@@ -114,7 +115,8 @@ class TopBarSearchField extends React.Component {
 TopBarSearchField.propTypes = {
   classes: PropTypes.object.isRequired,
   fetchResultsClientSide: PropTypes.func.isRequired,
-  clearResults: PropTypes.func.isRequired
+  clearResults: PropTypes.func.isRequired,
+  xsScreen: PropTypes.bool.isRequired
 }
 
 export default withStyles(styles)(TopBarSearchField)
