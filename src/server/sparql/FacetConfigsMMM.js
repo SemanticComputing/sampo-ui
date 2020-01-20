@@ -331,7 +331,11 @@ export const facetConfigs = {
     },
     type: {
       predicate: 'a',
-      facetValueFilter: '',
+      facetValueFilter: `
+        FILTER(?id NOT IN (
+          <http://ldf.fi/mmm/schema/PlaceNationality>
+        ))  
+      `,
       type: 'list',
       labelPath: 'a/(skos:prefLabel|rdfs:label)'
     },
