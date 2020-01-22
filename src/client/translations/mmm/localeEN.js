@@ -4,7 +4,7 @@ export default {
     short: 'mmm',
     long: 'apping Manuscript Migrations',
     subheading: `Navigating the network of connections between people, institutions, and
-      places within European medieval and renaissance manuscripts`
+      places within European medieval and Renaissance manuscripts`
   },
   appDescription: `
     Mapping Manuscript Migrations (MMM) is a semantic portal for finding and studying pre-modern manuscripts and
