@@ -174,7 +174,7 @@ class TopBar extends React.Component {
         component={this.AdapterLink}
         to='/about'
       >
-        {intl.get('topBar.info.aboutTheProject').toUpperCase()}
+        {intl.get('topBar.info.aboutThePortal').toUpperCase()}
       </MenuItem>
       <a
         className={this.props.classes.link}

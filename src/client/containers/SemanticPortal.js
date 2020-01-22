@@ -441,7 +441,7 @@ const SemanticPortal = props => {
             path='/about'
             render={() =>
               <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
-                <TextPage>{intl.getHTML('aboutTheProject')}</TextPage>
+                <TextPage>{intl.getHTML('aboutThePortal')}</TextPage>
               </div>}
           />
           <Route
