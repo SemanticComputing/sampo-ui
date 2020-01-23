@@ -63,7 +63,7 @@
     "leaflet.markercluster": "^1.4.1",
     "lodash": "^4.17.15",
     "material-table": "^1.39.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "react": "^16.8.6",
     "react-compound-slider": "^1.2.2",
     "react-csv": "^1.0.18",
