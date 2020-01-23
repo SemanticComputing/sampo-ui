@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import { withRouter, Route } from 'react-router-dom'
+import classNames from 'classnames'
 import compose from 'recompose/compose'
 import Grid from '@material-ui/core/Grid'
 import TopBar from '../components/main_layout/TopBar'
@@ -23,6 +24,7 @@ import TextPage from '../components/main_layout/TextPage'
 import { perspectiveConfig } from '../configs/mmm/PerspectiveConfig'
 import { perspectiveConfigOnlyInfoPages } from '../configs/mmm/PerspectiveConfigOnlyInfoPages'
 import InfoHeader from '../components/main_layout/InfoHeader'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { has } from 'lodash'
 import {
   fetchResultCount,
@@ -70,17 +72,19 @@ const styles = theme => ({
   },
   mainContainer: {
     height: 'auto',
-    width: '100%',
     [theme.breakpoints.up('md')]: {
       height: 'calc(100% - 80px)' // 100% - app bar - padding
     },
-    padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       marginTop: 56 // app bar
     },
     [theme.breakpoints.up('sm')]: {
       marginTop: 64 // app bar
     }
+  },
+  textPageContainer: {
+    width: '100%',
+    padding: theme.spacing(1)
   },
   perspectiveContainer: {
     height: 'auto',
@@ -167,6 +171,7 @@ const styles = theme => ({
 
 const SemanticPortal = props => {
   const { classes, /* browser */ error } = props
+  const xsScreen = useMediaQuery(theme => theme.breakpoints.down('xs'))
 
   const renderPerspective = (perspective, routeProps) => {
     let perspectiveElement = null
@@ -276,6 +281,7 @@ const SemanticPortal = props => {
             currentLocale={props.options.currentLocale}
             availableLocales={props.options.availableLocales}
             loadLocales={props.loadLocales}
+            xsScreen={xsScreen}
           />
           <Route
             exact path='/'
@@ -427,21 +433,21 @@ const SemanticPortal = props => {
           <Route
             path='/feedback'
             render={() =>
-              <div className={classes.mainContainer}>
+              <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
                 <TextPage>{intl.getHTML('feedback')}</TextPage>
               </div>}
           />
           <Route
             path='/about'
             render={() =>
-              <div className={classes.mainContainer}>
-                <TextPage>{intl.getHTML('aboutTheProject')}</TextPage>
+              <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
+                <TextPage>{intl.getHTML('aboutThePortal')}</TextPage>
               </div>}
           />
           <Route
             path='/instructions'
             render={() =>
-              <div className={classes.mainContainer}>
+              <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
                 <TextPage>{intl.getHTML('instructions')}</TextPage>
               </div>}
           />

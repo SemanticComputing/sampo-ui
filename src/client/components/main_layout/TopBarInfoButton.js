@@ -66,7 +66,7 @@ class TopBarInfoButton extends React.Component {
             to='/about'
             onClick={this.handleInfoMenuClose}
           >
-            {intl.get('topBar.info.aboutTheProject')}
+            {intl.get('topBar.info.aboutThePortal')}
           </MenuItem>
           <a
             className={classes.link}

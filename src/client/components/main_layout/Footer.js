@@ -8,7 +8,7 @@ import oxfordLogo2 from '../../img/logos/partners/Long-Logo-RGB.jpg'
 import pennLogo from '../../img/logos/partners/PL SIMS Logo_small.png'
 import cnrsLogo from '../../img/logos/partners/logo_cnrs_irht2.jpg'
 import aaltoLogo from '../../img/logos/partners/Aalto_SCI_EN_13_BLACK_2_cropped.png'
-import secoLogo from '../../img/logos/partners/13_9_04_logo_cropped_small.png'
+// import secoLogo from '../../img/logos/partners/13_9_04_logo_cropped_small.png'
 import tapLogo from '../../img/logos/funders/cropped-logo_tap_0_.png'
 import didLogo from '../../img/logos/funders/did_logo.png'
 import imlsLogo from '../../img/logos/funders/imls_logo_2c_cropped.jpg'
@@ -60,39 +60,61 @@ const Footer = props => {
       <Grid container className={classes.layout}>
         <Grid container spacing={3} item xs={12}>
           <Grid item xs className={classes.logoContainer}>
-            <img className={classes.logo} src={oxfordLogo} alt='logo' />
+            <a href='http://www.ox.ac.uk' target='_blank' rel='noopener noreferrer'>
+              <img className={classes.logo} src={oxfordLogo} alt='logo' />
+            </a>
           </Grid>
           <Grid item xs className={classes.logoContainer}>
-            <img className={classes.logo} src={oxfordLogo2} alt='logo' />
+            <a href='http://www.oerc.ox.ac.uk' target='_blank' rel='noopener noreferrer'>
+              <img className={classes.logo} src={oxfordLogo2} alt='logo' />
+            </a>
           </Grid>
           <Grid item xs className={classes.logoContainer}>
-            <img className={classes.logo} src={pennLogo} alt='logo' />
+            <a href='https://schoenberginstitute.org' target='_blank' rel='noopener noreferrer'>
+              <img className={classes.logo} src={pennLogo} alt='logo' />
+            </a>
           </Grid>
           <Grid item xs className={classes.logoContainer}>
-            <img className={classes.logo} src={cnrsLogo} alt='logo' />
+            <a href='https://www.irht.cnrs.fr/?q=en' target='_blank' rel='noopener noreferrer'>
+              <img className={classes.logo} src={cnrsLogo} alt='logo' />
+            </a>
           </Grid>
+          {/* <Grid item xs className={classes.logoContainer}>
+            <a href='https://seco.cs.aalto.fi/projects/mmm' target='_blank' rel='noopener noreferrer'>
+              <img className={classes.logo} src={secoLogo} alt='logo' />
+            </a>
+          </Grid> */}
           <Grid item xs className={classes.logoContainer}>
-            <img className={classes.logo} src={secoLogo} alt='logo' />
-          </Grid>
-          <Grid item xs className={classes.logoContainer}>
-            <img className={classes.aaltoLogo} src={aaltoLogo} alt='logo' />
+            <a href='https://www.aalto.fi/en/school-of-science' target='_blank' rel='noopener noreferrer'>
+              <img className={classes.aaltoLogo} src={aaltoLogo} alt='logo' />
+            </a>
           </Grid>
         </Grid>
         <Grid container spacing={3} item xs={12}>
           <Grid item xs className={classes.logoContainer}>
-            <img className={classes.logo} src={tapLogo} alt='logo' />
+            <a href='https://www.transatlanticplatform.com' target='_blank' rel='noopener noreferrer'>
+              <img className={classes.logo} src={tapLogo} alt='logo' />
+            </a>
           </Grid>
           <Grid item xs className={classes.logoContainer}>
-            <img className={classes.logo} src={didLogo} alt='logo' />
+            <a href='https://diggingintodata.org/awards/2016/project/mapping-manuscript-migrations-digging-data-history-and-provenance-pre-modern' target='_blank' rel='noopener noreferrer'>
+              <img className={classes.logo} src={didLogo} alt='logo' />
+            </a>
           </Grid>
           <Grid item xs className={classes.logoContainer}>
-            <img className={classes.logo} src={imlsLogo} alt='logo' />
+            <a href='https://www.imls.gov' target='_blank' rel='noopener noreferrer'>
+              <img className={classes.logo} src={imlsLogo} alt='logo' />
+            </a>
           </Grid>
           <Grid item xs className={classes.logoContainer}>
-            <img className={classes.logo} src={anrLogo} alt='logo' />
+            <a href='https://anr.fr/en' target='_blank' rel='noopener noreferrer'>
+              <img className={classes.logo} src={anrLogo} alt='logo' />
+            </a>
           </Grid>
           <Grid item xs className={classes.logoContainer}>
-            <img className={classes.logo} src={akaLogo} alt='logo' />
+            <a href='https://www.aka.fi/en' target='_blank' rel='noopener noreferrer'>
+              <img className={classes.logo} src={akaLogo} alt='logo' />
+            </a>
           </Grid>
         </Grid>
       </Grid>

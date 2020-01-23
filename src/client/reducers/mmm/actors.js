@@ -116,7 +116,8 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 250
+      minWidth: 250,
+      disableSort: true
     },
     {
       id: 'role',
@@ -125,7 +126,8 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 250
+      minWidth: 250,
+      disableSort: true
     },
     {
       id: 'source',

@@ -1,19 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import classNames from 'classnames'
-import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
-import { Link } from 'react-router-dom'
-import { has } from 'lodash'
-import defaultThumbImage from '../../img/thumb.png'
+import { makeStyles } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import MainCard from './MainCard'
+import bannerImage from '../../img/mmm-banner.jpg'
+import mmmLogo from '../../img/mmm-logo-94x90.png'
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     marginBottom: theme.spacing(1),
@@ -22,16 +18,48 @@ const styles = theme => ({
       overflow: 'auto'
     }
   },
-  icon: {
-    marginRight: theme.spacing(2)
+  banner: {
+    background: `linear-gradient( rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45) ), url(${bannerImage})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    height: 220,
+    [theme.breakpoints.up('xl')]: {
+      height: 300
+    },
+    width: '100%',
+    boxShadow: '0 -15px 15px 0px #bdbdbd inset',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  link: {
-    textDecoration: 'none'
+  bannerContent: {
+    display: 'inline-block',
+    color: '#fff'
   },
-  heroContent: {
-    maxWidth: 1100,
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(1)
+  firstLetter: {
+    [theme.breakpoints.down('xs')]: {
+      height: 20
+    },
+    [theme.breakpoints.between('xs', 'md')]: {
+      height: 40
+    },
+    [theme.breakpoints.between('md', 'xl')]: {
+      height: 50,
+      marginRight: 2
+    },
+    [theme.breakpoints.up('xl')]: {
+      height: 88,
+      marginRight: 4
+    }
+  },
+  bannerSubheading: {
+    marginTop: theme.spacing(1.5),
+    display: 'flex',
+    '& div': {
+      flexGrow: 1,
+      width: 0
+    }
   },
   layout: {
     width: 'auto',
@@ -43,97 +71,142 @@ const styles = theme => ({
       marginRight: 'auto'
     }
   },
-  media: {
-    height: 100,
-    [theme.breakpoints.down('md')]: {
-      height: 60
-    }
+  heroContent: {
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(1)
   },
-  cardContent: {
-    height: 85
+  licenceText: {
+    marginTop: theme.spacing(0.5),
+    fontSize: '0.7em'
+  },
+  lowerRow: {
+    marginTop: theme.spacing(1)
+  },
+  licenceTextContainer: {
+    marginTop: theme.spacing(1),
+    display: 'flex',
+    justifyContent: 'center'
   }
-})
+}))
 
 const Main = props => {
-  const { classes } = props
+  const { perspectives } = props
+  const classes = useStyles(props)
+  const xsScreen = useMediaQuery(theme => theme.breakpoints.down('xs'))
+  const smScreen = useMediaQuery(theme => theme.breakpoints.between('sm', 'md'))
+  const mdScreen = useMediaQuery(theme => theme.breakpoints.between('md', 'lg'))
+  const lgScreen = useMediaQuery(theme => theme.breakpoints.between('lg', 'xl'))
+  const xlScreen = useMediaQuery(theme => theme.breakpoints.up('xl'))
+  let headingVariant = 'h5'
+  let subheadingVariant = 'body1'
+  let descriptionVariant = 'body1'
+  if (smScreen) {
+    headingVariant = 'h4'
+    subheadingVariant = 'h6'
+    descriptionVariant = 'h6'
+  }
+  if (mdScreen) {
+    headingVariant = 'h3'
+    subheadingVariant = 'h6'
+    descriptionVariant = 'h6'
+  }
+  if (lgScreen) {
+    headingVariant = 'h2'
+    subheadingVariant = 'h5'
+    descriptionVariant = 'h6'
+  }
+  if (xlScreen) {
+    headingVariant = 'h1'
+    subheadingVariant = 'h4'
+    descriptionVariant = 'h6'
+  }
+
+  const gridForLargeScreen = () => {
+    const upperRowItems = []
+    const lowerRowItems = []
+    for (let i = 0; i < 3; i++) {
+      const perspective = perspectives[i]
+      upperRowItems.push(
+        <MainCard
+          key={perspective.id}
+          perspective={perspective}
+          cardHeadingVariant='h4'
+        />)
+    }
+    for (let i = 3; i < 5; i++) {
+      const perspective = perspectives[i]
+      lowerRowItems.push(
+        <MainCard
+          key={perspective.id}
+          perspective={perspective}
+          cardHeadingVariant='h4'
+        />)
+    }
+    return (
+      <>
+        <Grid container spacing={3}>
+          {upperRowItems}
+        </Grid>
+        <Grid className={classes.lowerRow} container justify='center' spacing={3}>
+          {lowerRowItems}
+        </Grid>
+      </>
+    )
+  }
+
+  const basicGrid = () =>
+    <>
+      <Grid container spacing={smScreen ? 2 : 1} justify={xsScreen || smScreen ? 'center' : 'flex-start'}>
+        {props.perspectives.map(perspective =>
+          <MainCard
+            key={perspective.id}
+            perspective={perspective}
+            cardHeadingVariant='h5'
+          />)}
+      </Grid>
+    </>
+
   return (
     <div className={classes.root}>
+      <div className={classes.banner}>
+        <div className={classes.bannerContent}>
+          <div className={classes.bannerHeading}>
+            <img className={classes.firstLetter} src={mmmLogo} />
+            <Typography component='span' variant={headingVariant} align='center'>
+              {intl.get('appTitle.long')}
+            </Typography>
+          </div>
+          <div className={classes.bannerSubheading}>
+            <div>
+              <Typography component='h2' variant={subheadingVariant} align='center'>
+                {intl.get('appTitle.subheading')}
+              </Typography>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
       <div className={classes.layout}>
         <div className={classes.heroContent}>
-          <Typography component='h1' variant='h3' align='center' color='textPrimary' gutterBottom>
-            {intl.get('appTitle.long')}
+          <Typography variant={descriptionVariant} color='textPrimary' paragraph>
+            {intl.getHTML('appDescription')}
           </Typography>
-          <Typography variant='h6' align='center' color='textSecondary' paragraph>
-            {intl.get('appDescription')}
-          </Typography>
-          <Typography variant='h6' align='center' color='textSecondary' paragraph>
+          <Typography variant={descriptionVariant} align='center' color='textPrimary' paragraph>
             {intl.get('selectPerspective')}
           </Typography>
         </div>
-      </div>
-      <div className={classNames(classes.layout, classes.cardGrid)}>
-        <Grid container spacing={5}>
-          {props.perspectives.map(perspective => {
-            return (
-              <Grid key={perspective.id} item xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
-                  {has(perspective, 'externalUrl') &&
-                    <a
-                      className={classes.link}
-                      href={perspective.externalUrl}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                    >
-                      <CardActionArea>
-                        <CardMedia
-                          className={classes.media}
-                          image={has(perspective, 'thumbImage')
-                            ? perspective.thumbImage
-                            : defaultThumbImage}
-                          title={perspective.label}
-                        />
-                        <CardContent className={classes.cardContent}>
-                          <Typography gutterBottom variant='h5' component='h2'>
-                            {intl.get(`perspectives.${perspective.id}.label`)}
-                          </Typography>
-                          <Typography component='p'>
-                            {intl.get(`perspectives.${perspective.id}.shortDescription`)}
-                          </Typography>
-                        </CardContent>
-                      </CardActionArea>
-                    </a>}
-                  {!has(perspective, 'externalUrl') &&
-                    <CardActionArea component={Link} to={`/${perspective.id}/faceted-search`}>
-                      <CardMedia
-                        className={classes.media}
-                        image={has(perspective, 'thumbImage')
-                          ? perspective.thumbImage
-                          : defaultThumbImage}
-                        title={perspective.label}
-                      />
-                      <CardContent className={classes.cardContent}>
-                        <Typography gutterBottom variant='h5' component='h2'>
-                          {intl.get(`perspectives.${perspective.id}.label`)}
-                        </Typography>
-                        <Typography component='p'>
-                          {intl.get(`perspectives.${perspective.id}.shortDescription`)}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>}
-                </Card>
-              </Grid>
-            )
-          }
-          )}
-        </Grid>
+        {xlScreen ? gridForLargeScreen() : basicGrid()}
+        <div className={classes.licenceTextContainer}>
+          <Typography className={classes.licenceText}>{intl.getHTML('mainPageImageLicence')}</Typography>
+        </div>
       </div>
     </div>
   )
 }
 
 Main.propTypes = {
-  classes: PropTypes.object.isRequired,
   perspectives: PropTypes.array.isRequired
 }
 
-export default withStyles(styles)(Main)
+export default Main

@@ -2,23 +2,29 @@ export default {
   languageLabel: 'English',
   appTitle: {
     short: 'mmm',
-    long: 'Mapping Manuscript Migrations'
+    long: 'apping Manuscript Migrations',
+    subheading: `Navigating the network of connections between people, institutions, and
+      places within European medieval and Renaissance manuscripts`
   },
   appDescription: `
     Mapping Manuscript Migrations (MMM) is a semantic portal for finding and studying pre-modern manuscripts and
-    their movements, based on linked collections of Schoenberg Institute, Bodleian Library,
-    and IRHT.
+    their movements, based on linked collections of 
+    <a href='https://sdbm.library.upenn.edu' target='_blank' rel='noopener noreferrer'>Schoenberg Institute,</a>
+    <a href='https://medieval.bodleian.ox.ac.uk' target='_blank' rel='noopener noreferrer'>Bodleian Library</a>, and
+    <a href='http://bibale.irht.cnrs.fr' target='_blank' rel='noopener noreferrer'>Institut de recherche et d'histoire des textes</a>.
   `,
   selectPerspective: 'Select a perspective to search and browse the MMM data:',
+  mainPageImageLicence: 'Images used under license from Shutterstock.com',
   topBar: {
     feedback: 'feedback',
     info: {
       info: 'Info',
-      blog: 'Blog',
+      blog: 'Project blog',
       blogUrl: 'http://blog.mappingmanuscriptmigrations.org',
-      aboutTheProject: 'About the project'
+      aboutThePortal: 'About the Portal'
     },
     searchBarPlaceHolder: 'Search all MMM content',
+    searchBarPlaceHolderShort: 'Search',
     instructions: 'instructions'
   },
   facetBar: {
@@ -300,7 +306,7 @@ export default {
     works: {
       label: 'Works',
       facetResultsType: 'works',
-      shortDescription: 'Intellectual content carried out by manuscripts.',
+      shortDescription: 'Intellectual content of manuscripts',
       longDescription: `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
           Use this perspective to access data related to Works. The MMM data model follows
@@ -410,7 +416,7 @@ export default {
     events: {
       label: 'Events',
       facetResultsType: 'events',
-      shortDescription: 'Events related to manuscripts.',
+      shortDescription: 'Events related to manuscripts',
       longDescription: `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
           Use this perspective to access data related to events associated with the
@@ -517,7 +523,7 @@ export default {
     actors: {
       label: 'Actors',
       facetResultsType: 'actors',
-      shortDescription: 'People and institutions related to manuscripts and works.',
+      shortDescription: 'People and institutions related to manuscripts',
       longDescription: `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
           This perspective provides access to data related to the persons and institutions
@@ -625,7 +631,7 @@ export default {
     places: {
       label: 'Places',
       facetResultsType: 'places',
-      shortDescription: 'Places related to manuscripts and works.',
+      shortDescription: 'Places related to manuscripts',
       longDescription: `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
           Use this perspective to access data related to places named in the source datasets
@@ -829,12 +835,12 @@ export default {
       }
     }
   },
-  aboutTheProject: `
+  aboutThePortal: `
     <h1 class="MuiTypography-root MuiTypography-h2 MuiTypography-gutterBottom">
-      About the project
+      About the Portal
     </h1>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      Mapping Manuscript Migrations (MMM) has been developed with funding from the Trans-Atlantic
+      Mapping Manuscript Migrations (MMM) Portal has been developed with funding from the Trans-Atlantic
       Platform under its Digging into Data Challenge (2017-2019). The partners in this project are
       the University of Oxford, the University of Pennsylvania, Aalto University,
       and the Institut de recherche et d’histoire des textes.
@@ -843,14 +849,14 @@ export default {
       Agence nationale de la recherche.
     </p>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      MMM is intended to enable large-scale exploration of data relating to the history and provenance
+      MMM Portal is intended to enable large-scale exploration of data relating to the history and provenance
       of (primarily) Western European medieval and early modern manuscripts.
     </p>
     <h2 class="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom">
       Data
     </h2>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      MMM combines data from three specialist databases:
+      MMM Portal combines data from three specialist databases:
     </p>
     <ul class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom">
       <li>
@@ -886,13 +892,13 @@ export default {
       Features
     </h2>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      The MMM interface enables you to browse and search through most of the data assembled by the project
+      The MMM Portal enables you to browse and search through most of the data assembled by the MMM project
       from the three source databases. If you want to inspect the full raw data for any individual
       manuscript or other entity, please click on the “Open in Linked Data browser” button on
       the “Export” tab of the landing-page for that entity.
     </p>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      The MMM interface also provides map-based visualizations for a selection of the data relating to
+      The MMM Portal also provides map-based visualizations for a selection of the data relating to
       Manuscripts, Actors, and Places. The data resulting from a search or a filtered browse can be
       exported in the form of a CSV file. Click on the “Export” tab and then on the button
       “Open SPARQL query in yasgui.org”.
