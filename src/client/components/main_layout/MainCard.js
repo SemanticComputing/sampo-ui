@@ -13,7 +13,8 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     [theme.breakpoints.down('xs')]: {
       justifyContent: 'center'
-    }
+    },
+    height: 180
   },
   perspectiveCard: props => ({
     padding: theme.spacing(1.5),
@@ -28,22 +29,23 @@ const useStyles = makeStyles(theme => ({
       backgroundSize: 'cover',
       backgroundPosition: 'center'
     },
-    [theme.breakpoints.down('xs')]: {
-      width: 351 - theme.spacing(3),
-      height: 180
-    },
-    [theme.breakpoints.between(600, 780)]: {
-      height: 180
-    },
-    [theme.breakpoints.between(780, 960)]: {
-      height: 238
-    },
-    [theme.breakpoints.between('md', 'lg')]: {
-      height: 100
-    },
-    [theme.breakpoints.up('xl')]: {
-      height: 180
-    }
+    height: '100%'
+    // [theme.breakpoints.down('xs')]: {
+    //   width: 351 - theme.spacing(3),
+    //   height: 180
+    // },
+    // [theme.breakpoints.between(600, 780)]: {
+    //   height: 180
+    // },
+    // [theme.breakpoints.between(780, 960)]: {
+    //   height: 238
+    // },
+    // [theme.breakpoints.between('md', 'lg')]: {
+    //   height: 100
+    // },
+    // [theme.breakpoints.up('xl')]: {
+    //   height: 180
+    // }
   })
 }))
 
@@ -56,7 +58,7 @@ const MainCard = props => {
     <Grid
       className={classes.gridItem}
       key={perspective.id}
-      item xs={12} sm={6} md lg xl={4}
+      item xs={12} sm={4}
       component={Link}
       to={`/${perspective.id}/faceted-search`}
       container={xsScreen}

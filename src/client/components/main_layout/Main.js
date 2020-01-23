@@ -7,7 +7,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import MainCard from './MainCard'
 import bannerImage from '../../img/mmm-banner.jpg'
-import mmmLogo from '../../img/mmm-logo-94x90.png'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,22 +35,6 @@ const useStyles = makeStyles(theme => ({
   bannerContent: {
     display: 'inline-block',
     color: '#fff'
-  },
-  firstLetter: {
-    [theme.breakpoints.down('xs')]: {
-      height: 20
-    },
-    [theme.breakpoints.between('xs', 'md')]: {
-      height: 40
-    },
-    [theme.breakpoints.between('md', 'xl')]: {
-      height: 50,
-      marginRight: 2
-    },
-    [theme.breakpoints.up('xl')]: {
-      height: 88,
-      marginRight: 4
-    }
   },
   bannerSubheading: {
     marginTop: theme.spacing(1.5),
@@ -121,57 +104,11 @@ const Main = props => {
     descriptionVariant = 'h6'
   }
 
-  const gridForLargeScreen = () => {
-    const upperRowItems = []
-    const lowerRowItems = []
-    for (let i = 0; i < 3; i++) {
-      const perspective = perspectives[i]
-      upperRowItems.push(
-        <MainCard
-          key={perspective.id}
-          perspective={perspective}
-          cardHeadingVariant='h4'
-        />)
-    }
-    for (let i = 3; i < 5; i++) {
-      const perspective = perspectives[i]
-      lowerRowItems.push(
-        <MainCard
-          key={perspective.id}
-          perspective={perspective}
-          cardHeadingVariant='h4'
-        />)
-    }
-    return (
-      <>
-        <Grid container spacing={3}>
-          {upperRowItems}
-        </Grid>
-        <Grid className={classes.lowerRow} container justify='center' spacing={3}>
-          {lowerRowItems}
-        </Grid>
-      </>
-    )
-  }
-
-  const basicGrid = () =>
-    <>
-      <Grid container spacing={smScreen ? 2 : 1} justify={xsScreen || smScreen ? 'center' : 'flex-start'}>
-        {props.perspectives.map(perspective =>
-          <MainCard
-            key={perspective.id}
-            perspective={perspective}
-            cardHeadingVariant='h5'
-          />)}
-      </Grid>
-    </>
-
   return (
     <div className={classes.root}>
       <div className={classes.banner}>
         <div className={classes.bannerContent}>
           <div className={classes.bannerHeading}>
-            <img className={classes.firstLetter} src={mmmLogo} />
             <Typography component='span' variant={headingVariant} align='center'>
               {intl.get('appTitle.long')}
             </Typography>
@@ -196,7 +133,14 @@ const Main = props => {
             {intl.get('selectPerspective')}
           </Typography>
         </div>
-        {xlScreen ? gridForLargeScreen() : basicGrid()}
+        <Grid container spacing={smScreen ? 2 : 1} justify={xsScreen || smScreen ? 'center' : 'flex-start'}>
+          {perspectives.map(perspective =>
+            <MainCard
+              key={perspective.id}
+              perspective={perspective}
+              cardHeadingVariant='h5'
+            />)}
+        </Grid>
         <div className={classes.licenceTextContainer}>
           <Typography className={classes.licenceText}>{intl.getHTML('mainPageImageLicence')}</Typography>
         </div>

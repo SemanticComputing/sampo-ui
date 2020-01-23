@@ -16,7 +16,7 @@ import TopBarInfoButton from './TopBarInfoButton'
 // import TopBarLanguageButton from './TopBarLanguageButton';
 import Divider from '@material-ui/core/Divider'
 import { has } from 'lodash'
-import mmmLogo from '../../img/mmm-logo-52x50.png'
+// import mmmLogo from '../../img/mmm-logo-52x50.png'
 import secoLogo from '../../img/seco-logo-48x50.png'
 
 const styles = theme => ({
@@ -206,7 +206,7 @@ class TopBar extends React.Component {
         <AppBar position='absolute'>
           <Toolbar className={classes.toolbar}>
             <Button component={this.AdapterLink} to='/'>
-              <img src={mmmLogo} />
+              <Typography variant='h6'>{intl.get('appTitle.short')}</Typography>
             </Button>
             <TopBarSearchField
               fetchResultsClientSide={this.props.fetchResultsClientSide}
