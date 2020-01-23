@@ -1,8 +1,4 @@
-# Mapping Manuscript Migrations Web App
-
-master branch visible at https://mappingmanuscriptmigrations.org/
-
-dev branch visible at https://dev.mappingmanuscriptmigrations.org/
+# Sampo Web App
 
 ## Requirements
 
@@ -27,23 +23,23 @@ Run client and server concurrently:
 ## Deploy with Docker
 
 ### Build
- `docker build -t mmm-web-app-c .`
+ `docker build -t sampo-web-app-image .`
 
 ### Run
- `docker run -d -p 3006:3001 --name mmm-web-app mmm-web-app-c`
+ `docker run -d -p 3006:3001 --name sampo-web-app sampo-web-app-image`
 
 ### Upgrade
 ```
-docker build -t mmm-web-app-c .
-docker stop mmm-web-app
-docker rm mmm-web-app
-docker run -d -p 3006:3001 --name mmm-web-app mmm-web-app-c
+docker build -t sampo-web-app-image .
+docker stop sampo-web-app
+docker rm sampo-web-app
+docker run -d -p 3006:3001 --name sampo-web-app sampo-web-app-image
 ```
 
 ## Set up a new project using this repository as a base, with the possibility of merging the new commits added to this repository
 
 1. Clone this repository:
-`git clone git@github.com:SemanticComputing/mmm-web-app.git`
+`git clone git@github.com:SemanticComputing/sampo-web-app.git`
 
 2. Set up a new GitHub repository. Do not initialize it with anything. It needs to be an empty repository.
 You can name it how you like and you can rename your local folder to match that.
@@ -62,9 +58,9 @@ You can name it how you like and you can rename your local folder to match that.
 `git push`
 
 8. Set the original repository (mmm-web-app) as the upstream of your new repository:
-`git remote add upstream git@github.com:SemanticComputing/mmm-web-app.git`
+`git remote add upstream git@github.com:SemanticComputing/sampo-web-app.git`
 
-9. When new commits appear on the original repository (mmm-web-app) you can fetch them to your new repository.
+9. When new commits appear on the original repository (sampo-web-app) you can fetch them to your new repository.
 The example fetches only master branch:
 `git fetch upstream master`
 
