@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Route, Redirect } from 'react-router-dom';
-import PerspectiveTabs from '../../main_layout/PerspectiveTabs';
-import ResultTable from '../../facet_results/ResultTable';
-import Export from '../../facet_results/Export';
-import ApexChart from '../../facet_results/ApexChart';
-import LeafletMap from '../../facet_results/LeafletMap';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Route, Redirect } from 'react-router-dom'
+import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
+import ResultTable from '../../facet_results/ResultTable'
+import Export from '../../facet_results/Export'
+import ApexChart from '../../facet_results/ApexChart'
+import LeafletMap from '../../facet_results/LeafletMap'
 
-let Events = props => {
-  //console.log(props.events.results)
+const Events = props => {
+  // console.log(props.events.results)
   return (
-    <React.Fragment>
+    <>
       <PerspectiveTabs
         routeProps={props.routeProps}
         tabs={props.perspective.tabs}
@@ -20,7 +20,7 @@ let Events = props => {
         render={() => <Redirect to='/events/faceted-search/table' />}
       />
       <Route
-        path={'/events/faceted-search/table'}
+        path='/events/faceted-search/table'
         render={routeProps =>
           <ResultTable
             data={props.events}
@@ -32,11 +32,10 @@ let Events = props => {
             updateRowsPerPage={props.updateRowsPerPage}
             sortResults={props.sortResults}
             routeProps={routeProps}
-          />
-        }
+          />}
       />
       <Route
-        path={'/events/faceted-search/map'}
+        path='/events/faceted-search/map'
         render={() =>
           <LeafletMap
             results={props.places.results}
@@ -51,12 +50,12 @@ let Events = props => {
             fetchResults={props.fetchResults}
             fetchByURI={props.fetchByURI}
             fetching={props.places.fetching}
-            showInstanceCountInClusters={true}
+            showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
           />}
       />
       <Route
-        path={'/events/faceted-search/by-period'}
+        path='/events/faceted-search/by-period'
         render={() =>
           <ApexChart
             fetchResults={props.fetchResults}
@@ -76,16 +75,16 @@ let Events = props => {
           />}
       />
       <Route
-        path={'/events/faceted-search/export'}
+        path='/events/faceted-search/export'
         render={() =>
           <Export
             sparqlQuery={props.events.paginatedResultsSparqlQuery}
             pageType='facetResults'
           />}
       />
-    </React.Fragment>
-  );
-};
+    </>
+  )
+}
 
 Events.propTypes = {
   events: PropTypes.object.isRequired,
@@ -100,6 +99,6 @@ Events.propTypes = {
   routeProps: PropTypes.object.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
   perspective: PropTypes.object.isRequired
-};
+}
 
-export default Events;
+export default Events

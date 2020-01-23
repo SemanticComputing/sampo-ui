@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { withStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Button from '@material-ui/core/Button'
+import MenuItem from '@material-ui/core/MenuItem'
+import Menu from '@material-ui/core/Menu'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import { withStyles } from '@material-ui/core/styles'
+import { Link } from 'react-router-dom'
 
 const styles = theme => ({
   link: {
@@ -14,36 +14,36 @@ const styles = theme => ({
   appBarButton: {
     color: 'white !important',
     border: `1px solid ${theme.palette.primary.main}`
-  },
-});
+  }
+})
 
 class TopBarLanguageButton extends React.Component {
   state = {
-    anchorEl: null,
+    anchorEl: null
   };
 
   AdapterLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />);
 
   handleOpen = event => {
-    this.setState({ anchorEl: event.currentTarget });
+    this.setState({ anchorEl: event.currentTarget })
   };
 
   handleClose = () => {
-    this.setState({ anchorEl: null });
+    this.setState({ anchorEl: null })
   };
 
   handleMenuItemOnClick = locale => () => {
-    this.props.loadLocales(locale);
-    this.handleClose();
+    this.props.loadLocales(locale)
+    this.handleClose()
   }
 
-  render() {
-    const { classes, currentLocale, availableLocales } = this.props;
+  render () {
+    const { classes, currentLocale, availableLocales } = this.props
     return (
-      <React.Fragment>
+      <>
         <Button
           className={classes.appBarButton}
-          aria-haspopup="true"
+          aria-haspopup='true'
           onClick={this.handleOpen}
           endIcon={<ExpandMoreIcon />}
         >
@@ -54,11 +54,11 @@ class TopBarLanguageButton extends React.Component {
           getContentAnchorEl={null}
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'center',
+            horizontal: 'center'
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'center',
+            horizontal: 'center'
           }}
           keepMounted
           open={Boolean(this.state.anchorEl)}
@@ -74,8 +74,8 @@ class TopBarLanguageButton extends React.Component {
             </MenuItem>
           )}
         </Menu>
-      </React.Fragment>
-    );
+      </>
+    )
   }
 }
 
@@ -83,6 +83,6 @@ TopBarLanguageButton.propTypes = {
   classes: PropTypes.object.isRequired,
   currentLocale: PropTypes.string.isRequired,
   availableLocales: PropTypes.array.isRequired
-};
+}
 
-export default withStyles(styles)(TopBarLanguageButton);
+export default withStyles(styles)(TopBarLanguageButton)

@@ -143,7 +143,7 @@ export default {
         },
         author: {
           label: 'Author',
-          description:`
+          description: `
             The author(s) who have contributed to the intellectual content (works)
             contained in the manuscript.
           `
@@ -294,8 +294,8 @@ export default {
             from the source datasets have been merged into one manuscript (table row).
              Click on the links to view the original record on the source’s website.
           `
-        },
-      },
+        }
+      }
     },
     works: {
       label: 'Works',
@@ -365,14 +365,14 @@ export default {
         },
         language: {
           label: 'Language',
-          description:  `
+          description: `
             The language in which a Work is written in the manuscript
             (i.e., an “Expression” of a Work). One manuscript may contain multiple languages.
           `
         },
         expression: {
           label: 'Expression',
-          description:  `
+          description: `
             The expression(s) of the Work.
           `
         },
@@ -404,7 +404,7 @@ export default {
             occurs in. Click on the result table link to view the original record on the
             source’s website.
           `
-        },
+        }
       }
     },
     events: {
@@ -458,7 +458,7 @@ export default {
         },
         language: {
           label: 'Language',
-          description:  `
+          description: `
             The language in which a Work is written in the manuscript
             (i.e., an “Expression” of a Work). One manuscript may contain multiple languages.
           `
@@ -511,7 +511,7 @@ export default {
             The source database (Schoenberg, Bibale, and Bodleian) that provided
             the information about the event.
           `
-        },
+        }
       }
     },
     actors: {
@@ -568,7 +568,7 @@ export default {
         },
         type: {
           label: 'Type',
-          description:  `
+          description: `
             Indicates whether the actor is an individual (Person) or an institution,
             corporation, or family (Group)
           `
@@ -672,7 +672,7 @@ export default {
         },
         placeType: {
           label: 'Place type',
-          description:  `
+          description: `
             The place type from Getty Thesaurus of Geographic Names.
           `
         },
@@ -750,7 +750,7 @@ export default {
         },
         manuscript: {
           label: 'Manuscript',
-          description:  `
+          description: `
             The manuscript(s) that have been a part of the collection at some
             point in time.
           `
@@ -815,7 +815,7 @@ export default {
         },
         language: {
           label: 'Language',
-          description:  `
+          description: `
             The language of the Expression.
           `
         },
@@ -827,7 +827,7 @@ export default {
           `
         }
       }
-    },
+    }
   },
   aboutTheProject: `
     <h1 class="MuiTypography-root MuiTypography-h2 MuiTypography-gutterBottom">
@@ -1041,4 +1041,4 @@ export default {
       of the dataset, especially in areas like the map visualizations, the date filters, and the Events perspective.
     </p>
     `
-};
+}

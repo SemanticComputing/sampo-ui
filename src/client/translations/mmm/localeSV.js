@@ -1,3 +1,3 @@
 export default {
-  languageLabel: 'Svenska',
-};
+  languageLabel: 'Svenska'
+}

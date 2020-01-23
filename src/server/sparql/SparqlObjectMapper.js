@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash'
 
 /**
 * @param {Array} objects A list of objects as SPARQL results.
@@ -9,22 +9,22 @@ import _ from 'lodash';
 */
 export const makeObjectList = (objects) => {
   // console.log(objects)
-  let objList = _.transform(objects, function(result, obj) {
+  const objList = _.transform(objects, function (result, obj) {
     if (!obj.id) {
-      return null;
+      return null
     }
-    //let orig = obj;
-    obj = makeObject(obj);
-    //obj = reviseObject(obj, orig);
-    mergeValueToList(result, obj);
-  });
-  return objList;
-  //return self.postProcess(objList);
-};
+    // let orig = obj;
+    obj = makeObject(obj)
+    // obj = reviseObject(obj, orig);
+    mergeValueToList(result, obj)
+  })
+  return objList
+  // return self.postProcess(objList);
+}
 
 export const makeDict = (objects) => {
-  return arrayToObject(objects, 'id');
-};
+  return arrayToObject(objects, 'id')
+}
 
 /**
 * @param {Object} obj A single SPARQL result row object.
@@ -35,15 +35,15 @@ export const makeDict = (objects) => {
 * the actual value.
 */
 const makeObject = (obj) => {
-  let o = new Object;
-  _.forIn(obj, function(value, key) {
+  const o = {}
+  _.forIn(obj, function (value, key) {
     // If the variable name contains "__", an object
     // will be created as the value
     // E.g. { place__id: '1' } -> { place: { id: '1' } }
-    _.set(o, key.replace(/__/g, '.'), value.value);
-  });
-  return o;
-};
+    _.set(o, key.replace(/__/g, '.'), value.value)
+  })
+  return o
+}
 
 /**
 * @param {Array} valueList A list to which the value should be added.
@@ -55,28 +55,28 @@ const makeObject = (obj) => {
 * A value already present in valueList is discarded.
 */
 const mergeValueToList = (valueList, value) => {
-  let old;
+  let old
   if (_.isObject(value) && value.id) {
     // Check if this object has been constructed earlier
-    old = _.findLast(valueList, function(e) {
-      return e.id === value.id;
-    });
+    old = _.findLast(valueList, function (e) {
+      return e.id === value.id
+    })
     if (old) {
       // Merge this object to the object constructed earlier
-      mergeObjects(old, value);
+      mergeObjects(old, value)
     }
   } else {
     // Check if this value is present in the list
-    old = _.findLast(valueList, function(e) {
-      return _.isEqual(e, value);
-    });
+    old = _.findLast(valueList, function (e) {
+      return _.isEqual(e, value)
+    })
   }
   if (!old) {
     // This is a distinct value
-    valueList.push(value);
+    valueList.push(value)
   }
-  return valueList;
-};
+  return valueList
+}
 
 /**
 * @param {Object} first An object as returned by makeObject.
@@ -87,45 +87,45 @@ const mergeValueToList = (valueList, value) => {
 */
 const mergeObjects = (first, second) => {
   // Merge two objects into one object.
-  return _.mergeWith(first, second, merger);
-};
+  return _.mergeWith(first, second, merger)
+}
 
 const merger = (a, b) => {
   if (_.isEqual(a, b)) {
-    return a;
+    return a
   }
   if (a && !b) {
-    return a;
+    return a
   }
   if (b && !a) {
-    return b;
+    return b
   }
   if (_.isArray(a)) {
     if (_.isArray(b)) {
-      b.forEach(function(bVal) {
-        return mergeValueToList(a, bVal);
-      });
-      return a;
+      b.forEach(function (bVal) {
+        return mergeValueToList(a, bVal)
+      })
+      return a
     }
-    return mergeValueToList(a, b);
+    return mergeValueToList(a, b)
   }
   if (_.isArray(b)) {
-    return mergeValueToList(b, a);
+    return mergeValueToList(b, a)
   }
   if (!(_.isObject(a) && _.isObject(b) && a.id === b.id)) {
-    return [a, b];
+    return [a, b]
   }
-  return mergeObjects(a, b);
-};
+  return mergeObjects(a, b)
+}
 
 const arrayToObject = (array, keyField) =>
   array.reduce((obj, item) => {
-    let newItem = {};
+    const newItem = {}
     Object.entries(item).forEach(([key, value]) => {
       if (key !== keyField) {
-        newItem[key] = value.value;
+        newItem[key] = value.value
       }
-    });
-    obj[item[keyField].value] = newItem;
-    return obj;
-  }, {});
+    })
+    obj[item[keyField].value] = newItem
+    return obj
+  }, {})

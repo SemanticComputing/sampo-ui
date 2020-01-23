@@ -14,7 +14,7 @@ import {
   SORT_RESULTS,
   UPDATE_PERSPECTIVE_HEADER_EXPANDED,
   UPDATE_URL
-} from '../../actions';
+} from '../../actions'
 import {
   fetchResults,
   fetchResultsFailed,
@@ -27,7 +27,7 @@ import {
   updatePage,
   updateRowsPerPage,
   updateHeaderExpanded
-} from '../helpers';
+} from '../helpers'
 
 export const INITIAL_STATE = {
   results: null,
@@ -102,7 +102,7 @@ export const INITIAL_STATE = {
       numberedList: false,
       showSource: true,
       sourceExternalLink: true,
-      minWidth: 200,
+      minWidth: 200
     },
     {
       id: 'productionTimespan',
@@ -113,7 +113,7 @@ export const INITIAL_STATE = {
       numberedList: false,
       showSource: true,
       sourceExternalLink: true,
-      minWidth: 250,
+      minWidth: 250
     },
     {
       id: 'lastKnownLocation',
@@ -122,7 +122,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 220,
+      minWidth: 220
     },
     {
       id: 'note',
@@ -132,7 +132,7 @@ export const INITIAL_STATE = {
       sortValues: true,
       numberedList: false,
       minWidth: 250,
-      collapsedMaxWords: 12,
+      collapsedMaxWords: 12
     },
     {
       id: 'language',
@@ -141,7 +141,7 @@ export const INITIAL_STATE = {
       externalLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 150,
+      minWidth: 150
     },
     {
       id: 'event',
@@ -150,7 +150,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 450,
+      minWidth: 450
     },
     {
       id: 'owner',
@@ -177,7 +177,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 220,
+      minWidth: 220
     },
     {
       id: 'transferOfCustodyTimespan',
@@ -186,7 +186,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 210,
+      minWidth: 210
     },
     {
       id: 'material',
@@ -195,7 +195,7 @@ export const INITIAL_STATE = {
       externalLink: true,
       sortValues: true,
       numberedList: false,
-      minWidth: 150,
+      minWidth: 150
     },
     {
       id: 'height',
@@ -204,7 +204,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 140,
+      minWidth: 140
     },
     {
       id: 'width',
@@ -213,7 +213,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 150,
+      minWidth: 150
     },
     {
       id: 'folios',
@@ -222,7 +222,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 150,
+      minWidth: 150
     },
     {
       id: 'lines',
@@ -231,7 +231,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 150,
+      minWidth: 150
     },
     {
       id: 'columns',
@@ -240,7 +240,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 150,
+      minWidth: 150
     },
     {
       id: 'miniatures',
@@ -249,7 +249,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 150,
+      minWidth: 150
     },
     {
       id: 'decoratedInitials',
@@ -258,7 +258,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 170,
+      minWidth: 170
     },
     {
       id: 'historiatedInitials',
@@ -267,7 +267,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 170,
+      minWidth: 170
     },
     {
       id: 'source',
@@ -277,9 +277,9 @@ export const INITIAL_STATE = {
       sortValues: true,
       numberedList: false,
       minWidth: 250
-    },
-  ],
-};
+    }
+  ]
+}
 
 const resultClasses = new Set([
   'manuscripts',
@@ -292,34 +292,34 @@ const manuscripts = (state = INITIAL_STATE, action) => {
       case FETCH_RESULTS:
       case FETCH_PAGINATED_RESULTS:
       case FETCH_BY_URI:
-        return fetchResults(state);
+        return fetchResults(state)
       case FETCH_RESULT_COUNT:
-        return fetchResultCount(state);
+        return fetchResultCount(state)
       case FETCH_RESULTS_FAILED:
       case FETCH_PAGINATED_RESULTS_FAILED:
-        return fetchResultsFailed(state);
+        return fetchResultsFailed(state)
       case SORT_RESULTS:
-        return updateSortBy(state, action);
+        return updateSortBy(state, action)
       case UPDATE_RESULT_COUNT:
-        return updateResultCount(state, action);
+        return updateResultCount(state, action)
       case UPDATE_RESULTS:
-        return updateResults(state, action);
+        return updateResults(state, action)
       case UPDATE_PAGINATED_RESULTS:
-        return updatePaginatedResults(state, action);
+        return updatePaginatedResults(state, action)
       case UPDATE_INSTANCE:
-        return updateInstance(state, action);
+        return updateInstance(state, action)
       case UPDATE_PAGE:
-        return updatePage(state, action);
+        return updatePage(state, action)
       case UPDATE_ROWS_PER_PAGE:
-        return updateRowsPerPage(state, action);
+        return updateRowsPerPage(state, action)
       case UPDATE_PERSPECTIVE_HEADER_EXPANDED:
-        return updateHeaderExpanded(state, action);
+        return updateHeaderExpanded(state, action)
       case UPDATE_URL:
-        return(state);
+        return (state)
       default:
-        return state;
+        return state
     }
-  } else return state;
-};
+  } else return state
+}
 
-export default manuscripts;
+export default manuscripts

@@ -12,7 +12,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      title: 'Mapping Manuscript Migrations – A Digging into Data project for 2017-2019',
+      title: 'Mapping Manuscript Migrations – A Digging into Data project for 2017–2020',
       // Load a custom template
       template: 'src/client/index.html',
     }),

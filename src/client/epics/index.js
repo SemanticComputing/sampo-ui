@@ -1,5 +1,5 @@
-import { of } from 'rxjs';
-import { ajax } from 'rxjs/ajax';
+import { of } from 'rxjs'
+import { ajax } from 'rxjs/ajax'
 import {
   mergeMap,
   switchMap,
@@ -7,13 +7,13 @@ import {
   withLatestFrom,
   debounceTime,
   catchError
-} from 'rxjs/operators';
-import { combineEpics, ofType } from 'redux-observable';
-import intl from 'react-intl-universal';
-import localeEN from '../translations/mmm/localeEN';
-import localeFI from '../translations/mmm/localeFI';
-import localeSV from '../translations/mmm/localeSV';
-import { stateToUrl } from '../helpers/helpers';
+} from 'rxjs/operators'
+import { combineEpics, ofType } from 'redux-observable'
+import intl from 'react-intl-universal'
+import localeEN from '../translations/mmm/localeEN'
+import localeFI from '../translations/mmm/localeFI'
+import localeSV from '../translations/mmm/localeSV'
+import { stateToUrl } from '../helpers/helpers'
 import {
   FETCH_RESULT_COUNT,
   FETCH_RESULT_COUNT_FAILED,
@@ -35,41 +35,41 @@ import {
   updateFacetValues,
   updateFacetValuesConstrainSelf,
   updateLocale
-} from '../actions';
-import { rootUrl, publishedPort } from '../configs/config';
+} from '../actions'
+import { rootUrl, publishedPort } from '../configs/config'
 
 // set port if running on localhost with NODE_ENV = 'production'
-const port = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+const port = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? `:${publishedPort}`
-  : '';
+  : ''
 
 export const apiUrl = (process.env.NODE_ENV === 'development')
   ? `http://localhost:3001${rootUrl}/api/`
-  : `${location.protocol}//${location.hostname}${port}${rootUrl}/api/`;
+  : `${window.location.protocol}//${window.location.hostname}${port}${rootUrl}/api/`
 
-const backendErrorText = `Cannot connect to the MMM Knowledge Base. Please try again later.`;
+const backendErrorText = 'Cannot connect to the MMM Knowledge Base. Please try again later.'
 
 export const availableLocales = {
-  'en': localeEN,
-  'fi': localeFI,
-  'sv': localeSV
-};
+  en: localeEN,
+  fi: localeFI,
+  sv: localeSV
+}
 
 const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_PAGINATED_RESULTS),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { resultClass, facetClass, sortBy } = action;
-    const { page, pagesize, sortDirection } = state[resultClass];
+    const { resultClass, facetClass, sortBy } = action
+    const { page, pagesize, sortDirection } = state[resultClass]
     const params = stateToUrl({
       facets: state[`${facetClass}Facets`].facets,
       facetClass: null,
       page: page,
       pagesize: pagesize,
       sortBy: sortBy,
-      sortDirection: sortDirection,
-    });
-    const requestUrl = `${apiUrl}${resultClass}/paginated?${params}`;
+      sortDirection: sortDirection
+    })
+    const requestUrl = `${apiUrl}${resultClass}/paginated?${params}`
     // https://rxjs-dev.firebaseapp.com/api/ajax/ajax
     return ajax.getJSON(requestUrl).pipe(
       map(response => updatePaginatedResults({
@@ -89,20 +89,20 @@ const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
           title: 'Error'
         }
       }))
-    );
+    )
   })
-);
+)
 
 const fetchResultsEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_RESULTS),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { resultClass, facetClass } = action;
+    const { resultClass, facetClass } = action
     const params = stateToUrl({
       facets: state[`${facetClass}Facets`].facets,
-      facetClass: facetClass,
-    });
-    const requestUrl = `${apiUrl}${resultClass}/all?${params}`;
+      facetClass: facetClass
+    })
+    const requestUrl = `${apiUrl}${resultClass}/all?${params}`
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResults({
         resultClass: resultClass,
@@ -118,21 +118,20 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
           title: 'Error'
         }
       }))
-    );
-
+    )
   })
-);
+)
 
 const fetchResultCountEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_RESULT_COUNT),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { resultClass, facetClass } = action;
+    const { resultClass, facetClass } = action
     const params = stateToUrl({
       facets: state[`${facetClass}Facets`].facets,
-      facetClass: facetClass,
-    });
-    const requestUrl = `${apiUrl}${resultClass}/count?${params}`;
+      facetClass: facetClass
+    })
+    const requestUrl = `${apiUrl}${resultClass}/count?${params}`
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResultCount({
         resultClass: response.resultClass,
@@ -148,22 +147,22 @@ const fetchResultCountEpic = (action$, state$) => action$.pipe(
           title: 'Error'
         }
       }))
-    );
+    )
   })
-);
+)
 
 const fetchResultsClientSideEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_RESULTS_CLIENT_SIDE),
   withLatestFrom(state$),
   debounceTime(500),
   switchMap(([action, state]) => {
-    const searchUrl = apiUrl + 'search';
-    let requestUrl = '';
+    const searchUrl = apiUrl + 'search'
+    let requestUrl = ''
     if (action.jenaIndex === 'text') {
-      requestUrl = `${searchUrl}?q=${action.query}`;
+      requestUrl = `${searchUrl}?q=${action.query}`
     } else if (action.jenaIndex === 'spatial') {
-      const { latMin, longMin, latMax, longMax } = state.map;
-      requestUrl = `${searchUrl}?latMin=${latMin}&longMin=${longMin}&latMax=${latMax}&longMax=${longMax}`;
+      const { latMin, longMin, latMax, longMax } = state.map
+      requestUrl = `${searchUrl}?latMin=${latMin}&longMin=${longMin}&latMax=${latMax}&longMax=${longMax}`
     }
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResults({
@@ -182,20 +181,20 @@ const fetchResultsClientSideEpic = (action$, state$) => action$.pipe(
           title: 'Error'
         }
       }))
-    );
+    )
   })
-);
+)
 
 const fetchByURIEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_BY_URI),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { resultClass, facetClass, uri } = action;
+    const { resultClass, facetClass, uri } = action
     const params = stateToUrl({
       facets: facetClass == null ? null : state[`${facetClass}Facets`].facets,
-      facetClass: facetClass,
-    });
-    const requestUrl = `${apiUrl}${resultClass}/instance/${encodeURIComponent(uri)}?${params}`;
+      facetClass: facetClass
+    })
+    const requestUrl = `${apiUrl}${resultClass}/instance/${encodeURIComponent(uri)}?${params}`
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateInstance({
         resultClass: resultClass,
@@ -211,24 +210,24 @@ const fetchByURIEpic = (action$, state$) => action$.pipe(
           title: 'Error'
         }
       }))
-    );
+    )
   })
-);
+)
 
 const fetchFacetEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_FACET),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { facetClass, facetID } = action;
-    const facets = state[`${facetClass}Facets`].facets;
-    const facet = facets[facetID];
-    const { sortBy, sortDirection } = facet;
+    const { facetClass, facetID } = action
+    const facets = state[`${facetClass}Facets`].facets
+    const facet = facets[facetID]
+    const { sortBy, sortDirection } = facet
     const params = stateToUrl({
       facets: facets,
       sortBy: sortBy,
-      sortDirection: sortDirection,
-    });
-    const requestUrl = `${apiUrl}${action.facetClass}/facet/${facetID}?${params}`;
+      sortDirection: sortDirection
+    })
+    const requestUrl = `${apiUrl}${action.facetClass}/facet/${facetID}?${params}`
     return ajax.getJSON(requestUrl).pipe(
       map(res => updateFacetValues({
         facetClass: facetClass,
@@ -247,25 +246,25 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
           title: 'Error'
         }
       }))
-    );
+    )
   })
-);
+)
 
 const fetchFacetConstrainSelfEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_FACET_CONSTRAIN_SELF),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { facetClass, facetID } = action;
-    const facets = state[`${facetClass}Facets`].facets;
-    const facet = facets[facetID];
-    const { sortBy, sortDirection } = facet;
+    const { facetClass, facetID } = action
+    const facets = state[`${facetClass}Facets`].facets
+    const facet = facets[facetID]
+    const { sortBy, sortDirection } = facet
     const params = stateToUrl({
       facets: facets,
       sortBy: sortBy,
       sortDirection: sortDirection,
       constrainSelf: true
-    });
-    const requestUrl = `${apiUrl}${action.facetClass}/facet/${facetID}?${params}`;
+    })
+    const requestUrl = `${apiUrl}${action.facetClass}/facet/${facetID}?${params}`
     return ajax.getJSON(requestUrl).pipe(
       map(res => updateFacetValuesConstrainSelf({
         facetClass: facetClass,
@@ -284,9 +283,9 @@ const fetchFacetConstrainSelfEpic = (action$, state$) => action$.pipe(
           title: 'Error'
         }
       }))
-    );
+    )
   })
-);
+)
 
 const loadLocalesEpic = action$ => action$.pipe(
   ofType(LOAD_LOCALES),
@@ -295,10 +294,10 @@ const loadLocalesEpic = action$ => action$.pipe(
     await intl.init({
       currentLocale: action.currentLanguage,
       locales: availableLocales
-    });
-    return updateLocale({ language: action.currentLanguage });
+    })
+    return updateLocale({ language: action.currentLanguage })
   })
-);
+)
 
 const rootEpic = combineEpics(
   fetchPaginatedResultsEpic,
@@ -309,6 +308,6 @@ const rootEpic = combineEpics(
   fetchFacetEpic,
   fetchFacetConstrainSelfEpic,
   loadLocalesEpic
-);
+)
 
-export default rootEpic;
+export default rootEpic

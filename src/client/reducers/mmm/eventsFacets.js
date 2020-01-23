@@ -2,14 +2,14 @@ import {
   FETCH_FACET,
   FETCH_FACET_FAILED,
   UPDATE_FACET_VALUES,
-  UPDATE_FACET_OPTION,
-} from '../../actions';
+  UPDATE_FACET_OPTION
+} from '../../actions'
 import {
   fetchFacet,
   fetchFacetFailed,
   updateFacetValues,
-  updateFacetOption,
-} from '../helpers';
+  updateFacetOption
+} from '../helpers'
 
 export const INITIAL_STATE = {
   updatedFacet: null,
@@ -18,7 +18,7 @@ export const INITIAL_STATE = {
   facets: {
     type: {
       id: 'type',
-      //predicate: defined in backend
+      // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
       flatValues: [],
@@ -53,7 +53,7 @@ export const INITIAL_STATE = {
     },
     eventTimespan: {
       id: 'eventTimespan',
-      //predicate: defined in backend
+      // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
       flatValues: [],
@@ -73,7 +73,7 @@ export const INITIAL_STATE = {
     },
     place: {
       id: 'place',
-      //predicate: defined in backend
+      // predicate: defined in backend
       distinctValueCount: 0,
       values: [],
       flatValues: [],
@@ -106,25 +106,25 @@ export const INITIAL_STATE = {
       filterType: 'uriFilter',
       uriFilter: null,
       priority: 5
-    },
+    }
   }
-};
+}
 
 const eventsFacets = (state = INITIAL_STATE, action) => {
   if (action.facetClass === 'events') {
     switch (action.type) {
       case FETCH_FACET:
-        return fetchFacet(state, action);
+        return fetchFacet(state, action)
       case FETCH_FACET_FAILED:
-        return fetchFacetFailed(state, action);
+        return fetchFacetFailed(state, action)
       case UPDATE_FACET_VALUES:
-        return updateFacetValues(state, action);
+        return updateFacetValues(state, action)
       case UPDATE_FACET_OPTION:
-        return updateFacetOption(state, action);
+        return updateFacetOption(state, action)
       default:
-        return state;
+        return state
     }
-  } else return state;
-};
+  } else return state
+}
 
-export default eventsFacets;
+export default eventsFacets

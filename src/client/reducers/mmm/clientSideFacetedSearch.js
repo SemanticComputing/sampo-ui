@@ -4,13 +4,13 @@ import {
   CLEAR_RESULTS,
   UPDATE_CLIENT_SIDE_FILTER,
   SORT_RESULTS
-} from '../../actions';
+} from '../../actions'
 
 export const INITIAL_STATE = {
   query: '',
   results: [],
   latestFilter: {
-    id: '',
+    id: ''
   },
   latestFilterValues: [],
   resultsFilter: {
@@ -19,11 +19,11 @@ export const INITIAL_STATE = {
   },
   sortBy: 'prefLabel',
   sortDirection: 'asc',
-  //groupBy: 'broaderTypeLabel',
-  //groupByLabel: 'Paikanlaji',
+  // groupBy: 'broaderTypeLabel',
+  // groupByLabel: 'Paikanlaji',
   textResultsFetching: false,
-  spatialResultsFetching: false,
-};
+  spatialResultsFetching: false
+}
 
 const clientSideFacetedSearch = (state = INITIAL_STATE, action) => {
   if (action.resultClass === 'all') {
@@ -32,14 +32,14 @@ const clientSideFacetedSearch = (state = INITIAL_STATE, action) => {
         return {
           ...state,
           [`${action.jenaIndex}ResultsFetching`]: true
-        };
+        }
       case UPDATE_RESULTS:
         return {
           ...state,
           query: action.query,
           results: action.data,
           [`${action.jenaIndex}ResultsFetching`]: false
-        };
+        }
       case CLEAR_RESULTS:
         return {
           ...state,
@@ -49,42 +49,42 @@ const clientSideFacetedSearch = (state = INITIAL_STATE, action) => {
           resultsFilter: {
             prefLabel: new Set(),
             type: new Set()
-          },
-        };
+          }
+        }
       case UPDATE_CLIENT_SIDE_FILTER:
-        return updateResultsFilter(state, action);
+        return updateResultsFilter(state, action)
       case SORT_RESULTS:
         return {
           ...state,
           sortBy: action.options.sortBy,
-          sortDirection: action.options.sortDirection,
-        };
+          sortDirection: action.options.sortDirection
+        }
       default:
-        return state;
+        return state
     }
-  } else return state;
+  } else return state
 };
 
 const updateResultsFilter = (state, action) => {
-  const { property, value, latestValues } = action.filterObj;
-  let nSet = state.resultsFilter[property];
+  const { property, value, latestValues } = action.filterObj
+  let nSet = state.resultsFilter[property]
   if (nSet.has(value)) {
-    nSet.delete(value);
+    nSet.delete(value)
   } else {
-    nSet.add(value);
+    nSet.add(value)
   }
   const newFilter = {
     ...state.resultsFilter,
     [property]: nSet
-  };
+  }
   return {
     ...state,
     resultsFilter: newFilter,
     latestFilter: {
-      id: property,
+      id: property
     },
     latestFilterValues: latestValues
-  };
+  }
 };
 
-export default clientSideFacetedSearch;
+export default clientSideFacetedSearch

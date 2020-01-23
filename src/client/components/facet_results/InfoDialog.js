@@ -1,12 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-//import DialogTitle from '@material-ui/core/DialogTitle';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import ManuscriptList from './ManuscriptList';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Dialog from '@material-ui/core/Dialog'
+import DialogContent from '@material-ui/core/DialogContent'
+import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import ManuscriptList from './ManuscriptList'
+import { Link } from 'react-router-dom'
 
 const styles = () => ({
   root: {
@@ -15,13 +14,13 @@ const styles = () => ({
   dialogPaper: {
     minHeight: '80vh',
     maxHeight: '80vh',
-    minWidth: '60vh',
-  },
-});
+    minWidth: '60vh'
+  }
+})
 
 const InfoDialog = (props) => {
-  const { classes, open, onClose, data } = props;
-  let hasData = data !== null && data.from && data.to && data.manuscript;
+  const { classes, open, onClose, data } = props
+  const hasData = data !== null && data.from && data.to && data.manuscript
 
   return (
     <div className={classes.root}>
@@ -29,11 +28,11 @@ const InfoDialog = (props) => {
         classes={{ paper: classes.dialogPaper }}
         open={open}
         onClose={onClose}
-        aria-labelledby="form-dialog-title"
+        aria-labelledby='form-dialog-title'
       >
         <DialogContent>
           {hasData &&
-            <React.Fragment>
+            <>
               <Typography>Production place: &nbsp;
                 <Link to={data.from.dataProviderUrl}>
                   {Array.isArray(data.from.prefLabel) ? data.from.prefLabel[0] : data.from.prefLabel}
@@ -45,19 +44,18 @@ const InfoDialog = (props) => {
                 </Link>
               </Typography>
               <ManuscriptList manuscripts={data.manuscript} />
-            </React.Fragment>
-          }
+            </>}
         </DialogContent>
       </Dialog>
     </div>
-  );
-};
+  )
+}
 
 InfoDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   data: PropTypes.object
-};
+}
 
-export default withStyles(styles)(InfoDialog);
+export default withStyles(styles)(InfoDialog)

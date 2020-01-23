@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import intl from 'react-intl-universal';
-import { withStyles } from '@material-ui/core/styles';
-import { fade } from '@material-ui/core/styles/colorManipulator';
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
-//import CircularProgress from '@material-ui/core/CircularProgress';
-import history from '../../History';
+import React from 'react'
+import PropTypes from 'prop-types'
+import intl from 'react-intl-universal'
+import { withStyles } from '@material-ui/core/styles'
+import { fade } from '@material-ui/core/styles/colorManipulator'
+import SearchIcon from '@material-ui/icons/Search'
+import InputBase from '@material-ui/core/InputBase'
+// import CircularProgress from '@material-ui/core/CircularProgress';
+import history from '../../History'
 
 const styles = theme => ({
   search: {
@@ -14,15 +14,15 @@ const styles = theme => ({
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+      backgroundColor: fade(theme.palette.common.white, 0.25)
     },
     marginRight: theme.spacing(2),
     marginLeft: theme.spacing(2),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
+      width: 'auto'
+    }
   },
   searchIcon: {
     width: theme.spacing(9),
@@ -31,11 +31,11 @@ const styles = theme => ({
     pointerEvents: 'none',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   inputRoot: {
     color: 'inherit',
-    width: '100%',
+    width: '100%'
   },
   inputInput: {
     paddingTop: theme.spacing(1),
@@ -45,53 +45,53 @@ const styles = theme => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: 200,
-    },
-  },
-});
+      width: 200
+    }
+  }
+})
 
 class TopBarSearchField extends React.Component {
   state = {
-    value: '',
+    value: ''
   };
 
   handleChange = (event) => {
-    this.setState({ value: event.target.value });
+    this.setState({ value: event.target.value })
   };
 
   handleMouseDown = (event) => {
-    event.preventDefault();
+    event.preventDefault()
   };
 
   handleOnKeyDown = (event) => {
     if (event.key === 'Enter' && this.hasValidQuery()) {
-      this.props.clearResults();
+      this.props.clearResults()
       this.props.fetchResultsClientSide({
         resultClass: 'all',
         jenaIndex: 'text',
         query: this.state.value
-      });
-      history.push({ pathname: `/all/table` });
+      })
+      history.push({ pathname: '/all/table' })
     }
   };
 
   handleClick = () => {
     if (this.hasValidQuery()) {
-      this.props.clearResults();
+      this.props.clearResults()
       this.props.fetchResultsClientSide({
         resultClass: 'all',
         jenaIndex: 'text',
         query: this.state.value
-      });
+      })
     }
   };
 
   hasValidQuery = () => {
-    return this.state.value.length > 2;
+    return this.state.value.length > 2
   }
 
-  render() {
-    const { classes } = this.props;
+  render () {
+    const { classes } = this.props
     return (
       <div className={classes.search}>
         <div className={classes.searchIcon}>
@@ -101,20 +101,20 @@ class TopBarSearchField extends React.Component {
           placeholder={intl.get('topBar.searchBarPlaceHolder')}
           classes={{
             root: classes.inputRoot,
-            input: classes.inputInput,
+            input: classes.inputInput
           }}
           onChange={this.handleChange}
           onKeyDown={this.handleOnKeyDown}
         />
       </div>
-    );
+    )
   }
 }
 
 TopBarSearchField.propTypes = {
   classes: PropTypes.object.isRequired,
   fetchResultsClientSide: PropTypes.func.isRequired,
-  clearResults: PropTypes.func.isRequired,
-};
+  clearResults: PropTypes.func.isRequired
+}
 
-export default withStyles(styles)(TopBarSearchField);
+export default withStyles(styles)(TopBarSearchField)

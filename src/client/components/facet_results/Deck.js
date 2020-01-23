@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import { has } from 'lodash';
-import DeckGL, { ArcLayer } from 'deck.gl';
-import ReactMapGL, { NavigationControl, FullscreenControl, HTMLOverlay } from 'react-map-gl';
-import InfoDialog from './InfoDialog';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { purple } from '@material-ui/core/colors';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import { MAPBOX_ACCESS_TOKEN } from '../../configs/config';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import { has } from 'lodash'
+import DeckGL, { ArcLayer } from 'deck.gl'
+import ReactMapGL, { NavigationControl, FullscreenControl, HTMLOverlay } from 'react-map-gl'
+import InfoDialog from './InfoDialog'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import { purple } from '@material-ui/core/colors'
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import Typography from '@material-ui/core/Typography'
+import { MAPBOX_ACCESS_TOKEN } from '../../configs/config'
 
 // https://deck.gl/#/documentation/getting-started/using-with-react?section=adding-a-base-map
 
@@ -58,7 +58,7 @@ const styles = theme => ({
   legend: {
     position: 'absolute',
     right: theme.spacing(1),
-    top: theme.spacing(1),
+    top: theme.spacing(1)
   },
   red: {
     color: 'rgba(255,0,0,255)'
@@ -66,7 +66,7 @@ const styles = theme => ({
   blue: {
     color: 'rgba(0,0,255,255)'
   }
-});
+})
 
 class Deck extends React.Component {
   state = {
@@ -90,9 +90,9 @@ class Deck extends React.Component {
     this.props.fetchResults({
       resultClass: this.props.resultClass,
       facetClass: this.props.facetClass,
-      sortBy: null,
-    });
-    this.setState({ mounted: true });
+      sortBy: null
+    })
+    this.setState({ mounted: true })
   }
 
   componentDidUpdate = prevProps => {
@@ -101,8 +101,8 @@ class Deck extends React.Component {
       this.props.fetchResults({
         resultClass: this.props.resultClass,
         facetClass: this.props.facetClass,
-        sortBy: null,
-      });
+        sortBy: null
+      })
     }
   }
 
@@ -110,61 +110,61 @@ class Deck extends React.Component {
     // if (Array.isArray(coords)) { coords = coords[0]; }
     // const lat = Array.isArray(coords.lat) ? coords.lat[0] : coords.lat;
     // const long = Array.isArray(coords.long) ? coords.long[0] : coords.long;
-    const arr = [ +coords.long, +coords.lat ];
-    return arr;
+    const arr = [+coords.long, +coords.lat]
+    return arr
   }
 
   // setTooltip(object) {
   //   this.setState({tooltip: object});
   // }
 
-  setDialog(info) {
+  setDialog (info) {
     this.setState({
       dialog: {
         open: true,
         data: info.object
       }
-    });
+    })
   }
 
-  closeDialog() {
+  closeDialog () {
     this.setState({
       dialog: {
         open: false,
         data: {}
       }
-    });
+    })
   }
 
-  _onViewportChange = viewport =>
-    this.state.mounted && this.setState({viewport});
+  handleOnViewportChange = viewport =>
+    this.state.mounted && this.setState({ viewport });
 
-  _renderSpinner() {
-    if(this.props.fetching) {
+  _renderSpinner () {
+    if (this.props.fetching) {
       return (
         <div className={this.props.classes.spinner}>
           <CircularProgress style={{ color: purple[500] }} thickness={5} />
         </div>
-      );
+      )
     }
-    return null;
+    return null
   }
 
-  _renderLegend() {
+  _renderLegend () {
     return (
       <Card className={this.props.classes.legend}>
         <CardContent>
-          <Typography variant="h6" gutterBottom>Arc colouring:</Typography>
-          <Typography className={this.props.classes.blue} variant="body2" gutterBottom>Manuscript production place</Typography>
+          <Typography variant='h6' gutterBottom>Arc colouring:</Typography>
+          <Typography className={this.props.classes.blue} variant='body2' gutterBottom>Manuscript production place</Typography>
           <br />
-          <Typography variant="body2" gutterBottom>
+          <Typography variant='body2' gutterBottom>
             <span className={this.props.classes.red}>
             Last known location
             </span>
           </Typography>
         </CardContent>
       </Card>
-    );
+    )
   }
 
   // getStrokeWidth = manuscriptCount => {
@@ -185,11 +185,11 @@ class Deck extends React.Component {
   //   return (maxAllowed - minAllowed) * (unscaledNum - min) / (max - min) + minAllowed;
   // }
 
-  render() {
-    const { classes } = this.props;
-    let arcData = [];
+  render () {
+    const { classes } = this.props
+    let arcData = []
     if (has(this.props.results[0], 'to')) {
-      arcData = this.props.results;
+      arcData = this.props.results
     }
 
     const layer = new ArcLayer({
@@ -201,11 +201,10 @@ class Deck extends React.Component {
       getTargetColor: [255, 0, 0, 255],
       getSourcePosition: d => this.parseCoordinates(d.from),
       getTargetPosition: d => this.parseCoordinates(d.to),
-      //onHover: info => this.setTooltip(info),
-      onClick: info => this.setDialog(info),
-    });
+      // onHover: info => this.setTooltip(info),
+      onClick: info => this.setDialog(info)
+    })
     // https://www.mapbox.com/mapbox-gl-js/api#map
-    { /* style={{marginTop: 72}} */}
     return (
       <div className={classes.root}>
         <ReactMapGL
@@ -214,9 +213,9 @@ class Deck extends React.Component {
           height='100%'
           reuseMaps
           mapStyle='mapbox://styles/mapbox/light-v9'
-          preventStyleDiffing={true}
+          preventStyleDiffing
           mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
-          onViewportChange={this._onViewportChange}
+          onViewportChange={this.handleOnViewportChange}
         >
           <div className={classes.navigationContainer}>
             <NavigationControl />
@@ -239,7 +238,7 @@ class Deck extends React.Component {
           />
         </ReactMapGL>
       </div>
-    );
+    )
   }
 }
 
@@ -249,7 +248,7 @@ Deck.propTypes = {
   fetchResults: PropTypes.func,
   resultClass: PropTypes.string,
   facetClass: PropTypes.string,
-  fetching: PropTypes.bool.isRequired,
-};
+  fetching: PropTypes.bool.isRequired
+}
 
-export default withStyles(styles)(Deck);
+export default withStyles(styles)(Deck)

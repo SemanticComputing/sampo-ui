@@ -1,21 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Route, Redirect } from 'react-router-dom';
-import PerspectiveTabs from '../../main_layout/PerspectiveTabs';
-import MaterialTableFullTextResults from '../../facet_results/MaterialTableFullTextResults';
-import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Route, Redirect } from 'react-router-dom'
+import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
+import MaterialTableFullTextResults from '../../facet_results/MaterialTableFullTextResults'
+import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay'
 
 const All = props => {
-  const perspectiveUrl = '/all';
+  const perspectiveUrl = '/all'
   return (
-    <React.Fragment>
+    <>
       <PerspectiveTabs
         routeProps={props.routeProps}
         tabs={[{
           id: 'table',
           label: 'table',
           icon: <CalendarViewDayIcon />,
-          value: 0,
+          value: 0
         }]}
       />
       <Route
@@ -25,26 +25,24 @@ const All = props => {
       <Route
         path={`${perspectiveUrl}/table`}
         render={() => {
-          return(
+          return (
             <MaterialTableFullTextResults
               data={props.clientSideFacetedSearch.results}
               query={props.clientSideFacetedSearch.query}
               fetching={props.clientSideFacetedSearch.textResultsFetching}
             />
-          );
-        }
-
-        }
+          )
+        }}
       />
-    </React.Fragment>
-  );
-};
+    </>
+  )
+}
 
 All.propTypes = {
   clientSideFacetedSearch: PropTypes.object.isRequired,
   updatePage: PropTypes.func,
   sortResults: PropTypes.func,
-  routeProps: PropTypes.object.isRequired,
-};
+  routeProps: PropTypes.object.isRequired
+}
 
-export default All;
+export default All

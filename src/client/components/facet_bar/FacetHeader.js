@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Typography from '@material-ui/core/Typography';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
-import history from '../../History';
-import ChartDialog from './ChartDialog';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import IconButton from '@material-ui/core/IconButton'
+import Tooltip from '@material-ui/core/Tooltip'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import Typography from '@material-ui/core/Typography'
+import InfoIcon from '@material-ui/icons/InfoOutlined'
+import history from '../../History'
+import ChartDialog from './ChartDialog'
 
 const styles = theme => ({
   root: {
@@ -19,40 +19,40 @@ const styles = theme => ({
   headingContainer: {
     display: 'flex',
     alignItems: 'center',
-    //justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     width: '100%'
   },
   facetValuesContainerTen: {
     height: 345,
-    padding: theme.spacing(1),
+    padding: theme.spacing(1)
   },
   facetValuesContainerThree: {
     height: 108,
-    padding: theme.spacing(1),
+    padding: theme.spacing(1)
   },
   facetHeaderButtons: {
     marginLeft: 'auto'
   }
-});
+})
 
 class FacetHeader extends React.Component {
   state = {
-    anchorEl: null,
+    anchorEl: null
   };
 
   handleMenuButtonClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
+    this.setState({ anchorEl: event.currentTarget })
   };
 
-  handleSortOnClick = buttonID => () =>  {
-    this.setState({ anchorEl: null });
+  handleSortOnClick = buttonID => () => {
+    this.setState({ anchorEl: null })
     if (buttonID === 'prefLabel' && this.props.facet.sortBy === 'instanceCount') {
       this.props.updateFacetOption({
         facetClass: this.props.facetClass,
         facetID: this.props.facetID,
         option: 'sortBy',
         value: 'prefLabel'
-      });
+      })
     }
     if (buttonID === 'instanceCount' && this.props.facet.sortBy === 'prefLabel') {
       this.props.updateFacetOption({
@@ -60,19 +60,19 @@ class FacetHeader extends React.Component {
         facetID: this.props.facetID,
         option: 'sortDirection',
         value: 'desc'
-      });
+      })
       this.props.updateFacetOption({
         facetClass: this.props.facetClass,
         facetID: this.props.facetID,
         option: 'sortBy',
         value: 'instanceCount'
-      });
+      })
     }
   };
 
   handleFilterTypeOnClick = buttonID => () => {
-    //console.log(event.target)
-    this.setState({ anchorEl: null });
+    // console.log(event.target)
+    this.setState({ anchorEl: null })
 
     if (buttonID === 'uriFilter' && this.props.facet.filterType === 'spatialFilter') {
       this.props.updateFacetOption({
@@ -80,13 +80,13 @@ class FacetHeader extends React.Component {
         facetID: this.props.facetID,
         option: 'spatialFilter',
         value: null
-      });
+      })
       this.props.updateFacetOption({
         facetClass: this.props.facetClass,
         facetID: this.props.facetID,
         option: 'filterType',
         value: 'uriFilter'
-      });
+      })
     }
     if (buttonID === 'spatialFilter' && this.props.facet.filterType === 'uriFilter') {
       this.props.updateFacetOption({
@@ -94,50 +94,50 @@ class FacetHeader extends React.Component {
         facetID: this.props.facetID,
         option: 'filterType',
         value: 'spatialFilter'
-      });
-      history.push({ pathname: `/${this.props.resultClass}/faceted-search/${this.props.facet.spatialFilterTab}` });
+      })
+      history.push({ pathname: `/${this.props.resultClass}/faceted-search/${this.props.facet.spatialFilterTab}` })
     }
   }
 
   handleMenuClose = () => {
-    this.setState({ anchorEl: null });
+    this.setState({ anchorEl: null })
   }
 
   renderFacetMenu = () => {
-    const { anchorEl } = this.state;
-    const { sortButton, spatialFilterButton, sortBy, filterType, chartButton = false } = this.props.facet;
-    const open = Boolean(anchorEl);
-    let menuButtons = [];
+    const { anchorEl } = this.state
+    const { sortButton, spatialFilterButton, sortBy, filterType, chartButton = false } = this.props.facet
+    const open = Boolean(anchorEl)
+    const menuButtons = []
     if (sortButton) {
       menuButtons.push({
         id: 'prefLabel',
         menuItemText: 'Sort alphabetically',
-        selected: sortBy === 'prefLabel' ? true : false,
+        selected: sortBy === 'prefLabel',
         onClickHandler: this.handleSortOnClick
-      });
+      })
       menuButtons.push({
         id: 'instanceCount',
         menuItemText: `Sort by number of ${this.props.resultClass}`,
-        selected: sortBy === 'instanceCount' ? true : false,
+        selected: sortBy === 'instanceCount',
         onClickHandler: this.handleSortOnClick
-      });
+      })
     }
     if (spatialFilterButton) {
       menuButtons.push({
         id: 'uriFilter',
-        menuItemText: `Filter by name`,
-        selected: filterType === 'uriFilter' ? true : false,
+        menuItemText: 'Filter by name',
+        selected: filterType === 'uriFilter',
         onClickHandler: this.handleFilterTypeOnClick
-      });
+      })
       menuButtons.push({
         id: 'spatialFilter',
-        menuItemText: `Filter by bounding box`,
-        selected: filterType === 'spatialFilter' ? true : false,
+        menuItemText: 'Filter by bounding box',
+        selected: filterType === 'spatialFilter',
         onClickHandler: this.handleFilterTypeOnClick
-      });
+      })
     }
     return (
-      <React.Fragment>
+      <>
         {chartButton &&
           <ChartDialog
             data={this.props.facetConstrainSelf.values}
@@ -145,20 +145,19 @@ class FacetHeader extends React.Component {
             facetID={this.props.facetID}
             facetClass={this.props.facetClass}
             fetchFacetConstrainSelf={this.props.fetchFacetConstrainSelf}
-          />
-        }
-        <Tooltip disableFocusListener={true} title="Filter options">
+          />}
+        <Tooltip disableFocusListener title='Filter options'>
           <IconButton
-            aria-label="Filter options"
+            aria-label='Filter options'
             aria-owns={open ? 'facet-option-menu' : undefined}
-            aria-haspopup="true"
+            aria-haspopup='true'
             onClick={this.handleMenuButtonClick}
           >
             <MoreVertIcon />
           </IconButton>
         </Tooltip>
         <Menu
-          id="facet-option-menu"
+          id='facet-option-menu'
           anchorEl={anchorEl}
           open={open}
           onClose={this.handleMenuClose}
@@ -169,18 +168,18 @@ class FacetHeader extends React.Component {
             </MenuItem>
           ))}
         </Menu>
-      </React.Fragment>
-    );
+      </>
+    )
   }
 
-  render() {
-    const { classes, isActive, facetDescription, facetLabel } = this.props;
-    const { sortButton, spatialFilterButton, chartButton } = this.props.facet;
-    let showButtons = isActive && (sortButton || spatialFilterButton || chartButton);
+  render () {
+    const { classes, isActive, facetDescription, facetLabel } = this.props
+    const { sortButton, spatialFilterButton, chartButton } = this.props.facet
+    const showButtons = isActive && (sortButton || spatialFilterButton || chartButton)
 
     return (
       <div className={classes.headingContainer}>
-        <Typography variant="body1">{facetLabel} </Typography>
+        <Typography variant='body1'>{facetLabel} </Typography>
         <Tooltip
           title={facetDescription}
           enterDelay={300}
@@ -192,10 +191,9 @@ class FacetHeader extends React.Component {
         {showButtons &&
           <div className={classes.facetHeaderButtons}>
             {this.renderFacetMenu()}
-          </div>
-        }
+          </div>}
       </div>
-    );
+    )
   }
 }
 
@@ -212,6 +210,6 @@ FacetHeader.propTypes = {
   fetchFacetConstrainSelf: PropTypes.func,
   updateFacetOption: PropTypes.func,
   facetDescription: PropTypes.string.isRequired
-};
+}
 
-export default withStyles(styles)(FacetHeader);
+export default withStyles(styles)(FacetHeader)

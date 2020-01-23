@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Route, Redirect } from 'react-router-dom';
-import PerspectiveTabs from '../../main_layout/PerspectiveTabs';
-import ResultTable from '../../facet_results/ResultTable';
-import Export from '../../facet_results/Export';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Route, Redirect } from 'react-router-dom'
+import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
+import ResultTable from '../../facet_results/ResultTable'
+import Export from '../../facet_results/Export'
 
-let Works = props => {
+const Works = props => {
   return (
-    <React.Fragment>
+    <>
       <PerspectiveTabs
         routeProps={props.routeProps}
         tabs={props.perspective.tabs}
@@ -17,7 +17,7 @@ let Works = props => {
         render={() => <Redirect to='/works/faceted-search/table' />}
       />
       <Route
-        path={'/works/faceted-search/table'}
+        path='/works/faceted-search/table'
         render={routeProps =>
           <ResultTable
             data={props.works}
@@ -29,20 +29,19 @@ let Works = props => {
             updateRowsPerPage={props.updateRowsPerPage}
             sortResults={props.sortResults}
             routeProps={routeProps}
-          />
-        }
+          />}
       />
       <Route
-        path={'/works/faceted-search/export'}
+        path='/works/faceted-search/export'
         render={() =>
           <Export
             sparqlQuery={props.works.paginatedResultsSparqlQuery}
             pageType='facetResults'
           />}
       />
-    </React.Fragment>
-  );
-};
+    </>
+  )
+}
 
 Works.propTypes = {
   works: PropTypes.object.isRequired,
@@ -56,6 +55,6 @@ Works.propTypes = {
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired,
   perspective: PropTypes.object.isRequired
-};
+}
 
-export default Works;
+export default Works

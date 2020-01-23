@@ -1,5 +1,5 @@
-export const endpoint = 'http://ldf.fi/mmm-cidoc/sparql';
-//export const endpoint = 'http://localhost:3050/ds/sparql';
+export const endpoint = 'http://ldf.fi/mmm-cidoc/sparql'
+// export const endpoint = 'http://localhost:3050/ds/sparql';
 
 export const instanceQuery = `
   SELECT * {
@@ -7,7 +7,7 @@ export const instanceQuery = `
     <PROPERTIES>
     <RELATED_INSTANCES>
   }
-`;
+`
 
 export const countQuery = `
   SELECT (COUNT(DISTINCT ?id) as ?count)
@@ -16,7 +16,7 @@ export const countQuery = `
     VALUES ?facetClass { <FACET_CLASS> }
     ?id a ?facetClass .
   }
-`;
+`
 
 export const jenaQuery = `
   SELECT *
@@ -92,7 +92,7 @@ export const jenaQuery = `
       BIND(CONCAT("/expressions/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
     }
   }
-`;
+`
 
 export const facetResultSetQuery = `
   SELECT *
@@ -110,7 +110,7 @@ export const facetResultSetQuery = `
     FILTER(BOUND(?id))
     <RESULT_SET_PROPERTIES>
   }
-`;
+`
 
 export const facetValuesQuery = `
   SELECT DISTINCT ?id ?prefLabel ?selected ?parent ?instanceCount {
@@ -161,7 +161,7 @@ export const facetValuesQuery = `
     }
   }
   <ORDER_BY>
-`;
+`
 
 export const facetValuesQueryTimespan = `
   # ignore selections from other facets
@@ -185,7 +185,7 @@ export const facetValuesQueryTimespan = `
       }
     }
   }
-`;
+`
 
 export const facetValuesRange = `
   # ignore selections from other facets
@@ -195,4 +195,4 @@ export const facetValuesRange = `
     ?instance a ?facetClass .
     <FACET_VALUE_FILTER>
   }
-`;
+`

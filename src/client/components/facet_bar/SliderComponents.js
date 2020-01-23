@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-//import './tooltip.css';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+// import './tooltip.css';
 
 // *******************************************************
 // TOOLTIP RAIL
@@ -11,9 +11,9 @@ const railStyle = {
   transform: 'translate(0%, -50%)',
   height: 40,
   cursor: 'pointer',
-  zIndex: 300,
+  zIndex: 300
   // border: '1px solid grey',
-};
+}
 
 const railCenterStyle = {
   position: 'absolute',
@@ -23,16 +23,16 @@ const railCenterStyle = {
   borderRadius: 7,
   cursor: 'pointer',
   pointerEvents: 'none',
-  backgroundColor: 'rgb(155,155,155)',
-};
+  backgroundColor: 'rgb(155,155,155)'
+}
 
 const tooltipStyle = {
   position: 'relative',
   display: 'inline-block',
   borderBottom: '1px dotted #444',
   marginLeft: 22,
-  zIndex: 1000,
-};
+  zIndex: 1000
+}
 
 const tooltipTextStyle = {
   width: 100,
@@ -47,46 +47,46 @@ const tooltipTextStyle = {
   bottom: '150%',
   left: '50%',
   marginLeft: '-60px'
-};
+}
 
 export class TooltipRail extends Component {
   state = {
     value: null,
-    percent: null,
+    percent: null
   }
 
   onMouseEnter = () => {
-    document.addEventListener('mousemove', this.onMouseMove);
+    document.addEventListener('mousemove', this.onMouseMove)
   }
 
   onMouseLeave = () => {
-    this.setState({ value: null, percent: null });
-    document.removeEventListener('mousemove', this.onMouseMove);
+    this.setState({ value: null, percent: null })
+    document.removeEventListener('mousemove', this.onMouseMove)
   }
 
   onMouseMove = e => {
-    const { activeHandleID, getEventData } = this.props;
+    const { activeHandleID, getEventData } = this.props
 
     if (activeHandleID) {
-      this.setState({ value: null, percent: null });
+      this.setState({ value: null, percent: null })
     } else {
-      this.setState(getEventData(e));
+      this.setState(getEventData(e))
     }
   }
 
-  render() {
-    const { value, percent } = this.state;
-    const { activeHandleID, getRailProps } = this.props;
+  render () {
+    const { value, percent } = this.state
+    const { activeHandleID, getRailProps } = this.props
 
     return (
-      <Fragment>
+      <>
         {!activeHandleID && value ? (
           <div
             style={{
               left: `${percent}%`,
               position: 'absolute',
               marginLeft: '-11px',
-              marginTop: '-35px',
+              marginTop: '-35px'
             }}
           >
             <div style={tooltipStyle}>
@@ -98,60 +98,60 @@ export class TooltipRail extends Component {
           style={railStyle}
           {...getRailProps({
             onMouseEnter: this.onMouseEnter,
-            onMouseLeave: this.onMouseLeave,
+            onMouseLeave: this.onMouseLeave
           })}
         />
         <div style={railCenterStyle} />
-      </Fragment>
-    );
+      </>
+    )
   }
 }
 
 TooltipRail.propTypes = {
   getEventData: PropTypes.func,
   activeHandleID: PropTypes.string,
-  getRailProps: PropTypes.func.isRequired,
-};
+  getRailProps: PropTypes.func.isRequired
+}
 
 TooltipRail.defaultProps = {
-  disabled: false,
-};
+  disabled: false
+}
 
 // *******************************************************
 // HANDLE COMPONENT
 // *******************************************************
 export class Handle extends Component {
   state = {
-    mouseOver: false,
+    mouseOver: false
   }
 
   onMouseEnter = () => {
-    this.setState({ mouseOver: true });
+    this.setState({ mouseOver: true })
   }
 
   onMouseLeave = () => {
-    this.setState({ mouseOver: false });
+    this.setState({ mouseOver: false })
   }
 
-  render() {
+  render () {
     const {
       domain: [min, max],
       handle: { id, value, percent },
       isActive,
       disabled,
-      getHandleProps,
-    } = this.props;
-    const { mouseOver } = this.state;
+      getHandleProps
+    } = this.props
+    const { mouseOver } = this.state
 
     return (
-      <Fragment>
+      <>
         {(mouseOver || isActive) && !disabled ? (
           <div
             style={{
               left: `${percent}%`,
               position: 'absolute',
               marginLeft: '-11px',
-              marginTop: '-35px',
+              marginTop: '-35px'
             }}
           >
             <div style={tooltipStyle}>
@@ -170,15 +170,15 @@ export class Handle extends Component {
             height: 42,
             cursor: 'pointer',
             // border: '1px solid grey',
-            backgroundColor: 'none',
+            backgroundColor: 'none'
           }}
           {...getHandleProps(id, {
             onMouseEnter: this.onMouseEnter,
-            onMouseLeave: this.onMouseLeave,
+            onMouseLeave: this.onMouseLeave
           })}
         />
         <div
-          role="slider"
+          role='slider'
           aria-valuemin={min}
           aria-valuemax={max}
           aria-valuenow={value}
@@ -193,11 +193,11 @@ export class Handle extends Component {
             border: 0,
             borderRadius: '50%',
             boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)',
-            backgroundColor: disabled ? '#666' : '#8b6068',
+            backgroundColor: disabled ? '#666' : '#8b6068'
           }}
         />
-      </Fragment>
-    );
+      </>
+    )
   }
 }
 
@@ -206,21 +206,21 @@ Handle.propTypes = {
   handle: PropTypes.shape({
     id: PropTypes.string.isRequired,
     value: PropTypes.number.isRequired,
-    percent: PropTypes.number.isRequired,
+    percent: PropTypes.number.isRequired
   }).isRequired,
   getHandleProps: PropTypes.func.isRequired,
   isActive: PropTypes.bool.isRequired,
-  disabled: PropTypes.bool,
-};
+  disabled: PropTypes.bool
+}
 
 Handle.defaultProps = {
-  disabled: false,
-};
+  disabled: false
+}
 
 // *******************************************************
 // TRACK COMPONENT
 // *******************************************************
-export function Track({ source, target, getTrackProps, disabled }) {
+export function Track ({ source, target, getTrackProps, disabled }) {
   return (
     <div
       style={{
@@ -232,36 +232,36 @@ export function Track({ source, target, getTrackProps, disabled }) {
         borderRadius: 7,
         cursor: 'pointer',
         left: `${source.percent}%`,
-        width: `${target.percent - source.percent}%`,
+        width: `${target.percent - source.percent}%`
       }}
       {...getTrackProps()}
     />
-  );
+  )
 }
 
 Track.propTypes = {
   source: PropTypes.shape({
     id: PropTypes.string.isRequired,
     value: PropTypes.number.isRequired,
-    percent: PropTypes.number.isRequired,
+    percent: PropTypes.number.isRequired
   }).isRequired,
   target: PropTypes.shape({
     id: PropTypes.string.isRequired,
     value: PropTypes.number.isRequired,
-    percent: PropTypes.number.isRequired,
+    percent: PropTypes.number.isRequired
   }).isRequired,
   getTrackProps: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-};
+  disabled: PropTypes.bool
+}
 
 Track.defaultProps = {
-  disabled: false,
-};
+  disabled: false
+}
 
 // *******************************************************
 // TICK COMPONENT
 // *******************************************************
-export function Tick({ tick, count, format }) {
+export function Tick ({ tick, count, format }) {
   return (
     <div>
       <div
@@ -271,7 +271,7 @@ export function Tick({ tick, count, format }) {
           width: 1,
           height: 5,
           backgroundColor: 'rgb(200,200,200)',
-          left: `${tick.percent}%`,
+          left: `${tick.percent}%`
         }}
       />
       <div
@@ -282,25 +282,25 @@ export function Tick({ tick, count, format }) {
           textAlign: 'center',
           marginLeft: `${-(100 / count) / 2}%`,
           width: `${100 / count}%`,
-          left: `${tick.percent}%`,
+          left: `${tick.percent}%`
         }}
       >
         {format(tick.value)}
       </div>
     </div>
-  );
+  )
 }
 
 Tick.propTypes = {
   tick: PropTypes.shape({
     id: PropTypes.string.isRequired,
     value: PropTypes.number.isRequired,
-    percent: PropTypes.number.isRequired,
+    percent: PropTypes.number.isRequired
   }).isRequired,
   count: PropTypes.number.isRequired,
-  format: PropTypes.func.isRequired,
-};
+  format: PropTypes.func.isRequired
+}
 
 Tick.defaultProps = {
-  format: d => d,
-};
+  format: d => d
+}

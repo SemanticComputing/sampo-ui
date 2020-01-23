@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Route, Redirect } from 'react-router-dom';
-import PerspectiveTabs from '../../main_layout/PerspectiveTabs';
-import ResultTable from '../../facet_results/ResultTable';
-import LeafletMap from '../../facet_results/LeafletMap';
-import Export from '../../facet_results/Export';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Route, Redirect } from 'react-router-dom'
+import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
+import ResultTable from '../../facet_results/ResultTable'
+import LeafletMap from '../../facet_results/LeafletMap'
+import Export from '../../facet_results/Export'
 
-let Places = props => {
+const Places = props => {
   return (
-    <React.Fragment>
+    <>
       <PerspectiveTabs
         routeProps={props.routeProps}
         tabs={props.perspective.tabs}
@@ -18,7 +18,7 @@ let Places = props => {
         render={() => <Redirect to='/places/faceted-search/map' />}
       />
       <Route
-        path={'/places/faceted-search/table'}
+        path='/places/faceted-search/table'
         render={routeProps =>
           <ResultTable
             data={props.places}
@@ -30,11 +30,10 @@ let Places = props => {
             updateRowsPerPage={props.updateRowsPerPage}
             sortResults={props.sortResults}
             routeProps={routeProps}
-          />
-        }
+          />}
       />
       <Route
-        path={'/places/faceted-search/map'}
+        path='/places/faceted-search/map'
         render={() =>
           <LeafletMap
             results={props.places.results}
@@ -51,16 +50,16 @@ let Places = props => {
           />}
       />
       <Route
-        path={'/places/faceted-search/export'}
+        path='/places/faceted-search/export'
         render={() =>
           <Export
             sparqlQuery={props.places.paginatedResultsSparqlQuery}
             pageType='facetResults'
           />}
       />
-    </React.Fragment>
-  );
-};
+    </>
+  )
+}
 
 Places.propTypes = {
   places: PropTypes.object.isRequired,
@@ -73,6 +72,6 @@ Places.propTypes = {
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired,
   perspective: PropTypes.object.isRequired
-};
+}
 
-export default Places;
+export default Places

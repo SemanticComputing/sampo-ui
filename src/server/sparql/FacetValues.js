@@ -1,25 +1,25 @@
-import { runSelectQuery } from './SparqlApi';
-import { has } from 'lodash';
+import { runSelectQuery } from './SparqlApi'
+import { has } from 'lodash'
 import {
   endpoint,
   facetValuesQuery,
   facetValuesQueryTimespan,
   facetValuesRange
-} from './SparqlQueriesGeneral';
-import { prefixes } from './SparqlQueriesPrefixes';
-import { facetConfigs } from './FacetConfigsMMM';
+} from './SparqlQueriesGeneral'
+import { prefixes } from './SparqlQueriesPrefixes'
+import { facetConfigs } from './FacetConfigsMMM'
 import {
   hasPreviousSelections,
   hasPreviousSelectionsFromOtherFacets,
   getUriFilters,
   generateConstraintsBlock,
   generateSelectedFilter
-} from './Filters';
+} from './Filters'
 import {
   mapFacet,
   mapHierarchicalFacet,
   mapTimespanFacet
-} from './Mappers';
+} from './Mappers'
 
 export const getFacet = async ({
   facetClass,
@@ -30,37 +30,37 @@ export const getFacet = async ({
   resultFormat,
   constrainSelf
 }) => {
-  const facetConfig = facetConfigs[facetClass][facetID];
+  const facetConfig = facetConfigs[facetClass][facetID]
   // choose query template and result mapper:
-  let q = '';
-  let mapper = null;
-  let previousSelections = null;
-  switch(facetConfig.type) {
+  let q = ''
+  let mapper = null
+  let previousSelections = null
+  switch (facetConfig.type) {
     case 'list':
-      q = facetValuesQuery;
-      mapper = mapFacet;
-      break;
+      q = facetValuesQuery
+      mapper = mapFacet
+      break
     case 'hierarchical':
-      q = facetValuesQuery;
-      mapper = mapHierarchicalFacet;
-      break;
+      q = facetValuesQuery
+      mapper = mapHierarchicalFacet
+      break
     case 'timespan':
-      q = facetValuesQueryTimespan;
-      mapper = mapTimespanFacet;
-      break;
+      q = facetValuesQueryTimespan
+      mapper = mapTimespanFacet
+      break
     case 'integer':
-      q = facetValuesRange;
-      mapper = mapTimespanFacet;
-      break;
+      q = facetValuesRange
+      mapper = mapTimespanFacet
+      break
     default:
-      q = facetValuesQuery;
-      mapper = mapFacet;
+      q = facetValuesQuery
+      mapper = mapFacet
   }
-  let selectedBlock = '# no selections';
-  let selectedNoHitsBlock = '# no filters from other facets';
-  let filterBlock = '# no filters';
-  let parentBlock = '# no parents';
-  let parentsForFacetValues = '# no parents for facet values';
+  let selectedBlock = '# no selections'
+  let selectedNoHitsBlock = '# no filters from other facets'
+  let filterBlock = '# no filters'
+  let parentBlock = '# no parents'
+  let parentsForFacetValues = '# no parents for facet values'
   if (constraints !== null) {
     filterBlock = generateConstraintsBlock({
       facetClass: facetClass,
@@ -69,14 +69,14 @@ export const getFacet = async ({
       facetID: facetID,
       inverse: false,
       constrainSelf
-    });
-    previousSelections = new Set(getUriFilters(constraints, facetID));
+    })
+    previousSelections = new Set(getUriFilters(constraints, facetID))
     // if this facet has previous selections, include them in the query
     if (hasPreviousSelections(constraints, facetID)) {
       selectedBlock = generateSelectedBlock({
         facetID,
         constraints
-      });
+      })
       /* if there are also filters from other facets, we need this
          additional block for facet values that return 0 hits */
       if (hasPreviousSelectionsFromOtherFacets(constraints, facetID)) {
@@ -84,44 +84,44 @@ export const getFacet = async ({
           facetClass,
           facetID,
           constraints
-        });
+        })
       }
     }
   }
   if (facetConfig.type === 'hierarchical') {
-    const { parentPredicate } = facetConfig;
+    const { parentPredicate } = facetConfig
     parentBlock = generateParentBlock({
       facetClass,
       facetID,
       constraints,
       parentPredicate
-    });
+    })
     parentsForFacetValues = `
       OPTIONAL { ?id ${facetConfig.parentProperty} ?parent_ }
       BIND(COALESCE(?parent_, '0') as ?parent)
-    `;
+    `
   }
-  q = q.replace('<SELECTED_VALUES>', selectedBlock);
-  q = q.replace('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock);
-  q = q.replace(/<FACET_VALUE_FILTER>/g, facetConfig.facetValueFilter);
+  q = q.replace('<SELECTED_VALUES>', selectedBlock)
+  q = q.replace('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock)
+  q = q.replace(/<FACET_VALUE_FILTER>/g, facetConfig.facetValueFilter)
   q = q.replace(/<FACET_LABEL_FILTER>/g,
     has(facetConfig, 'facetLabelFilter')
       ? facetConfig.facetLabelFilter
       : ''
-  );
-  q = q.replace('<PARENTS>', parentBlock);
-  q = q.replace('<PARENTS_FOR_FACET_VALUES>', parentsForFacetValues);
+  )
+  q = q.replace('<PARENTS>', parentBlock)
+  q = q.replace('<PARENTS_FOR_FACET_VALUES>', parentsForFacetValues)
   if (facetConfig.type === 'list') {
-    q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})` );
+    q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})`)
   } else {
-    q = q.replace('<ORDER_BY>', '# no need for ordering');
+    q = q.replace('<ORDER_BY>', '# no need for ordering')
   }
-  q = q.replace(/<FACET_CLASS>/g, facetConfigs[facetClass].facetClass);
-  q = q.replace(/<FILTER>/g, filterBlock );
-  q = q.replace(/<PREDICATE>/g, facetConfig.predicate);
+  q = q.replace(/<FACET_CLASS>/g, facetConfigs[facetClass].facetClass)
+  q = q.replace(/<FILTER>/g, filterBlock)
+  q = q.replace(/<PREDICATE>/g, facetConfig.predicate)
   if (facetConfig.type === 'timespan') {
-    q = q.replace('<START_PROPERTY>', facetConfig.startProperty);
-    q = q.replace('<END_PROPERTY>', facetConfig.endProperty);
+    q = q.replace('<START_PROPERTY>', facetConfig.startProperty)
+    q = q.replace('<END_PROPERTY>', facetConfig.endProperty)
   }
   // console.log(prefixes + q)
   const response = await runSelectQuery({
@@ -130,41 +130,41 @@ export const getFacet = async ({
     resultMapper: mapper,
     previousSelections,
     resultFormat
-  });
+  })
   if (facetConfig.type === 'hierarchical') {
-    return({
+    return ({
       facetClass: facetClass,
       id: facetID,
       data: response.data.treeData,
       flatData: response.data.flatData,
       sparqlQuery: response.sparqlQuery
-    });
+    })
   } else {
-    return({
+    return ({
       facetClass: facetClass,
       id: facetID,
       data: response.data,
       sparqlQuery: response.sparqlQuery
-    });
+    })
   }
-};
+}
 
 const generateSelectedBlock = ({
   facetID,
-  constraints,
+  constraints
 }) => {
   const selectedFilter = generateSelectedFilter({
     facetID,
     constraints,
     inverse: false
-  });
+  })
   return `
           OPTIONAL {
             ${selectedFilter}
             BIND(true AS ?selected_)
           }
-  `;
-};
+  `
+}
 
 const generateSelectedNoHitsBlock = ({
   facetClass,
@@ -176,8 +176,8 @@ const generateSelectedNoHitsBlock = ({
     constraints: constraints,
     filterTarget: 'instance',
     facetID: facetID,
-    inverse: true,
-  });
+    inverse: true
+  })
   return `
   UNION
   {
@@ -186,8 +186,8 @@ const generateSelectedNoHitsBlock = ({
     ${noHitsFilter}
     BIND(true AS ?selected_)
   }
-    `;
-};
+    `
+}
 
 const generateParentBlock = ({
   facetClass,
@@ -195,8 +195,8 @@ const generateParentBlock = ({
   constraints,
   parentPredicate
 }) => {
-  let parentFilterStr = '# no filters';
-  let ignoreSelectedValues = '# no selected values';
+  let parentFilterStr = '# no filters'
+  let ignoreSelectedValues = '# no selected values'
   if (constraints !== null) {
     parentFilterStr = generateConstraintsBlock({
       facetClass: facetClass,
@@ -204,13 +204,13 @@ const generateParentBlock = ({
       filterTarget: 'instance2',
       facetID: facetID,
       inverse: false
-    });
+    })
     if (hasPreviousSelections) {
       ignoreSelectedValues = generateSelectedFilter({
         facetID: facetID,
         constraints: constraints,
         inverse: true
-      });
+      })
     }
   }
   return `
@@ -225,5 +225,5 @@ const generateParentBlock = ({
           BIND(false AS ?selected_)
           ${ignoreSelectedValues}
         }
-    `;
-};
+    `
+}

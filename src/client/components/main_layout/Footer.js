@@ -1,31 +1,31 @@
-import React from 'react';
-import Paper from '@material-ui/core/Paper';
-import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
-import oxfordLogo from '../../img/logos/partners/ox_brand6_pos_rect.gif';
-import oxfordLogo2 from '../../img/logos/partners/Long-Logo-RGB.jpg';
-import pennLogo from '../../img/logos/partners/PL SIMS Logo_small.png';
-import cnrsLogo from '../../img/logos/partners/logo_cnrs_irht2.jpg';
-import aaltoLogo from '../../img/logos/partners/Aalto_SCI_EN_13_BLACK_2_cropped.png';
-import secoLogo from '../../img/logos/partners/13_9_04_logo_cropped_small.png';
-import tapLogo from '../../img/logos/funders/cropped-logo_tap_0_.png';
-import didLogo from '../../img/logos/funders/did_logo.png';
-import imlsLogo from '../../img/logos/funders/imls_logo_2c_cropped.jpg';
-import anrLogo from '../../img/logos/funders/Agence_Nationale_de_la_Recherche.png';
-import akaLogo from '../../img/logos/funders/aka_en_vaaka_rgb.jpg';
+import React from 'react'
+import Paper from '@material-ui/core/Paper'
+import PropTypes from 'prop-types'
+import Grid from '@material-ui/core/Grid'
+import { withStyles } from '@material-ui/core/styles'
+import oxfordLogo from '../../img/logos/partners/ox_brand6_pos_rect.gif'
+import oxfordLogo2 from '../../img/logos/partners/Long-Logo-RGB.jpg'
+import pennLogo from '../../img/logos/partners/PL SIMS Logo_small.png'
+import cnrsLogo from '../../img/logos/partners/logo_cnrs_irht2.jpg'
+import aaltoLogo from '../../img/logos/partners/Aalto_SCI_EN_13_BLACK_2_cropped.png'
+import secoLogo from '../../img/logos/partners/13_9_04_logo_cropped_small.png'
+import tapLogo from '../../img/logos/funders/cropped-logo_tap_0_.png'
+import didLogo from '../../img/logos/funders/did_logo.png'
+import imlsLogo from '../../img/logos/funders/imls_logo_2c_cropped.jpg'
+import anrLogo from '../../img/logos/funders/Agence_Nationale_de_la_Recherche.png'
+import akaLogo from '../../img/logos/funders/aka_en_vaaka_rgb.jpg'
 
 const styles = theme => ({
   root: {
     position: 'absolute',
-    [ theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('sm')]: {
       display: 'none'
     },
     bottom: 0,
     left: 0,
     boxShadow: '0 -20px 20px -20px #333',
     width: '100%',
-    borderRadius: 0,
+    borderRadius: 0
   },
   layout: {
     width: 'auto',
@@ -37,8 +37,8 @@ const styles = theme => ({
     [theme.breakpoints.up(1500 + theme.spacing(6))]: {
       width: 1500,
       marginLeft: 'auto',
-      marginRight: 'auto',
-    },
+      marginRight: 'auto'
+    }
   },
   logoContainer: {
     display: 'flex',
@@ -46,15 +46,15 @@ const styles = theme => ({
     justifyContent: 'center'
   },
   logo: {
-    height: 40,
+    height: 40
   },
   aaltoLogo: {
-    height: 37,
-  },
-});
+    height: 37
+  }
+})
 
 const Footer = props => {
-  const { classes } = props;
+  const { classes } = props
   return (
     <Paper className={classes.root}>
       <Grid container className={classes.layout}>
@@ -97,11 +97,11 @@ const Footer = props => {
         </Grid>
       </Grid>
     </Paper>
-  );
-};
+  )
+}
 
 Footer.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+  classes: PropTypes.object.isRequired
+}
 
-export default withStyles(styles)(Footer);
+export default withStyles(styles)(Footer)

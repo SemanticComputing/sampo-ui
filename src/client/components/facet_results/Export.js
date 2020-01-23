@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
 // import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
-import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button'
 
 const styles = theme => ({
   root: {
@@ -16,24 +16,23 @@ const styles = theme => ({
     textDecoration: 'none'
   },
   button: {
-    margin: theme.spacing(3),
+    margin: theme.spacing(3)
   },
   rightIcon: {
-    marginLeft: theme.spacing(1),
-  },
-});
+    marginLeft: theme.spacing(1)
+  }
+})
 
 class Export extends React.Component {
-
   render = () => {
-    const { classes, sparqlQuery } = this.props;
-    let yasguiUrl = '';
+    const { classes, sparqlQuery } = this.props
+    let yasguiUrl = ''
     if (this.props.sparqlQuery !== null) {
-      yasguiUrl = 'http://yasgui.org/#query='
-      + encodeURIComponent(sparqlQuery)
-      + '&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results'
-      + '%2Bjson&endpoint=http%3A%2F%2Fldf.fi%2Fmmm-cidoc%2Fsparql&requestMethod=POST&tabTitle='
-      + 'Query+11&headers=%7B%7D&outputFormat=table';
+      yasguiUrl = 'http://yasgui.org/#query=' +
+      encodeURIComponent(sparqlQuery) +
+      '&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results' +
+      '%2Bjson&endpoint=http%3A%2F%2Fldf.fi%2Fmmm-cidoc%2Fsparql&requestMethod=POST&tabTitle=' +
+      'Query+11&headers=%7B%7D&outputFormat=table'
     }
 
     return (
@@ -44,7 +43,7 @@ class Export extends React.Component {
           target='_blank'
           rel='noopener noreferrer'
         >
-          <Button variant="contained" color="primary"  className={classes.button}>
+          <Button variant='contained' color='primary' className={classes.button}>
             Open SPARQL query in yasgui.org
           </Button>
         </a>
@@ -55,15 +54,13 @@ class Export extends React.Component {
             target='_blank'
             rel='noopener noreferrer'
           >
-            <Button variant="contained" color="primary"  className={classes.button}>
+            <Button variant='contained' color='primary' className={classes.button}>
               Open in Linked Data Browser
             </Button>
-          </a>
-        }
+          </a>}
       </div>
-    );
+    )
   }
-
 }
 
 Export.propTypes = {
@@ -71,6 +68,6 @@ Export.propTypes = {
   pageType: PropTypes.string.isRequired,
   sparqlQuery: PropTypes.string,
   id: PropTypes.string
-};
+}
 
-export default withStyles(styles)(Export);
+export default withStyles(styles)(Export)

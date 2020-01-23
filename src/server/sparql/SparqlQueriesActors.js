@@ -205,7 +205,7 @@ export const actorProperties = `
       BIND("Selling agent" as ?role)
     }
 
-`;
+`
 
 export const placesActorsQuery = `
   SELECT ?id ?lat ?long
@@ -221,4 +221,4 @@ export const placesActorsQuery = `
         wgs84:long ?long .
   }
   GROUP BY ?id ?lat ?long
-`;
+`

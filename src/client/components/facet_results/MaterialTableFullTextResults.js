@@ -1,18 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import MaterialTable from 'material-table';
-import SearchIcon from '@material-ui/icons/Search';
-import ClearIcon from '@material-ui/icons/Clear';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import LastPageIcon from '@material-ui/icons/LastPage';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import ResultTableCell from './ResultTableCell';
-import purple from '@material-ui/core/colors/purple';
-import Paper from '@material-ui/core/Paper';
-//import { has } from 'lodash';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import MaterialTable from 'material-table'
+import SearchIcon from '@material-ui/icons/Search'
+import ClearIcon from '@material-ui/icons/Clear'
+import FirstPageIcon from '@material-ui/icons/FirstPage'
+import LastPageIcon from '@material-ui/icons/LastPage'
+import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import ResultTableCell from './ResultTableCell'
+import purple from '@material-ui/core/colors/purple'
+import Paper from '@material-ui/core/Paper'
 
 const styles = () => ({
   progressContainer: {
@@ -20,26 +19,24 @@ const styles = () => ({
     height: 'calc(100% - 72px)',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   tableContainer: {
     maxWidth: '100%',
     height: 'calc(100% - 72px)'
   }
-});
+})
 
 class MaterialTableFullTextResults extends React.Component {
-
-
-  render() {
-    const results  = this.props.data;
-    let resultText = results == 1 ? 'result' : 'results';
+  render () {
+    const results = this.props.data
+    const resultText = results === 1 ? 'result' : 'results'
     if (this.props.fetching) {
       return (
         <Paper square className={this.props.classes.progressContainer}>
           <CircularProgress style={{ color: purple[500] }} thickness={5} />
         </Paper>
-      );
+      )
     } else {
       return (
         <div className={this.props.classes.tableContainer}>
@@ -53,13 +50,13 @@ class MaterialTableFullTextResults extends React.Component {
                     columnId='prefLabel'
                     data={data.prefLabel}
                     valueType='object'
-                    makeLink={true}
+                    makeLink
                     externalLink={false}
-                    sortValues={true}
+                    sortValues
                     numberedList={false}
                     minWidth={150}
                     container='div'
-                    expanded={true}
+                    expanded
                   />
               },
               {
@@ -72,11 +69,11 @@ class MaterialTableFullTextResults extends React.Component {
                     valueType='object'
                     makeLink={false}
                     externalLink={false}
-                    sortValues={true}
+                    sortValues
                     numberedList={false}
                     minWidth={150}
                     container='div'
-                    expanded={true}
+                    expanded
                   />
               },
               {
@@ -87,21 +84,20 @@ class MaterialTableFullTextResults extends React.Component {
                     columnId='source'
                     data={data.source}
                     valueType='object'
-                    makeLink={true}
-                    externalLink={true}
-                    sortValues={true}
+                    makeLink
+                    externalLink
+                    sortValues
                     numberedList={false}
                     minWidth={150}
                     container='div'
-                    expanded={true}
+                    expanded
                   />
-              },
+              }
             ]}
             data={results}
-            title={results > 1 ?
-              `Search term: "${this.props.query}", ${results.length} ${resultText}` :
-              ''
-            }
+            title={results > 1
+              ? `Search term: "${this.props.query}", ${results.length} ${resultText}`
+              : ''}
             icons={{
               Search: SearchIcon,
               ResetSearch: ClearIcon,
@@ -120,7 +116,7 @@ class MaterialTableFullTextResults extends React.Component {
             }}
           />
         </div>
-      );
+      )
     }
   }
 }
@@ -130,6 +126,6 @@ MaterialTableFullTextResults.propTypes = {
   data: PropTypes.array,
   query: PropTypes.string,
   fetching: PropTypes.bool.isRequired
-};
+}
 
-export default withStyles(styles)(MaterialTableFullTextResults);
+export default withStyles(styles)(MaterialTableFullTextResults)

@@ -1,22 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 import {
   VictoryPie,
   VictoryLegend,
-  VictoryContainer,
-  //VictoryLabel,
-} from 'victory';
-import PieTooltip from './PieTooltip';
-import _ from 'lodash';
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+  VictoryContainer
+  // VictoryLabel,
+} from 'victory'
+import PieTooltip from './PieTooltip'
+import _ from 'lodash'
+import { withStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
 
 const styles = theme => ({
   root: {
     height: '100%',
     display: 'flex',
-    flexGrow: 1,
+    flexGrow: 1
   },
   container: {
     marginLeft: 'auto',
@@ -28,54 +28,53 @@ const styles = theme => ({
   },
   pie: {
     paddingLeft: theme.spacing(4),
-    paddingRight: theme.spacing(2),
+    paddingRight: theme.spacing(2)
   },
   legend: {
     paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(4),
+    paddingRight: theme.spacing(4)
   },
   legendPaper: {
     height: 275,
-    overflowY: 'auto',
+    overflowY: 'auto'
   }
-});
+})
 
 const combineSmallGroups = (dataArray) => {
-  const totalLength = dataArray.length;
-  const threshold = 0.1;
-  let other = { x: 'Other', y: 0 };
-  let newArray = [];
-  for (let item of dataArray) {
-    const portion = item.y / totalLength;
+  const totalLength = dataArray.length
+  const threshold = 0.1
+  const other = { x: 'Other', y: 0 }
+  const newArray = []
+  for (const item of dataArray) {
+    const portion = item.y / totalLength
     if (portion < threshold) {
-      other.y += item.y;
+      other.y += item.y
     } else {
-      newArray.push(item);
+      newArray.push(item)
     }
   }
   if (other.y > 0) {
-    newArray.push(other);
-    return newArray;
+    newArray.push(other)
+    return newArray
   } else {
-    return dataArray;
+    return dataArray
   }
-};
+}
 
 class Pie extends React.Component {
-
   componentDidMount = () => {
     this.props.fetchResults({
       resultClass: 'places',
       facetClass: 'manuscripts',
-      sortBy: null,
-    });
+      sortBy: null
+    })
   }
 
-  render() {
-    const { classes, data } = this.props;
-    const resultCount = data.length;
+  render () {
+    const { classes, data } = this.props
+    const resultCount = data.length
     if (resultCount < 1) {
-      return '';
+      return ''
     }
     // const grouped = _.groupBy(data, groupBy);
     // let dataArray = [];
@@ -87,20 +86,20 @@ class Pie extends React.Component {
     //     values: grouped[key]
     //   });
     // }
-    let placeLinks = 0;
+    let placeLinks = 0
     let dataArray = data.map(item => {
-      const msCount = parseInt(item.instanceCount);
-      placeLinks += msCount;
+      const msCount = parseInt(item.instanceCount)
+      placeLinks += msCount
       return {
         x: item.prefLabel,
-        y: msCount,
-      };
-    });
-    dataArray = _.orderBy(dataArray, 'y', 'desc');
-    dataArray = combineSmallGroups(dataArray, placeLinks);
+        y: msCount
+      }
+    })
+    dataArray = _.orderBy(dataArray, 'y', 'desc')
+    dataArray = combineSmallGroups(dataArray, placeLinks)
 
-    const legendArray = dataArray.map(group => ({ name: group.x + ' (' + group.y + ')' }));
-    const legendHeigth = legendArray.length * 33;
+    const legendArray = dataArray.map(group => ({ name: group.x + ' (' + group.y + ')' }))
+    const legendHeigth = legendArray.length * 33
 
     // const pieTitle = placeLinks + ' production place links in total';
     // <VictoryLabel
@@ -120,7 +119,7 @@ class Pie extends React.Component {
               padding={{
                 left: 0, bottom: 0, top: 32
               }}
-              colorScale={'qualitative'}
+              colorScale='qualitative'
               data={dataArray}
               labelComponent={<PieTooltip resultCount={placeLinks} />}
             />
@@ -129,12 +128,12 @@ class Pie extends React.Component {
             <Paper className={classes.legendPaper}>
               <VictoryLegend
                 height={legendHeigth}
-                title={'Production place (manuscript count)'}
-                colorScale={'qualitative'}
+                title='Production place (manuscript count)'
+                colorScale='qualitative'
                 data={legendArray}
                 style={{
                   labels: { fontFamily: 'Roboto, Helvetica, Arial, sans-serif' },
-                  title: { fontFamily: 'Roboto, Helvetica, Arial, sans-serif' },
+                  title: { fontFamily: 'Roboto, Helvetica, Arial, sans-serif' }
                 }}
                 containerComponent={
                   <VictoryContainer
@@ -147,7 +146,7 @@ class Pie extends React.Component {
           </Grid>
         </Grid>
       </div>
-    );
+    )
   }
 }
 
@@ -155,6 +154,6 @@ Pie.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
   fetchResults: PropTypes.func.isRequired
-};
+}
 
-export default withStyles(styles)(Pie);
+export default withStyles(styles)(Pie)
