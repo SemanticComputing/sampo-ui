@@ -72,7 +72,7 @@ export default {
   },
   perspectives: {
     perspective1: {
-      label: 'Perspective1',
+      label: 'Perspective 1',
       facetResultsType: 'manuscripts',
       shortDescription: 'Perspective1 description',
       longDescription: `

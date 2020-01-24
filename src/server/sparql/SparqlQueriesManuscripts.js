@@ -1,3 +1,5 @@
+const perspectiveID = 'perspective1'
+
 export const manuscriptPropertiesInstancePage =
 `   {
       ?id skos:prefLabel ?prefLabel__id .
@@ -202,7 +204,7 @@ export const manuscriptPropertiesInstancePage =
 export const manuscriptPropertiesFacetResults =
   `?id skos:prefLabel ?prefLabel__id .
       BIND (?prefLabel__id as ?prefLabel__prefLabel)
-      BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
+      BIND(CONCAT("/${perspectiveID}/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
       {
         ?id mmm-schema:data_provider_url ?source__id .
         BIND (?source__id AS ?source__prefLabel)
@@ -378,7 +380,7 @@ export const expressionProperties =
     {
       ?id ^crm:P128_carries ?manuscript__id .
       ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
-      BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
+      BIND(CONCAT("/${perspectiveID}/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
     }
     UNION
     {
@@ -407,7 +409,7 @@ export const collectionProperties =
      {
        ?id ^crm:P46i_forms_part_of ?manuscript__id .
        ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
-       BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
+       BIND(CONCAT("/${perspectiveID}/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
      }
      UNION
      {
@@ -474,7 +476,7 @@ export const migrationsQuery = `
     <FILTER>
     ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?from__id .
     ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
-    BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
+    BIND(CONCAT("/${perspectiveID}/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
     ?from__id skos:prefLabel ?from__prefLabel ;
               wgs84:lat ?from__lat ;
               wgs84:long ?from__long .

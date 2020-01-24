@@ -10,8 +10,6 @@ import {
 import {
   manuscriptPropertiesFacetResults,
   manuscriptPropertiesInstancePage,
-  expressionProperties,
-  collectionProperties,
   productionPlacesQuery,
   lastKnownLocationsQuery,
   migrationsQuery,
@@ -21,12 +19,8 @@ import {
 import { workProperties } from './SparqlQueriesWorks'
 import { eventProperties, eventPlacesQuery } from './SparqlQueriesEvents'
 import { generateEventsByPeriodQuery } from './FacetResultsEvents'
+import { placesActorsQuery } from './SparqlQueriesActors'
 import {
-  actorProperties,
-  placesActorsQuery
-} from './SparqlQueriesActors'
-import {
-  placePropertiesInstancePage,
   placePropertiesInfoWindow,
   manuscriptsProducedAt,
   lastKnownLocationsAt,
@@ -249,39 +243,19 @@ export const getByURI = ({
 }) => {
   let q
   switch (resultClass) {
-    case 'manuscripts':
+    case 'perspective1':
       q = instanceQuery
       q = q.replace('<PROPERTIES>', manuscriptPropertiesInstancePage)
       q = q.replace('<RELATED_INSTANCES>', '')
       break
-    case 'expressions':
-      q = instanceQuery
-      q = q.replace('<PROPERTIES>', expressionProperties)
-      q = q.replace('<RELATED_INSTANCES>', '')
-      break
-    case 'collections':
-      q = instanceQuery
-      q = q.replace('<PROPERTIES>', collectionProperties)
-      q = q.replace('<RELATED_INSTANCES>', '')
-      break
-    case 'works':
+    case 'perspective2':
       q = instanceQuery
       q = q.replace('<PROPERTIES>', workProperties)
       q = q.replace('<RELATED_INSTANCES>', '')
       break
-    case 'events':
+    case 'perspective3':
       q = instanceQuery
       q = q.replace('<PROPERTIES>', eventProperties)
-      q = q.replace('<RELATED_INSTANCES>', '')
-      break
-    case 'actors':
-      q = instanceQuery
-      q = q.replace('<PROPERTIES>', actorProperties)
-      q = q.replace('<RELATED_INSTANCES>', '')
-      break
-    case 'places':
-      q = instanceQuery
-      q = q.replace('<PROPERTIES>', placePropertiesInstancePage)
       q = q.replace('<RELATED_INSTANCES>', '')
       break
     case 'placesAll':

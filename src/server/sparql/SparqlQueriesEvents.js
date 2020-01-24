@@ -1,10 +1,12 @@
+const perspectiveID = 'perspective3'
+
 export const eventProperties = `
     {
       ?id a ?type__id .
       ?type__id skos:prefLabel|rdfs:label ?type__prefLabel .
       BIND(?type__id as ?prefLabel__id)
       BIND(?type__prefLabel as ?prefLabel__prefLabel)
-      BIND(CONCAT("/events/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?type__dataProviderUrl)
+      BIND(CONCAT("/${perspectiveID}/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?type__dataProviderUrl)
       BIND(?id as ?uri__id)
       BIND(?id as ?uri__dataProviderUrl)
       BIND(?id as ?uri__prefLabel)
