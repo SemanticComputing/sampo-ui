@@ -46,18 +46,18 @@ You can name it how you like and you can rename your local folder to match that.
 
 3. Copy the url of your new repository.
 
-4. With terminal go to the folder with the clone of this repository (mmm-web-app).
+4. With terminal go to the folder with the clone of this repository (sampo-web-app).
 
-5. Change remote origin from mmm-web-app to your new repository:
+5. Change remote origin from sampo-web-app to your new repository:
 `git remote set-url origin [your new github repo here]`
 
 6. Check that the origin changed to your new repository:
 `git remote -v`
 
-7. Push your local clone of mmm-web-app to your new repository:
+7. Push your local clone of sampo-web-app to your new repository:
 `git push`
 
-8. Set the original repository (mmm-web-app) as the upstream of your new repository:
+8. Set the original repository (sampo-web-app) as the upstream of your new repository:
 `git remote add upstream git@github.com:SemanticComputing/sampo-web-app.git`
 
 9. When new commits appear on the original repository (sampo-web-app) you can fetch them to your new repository.
