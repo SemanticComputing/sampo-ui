@@ -18,19 +18,19 @@ const styles = theme => ({
 
 const ChipsArray = props => {
   const handleDelete = item => () => {
-    if (!this.props.someFacetIsFetching) {
+    if (!props.someFacetIsFetching) {
       switch (item.filterType) {
         case 'uriFilter':
-          this.props.updateFacetOption({
-            facetClass: this.props.facetClass,
+          props.updateFacetOption({
+            facetClass: props.facetClass,
             facetID: item.facetID,
             option: item.filterType,
             value: item.value
           })
           break
         case 'textFilter':
-          this.props.updateFacetOption({
-            facetClass: this.props.facetClass,
+          props.updateFacetOption({
+            facetClass: props.facetClass,
             facetID: item.facetID,
             option: item.filterType,
             value: null
@@ -38,14 +38,14 @@ const ChipsArray = props => {
           break
         case 'timespanFilter':
         case 'integerFilter':
-          this.props.updateFacetOption({
-            facetClass: this.props.facetClass,
+          props.updateFacetOption({
+            facetClass: props.facetClass,
             facetID: item.facetID,
             option: item.filterType,
             value: null
           })
-          this.props.fetchFacet({
-            facetClass: this.props.facetClass,
+          props.fetchFacet({
+            facetClass: props.facetClass,
             facetID: item.facetID
           })
       }
