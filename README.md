@@ -1,5 +1,7 @@
 # Sampo Web App
 
+Sampo Semantic Portal
+
 ## Requirements
 
 Node.js https://nodejs.org/en/ (tested with 10.15.3 LTS)
