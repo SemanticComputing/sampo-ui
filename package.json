@@ -1,5 +1,5 @@
 {
-  "name": "mmm-web-app",
+  "name": "sampo-web-app",
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
