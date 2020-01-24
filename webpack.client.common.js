@@ -1,20 +1,20 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const webpack = require('webpack');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const webpack = require('webpack')
 
-const outputDirectory = 'dist/public';
+const outputDirectory = 'dist/public'
 
 module.exports = {
   entry: {
-    app: './src/client/index.js',
+    app: './src/client/index.js'
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      title: 'Mapping Manuscript Migrations – A Digging into Data project for 2017–2020',
+      title: 'Sampo Semantic Portal',
       // Load a custom template
-      template: 'src/client/index.html',
+      template: 'src/client/index.html'
     }),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
@@ -36,18 +36,18 @@ module.exports = {
         use: [
           'style-loader',
           'css-loader',
-          'sass-loader',
-        ],
+          'sass-loader'
+        ]
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
         use: [
-          'file-loader',
-        ],
-      },
-    ],
+          'file-loader'
+        ]
+      }
+    ]
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
-  },
-};
+    extensions: ['.js', '.jsx']
+  }
+}

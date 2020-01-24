@@ -27,14 +27,13 @@ import {
 } from './SparqlQueriesActors'
 import {
   placePropertiesInstancePage,
-  placePropertiesFacetResults,
   placePropertiesInfoWindow,
   manuscriptsProducedAt,
   lastKnownLocationsAt,
   actorsAt,
   allPlacesQuery
 } from './SparqlQueriesPlaces'
-import { facetConfigs } from './FacetConfigsMMM'
+import { facetConfigs } from './FacetConfigsSampo'
 import { mapCount, mapPlaces } from './Mappers'
 import { makeObjectList } from './SparqlObjectMapper'
 import { generateConstraintsBlock } from './Filters'
@@ -219,20 +218,14 @@ const getPaginatedData = ({
   q = q.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`)
   let resultSetProperties
   switch (resultClass) {
-    case 'manuscripts':
+    case 'perspective1':
       resultSetProperties = manuscriptPropertiesFacetResults
       break
-    case 'works':
+    case 'perspective2':
       resultSetProperties = workProperties
       break
-    case 'events':
+    case 'perspective3':
       resultSetProperties = eventProperties
-      break
-    case 'places':
-      resultSetProperties = placePropertiesFacetResults
-      break
-    case 'actors':
-      resultSetProperties = actorProperties
       break
     default:
       resultSetProperties = ''
