@@ -5,8 +5,9 @@ import L from 'leaflet'
 import { has, orderBy } from 'lodash'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { purple } from '@material-ui/core/colors'
-import 'leaflet/dist/leaflet.css'
 import { MAPBOX_ACCESS_TOKEN } from '../../configs/config'
+import 'leaflet/dist/leaflet.css'
+import './LeafletMap.css'
 
 // Leaflet plugins
 import 'leaflet-fullscreen/dist/fullscreen.png'
@@ -30,11 +31,6 @@ import markerIconGreen from '../../img/markers/marker-icon-green.png'
 import markerIconRed from '../../img/markers/marker-icon-red.png'
 import markerIconOrange from '../../img/markers/marker-icon-orange.png'
 
-const style = {
-  width: '100%',
-  height: '100%'
-}
-
 const styles = theme => ({
   leafletContainerfacetResults: {
     height: 400,
@@ -49,6 +45,10 @@ const styles = theme => ({
       height: '100%'
     },
     position: 'relative'
+  },
+  mapElement: {
+    width: '100%',
+    height: '100%'
   },
   spinnerContainer: {
     height: 40,
@@ -439,7 +439,7 @@ class LeafletMap extends React.Component {
     return (
       <>
         <div className={this.props.classes[`leafletContainer${this.props.pageType}`]}>
-          <div id='map' style={style} />
+          <div id='map' className={this.props.classes.mapElement} />
           {this.props.fetching &&
             <div className={this.props.classes.spinnerContainer}>
               <CircularProgress style={{ color: purple[500] }} thickness={5} />

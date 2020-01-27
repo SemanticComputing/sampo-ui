@@ -12,7 +12,6 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      title: 'Sampo Semantic Portal',
       // Load a custom template
       template: 'src/client/index.html'
     }),

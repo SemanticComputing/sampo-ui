@@ -1,6 +1,6 @@
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const common = require('./webpack.client.common.js');
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const common = require('./webpack.client.common.js')
 
 module.exports = merge(common, {
   mode: 'production',
@@ -10,4 +10,4 @@ module.exports = merge(common, {
       'process.env.NODE_ENV': JSON.stringify('production')
     })
   ]
-});
+})

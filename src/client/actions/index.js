@@ -226,7 +226,3 @@ export const animateMap = value => ({
   type: ANIMATE_MAP,
   value
 })
-// export const updateURL = ({ resultClass = 'manuscripts', newURL }) => ({
-//   type: UPDATE_URL,
-//   resultClass, newURL
-// });

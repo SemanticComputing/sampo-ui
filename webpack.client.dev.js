@@ -1,5 +1,5 @@
-const merge = require('webpack-merge');
-const common = require('./webpack.client.common.js');
+const merge = require('webpack-merge')
+const common = require('./webpack.client.common.js')
 
 module.exports = merge(common, {
   mode: 'development',
@@ -9,6 +9,6 @@ module.exports = merge(common, {
     port: 8080,
     open: true,
     historyApiFallback: true,
-    publicPath: '/',
+    publicPath: '/'
   }
-});
+})
