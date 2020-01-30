@@ -7,7 +7,8 @@ import StringList from './StringList'
 const ResultTableCell = props => {
   const {
     data, valueType, makeLink, externalLink, sortValues, numberedList, minWidth,
-    container, columnId, expanded, linkAsButton, collapsedMaxWords, showSource, sourceExternalLink
+    container, columnId, expanded, linkAsButton, collapsedMaxWords, showSource,
+    sourceExternalLink, renderAsHTML
   } = props
   let cellContent = null
   const cellStyle = minWidth == null ? {} : { minWidth: minWidth }
@@ -33,6 +34,7 @@ const ResultTableCell = props => {
           data={data}
           expanded={expanded}
           collapsedMaxWords={collapsedMaxWords}
+          renderAsHTML={renderAsHTML}
         />
       break
   }

@@ -51,7 +51,12 @@ const StringList = props => {
       {!props.expanded && createFirstValue(data, isArray)}
       <Collapse in={props.expanded} timeout='auto' unmountOnExit>
         {isArray && createBasicList(data)}
-        {!isArray && <div className={props.classes.stringContainer}>{data}</div>}
+        {!isArray && !props.renderAsHTML && <div className={props.classes.stringContainer}>{data}</div>}
+        {!isArray && props.renderAsHTML &&
+          <div
+            className={props.classes.stringContainer}
+            dangerouslySetInnerHTML={{ __html: data }}
+          />}
       </Collapse>
     </>
   )
@@ -61,7 +66,8 @@ StringList.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   expanded: PropTypes.bool.isRequired,
-  collapsedMaxWords: PropTypes.number
+  collapsedMaxWords: PropTypes.number,
+  renderAsHTML: PropTypes.bool
 }
 
 export default withStyles(styles)(StringList)

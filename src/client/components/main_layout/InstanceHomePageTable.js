@@ -81,6 +81,9 @@ const InstanceHomePageTable = props => {
                 sourceExternalLink={has(row, 'sourceExternalLink')
                   ? row.sourceExternalLink
                   : null}
+                renderAsHTML={has(row, 'renderAsHTML')
+                  ? row.renderAsHTML
+                  : null}
               />
             </TableRow>
           )

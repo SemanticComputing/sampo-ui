@@ -210,6 +210,9 @@ class ResultTable extends React.Component {
           collapsedMaxWords={has(column, 'collapsedMaxWords')
             ? column.collapsedMaxWords
             : null}
+          renderAsHTML={has(column, 'renderAsHTML')
+            ? column.renderAsHTML
+            : null}
         />
       )
     })
