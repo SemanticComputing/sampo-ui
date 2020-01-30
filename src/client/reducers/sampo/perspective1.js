@@ -127,7 +127,7 @@ export const INITIAL_STATE = {
     {
       id: 'note',
       valueType: 'string',
-      renderAsHTML: false,
+      renderAsHTML: true,
       makeLink: false,
       externalLink: false,
       sortValues: true,

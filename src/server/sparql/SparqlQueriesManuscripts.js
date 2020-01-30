@@ -7,6 +7,21 @@ export const manuscriptPropertiesInstancePage =
       BIND(?id as ?uri__id)
       BIND(?id as ?uri__dataProviderUrl)
       BIND(?id as ?uri__prefLabel)
+      BIND("""
+          HYK ms., Index s. 127a; HYK ms., Pohj. osak. matr. #113; KA mf. ES 2031 (rr 11) Pyhäjoen käräjät 20.-21.1.1665 f. 599 
+          (<em>Företrädde H:r Matz och angaf Hendrich Tiainen och dess Son Nils, som skulle dee Lasteligen hafwa talt om Gudh</em>); 
+          KA mf. ES 2032 (rr 12) Pyhäjoen käräjät 20.-21.7.1670 f. 458v; KA mf. ES 2033 (rr 13) Pyhäjoen käräjät 13.-15.7.1674 f. 
+          776v (<em>Caplans Sal: H:r Mathiæ Mathesij Enckia</em>). — K. F. Ignatius, SHS:n pöytäk. 18.1.1883 [Eräs v:n 1658 ylioppilasmeteliin 
+            <a href="henkilo.php?id=791">791</a>
+            liittyvä jäljennös]. HArk 8 (1884) s. 386; V. Lagus, Studentmatrikel I (1889-91) s. 66 (XV); Consistorii academici Aboensis äldre 
+            protokoller II [1654-64] (utg. A. G. Fontell, 1887) s. 20-21, 28, 39-40, 41, 139 (25.11.1658), 178, 180-181, 195, 262, 290-292, 
+            308, 319; Consistorii ecclesiastici Aboënsis protokoller I 1656-1658. SKHST 2 (utg. Ad. Neovius, 1899) s. 9; A. Luukko, 
+            Pohjalaisen osakunnan nimikirja I 1640-1713 (1946) #113. — C. H. Strandberg, Åbo stifts herdaminne II (1834) s. 160; A. Bergholm, 
+            Sukukirja II (1901) s. 855 (Mathesius Taulu 6); J. Vallinkoski, Turun akatemian väitöskirjat 1642-1828. HYKJ 30 (1962-66) #2014G; 
+            Sursillin suku (täyd. ja toim. E. Kojonen, 1971) #4373; V. P. Toropainen, Turun porvariston keskinäiset verkostot vuosina 1549-1660. 
+            SSV 47 (2006) s. 192 (Suutarin kisällit Matts Eriksson ja Matts Markusson ovat pahoinpidelleet ylioppilas Matthias Matthiaen tapaninpäivänä, 
+              lähdeviitteenä TKA TRO 5‹!›.12.1657: 298-308. Mahdollisesti kyseinen yo on Matthias Mathesius).
+      """ as ?note)
     }
     UNION
     {
@@ -46,10 +61,10 @@ export const manuscriptPropertiesInstancePage =
       ?productionPlace__source__id mmm-schema:data_provider_url ?productionPlace__source__dataProviderUrl .
       BIND(CONCAT("/places/page/", REPLACE(STR(?productionPlace__id), "^.*\\\\/(.+)", "$1")) AS ?productionPlace__dataProviderUrl)
     }
-    UNION
-    {
-      ?id crm:P3_has_note ?note .
-    }
+    #UNION
+    #{
+    #  ?id crm:P3_has_note ?note .
+    #}
     UNION
     {
       ?id crm:P128_carries ?expression__id .
