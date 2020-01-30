@@ -44,6 +44,7 @@ const StringList = props => {
     )
   }
 
+  // https://stackoverflow.com/questions/54794229/replace-a-with-react-link-in-text
   const addLinks = htmlString => {
     // Parse HTML with JavaScript DOM Parser
     const parser = new DOMParser()
