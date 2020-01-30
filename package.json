@@ -72,7 +72,7 @@
     "react-map-gl": "^5.1.2",
     "react-redux": "^5.1.0",
     "react-redux-toastr": "^7.4.1",
-    "react-router-dom": "^5.0.0",
+    "react-router-dom": "^5.1.2",
     "react-sortable-tree": "2.6.2",
     "react-sortable-tree-theme-file-explorer": "git+https://github.com/SemanticComputing/react-sortable-tree-theme-file-explorer.git",
     "recompose": "^0.28.2",
