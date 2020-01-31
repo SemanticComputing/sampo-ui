@@ -216,6 +216,7 @@ export const manuscriptPropertiesFacetResults =
         ?author__id skos:prefLabel ?author__prefLabel .
         BIND(CONCAT("/actors/page/", REPLACE(STR(?author__id), "^.*\\\\/(.+)", "$1")) AS ?author__dataProviderUrl)
       }
+      UNION
       {
         ?id mmm-schema:manuscript_work ?work__id .
         ?work__id skos:prefLabel ?work__prefLabel .

@@ -39,7 +39,15 @@ class InstanceHomePage extends React.Component {
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount = () => this.fetchData()
+
+  componentDidUpdate = prevProps => {
+    if (prevProps.routeProps.location !== this.props.routeProps.location) {
+      this.fetchData()
+    }
+  }
+
+  fetchData = () => {
     let uri = ''
     const base = 'http://ldf.fi/mmm'
     const locationArr = this.props.routeProps.location.pathname.split('/')
