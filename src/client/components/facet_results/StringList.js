@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Collapse from '@material-ui/core/Collapse'
-import { useHistory } from 'react-router-dom'
+import ReactHtmlParser from 'react-html-parser'
+import { Link } from 'react-router-dom'
 
 const styles = () => ({
   valueList: {
@@ -17,8 +18,6 @@ const styles = () => ({
 })
 
 const StringList = props => {
-  const history = useHistory()
-
   const createFirstValue = (data, isArray) => {
     let firstValue = isArray ? data[0] : data
     if (props.collapsedMaxWords) {
@@ -44,47 +43,29 @@ const StringList = props => {
     )
   }
 
-  // https://stackoverflow.com/questions/54794229/replace-a-with-react-link-in-text
-  const addLinks = htmlString => {
-    // Parse HTML with JavaScript DOM Parser
-    const parser = new DOMParser()
-    const el = parser.parseFromString(htmlString, 'text/html')
-    el.querySelectorAll('a').forEach(a => {
-      const link = '<span>'
-      a.replaceWith(link)
-    })
-    // el.querySelectorAll('a').forEach(a => {
-    //   a.addEventListener('click', (event) => {
-    //     event.preventDefault()
-    //     const href = a.getAttribute('href')
-    //     history.push('/manuscripts/page/100')
-    //   })
-    // })
-    console.log(el)
-    return el.innerHTML
+  const transform = (node, index) => {
+    if (node.type === 'tag' && node.name === 'a') {
+      const href = node.attribs.href
+      const text = node.children[0].data
+      return <Link key={index} to={href}>{text}</Link>
+    }
   }
 
   const { renderAsHTML } = props
-  const { data } = props
+  let { data } = props
   if (data == null || data === '-') {
     return '-'
   }
   const isArray = Array.isArray(data)
   if (renderAsHTML) {
-    // data = addLinks(data)
-    console.log(data)
+    data = ReactHtmlParser(data, { transform })
   }
   return (
     <>
       {!props.expanded && createFirstValue(data, isArray)}
       <Collapse in={props.expanded} timeout='auto' unmountOnExit>
         {isArray && createBasicList(data)}
-        {!isArray && !renderAsHTML && <div className={props.classes.stringContainer}>{data}</div>}
-        {!isArray && renderAsHTML &&
-          <div
-            className={props.classes.stringContainer}
-            dangerouslySetInnerHTML={{ __html: data }}
-          />}
+        {!isArray && <div className={props.classes.stringContainer}>{data}</div>}
       </Collapse>
     </>
   )

@@ -68,6 +68,7 @@
     "react-compound-slider": "^1.2.2",
     "react-csv": "^1.0.18",
     "react-dom": "^16.8.6",
+    "react-html-parser": "^2.0.2",
     "react-intl-universal": "^2.2.1",
     "react-map-gl": "^5.1.2",
     "react-redux": "^5.1.0",
