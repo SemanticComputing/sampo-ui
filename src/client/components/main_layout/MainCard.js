@@ -7,6 +7,7 @@ import intl from 'react-intl-universal'
 import { makeStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { Link } from 'react-router-dom'
+import { has } from 'lodash'
 
 const useStyles = makeStyles(theme => ({
   gridItem: {
@@ -54,14 +55,17 @@ const MainCard = props => {
   const { perspective, cardHeadingVariant } = props
   const xsScreen = useMediaQuery(theme => theme.breakpoints.down('xs'))
   // const smScreen = useMediaQuery(theme => theme.breakpoints.between('sm', 'md'))
+  const externalPerspective = has(perspective, 'externalUrl')
   return (
     <Grid
       className={classes.gridItem}
       key={perspective.id}
       item xs={12} sm={4}
-      component={Link}
-      to={`/${perspective.id}/faceted-search`}
+      component={externalPerspective ? 'a' : Link}
+      to={externalPerspective ? null : `/${perspective.id}/faceted-search`}
       container={xsScreen}
+      href={externalPerspective ? perspective.externalUrl : null}
+      target={externalPerspective ? '_blank' : null}
     >
       <Paper className={classes.perspectiveCard}>
         <Typography gutterBottom variant={cardHeadingVariant} component='h2'>
