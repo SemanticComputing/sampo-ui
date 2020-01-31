@@ -26,17 +26,24 @@ import {
   FETCH_BY_URI_FAILED,
   FETCH_FACET,
   FETCH_FACET_CONSTRAIN_SELF,
+  FETCH_SIMILAR_DOCUMENTS_BY_ID,
+  FETCH_SIMILAR_DOCUMENTS_BY_ID_FAILED,
   FETCH_FACET_FAILED,
   LOAD_LOCALES,
   updateResultCount,
   updatePaginatedResults,
   updateResults,
   updateInstance,
+  updateInstanceRelatedData,
   updateFacetValues,
   updateFacetValuesConstrainSelf,
   updateLocale
 } from '../actions'
-import { rootUrl, publishedPort } from '../configs/config'
+import {
+  rootUrl,
+  publishedPort,
+  documentFinderAPIUrl
+} from '../configs/config'
 
 // set port if running on localhost with NODE_ENV = 'production'
 const port = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
@@ -299,6 +306,31 @@ const loadLocalesEpic = action$ => action$.pipe(
   })
 )
 
+const fetchSimilarDocumentsEpic = (action$, state$) => action$.pipe(
+  ofType(FETCH_SIMILAR_DOCUMENTS_BY_ID),
+  withLatestFrom(state$),
+  mergeMap(([action]) => {
+    const { resultClass, id, modelName, resultSize } = action
+    const requestUrl = `${documentFinderAPIUrl}/top-similar/${modelName}/${id}?n=${resultSize}`
+    return ajax.getJSON(requestUrl).pipe(
+      map(res => updateInstanceRelatedData({
+        resultClass,
+        data: res.documents || null
+      })),
+      catchError(error => of({
+        type: FETCH_SIMILAR_DOCUMENTS_BY_ID_FAILED,
+        resultClass: action.resultClass,
+        id: action.id,
+        error: error,
+        message: {
+          text: backendErrorText,
+          title: 'Error'
+        }
+      }))
+    )
+  })
+)
+
 const rootEpic = combineEpics(
   fetchPaginatedResultsEpic,
   fetchResultsEpic,
@@ -307,7 +339,8 @@ const rootEpic = combineEpics(
   fetchByURIEpic,
   fetchFacetEpic,
   fetchFacetConstrainSelfEpic,
-  loadLocalesEpic
+  loadLocalesEpic,
+  fetchSimilarDocumentsEpic
 )
 
 export default rootEpic

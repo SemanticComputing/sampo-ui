@@ -14,7 +14,10 @@ export const UPDATE_PAGE = 'UPDATE_PAGE'
 export const UPDATE_ROWS_PER_PAGE = 'UPDATE_ROWS_PER_PAGE'
 export const FETCH_BY_URI = 'FETCH_BY_URI'
 export const FETCH_BY_URI_FAILED = 'FETCH_BY_URI_FAILED'
+export const FETCH_SIMILAR_DOCUMENTS_BY_ID = 'FETCH_SIMILAR_DOCUMENTS_BY_ID'
+export const FETCH_SIMILAR_DOCUMENTS_BY_ID_FAILED = 'FETCH_SIMILAR_DOCUMENTS_BY_ID_FAILED'
 export const UPDATE_INSTANCE = 'UPDATE_INSTANCE'
+export const UPDATE_INSTANCE_RELATED_DATA = 'UPDATE_INSTANCE_RELATED_DATA'
 export const FETCH_FACET = 'FETCH_FACET'
 export const FETCH_FACET_CONSTRAIN_SELF = 'FETCH_FACET_CONSTRAIN_SELF'
 export const FETCH_FACET_FAILED = 'FETCH_FACET_FAILED'
@@ -126,11 +129,30 @@ export const fetchByURIFailed = (resultClass, error, message) => ({
   error,
   message
 })
+export const fetchSimilarDocumentsById = ({ resultClass, id, modelName, resultSize }) => ({
+  type: FETCH_SIMILAR_DOCUMENTS_BY_ID,
+  resultClass,
+  id,
+  modelName,
+  resultSize
+})
+export const fetchSimilarDocumentsByIdFailed = (resultClass, id, error, message) => ({
+  type: FETCH_SIMILAR_DOCUMENTS_BY_ID_FAILED,
+  resultClass,
+  id,
+  error,
+  message
+})
 export const updateInstance = ({ resultClass, data, sparqlQuery }) => ({
   type: UPDATE_INSTANCE,
   resultClass,
   data,
   sparqlQuery
+})
+export const updateInstanceRelatedData = ({ resultClass, data }) => ({
+  type: UPDATE_INSTANCE_RELATED_DATA,
+  resultClass,
+  data
 })
 export const fetchFacet = ({ facetClass, facetID }) => ({
   type: FETCH_FACET,
