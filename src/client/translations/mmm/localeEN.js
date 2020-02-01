@@ -15,7 +15,7 @@ export default {
     voluptas nulla pariatur.
   `,
   selectPerspective: 'Select a perspective to search and browse the data:',
-  mainPageImageLicence: 'Image licene text',
+  mainPageImageLicence: 'Images used under license from Shutterstock.com',
   topBar: {
     feedback: 'feedback',
     info: {

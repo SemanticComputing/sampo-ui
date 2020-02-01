@@ -4,21 +4,27 @@ import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import intl from 'react-intl-universal'
+import Card from '@material-ui/core/Card'
+import CardActionArea from '@material-ui/core/CardActionArea'
+import CardContent from '@material-ui/core/CardContent'
+import CardMedia from '@material-ui/core/CardMedia'
 import { makeStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { Link } from 'react-router-dom'
 import { has } from 'lodash'
+import defaultImage from '../../img/thumb.png'
 
 const useStyles = makeStyles(theme => ({
-  gridItem: {
+  gridItem: props => ({
     textDecoration: 'none',
     [theme.breakpoints.down('xs')]: {
       justifyContent: 'center'
     },
-    height: 180
-  },
-  perspectiveCard: props => ({
+    height: props.perspective.frontPageElement === 'card' ? 'inherit' : 228
+  }),
+  perspectiveCardPaper: props => ({
     padding: theme.spacing(1.5),
+    boxSizing: 'border-box',
     color: '#fff',
     background: `linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url(${props.perspective.frontPageImage})`,
     backgroundRepeat: 'no-repeat',
@@ -31,23 +37,10 @@ const useStyles = makeStyles(theme => ({
       backgroundPosition: 'center'
     },
     height: '100%'
-    // [theme.breakpoints.down('xs')]: {
-    //   width: 351 - theme.spacing(3),
-    //   height: 180
-    // },
-    // [theme.breakpoints.between(600, 780)]: {
-    //   height: 180
-    // },
-    // [theme.breakpoints.between(780, 960)]: {
-    //   height: 238
-    // },
-    // [theme.breakpoints.between('md', 'lg')]: {
-    //   height: 100
-    // },
-    // [theme.breakpoints.up('xl')]: {
-    //   height: 180
-    // }
-  })
+  }),
+  cardMedia: {
+    height: 100
+  }
 }))
 
 const MainCard = props => {
@@ -56,6 +49,8 @@ const MainCard = props => {
   const xsScreen = useMediaQuery(theme => theme.breakpoints.down('xs'))
   // const smScreen = useMediaQuery(theme => theme.breakpoints.between('sm', 'md'))
   const externalPerspective = has(perspective, 'externalUrl')
+  const card = has(perspective, 'frontPageElement') && perspective.frontPageElement === 'card'
+
   return (
     <Grid
       className={classes.gridItem}
@@ -67,14 +62,35 @@ const MainCard = props => {
       href={externalPerspective ? perspective.externalUrl : null}
       target={externalPerspective ? '_blank' : null}
     >
-      <Paper className={classes.perspectiveCard}>
-        <Typography gutterBottom variant={cardHeadingVariant} component='h2'>
-          {intl.get(`perspectives.${perspective.id}.label`)}
-        </Typography>
-        <Typography component='p'>
-          {intl.get(`perspectives.${perspective.id}.shortDescription`)}
-        </Typography>
-      </Paper>
+      {!card &&
+        <Paper className={classes.perspectiveCardPaper}>
+          <Typography gutterBottom variant={cardHeadingVariant} component='h2'>
+            {intl.get(`perspectives.${perspective.id}.label`)}
+          </Typography>
+          <Typography component='p'>
+            {intl.get(`perspectives.${perspective.id}.shortDescription`)}
+          </Typography>
+        </Paper>}
+      {card &&
+        <Card>
+          <CardActionArea>
+            <CardMedia
+              className={classes.cardMedia}
+              image={has(perspective, 'frontPageImage')
+                ? perspective.frontPageImage
+                : defaultImage}
+              title={intl.get(`perspectives.${perspective.id}.label`)}
+            />
+            <CardContent className={classes.cardContent}>
+              <Typography gutterBottom variant='h5' component='h2'>
+                {intl.get(`perspectives.${perspective.id}.label`)}
+              </Typography>
+              <Typography component='p'>
+                {intl.get(`perspectives.${perspective.id}.shortDescription`)}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>}
     </Grid>
   )
 }
