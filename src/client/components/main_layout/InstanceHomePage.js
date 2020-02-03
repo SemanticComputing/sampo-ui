@@ -126,6 +126,7 @@ class InstanceHomePage extends React.Component {
         <PerspectiveTabs
           routeProps={this.props.routeProps}
           tabs={this.props.tabs}
+          screenSize={this.props.screenSize}
         />
         <Paper square className={classes.content}>
           {isLoading &&
@@ -192,7 +193,8 @@ InstanceHomePage.propTypes = {
   properties: PropTypes.array.isRequired,
   tabs: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  routeProps: PropTypes.object.isRequired
+  routeProps: PropTypes.object.isRequired,
+  screenSize: PropTypes.string.isRequired
 }
 
 export default withStyles(styles)(InstanceHomePage)

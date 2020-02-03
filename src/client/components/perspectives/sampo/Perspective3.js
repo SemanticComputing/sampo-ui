@@ -13,6 +13,7 @@ const Perspective3 = props => {
       <PerspectiveTabs
         routeProps={props.routeProps}
         tabs={props.perspective.tabs}
+        screenSize={props.screenSize}
       />
       <Route
         exact path='/perspective3/faceted-search'
@@ -97,7 +98,8 @@ Perspective3.propTypes = {
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
-  perspective: PropTypes.object.isRequired
+  perspective: PropTypes.object.isRequired,
+  screenSize: PropTypes.string.isRequired
 }
 
 export default Perspective3
