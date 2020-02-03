@@ -18,6 +18,7 @@ import Divider from '@material-ui/core/Divider'
 import { has } from 'lodash'
 // import mmmLogo from '../../img/mmm-logo-52x50.png'
 import secoLogo from '../../img/seco-logo-48x50.png'
+import { showLanguageButton } from '../../configs/sampo/GeneralConfig'
 
 const styles = theme => ({
   root: {
@@ -236,12 +237,12 @@ class TopBar extends React.Component {
               >
                 {intl.get('topBar.instructions')}
               </Button>
-
-              <TopBarLanguageButton
-                currentLocale={currentLocale}
-                availableLocales={availableLocales}
-                loadLocales={this.props.loadLocales}
-              />
+              {showLanguageButton &&
+                <TopBarLanguageButton
+                  currentLocale={currentLocale}
+                  availableLocales={availableLocales}
+                  loadLocales={this.props.loadLocales}
+                />}
             </div>
             <a
               className={classes.secoLogo}
