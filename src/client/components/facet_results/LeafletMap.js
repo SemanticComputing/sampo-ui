@@ -5,7 +5,7 @@ import L from 'leaflet'
 import { has, orderBy } from 'lodash'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { purple } from '@material-ui/core/colors'
-import { MAPBOX_ACCESS_TOKEN } from '../../configs/config'
+import { MAPBOX_ACCESS_TOKEN } from '../../configs/sampo/GeneralConfig'
 import 'leaflet/dist/leaflet.css'
 import './LeafletMap.css'
 

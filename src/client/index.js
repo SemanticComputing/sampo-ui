@@ -10,7 +10,7 @@ import reducer from './reducers'
 import rootEpic from './epics'
 import App from './components/App'
 import { loadLocales } from './actions'
-import { defaultLocale } from './configs/config'
+import { defaultLocale } from './configs/sampo/GeneralConfig'
 
 import './index.css'
 import 'react-sortable-tree/style.css'

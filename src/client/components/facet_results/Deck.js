@@ -10,7 +10,7 @@ import { purple } from '@material-ui/core/colors'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import { MAPBOX_ACCESS_TOKEN } from '../../configs/config'
+import { MAPBOX_ACCESS_TOKEN } from '../../configs/sampo/GeneralConfig'
 
 // https://deck.gl/#/documentation/getting-started/using-with-react?section=adding-a-base-map
 

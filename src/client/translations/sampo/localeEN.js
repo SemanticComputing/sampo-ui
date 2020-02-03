@@ -1,33 +1,30 @@
 export default {
   languageLabel: 'English',
   appTitle: {
-    short: 'mmm',
-    long: 'apping Manuscript Migrations',
-    subheading: `Navigating the network of connections between people, institutions, and
-      places within European medieval and Renaissance manuscripts`
+    short: 'sampo',
+    long: 'Sampo Semantic Portal',
+    subheading: `
+      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium 
+      doloremque laudantium unde
+    `
   },
   appDescription: `
-    Mapping Manuscript Migrations (MMM) is a semantic portal for finding and studying pre-modern manuscripts and
-    their movements, based on linked collections of the 
-    <a href='https://sdbm.library.upenn.edu' target='_blank' rel='noopener noreferrer'>Schoenberg Institute for Manuscript Studies,</a>
-    the <a href='https://medieval.bodleian.ox.ac.uk' target='_blank' rel='noopener noreferrer'>Bodleian Libraries</a>, and the
-    <a href='http://bibale.irht.cnrs.fr' target='_blank' rel='noopener noreferrer'>Institut de recherche et d'histoire des textes</a>.
+    Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, 
+    nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea 
+    voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo 
+    voluptas nulla pariatur.
   `,
-  selectPerspective: 'Select a perspective to search and browse the MMM data:',
-  mainPageImageLicence: `
-    Images used under licenses from Shutterstock.com, Wikimedia, and 
-    <a href='http://openn.library.upenn.edu/ReadMe.html' target='_blank' rel='noopener noreferrer'>OPenn</a>.
-    
-  `,
+  selectPerspective: 'Select a perspective to search and browse the data:',
+  mainPageImageLicence: 'Images used under license from Shutterstock.com',
   topBar: {
     feedback: 'feedback',
     info: {
       info: 'Info',
       blog: 'Project blog',
-      blogUrl: 'http://blog.mappingmanuscriptmigrations.org',
+      blogUrl: 'https://seco.cs.aalto.fi',
       aboutThePortal: 'About the Portal'
     },
-    searchBarPlaceHolder: 'Search all MMM content',
+    searchBarPlaceHolder: 'Search all content',
     searchBarPlaceHolderShort: 'Search',
     instructions: 'instructions'
   },
@@ -74,10 +71,10 @@ export default {
     `
   },
   perspectives: {
-    manuscripts: {
-      label: 'Manuscripts',
+    perspective1: {
+      label: 'Perspective 1',
       facetResultsType: 'manuscripts',
-      shortDescription: 'Physical manuscript objects',
+      shortDescription: 'Perspective1 description',
       longDescription: `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
           Use this perspective to access data related to physical manuscript objects.
@@ -307,10 +304,10 @@ export default {
         }
       }
     },
-    works: {
-      label: 'Works',
+    perspective2: {
+      label: 'Perspective 2',
       facetResultsType: 'works',
-      shortDescription: 'Intellectual content of manuscripts',
+      shortDescription: 'Perspective 2 description',
       longDescription: `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
           Use this perspective to access data related to Works. The MMM data model follows
@@ -417,10 +414,10 @@ export default {
         }
       }
     },
-    events: {
-      label: 'Events',
+    perspective3: {
+      label: 'Perspective 3',
       facetResultsType: 'events',
-      shortDescription: 'Events related to manuscripts',
+      shortDescription: 'Perspective 3 description',
       longDescription: `
         <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
           Use this perspective to access data related to events associated with the
@@ -523,342 +520,30 @@ export default {
           `
         }
       }
-    },
-    actors: {
-      label: 'Actors',
-      facetResultsType: 'actors',
-      shortDescription: 'People and institutions related to manuscripts',
-      longDescription: `
-        <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-          This perspective provides access to data related to the persons and institutions
-          who impacted the production or dissemination of manuscripts and works.
-          Actors include authors of works, artists and scribes who produced manuscripts,
-          and the individual owners and institutions who bought or sold manuscripts.
-          If two or more source datasets include the same Actor and this has been verified,
-          the information from the source datasets has been merged into one Actor.
-          See <a href="/instructions">instructions</a> for using the filters.
-          The result view can be selected using the tabs:
-        </p>
-        <ul class="MuiTypography-root MuiTypography-body1">
-          <li>
-            <strong>TABLE</STRONG> view includes all Actors in the MMM data.
-          </li>
-          <li>
-            <strong>MAP</STRONG> view visualizes the connection between Actors
-            and the places where they lived or were located.
-          </li>
-          <li>
-            <strong>EXPORT</strong> the SPARQL query used to generate the result
-            table view into YASGUI query editor.
-          </li>
-        </ul>
-      `,
-      instancePage: {
-        label: 'Actor',
-        description: `
-          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-            Actors are individuals or groups who influenced the production or provenance
-            of a manuscript. Actor types include Person, Group, or Actor. Persons refer to
-            individuals, while Groups indicate corporate or institutional bodies.
-            The Actor type is used when a more specific type is unknown or not specified
-            in the source dataset.
-          </p>
-        `
-      },
-      properties: {
-        uri: {
-          label: 'URI',
-          description: 'Uniform Resource Identifier'
-        },
-        prefLabel: {
-          label: 'Name',
-          description: `
-            The standardized name of the actor.
-          `
-        },
-        type: {
-          label: 'Type',
-          description: `
-            Indicates whether the actor is an individual (Person) or an institution,
-            corporation, or family (Group)
-          `
-        },
-        birthDateTimespan: {
-          label: 'Birth / formation date',
-          description: `
-            The date when the actor was born or established.
-          `
-        },
-        deathDateTimespan: {
-          label: 'Death / dissolution date',
-          description: `
-            The date when the actor died or dissolved.
-          `
-        },
-        place: {
-          label: 'Activity location',
-          description: `
-            Place(s) of activity linked to this actor.
-          `
-        },
-        work: {
-          label: 'Work',
-          description: `
-            Work(s) linked to the actor.
-          `
-        },
-        manuscript: {
-          label: 'Manuscript',
-          description: `
-            Manuscript(s) linked to the actor.
-          `
-        },
-        role: {
-          label: 'Role',
-          description: `
-            Role(s)
-          `
-        },
-        source: {
-          label: 'Source',
-          description: `
-            The source dataset(s) (Bibale, Bodleian, or SDBM) contributing the
-            information on the actor. If two or more source datasets include the
-            same actor and this has been manually verified, the information from
-            the source datasets has been merged into one MMM actor.
-            Click on the result table link(s) to view the original record on the
-            source’s website.
-          `
-        }
-      }
-    },
-    places: {
-      label: 'Places',
-      facetResultsType: 'places',
-      shortDescription: 'Places related to manuscripts',
-      longDescription: `
-        <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-          Use this perspective to access data related to places named in the source datasets
-          (Schoenberg, Bibale, and Bodleian). The places have been linked to Getty Thesaurus
-          of Geographic Names when possible. If two or more source datasets include the same
-          Place and this has been verified, the information from the source datasets has been
-          merged into one Place. See <a href="/instructions">instructions</a> for using the filters.
-          The result view can be selected using the tabs:
-        </p>
-        <ul class="MuiTypography-root MuiTypography-body1">
-          <li>
-            <strong>TABLE</STRONG> view includes all Places in the MMM data.
-          </li>
-          <li>
-            <strong>MAP</STRONG> view shows all Places that have coordinates.
-          </li>
-          <li>
-            <strong>EXPORT</strong> the SPARQL query used to generate the result
-            table view into YASGUI query editor.
-          </li>
-        </ul>
-      `,
-      instancePage: {
-        label: 'Place',
-        description: `
-          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-            Places refer to geographic locations that relate to Manuscripts, Events, Actors, and
-            Collections. MMM uses the Getty Thesaurus of Geographic Names as its hierarchy for
-            geographic data. Coordinate data is approximate for locations such as counties,
-            regions, and nations.
-          </p>
-        `
-      },
-      properties: {
-        uri: {
-          label: 'URI',
-          description: 'Uniform Resource Identifier'
-        },
-        prefLabel: {
-          label: 'Name',
-          description: `
-            The name of the place.
-          `
-        },
-        placeType: {
-          label: 'Place type',
-          description: `
-            The place type from Getty Thesaurus of Geographic Names.
-          `
-        },
-        area: {
-          label: 'Parent Place',
-          description: `
-            A larger region or geographic division in which a place is contained.
-            MMM uses the hierarchy published by the Getty Thesaurus of Geographic Names.
-          `
-        },
-        manuscriptProduced: {
-          label: 'Manuscripts produced',
-          description: `
-            Manuscript(s) produced here.
-          `
-        },
-        manuscriptTransferred: {
-          label: 'Manuscripts transferred',
-          description: `
-            The manuscript(s) that have a "Transfer of Custody" event located here.
-          `
-        },
-        manuscriptObserved: {
-          label: 'Manuscripts observed',
-          description: `
-            The manuscript(s) that have a provenance event located here.
-          `
-        },
-        actor: {
-          label: 'Actor',
-          description: `
-            The actor(s) associated with the place.
-          `
-        },
-        source: {
-          label: 'Source',
-          description: `
-            The source dataset (Schoenberg, Bibale, and Bodleian) and the place
-            authority (Getty Thesaurus of Geographic Names and GeoNames)
-            contributing the information on the place.
-          `
-        }
-      }
-    },
-    collections: {
-      label: '',
-      facetResultsType: '',
-      shortDescription: '',
-      longDescription: `
-      `,
-      instancePage: {
-        label: 'Collection',
-        description: `
-          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-            A collection refers to a group of manuscripts that were owned by the same actor,
-            including individuals, institutions, or other types of groups. A manuscript can
-            appear in multiple collections over time, and no explicit distinction
-            is made between a manuscript’s current or former collections. Similarly,
-            collections will include links to every manuscript that has ever been in
-            the collection, regardless of whether all of those manuscripts were within
-            the collection at the same time.
-          </p>
-        `
-      },
-      properties: {
-        uri: {
-          label: 'URI',
-          description: 'Uniform Resource Identifier'
-        },
-        prefLabel: {
-          label: 'Name',
-          description: `
-            The name or title of the Collection.
-          `
-        },
-        manuscript: {
-          label: 'Manuscript',
-          description: `
-            The manuscript(s) that have been a part of the collection at some
-            point in time.
-          `
-        },
-        owner: {
-          label: 'Owner',
-          description: `
-            Former or current owners (individual or institutional).
-          `
-        },
-        place: {
-          label: 'Place',
-          description: `
-            Location of the collection at some point during its existence
-          `
-        },
-        source: {
-          label: 'Source',
-          description: `
-            The source database (Schoenberg, Bibale, and Bodleian) that the Collection
-            occurs in. Currently one Collection has always only one dataset as a source.
-          `
-        }
-      }
-    },
-    expressions: {
-      label: '',
-      facetResultsType: '',
-      shortDescription: '',
-      longDescription: `
-      `,
-      instancePage: {
-        label: 'Expression',
-        description: `
-          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-            The MMM data model follows the
-            <a href='https://www.ifla.org/publications/node/11240' target='_blank' rel='noopener noreferrer'>FRBRoo</a>
-            definition of an Expression, which
-            refers to “the intellectual or artistic realisations of works in the form
-            of identifiable immaterial objects...” Expressions contain title,
-            and language information, and represent the various versions of texts that
-            appear in manuscripts.
-          </p>
-        `
-      },
-      properties: {
-        uri: {
-          label: 'URI',
-          description: 'Uniform Resource Identifier'
-        },
-        prefLabel: {
-          label: 'Name',
-          description: `
-            The name or title of the Expression.
-          `
-        },
-        manuscript: {
-          label: 'Manuscript',
-          description: `
-            The manuscript that carries the Expression.
-          `
-        },
-        language: {
-          label: 'Language',
-          description: `
-            The language of the Expression.
-          `
-        },
-        source: {
-          label: 'Source',
-          description: `
-            The source database (Schoenberg, Bibale, and Bodleian) that the Expression
-            occurs in. Currently one Expression has always only one dataset as a source.
-          `
-        }
-      }
     }
   },
   aboutThePortal: `
     <h1 class="MuiTypography-root MuiTypography-h2 MuiTypography-gutterBottom">
-      Mapping Manuscript Migrations
+      About the Portal
     </h1>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      Mapping Manuscript Migrations (MMM) is a semantic portal intended to enable large-scale exploration of 
-      data relating to the history and provenance of (primarily) Western European medieval and early 
-      modern manuscripts. 
+      Mapping Manuscript Migrations (MMM) Portal has been developed with funding from the Trans-Atlantic
+      Platform under its Digging into Data Challenge (2017-2019). The partners in this project are
+      the University of Oxford, the University of Pennsylvania, Aalto University,
+      and the Institut de recherche et d’histoire des textes.
+      Funding has been provided by the UK Economic and Social Research Council,
+      the Institute of Museum and Library Services, the Academy of Finland, and the
+      Agence nationale de la recherche.
+    </p>
+    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+      MMM Portal is intended to enable large-scale exploration of data relating to the history and provenance
+      of (primarily) Western European medieval and early modern manuscripts.
     </p>
     <h2 class="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom">
-      Linked Open Data
+      Data
     </h2>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      MMM combines data from three specialist databases, based on Linked Open Data
-      <a 
-        href="https://www.w3.org/standards/semanticweb" 
-        target='_blank' rel='noopener noreferrer'
-      >
-        principles and technology
-        </a>: 
+      MMM Portal combines data from three specialist databases:
     </p>
     <ul class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom">
       <li>
@@ -884,19 +569,34 @@ export default {
       </li>
     </ul>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      The data have been combined using a set of shared ontologies and a novel unified Data Model 
-      that extends the CIDOC-CRM and FRBRoo ontologies. A diagram of the Data Model can be seen
+      The data have been combined using a unified Data Model based on the CIDOC-CRM
+      and FRBRoo ontologies. A diagram of the Data Model can be seen
       <a href="https://drive.google.com/open?id=1uyTA8Prwtts5g13eor48tKHk_g63NaaG" target='_blank' rel='noopener noreferrer'>
-      here</a>.
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      The original data have not been corrected or amended in any way, only aggregated from the legacy databases 
-      and transformed and linked into a global knowledge graph hosted in a linked open data service. The semantic 
-      portal MMM was created on top of the data service using its SPARQL API. If you notice an error in the data, 
-      please report it to the custodians of the original databases.
+      here</a>. The data have not been corrected or amended in any way. If you notice an error in the data,
+      please report it to the custodians of the original database.
     </p>
     <h2 class="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom">
-      Data Re-use and Reference
+      Features
+    </h2>
+    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+      The MMM Portal enables you to browse and search through most of the data assembled by the MMM project
+      from the three source databases. If you want to inspect the full raw data for any individual
+      manuscript or other entity, please click on the “Open in Linked Data browser” button on
+      the “Export” tab of the landing-page for that entity.
+    </p>
+    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+      The MMM Portal also provides map-based visualizations for a selection of the data relating to
+      Manuscripts, Actors, and Places. The data resulting from a search or a filtered browse can be
+      exported in the form of a CSV file. Click on the “Export” tab and then on the button
+      “Open SPARQL query in yasgui.org”.
+    </p>
+    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+      If you want to search all the underlying data using the SPARQL query language, the endpoint is
+      available here: <a href="http://ldf.fi/mmm-cidoc/sparql" target='_blank' rel='noopener noreferrer'>
+      http://ldf.fi/mmm-cidoc/sparql</a>.
+    </p>
+    <h2 class="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom">
+      Data Reuse
     </h2>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
       The MMM data are made available for reuse under a
@@ -910,145 +610,46 @@ export default {
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
       You may not use the data for commercial purposes.
     </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      For making scientific references, you can refer to the publications listed 
-      <a href="https://seco.cs.aalto.fi/projects/mmm" target='_blank' rel='noopener noreferrer'>
-      here</a>.
-    </p>
-    <h2 class="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom">
-      Data Service Online
-    </h2>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      The linked data is served by a Linked Open Data service, based on the recommendations and 
-      best practices of W3C. The data and service are hosted by the 
-      <a href="http://ldf.fi" target='_blank' rel='noopener noreferrer'>
-      Linked Data Finland</a> service at:
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      <a href="http://www.ldf.fi/dataset/mmm" target='_blank' rel='noopener noreferrer'>
-      http://www.ldf.fi/dataset/mmm</a>
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      If you want to search and re-use all the underlying data using the SPARQL query language, 
-      the SPARQL endpoint is available here: 
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      <a href="http://ldf.fi/mmm/sparql" target='_blank' rel='noopener noreferrer'>
-      http://ldf.fi/mmm/sparql</a>
-    </p>
-    <h2 class="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom">
-      Using the MMM Portal 
-    </h2>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      The MMM Portal enables you to search and browse through most of the data assembled 
-      by the project from the three source databases. The data can be studied using multiple perspectives. 
-      The perspectives are equipped with faceted search and browsing engines integrated with ready-to-use tools 
-      for Digital Humanities research, based on the 
-      <a href="https://seco.cs.aalto.fi/publications/2020/hyvonen-sampos-dhn-2020.pdf" target='_blank' rel='noopener noreferrer'>
-      "Sampo" model</a>.
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      For more detailed user instructions see the <a href="https://mappingmanuscriptmigrations.org/instructions" target='_blank' rel='noopener noreferrer'>
-      general instructions</a> and the introductory texts on top of each perspective’s landing page.
-    </p>
     <h2 class="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom">
       More Information
     </h2>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
       The MMM project has its own
-      <a href="https://github.com/mapping-manuscript-migrations" target='_blank' rel='noopener noreferrer'>GitHub site</a>. 
+      <a href="https://github.com/mapping-manuscript-migrations" target='_blank' rel='noopener noreferrer'>GitHub site</a>.
+    </p>
+    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
       Here you will find documentation, scripts and programs, and samples of the raw data.
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      The portal was implemented by the
-      <a href="https://seco.cs.aalto.fi" target='_blank' rel='noopener noreferrer'>
-      Semantic Computing Research Group</a> (SeCo) at Aalto University and 
-      University of Helsinki (HELDIG) in collaboration with the teams at the University 
-      of Oxford (Oxford e-Research Centre and Bodleian Libraries), the Schoenberg Institute for Manuscript Studies 
-      (University of Pennsylvania), and the Institut de recherche et d’histoire des textes (CNRS-IRHT) in Paris. 
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      The project homepage is:
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      <a href="http://blog.mappingmanuscriptmigrations.org" target='_blank' rel='noopener noreferrer'>
-      http://blog.mappingmanuscriptmigrations.org</a>
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      More information about the technical design and publications of the project can be found at:
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      <a href="https://seco.cs.aalto.fi/projects/mmm" target='_blank' rel='noopener noreferrer'>
-      https://seco.cs.aalto.fi/projects/mmm</a>.
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      MMM has been developed with funding from the Trans-Atlantic Platform under its Digging 
-      into Data Challenge (2017-2019). The partners in this project are the University of Oxford, 
-      the University of Pennsylvania, Aalto University in collaboration with University of Helsinki (HELDIG), 
-      and the Institut de recherche et d’histoire des textes. Funding has been provided by the UK 
-      Economic and Social Research Council, the Institute of Museum and Library Services, the 
-      Academy of Finland, and the Agence nationale de la recherche.
     </p>
   `,
   instructions: `
     <h1 class="MuiTypography-root MuiTypography-h2 MuiTypography-gutterBottom">
-      Using the MMM Portal
+      Instructions
     </h1>
-    <h2 class="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom">
-      General Idea
-    </h2>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      The MMM Portal enables you to search and browse through most of the data assembled by 
-      the MMM project from the three source databases. In addition, the portal is equipped 
-      with ready-to-use tools for Digital Humanities research using the 
-      <a href="https://seco.cs.aalto.fi/publications/2020/hyvonen-sampos-dhn-2020.pdf" target='_blank' rel='noopener noreferrer'>
-      "Sampo" model</a> where the portal is used as follows:
+      The search functionality of the MMM portal is based on the
+      <a href="https://doi.org/10.2200/S00190ED1V01Y200904ICR005" target='_blank' rel='noopener noreferrer'>
+      faceted search</a> paradigm. By default each perspective displays
+      all results from the corresponding class (Manuscripts, Works, Events, Actors, or Places).
+      This default result set can be narrowed down by using the filters on the left.
     </p>
-    <ol class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom">
-    <li class="MuiTypography-gutterBottom">
-        On the front page of the portal different perspectives to the data are given as a selection, here Manuscripts, 
-        Works, Events, Actors, and Places. The idea is to provide access to the underlying data (knowledge graph) 
-        through multiple use cases while the underlying data remains the same.
-      </li>
-      <li class="MuiTypography-gutterBottom">
-        After selecting a perspective, faceted search  can be used for filtering out a subset of objects of the view, 
-        the “target group” of interest. For example, manuscripts by a given author in a time period can be selected. 
-        By default each perspective displays all results from the corresponding class (Manuscripts, Works, Events, Actors, 
-        or Places). This default result set can be narrowed down by using the filters.
-      </li>
-      <li class="MuiTypography-gutterBottom">
-        Finally, data analysis and visualization tools can be applied to study the target group. For example, it is possible 
-        to see on maps how the manuscripts have moved from the place of production to their last known location ("Migrations" 
-        tab on the Manuscripts perspective). Map-based visualizations are available also in the Actors and Places perspectives.
-      </li>
-    </ol>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      Using the "Export" tab in a perspective and then the button "Open SPARQL query in YASGUI" the SPARQL query corresponding to 
-      the facet selections made is shown in the 
-      <a href="https://yasgui.triply.cc" target='_blank' rel='noopener noreferrer'>
-      YASGUI</a> SPARQL querying interface with the results. Additional YASGUI tools for studying the results and downloading 
-      the data are available there. For example, the results of the query can be downloaded in CSV format for additional 
-      spreadsheet computing. 
-   </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      If you want to inspect the full raw data for any individual manuscript or other entity, click on the link of the entity.
-    </p>
+
     <h2 class="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom">
-      Using a Single Filter in Faceted Search
+      Using a single filter
     </h2>
+
     <h3 class="MuiTypography-root MuiTypography-h6 MuiTypography-gutterBottom">
       Selecting values within a filter
     </h3>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      All possible values for a filter are displayed either as a list or as a hierarchical 
-      tree (if available). The number of results is shown in brackets for each value. 
-      Once a value is selected, the results are automatically updated. To prevent further 
-      selections that do not return any results, also the possible values for all other 
-      filters are updated at the same time.
+      All possible values for a filter are displayed either as a list or as a hierarchical
+      tree structure (if available). The number of results is shown in brackets for each value.
+      Once a value is selected, the results are automatically updated. To prevent further
+      selections that do not return any results, also the possible values for all
+      other filters are updated at the same time.
     </p>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
       Multiple values can be selected within a single filter. Selecting multiple values
-      generates results that contain <strong>any</strong> of the selected values. For example, selecting
+      generates results that contain any of the selected values. For example, selecting
       both <i>Saint Augustine</i> and <i>Saint Jerome</i> as an Author returns results that
       include either <i>Saint Augustine</i> <strong>OR</strong> <i>Saint Jerome</i> as an Author.
     </p>
@@ -1059,44 +660,43 @@ export default {
       filter’s value list. The Active filters section only appears if there are filter
       values currently selected.
     </p>
+
     <h3 class="MuiTypography-root MuiTypography-h6 MuiTypography-gutterBottom">
-      Searching categories within a filter
+      Searching within a filter
     </h3>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      Category selections within a filter can be searched by using the search field at the 
-      top of each filter. All possible values of a filter remain visible at all times. 
-      The values of the filter that match the search term are indicated by a purple underline. 
+      Search within a filter by using the search field at the top of each filter.
+      All possible values of a filter remain visible at all times. The values of
+      the filter that match the search term are indicated by a purple underline.
     </p>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
       Steps for searching within filters:
     </p>
     <ol class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom">
-      <li class="MuiTypography-gutterBottom">
+      <li>
         Type search term into search field. If there are matches, a number
         will appear to the right of the search field, indicating the number
         of filter values that match the search term.
       </li>
-      <li class="MuiTypography-gutterBottom">
-        Click the arrows " <  > " to the right of the search field to cycle through 
-        the results. As you click the arrow, a different filter value will appear 
-        at the top of the list. Matched filters are underlined in purple.
+      <li>
+        Click the arrows to the right of the search field to cycle
+        through the results. As you click the arrow, a different filter value
+        will appear at the top of the list. Matched filters are underlined in
+        purple.
       </li>
-      <li class="MuiTypography-gutterBottom">
-        Click the checkmark next to a filter value to activate it. 
-        The results (and also other filters) are automatically updated. 
+      <li>
+        Click the checkmark next to a filter value to activate it. The results
+        (and also other filters) are automatically updated.
       </li>
     </ol>
-    <p></p>      
+
     <h2 class="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom">
-      Using Multiple Filters Simultaneously
+      Using multiple filters simultaneously
     </h2>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
       The effectiveness of faceted search is realized when multiple filters are
       applied at the same time. As in many e-commerce sites, a logical AND is
-      always used between the filters. 
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      For example selecting <i>Saint Augustine </i>
+      always used between the filters. For example selecting <i>Saint Augustine </i>
       and <i>Saint Jerome</i> as an Author and <i>Sir Thomas Phillipps</i> and
       <i> Thomas Thorpe</i> as an Owner, the results are narrowed down as follows:
     </p>
@@ -1108,12 +708,6 @@ export default {
     </p>
     <p class="MuiTypography-root MuiTypography-body1">
       (Owner: <i>Sir Thomas Phillipps</i> <strong>OR</strong> Owner: <i>Thomas Thorpe</i>)
-    </p>
-    <p></p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      In faceted search you can make selections in filters in any order, and the hit 
-      counts in the other filters are automatically updated. In this way you never end 
-      up in "no hits" dead ends.
     </p>
   `,
   feedback: `

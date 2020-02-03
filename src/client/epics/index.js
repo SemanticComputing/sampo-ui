@@ -10,9 +10,9 @@ import {
 } from 'rxjs/operators'
 import { combineEpics, ofType } from 'redux-observable'
 import intl from 'react-intl-universal'
-import localeEN from '../translations/mmm/localeEN'
-import localeFI from '../translations/mmm/localeFI'
-import localeSV from '../translations/mmm/localeSV'
+import localeEN from '../translations/sampo/localeEN'
+import localeFI from '../translations/sampo/localeFI'
+import localeSV from '../translations/sampo/localeSV'
 import { stateToUrl } from '../helpers/helpers'
 import {
   FETCH_RESULT_COUNT,
@@ -43,7 +43,7 @@ import {
   rootUrl,
   publishedPort,
   documentFinderAPIUrl
-} from '../configs/config'
+} from '../configs/sampo/GeneralConfig'
 
 // set port if running on localhost with NODE_ENV = 'production'
 const port = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
