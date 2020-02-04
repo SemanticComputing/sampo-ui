@@ -1,6 +1,13 @@
-# Sampo Web App
+# Sampo Semantic Portal 
 
-Sampo Semantic Portal
+The following portals use this repository as a base:
+
+https://github.com/mapping-manuscript-migrations/mmm-web-app
+
+https://github.com/SemanticComputing/lawsampo-web-app
+
+https://github.com/SemanticComputing/academysampo-web-app
+
 
 ## Requirements
 
