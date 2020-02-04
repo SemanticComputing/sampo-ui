@@ -61,7 +61,7 @@ const InfoHeader = props => {
     let label = ''
     const data = props.instanceData
     const hasData = data !== null && Object.values(data).length >= 1
-    if (hasData) { label = data.prefLabel.prefLabel }
+    if (hasData) { label = data.prefLabel.prefLabel || data.prefLabel }
     return label
   }
 
