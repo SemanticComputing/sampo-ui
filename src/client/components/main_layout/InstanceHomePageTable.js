@@ -66,6 +66,7 @@ const InstanceHomePageTable = props => {
                 makeLink={row.makeLink}
                 externalLink={row.externalLink}
                 sortValues={row.sortValues}
+                sortBy={row.sortBy}
                 numberedList={row.numberedList}
                 container='cell'
                 expanded

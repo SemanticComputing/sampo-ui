@@ -26,25 +26,25 @@ const styles = () => ({
 
 const ObjectList = props => {
   const {
-    sortValues, makeLink, externalLink, linkAsButton, columnId, showSource,
+    sortValues, sortBy, makeLink, externalLink, linkAsButton, columnId, showSource,
     sourceExternalLink
   } = props
   let { data } = props
 
   const sortList = data => {
     if (has(props, 'columnId') && props.columnId.endsWith('Timespan')) {
-      data = sortValues
-        ? data.sort((a, b) => {
-          a = has(a, 'start') ? ISOStringToDate(a.start) : ISOStringToDate(a.end)
-          b = has(b, 'start') ? ISOStringToDate(b.start) : ISOStringToDate(b.end)
-          // arrange from the most recent to the oldest
-          return a > b ? 1 : a < b ? -1 : 0
-        })
-        : data
+      data = data.sort((a, b) => {
+        a = has(a, 'start') ? ISOStringToDate(a.start) : ISOStringToDate(a.end)
+        b = has(b, 'start') ? ISOStringToDate(b.start) : ISOStringToDate(b.end)
+        // arrange from the most recent to the oldest
+        return a > b ? 1 : a < b ? -1 : 0
+      })
     } else if (props.columnId === 'event') {
-      data = sortValues ? orderBy(data, 'date') : data
+      data = orderBy(data, 'date')
+    } else if (props.sortBy) {
+      data = orderBy(data, sortBy)
     } else {
-      data = sortValues ? orderBy(data, 'prefLabel') : data
+      data = orderBy(data, 'prefLabel')
     }
     return data
   }
@@ -83,7 +83,7 @@ const ObjectList = props => {
   if (data == null || data === '-') {
     return '-'
   } else if (Array.isArray(data)) {
-    data = sortList(data)
+    data = sortValues ? sortList(data) : data
     return (
       <>
         {!props.expanded && renderItem({ collapsed: true, itemData: data[0], isFirstValue: true })}

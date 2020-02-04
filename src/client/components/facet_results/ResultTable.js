@@ -200,6 +200,7 @@ class ResultTable extends React.Component {
           makeLink={column.makeLink}
           externalLink={column.externalLink}
           sortValues={column.sortValues}
+          sortBy={column.sortBy}
           numberedList={column.numberedList}
           minWidth={column.minWidth}
           container='cell'

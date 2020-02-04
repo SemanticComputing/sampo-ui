@@ -6,7 +6,7 @@ import StringList from './StringList'
 
 const ResultTableCell = props => {
   const {
-    data, valueType, makeLink, externalLink, sortValues, numberedList, minWidth,
+    data, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, minWidth,
     container, columnId, expanded, linkAsButton, collapsedMaxWords, showSource,
     sourceExternalLink, renderAsHTML
   } = props
@@ -20,6 +20,7 @@ const ResultTableCell = props => {
           makeLink={makeLink}
           externalLink={externalLink}
           sortValues={sortValues}
+          sortBy={sortBy}
           numberedList={numberedList}
           columnId={columnId}
           expanded={expanded}
@@ -61,6 +62,7 @@ ResultTableCell.propTypes = {
   makeLink: PropTypes.bool.isRequired,
   externalLink: PropTypes.bool.isRequired,
   sortValues: PropTypes.bool.isRequired,
+  sortBy: PropTypes.string,
   numberedList: PropTypes.bool.isRequired,
   expanded: PropTypes.bool.isRequired,
   collapsedMaxWords: PropTypes.number,
