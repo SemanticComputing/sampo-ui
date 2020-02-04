@@ -4,6 +4,8 @@ The following portals use this repository as a base:
 
 https://github.com/mapping-manuscript-migrations/mmm-web-app
 
+https://github.com/SemanticComputing/sotasurmat-web-app
+
 https://github.com/SemanticComputing/lawsampo-web-app
 
 https://github.com/SemanticComputing/academysampo-web-app
