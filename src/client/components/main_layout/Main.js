@@ -4,8 +4,8 @@ import intl from 'react-intl-universal'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
 import MainCard from './MainCard'
+// import MainCardMMM from './MainCardMMM'
 import bannerImage from '../../img/mmm-banner.jpg'
 
 const useStyles = makeStyles(theme => ({
@@ -73,35 +73,37 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Main = props => {
-  const { perspectives } = props
+  const { perspectives, screenSize } = props
   const classes = useStyles(props)
-  const xsScreen = useMediaQuery(theme => theme.breakpoints.down('xs'))
-  const smScreen = useMediaQuery(theme => theme.breakpoints.between('sm', 'md'))
-  const mdScreen = useMediaQuery(theme => theme.breakpoints.between('md', 'lg'))
-  const lgScreen = useMediaQuery(theme => theme.breakpoints.between('lg', 'xl'))
-  const xlScreen = useMediaQuery(theme => theme.breakpoints.up('xl'))
   let headingVariant = 'h5'
   let subheadingVariant = 'body1'
   let descriptionVariant = 'body1'
-  if (smScreen) {
-    headingVariant = 'h4'
-    subheadingVariant = 'h6'
-    descriptionVariant = 'h6'
-  }
-  if (mdScreen) {
-    headingVariant = 'h3'
-    subheadingVariant = 'h6'
-    descriptionVariant = 'h6'
-  }
-  if (lgScreen) {
-    headingVariant = 'h2'
-    subheadingVariant = 'h5'
-    descriptionVariant = 'h6'
-  }
-  if (xlScreen) {
-    headingVariant = 'h1'
-    subheadingVariant = 'h4'
-    descriptionVariant = 'h6'
+  switch (screenSize) {
+    case 'xs':
+      headingVariant = 'h5'
+      subheadingVariant = 'body1'
+      descriptionVariant = 'body1'
+      break
+    case 'sm':
+      headingVariant = 'h4'
+      subheadingVariant = 'h6'
+      descriptionVariant = 'h6'
+      break
+    case 'md':
+      headingVariant = 'h3'
+      subheadingVariant = 'h6'
+      descriptionVariant = 'h6'
+      break
+    case 'lg':
+      headingVariant = 'h2'
+      subheadingVariant = 'h5'
+      descriptionVariant = 'h6'
+      break
+    case 'xl':
+      headingVariant = 'h1'
+      subheadingVariant = 'h4'
+      descriptionVariant = 'h6'
+      break
   }
 
   return (
@@ -133,7 +135,10 @@ const Main = props => {
             {intl.get('selectPerspective')}
           </Typography>
         </div>
-        <Grid container spacing={smScreen ? 2 : 1} justify={xsScreen || smScreen ? 'center' : 'flex-start'}>
+        <Grid
+          container spacing={screenSize === 'sm' ? 2 : 1}
+          justify={screenSize === 'xs' || screenSize === 'sm' ? 'center' : 'flex-start'}
+        >
           {perspectives.map(perspective =>
             <MainCard
               key={perspective.id}
@@ -150,7 +155,8 @@ const Main = props => {
 }
 
 Main.propTypes = {
-  perspectives: PropTypes.array.isRequired
+  perspectives: PropTypes.array.isRequired,
+  screenSize: PropTypes.string.isRequired
 }
 
 export default Main

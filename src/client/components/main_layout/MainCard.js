@@ -36,7 +36,11 @@ const useStyles = makeStyles(theme => ({
       backgroundSize: 'cover',
       backgroundPosition: 'center'
     },
-    height: '100%'
+    height: '100%',
+    width: '100%',
+    [theme.breakpoints.down('xs')]: {
+      width: '75%'
+    }
   }),
   cardMedia: {
     height: 100
@@ -55,7 +59,7 @@ const MainCard = props => {
     <Grid
       className={classes.gridItem}
       key={perspective.id}
-      item xs={12} sm={4}
+      item xs={12} sm={6} md={4} // optimized for three perspectives
       component={externalPerspective ? 'a' : Link}
       to={externalPerspective ? null : `/${perspective.id}/faceted-search`}
       container={xsScreen}
