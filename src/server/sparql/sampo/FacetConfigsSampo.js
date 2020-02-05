@@ -1,10 +1,8 @@
 export const endpoint = 'http://ldf.fi/mmm/sparql'
 // export const endpoint = 'http://localhost:3050/ds/sparql';
 
-/* TODO:
-  labelPath is only used when sorting results, so it should removed from
-  facet configs
-*/
+export const endpointUseAuth = false
+
 const invalidTransferOfCustodyTimespans = `
         <http://ldf.fi/mmm/time/bibale_element_478356>,
         <http://ldf.fi/mmm/time/bibale_element_503431>,
