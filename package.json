@@ -5,7 +5,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "npm run build-client && npm run build-server",
     "client": "webpack-dev-server --config webpack.client.dev.js",
-    "server": "NODE_ENV=development nodemon -r dotenv/config src/server/index.js --exec babel-node",
+    "server": "cross-env NODE_ENV=development nodemon -r dotenv/config src/server/index.js --exec babel-node",
     "build-client": "webpack --progress --config webpack.client.prod.js",
     "build-server": "babel src/server --out-dir ./dist/server",
     "test": "jest --watch"
@@ -32,7 +32,7 @@
     "clean-webpack-plugin": "^0.1.19",
     "concurrently": "^3.6.1",
     "copy-webpack-plugin": "^5.1.1",
-    "cross-env": "^6.0.3",
+    "cross-env": "^7.0.0",
     "css-loader": "^2.1.1",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
