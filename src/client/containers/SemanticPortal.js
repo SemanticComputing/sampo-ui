@@ -1,29 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
+import { has } from 'lodash'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
-import withWidth from '@material-ui/core/withWidth'
 import { withRouter, Route } from 'react-router-dom'
 import classNames from 'classnames'
 import compose from 'recompose/compose'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers'
+import moment from 'moment'
+import MomentUtils from '@date-io/moment'
+import 'moment/locale/fi'
 import Grid from '@material-ui/core/Grid'
 import TopBar from '../components/main_layout/TopBar'
+import InstanceHomePage from '../components/main_layout/InstanceHomePage'
+import InfoHeader from '../components/main_layout/InfoHeader'
+import TextPage from '../components/main_layout/TextPage'
+import Message from '../components/main_layout/Message'
 import Main from '../components/main_layout/Main'
 import Footer from '../components/main_layout/Footer'
-import Message from '../components/main_layout/Message'
 import FacetBar from '../components/facet_bar/FacetBar'
 import Perspective1 from '../components/perspectives/sampo/Perspective1'
 import Perspective2 from '../components/perspectives/sampo/Perspective2'
 import Perspective3 from '../components/perspectives/sampo/Perspective3'
 import All from '../components/perspectives/mmm/All'
-import InstanceHomePage from '../components/main_layout/InstanceHomePage'
-import TextPage from '../components/main_layout/TextPage'
 import { perspectiveConfig } from '../configs/sampo/PerspectiveConfig'
 import { perspectiveConfigOnlyInfoPages } from '../configs/sampo/PerspectiveConfigOnlyInfoPages'
-import InfoHeader from '../components/main_layout/InfoHeader'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { has } from 'lodash'
+import { rootUrl } from '../configs/sampo/GeneralConfig'
 import {
   fetchResultCount,
   fetchPaginatedResults,
@@ -168,7 +172,7 @@ const styles = theme => ({
 })
 
 const SemanticPortal = props => {
-  const { classes, /* browser */ error } = props
+  const { classes, error } = props
   const xsScreen = useMediaQuery(theme => theme.breakpoints.down('xs'))
   const smScreen = useMediaQuery(theme => theme.breakpoints.between('sm', 'md'))
   const mdScreen = useMediaQuery(theme => theme.breakpoints.between('md', 'lg'))
@@ -202,6 +206,7 @@ const SemanticPortal = props => {
             animationValue={props.animationValue}
             animateMap={props.animateMap}
             screenSize={screenSize}
+            rootUrl={rootUrl}
           />
         break
       case 'perspective2':
@@ -219,6 +224,7 @@ const SemanticPortal = props => {
             routeProps={routeProps}
             perspective={perspective}
             screenSize={screenSize}
+            rootUrl={rootUrl}
           />
         break
       case 'perspective3':
@@ -237,6 +243,7 @@ const SemanticPortal = props => {
             routeProps={routeProps}
             perspective={perspective}
             screenSize={screenSize}
+            rootUrl={rootUrl}
           />
         break
       default:
@@ -246,196 +253,212 @@ const SemanticPortal = props => {
     return perspectiveElement
   }
   return (
-    <div className={classes.root}>
-      <div className={classes.appFrame}>
-        <Message error={error} />
-        <>
-          <TopBar
-            search={props.clientSideFacetedSearch}
-            fetchResultsClientSide={props.fetchResultsClientSide}
-            clearResults={props.clearResults}
-            perspectives={perspectiveConfig}
-            currentLocale={props.options.currentLocale}
-            availableLocales={props.options.availableLocales}
-            loadLocales={props.loadLocales}
-            xsScreen={xsScreen}
-          />
-          <Route
-            exact path='/'
-            render={() =>
-              <Grid container spacing={1} className={classes.mainContainer}>
-                <Main
-                  perspectives={perspectiveConfig}
-                  screenSize={screenSize}
-                />
-                <Footer />
-              </Grid>}
-          />
-          {/* route for full text search results */}
-          <Route
-            path='/all'
-            render={routeProps =>
-              <Grid container spacing={1} className={classes.mainContainer}>
-                <Grid item xs={12} className={classes.resultsContainer}>
-                  <All
-                    clientSideFacetedSearch={props.clientSideFacetedSearch}
-                    routeProps={routeProps}
-                  />
-                </Grid>
-              </Grid>}
-          />
-          {/* routes for perspectives that don't have an external url */}
-          {perspectiveConfig.map(perspective => {
-            if (!has(perspective, 'externalUrl')) {
-              return (
-                <React.Fragment key={perspective.id}>
-                  <Route
-                    path={`/${perspective.id}/faceted-search`}
-                    render={routeProps => {
-                      return (
-                        <>
-                          <InfoHeader
-                            resultClass={perspective.id}
-                            pageType='facetResults'
-                            expanded={props[perspective.id].facetedSearchHeaderExpanded}
-                            updateExpanded={props.updatePerspectiveHeaderExpanded}
-                            descriptionHeight={perspective.perspectiveDescHeight}
-                          />
-                          <Grid
-                            container spacing={1} className={props[perspective.id].facetedSearchHeaderExpanded
-                              ? classes.perspectiveContainerHeaderExpanded
-                              : classes.perspectiveContainer}
-                          >
-                            <Grid item xs={12} md={3} className={classes.facetBarContainer}>
-                              <FacetBar
-                                facetData={props[`${perspective.id}Facets`]}
-                                facetDataConstrainSelf={has(props, `${perspective.id}FacetsConstrainSelf`)
-                                  ? props[`${perspective.id}FacetsConstrainSelf`]
-                                  : null}
-                                facetClass={perspective.id}
-                                resultClass={perspective.id}
-                                fetchingResultCount={props[perspective.id].fetchingResultCount}
-                                resultCount={props[perspective.id].resultCount}
-                                fetchFacet={props.fetchFacet}
-                                fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
-                                fetchResultCount={props.fetchResultCount}
-                                updateFacetOption={props.updateFacetOption}
-                                defaultActiveFacets={perspective.defaultActiveFacets}
-                              />
-                            </Grid>
-                            <Grid item xs={12} md={9} className={classes.resultsContainer}>
-                              {renderPerspective(perspective, routeProps)}
-                            </Grid>
-                          </Grid>
-                        </>
-                      )
-                    }}
-                  />
-                  <Route
-                    path={`/${perspective.id}/page/:id`}
-                    render={routeProps => {
-                      return (
-                        <>
-                          <InfoHeader
-                            resultClass={perspective.id}
-                            pageType='instancePage'
-                            instanceData={props[perspective.id].instance}
-                            expanded={props[perspective.id].instancePageHeaderExpanded}
-                            updateExpanded={props.updatePerspectiveHeaderExpanded}
-                            descriptionHeight={perspective.perspectiveDescHeight}
-                          />
-                          <Grid
-                            container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
-                              ? classes.instancePageContainerHeaderExpanded
-                              : classes.instancePageContainer}
-                          >
-                            <Grid item xs={12} className={classes.instancePageContent}>
-                              <InstanceHomePage
-                                fetchByURI={props.fetchByURI}
-                                resultClass={perspective.id}
-                                properties={props[perspective.id].properties}
-                                tabs={perspective.instancePageTabs}
-                                data={props[perspective.id].instance}
-                                sparqlQuery={props[perspective.id].instanceSparqlQuery}
-                                isLoading={props[perspective.id].fetching}
-                                routeProps={routeProps}
-                                screenSize={screenSize}
-                              />
-                            </Grid>
-                          </Grid>
-                        </>
-                      )
-                    }}
-                  />
-                </React.Fragment>
-              )
-            }
-          })}
-          {/* create routes for classes that have only info pages and no perspective */}
-          {perspectiveConfigOnlyInfoPages.map(perspective =>
+    <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} locale={props.options.currentLocale}>
+      <div className={classes.root}>
+        <div className={classes.appFrame}>
+          <Message error={error} />
+          <>
+            <TopBar
+              rootUrl={rootUrl}
+              search={props.clientSideFacetedSearch}
+              fetchResultsClientSide={props.fetchResultsClientSide}
+              clearResults={props.clearResults}
+              perspectives={perspectiveConfig}
+              currentLocale={props.options.currentLocale}
+              availableLocales={props.options.availableLocales}
+              loadLocales={props.loadLocales}
+              xsScreen={xsScreen}
+            />
             <Route
-              key={perspective.id}
-              path={`/${perspective.id}/page/:id`}
-              render={routeProps => {
-                return (
-                  <>
-                    <InfoHeader
-                      resultClass={perspective.id}
-                      pageType='instancePage'
-                      instanceData={props[perspective.id].instance}
-                      expanded={props[perspective.id].instancePageHeaderExpanded}
-                      updateExpanded={props.updatePerspectiveHeaderExpanded}
-                      descriptionHeight={perspective.perspectiveDescHeight}
-                    />
-                    <Grid
-                      container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
-                        ? classes.instancePageContainerHeaderExpanded
-                        : classes.instancePageContainer}
-                    >
-                      <Grid item xs={12} className={classes.instancePageContent}>
-                        <InstanceHomePage
-                          fetchByURI={props.fetchByURI}
-                          resultClass={perspective.id}
-                          properties={props[perspective.id].properties}
-                          tabs={perspective.instancePageTabs}
-                          data={props[perspective.id].instance}
-                          sparqlQuery={props[perspective.id].instanceSparqlQuery}
-                          isLoading={props[perspective.id].fetching}
-                          routeProps={routeProps}
-                          screenSize={screenSize}
-                        />
-                      </Grid>
-                    </Grid>
-                  </>
-                )
+              exact path={`${rootUrl}/`}
+              render={() =>
+                <Grid container spacing={1} className={classes.mainContainer}>
+                  <Main
+                    perspectives={perspectiveConfig}
+                    screenSize={screenSize}
+                    rootUrl={rootUrl}
+                  />
+                  <Footer />
+                </Grid>}
+            />
+            {/* https://stackoverflow.com/a/41024944 */}
+            <Route
+              path={`${rootUrl}/`} render={({ location }) => {
+                if (typeof window.ga === 'function') {
+                  window.ga('set', 'page', location.pathname + location.search)
+                  window.ga('send', 'pageview')
+                }
+                return null
               }}
             />
-          )}
-          {/* create routes for info buttons */}
-          <Route
-            path='/feedback'
-            render={() =>
-              <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
-                <TextPage>{intl.getHTML('feedback')}</TextPage>
-              </div>}
-          />
-          <Route
-            path='/about'
-            render={() =>
-              <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
-                <TextPage>{intl.getHTML('aboutThePortal')}</TextPage>
-              </div>}
-          />
-          <Route
-            path='/instructions'
-            render={() =>
-              <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
-                <TextPage>{intl.getHTML('instructions')}</TextPage>
-              </div>}
-          />
-        </>
+            {/* route for full text search results */}
+            <Route
+              path={`${rootUrl}/all`}
+              render={routeProps =>
+                <Grid container spacing={1} className={classes.mainContainer}>
+                  <Grid item xs={12} className={classes.resultsContainer}>
+                    <All
+                      clientSideFacetedSearch={props.clientSideFacetedSearch}
+                      routeProps={routeProps}
+                    />
+                  </Grid>
+                </Grid>}
+            />
+            {/* routes for perspectives that don't have an external url */}
+            {perspectiveConfig.map(perspective => {
+              if (!has(perspective, 'externalUrl')) {
+                return (
+                  <React.Fragment key={perspective.id}>
+                    <Route
+                      path={`${rootUrl}/${perspective.id}/faceted-search`}
+                      render={routeProps => {
+                        return (
+                          <>
+                            <InfoHeader
+                              resultClass={perspective.id}
+                              pageType='facetResults'
+                              expanded={props[perspective.id].facetedSearchHeaderExpanded}
+                              updateExpanded={props.updatePerspectiveHeaderExpanded}
+                              descriptionHeight={perspective.perspectiveDescHeight}
+                            />
+                            <Grid
+                              container spacing={1} className={props[perspective.id].facetedSearchHeaderExpanded
+                                ? classes.perspectiveContainerHeaderExpanded
+                                : classes.perspectiveContainer}
+                            >
+                              <Grid item xs={12} md={3} className={classes.facetBarContainer}>
+                                <FacetBar
+                                  facetData={props[`${perspective.id}Facets`]}
+                                  facetDataConstrainSelf={has(props, `${perspective.id}FacetsConstrainSelf`)
+                                    ? props[`${perspective.id}FacetsConstrainSelf`]
+                                    : null}
+                                  facetClass={perspective.id}
+                                  resultClass={perspective.id}
+                                  fetchingResultCount={props[perspective.id].fetchingResultCount}
+                                  resultCount={props[perspective.id].resultCount}
+                                  fetchFacet={props.fetchFacet}
+                                  fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
+                                  fetchResultCount={props.fetchResultCount}
+                                  updateFacetOption={props.updateFacetOption}
+                                  defaultActiveFacets={perspective.defaultActiveFacets}
+                                />
+                              </Grid>
+                              <Grid item xs={12} md={9} className={classes.resultsContainer}>
+                                {renderPerspective(perspective, routeProps)}
+                              </Grid>
+                            </Grid>
+                          </>
+                        )
+                      }}
+                    />
+                    <Route
+                      path={`${rootUrl}/${perspective.id}/page/:id`}
+                      render={routeProps => {
+                        return (
+                          <>
+                            <InfoHeader
+                              resultClass={perspective.id}
+                              pageType='instancePage'
+                              instanceData={props[perspective.id].instance}
+                              expanded={props[perspective.id].instancePageHeaderExpanded}
+                              updateExpanded={props.updatePerspectiveHeaderExpanded}
+                              descriptionHeight={perspective.perspectiveDescHeight}
+                            />
+                            <Grid
+                              container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
+                                ? classes.instancePageContainerHeaderExpanded
+                                : classes.instancePageContainer}
+                            >
+                              <Grid item xs={12} className={classes.instancePageContent}>
+                                <InstanceHomePage
+                                  rootUrl={rootUrl}
+                                  fetchByURI={props.fetchByURI}
+                                  resultClass={perspective.id}
+                                  properties={props[perspective.id].properties}
+                                  tabs={perspective.instancePageTabs}
+                                  data={props[perspective.id].instance}
+                                  sparqlQuery={props[perspective.id].instanceSparqlQuery}
+                                  isLoading={props[perspective.id].fetching}
+                                  routeProps={routeProps}
+                                  screenSize={screenSize}
+                                />
+                              </Grid>
+                            </Grid>
+                          </>
+                        )
+                      }}
+                    />
+                  </React.Fragment>
+                )
+              }
+            })}
+            {/* create routes for classes that have only info pages and no perspective */}
+            {perspectiveConfigOnlyInfoPages.map(perspective =>
+              <Route
+                key={perspective.id}
+                path={`/${perspective.id}/page/:id`}
+                render={routeProps => {
+                  return (
+                    <>
+                      <InfoHeader
+                        resultClass={perspective.id}
+                        pageType='instancePage'
+                        instanceData={props[perspective.id].instance}
+                        expanded={props[perspective.id].instancePageHeaderExpanded}
+                        updateExpanded={props.updatePerspectiveHeaderExpanded}
+                        descriptionHeight={perspective.perspectiveDescHeight}
+                      />
+                      <Grid
+                        container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
+                          ? classes.instancePageContainerHeaderExpanded
+                          : classes.instancePageContainer}
+                      >
+                        <Grid item xs={12} className={classes.instancePageContent}>
+                          <InstanceHomePage
+                            rootUrl={rootUrl}
+                            fetchByURI={props.fetchByURI}
+                            resultClass={perspective.id}
+                            properties={props[perspective.id].properties}
+                            tabs={perspective.instancePageTabs}
+                            data={props[perspective.id].instance}
+                            sparqlQuery={props[perspective.id].instanceSparqlQuery}
+                            isLoading={props[perspective.id].fetching}
+                            routeProps={routeProps}
+                            screenSize={screenSize}
+                          />
+                        </Grid>
+                      </Grid>
+                    </>
+                  )
+                }}
+              />
+            )}
+            {/* create routes for info buttons */}
+            <Route
+              path={`${rootUrl}/feedback`}
+              render={() =>
+                <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
+                  <TextPage>{intl.getHTML('feedback')}</TextPage>
+                </div>}
+            />
+            <Route
+              path={`${rootUrl}/about`}
+              render={() =>
+                <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
+                  <TextPage>{intl.getHTML('aboutThePortal')}</TextPage>
+                </div>}
+            />
+            <Route
+              path={`${rootUrl}/instructions`}
+              render={() =>
+                <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
+                  <TextPage>{intl.getHTML('instructions')}</TextPage>
+                </div>}
+            />
+          </>
+        </div>
       </div>
-    </div>
+    </MuiPickersUtilsProvider>
   )
 }
 
@@ -511,6 +534,5 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  withWidth(),
   withStyles(styles, { withTheme: true })
 )(SemanticPortal)

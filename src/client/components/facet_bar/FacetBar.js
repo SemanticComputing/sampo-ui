@@ -6,6 +6,7 @@ import HierarchicalFacet from './HierarchicalFacet'
 import TextFacet from './TextFacet'
 import SliderFacet from './SliderFacet'
 import RangeFacet from './RangeFacet'
+import DateFacet from './DateFacet'
 import Paper from '@material-ui/core/Paper'
 import FacetHeader from './FacetHeader'
 import FacetInfo from './FacetInfo'
@@ -36,6 +37,9 @@ const styles = theme => ({
     paddingTop: 0,
     paddingLeft: theme.spacing(1),
     flexDirection: 'column'
+  },
+  two: {
+    height: 60
   },
   three: {
     height: 108
@@ -127,6 +131,20 @@ class FacetBar extends React.Component {
             someFacetIsFetching={someFacetIsFetching}
             updateFacetOption={this.props.updateFacetOption}
             dataType='ISOString'
+          />
+        )
+        break
+      case 'dateFilter':
+        facetComponent = (
+          <DateFacet
+            facetID={facetID}
+            facet={facet}
+            facetClass={this.props.facetClass}
+            resultClass={this.props.resultClass}
+            facetUpdateID={facetUpdateID}
+            fetchFacet={this.props.fetchFacet}
+            someFacetIsFetching={someFacetIsFetching}
+            updateFacetOption={this.props.updateFacetOption}
           />
         )
         break

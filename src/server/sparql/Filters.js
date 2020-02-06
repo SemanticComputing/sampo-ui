@@ -81,6 +81,7 @@ export const generateConstraintsBlock = ({
         })
         break
       case 'timespanFilter':
+      case 'dateFilter':
         filterStr += generateTimespanFilter({
           facetClass: facetClass,
           facetID: c.id,
