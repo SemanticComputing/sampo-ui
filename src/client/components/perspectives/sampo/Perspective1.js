@@ -9,6 +9,7 @@ import Network from '../../facet_results/Network'
 import Export from '../../facet_results/Export'
 
 const Perspective1 = props => {
+  const { rootUrl, perspective } = props
   return (
     <>
       <PerspectiveTabs
@@ -17,11 +18,11 @@ const Perspective1 = props => {
         screenSize={props.screenSize}
       />
       <Route
-        exact path='/perspective1/faceted-search'
-        render={() => <Redirect to='/perspective1/faceted-search/table' />}
+        exact path={`${rootUrl}/${perspective.id}/faceted-search`}
+        render={() => <Redirect to={`${rootUrl}/${perspective.id}/faceted-search/table`} />}
       />
       <Route
-        path='/perspective1/faceted-search/table'
+        path={`${props.rootUrl}/${perspective.id}/faceted-search/table`}
         render={routeProps =>
           <ResultTable
             data={props.perspective1}
@@ -36,7 +37,7 @@ const Perspective1 = props => {
           />}
       />
       <Route
-        path='/perspective1/faceted-search/production_places'
+        path={`${rootUrl}/${perspective.id}/faceted-search/production_places`}
         render={() =>
           <LeafletMap
             results={props.places.results}
@@ -56,7 +57,7 @@ const Perspective1 = props => {
           />}
       />
       <Route
-        path='/perspective1/faceted-search/last_known_locations'
+        path={`${rootUrl}/${perspective.id}/faceted-search/last_known_locations`}
         render={() =>
           <LeafletMap
             results={props.places.results}
@@ -76,7 +77,7 @@ const Perspective1 = props => {
           />}
       />
       <Route
-        path='/perspective1/faceted-search/statistics'
+        path={`${rootUrl}/${perspective.id}/faceted-search/statistics`}
         render={() =>
           <Network
             results={props.perspective1.results}
@@ -86,7 +87,7 @@ const Perspective1 = props => {
           />}
       />
       <Route
-        path='/perspective1/faceted-search/migrations'
+        path={`${rootUrl}/${perspective.id}/faceted-search/migrations`}
         render={() =>
           <Deck
             results={props.places.results}
@@ -103,18 +104,13 @@ const Perspective1 = props => {
           />}
       />
       <Route
-        path='/perspective1/faceted-search/export'
+        path={`${rootUrl}/${perspective.id}/faceted-search/export`}
         render={() =>
           <Export
             sparqlQuery={props.perspective1.paginatedResultsSparqlQuery}
             pageType='facetResults'
           />}
       />
-      {/* <Route
-        path='/perspective1/faceted-search/network'
-        render={() =>
-          <Network />}
-      /> */}
     </>
   )
 }
@@ -134,7 +130,8 @@ Perspective1.propTypes = {
   perspective: PropTypes.object.isRequired,
   animationValue: PropTypes.array.isRequired,
   animateMap: PropTypes.func.isRequired,
-  screenSize: PropTypes.string.isRequired
+  screenSize: PropTypes.string.isRequired,
+  rootUrl: PropTypes.string.isRequired
 }
 
 export default Perspective1

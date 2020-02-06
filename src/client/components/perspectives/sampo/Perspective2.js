@@ -6,6 +6,7 @@ import ResultTable from '../../facet_results/ResultTable'
 import Export from '../../facet_results/Export'
 
 const Perspective2 = props => {
+  const { rootUrl, perspective } = props
   return (
     <>
       <PerspectiveTabs
@@ -14,11 +15,11 @@ const Perspective2 = props => {
         screenSize={props.screenSize}
       />
       <Route
-        exact path='/perspective2/faceted-search'
-        render={() => <Redirect to='/perspective2/faceted-search/table' />}
+        exact path={`${rootUrl}/${perspective.id}/faceted-search`}
+        render={() => <Redirect to={`${rootUrl}/${perspective.id}/faceted-search/table`} />}
       />
       <Route
-        path='/perspective2/faceted-search/table'
+        path={`${props.rootUrl}/${perspective.id}/faceted-search/table`}
         render={routeProps =>
           <ResultTable
             data={props.perspective2}
@@ -33,7 +34,7 @@ const Perspective2 = props => {
           />}
       />
       <Route
-        path='/perspective2/faceted-search/export'
+        path={`${rootUrl}/${perspective.id}/faceted-search/export`}
         render={() =>
           <Export
             sparqlQuery={props.perspective2.paginatedResultsSparqlQuery}
@@ -56,7 +57,8 @@ Perspective2.propTypes = {
   sortResults: PropTypes.func.isRequired,
   routeProps: PropTypes.object.isRequired,
   perspective: PropTypes.object.isRequired,
-  screenSize: PropTypes.string.isRequired
+  screenSize: PropTypes.string.isRequired,
+  rootUrl: PropTypes.string.isRequired
 }
 
 export default Perspective2

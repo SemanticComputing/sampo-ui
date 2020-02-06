@@ -4,10 +4,10 @@ import { Route, Redirect } from 'react-router-dom'
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
 import ResultTable from '../../facet_results/ResultTable'
 import Export from '../../facet_results/Export'
-import ApexChart from '../../facet_results/ApexChart'
 import LeafletMap from '../../facet_results/LeafletMap'
 
 const Perspective3 = props => {
+  const { rootUrl, perspective } = props
   return (
     <>
       <PerspectiveTabs
@@ -16,11 +16,11 @@ const Perspective3 = props => {
         screenSize={props.screenSize}
       />
       <Route
-        exact path='/perspective3/faceted-search'
-        render={() => <Redirect to='/perspective3/faceted-search/table' />}
+        exact path={`${rootUrl}/${perspective.id}/faceted-search`}
+        render={() => <Redirect to={`${rootUrl}/${perspective.id}/faceted-search/table`} />}
       />
       <Route
-        path='/perspective3/faceted-search/table'
+        path={`${props.rootUrl}/${perspective.id}/faceted-search/table`}
         render={routeProps =>
           <ResultTable
             data={props.perspective3}
@@ -35,7 +35,7 @@ const Perspective3 = props => {
           />}
       />
       <Route
-        path='/perspective3/faceted-search/map'
+        path={`${rootUrl}/${perspective.id}/faceted-search/map`}
         render={() =>
           <LeafletMap
             results={props.places.results}
@@ -55,27 +55,7 @@ const Perspective3 = props => {
           />}
       />
       <Route
-        path='/perspective3/faceted-search/by-period'
-        render={() =>
-          <ApexChart
-            fetchResults={props.fetchResults}
-            resultClass='perspective3ByTimePeriod'
-            facetClass='perspective3'
-            data={props.perspective3.results}
-            fetching={props.perspective3.fetching}
-            options={{
-              chart: {
-                type: 'bar',
-                stacked: true,
-                height: '100%',
-                parentHeightOffset: 0,
-                width: '100%'
-              }
-            }}
-          />}
-      />
-      <Route
-        path='/perspective3/faceted-search/export'
+        path={`${rootUrl}/${perspective.id}/faceted-search/export`}
         render={() =>
           <Export
             sparqlQuery={props.perspective3.paginatedResultsSparqlQuery}
@@ -99,7 +79,8 @@ Perspective3.propTypes = {
   routeProps: PropTypes.object.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
   perspective: PropTypes.object.isRequired,
-  screenSize: PropTypes.string.isRequired
+  screenSize: PropTypes.string.isRequired,
+  rootUrl: PropTypes.string.isRequired
 }
 
 export default Perspective3
