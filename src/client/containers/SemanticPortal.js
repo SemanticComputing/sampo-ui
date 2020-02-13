@@ -466,6 +466,7 @@ const mapStateToProps = state => {
   return {
     perspective1: state.perspective1,
     perspective1Facets: state.perspective1Facets,
+    perspective1FacetsConstrainSelf: state.perspective1FacetsConstrainSelf,
     perspective2: state.perspective2,
     perspective2Facets: state.perspective2Facets,
     perspective3: state.perspective3,
@@ -504,6 +505,7 @@ SemanticPortal.propTypes = {
   error: PropTypes.object.isRequired,
   perspective1: PropTypes.object.isRequired,
   perspective1Facets: PropTypes.object.isRequired,
+  perspective1FacetsConstrainSelf: PropTypes.object.isRequired,
   perspective2: PropTypes.object.isRequired,
   perspective2Facets: PropTypes.object.isRequired,
   perspective3: PropTypes.object.isRequired,

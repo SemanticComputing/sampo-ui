@@ -1,14 +1,13 @@
 import {
-  FETCH_FACET,
-  FETCH_FACET_FAILED,
-  UPDATE_FACET_VALUES,
-  UPDATE_FACET_OPTION
+  FETCH_FACET_CONSTRAIN_SELF,
+  FETCH_FACET_CONSTRAIN_SELF_FAILED,
+  UPDATE_FACET_VALUES_CONSTRAIN_SELF
 } from '../../actions'
 import {
   fetchFacet,
   fetchFacetFailed,
-  updateFacetValues,
-  updateFacetOption
+  updateFacetValues
+  // updateFacetOption,
 } from '../helpers'
 
 export const INITIAL_STATE = {
@@ -43,7 +42,6 @@ export const INITIAL_STATE = {
       sortDirection: 'desc',
       sortButton: true,
       spatialFilterButton: false,
-      chartButton: false,
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
@@ -135,7 +133,6 @@ export const INITIAL_STATE = {
       sortDirection: 'desc',
       sortButton: true,
       spatialFilterButton: false,
-      chartButton: true,
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
@@ -154,7 +151,6 @@ export const INITIAL_STATE = {
       sortDirection: 'desc',
       sortButton: true,
       spatialFilterButton: false,
-      chartButton: false,
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
@@ -172,7 +168,7 @@ export const INITIAL_STATE = {
       sortDirection: 'desc',
       sortButton: true,
       spatialFilterButton: false,
-      chartButton: false,
+      chartButton: true,
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
@@ -219,26 +215,6 @@ export const INITIAL_STATE = {
       type: 'timespan',
       priority: 9
     },
-    lastKnownLocation: {
-      id: 'lastKnownLocation',
-      // predicate: defined in backend
-      distinctValueCount: 0,
-      values: [],
-      flatValues: [],
-      sortBy: 'prefLabel',
-      sortDirection: 'asc',
-      sortButton: false,
-      spatialFilterButton: false,
-      // spatialFilterTab: 'production_places',
-      isFetching: false,
-      searchField: true,
-      containerClass: 'ten',
-      filterType: 'uriFilter',
-      uriFilter: null,
-      spatialFilter: null,
-      type: 'hierarchical',
-      priority: 22
-    },
     material: {
       id: 'material',
       // predicate: defined in backend
@@ -249,7 +225,6 @@ export const INITIAL_STATE = {
       sortDirection: 'desc',
       sortButton: true,
       spatialFilterButton: false,
-      chartButton: false,
       isFetching: false,
       searchField: true,
       containerClass: 'ten',
@@ -371,7 +346,6 @@ export const INITIAL_STATE = {
       sortDirection: 'desc',
       sortButton: false,
       spatialFilterButton: false,
-      chartButton: false,
       isFetching: false,
       searchField: false,
       containerClass: 'three',
@@ -382,21 +356,19 @@ export const INITIAL_STATE = {
   }
 }
 
-const perspective1Facets = (state = INITIAL_STATE, action) => {
+const perspective1FacetsConstainself = (state = INITIAL_STATE, action) => {
   if (action.facetClass === 'perspective1') {
     switch (action.type) {
-      case FETCH_FACET:
+      case FETCH_FACET_CONSTRAIN_SELF:
         return fetchFacet(state, action)
-      case FETCH_FACET_FAILED:
+      case FETCH_FACET_CONSTRAIN_SELF_FAILED:
         return fetchFacetFailed(state, action)
-      case UPDATE_FACET_VALUES:
+      case UPDATE_FACET_VALUES_CONSTRAIN_SELF:
         return updateFacetValues(state, action)
-      case UPDATE_FACET_OPTION:
-        return updateFacetOption(state, action)
       default:
         return state
     }
   } else return state
 }
 
-export default perspective1Facets
+export default perspective1FacetsConstainself
