@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 // import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import Button from '@material-ui/core/Button'
+import { yasguiBaseUrl, yasguiParams } from '../../configs/sampo/GeneralConfig'
+import querystring from 'querystring'
+import intl from 'react-intl-universal'
 
 const styles = theme => ({
   root: {
@@ -28,13 +31,8 @@ class Export extends React.Component {
     const { classes, sparqlQuery } = this.props
     let yasguiUrl = ''
     if (this.props.sparqlQuery !== null) {
-      yasguiUrl = 'http://yasgui.org/#query=' +
-      encodeURIComponent(sparqlQuery) +
-      '&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results' +
-      '%2Bjson&endpoint=http%3A%2F%2Fldf.fi%2Fmmm-cidoc%2Fsparql&requestMethod=POST&tabTitle=' +
-      'Query+11&headers=%7B%7D&outputFormat=table'
+      yasguiUrl = `${yasguiBaseUrl}/#query=${encodeURIComponent(sparqlQuery)}&${querystring.stringify(yasguiParams)}`
     }
-
     return (
       <div className={classes.root}>
         <a
@@ -44,7 +42,7 @@ class Export extends React.Component {
           rel='noopener noreferrer'
         >
           <Button variant='contained' color='primary' className={classes.button}>
-            Open SPARQL query in yasgui.org
+            {intl.get('exportToYasgui')}
           </Button>
         </a>
         {this.props.pageType === 'instancePage' &&
@@ -55,7 +53,7 @@ class Export extends React.Component {
             rel='noopener noreferrer'
           >
             <Button variant='contained' color='primary' className={classes.button}>
-              Open in Linked Data Browser
+              {intl.get('openInLinkedDataBrowser')}
             </Button>
           </a>}
       </div>

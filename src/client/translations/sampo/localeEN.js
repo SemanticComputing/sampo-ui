@@ -43,6 +43,8 @@ export default {
     rowsPerPage: 'Rows per page',
     of: 'of'
   },
+  exportToYasgui: 'open the result table query in yasgui sparql editor',
+  openInLinkedDataBrowser: 'open in linked data browser',
   instancePageGeneral: {
     introduction: `
       <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
