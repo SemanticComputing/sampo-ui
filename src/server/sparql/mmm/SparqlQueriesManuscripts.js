@@ -473,14 +473,14 @@ export const migrationsQuery = `
     ?to__id ?to__prefLabel ?to__dataProviderUrl ?to__lat ?to__long
   WHERE {
     <FILTER>
-    ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?from__id .
-    ?manuscript__id skos:prefLabel ?manuscript__prefLabel .
+    ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?from__id ;
+                    mmm-schema:last_known_location ?to__id ;
+                    skos:prefLabel ?manuscript__prefLabel .
     BIND(CONCAT("/manuscripts/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
     ?from__id skos:prefLabel ?from__prefLabel ;
               wgs84:lat ?from__lat ;
               wgs84:long ?from__long .
     BIND(CONCAT("/places/page/", REPLACE(STR(?from__id), "^.*\\\\/(.+)", "$1")) AS ?from__dataProviderUrl)
-    ?manuscript__id mmm-schema:last_known_location ?to__id .
     ?to__id skos:prefLabel ?to__prefLabel ;
             wgs84:lat ?to__lat ;
             wgs84:long ?to__long .
