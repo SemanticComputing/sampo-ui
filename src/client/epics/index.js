@@ -330,6 +330,12 @@ const fetchSimilarDocumentsEpic = (action$, state$) => action$.pipe(
   })
 )
 
+// const fetchFHAWFSLayersEpic = (action$, state$) => action$.pipe(
+//   ofType(FETCH_FHA_WFS_LAYERS),
+//   withLatestFrom(state$)
+
+// )
+
 const rootEpic = combineEpics(
   fetchPaginatedResultsEpic,
   fetchResultsEpic,
