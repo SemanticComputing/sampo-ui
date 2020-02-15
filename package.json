@@ -63,7 +63,7 @@
     "deck.gl": "^7.3.4",
     "dotenv": "^8.2.0",
     "express": "^4.16.4",
-    "leaflet": "^1.5.1",
+    "leaflet": "^1.6.0",
     "leaflet-draw": "^1.0.4",
     "leaflet-fullscreen": "^1.0.2",
     "leaflet.markercluster": "^1.4.1",
