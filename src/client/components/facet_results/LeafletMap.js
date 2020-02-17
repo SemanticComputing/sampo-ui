@@ -88,54 +88,7 @@ class LeafletMap extends React.Component {
         sortBy: null
       })
     }
-
-    // Base layers
-    const mapboxLight = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/{z}/{x}/{y}?access_token=' + MAPBOX_ACCESS_TOKEN, {
-      attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      tileSize: 512,
-      zoomOffset: -1
-    })
-
-    // layer for markers
-    this.resultMarkerLayer = L.layerGroup()
-
-    if (this.props.mapMode === 'cluster') {
-      this.updateMarkersAndCluster(this.props.results)
-    } else {
-      this.updateMarkers(this.props.results)
-    }
-
-    // create map
-    this.leafletMap = L.map('map', {
-      center: [22.43, 10.37],
-      zoom: 2,
-      zoomControl: false,
-      zoominfoControl: true,
-      layers: [
-        mapboxLight,
-        this.resultMarkerLayer
-      ],
-      fullscreenControl: true
-    })
-
-    // initialize layers from external sources
-    if (this.props.showExternalLayers) {
-      const fhaArchaeologicalSiteRegistryAreas = L.layerGroup([], { id: 'arkeologiset_kohteet_alue' })
-      const fhaArchaeologicalSiteRegistryPoints = L.layerGroup([], { id: 'arkeologiset_kohteet_piste' })
-      this.overlayLayers = {
-        [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_alue')]: fhaArchaeologicalSiteRegistryAreas,
-        [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_piste')]: fhaArchaeologicalSiteRegistryPoints
-      }
-      L.control.layers(this.overlayLayers).addTo(this.leafletMap)
-    }
-
-    // Add scale
-    L.control.scale().addTo(this.leafletMap)
-
-    // create layer for bounding boxes
-    if (has(this.props, 'facet') && this.props.facet.filterType === 'spatialFilter') {
-      this.addDrawButtons()
-    }
+    this.initMap()
   }
 
   componentDidUpdate = prevProps => {
@@ -176,6 +129,72 @@ class LeafletMap extends React.Component {
         this.removeDrawButtons()
       }
     }
+  }
+
+  initMap = () => {
+    // Base layers
+    const mapboxLight = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/{z}/{x}/{y}?access_token=' + MAPBOX_ACCESS_TOKEN, {
+      attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      tileSize: 512,
+      zoomOffset: -1
+    })
+
+    // layer for markers
+    this.resultMarkerLayer = L.layerGroup()
+
+    if (this.props.mapMode === 'cluster') {
+      this.updateMarkersAndCluster(this.props.results)
+    } else {
+      this.updateMarkers(this.props.results)
+    }
+
+    // create map
+    this.leafletMap = L.map('map', {
+      center: [22.43, 10.37],
+      zoom: 2,
+      zoomControl: false,
+      zoominfoControl: true,
+      layers: [
+        mapboxLight,
+        this.resultMarkerLayer
+      ],
+      fullscreenControl: true
+    })
+
+    // initialize layers from external sources
+    if (this.props.showExternalLayers) {
+      const basemaps = {
+        'Mapbox Light': mapboxLight
+      }
+      const fhaArchaeologicalSiteRegistryAreas = L.layerGroup([], { id: 'arkeologiset_kohteet_alue' })
+      const fhaArchaeologicalSiteRegistryPoints = L.layerGroup([], { id: 'arkeologiset_kohteet_piste' })
+      this.overlayLayers = {
+        [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_alue')]: fhaArchaeologicalSiteRegistryAreas,
+        [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_piste')]: fhaArchaeologicalSiteRegistryPoints
+      }
+      L.control.layers(basemaps, this.overlayLayers).addTo(this.leafletMap)
+    }
+
+    // Add scale
+    L.control.scale().addTo(this.leafletMap)
+
+    // create layer for bounding boxes
+    if (has(this.props, 'facet') && this.props.facet.filterType === 'spatialFilter') {
+      this.addDrawButtons()
+    }
+  }
+
+  initMapEventListeners = () => {
+    // Fired when an overlay is selected through the layer control
+    this.map.on('overlayadd', event => {
+      const layerID = event.layer.options.id
+      // https://www.robinwieruch.de/react-state-array-add-update-remove
+      this.setState(state => {
+        return {
+          activeOverLays: [...state.activeOverLays, layerID]
+        }
+      })
+    })
   }
 
   addDrawButtons = () => {

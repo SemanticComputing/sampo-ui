@@ -37,6 +37,7 @@ import {
   fetchByURI,
   fetchFacet,
   fetchFacetConstrainSelf,
+  fetchGeoJSONLayers,
   sortResults,
   updateFacetOption,
   updatePage,
@@ -196,6 +197,7 @@ const SemanticPortal = props => {
             facetData={props.perspective1Facets}
             fetchPaginatedResults={props.fetchPaginatedResults}
             fetchResults={props.fetchResults}
+            fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             fetchByURI={props.fetchByURI}
             updatePage={props.updatePage}
             updateRowsPerPage={props.updateRowsPerPage}
@@ -487,6 +489,7 @@ const mapDispatchToProps = ({
   fetchByURI,
   fetchFacet,
   fetchFacetConstrainSelf,
+  fetchGeoJSONLayers,
   sortResults,
   clearResults,
   updateFacetOption,
@@ -517,6 +520,7 @@ SemanticPortal.propTypes = {
   fetchResultsClientSide: PropTypes.func.isRequired,
   fetchPaginatedResults: PropTypes.func.isRequired,
   fetchByURI: PropTypes.func.isRequired,
+  fetchGeoJSONLayers: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,

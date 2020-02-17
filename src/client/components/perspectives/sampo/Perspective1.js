@@ -50,6 +50,7 @@ const Perspective1 = props => {
             mapMode='cluster'
             instance={props.places.instance}
             fetchResults={props.fetchResults}
+            fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             fetchByURI={props.fetchByURI}
             fetching={props.places.fetching}
             showInstanceCountInClusters
@@ -71,6 +72,7 @@ const Perspective1 = props => {
             mapMode='cluster'
             instance={props.places.instance}
             fetchResults={props.fetchResults}
+            fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             fetchByURI={props.fetchByURI}
             fetching={props.places.fetching}
             showInstanceCountInClusters
@@ -121,6 +123,7 @@ Perspective1.propTypes = {
   places: PropTypes.object.isRequired,
   facetData: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
+  fetchGeoJSONLayers: PropTypes.func.isRequired,
   fetchPaginatedResults: PropTypes.func.isRequired,
   fetchByURI: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
