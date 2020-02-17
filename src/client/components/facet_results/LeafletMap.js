@@ -77,7 +77,7 @@ const ColorIcon = L.Icon.extend({
 
 class LeafletMap extends React.Component {
   state = {
-    activeOverLays: []
+    activeOverlays: []
   }
 
   componentDidMount = () => {
@@ -173,6 +173,7 @@ class LeafletMap extends React.Component {
         [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_piste')]: fhaArchaeologicalSiteRegistryPoints
       }
       L.control.layers(basemaps, this.overlayLayers).addTo(this.leafletMap)
+      this.initMapEventListeners()
     }
 
     // Add scale
@@ -186,13 +187,25 @@ class LeafletMap extends React.Component {
 
   initMapEventListeners = () => {
     // Fired when an overlay is selected through the layer control
-    this.map.on('overlayadd', event => {
+    this.leafletMap.on('overlayadd', event => {
       const layerID = event.layer.options.id
       // https://www.robinwieruch.de/react-state-array-add-update-remove
       this.setState(state => {
         return {
-          activeOverLays: [...state.activeOverLays, layerID]
+          activeOverlays: [...state.activeOverlays, layerID]
         }
+      })
+      this.props.fetchGeoJSONLayers({
+        layerIDs: this.state.activeOverlays,
+        bounds: this.leafletMap.getBounds()
+      })
+    })
+    // Fired when an overlay is selected through the layer control
+    this.leafletMap.on('overlayremove', event => {
+      const layerIDtoRemove = event.layer.options.id
+      this.setState(state => {
+        const activeOverlays = state.activeOverlays.filter(layerID => layerID !== layerIDtoRemove)
+        return { activeOverlays }
       })
     })
   }
@@ -487,12 +500,13 @@ LeafletMap.propTypes = {
   classes: PropTypes.object.isRequired,
   pageType: PropTypes.string.isRequired,
   results: PropTypes.array.isRequired,
-  geoJSONLayers: PropTypes.array,
+  layers: PropTypes.object,
   facetID: PropTypes.string,
   facet: PropTypes.object,
   instance: PropTypes.object,
   facetUpdateID: PropTypes.number,
   fetchResults: PropTypes.func,
+  fetchGeoJSONLayers: PropTypes.func,
   resultClass: PropTypes.string,
   facetClass: PropTypes.string,
   fetchByURI: PropTypes.func.isRequired,

@@ -250,11 +250,12 @@ export const animateMap = value => ({
   type: ANIMATE_MAP,
   value
 })
-export const fetchGeoJSONLayers = ({ layerIDs }) => ({
+export const fetchGeoJSONLayers = ({ layerIDs, bounds }) => ({
   type: FETCH_GEOJSON_LAYERS,
-  layerIDs
+  layerIDs,
+  bounds
 })
-export const updateGeoJSONLayers = ({ data }) => ({
+export const updateGeoJSONLayers = ({ payload }) => ({
   type: UPDATE_GEOJSON_LAYERS,
-  data
+  payload
 })

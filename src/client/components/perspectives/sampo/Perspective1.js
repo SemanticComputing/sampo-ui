@@ -41,6 +41,7 @@ const Perspective1 = props => {
         render={() =>
           <LeafletMap
             results={props.places.results}
+            layers={props.leafletMapLayers}
             pageType='facetResults'
             facetUpdateID={props.facetData.facetUpdateID}
             facet={props.facetData.facets.productionPlace}
@@ -121,6 +122,7 @@ const Perspective1 = props => {
 Perspective1.propTypes = {
   perspective1: PropTypes.object.isRequired,
   places: PropTypes.object.isRequired,
+  leafletMapLayers: PropTypes.object.isRequired,
   facetData: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
   fetchGeoJSONLayers: PropTypes.func.isRequired,

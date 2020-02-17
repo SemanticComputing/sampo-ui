@@ -334,18 +334,19 @@ const fetchSimilarDocumentsEpic = (action$, state$) => action$.pipe(
   })
 )
 
-const fetchGeoJSONLayers = (action$, state$) => action$.pipe(
+const fetchGeoJSONLayers = action$ => action$.pipe(
   ofType(FETCH_GEOJSON_LAYERS),
-  withLatestFrom(state$),
-  mergeMap(async (action) => {
+  mergeMap(async action => {
     const { layerIDs, bounds } = action
     const data = await Promise.all(layerIDs.map(layerID => fetchGeoJSONLayer(layerID, bounds)))
-    return updateGeoJSONLayers({ data })
+    return updateGeoJSONLayers({ payload: data })
   })
 )
 
 const fetchGeoJSONLayer = async (layerID, bounds) => {
-  const baseUrl = 'http://kartta.nba.fi/arcgis/services/WFS/MV_Kulttuuriymparisto/MapServer/WFSServer?'
+  const baseUrl = 'http://kartta.nba.fi/arcgis/services/WFS/MV_Kulttuuriymparisto/MapServer/WFSServer'
+  const boundsStr =
+    `${bounds._southWest.lng},${bounds._southWest.lat},${bounds._northEast.lng},${bounds._northEast.lat}`
   const mapServerParams = {
     request: 'GetFeature',
     service: 'WFS',
@@ -353,7 +354,7 @@ const fetchGeoJSONLayer = async (layerID, bounds) => {
     typeName: layerID,
     srsName: 'EPSG:4326',
     outputFormat: 'geojson',
-    bbox: bounds
+    bbox: boundsStr
   }
   const url = `${baseUrl}?${querystring.stringify(mapServerParams)}`
   try {

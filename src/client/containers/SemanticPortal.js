@@ -194,6 +194,7 @@ const SemanticPortal = props => {
           <Perspective1
             perspective1={props.perspective1}
             places={props.places}
+            leafletMapLayers={props.leafletMapLayers}
             facetData={props.perspective1Facets}
             fetchPaginatedResults={props.fetchPaginatedResults}
             fetchResults={props.fetchResults}
@@ -474,6 +475,7 @@ const mapStateToProps = state => {
     perspective3: state.perspective3,
     perspective3Facets: state.perspective3Facets,
     places: state.places,
+    leafletMapLayers: state.leafletMapLayers,
     clientSideFacetedSearch: state.clientSideFacetedSearch,
     animationValue: state.animation.value,
     options: state.options,
@@ -514,6 +516,7 @@ SemanticPortal.propTypes = {
   perspective3: PropTypes.object.isRequired,
   perspective3Facets: PropTypes.object.isRequired,
   places: PropTypes.object.isRequired,
+  leafletMapLayers: PropTypes.object.isRequired,
   animationValue: PropTypes.array.isRequired,
   fetchResults: PropTypes.func.isRequired,
   fetchResultCount: PropTypes.func.isRequired,

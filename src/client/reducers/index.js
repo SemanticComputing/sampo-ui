@@ -10,6 +10,7 @@ import perspective1FacetsConstrainSelf from './sampo/perspective1FacetsConstrain
 import perspective2Facets from './sampo/perspective2Facets'
 import perspective3Facets from './sampo/perspective3Facets'
 import places from './sampo/places'
+import leafletMapLayers from './sampo/leafletMapLayers'
 import animation from './mmm/animation'
 import clientSideFacetedSearch from './mmm/clientSideFacetedSearch'
 
@@ -22,6 +23,7 @@ const reducer = combineReducers({
   perspective2Facets,
   perspective3Facets,
   places,
+  leafletMapLayers,
   animation,
   options,
   error,
