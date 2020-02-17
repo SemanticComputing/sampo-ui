@@ -2,7 +2,6 @@ import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
 import { has } from 'lodash'
-import axios from 'axios'
 import {
   getResultCount,
   getPaginatedResults,
@@ -150,22 +149,6 @@ app.get(`${apiPath}/search`, async (req, res, next) => {
       resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
     })
     res.json(data)
-  } catch (error) {
-    next(error)
-  }
-})
-
-app.get(`${apiPath}/fha_wfs`, async (req, res, next) => {
-  const url = `
-     http://kartta.nba.fi/arcgis/services/WFS/MV_Kulttuuriymparisto/MapServer/WFSServer?request=GetFeature` +
-    `&service=WFS&version=2.0.0&typeName=${req.query.layer}&srsName=EPSG:4326&outputformat=geojson&bbox=${req.query.boxBounds}
-  `
-  try {
-    const response = await axios({
-      method: 'get',
-      url
-    })
-    res.send(response.data.features)
   } catch (error) {
     next(error)
   }

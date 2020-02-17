@@ -14,3 +14,10 @@
 .leaflet-popup-scrolled {
     border: 0px;
 }
+
+.leaflet-control-zoominfo-info {
+    margin-left: -11px !important;
+    width: 18px !important;
+    height: 18px !important;
+    padding-top: 0px !important;
+}

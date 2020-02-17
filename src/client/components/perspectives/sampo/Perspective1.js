@@ -54,6 +54,7 @@ const Perspective1 = props => {
             fetching={props.places.fetching}
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
+            showExternalLayers
           />}
       />
       <Route

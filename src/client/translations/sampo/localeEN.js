@@ -45,6 +45,12 @@ export default {
   },
   exportToYasgui: 'open the result table query in yasgui sparql editor',
   openInLinkedDataBrowser: 'open in linked data browser',
+  leafletMap: {
+    externalLayers: {
+      arkeologiset_kohteet_alue: 'Register of Archaeological Sites, areas',
+      arkeologiset_kohteet_piste: 'Register of Archaeological Sites, points'
+    }
+  },
   instancePageGeneral: {
     introduction: `
       <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">

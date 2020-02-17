@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import intl from 'react-intl-universal'
 import L from 'leaflet'
 import { has, orderBy } from 'lodash'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -24,6 +25,8 @@ import 'Leaflet.extra-markers/dist/img/markers_default.png'
 import 'Leaflet.extra-markers/dist/img/markers_shadow.png'
 import 'leaflet-draw/dist/leaflet.draw.js'
 import 'leaflet-draw/dist/leaflet.draw.css'
+import 'leaflet.zoominfo/dist/L.Control.Zoominfo'
+import 'leaflet.zoominfo/dist/L.Control.Zoominfo.css'
 
 import markerShadowIcon from '../../img/markers/marker-shadow.png'
 import markerIconViolet from '../../img/markers/marker-icon-violet.png'
@@ -73,6 +76,10 @@ const ColorIcon = L.Icon.extend({
 })
 
 class LeafletMap extends React.Component {
+  state = {
+    activeOverLays: []
+  }
+
   componentDidMount = () => {
     if (this.props.pageType === 'facetResults') {
       this.props.fetchResults({
@@ -83,23 +90,15 @@ class LeafletMap extends React.Component {
     }
 
     // Base layers
-
-    // const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    //   attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    // });
     const mapboxLight = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/{z}/{x}/{y}?access_token=' + MAPBOX_ACCESS_TOKEN, {
       attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       tileSize: 512,
       zoomOffset: -1
     })
-    // const parisTest = L.tileLayer('http://mapwarper.net/maps/tile/28345/{z}/{x}/{y}.png', {
-    //   attribution: 'SeCo'
-    // });
 
-    // create marker layers
+    // layer for markers
     this.resultMarkerLayer = L.layerGroup()
-    this.bouncingMarkerObj = null
-    this.popupMarkerObj = null
+
     if (this.props.mapMode === 'cluster') {
       this.updateMarkersAndCluster(this.props.results)
     } else {
@@ -110,13 +109,28 @@ class LeafletMap extends React.Component {
     this.leafletMap = L.map('map', {
       center: [22.43, 10.37],
       zoom: 2,
+      zoomControl: false,
+      zoominfoControl: true,
       layers: [
-        // OSMBaseLayer,
         mapboxLight,
         this.resultMarkerLayer
       ],
       fullscreenControl: true
     })
+
+    // initialize layers from external sources
+    if (this.props.showExternalLayers) {
+      const fhaArchaeologicalSiteRegistryAreas = L.layerGroup([], { id: 'arkeologiset_kohteet_alue' })
+      const fhaArchaeologicalSiteRegistryPoints = L.layerGroup([], { id: 'arkeologiset_kohteet_piste' })
+      this.overlayLayers = {
+        [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_alue')]: fhaArchaeologicalSiteRegistryAreas,
+        [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_piste')]: fhaArchaeologicalSiteRegistryPoints
+      }
+      L.control.layers(this.overlayLayers).addTo(this.leafletMap)
+    }
+
+    // Add scale
+    L.control.scale().addTo(this.leafletMap)
 
     // create layer for bounding boxes
     if (has(this.props, 'facet') && this.props.facet.filterType === 'spatialFilter') {
@@ -454,6 +468,7 @@ LeafletMap.propTypes = {
   classes: PropTypes.object.isRequired,
   pageType: PropTypes.string.isRequired,
   results: PropTypes.array.isRequired,
+  geoJSONLayers: PropTypes.array,
   facetID: PropTypes.string,
   facet: PropTypes.object,
   instance: PropTypes.object,
