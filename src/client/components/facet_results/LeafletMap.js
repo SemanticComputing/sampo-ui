@@ -122,6 +122,26 @@ class LeafletMap extends React.Component {
         .openPopup()
     }
 
+    if (this.props.showExternalLayers &&
+        (this.props.layers.updateID !== prevProps.layers.updateID)) {
+      this.props.layers.layerData.map(layerObj => {
+        /* Overlays are shown in the layer control element.
+           For some reaseon Leaflet uses overlay's key as it's label */
+        const leafletOverlay = this.overlayLayers[intl.get(`leafletMap.externalLayers.${layerObj.layerID}`)]
+        const leafletGeoJSONLayer = L.geoJSON(layerObj.geoJSON, {
+          pointToLayer: (feature, latlng) => {
+            return this.createPointToLayer(latlng, this.getOverlayColor(l.layer));
+          },  
+          style: {
+
+            cursor: 'pointer',
+            dashArray: '3, 5'
+          }
+        })
+        leafletGeoJSONLayer.addTo(leafletOverlay).addTo(this.leafletMap)
+      })
+    }
+
     if (has(prevProps, 'facet') && prevProps.facet.filterType !== this.props.facet.filterType) {
       if (this.props.facet.filterType === 'spatialFilter') {
         this.addDrawButtons()
@@ -150,8 +170,8 @@ class LeafletMap extends React.Component {
 
     // create map
     this.leafletMap = L.map('map', {
-      center: [22.43, 10.37],
-      zoom: 2,
+      center: [60.09, 24.53],
+      zoom: 13,
       zoomControl: false,
       zoominfoControl: true,
       layers: [
@@ -166,8 +186,20 @@ class LeafletMap extends React.Component {
       const basemaps = {
         'Mapbox Light': mapboxLight
       }
-      const fhaArchaeologicalSiteRegistryAreas = L.layerGroup([], { id: 'arkeologiset_kohteet_alue' })
-      const fhaArchaeologicalSiteRegistryPoints = L.layerGroup([], { id: 'arkeologiset_kohteet_piste' })
+      const fhaArchaeologicalSiteRegistryAreas = L.layerGroup([], {
+        id: 'arkeologiset_kohteet_alue',
+        color: '#dd2c00'
+      })
+      const fhaArchaeologicalSiteRegistryPoints = L.layerGroup([], {
+        id: 'arkeologiset_kohteet_piste',
+        geojsonMarkerOptions: {
+          radius: 8,
+          fillColor: '#dd2c00',
+          weight: 1,
+          opacity: 1,
+          fillOpacity: 0.8
+        }
+      })
       this.overlayLayers = {
         [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_alue')]: fhaArchaeologicalSiteRegistryAreas,
         [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_piste')]: fhaArchaeologicalSiteRegistryPoints
@@ -251,7 +283,6 @@ class LeafletMap extends React.Component {
       this.drawnItems.addLayer(e.layer)
       this.leafletMap.removeControl(this.drawControlFull)
       this.leafletMap.addControl(this.drawControlEditOnly)
-      // console.log(e.layer)
       this.props.updateFacetOption({
         facetClass: this.props.facetClass,
         facetID: this.props.facetID,
@@ -274,7 +305,6 @@ class LeafletMap extends React.Component {
     this.leafletMap.on(L.Draw.Event.DELETED, () => {
       this.leafletMap.removeControl(this.drawControlEditOnly)
       this.leafletMap.addControl(this.drawControlFull)
-      // console.log(e.layer)
       this.props.updateFacetOption({
         facetClass: this.props.facetClass,
         facetID: this.props.facetID,
@@ -303,7 +333,6 @@ class LeafletMap extends React.Component {
   }
 
   updateMarkersAndCluster = results => {
-    // console.log(results)
     this.resultMarkerLayer.clearLayers()
     this.markers = {}
     let clusterer = null
@@ -325,8 +354,11 @@ class LeafletMap extends React.Component {
         } else {
           c += 'large'
         }
-        return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) })
-        // return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster marker-cluster-grey', iconSize: new L.Point(40, 40) });
+        return new L.DivIcon({
+          html: '<div><span>' + childCount + '</span></div>',
+          className: 'marker-cluster' + c,
+          iconSize: new L.Point(40, 40)
+        })
       }
     })
     for (const result of results) {
@@ -340,8 +372,6 @@ class LeafletMap extends React.Component {
   }
 
   createMarker = result => {
-    // const color = typeof result.markerColor === 'undefined' ? 'grey' : result.markerColor;
-    // const icon = new ColorIcon({iconUrl: 'img/markers/marker-icon-' + color + '.png'});
     if (!has(result, 'lat') ||
         !has(result, 'long') ||
         result.lat === 'Undefined' ||

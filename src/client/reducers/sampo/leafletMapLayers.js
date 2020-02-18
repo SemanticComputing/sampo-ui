@@ -3,7 +3,8 @@ import {
 } from '../../actions'
 
 export const INITIAL_STATE = {
-  layers: []
+  layerData: [],
+  updateID: 0
 }
 
 const leafletMapLayers = (state = INITIAL_STATE, action) => {
@@ -11,7 +12,8 @@ const leafletMapLayers = (state = INITIAL_STATE, action) => {
     case UPDATE_GEOJSON_LAYERS:
       return {
         ...state,
-        layers: action.payload
+        layerData: action.payload,
+        updateID: state.updateID + 1
       }
     default:
       return state
