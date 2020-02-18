@@ -129,11 +129,13 @@ class LeafletMap extends React.Component {
            For some reaseon Leaflet uses overlay's key as it's label */
         const leafletOverlay = this.overlayLayers[intl.get(`leafletMap.externalLayers.${layerObj.layerID}`)]
         const leafletGeoJSONLayer = L.geoJSON(layerObj.geoJSON, {
+          // style for GeoJSON Points
           pointToLayer: (feature, latlng) => {
-            return this.createPointToLayer(latlng, this.getOverlayColor(l.layer));
-          },  
+            return L.circleMarker(latlng, leafletOverlay.options.geojsonMarkerOptions)
+          },
+          // style for GeoJSON Polygons
           style: {
-
+            color: leafletOverlay.options.color,
             cursor: 'pointer',
             dashArray: '3, 5'
           }
