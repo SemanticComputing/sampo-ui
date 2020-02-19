@@ -7,8 +7,8 @@ import { has, orderBy } from 'lodash'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { purple } from '@material-ui/core/colors'
 import { MAPBOX_ACCESS_TOKEN } from '../../configs/sampo/GeneralConfig'
-import 'leaflet/dist/leaflet.css'
-import './LeafletMap.css'
+import 'leaflet/dist/leaflet.css' // Official Leaflet styles
+import './LeafletMap.css' // Customizations to Leaflet styles
 
 // Leaflet plugins
 import 'leaflet-fullscreen/dist/fullscreen.png'
@@ -77,7 +77,8 @@ const ColorIcon = L.Icon.extend({
 
 class LeafletMap extends React.Component {
   state = {
-    activeOverlays: []
+    activeOverlays: [],
+    prevZoomLevel: null
   }
 
   componentDidMount = () => {
@@ -124,24 +125,7 @@ class LeafletMap extends React.Component {
 
     if (this.props.showExternalLayers &&
         (this.props.layers.updateID !== prevProps.layers.updateID)) {
-      this.props.layers.layerData.map(layerObj => {
-        /* Overlays are shown in the layer control element.
-           For some reaseon Leaflet uses overlay's key as it's label */
-        const leafletOverlay = this.overlayLayers[intl.get(`leafletMap.externalLayers.${layerObj.layerID}`)]
-        const leafletGeoJSONLayer = L.geoJSON(layerObj.geoJSON, {
-          // style for GeoJSON Points
-          pointToLayer: (feature, latlng) => {
-            return L.circleMarker(latlng, leafletOverlay.options.geojsonMarkerOptions)
-          },
-          // style for GeoJSON Polygons
-          style: {
-            color: leafletOverlay.options.color,
-            cursor: 'pointer',
-            dashArray: '3, 5'
-          }
-        })
-        leafletGeoJSONLayer.addTo(leafletOverlay).addTo(this.leafletMap)
-      })
+      this.props.layers.layerData.map(layerObj => this.populateOverlay(layerObj))
     }
 
     if (has(prevProps, 'facet') && prevProps.facet.filterType !== this.props.facet.filterType) {
@@ -188,26 +172,7 @@ class LeafletMap extends React.Component {
       const basemaps = {
         'Mapbox Light': mapboxLight
       }
-      const fhaArchaeologicalSiteRegistryAreas = L.layerGroup([], {
-        id: 'arkeologiset_kohteet_alue',
-        color: '#dd2c00'
-      })
-      const fhaArchaeologicalSiteRegistryPoints = L.layerGroup([], {
-        id: 'arkeologiset_kohteet_piste',
-        geojsonMarkerOptions: {
-          radius: 8,
-          fillColor: '#dd2c00',
-          weight: 1,
-          opacity: 1,
-          fillOpacity: 0.8
-        }
-      })
-      this.overlayLayers = {
-        [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_alue')]: fhaArchaeologicalSiteRegistryAreas,
-        [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_piste')]: fhaArchaeologicalSiteRegistryPoints
-      }
-      L.control.layers(basemaps, this.overlayLayers).addTo(this.leafletMap)
-      this.initMapEventListeners()
+      this.initOverLays(basemaps)
     }
 
     // Add scale
@@ -220,7 +185,7 @@ class LeafletMap extends React.Component {
   }
 
   initMapEventListeners = () => {
-    // Fired when an overlay is selected through the layer control
+    // Fired when an overlay is selected using layer controls
     this.leafletMap.on('overlayadd', event => {
       const layerID = event.layer.options.id
       // https://www.robinwieruch.de/react-state-array-add-update-remove
@@ -229,19 +194,106 @@ class LeafletMap extends React.Component {
           activeOverlays: [...state.activeOverlays, layerID]
         }
       })
-      this.props.fetchGeoJSONLayers({
-        layerIDs: this.state.activeOverlays,
-        bounds: this.leafletMap.getBounds()
-      })
+      if (this.isSafeToLoadLargeLayers()) {
+        this.props.fetchGeoJSONLayers({
+          layerIDs: this.state.activeOverlays,
+          bounds: this.leafletMap.getBounds()
+        })
+      }
     })
-    // Fired when an overlay is selected through the layer control
+    // Fired when an overlay is selected using layer controls
     this.leafletMap.on('overlayremove', event => {
-      const layerIDtoRemove = event.layer.options.id
+      const layerIDremoved = event.layer.options.id
+      this.clearOverlay(layerIDremoved)
       this.setState(state => {
-        const activeOverlays = state.activeOverlays.filter(layerID => layerID !== layerIDtoRemove)
+        const activeOverlays = state.activeOverlays.filter(layerID => layerID !== layerIDremoved)
         return { activeOverlays }
       })
     })
+    // Fired when zooming starts
+    this.leafletMap.on('zoomstart', () => {
+      this.setState({ prevZoomLevel: this.leafletMap.getZoom() })
+    })
+    // Fired when zooming ends
+    this.leafletMap.on('zoomend', () => {
+      if (this.state.activeOverlays.length > 0 && this.isSafeToLoadLargeLayersAfterZooming()) {
+        this.props.fetchGeoJSONLayers({
+          layerIDs: this.state.activeOverlays,
+          bounds: this.leafletMap.getBounds()
+        })
+      }
+    })
+    // Fired when dragging ends
+    this.leafletMap.on('dragend', () => {
+      if (this.state.activeOverlays.length > 0 && this.isSafeToLoadLargeLayers()) {
+        this.props.fetchGeoJSONLayers({
+          layerIDs: this.state.activeOverlays,
+          bounds: this.leafletMap.getBounds()
+        })
+      }
+    })
+  }
+
+  isSafeToLoadLargeLayersAfterZooming = () => {
+    return (this.leafletMap.getZoom() === 13 ||
+    (this.leafletMap.getZoom() >= 13 && this.state.prevZoomLevel > this.leafletMap.getZoom()))
+  }
+
+  isSafeToLoadLargeLayers = () => this.leafletMap.getZoom() >= 13
+
+  initOverLays = basemaps => {
+    const fhaArchaeologicalSiteRegistryAreas = L.layerGroup([], {
+      id: 'arkeologiset_kohteet_alue',
+      // this layer includes only GeoJSON Polygons, define style for them
+      geojsonMPolygonOptions: {
+        color: '#dd2c00',
+        cursor: 'pointer',
+        dashArray: '3, 5'
+      }
+    })
+    const fhaArchaeologicalSiteRegistryPoints = L.layerGroup([], {
+      id: 'arkeologiset_kohteet_piste',
+      // this layer includes only GeoJSON points, define style for them
+      geojsonMarkerOptions: {
+        radius: 8,
+        fillColor: '#dd2c00',
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.8
+      }
+    })
+    this.overlayLayers = {
+      [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_alue')]: fhaArchaeologicalSiteRegistryAreas,
+      [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_piste')]: fhaArchaeologicalSiteRegistryPoints
+    }
+    L.control.layers(basemaps, this.overlayLayers).addTo(this.leafletMap)
+    this.initMapEventListeners()
+  }
+
+  populateOverlay = layerObj => {
+    /*
+      The baseLayers and overlays parameters are object literals with layer names as keys
+      and Layer objects as values
+    */
+    const leafletOverlay = this.overlayLayers[intl.get(`leafletMap.externalLayers.${layerObj.layerID}`)]
+    const leafletGeoJSONLayer = L.geoJSON(layerObj.geoJSON, {
+      // style for GeoJSON Points
+      pointToLayer: (feature, latlng) => {
+        return L.circleMarker(latlng, leafletOverlay.options.geojsonMarkerOptions)
+      },
+      // style for GeoJSON Polygons
+      style: leafletOverlay.options.geojsonMPolygonOptions,
+      // add popups
+      onEachFeature: (feature, layer) => {
+        layer.bindPopup(this.createPopUpContentGeoJSON(feature.properties))
+      }
+    })
+    leafletGeoJSONLayer.addTo(leafletOverlay).addTo(this.leafletMap)
+  }
+
+  clearOverlay = id => {
+    const leafletOverlay = this.overlayLayers[intl.get(`leafletMap.externalLayers.${id}`)]
+    leafletOverlay.clearLayers()
   }
 
   addDrawButtons = () => {
@@ -479,6 +531,25 @@ class LeafletMap extends React.Component {
     return popUpTemplate
   }
 
+  createPopUpContentGeoJSON = properties => {
+    let popupText = ''
+    const name = properties.kohdenimi
+      ? `<b>Kohteen nimi:</b> ${properties.kohdenimi}</p>` : ''
+    const type = properties.laji ? `<b>Kohteen tyyppi:</b> ${properties.laji}</p>` : ''
+    const municipality = properties.kunta ? `<b>Kunta:</b> ${properties.kunta}</p>` : ''
+    const link = properties.mjtunnus
+      ? `<a href="https://www.kyppi.fi/to.aspx?id=112.${properties.mjtunnus}" target="_blank">Avaa kohde Muinaisjäännösrekisterissä</a></p>` : ''
+    popupText += `
+      <div>
+        ${name}
+        ${type}
+        ${municipality}
+        ${link}
+      </div>
+      `
+    return popupText
+  }
+
   createInstanceListing = instances => {
     let html = ''
     if (Array.isArray(instances)) {
@@ -518,10 +589,11 @@ class LeafletMap extends React.Component {
       <>
         <div className={this.props.classes[`leafletContainer${this.props.pageType}`]}>
           <div id='map' className={this.props.classes.mapElement} />
-          {this.props.fetching &&
-            <div className={this.props.classes.spinnerContainer}>
-              <CircularProgress style={{ color: purple[500] }} thickness={5} />
-            </div>}
+          {(this.props.fetching ||
+            (this.props.showExternalLayers && this.props.layers.fetching)) &&
+              <div className={this.props.classes.spinnerContainer}>
+                <CircularProgress style={{ color: purple[500] }} thickness={5} />
+              </div>}
         </div>
       </>
     )
@@ -545,6 +617,7 @@ LeafletMap.propTypes = {
   fetching: PropTypes.bool.isRequired,
   mapMode: PropTypes.string.isRequired,
   showInstanceCountInClusters: PropTypes.bool,
+  showExternalLayers: PropTypes.bool,
   updateFacetOption: PropTypes.func
 }
 
