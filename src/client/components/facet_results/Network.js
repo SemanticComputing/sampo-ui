@@ -81,11 +81,18 @@ class Network extends React.Component {
     })
   }
 
-  componentDidUpdate = () => {
-    if (this.props.results !== null) {
+  componentDidUpdate = prevProps => {
+    if (prevProps.resultUpdateID !== this.props.resultUpdateID) {
       // console.log(this.props.results.elements);
       this.cy.add(this.props.results.elements)
       this.cy.layout(layout).run()
+    }
+    // check if filters have changed
+    if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
+      this.props.fetchResults({
+        resultClass: this.props.resultClass,
+        facetClass: this.props.facetClass
+      })
     }
   }
 
@@ -103,7 +110,9 @@ Network.propTypes = {
   results: PropTypes.object,
   fetchResults: PropTypes.func.isRequired,
   resultClass: PropTypes.string.isRequired,
-  facetClass: PropTypes.string.isRequired
+  facetClass: PropTypes.string.isRequired,
+  facetUpdateID: PropTypes.number.isRequired,
+  resultUpdateID: PropTypes.number.isRequired
 }
 
 export default withStyles(styles)(Network)

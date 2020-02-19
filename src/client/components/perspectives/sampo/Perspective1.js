@@ -81,13 +81,15 @@ const Perspective1 = props => {
           />}
       />
       <Route
-        path={`${rootUrl}/${perspective.id}/faceted-search/statistics`}
+        path={`${rootUrl}/${perspective.id}/faceted-search/network`}
         render={() =>
           <Network
             results={props.perspective1.results}
+            resultUpdateID={props.perspective1.resultUpdateID}
             fetchResults={props.fetchResults}
             resultClass='perspective1Network'
             facetClass='perspective1'
+            facetUpdateID={props.facetData.facetUpdateID}
           />}
       />
       <Route
