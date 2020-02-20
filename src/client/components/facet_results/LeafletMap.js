@@ -27,6 +27,7 @@ import 'leaflet-draw/dist/leaflet.draw.js'
 import 'leaflet-draw/dist/leaflet.draw.css'
 import 'leaflet.zoominfo/dist/L.Control.Zoominfo'
 import 'leaflet.zoominfo/dist/L.Control.Zoominfo.css'
+import 'leaflet.heat/dist/leaflet-heat'
 
 import markerShadowIcon from '../../img/markers/marker-shadow.png'
 import markerIconViolet from '../../img/markers/marker-icon-violet.png'
@@ -104,11 +105,7 @@ class LeafletMap extends React.Component {
 
     // check if results data or mapMode have changed
     if (prevProps.results !== this.props.results || prevProps.mapMode !== this.props.mapMode) {
-      if (this.props.mapMode === 'cluster') {
-        this.updateMarkersAndCluster(this.props.results)
-      } else {
-        this.updateMarkers(this.props.results)
-      }
+      this.drawPointData()
     }
 
     // check if instance have changed
@@ -148,16 +145,10 @@ class LeafletMap extends React.Component {
     // layer for markers
     this.resultMarkerLayer = L.layerGroup()
 
-    if (this.props.mapMode === 'cluster') {
-      this.updateMarkersAndCluster(this.props.results)
-    } else {
-      this.updateMarkers(this.props.results)
-    }
-
     // create map
     this.leafletMap = L.map('map', {
-      center: [60.09, 24.53],
-      zoom: 13,
+      center: [22.43, 10.37],
+      zoom: 2,
       zoomControl: false,
       zoominfoControl: true,
       layers: [
@@ -182,6 +173,28 @@ class LeafletMap extends React.Component {
     if (has(this.props, 'facet') && this.props.facet.filterType === 'spatialFilter') {
       this.addDrawButtons()
     }
+  }
+
+  drawPointData = () => {
+    const { results, mapMode } = this.props
+    switch (mapMode) {
+      case 'cluster':
+        this.updateMarkersAndCluster(results)
+        break
+      case 'marker':
+        this.updateMarkers(results)
+        break
+      case 'heatmap':
+        this.drawHeatmap(this.createLatLngArray(results))
+        break
+      default:
+        this.updateMarkersAndCluster(results)
+        break
+    }
+  }
+
+  createLatLngArray = results => {
+    return results.map(result => [+result.lat, +result.long])
   }
 
   initMapEventListeners = () => {
@@ -372,6 +385,30 @@ class LeafletMap extends React.Component {
     this.leafletMap.removeLayer(this.drawnItems)
     this.leafletMap.removeControl(this.drawControlFull)
     this.leafletMap.removeControl(this.drawControlEditOnly)
+  }
+
+  drawHeatmap = latLngs => {
+    const heatLayer = L.heatLayer(latLngs, {
+      radius: 15,
+      minOpacity: 1.0,
+      blur: 25,
+      maxZoom: 13,
+      // Google maps gradient settings is used as default
+      gradient: {
+        0: '#66ff00',
+        0.1: '#66ff00',
+        0.2: '#93ff00',
+        0.3: '#c1ff00',
+        0.4: '#eeff00',
+        0.5: '#f4e300',
+        0.6: '#f9c600',
+        0.7: '#ffaa00',
+        0.8: '#ff7100',
+        0.9: '#ff3900',
+        1: '#ff0000'
+      }
+    })
+    this.leafletMap.addLayer(heatLayer)
   }
 
   updateMarkers = results => {
