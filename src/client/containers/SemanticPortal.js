@@ -24,7 +24,7 @@ import FacetBar from '../components/facet_bar/FacetBar'
 import Perspective1 from '../components/perspectives/sampo/Perspective1'
 import Perspective2 from '../components/perspectives/sampo/Perspective2'
 import Perspective3 from '../components/perspectives/sampo/Perspective3'
-import All from '../components/perspectives/mmm/All'
+import All from '../components/perspectives/sampo/All'
 import { perspectiveConfig } from '../configs/sampo/PerspectiveConfig'
 import { perspectiveConfigOnlyInfoPages } from '../configs/sampo/PerspectiveConfigOnlyInfoPages'
 import { rootUrl } from '../configs/sampo/GeneralConfig'
@@ -303,6 +303,7 @@ const SemanticPortal = props => {
                     <All
                       clientSideFacetedSearch={props.clientSideFacetedSearch}
                       routeProps={routeProps}
+                      screenSize={screenSize}
                     />
                   </Grid>
                 </Grid>}
