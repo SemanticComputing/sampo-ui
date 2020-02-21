@@ -21,3 +21,7 @@
     height: 18px !important;
     padding-top: 0px !important;
 }
+
+.leaflet-control-heatmap-input-container {
+    display:flex; 
+}

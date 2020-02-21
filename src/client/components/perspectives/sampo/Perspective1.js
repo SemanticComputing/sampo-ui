@@ -49,6 +49,7 @@ const Perspective1 = props => {
             resultClass='placesMsProduced'
             facetClass='perspective1'
             mapMode='heatmap'
+            showMapModeControl
             instance={props.places.instance}
             fetchResults={props.fetchResults}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}

@@ -173,6 +173,8 @@ class LeafletMap extends React.Component {
     if (has(this.props, 'facet') && this.props.facet.filterType === 'spatialFilter') {
       this.addDrawButtons()
     }
+
+    if (this.props.showMapModeControl) { this.addHeatMapControl() }
   }
 
   drawPointData = () => {
@@ -307,6 +309,37 @@ class LeafletMap extends React.Component {
   clearOverlay = id => {
     const leafletOverlay = this.overlayLayers[intl.get(`leafletMap.externalLayers.${id}`)]
     leafletOverlay.clearLayers()
+  }
+
+  addHeatMapControl = () => {
+    L.Control.Heatmap = L.Control.extend({
+      onAdd: map => {
+        const container = L.DomUtil.create('div')
+        container.innerHTML = `
+          <div class="leaflet-control-layers leaflet-control-layers-expanded">
+            <form>
+              <span>Map mode:</span>
+              <div class="leaflet-control-heatmap-input-container">
+                <input type="radio" id="markers" name="markers" value="markers">  
+                <label for="markers">Markers</label>        
+              </div>
+              <div class="leaflet-control-heatmap-input-container">
+                <input type="radio" id="heatmap" name="heatmap" value="heatmap">        
+                <label for="heatmap">Heatmap</label>              
+              </div>
+            </form>  
+          </div>    
+        `
+        return container
+      },
+      onRemove: map => {
+        // Nothing to do here
+      }
+    })
+    L.control.heatmap = opts => {
+      return new L.Control.Heatmap(opts)
+    }
+    L.control.heatmap({ position: 'topleft' }).addTo(this.leafletMap)
   }
 
   addDrawButtons = () => {
