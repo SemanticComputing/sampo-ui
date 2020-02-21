@@ -77,9 +77,13 @@ const ColorIcon = L.Icon.extend({
 })
 
 class LeafletMap extends React.Component {
-  state = {
-    activeOverlays: [],
-    prevZoomLevel: null
+  constructor (props) {
+    super(props)
+    this.state = {
+      activeOverlays: [],
+      prevZoomLevel: null,
+      mapMode: props.mapMode
+    }
   }
 
   componentDidMount = () => {
@@ -93,7 +97,7 @@ class LeafletMap extends React.Component {
     this.initMap()
   }
 
-  componentDidUpdate = prevProps => {
+  componentDidUpdate = (prevProps, prevState) => {
     // check if filters have changed
     if (has(prevProps, 'facetUpdateID') && prevProps.facetUpdateID !== this.props.facetUpdateID) {
       this.props.fetchResults({
@@ -104,7 +108,7 @@ class LeafletMap extends React.Component {
     }
 
     // check if results data or mapMode have changed
-    if (prevProps.results !== this.props.results || prevProps.mapMode !== this.props.mapMode) {
+    if (prevProps.results !== this.props.results || prevState.mapMode !== this.state.mapMode) {
       this.drawPointData()
     }
 
@@ -174,12 +178,14 @@ class LeafletMap extends React.Component {
       this.addDrawButtons()
     }
 
-    if (this.props.showMapModeControl) { this.addHeatMapControl() }
+    if (this.props.showMapModeControl) { this.addMapModeControl() }
   }
 
   drawPointData = () => {
-    const { results, mapMode } = this.props
-    switch (mapMode) {
+    const { results } = this.props
+    if (this.heatLayer) { this.leafletMap.removeLayer(this.heatLayer) }
+    this.resultMarkerLayer.clearLayers()
+    switch (this.state.mapMode) {
       case 'cluster':
         this.updateMarkersAndCluster(results)
         break
@@ -311,25 +317,32 @@ class LeafletMap extends React.Component {
     leafletOverlay.clearLayers()
   }
 
-  addHeatMapControl = () => {
+  addMapModeControl = () => {
     L.Control.Heatmap = L.Control.extend({
       onAdd: map => {
-        const container = L.DomUtil.create('div')
-        container.innerHTML = `
-          <div class="leaflet-control-layers leaflet-control-layers-expanded">
-            <form>
-              <span>Map mode:</span>
-              <div class="leaflet-control-heatmap-input-container">
-                <input type="radio" id="markers" name="markers" value="markers">  
-                <label for="markers">Markers</label>        
-              </div>
-              <div class="leaflet-control-heatmap-input-container">
-                <input type="radio" id="heatmap" name="heatmap" value="heatmap">        
-                <label for="heatmap">Heatmap</label>              
-              </div>
-            </form>  
-          </div>    
-        `
+        const container = L.DomUtil.create('div', 'leaflet-control-layers leaflet-control-layers-expanded')
+        const markersInputContainer = L.DomUtil.create('div', 'leaflet-control-mapmode-input-container', container)
+        const heatmapInputContainer = L.DomUtil.create('div', 'leaflet-control-mapmode-input-container', container)
+        const radioMarkers = L.DomUtil.create('input', 'leaflet-control-mapmode-input', markersInputContainer)
+        const radioHeatmap = L.DomUtil.create('input', 'leaflet-control-mapmode-input', heatmapInputContainer)
+        const markersLabel = L.DomUtil.create('label', 'leaflet-control-mapmode-label', markersInputContainer)
+        const heatmapLabel = L.DomUtil.create('label', 'leaflet-control-mapmode-label', heatmapInputContainer)
+        radioMarkers.id = 'leaflet-control-mapmode-markers'
+        radioHeatmap.id = 'leaflet-control-mapmode-heatmap'
+        radioMarkers.type = 'radio'
+        radioHeatmap.type = 'radio'
+        radioMarkers.checked = this.state.mapMode === 'cluster'
+        radioHeatmap.checked = this.state.mapMode === 'heatmap'
+        radioMarkers.name = 'mapmode'
+        radioHeatmap.name = 'mapmode'
+        radioMarkers.value = 'cluster'
+        radioHeatmap.value = 'heatmap'
+        markersLabel.for = 'leaflet-control-mapmode-markers'
+        markersLabel.textContent = 'Markers'
+        heatmapLabel.for = 'leaflet-control-mapmode-heatmap'
+        heatmapLabel.textContent = 'Heatmap'
+        L.DomEvent.on(radioMarkers, 'click', event => this.setState({ mapMode: event.target.value }))
+        L.DomEvent.on(radioHeatmap, 'click', event => this.setState({ mapMode: event.target.value }))
         return container
       },
       onRemove: map => {
@@ -421,7 +434,7 @@ class LeafletMap extends React.Component {
   }
 
   drawHeatmap = latLngs => {
-    const heatLayer = L.heatLayer(latLngs, {
+    this.heatLayer = L.heatLayer(latLngs, {
       radius: 15,
       minOpacity: 1.0,
       blur: 25,
@@ -441,7 +454,7 @@ class LeafletMap extends React.Component {
         1: '#ff0000'
       }
     })
-    this.leafletMap.addLayer(heatLayer)
+    this.leafletMap.addLayer(this.heatLayer)
   }
 
   updateMarkers = results => {

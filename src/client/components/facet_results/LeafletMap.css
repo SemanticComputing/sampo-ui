@@ -22,6 +22,6 @@
     padding-top: 0px !important;
 }
 
-.leaflet-control-heatmap-input-container {
+.leaflet-control-mapmode-input-container {
     display:flex; 
 }
