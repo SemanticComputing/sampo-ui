@@ -2,14 +2,12 @@
 
 The following portals use this repository as a base:
 
-https://github.com/mapping-manuscript-migrations/mmm-web-app
-
-https://github.com/SemanticComputing/sotasurmat-web-app
-
-https://github.com/SemanticComputing/lawsampo-web-app
-
-https://github.com/SemanticComputing/academysampo-web-app
-
+* [Mapping Manuscript Migrations](https://github.com/mapping-manuscript-migrations/mmm-web-app)
+* [WarVictimSampo 1914-1922](https://github.com/SemanticComputing/sotasurmat-web-app)
+* [LawSampo](https://github.com/SemanticComputing/lawsampo-web-app)
+* [AcademySampo](https://github.com/SemanticComputing/academysampo-web-app)
+* [FindSampo](https://github.com/SemanticComputing/findsampo-web-app) 
+* [ParliamentSampo?]
 
 ## Requirements
 
