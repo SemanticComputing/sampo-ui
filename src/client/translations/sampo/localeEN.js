@@ -49,6 +49,10 @@ export default {
     externalLayers: {
       arkeologiset_kohteet_alue: 'Register of Archaeological Sites, areas',
       arkeologiset_kohteet_piste: 'Register of Archaeological Sites, points'
+    },
+    mapModeButtons: {
+      markers: 'Markers',
+      heatmap: 'Heatmap'
     }
   },
   instancePageGeneral: {

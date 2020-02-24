@@ -338,15 +338,15 @@ class LeafletMap extends React.Component {
         radioMarkers.value = 'cluster'
         radioHeatmap.value = 'heatmap'
         markersLabel.for = 'leaflet-control-mapmode-markers'
-        markersLabel.textContent = 'Markers'
+        markersLabel.textContent = intl.get('leafletMap.mapModeButtons.markers')
         heatmapLabel.for = 'leaflet-control-mapmode-heatmap'
-        heatmapLabel.textContent = 'Heatmap'
+        heatmapLabel.textContent = intl.get('leafletMap.mapModeButtons.heatmap')
         L.DomEvent.on(radioMarkers, 'click', event => this.setState({ mapMode: event.target.value }))
         L.DomEvent.on(radioHeatmap, 'click', event => this.setState({ mapMode: event.target.value }))
         return container
       },
       onRemove: map => {
-        // Nothing to do here
+        // TODO: remove DOM events?
       }
     })
     L.control.heatmap = opts => {
