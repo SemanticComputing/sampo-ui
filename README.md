@@ -1,6 +1,6 @@
-# Sampo Semantic Portal 
+# SampoSampo
 
-The following portals use this repository as a base:
+A software framework and toolset for implementing semantic portals. The following portals use this repository as a base:
 
 * [Mapping Manuscript Migrations](https://github.com/mapping-manuscript-migrations/mmm-web-app)
 * [WarVictimSampo 1914-1922](https://github.com/SemanticComputing/sotasurmat-web-app)
