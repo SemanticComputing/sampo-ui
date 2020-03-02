@@ -11,8 +11,9 @@ A software framework for implementing semantic portals. The following portals us
 
 ## Requirements
 
-[Node.js® -- a JavaScript runtime built on Chrome's V8 JavaScript engine.](https://nodejs.org/en/) (tested with 10.15.3 LTS)
-[Nodemon -- monitor for any changes in your source and automatically restart your server](https://nodemon.io/)
+* [Node.js® -- a JavaScript runtime built on Chrome's V8 JavaScript engine.](https://nodejs.org/en/) (tested with 10.15.3 LTS)
+
+* [Nodemon -- monitor for any changes in your source and automatically restart your server](https://nodemon.io/)
 
 If your home directory is mounted from a network drive, Node.js should
 be installed using Node Version Manager https://github.com/nvm-sh/nvm  
