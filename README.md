@@ -1,6 +1,6 @@
 # SampoSampo
 
-A software framework and toolset for implementing semantic portals. The following portals use this repository as a base:
+A software framework for implementing semantic portals. The following portals use this repository as a base:
 
 * [Mapping Manuscript Migrations](https://github.com/mapping-manuscript-migrations/mmm-web-app)
 * [WarVictimSampo 1914-1922](https://github.com/SemanticComputing/sotasurmat-web-app)
@@ -11,12 +11,27 @@ A software framework and toolset for implementing semantic portals. The followin
 
 ## Requirements
 
-Node.js https://nodejs.org/en/ (tested with 10.15.3 LTS)
-
-Nodemon https://nodemon.io/
+[Node.js® -- a JavaScript runtime built on Chrome's V8 JavaScript engine.](https://nodejs.org/en/) (tested with 10.15.3 LTS)
+[Nodemon -- monitor for any changes in your source and automatically restart your server](https://nodemon.io/)
 
 If your home directory is mounted from a network drive, Node.js should
 be installed using Node Version Manager https://github.com/nvm-sh/nvm  
+
+## Key JavaScript libraries in use
+
+### Client
+
+* [React -- A JavaScript library for building user interfaces](https://reactjs.org/)
+* [Material-UI -- React components for faster and easier web development.](https://material-ui.com/)
+* [Redux -- A Predictable State Container for JS Apps](https://redux.js.org/)
+* [React Router](https://reacttraining.com/react-router/web/guides/quick-start)
+* [Leaflet -- a JavaScript library for interactive maps](https://leafletjs.com/) 
+* [Cytoscape -- an open source software platform for visualizing complex networks](https://cytoscape.org/)
+* [ApexCharts.js -- Open Source JavaScript Charts for your website](https://apexcharts.com/)
+
+### Server
+
+* [Express -- Fast, unopinionated, minimalist web framework for Node.js](https://expressjs.com/)
 
 ## Local development
 
