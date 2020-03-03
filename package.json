@@ -15,7 +15,8 @@
   },
   "author": "Esko Ikkala",
   "contributors": [
-    "Erkki Heino"
+    "Erkki Heino",
+    "Heikki Rantala"
   ],
   "license": "MIT",
   "devDependencies": {
