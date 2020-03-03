@@ -1,9 +1,9 @@
-# SampoSampo
+# Sampo-UI
 
 A software framework for implementing semantic portals. The following portals use this repository as a base:
 
 * [Mapping Manuscript Migrations](https://github.com/mapping-manuscript-migrations/mmm-web-app)
-* [WarVictimSampo 1914-1922](https://github.com/SemanticComputing/sotasurmat-web-app)
+* [WarVictimSampo 1914&mdash;1922](https://github.com/SemanticComputing/sotasurmat-web-app)
 * [LawSampo](https://github.com/SemanticComputing/lawsampo-web-app)
 * [AcademySampo](https://github.com/SemanticComputing/academysampo-web-app)
 * [FindSampo](https://github.com/SemanticComputing/findsampo-web-app) 
@@ -21,13 +21,13 @@ be installed using Node Version Manager https://github.com/nvm-sh/nvm
 
 ### Client
 
-* [React -- A JavaScript library for building user interfaces](https://reactjs.org/)
-* [Material-UI -- React components for faster and easier web development.](https://material-ui.com/)
-* [Redux -- A Predictable State Container for JS Apps](https://redux.js.org/)
+* [React &mdash; A JavaScript library for building user interfaces](https://reactjs.org/)
+* [Material-UI &mdash; React components for faster and easier web development.](https://material-ui.com/)
+* [Redux &mdash; A Predictable State Container for JS Apps](https://redux.js.org/)
 * [React Router](https://reacttraining.com/react-router/web/guides/quick-start)
-* [Leaflet -- a JavaScript library for interactive maps](https://leafletjs.com/) 
-* [Cytoscape -- an open source software platform for visualizing complex networks](https://cytoscape.org/)
-* [ApexCharts.js -- Open Source JavaScript Charts for your website](https://apexcharts.com/)
+* [Leaflet &mdash; a JavaScript library for interactive maps](https://leafletjs.com/) 
+* [Cytoscape &mdash; an open source software platform for visualizing complex networks](https://cytoscape.org/)
+* [ApexCharts.js &mdash; Open Source JavaScript Charts for your website](https://apexcharts.com/)
 
 ### Server
 
