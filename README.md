@@ -11,9 +11,9 @@ A software framework for implementing semantic portals. The following portals us
 
 ## Requirements
 
-* [Node.js® -- a JavaScript runtime built on Chrome's V8 JavaScript engine.](https://nodejs.org/en/) (tested with 10.15.3 LTS)
+* [Node.js® &ndash; a JavaScript runtime built on Chrome's V8 JavaScript engine.](https://nodejs.org/en/) (tested with 10.15.3 LTS)
 
-* [Nodemon -- monitor for any changes in your source and automatically restart your server](https://nodemon.io/)
+* [Nodemon &ndash; monitor for any changes in your source and automatically restart your server](https://nodemon.io/)
 
 If your home directory is mounted from a network drive, Node.js should
 be installed using Node Version Manager https://github.com/nvm-sh/nvm  
@@ -22,13 +22,13 @@ be installed using Node Version Manager https://github.com/nvm-sh/nvm
 
 ### Client
 
-* [React &mdash; A JavaScript library for building user interfaces](https://reactjs.org/)
-* [Material-UI &mdash; React components for faster and easier web development.](https://material-ui.com/)
-* [Redux &mdash; A Predictable State Container for JS Apps](https://redux.js.org/)
+* [React &ndash; A JavaScript library for building user interfaces](https://reactjs.org/)
+* [Material-UI &ndash; React components for faster and easier web development.](https://material-ui.com/)
+* [Redux &ndash; A Predictable State Container for JS Apps](https://redux.js.org/)
 * [React Router](https://reacttraining.com/react-router/web/guides/quick-start)
-* [Leaflet &mdash; a JavaScript library for interactive maps](https://leafletjs.com/) 
-* [Cytoscape &mdash; an open source software platform for visualizing complex networks](https://cytoscape.org/)
-* [ApexCharts.js &mdash; Open Source JavaScript Charts for your website](https://apexcharts.com/)
+* [Leaflet &ndash; a JavaScript library for interactive maps](https://leafletjs.com/) 
+* [Cytoscape &ndash; an open source software platform for visualizing complex networks](https://cytoscape.org/)
+* [ApexCharts.js &ndash; Open Source JavaScript Charts for your website](https://apexcharts.com/)
 
 ### Server
 
