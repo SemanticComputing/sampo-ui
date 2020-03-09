@@ -88,6 +88,25 @@ export const INITIAL_STATE = {
       uriFilter: null,
       spatialFilter: null,
       type: 'hierarchical',
+      priority: 6
+    },
+    placeType: {
+      id: 'placeType',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'instanceCount',
+      sortDirection: 'desc',
+      sortButton: false,
+      spatialFilterButton: true,
+      isFetching: false,
+      searchField: true,
+      containerClass: 'ten',
+      filterType: 'uriFilter',
+      uriFilter: null,
+      spatialFilter: null,
+      type: 'list',
       priority: 1
     },
     source: {
@@ -111,7 +130,7 @@ export const INITIAL_STATE = {
 }
 
 const eventsFacets = (state = INITIAL_STATE, action) => {
-  if (action.facetClass === 'events') {
+  if (action.facetClass === 'perspective3') {
     switch (action.type) {
       case FETCH_FACET:
         return fetchFacet(state, action)

@@ -497,6 +497,12 @@ export default {
             The specific place(s) associated with the event.
           `
         },
+        placeType: {
+          label: 'Place type',
+          description: `
+            The type of the specific place(s) associated with the event.
+          `
+        },
         note: {
           label: 'Note',
           description: `

@@ -302,7 +302,7 @@ export const facetConfigs = {
     }
   },
   perspective3: {
-    facetClass: 'crm:E10_Transfer_of_Custody crm:E12_Production crm:E7_Activity',
+    facetClass: 'crm:E10_Transfer_of_Custody crm:E12_Production mmm-schema:ManuscriptActivity',
     prefLabel: {
       id: 'prefLabel',
       labelPath: 'skos:prefLabel'
@@ -350,6 +350,15 @@ export const facetConfigs = {
       parentProperty: 'gvp:broaderPreferred',
       parentPredicate: 'crm:P7_took_place_at/gvp:broaderPreferred+',
       type: 'hierarchical'
+    },
+    placeType: {
+      id: 'placeType',
+      facetValueFilter: '',
+      label: 'Place type',
+      labelPath: 'crm:P7_took_place_at/gvp:placeTypePreferred',
+      predicate: 'crm:P7_took_place_at/gvp:placeTypePreferred',
+      type: 'list',
+      literal: true
     },
     source: {
       id: 'source',

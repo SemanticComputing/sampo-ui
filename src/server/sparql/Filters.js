@@ -241,14 +241,16 @@ const generateUriFilter = ({
 }) => {
   let s = ''
   const addChildren = facetConfigs[facetClass][facetID].type === 'hierarchical'
+  const literal = facetConfigs[facetClass][facetID].literal
+  const valuesStr = literal ? `"${values.join('" "')}"` : `<${values.join('> <')}></$>`
   if (addChildren) {
     s = `
-         VALUES ?${facetID}Filter { <${values.join('> <')}> }
+         VALUES ?${facetID}Filter { ${valuesStr} }
          ?${facetID}FilterWithChildren ${facetConfigs[facetClass][facetID].parentProperty}* ?${facetID}Filter .
      `
   } else {
     s = `
-         VALUES ?${facetID}Filter { <${values.join('> <')}> }
+         VALUES ?${facetID}Filter { ${valuesStr} }
      `
   }
   if (inverse) {
