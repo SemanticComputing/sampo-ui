@@ -67,7 +67,7 @@ docker run -d -p 3006:3001 --name sampo-web-app sampo-web-app-image
 ## Set up a new project using this repository as a base, with the possibility of merging the new commits added to this repository
 
 1. Clone this repository:
-`git clone git@github.com:SemanticComputing/sampo-web-app.git`
+`git clone git@github.com:SemanticComputing/sampo-ui.git`
 
 2. Set up a new GitHub repository. Do not initialize it with anything. It needs to be an empty repository.
 You can name it how you like and you can rename your local folder to match that.
@@ -86,7 +86,7 @@ You can name it how you like and you can rename your local folder to match that.
 `git push`
 
 8. Set the original repository (sampo-web-app) as the upstream of your new repository:
-`git remote add upstream git@github.com:SemanticComputing/sampo-web-app.git`
+`git remote add upstream git@github.com:SemanticComputing/sampo-ui.git`
 
 9. When new commits appear on the original repository (sampo-web-app) you can fetch them to your new repository.
 The example fetches only master branch:
