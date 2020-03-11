@@ -1,17 +1,17 @@
 import {
   UPDATE_LOCALE
-} from '../actions';
-import { availableLocales } from '../epics/index.js';
+} from '../actions'
+import { availableLocales } from '../epics/index.js'
 
-let localeArray = [];
+const localeArray = []
 for (const [key, value] of Object.entries(availableLocales)) {
-  localeArray.push({ id: key, label: value.languageLabel });
+  localeArray.push({ id: key, label: value.languageLabel })
 }
 
 export const INITIAL_STATE = {
   currentLocale: '',
   availableLocales: localeArray
-};
+}
 
 const options = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -19,10 +19,10 @@ const options = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentLocale: action.language
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default options;
+export default options

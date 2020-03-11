@@ -3,13 +3,13 @@ import {
   FETCH_RESULTS_FAILED,
   FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_FACET_FAILED,
-  FETCH_BY_URI_FAILED,
-} from '../actions';
+  FETCH_BY_URI_FAILED
+} from '../actions'
 
 export const INITIAL_STATE = {
   id: 0,
-  message: {},
-};
+  message: {}
+}
 
 const error = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -25,10 +25,10 @@ const error = (state = INITIAL_STATE, action) => {
           text: action.message.text,
           title: action.message.title
         }
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default error;
+export default error

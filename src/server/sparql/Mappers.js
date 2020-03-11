@@ -15,6 +15,17 @@ export const mapPlaces = sparqlBindings => {
   return results
 }
 
+export const mapCoordinates = sparqlBindings => {
+  // console.log(sparqlBindings);
+  const results = sparqlBindings.map(b => {
+    return {
+      lat: b.lat.value,
+      long: b.long.value
+    }
+  })
+  return results
+}
+
 export const mapCount = sparqlBindings => {
   return sparqlBindings[0].count.value
 }

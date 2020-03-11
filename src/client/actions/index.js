@@ -49,11 +49,12 @@ export const fetchPaginatedResultsFailed = (resultClass, error, message) => ({
   error,
   message
 })
-export const fetchResults = ({ resultClass, facetClass, sortBy }) => ({
+export const fetchResults = ({ resultClass, facetClass, sortBy, groupBy = true }) => ({
   type: FETCH_RESULTS,
   resultClass,
   facetClass,
-  sortBy
+  sortBy,
+  groupBy
 })
 export const fetchResultCount = ({ resultClass, facetClass }) => ({
   type: FETCH_RESULT_COUNT,

@@ -62,7 +62,8 @@ app.get(`${apiPath}/:resultClass/all`, async (req, res, next) => {
       resultClass: req.params.resultClass,
       facetClass: req.query.facetClass || null,
       constraints: req.query.constraints == null ? null : JSON.parse(req.query.constraints),
-      resultFormat: resultFormat
+      resultFormat: resultFormat,
+      groupBy: req.query.groupBy === 'true'
     })
     if (resultFormat === 'csv') {
       res.writeHead(200, {

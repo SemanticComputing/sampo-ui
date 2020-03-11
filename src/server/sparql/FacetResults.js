@@ -10,6 +10,7 @@ import {
   manuscriptPropertiesFacetResults,
   manuscriptPropertiesInstancePage,
   productionPlacesQuery,
+  productionCoordinatesQuery,
   lastKnownLocationsQuery,
   migrationsQuery,
   networkLinksQuery,
@@ -25,7 +26,7 @@ import {
   allPlacesQuery
 } from './sampo/SparqlQueriesPlaces'
 import { facetConfigs, endpoint } from './sampo/FacetConfigsSampo'
-import { mapCount, mapPlaces } from './Mappers'
+import { mapCount, mapPlaces, mapCoordinates } from './Mappers'
 import { makeObjectList } from './SparqlObjectMapper'
 import { generateConstraintsBlock } from './Filters'
 
@@ -64,7 +65,8 @@ export const getAllResults = ({
   resultClass,
   facetClass,
   constraints,
-  resultFormat
+  resultFormat,
+  groupBy
 }) => {
   let q = ''
   let filterTarget = ''
@@ -75,9 +77,9 @@ export const getAllResults = ({
       filterTarget = 'id'
       break
     case 'placesMsProduced':
-      q = productionPlacesQuery
+      q = groupBy ? productionPlacesQuery : productionCoordinatesQuery
       filterTarget = 'manuscripts'
-      mapper = mapPlaces
+      mapper = groupBy ? mapPlaces : mapCoordinates
       break
     case 'lastKnownLocations':
       q = lastKnownLocationsQuery

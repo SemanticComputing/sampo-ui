@@ -456,6 +456,16 @@ export const productionPlacesQuery = `
   GROUP BY ?id ?lat ?long
 `
 
+export const productionCoordinatesQuery = `
+  SELECT ?lat ?long
+  WHERE {
+    <FILTER>
+    ?manuscripts ^crm:P108_has_produced/crm:P7_took_place_at ?place .
+    ?place wgs84:lat ?lat ;
+           wgs84:long ?long .
+  }
+`
+
 export const lastKnownLocationsQuery = `
   SELECT ?id ?lat ?long
   (COUNT(DISTINCT ?manuscripts) as ?instanceCount)

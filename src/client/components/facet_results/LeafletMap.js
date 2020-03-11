@@ -91,7 +91,8 @@ class LeafletMap extends React.Component {
       this.props.fetchResults({
         resultClass: this.props.resultClass,
         facetClass: this.props.facetClass,
-        sortBy: null
+        sortBy: null,
+        groupBy: this.state.mapMode !== 'heatmap' // no grouping for heatmap
       })
     }
     this.initMap()
@@ -103,13 +104,24 @@ class LeafletMap extends React.Component {
       this.props.fetchResults({
         resultClass: this.props.resultClass,
         facetClass: this.props.facetClass,
-        sortBy: null
+        sortBy: null,
+        groupBy: this.state.mapMode !== 'heatmap' // no grouping for heatmap
       })
     }
 
-    // check if results data or mapMode have changed
-    if (prevProps.results !== this.props.results || prevState.mapMode !== this.state.mapMode) {
+    // check if results data have changed
+    if (prevProps.results !== this.props.results) {
       this.drawPointData()
+    }
+
+    // check if map mode has changed
+    if (prevState.mapMode !== this.state.mapMode) {
+      this.props.fetchResults({
+        resultClass: this.props.resultClass,
+        facetClass: this.props.facetClass,
+        sortBy: null,
+        groupBy: this.state.mapMode !== 'heatmap' // no grouping for heatmap
+      })
     }
 
     // check if instance have changed
