@@ -1,11 +1,10 @@
 export default {
   languageLabel: 'English',
   appTitle: {
-    short: 'sampo',
-    long: 'Sampo Semantic Portal',
+    short: 'sampo-ui',
+    long: ' &nbsp; &nbsp; Sampo-UI  &nbsp;  &nbsp;',
     subheading: `
-      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium 
-      doloremque laudantium unde
+      "Here to forge for us the Sampo, Hammer us the lid in colors"
     `
   },
   appDescription: `

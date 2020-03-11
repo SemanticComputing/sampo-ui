@@ -1,12 +1,13 @@
 # Sampo-UI
 
-A software framework for implementing semantic portals. The following portals use this repository as a base:
+A framework for implementing semantic portals. The following portals use this repository as a base:
 
 * [Mapping Manuscript Migrations](https://github.com/mapping-manuscript-migrations/mmm-web-app)
 * [WarVictimSampo 1914&ndash;1922](https://github.com/SemanticComputing/sotasurmat-web-app)
 * [LawSampo](https://github.com/SemanticComputing/lawsampo-web-app)
 * [AcademySampo](https://github.com/SemanticComputing/academysampo-web-app)
 * [FindSampo](https://github.com/SemanticComputing/findsampo-web-app) 
+* [HistorySampo](https://github.com/SemanticComputing/historysampo-web-app) 
 * [ParliamentSampo?]
 
 ## Requirements
