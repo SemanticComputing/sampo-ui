@@ -27,7 +27,6 @@ import 'leaflet-draw/dist/leaflet.draw.js'
 import 'leaflet-draw/dist/leaflet.draw.css'
 import 'leaflet.zoominfo/dist/L.Control.Zoominfo'
 import 'leaflet.zoominfo/dist/L.Control.Zoominfo.css'
-import 'leaflet.heat/dist/leaflet-heat'
 
 import markerShadowIcon from '../../img/markers/marker-shadow.png'
 import markerIconViolet from '../../img/markers/marker-icon-violet.png'
@@ -91,8 +90,7 @@ class LeafletMap extends React.Component {
       this.props.fetchResults({
         resultClass: this.props.resultClass,
         facetClass: this.props.facetClass,
-        sortBy: null,
-        groupBy: this.state.mapMode !== 'heatmap' // no grouping for heatmap
+        sortBy: null
       })
     }
     this.initMap()
@@ -104,8 +102,7 @@ class LeafletMap extends React.Component {
       this.props.fetchResults({
         resultClass: this.props.resultClass,
         facetClass: this.props.facetClass,
-        sortBy: null,
-        groupBy: this.state.mapMode !== 'heatmap' // no grouping for heatmap
+        sortBy: null
       })
     }
 
@@ -119,8 +116,7 @@ class LeafletMap extends React.Component {
       this.props.fetchResults({
         resultClass: this.props.resultClass,
         facetClass: this.props.facetClass,
-        sortBy: null,
-        groupBy: this.state.mapMode !== 'heatmap' // no grouping for heatmap
+        sortBy: null
       })
     }
 
@@ -195,7 +191,6 @@ class LeafletMap extends React.Component {
 
   drawPointData = () => {
     const { results } = this.props
-    if (this.heatLayer) { this.leafletMap.removeLayer(this.heatLayer) }
     this.resultMarkerLayer.clearLayers()
     switch (this.state.mapMode) {
       case 'cluster':
@@ -204,9 +199,9 @@ class LeafletMap extends React.Component {
       case 'marker':
         this.updateMarkers(results)
         break
-      case 'heatmap':
-        this.drawHeatmap(this.createLatLngArray(results))
-        break
+      // case 'heatmap':
+      //   this.drawHeatmap(this.createLatLngArray(results))
+      //   break
       default:
         this.updateMarkersAndCluster(results)
         break
@@ -330,7 +325,7 @@ class LeafletMap extends React.Component {
   }
 
   addMapModeControl = () => {
-    L.Control.Heatmap = L.Control.extend({
+    L.Control.Mapmode = L.Control.extend({
       onAdd: map => {
         const container = L.DomUtil.create('div', 'leaflet-control-layers leaflet-control-layers-expanded')
         const markersInputContainer = L.DomUtil.create('div', 'leaflet-control-mapmode-input-container', container)
@@ -361,10 +356,10 @@ class LeafletMap extends React.Component {
         // TODO: remove DOM events?
       }
     })
-    L.control.heatmap = opts => {
-      return new L.Control.Heatmap(opts)
+    L.control.mapmode = opts => {
+      return new L.Control.Mapmode(opts)
     }
-    L.control.heatmap({ position: 'topleft' }).addTo(this.leafletMap)
+    L.control.mapmode({ position: 'topleft' }).addTo(this.leafletMap)
   }
 
   addDrawButtons = () => {
@@ -445,29 +440,9 @@ class LeafletMap extends React.Component {
     this.leafletMap.removeControl(this.drawControlEditOnly)
   }
 
-  drawHeatmap = latLngs => {
-    this.heatLayer = L.heatLayer(latLngs, {
-      radius: 15,
-      minOpacity: 1.0,
-      blur: 25,
-      maxZoom: 13,
-      // Google maps gradient settings is used as default
-      gradient: {
-        0: '#66ff00',
-        0.1: '#66ff00',
-        0.2: '#93ff00',
-        0.3: '#c1ff00',
-        0.4: '#eeff00',
-        0.5: '#f4e300',
-        0.6: '#f9c600',
-        0.7: '#ffaa00',
-        0.8: '#ff7100',
-        0.9: '#ff3900',
-        1: '#ff0000'
-      }
-    })
-    this.leafletMap.addLayer(this.heatLayer)
-  }
+  // drawHeatmap = latLngs => {
+
+  // }
 
   updateMarkers = results => {
     this.resultMarkerLayer.clearLayers()
