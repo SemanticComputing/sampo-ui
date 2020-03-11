@@ -9,6 +9,7 @@ export const stateToUrl = ({
   sortBy = null,
   sortDirection = null,
   resultFormat = null,
+  constrainSelf = null,
   groupBy = null
 }) => {
   const params = {}
@@ -18,6 +19,7 @@ export const stateToUrl = ({
   if (sortBy !== null) { params.sortBy = sortBy }
   if (sortDirection !== null) { params.sortDirection = sortDirection }
   if (resultFormat !== null) { params.resultFormat = resultFormat }
+  if (constrainSelf !== null) { params.constrainSelf = constrainSelf }
   if (groupBy !== null) { params.groupBy = groupBy }
   if (facets !== null) {
     const constraints = {}
