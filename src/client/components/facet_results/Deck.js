@@ -12,13 +12,13 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import { MAPBOX_ACCESS_TOKEN } from '../../configs/sampo/GeneralConfig'
 
-// https://deck.gl/#/documentation/getting-started/using-with-react?section=adding-a-base-map
-
-// https://github.com/uber/deck.gl/blob/6.2-release/examples/website/arc/app.js
-
-// http://deck.gl/#/documentation/deckgl-api-reference/layers/arc-layer
-
-// https://blog.mapbox.com/mapbox-gl-js-react-764da6cc074a
+/* Documentation links:
+  https://deck.gl/#/documentation/getting-started/using-with-react?section=adding-a-base-map
+  https://github.com/uber/deck.gl/blob/6.2-release/examples/website/arc/app.js
+  http://deck.gl/#/documentation/deckgl-api-reference/layers/arc-layer
+  https://blog.mapbox.com/mapbox-gl-js-react-764da6cc074a
+  https://www.mapbox.com/mapbox-gl-js/api#map
+*/
 
 const styles = theme => ({
   root: {
@@ -26,16 +26,6 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       height: 'calc(100% - 72px)'
     }
-  },
-  tooltip: {
-    position: 'absolute',
-    padding: '4px',
-    background: 'rgba(0, 0, 0, 0.8)',
-    color: '#fff',
-    maxWidth: '300px',
-    fontSize: '10px',
-    zIndex: 9,
-    pointerEvents: 'none'
   },
   spinner: {
     height: 40,
@@ -79,7 +69,6 @@ class Deck extends React.Component {
       width: 100,
       height: 100
     },
-    tooltip: null,
     dialog: {
       open: false,
       data: null
@@ -106,17 +95,7 @@ class Deck extends React.Component {
     }
   }
 
-  parseCoordinates = coords => {
-    // if (Array.isArray(coords)) { coords = coords[0]; }
-    // const lat = Array.isArray(coords.lat) ? coords.lat[0] : coords.lat;
-    // const long = Array.isArray(coords.long) ? coords.long[0] : coords.long;
-    const arr = [+coords.long, +coords.lat]
-    return arr
-  }
-
-  // setTooltip(object) {
-  //   this.setState({tooltip: object});
-  // }
+  parseCoordinates = coords => [+coords.long, +coords.lat]
 
   setDialog (info) {
     this.setState({
@@ -191,7 +170,6 @@ class Deck extends React.Component {
     if (has(this.props.results[0], 'to')) {
       arcData = this.props.results
     }
-
     const layer = new ArcLayer({
       id: 'arc-layer',
       data: arcData,
@@ -201,12 +179,11 @@ class Deck extends React.Component {
       getTargetColor: [255, 0, 0, 255],
       getSourcePosition: d => this.parseCoordinates(d.from),
       getTargetPosition: d => this.parseCoordinates(d.to),
-      // onHover: info => this.setTooltip(info),
       onClick: info => this.setDialog(info)
     })
-    // https://www.mapbox.com/mapbox-gl-js/api#map
+
     return (
-      <div className={classes.root}>
+      <div id='deckgl-arclayer-map' className={classes.root}>
         <ReactMapGL
           {...this.state.viewport}
           width='100%'
@@ -221,7 +198,7 @@ class Deck extends React.Component {
             <NavigationControl />
             <FullscreenControl
               className={classes.fullscreenButton}
-              container={document.querySelector('mapboxgl-map')}
+              container={document.querySelector('deckgl-arclayer-map')}
             />
           </div>
           <HTMLOverlay redraw={this._renderLegend.bind(this)} />
