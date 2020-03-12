@@ -4,13 +4,9 @@ import { withStyles } from '@material-ui/core/styles'
 import { has } from 'lodash'
 import DeckGL, { ArcLayer } from 'deck.gl'
 import ReactMapGL, { NavigationControl, FullscreenControl, HTMLOverlay } from 'react-map-gl'
-import InfoDialog from './InfoDialog'
+import MigrationsMapDialog from '../perspectives/mmm/MigrationsMapDialog'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { purple } from '@material-ui/core/colors'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
-import { MAPBOX_ACCESS_TOKEN } from '../../configs/sampo/GeneralConfig'
 
 /* Documentation links:
   https://deck.gl/#/documentation/getting-started/using-with-react?section=adding-a-base-map
@@ -44,20 +40,8 @@ const styles = theme => ({
   },
   fullscreenButton: {
     marginTop: theme.spacing(1)
-  },
-  legend: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1)
-  },
-  red: {
-    color: 'rgba(255,0,0,255)'
-  },
-  blue: {
-    color: 'rgba(0,0,255,255)'
   }
 })
-
 class Deck extends React.Component {
   state = {
     viewport: {
@@ -97,28 +81,26 @@ class Deck extends React.Component {
 
   parseCoordinates = coords => [+coords.long, +coords.lat]
 
-  setDialog (info) {
+  setDialog = info =>
     this.setState({
       dialog: {
         open: true,
         data: info.object
       }
     })
-  }
 
-  closeDialog () {
+  closeDialog = () =>
     this.setState({
       dialog: {
         open: false,
         data: {}
       }
     })
-  }
 
   handleOnViewportChange = viewport =>
     this.state.mounted && this.setState({ viewport });
 
-  _renderSpinner () {
+  renderSpinner () {
     if (this.props.fetching) {
       return (
         <div className={this.props.classes.spinner}>
@@ -129,48 +111,12 @@ class Deck extends React.Component {
     return null
   }
 
-  _renderLegend () {
-    return (
-      <Card className={this.props.classes.legend}>
-        <CardContent>
-          <Typography variant='h6' gutterBottom>Arc colouring:</Typography>
-          <Typography className={this.props.classes.blue} variant='body2' gutterBottom>Manuscript production place</Typography>
-          <br />
-          <Typography variant='body2' gutterBottom>
-            <span className={this.props.classes.red}>
-            Last known location
-            </span>
-          </Typography>
-        </CardContent>
-      </Card>
-    )
-  }
-
-  // getStrokeWidth = manuscriptCount => {
-  //   //console.log(manuscriptCount)
-  //   if (Array.isArray(manuscriptCount)) {
-  //     manuscriptCount = manuscriptCount[0];
-  //   }
-  //   const min = 1;
-  //   const max = 3333;
-  //   const minAllowed = 1;
-  //   const maxAllowed = 10;
-  //   //console.log(this.scaleBetween(manuscriptCount, minAllowed, maxAllowed, min, max))
-  //   return this.scaleBetween(parseInt(manuscriptCount), minAllowed, maxAllowed, min, max);
-  // }
-  //
-  // // https://stackoverflow.com/a/31687097
-  // scaleBetween = (unscaledNum, minAllowed, maxAllowed, min, max) => {
-  //   return (maxAllowed - minAllowed) * (unscaledNum - min) / (max - min) + minAllowed;
-  // }
-
-  render () {
-    const { classes } = this.props
+  createArcLayer = data => {
     let arcData = []
-    if (has(this.props.results[0], 'to')) {
-      arcData = this.props.results
+    if (has(data[0], 'to')) {
+      arcData = data
     }
-    const layer = new ArcLayer({
+    return new ArcLayer({
       id: 'arc-layer',
       data: arcData,
       pickable: true,
@@ -181,9 +127,21 @@ class Deck extends React.Component {
       getTargetPosition: d => this.parseCoordinates(d.to),
       onClick: info => this.setDialog(info)
     })
+  }
+
+  render () {
+    const { classes, mapBoxAccessToken, layerType, results } = this.props
+    /* It's OK to create a new Layer instance on every render
+       https://github.com/uber/deck.gl/blob/master/docs/developer-guide/using-layers.md#should-i-be-creating-new-layers-on-every-render
+    */
+    let layer = null
+    switch (layerType) {
+      case 'arcLayer':
+        layer = this.createArcLayer(results)
+    }
 
     return (
-      <div id='deckgl-arclayer-map' className={classes.root}>
+      <div className={classes.root}>
         <ReactMapGL
           {...this.state.viewport}
           width='100%'
@@ -191,28 +149,28 @@ class Deck extends React.Component {
           reuseMaps
           mapStyle='mapbox://styles/mapbox/light-v9'
           preventStyleDiffing
-          mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
+          mapboxApiAccessToken={mapBoxAccessToken}
           onViewportChange={this.handleOnViewportChange}
         >
           <div className={classes.navigationContainer}>
             <NavigationControl />
             <FullscreenControl
               className={classes.fullscreenButton}
-              container={document.querySelector('deckgl-arclayer-map')}
+              container={document.querySelector('mapboxgl-map')}
             />
           </div>
-          <HTMLOverlay redraw={this._renderLegend.bind(this)} />
+          <HTMLOverlay redraw={() => this.props.legendComponent} />
           <DeckGL
             viewState={this.state.viewport}
             layers={[layer]}
           />
-
-          {this._renderSpinner()}
-          <InfoDialog
-            open={this.state.dialog.open}
-            onClose={this.closeDialog.bind(this)}
-            data={this.state.dialog.data}
-          />
+          {this.renderSpinner()}
+          {layerType === 'arcLayer' &&
+            <MigrationsMapDialog
+              open={this.state.dialog.open}
+              onClose={this.closeDialog.bind(this)}
+              data={this.state.dialog.data}
+            />}
         </ReactMapGL>
       </div>
     )
@@ -220,12 +178,15 @@ class Deck extends React.Component {
 }
 
 Deck.propTypes = {
+  classes: PropTypes.object.isRequired,
   results: PropTypes.array.isRequired,
+  mapBoxAccessToken: PropTypes.string.isRequired,
   facetUpdateID: PropTypes.number,
   fetchResults: PropTypes.func,
   resultClass: PropTypes.string,
   facetClass: PropTypes.string,
-  fetching: PropTypes.bool.isRequired
+  fetching: PropTypes.bool.isRequired,
+  legendComponent: PropTypes.element
 }
 
 export default withStyles(styles)(Deck)

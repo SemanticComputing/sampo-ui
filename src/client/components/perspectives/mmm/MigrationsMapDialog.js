@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import ManuscriptList from './ManuscriptList'
+import ManuscriptList from '../../facet_results/ManuscriptList'
 import { Link } from 'react-router-dom'
 
 const styles = () => ({
@@ -15,7 +15,7 @@ const styles = () => ({
   }
 })
 
-const InfoDialog = (props) => {
+const MigrationsMapDialog = props => {
   const { classes, open, onClose, data } = props
   const hasData = data !== null && data.from && data.to && data.manuscript
 
@@ -46,11 +46,11 @@ const InfoDialog = (props) => {
   )
 }
 
-InfoDialog.propTypes = {
+MigrationsMapDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   data: PropTypes.object
 }
 
-export default withStyles(styles)(InfoDialog)
+export default withStyles(styles)(MigrationsMapDialog)
