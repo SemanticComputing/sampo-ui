@@ -61,7 +61,7 @@
     "core-js": "^3.6.4",
     "cytoscape": "^3.12.1",
     "date-fns": "^2.0.0-alpha.27",
-    "deck.gl": "^7.3.4",
+    "deck.gl": "^8.0.17",
     "dotenv": "^8.2.0",
     "express": "^4.16.4",
     "leaflet": "^1.6.0",
