@@ -2,7 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { has } from 'lodash'
-import DeckGL, { ArcLayer } from 'deck.gl'
+import DeckGL from '@deck.gl/react'
+import { ArcLayer } from '@deck.gl/layers'
+import { HeatmapLayer } from '@deck.gl/aggregation-layers'
 import ReactMapGL, { NavigationControl, FullscreenControl, HTMLOverlay } from 'react-map-gl'
 import MigrationsMapDialog from '../perspectives/mmm/MigrationsMapDialog'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -47,7 +49,7 @@ class Deck extends React.Component {
     viewport: {
       longitude: 10.37,
       latitude: 22.43,
-      zoom: 1,
+      zoom: 2,
       pitch: 0,
       bearing: 0,
       width: 100,
@@ -79,8 +81,6 @@ class Deck extends React.Component {
     }
   }
 
-  parseCoordinates = coords => [+coords.long, +coords.lat]
-
   setDialog = info =>
     this.setState({
       dialog: {
@@ -111,6 +111,8 @@ class Deck extends React.Component {
     return null
   }
 
+  parseCoordinates = data => [+data.long, +data.lat]
+
   createArcLayer = data => {
     let arcData = []
     if (has(data[0], 'to')) {
@@ -129,8 +131,24 @@ class Deck extends React.Component {
     })
   }
 
+  createHeatmapLayer = data => {
+    let heatmapData = []
+    if (has(data[0], 'lat')) {
+      heatmapData = data
+    }
+    return new HeatmapLayer({
+      id: 'heatmapLayer',
+      data: heatmapData,
+      radiusPixels: 40,
+      threshold: 0.025,
+      getPosition: d => [+d.long, +d.lat],
+      getWeight: d => +d.instanceCount
+    })
+  }
+
   render () {
     const { classes, mapBoxAccessToken, layerType, results } = this.props
+
     /* It's OK to create a new Layer instance on every render
        https://github.com/uber/deck.gl/blob/master/docs/developer-guide/using-layers.md#should-i-be-creating-new-layers-on-every-render
     */
@@ -138,6 +156,13 @@ class Deck extends React.Component {
     switch (layerType) {
       case 'arcLayer':
         layer = this.createArcLayer(results)
+        break
+      case 'heatmapLayer':
+        layer = this.createHeatmapLayer(results)
+        break
+      default:
+        layer = this.createHeatmapLayer(results)
+        break
     }
 
     return (

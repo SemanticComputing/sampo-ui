@@ -32,6 +32,7 @@ export default {
     table: 'table',
     map: 'map',
     production_places: 'production places',
+    production_places_heatmap: 'production places heatmap',
     last_known_locations: 'last known locations',
     migrations: 'migrations',
     network: 'network',

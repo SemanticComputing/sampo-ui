@@ -63,6 +63,21 @@ const Perspective1 = props => {
           />}
       />
       <Route
+        path={`${rootUrl}/${perspective.id}/faceted-search/production_places_heatmap`}
+        render={() =>
+          <Deck
+            results={props.places.results}
+            facetUpdateID={props.facetData.facetUpdateID}
+            resultClass='placesMsProduced'
+            facetClass='perspective1'
+            fetchResults={props.fetchResults}
+            fetching={props.places.fetching}
+            legendComponent={<MigrationsMapLegend />}
+            layerType='heatmapLayer'
+            mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
+          />}
+      />
+      <Route
         path={`${rootUrl}/${perspective.id}/faceted-search/last_known_locations`}
         render={() =>
           <LeafletMap

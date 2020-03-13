@@ -26,23 +26,28 @@ export const perspectiveConfig = [
         icon: <AddLocationIcon />
       },
       {
-        id: 'last_known_locations',
+        id: 'production_places_heatmap',
         value: 2,
+        icon: <AddLocationIcon />
+      },
+      {
+        id: 'last_known_locations',
+        value: 3,
         icon: <LocationOnIcon />
       },
       {
         id: 'migrations',
-        value: 3,
-        icon: <RedoIcon />
-      },
-      {
-        id: 'network',
         value: 4,
         icon: <RedoIcon />
       },
       {
-        id: 'export',
+        id: 'network',
         value: 5,
+        icon: <RedoIcon />
+      },
+      {
+        id: 'export',
+        value: 6,
         icon: <CloudDownloadIcon />
       }
     ],
