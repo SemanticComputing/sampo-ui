@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { has } from 'lodash'
 import DeckGL from '@deck.gl/react'
 import { ArcLayer } from '@deck.gl/layers'
-import { HeatmapLayer } from '@deck.gl/aggregation-layers'
+import { HeatmapLayer, HexagonLayer } from '@deck.gl/aggregation-layers'
 import ReactMapGL, { NavigationControl, FullscreenControl, HTMLOverlay } from 'react-map-gl'
 import MigrationsMapDialog from '../perspectives/mmm/MigrationsMapDialog'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -146,6 +146,22 @@ class Deck extends React.Component {
     })
   }
 
+  createHexagonLayer = data =>
+    new HexagonLayer({
+      id: 'hexagon-layer',
+      data,
+      extruded: true,
+      radius: 2000,
+      elevationScale: 100,
+      getPosition: d => [+d.long, +d.lat]
+    /* onHover: ({ object, x, y }) => {
+      const tooltip = `${object.centroid.join(', ')}\nCount: ${object.points.length}`
+    Update tooltip
+       http://deck.gl/#/documentation/developer-guide/adding-interactivity?section=example-display-a-tooltip-for-hovered-object
+
+    } */
+    })
+
   render () {
     const { classes, mapBoxAccessToken, layerType, results } = this.props
 
@@ -159,6 +175,9 @@ class Deck extends React.Component {
         break
       case 'heatmapLayer':
         layer = this.createHeatmapLayer(results)
+        break
+      case 'hexagonLayer':
+        layer = this.createHexagonLayer(results)
         break
       default:
         layer = this.createHeatmapLayer(results)
