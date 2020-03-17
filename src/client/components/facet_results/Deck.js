@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { has } from 'lodash'
 import DeckGL from '@deck.gl/react'
 import { ArcLayer } from '@deck.gl/layers'
 import { HeatmapLayer, HexagonLayer } from '@deck.gl/aggregation-layers'
@@ -113,14 +112,10 @@ class Deck extends React.Component {
 
   parseCoordinates = data => [+data.long, +data.lat]
 
-  createArcLayer = data => {
-    let arcData = []
-    if (has(data[0], 'to')) {
-      arcData = data
-    }
-    return new ArcLayer({
+  createArcLayer = data =>
+    new ArcLayer({
       id: 'arc-layer',
-      data: arcData,
+      data,
       pickable: true,
       getWidth: 3,
       getSourceColor: [0, 0, 255, 255],
@@ -129,22 +124,16 @@ class Deck extends React.Component {
       getTargetPosition: d => this.parseCoordinates(d.to),
       onClick: info => this.setDialog(info)
     })
-  }
 
-  createHeatmapLayer = data => {
-    let heatmapData = []
-    if (has(data[0], 'lat')) {
-      heatmapData = data
-    }
-    return new HeatmapLayer({
+  createHeatmapLayer = data =>
+    new HeatmapLayer({
       id: 'heatmapLayer',
-      data: heatmapData,
+      data,
       radiusPixels: 40,
       threshold: 0.025,
       getPosition: d => [+d.long, +d.lat],
       getWeight: d => +d.instanceCount
     })
-  }
 
   createHexagonLayer = data =>
     new HexagonLayer({
@@ -164,26 +153,28 @@ class Deck extends React.Component {
 
   render () {
     const { classes, mapBoxAccessToken, layerType, results } = this.props
+    const hasData = results.length > 0
 
     /* It's OK to create a new Layer instance on every render
        https://github.com/uber/deck.gl/blob/master/docs/developer-guide/using-layers.md#should-i-be-creating-new-layers-on-every-render
     */
     let layer = null
-    switch (layerType) {
-      case 'arcLayer':
-        layer = this.createArcLayer(results)
-        break
-      case 'heatmapLayer':
-        layer = this.createHeatmapLayer(results)
-        break
-      case 'hexagonLayer':
-        layer = this.createHexagonLayer(results)
-        break
-      default:
-        layer = this.createHeatmapLayer(results)
-        break
+    if (hasData) {
+      switch (layerType) {
+        case 'arcLayer':
+          layer = this.createArcLayer(results)
+          break
+        case 'heatmapLayer':
+          layer = this.createHeatmapLayer(results)
+          break
+        case 'hexagonLayer':
+          layer = this.createHexagonLayer(results)
+          break
+        default:
+          layer = this.createHeatmapLayer(results)
+          break
+      }
     }
-
     return (
       <div className={classes.root}>
         <ReactMapGL
