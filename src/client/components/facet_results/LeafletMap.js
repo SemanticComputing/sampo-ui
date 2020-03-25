@@ -6,7 +6,7 @@ import L from 'leaflet'
 import { has, orderBy } from 'lodash'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { purple } from '@material-ui/core/colors'
-import { MAPBOX_ACCESS_TOKEN } from '../../configs/sampo/GeneralConfig'
+import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../configs/sampo/GeneralConfig'
 import 'leaflet/dist/leaflet.css' // Official Leaflet styles
 import './LeafletMap.css' // Customizations to Leaflet styles
 
@@ -147,8 +147,8 @@ class LeafletMap extends React.Component {
   }
 
   initMap = () => {
-    // Base layers
-    const mapboxLight = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/{z}/{x}/{y}?access_token=' + MAPBOX_ACCESS_TOKEN, {
+    // Base layer(s)
+    const mapboxBaseLayer = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${MAPBOX_STYLE}/tiles/{z}/{x}/{y}?access_token=${MAPBOX_ACCESS_TOKEN}`, {
       attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       tileSize: 512,
       zoomOffset: -1
@@ -164,7 +164,7 @@ class LeafletMap extends React.Component {
       zoomControl: false,
       zoominfoControl: true,
       layers: [
-        mapboxLight,
+        mapboxBaseLayer,
         this.resultMarkerLayer
       ],
       fullscreenControl: true
@@ -173,7 +173,7 @@ class LeafletMap extends React.Component {
     // initialize layers from external sources
     if (this.props.showExternalLayers) {
       const basemaps = {
-        'Mapbox Light': mapboxLight
+        'Mapbox base layer': mapboxBaseLayer
       }
       this.initOverLays(basemaps)
     }

@@ -152,8 +152,8 @@ class Deck extends React.Component {
     })
 
   render () {
-    const { classes, mapBoxAccessToken, layerType, results } = this.props
-    const hasData = results.length > 0
+    const { classes, mapBoxAccessToken, mapBoxStyle, layerType, results } = this.props
+    const hasData = results && results.length > 0
 
     /* It's OK to create a new Layer instance on every render
        https://github.com/uber/deck.gl/blob/master/docs/developer-guide/using-layers.md#should-i-be-creating-new-layers-on-every-render
@@ -182,7 +182,7 @@ class Deck extends React.Component {
           width='100%'
           height='100%'
           reuseMaps
-          mapStyle='mapbox://styles/mapbox/light-v9'
+          mapStyle={`mapbox://styles/mapbox/${mapBoxStyle}`}
           preventStyleDiffing
           mapboxApiAccessToken={mapBoxAccessToken}
           onViewportChange={this.handleOnViewportChange}
@@ -216,6 +216,7 @@ Deck.propTypes = {
   classes: PropTypes.object.isRequired,
   results: PropTypes.array.isRequired,
   mapBoxAccessToken: PropTypes.string.isRequired,
+  mapBoxStyle: PropTypes.string.isRequired,
   facetUpdateID: PropTypes.number,
   fetchResults: PropTypes.func,
   resultClass: PropTypes.string,

@@ -2,15 +2,17 @@ export const rootUrl = ''
 
 export const defaultLocale = 'en'
 
-export const showLanguageButton = false
+export const showLanguageButton = true
 
 export const publishedPort = 3006
 
-export const MAPBOX_ACCESS_TOKEN = ''
+export const MAPBOX_ACCESS_TOKEN = '' // https://docs.mapbox.com/accounts/overview/tokens/
+
+export const MAPBOX_STYLE = 'light-v10' // https://docs.mapbox.com/api/maps/#styles
 
 export const documentFinderAPIUrl = 'https://data.finlex.fi/document-finder-backend'
 
-export const backendErrorText = 'The MMM database is not available. Please try again later.'
+export const backendErrorText = 'The database is not available. Please try again later.'
 
 export const yasguiBaseUrl = 'https://yasgui.triply.cc'
 

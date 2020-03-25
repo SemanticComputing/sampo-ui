@@ -8,7 +8,7 @@ import Deck from '../../facet_results/Deck'
 import Network from '../../facet_results/Network'
 import Export from '../../facet_results/Export'
 import MigrationsMapLegend from '../mmm/MigrationsMapLegend'
-import { MAPBOX_ACCESS_TOKEN } from '../../../configs/sampo/GeneralConfig'
+import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../../configs/sampo/GeneralConfig'
 
 const Perspective1 = props => {
   const { rootUrl, perspective } = props
@@ -75,6 +75,7 @@ const Perspective1 = props => {
             legendComponent={<MigrationsMapLegend />}
             layerType='heatmapLayer'
             mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
+            mapBoxStyle={MAPBOX_STYLE}
           />}
       />
       <Route
@@ -123,6 +124,7 @@ const Perspective1 = props => {
             legendComponent={<MigrationsMapLegend />}
             layerType='arcLayer'
             mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
+            mapBoxStyle={MAPBOX_STYLE}
           />}
       />
       <Route
