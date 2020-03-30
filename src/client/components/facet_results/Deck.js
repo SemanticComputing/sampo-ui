@@ -153,7 +153,8 @@ class Deck extends React.Component {
 
   render () {
     const { classes, mapBoxAccessToken, mapBoxStyle, layerType, results } = this.props
-    const hasData = results && results.length > 0
+    const hasData = results && results.length > 0 &&
+      ((results[0].lat && results[0].long) || (results[0].from && results[0].to))
 
     /* It's OK to create a new Layer instance on every render
        https://github.com/uber/deck.gl/blob/master/docs/developer-guide/using-layers.md#should-i-be-creating-new-layers-on-every-render
