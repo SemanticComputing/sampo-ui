@@ -3,7 +3,7 @@ import { has, isEmpty } from 'lodash'
 export const fetchResults = state => {
   return {
     ...state,
-    results: [], // clear previous results
+    instance: null,
     fetching: true
   }
 }
