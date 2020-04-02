@@ -10,6 +10,10 @@ A framework for implementing semantic portals. The following portals use this re
 * [HistorySampo](https://github.com/SemanticComputing/historysampo-web-app) 
 * [ParliamentSampo?]
 
+Sampo-UI framework is being developed by the [Semantic Computing Research Group (SeCo)](https://seco.cs.aalto.fi) at the Aalto University, Finland.
+
+See the [research page](https://seco.cs.aalto.fi/tools/sampo-ui) for more information. 
+
 ## Requirements
 
 * [Node.js® &ndash; a JavaScript runtime built on Chrome's V8 JavaScript engine.](https://nodejs.org/en/) (tested with 10.15.3 LTS)
