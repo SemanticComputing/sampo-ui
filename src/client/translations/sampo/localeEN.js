@@ -556,98 +556,87 @@ export default {
       About the Portal
     </h1>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      Mapping Manuscript Migrations (MMM) Portal has been developed with funding from the Trans-Atlantic
-      Platform under its Digging into Data Challenge (2017-2019). The partners in this project are
-      the University of Oxford, the University of Pennsylvania, Aalto University,
-      and the Institut de recherche et d’histoire des textes.
-      Funding has been provided by the UK Economic and Social Research Council,
-      the Institute of Museum and Library Services, the Academy of Finland, and the
-      Agence nationale de la recherche.
+      Morbi nunc ex, ultrices vitae molestie eu, fringilla quis dolor. Vivamus in enim nibh. 
+      Nunc rutrum molestie ex eget dictum. Mauris lectus leo, ultrices in sodales ac, fermentum 
+      ut massa. In porta, mauris sed facilisis lacinia, eros magna sollicitudin tortor, quis venenatis 
+      nisl ipsum lacinia justo. Duis pretium bibendum consequat. 
     </p>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      MMM Portal is intended to enable large-scale exploration of data relating to the history and provenance
-      of (primarily) Western European medieval and early modern manuscripts.
+      Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In 
+      hac habitasse platea dictumst. Curabitur consectetur aliquet est, ac dapibus ante semper vitae. 
+      Sed consequat at est ac lobortis. In vitae metus in ligula pretium vehicula. Aliquam maximus 
+      ac massa euismod eleifend. Vestibulum vehicula mattis libero at tempus.
     </p>
     <h2 class="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom">
       Data
     </h2>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      MMM Portal combines data from three specialist databases:
+      Nullam eu blandit ex, quis consectetur enim. Nulla aliquam, enim non euismod tincidunt, 
+      neque eros tincidunt urna, eget elementum diam metus vel elit. Donec dui augue, vehicula a cursus ut, 
+      efficitur eget velit. Aliquam pellentesque odio vel metus sodales tempor. Donec in lectus magna. 
+      Cras at odio a libero laoreet viverra nec sed lorem. In malesuada tempus dolor. 
+      Suspendisse et ligula quis nisi facilisis maximus. Sed dictum justo eu condimentum efficitur. 
+      Mauris porttitor ante nec auctor vulputate. Phasellus varius, odio sed egestas bibendum, 
+      dolor lacus consequat turpis, ac pulvinar libero lorem maximus nunc. Praesent egestas volutpat 
+      leo, vel faucibus dui convallis sed. Ut sed libero eu nisi accumsan mollis. Pellentesque 
+      ultricies est non porta luctus. Maecenas eget viverra mauris.
     </p>
     <ul class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom">
       <li>
-        <a href="https://sdbm.library.upenn.edu/"
+        <a href=""
           target='_blank' rel='noopener noreferrer'
         >
-          Schoenberg Database of Manuscripts
+          Suspendisse et ligula quis
         </a>
       </li>
       <li>
-        <a href="http://bibale.irht.cnrs.fr/"
+        <a href=""
           target='_blank' rel='noopener noreferrer'
         >
-          Bibale
+          Aliquam pellentesque odio
         </a>
       </li>
       <li>
-        <a href="https://medieval.bodleian.ox.ac.uk/"
+        <a href=""
           target='_blank' rel='noopener noreferrer'
         >
-          Medieval Manuscripts in Oxford Libraries
+          Cras at odio a libero laoreet
         </a>
       </li>
     </ul>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      The data have been combined using a unified Data Model based on the CIDOC-CRM
-      and FRBRoo ontologies. A diagram of the Data Model can be seen
-      <a href="https://drive.google.com/open?id=1uyTA8Prwtts5g13eor48tKHk_g63NaaG" target='_blank' rel='noopener noreferrer'>
-      here</a>. The data have not been corrected or amended in any way. If you notice an error in the data,
-      please report it to the custodians of the original database.
-    </p>
-    <h2 class="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom">
-      Features
-    </h2>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      The MMM Portal enables you to browse and search through most of the data assembled by the MMM project
-      from the three source databases. If you want to inspect the full raw data for any individual
-      manuscript or other entity, please click on the “Open in Linked Data browser” button on
-      the “Export” tab of the landing-page for that entity.
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      The MMM Portal also provides map-based visualizations for a selection of the data relating to
-      Manuscripts, Actors, and Places. The data resulting from a search or a filtered browse can be
-      exported in the form of a CSV file. Click on the “Export” tab and then on the button
-      “Open SPARQL query in yasgui.org”.
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      If you want to search all the underlying data using the SPARQL query language, the endpoint is
-      available here: <a href="http://ldf.fi/mmm-cidoc/sparql" target='_blank' rel='noopener noreferrer'>
-      http://ldf.fi/mmm-cidoc/sparql</a>.
-    </p>
+      Mauris porttitor ante nec auctor vulputate. Phasellus varius, odio sed egestas bibendum, 
+      dolor lacus consequat turpis, ac pulvinar libero lorem maximus nunc. Praesent egestas volutpat 
+      leo, vel faucibus dui convallis sed. Ut sed libero eu nisi accumsan mollis. Pellentesque 
+      ultricies est non porta luctus. Maecenas eget viverra mauris.
+      </p>
     <h2 class="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom">
       Data Reuse
     </h2>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      The MMM data are made available for reuse under a
-      <a href="https://creativecommons.org/licenses/by-nc/4.0/" target='_blank' rel='noopener noreferrer'>CC-BY-NC 4.0 licence</a>.
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      You must give appropriate credit, provide a link to the license, and indicate if changes
-      were made. You may do so in any reasonable manner, but not in any way that suggests the
-      MMM project or its partner institutions endorses you or your use.
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      You may not use the data for commercial purposes.
+      Nullam eu blandit ex, quis consectetur enim. Nulla aliquam, enim non euismod tincidunt, 
+      neque eros tincidunt urna, eget elementum diam metus vel elit. Donec dui augue, vehicula a cursus ut, 
+      efficitur eget velit. Aliquam pellentesque odio vel metus sodales tempor. Donec in lectus magna. 
+      Cras at odio a libero laoreet viverra nec sed lorem. In malesuada tempus dolor. 
+      Suspendisse et ligula quis nisi facilisis maximus. Sed dictum justo eu condimentum efficitur. 
+      Mauris porttitor ante nec auctor vulputate. Phasellus varius, odio sed egestas bibendum, 
+      dolor lacus consequat turpis, ac pulvinar libero lorem maximus nunc. Praesent egestas volutpat 
+      leo, vel faucibus dui convallis sed. Ut sed libero eu nisi accumsan mollis. Pellentesque 
+      ultricies est non porta luctus. Maecenas eget viverra mauris.
     </p>
     <h2 class="MuiTypography-root MuiTypography-h4 MuiTypography-gutterBottom">
       More Information
     </h2>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      The MMM project has its own
-      <a href="https://github.com/mapping-manuscript-migrations" target='_blank' rel='noopener noreferrer'>GitHub site</a>.
-    </p>
-    <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      Here you will find documentation, scripts and programs, and samples of the raw data.
+      Nullam eu blandit ex, quis consectetur enim. Nulla aliquam, enim non euismod tincidunt, 
+      neque eros tincidunt urna, eget elementum diam metus vel elit. Donec dui augue, vehicula a cursus ut, 
+      efficitur eget velit. Aliquam pellentesque odio vel metus sodales tempor. Donec in lectus magna. 
+      Cras at odio a libero laoreet viverra nec sed lorem. In malesuada tempus dolor. 
+      Suspendisse et ligula quis nisi facilisis maximus. Sed dictum justo eu condimentum efficitur. 
+      Mauris porttitor ante nec auctor vulputate. Phasellus varius, odio sed egestas bibendum, 
+      dolor lacus consequat turpis, ac pulvinar libero lorem maximus nunc. Praesent egestas volutpat 
+      leo, vel faucibus dui convallis sed. Ut sed libero eu nisi accumsan mollis. Pellentesque 
+      ultricies est non porta luctus. Maecenas eget viverra mauris.
     </p>
   `,
   instructions: `
@@ -655,10 +644,10 @@ export default {
       Instructions
     </h1>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      The search functionality of the MMM portal is based on the
+      The search functionality of this semantic portal is based on the
       <a href="https://doi.org/10.2200/S00190ED1V01Y200904ICR005" target='_blank' rel='noopener noreferrer'>
       faceted search</a> paradigm. By default each perspective displays
-      all results from the corresponding class (Manuscripts, Works, Events, Actors, or Places).
+      all results from the corresponding class.
       This default result set can be narrowed down by using the filters on the left.
     </p>
 
@@ -744,23 +733,21 @@ export default {
       Feedback
     </h1>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-      This semantic portal has been developed by the research project “Mapping Manuscript Migrations”.
+      This semantic portal has been developed by ...
     </p>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
       We are interested in your feedback on the functionality, coverage, and usefulness of the portal and its data.
     </p>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
       Please complete our
-      <a href="https://tinyurl.com/uph7xkj" target='_blank' rel='noopener noreferrer'>Feedback Survey Form.</a>
+      <a href="" target='_blank' rel='noopener noreferrer'>Feedback Survey Form (add link).</a>
     </p>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-    You can also contact us via email:
-    <a href="mailto:mappingmanuscriptmigrations@gmail.com">mappingmanuscriptmigrations@gmail.com</a>
-    or DM us on Twitter: @MSMigrations
+      You can also contact us via email: ... or DM us on Twitter: ...
     </p>
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
       Please be aware that this portal’s response times may be affected by the size and complexity
-      of the dataset, especially in areas like the map visualizations, the date filters, and the Events perspective.
+      of the underlying knowledge graph.
     </p>
     `
 }

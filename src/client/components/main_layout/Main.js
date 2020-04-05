@@ -5,7 +5,6 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import MainCard from './MainCard'
-// import MainCardMMM from './MainCardMMM'
 import bannerImage from '../../img/mmm-banner.jpg'
 
 const useStyles = makeStyles(theme => ({

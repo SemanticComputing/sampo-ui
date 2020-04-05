@@ -5,7 +5,7 @@ import DeckGL from '@deck.gl/react'
 import { ArcLayer } from '@deck.gl/layers'
 import { HeatmapLayer, HexagonLayer } from '@deck.gl/aggregation-layers'
 import ReactMapGL, { NavigationControl, FullscreenControl, HTMLOverlay } from 'react-map-gl'
-import MigrationsMapDialog from '../perspectives/mmm/MigrationsMapDialog'
+import MigrationsMapDialog from '../perspectives/sampo/MigrationsMapDialog'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { purple } from '@material-ui/core/colors'
 

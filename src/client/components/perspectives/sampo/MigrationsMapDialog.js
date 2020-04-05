@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import ManuscriptList from '../../facet_results/ManuscriptList'
+import ManuscriptList from './ManuscriptList'
 import { Link } from 'react-router-dom'
 
 const styles = () => ({
