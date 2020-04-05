@@ -1,6 +1,5 @@
 {
-  "name": "sampo-web-app",
-  "private": true,
+  "name": "sampo-ui",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "npm run build-client && npm run build-server",
@@ -13,7 +12,7 @@
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/src/client/setupTests.js"
   },
-  "author": "Esko Ikkala",
+  "author": "Esko Ikkala <esko.ikkala@aalto.fi>",
   "contributors": [
     "Erkki Heino",
     "Heikki Rantala"
