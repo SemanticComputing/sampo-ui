@@ -1,7 +1,7 @@
 import {
   FETCH_GEOJSON_LAYERS,
   UPDATE_GEOJSON_LAYERS
-} from '../../actions'
+} from '../actions'
 
 export const INITIAL_STATE = {
   layerData: [],

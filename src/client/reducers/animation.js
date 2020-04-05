@@ -1,4 +1,4 @@
-import { ANIMATE_MAP } from '../../actions'
+import { ANIMATE_MAP } from '../actions'
 
 export const INITIAL_STATE = {
   value: []

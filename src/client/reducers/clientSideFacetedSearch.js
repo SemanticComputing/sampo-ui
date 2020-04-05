@@ -4,7 +4,7 @@ import {
   CLEAR_RESULTS,
   UPDATE_CLIENT_SIDE_FILTER,
   SORT_RESULTS
-} from '../../actions'
+} from '../actions'
 
 export const INITIAL_STATE = {
   query: '',
