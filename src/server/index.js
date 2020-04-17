@@ -1,7 +1,7 @@
 import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
-import { has } from 'lodash'
+import { has, castArray } from 'lodash'
 import {
   getResultCount,
   getPaginatedResults,
@@ -10,6 +10,8 @@ import {
 } from './sparql/FacetResults'
 import { getFacet } from './sparql/FacetValues'
 import { queryJenaIndex } from './sparql/JenaQuery'
+import { getFederatedResults } from './sparql/FederatedSearch'
+import { fetchGeoJSONLayer } from './wfs/WFSApi'
 const DEFAULT_PORT = 3001
 const app = express()
 app.set('port', process.env.PORT || DEFAULT_PORT)
@@ -149,6 +151,47 @@ app.get(`${apiPath}/search`, async (req, res, next) => {
       longMax: longMax,
       resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
     })
+    res.json(data)
+  } catch (error) {
+    next(error)
+  }
+})
+
+app.get(`${apiPath}/federatedSearch`, async (req, res, next) => {
+  let queryTerm = ''
+  let latMin = 0
+  let longMin = 0
+  let latMax = 0
+  let longMax = 0
+  if (has(req.query, 'q')) {
+    queryTerm = req.query.q
+  }
+  if (has(req.query, 'latMin')) {
+    latMin = req.query.latMin
+    longMin = req.query.longMin
+    latMax = req.query.latMax
+    longMax = req.query.longMax
+  }
+  try {
+    const data = await getFederatedResults({
+      queryTerm,
+      latMin,
+      longMin,
+      latMax,
+      longMax,
+      datasets: castArray(req.query.dataset),
+      resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
+    })
+    res.json(data)
+  } catch (error) {
+    next(error)
+  }
+})
+
+app.get(`${apiPath}/wfs`, async (req, res, next) => {
+  const layerIDs = castArray(req.query.layerID)
+  try {
+    const data = await Promise.all(layerIDs.map(layerID => fetchGeoJSONLayer({ layerID })))
     res.json(data)
   } catch (error) {
     next(error)
