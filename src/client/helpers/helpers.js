@@ -68,7 +68,7 @@ export const urlToState = ({ initialState, queryString }) => {
   return params
 }
 
-const boundsToValues = bounds => {
+export const boundsToValues = bounds => {
   const latMin = bounds._southWest.lat
   const longMin = bounds._southWest.lng
   const latMax = bounds._northEast.lat
@@ -98,4 +98,14 @@ export const handleAxiosError = error => {
     console.log('Error', error.message)
   }
   console.log(error.config)
+}
+
+export const pickSelectedDatasets = datasets => {
+  const selected = []
+  Object.keys(datasets).map(key => {
+    if (datasets[key].selected) {
+      selected.push(key)
+    }
+  })
+  return selected
 }

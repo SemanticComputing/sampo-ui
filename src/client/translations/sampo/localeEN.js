@@ -62,7 +62,7 @@ export default {
   leafletMap: {
     basemaps: {
       mapbox: {
-        'light-v10': 'MapBox Light'
+        'light-v10': 'Mapbox Light'
       },
       googleRoadmap: 'Google Maps',
       topographicalMapNLS: 'Topographical map (National Land Survey of Finland)',

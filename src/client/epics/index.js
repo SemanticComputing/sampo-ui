@@ -14,7 +14,7 @@ import intl from 'react-intl-universal'
 import localeEN from '../translations/sampo/localeEN'
 import localeFI from '../translations/sampo/localeFI'
 import localeSV from '../translations/sampo/localeSV'
-import { stateToUrl, handleAxiosError } from '../helpers/helpers'
+import { stateToUrl, handleAxiosError, pickSelectedDatasets, boundsToValues } from '../helpers/helpers'
 import querystring from 'querystring'
 import {
   FETCH_RESULT_COUNT,
@@ -32,16 +32,21 @@ import {
   FETCH_SIMILAR_DOCUMENTS_BY_ID_FAILED,
   FETCH_FACET_FAILED,
   FETCH_GEOJSON_LAYERS,
+  FETCH_GEOJSON_LAYERS_BACKEND,
+  CLIENT_FS_FETCH_RESULTS,
+  CLIENT_FS_FETCH_RESULTS_FAILED,
   LOAD_LOCALES,
   updateResultCount,
   updatePaginatedResults,
   updateResults,
+  clientFSUpdateResults,
   updateInstance,
   updateInstanceRelatedData,
   updateFacetValues,
   updateFacetValuesConstrainSelf,
   updateLocale,
-  updateGeoJSONLayers
+  updateGeoJSONLayers,
+  SHOW_ERROR
 } from '../actions'
 import {
   rootUrl,
@@ -133,6 +138,37 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
   })
 )
 
+const clientFSFetchResultsEpic = (action$, state$) => action$.pipe(
+  ofType(CLIENT_FS_FETCH_RESULTS),
+  withLatestFrom(state$),
+  debounceTime(500),
+  switchMap(([action, state]) => {
+    const { jenaIndex } = action
+    const selectedDatasets = pickSelectedDatasets(state.clientSideFacetedSearch.datasets)
+    const dsParams = selectedDatasets.map(ds => `dataset=${ds}`).join('&')
+    let requestUrl
+    if (action.jenaIndex === 'text') {
+      requestUrl = `${apiUrl}federatedSearch?q=${action.query}&${dsParams}`
+    } else if (action.jenaIndex === 'spatial') {
+      const { latMin, longMin, latMax, longMax } = state.leafletMap
+      requestUrl = `${apiUrl}federatedSearch?latMin=${latMin}&longMin=${longMin}&latMax=${latMax}&longMax=${longMax}&${dsParams}`
+    }
+    return ajax.getJSON(requestUrl).pipe(
+      map(response => clientFSUpdateResults({
+        results: response,
+        jenaIndex
+      })),
+      catchError(error => of({
+        type: CLIENT_FS_FETCH_RESULTS_FAILED,
+        error: error,
+        message: {
+          text: backendErrorText,
+          title: 'Error'
+        }
+      }))
+    )
+  })
+)
 const fetchResultCountEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_RESULT_COUNT),
   withLatestFrom(state$),
@@ -335,7 +371,37 @@ const fetchSimilarDocumentsEpic = (action$, state$) => action$.pipe(
   })
 )
 
-const fetchGeoJSONLayers = action$ => action$.pipe(
+const fetchGeoJSONLayersBackendEpic = (action$, state$) => action$.pipe(
+  ofType(FETCH_GEOJSON_LAYERS_BACKEND),
+  withLatestFrom(state$),
+  mergeMap(([action]) => {
+    const { layerIDs, bounds } = action
+    const { latMin, longMin, latMax, longMax } = boundsToValues(bounds)
+    const params = {
+      layerID: layerIDs,
+      latMin,
+      longMin,
+      latMax,
+      longMax
+    }
+    const requestUrl = `${apiUrl}wfs?${querystring.stringify(params)}`
+    return ajax.getJSON(requestUrl).pipe(
+      map(res => updateGeoJSONLayers({
+        payload: res
+      })),
+      catchError(error => of({
+        type: SHOW_ERROR,
+        error: error,
+        message: {
+          text: backendErrorText,
+          title: 'Error'
+        }
+      }))
+    )
+  })
+)
+
+const fetchGeoJSONLayersEpic = action$ => action$.pipe(
   ofType(FETCH_GEOJSON_LAYERS),
   mergeMap(async action => {
     const { layerIDs, bounds } = action
@@ -346,16 +412,19 @@ const fetchGeoJSONLayers = action$ => action$.pipe(
 
 const fetchGeoJSONLayer = async (layerID, bounds) => {
   const baseUrl = 'http://kartta.nba.fi/arcgis/services/WFS/MV_Kulttuuriymparisto/MapServer/WFSServer'
-  const boundsStr =
-    `${bounds._southWest.lng},${bounds._southWest.lat},${bounds._northEast.lng},${bounds._northEast.lat}`
+  // const baseUrl = 'http://avaa.tdata.fi/geoserver/kotus/ows'
+  // const baseUrl = 'http://avaa.tdata.fi/geoserver/paituli/wfs'
+  // const boundsStr =
+  //   `${bounds._southWest.lng},${bounds._southWest.lat},${bounds._northEast.lng},${bounds._northEast.lat}`
   const mapServerParams = {
     request: 'GetFeature',
     service: 'WFS',
     version: '2.0.0',
     typeName: layerID,
     srsName: 'EPSG:4326',
-    outputFormat: 'geojson',
-    bbox: boundsStr
+    // outputFormat: 'geojson'
+    outputFormat: 'application/json'
+    // bbox: boundsStr
   }
   const url = `${baseUrl}?${querystring.stringify(mapServerParams)}`
   try {
@@ -372,6 +441,7 @@ const fetchGeoJSONLayer = async (layerID, bounds) => {
 const rootEpic = combineEpics(
   fetchPaginatedResultsEpic,
   fetchResultsEpic,
+  clientFSFetchResultsEpic,
   fetchResultCountEpic,
   fetchResultsClientSideEpic,
   fetchByURIEpic,
@@ -379,7 +449,8 @@ const rootEpic = combineEpics(
   fetchFacetConstrainSelfEpic,
   loadLocalesEpic,
   fetchSimilarDocumentsEpic,
-  fetchGeoJSONLayers
+  fetchGeoJSONLayersEpic,
+  fetchGeoJSONLayersBackendEpic
 )
 
 export default rootEpic

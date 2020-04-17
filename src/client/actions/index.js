@@ -26,7 +26,9 @@ export const UPDATE_FACET_VALUES = 'UPDATE_FACET_VALUES'
 export const UPDATE_FACET_VALUES_CONSTRAIN_SELF = 'UPDATE_FACET_VALUES_CONSTRAIN_SELF'
 export const UPDATE_FACET_OPTION = 'UPDATE_FACET_OPTION'
 export const UPDATE_CLIENT_SIDE_FILTER = 'UPDATE_CLIENT_SIDE_FILTER'
+export const UPDATE_MAP_BOUNDS = 'UPDATE_MAP_BOUNDS'
 export const FETCH_GEOJSON_LAYERS = 'FETCH_GEOJSON_LAYERS'
+export const FETCH_GEOJSON_LAYERS_BACKEND = 'FETCH_GEOJSON_LAYERS_BACKEND'
 export const UPDATE_GEOJSON_LAYERS = 'UPDATE_GEOJSON_LAYERS'
 export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP'
 export const SHOW_ERROR = 'SHOW_ERROR'
@@ -36,6 +38,14 @@ export const LOAD_LOCALES = 'LOAD_LOCALES'
 export const LOAD_LOCALES_FAILED = 'LOAD_LOCALES_FAILED'
 export const UPDATE_LOCALE = 'UPDATE_LOCALE'
 export const ANIMATE_MAP = 'ANIMATE_MAP'
+export const CLIENT_FS_UPDATE_QUERY = 'CLIENT_FS_UPDATE_QUERY'
+export const CLIENT_FS_TOGGLE_DATASET = 'CLIENT_FS_TOGGLE_DATASET'
+export const CLIENT_FS_FETCH_RESULTS = 'CLIENT_FS_FETCH_RESULTS'
+export const CLIENT_FS_FETCH_RESULTS_FAILED = 'CLIENT_FS_FETCH_RESULTS_FAILED'
+export const CLIENT_FS_UPDATE_RESULTS = 'CLIENT_FS_UPDATE_RESULTS'
+export const CLIENT_FS_CLEAR_RESULTS = 'CLIENT_FS_CLEAR_RESULTS'
+export const CLIENT_FS_UPDATE_FACET = 'CLIENT_FS_UPDATE_FACET'
+export const CLIENT_FS_SORT_RESULTS = 'CLIENT_FS_SORT_RESULTS'
 
 export const fetchPaginatedResults = (resultClass, facetClass, sortBy) => ({
   type: FETCH_PAGINATED_RESULTS,
@@ -251,12 +261,57 @@ export const animateMap = value => ({
   type: ANIMATE_MAP,
   value
 })
+export const updateMapBounds = bounds => ({
+  type: UPDATE_MAP_BOUNDS,
+  bounds
+})
 export const fetchGeoJSONLayers = ({ layerIDs, bounds }) => ({
   type: FETCH_GEOJSON_LAYERS,
+  layerIDs,
+  bounds
+})
+export const fetchGeoJSONLayersBackend = ({ layerIDs, bounds }) => ({
+  type: FETCH_GEOJSON_LAYERS_BACKEND,
   layerIDs,
   bounds
 })
 export const updateGeoJSONLayers = ({ payload }) => ({
   type: UPDATE_GEOJSON_LAYERS,
   payload
+})
+export const clientFSUpdateQuery = query => ({
+  type: CLIENT_FS_UPDATE_QUERY,
+  query
+})
+export const clientFSToggleDataset = dataset => ({
+  type: CLIENT_FS_TOGGLE_DATASET,
+  dataset
+})
+
+export const clientFSFetchResults = ({ jenaIndex, query }) => ({
+  type: CLIENT_FS_FETCH_RESULTS,
+  jenaIndex,
+  query
+})
+export const clientFSFetchResultsFailed = error => ({
+  type: CLIENT_FS_FETCH_RESULTS_FAILED,
+  error
+})
+export const clientFSUpdateResults = ({ results, jenaIndex }) => ({
+  type: CLIENT_FS_UPDATE_RESULTS,
+  results,
+  jenaIndex
+})
+export const clientFSClearResults = () => ({
+  type: CLIENT_FS_CLEAR_RESULTS
+})
+export const clientFSUpdateFacet = ({ facetID, value, latestValues }) => ({
+  type: CLIENT_FS_UPDATE_FACET,
+  facetID,
+  value,
+  latestValues
+})
+export const clientFSSortResults = options => ({
+  type: CLIENT_FS_SORT_RESULTS,
+  options
 })
