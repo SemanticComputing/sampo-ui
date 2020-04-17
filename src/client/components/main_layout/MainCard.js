@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { Link } from 'react-router-dom'
 import { has } from 'lodash'
-import defaultImage from '../../img/thumb.png'
+import defaultImage from '../../img/main_page/thumb.png'
 
 const useStyles = makeStyles(theme => ({
   gridItem: props => ({

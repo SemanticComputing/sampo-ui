@@ -16,14 +16,10 @@ import TopBarInfoButton from './TopBarInfoButton'
 import TopBarLanguageButton from './TopBarLanguageButton'
 import Divider from '@material-ui/core/Divider'
 import { has } from 'lodash'
-// import mmmLogo from '../../img/mmm-logo-52x50.png'
-import secoLogo from '../../img/seco-logo-48x50.png'
+import secoLogo from '../../img/logos/seco-logo-48x50.png'
 import { showLanguageButton } from '../../configs/sampo/GeneralConfig'
 
 const styles = theme => ({
-  root: {
-    // width: '100%',
-  },
   grow: {
     flexGrow: 1
   },
