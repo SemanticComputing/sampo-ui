@@ -32,7 +32,7 @@ export default {
     table: 'table',
     map: 'map',
     production_places: 'production places',
-    production_places_heatmap: 'production places heatmap',
+    production_places_heatmap: 'production heatmap',
     last_known_locations: 'last known locations',
     migrations: 'migrations',
     network: 'network',
@@ -60,14 +60,30 @@ export default {
     }
   },
   leafletMap: {
+    basemaps: {
+      mapbox: {
+        'light-v10': 'MapBox Light'
+      },
+      googleRoadmap: 'Google Maps',
+      topographicalMapNLS: 'Topographical map (National Land Survey of Finland)',
+      backgroundMapNLS: 'Background map (National Land Survey of Finland)'
+    },
     externalLayers: {
       arkeologiset_kohteet_alue: 'Register of Archaeological Sites, areas',
-      arkeologiset_kohteet_piste: 'Register of Archaeological Sites, points'
+      arkeologiset_kohteet_piste: 'Register of Archaeological Sites, points',
+      karelianMaps: 'Karelian maps, 1:100 000 topographic (SeCo)',
+      senateAtlas: 'Senate atlas, 1:21 000 topographic (SeCo)',
+      'kotus:pitajat': 'Finnish parishes in 1938 (Institute for the Languages of Finland)',
+      'kotus:rajat-sms-alueet': 'Dialectical regions in Finland (Institute for the Languages of Finland)',
+      'kotus:rajat-sms-alueosat': 'Dialectical subregions in Finland (Institute for the Languages of Finland)',
+      'kotus:rajat-lansi-ita': 'Border between western and eastern dialects in Finland (Institute for the Languages of Finland)'
     },
     mapModeButtons: {
       markers: 'Markers',
       heatmap: 'Heatmap'
-    }
+    },
+    wrongZoomLevel: 'The map zoom level has to at least 11',
+    tooManyResults: 'More than 3000 results, please use clustered map or heatmap'
   },
   instancePageGeneral: {
     introduction: `

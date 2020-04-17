@@ -27,6 +27,7 @@ import 'leaflet-draw/dist/leaflet.draw.js'
 import 'leaflet-draw/dist/leaflet.draw.css'
 import 'leaflet.zoominfo/dist/L.Control.Zoominfo'
 import 'leaflet.zoominfo/dist/L.Control.Zoominfo.css'
+// import 'leaflet.gridlayer.googlemutant/Leaflet.GoogleMutant.js'
 
 import markerShadowIcon from '../../img/markers/marker-shadow.png'
 import markerIconViolet from '../../img/markers/marker-icon-violet.png'
@@ -94,7 +95,7 @@ class LeafletMap extends React.Component {
   }
 
   componentDidMount = () => {
-    if (this.props.pageType === 'facetResults') {
+    if (this.props.mapMode && this.props.pageType === 'facetResults') {
       this.props.fetchResults({
         resultClass: this.props.resultClass,
         facetClass: this.props.facetClass,
@@ -102,9 +103,31 @@ class LeafletMap extends React.Component {
       })
     }
     this.initMap()
+    if (this.props.mapMode && this.props.pageType === 'clientFSResults') {
+      this.drawPointData()
+    }
   }
 
   componentDidUpdate = (prevProps, prevState) => {
+    this.props.facetedSearchMode === 'clientFS'
+      ? this.clientFScomponentDidUpdate(prevProps) : this.serverFScomponentDidUpdate(prevProps, prevState)
+  }
+
+  componentWillUnmount = () => {
+    this.leafletMap.remove()
+  }
+
+  clientFScomponentDidUpdate = prevProps => {
+    if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
+      this.drawPointData()
+    }
+    if (this.props.showExternalLayers &&
+      (this.props.layers.updateID !== prevProps.layers.updateID)) {
+      this.props.layers.layerData.map(layerObj => this.populateOverlay(layerObj))
+    }
+  }
+
+  serverFScomponentDidUpdate = (prevProps, prevState) => {
     // check if filters have changed
     if (has(prevProps, 'facetUpdateID') && prevProps.facetUpdateID !== this.props.facetUpdateID) {
       this.props.fetchResults({
@@ -135,13 +158,13 @@ class LeafletMap extends React.Component {
           maxHeight: 300,
           maxWidth: 400,
           minWidth: 400
-        // closeButton: false,
+          // closeButton: false,
         })
         .openPopup()
     }
 
     if (this.props.showExternalLayers &&
-        (this.props.layers.updateID !== prevProps.layers.updateID)) {
+      (this.props.layers.updateID !== prevProps.layers.updateID)) {
       this.props.layers.layerData.map(layerObj => this.populateOverlay(layerObj))
     }
 
@@ -161,14 +184,25 @@ class LeafletMap extends React.Component {
       tileSize: 512,
       zoomOffset: -1
     })
+    // const googleRoadmap = L.gridLayer.googleMutant({
+    //   type: 'roadmap'
+    // })
+    // const topographicalMapNLS = L.tileLayer(this.createNLSUrl('maastokartta'), {
+    //   attribution: 'National Land Survey of Finland'
+    // })
+    // // https://www.maanmittauslaitos.fi/kartat-ja-paikkatieto/asiantuntevalle-kayttajalle/kartta-ja-paikkatietojen-rajapintapalvelut-19
+    // const backgroundMapNLS = L.tileLayer(this.createNLSUrl('taustakartta'), {
+    //   attribution: 'National Land Survey of Finland'
+    // })
 
     // layer for markers
     this.resultMarkerLayer = L.layerGroup()
 
-    // create map
-    this.leafletMap = L.map('map', {
-      center: [22.43, 10.37],
-      zoom: 2,
+    const container = this.props.container ? this.props.container : 'map'
+
+    this.leafletMap = L.map(container, {
+      center: this.props.center,
+      zoom: this.props.zoom,
       zoomControl: false,
       zoominfoControl: true,
       layers: [
@@ -181,7 +215,10 @@ class LeafletMap extends React.Component {
     // initialize layers from external sources
     if (this.props.showExternalLayers) {
       const basemaps = {
-        'Mapbox base layer': mapboxBaseLayer
+        [intl.get(`leafletMap.basemaps.mapbox.${MAPBOX_STYLE}`)]: mapboxBaseLayer
+      // [intl.get('leafletMap.basemaps.googleRoadmap')]: googleRoadmap,
+      // [intl.get('leafletMap.basemaps.topographicalMapNLS')]: topographicalMapNLS,
+      // [intl.get('leafletMap.basemaps.backgroundMapNLS')]: backgroundMapNLS
       }
       this.initOverLays(basemaps)
     }
@@ -195,6 +232,35 @@ class LeafletMap extends React.Component {
     }
 
     if (this.props.showMapModeControl) { this.addMapModeControl() }
+    if (this.props.updateMapBounds) {
+      this.props.updateMapBounds(this.boundsToValues())
+      this.leafletMap.on('moveend', () => {
+        this.props.updateMapBounds(this.boundsToValues())
+      })
+    }
+  }
+
+  createNLSUrl = layerID => {
+    // return 'https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/' +
+    // layerID + '/default/WGS84_Pseudo-Mercator/{z}/{x}/{y}.png';
+    return 'https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts?service=WMTS' +
+    '&request=GetTile&version=1.0.0&layer=' + layerID + '&style=default' +
+    '&format=image/png&TileMatrixSet=WGS84_Pseudo-Mercator&TileMatrix={z}&TileRow={y}&TileCol={x}'
+  }
+
+  boundsToValues = () => {
+    const bounds = this.leafletMap.getBounds()
+    const latMin = bounds._southWest.lat
+    const longMin = bounds._southWest.lng
+    const latMax = bounds._northEast.lat
+    const longMax = bounds._northEast.lng
+    return {
+      latMin: latMin,
+      longMin: longMin,
+      latMax: latMax,
+      longMax: longMax,
+      zoom: this.leafletMap.getZoom()
+    }
   }
 
   drawPointData = () => {
@@ -223,51 +289,55 @@ class LeafletMap extends React.Component {
   initMapEventListeners = () => {
     // Fired when an overlay is selected using layer controls
     this.leafletMap.on('overlayadd', event => {
-      const layerID = event.layer.options.id
-      // https://www.robinwieruch.de/react-state-array-add-update-remove
-      this.setState(state => {
-        return {
-          activeOverlays: [...state.activeOverlays, layerID]
-        }
-      })
-      if (this.isSafeToLoadLargeLayers()) {
-        this.props.fetchGeoJSONLayers({
-          layerIDs: this.state.activeOverlays,
-          bounds: this.leafletMap.getBounds()
+      if (event.layer.options.type === 'geoJSON') {
+        const layerID = event.layer.options.id
+        // https://www.robinwieruch.de/react-state-array-add-update-remove
+        this.setState(state => {
+          return {
+            activeOverlays: [...state.activeOverlays, layerID]
+          }
         })
+        if (this.isSafeToLoadLargeLayers()) {
+          this.props.fetchGeoJSONLayers({
+            layerIDs: this.state.activeOverlays,
+            bounds: this.leafletMap.getBounds()
+          })
+        }
       }
     })
     // Fired when an overlay is selected using layer controls
     this.leafletMap.on('overlayremove', event => {
-      const layerIDremoved = event.layer.options.id
-      this.clearOverlay(layerIDremoved)
-      this.setState(state => {
-        const activeOverlays = state.activeOverlays.filter(layerID => layerID !== layerIDremoved)
-        return { activeOverlays }
-      })
+      if (event.layer.options.type === 'geoJSON') {
+        const layerIDremoved = event.layer.options.id
+        this.clearOverlay(layerIDremoved)
+        this.setState(state => {
+          const activeOverlays = state.activeOverlays.filter(layerID => layerID !== layerIDremoved)
+          return { activeOverlays }
+        })
+      }
     })
     // Fired when zooming starts
     this.leafletMap.on('zoomstart', () => {
       this.setState({ prevZoomLevel: this.leafletMap.getZoom() })
     })
     // Fired when zooming ends
-    this.leafletMap.on('zoomend', () => {
-      if (this.state.activeOverlays.length > 0 && this.isSafeToLoadLargeLayersAfterZooming()) {
-        this.props.fetchGeoJSONLayers({
-          layerIDs: this.state.activeOverlays,
-          bounds: this.leafletMap.getBounds()
-        })
-      }
-    })
+    // this.leafletMap.on('zoomend', () => {
+    //   if (this.state.activeOverlays.length > 0 && this.isSafeToLoadLargeLayersAfterZooming()) {
+    //     this.props.fetchGeoJSONLayers({
+    //       layerIDs: this.state.activeOverlays,
+    //       bounds: this.leafletMap.getBounds()
+    //     })
+    //   }
+    // })
     // Fired when dragging ends
-    this.leafletMap.on('dragend', () => {
-      if (this.state.activeOverlays.length > 0 && this.isSafeToLoadLargeLayers()) {
-        this.props.fetchGeoJSONLayers({
-          layerIDs: this.state.activeOverlays,
-          bounds: this.leafletMap.getBounds()
-        })
-      }
-    })
+    // this.leafletMap.on('dragend', () => {
+    //   if (this.state.activeOverlays.length > 0 && this.isSafeToLoadLargeLayers()) {
+    //     this.props.fetchGeoJSONLayers({
+    //       layerIDs: this.state.activeOverlays,
+    //       bounds: this.leafletMap.getBounds()
+    //     })
+    //   }
+    // })
   }
 
   isSafeToLoadLargeLayersAfterZooming = () => {
@@ -278,8 +348,29 @@ class LeafletMap extends React.Component {
   isSafeToLoadLargeLayers = () => this.leafletMap.getZoom() >= 13
 
   initOverLays = basemaps => {
-    const fhaArchaeologicalSiteRegistryAreas = L.layerGroup([], {
-      id: 'arkeologiset_kohteet_alue',
+    // const fhaArchaeologicalSiteRegistryAreas = L.layerGroup([], {
+    //   id: 'arkeologiset_kohteet_alue',
+    //   // this layer includes only GeoJSON Polygons, define style for them
+    //   geojsonMPolygonOptions: {
+    //     color: '#dd2c00',
+    //     cursor: 'pointer',
+    //     dashArray: '3, 5'
+    //   }
+    // })
+    // const fhaArchaeologicalSiteRegistryPoints = L.layerGroup([], {
+    //   id: 'arkeologiset_kohteet_piste',
+    //   // this layer includes only GeoJSON points, define style for them
+    //   geojsonMarkerOptions: {
+    //     radius: 8,
+    //     fillColor: '#dd2c00',
+    //     weight: 1,
+    //     opacity: 1,
+    //     fillOpacity: 0.8
+    //   }
+    // })
+    const kotusParishes1938 = L.layerGroup([], {
+      id: 'kotus:pitajat',
+      type: 'geoJSON',
       // this layer includes only GeoJSON Polygons, define style for them
       geojsonMPolygonOptions: {
         color: '#dd2c00',
@@ -287,22 +378,60 @@ class LeafletMap extends React.Component {
         dashArray: '3, 5'
       }
     })
-    const fhaArchaeologicalSiteRegistryPoints = L.layerGroup([], {
-      id: 'arkeologiset_kohteet_piste',
-      // this layer includes only GeoJSON points, define style for them
-      geojsonMarkerOptions: {
-        radius: 8,
-        fillColor: '#dd2c00',
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
+    const kotusParishesDialecticalRegions = L.layerGroup([], {
+      id: 'kotus:rajat-sms-alueet',
+      type: 'geoJSON',
+      // this layer includes only GeoJSON Polygons, define style for them
+      geojsonMPolygonOptions: {
+        color: '#fca903',
+        cursor: 'pointer',
+        dashArray: '3, 5'
       }
     })
+    const kotusParishesDialecticalSubRegions = L.layerGroup([], {
+      id: 'kotus:rajat-sms-alueosat',
+      type: 'geoJSON',
+      // this layer includes only GeoJSON Polygons, define style for them
+      geojsonMPolygonOptions: {
+        color: '#119100',
+        cursor: 'pointer',
+        dashArray: '3, 5'
+      }
+    })
+    const kotusParishesDialecticalBorder = L.layerGroup([], {
+      id: 'kotus:rajat-lansi-ita',
+      type: 'geoJSON',
+      // this layer includes only GeoJSON Polygons, define style for them
+      geojsonMPolygonOptions: {
+        color: '#2403fc',
+        cursor: 'pointer',
+        dashArray: '3, 5'
+      }
+    })
+    const karelianMaps = L.tileLayer('http:///mapwarper.onki.fi/mosaics/tile/4/{z}/{x}/{y}.png', {
+      type: 'tile',
+      attribution: 'SeCo'
+    })
+    const senateAtlas = L.tileLayer('http:///mapwarper.onki.fi/mosaics/tile/5/{z}/{x}/{y}.png', {
+      type: 'tile',
+      attribution: 'SeCo'
+    })
     this.overlayLayers = {
-      [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_alue')]: fhaArchaeologicalSiteRegistryAreas,
-      [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_piste')]: fhaArchaeologicalSiteRegistryPoints
+      // [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_alue')]: fhaArchaeologicalSiteRegistryAreas,
+      // [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_piste')]: fhaArchaeologicalSiteRegistryPoints,
+      [intl.get('leafletMap.externalLayers.karelianMaps')]: karelianMaps,
+      [intl.get('leafletMap.externalLayers.senateAtlas')]: senateAtlas,
+      [intl.get('leafletMap.externalLayers.kotus:pitajat')]: kotusParishes1938,
+      [intl.get('leafletMap.externalLayers.kotus:rajat-sms-alueet')]: kotusParishesDialecticalRegions,
+      [intl.get('leafletMap.externalLayers.kotus:rajat-sms-alueosat')]: kotusParishesDialecticalSubRegions,
+      [intl.get('leafletMap.externalLayers.kotus:rajat-lansi-ita')]: kotusParishesDialecticalBorder
     }
     L.control.layers(basemaps, this.overlayLayers).addTo(this.leafletMap)
+    const opacityLayers = {
+      [intl.get('leafletMap.externalLayers.karelianMaps')]: karelianMaps,
+      [intl.get('leafletMap.externalLayers.senateAtlas')]: senateAtlas
+    }
+    this.createOpacitySlider(opacityLayers)
     this.initMapEventListeners()
   }
 
@@ -505,9 +634,9 @@ class LeafletMap extends React.Component {
 
   createMarker = result => {
     if (!has(result, 'lat') ||
-        !has(result, 'long') ||
-        result.lat === 'Undefined' ||
-        result.long === 'Undefined'
+      !has(result, 'long') ||
+      result.lat === 'Undefined' ||
+      result.long === 'Undefined'
     ) {
       return null
     } else {
@@ -567,6 +696,9 @@ class LeafletMap extends React.Component {
       if (this.props.pageType === 'instancePage') {
         marker.bindPopup(this.createPopUpContent(marker.options))
       }
+      if (this.props.pageType === 'clientFSResults') {
+        marker.bindPopup(this.createPopUpContentNameSampo(result))
+      }
       return marker
     }
   }
@@ -614,7 +746,45 @@ class LeafletMap extends React.Component {
     return popUpTemplate
   }
 
-  createPopUpContentGeoJSON = properties => {
+  createPopUpContentNameSampo = data => {
+    let popUpTemplate = ''
+    popUpTemplate += `<a href=${data.id} target='_blank'><h3>${data.prefLabel}</h3></a>`
+    if (has(data, 'broaderTypeLabel')) {
+      popUpTemplate += `
+        <p><b>${intl.get('perspectives.placesClientFS.properties.broaderTypeLabel.label')}</b>: ${data.broaderTypeLabel}</p>`
+    }
+    if (has(data, 'broaderAreaLabel')) {
+      popUpTemplate += `
+        <p><b>${intl.get('perspectives.placesClientFS.properties.broaderAreaLabel.label')}</b>: ${data.broaderAreaLabel}</p>`
+    }
+    if (has(data, 'modifier')) {
+      popUpTemplate += `
+        <p><b>${intl.get('perspectives.placesClientFS.properties.modifier.label')}</b>: ${data.modifier}</p>`
+    }
+    if (has(data, 'basicElement')) {
+      popUpTemplate += `
+        <p><b>${intl.get('perspectives.placesClientFS.properties.basicElement.label')}</b>: ${data.basicElement}</p>`
+    }
+    if (has(data, 'collectionYear')) {
+      popUpTemplate += `
+        <p><b>${intl.get('perspectives.placesClientFS.properties.collectionYear.label')}</b>: ${data.collectionYear}</p>`
+    }
+    if (has(data, 'source')) {
+      if (has(data, 'namesArchiveLink')) {
+        popUpTemplate += `
+        <p><b>${intl.get('perspectives.placesClientFS.properties.source.label')}</b>: 
+          <a href="${data.namesArchiveLink}" target="_blank">${data.source}</a></p>`
+      } else {
+        popUpTemplate += `
+        <p><b>${intl.get('perspectives.placesClientFS.properties.source.label')}</b>: ${data.source}</p>`
+      }
+    }
+
+    // console.log(popUpTemplate)
+    return popUpTemplate
+  }
+
+  createPopUpContentGeoJSONFHA = properties => {
     let popupText = ''
     const name = properties.kohdenimi
       ? `<b>Kohteen nimi:</b> ${properties.kohdenimi}</p>` : ''
@@ -628,6 +798,17 @@ class LeafletMap extends React.Component {
         ${type}
         ${municipality}
         ${link}
+      </div>
+      `
+    return popupText
+  }
+
+  createPopUpContentGeoJSONKotus = properties => {
+    let popupText = ''
+    const name = `<b>Pitäjän nimi:</b> ${properties.NIMI}</p>`
+    popupText += `
+      <div>
+        ${name}
       </div>
       `
     return popupText
@@ -648,30 +829,21 @@ class LeafletMap extends React.Component {
     return html
   }
 
-  createOpacitySlider = () => {
-    L.Control.OpacitySlider = L.Control.extend({
-      onAdd: function () {
-        const slider = L.DomUtil.create('input', 'opacity-slider')
-        slider.type = 'range'
-        slider.min = 0
-        slider.max = 100
-        slider.value = 100
-        return slider
+  createOpacitySlider = overlayLayers => {
+    L.control.opacity(
+      overlayLayers,
+      {
+        label: null,
+        collapsed: true
       }
-    })
-
-    L.control.opacitySlider = function (opts) {
-      return new L.Control.OpacitySlider(opts)
-    }
-
-    L.control.opacitySlider({ position: 'bottomleft' }).addTo(this.leafletMap)
+    ).addTo(this.leafletMap)
   }
 
   render = () => {
     return (
       <>
         <div className={this.props.classes[`leafletContainer${this.props.pageType}`]}>
-          <div id='map' className={this.props.classes.mapElement} />
+          <div id={this.props.container ? this.props.container : 'map'} className={this.props.classes.mapElement} />
           {(this.props.fetching ||
             (this.props.showExternalLayers && this.props.layers.fetching)) &&
               <div className={this.props.classes.spinnerContainer}>
@@ -686,7 +858,7 @@ class LeafletMap extends React.Component {
 LeafletMap.propTypes = {
   classes: PropTypes.object.isRequired,
   pageType: PropTypes.string.isRequired,
-  results: PropTypes.array.isRequired,
+  results: PropTypes.array,
   layers: PropTypes.object,
   facetID: PropTypes.string,
   facet: PropTypes.object,
@@ -696,12 +868,14 @@ LeafletMap.propTypes = {
   fetchGeoJSONLayers: PropTypes.func,
   resultClass: PropTypes.string,
   facetClass: PropTypes.string,
-  fetchByURI: PropTypes.func.isRequired,
+  fetchByURI: PropTypes.func,
   fetching: PropTypes.bool.isRequired,
-  mapMode: PropTypes.string.isRequired,
+  mapMode: PropTypes.string,
   showInstanceCountInClusters: PropTypes.bool,
   showExternalLayers: PropTypes.bool,
-  updateFacetOption: PropTypes.func
+  updateFacetOption: PropTypes.func,
+  facetedSearchMode: PropTypes.string,
+  container: PropTypes.string
 }
 
 export default withStyles(styles)(LeafletMap)

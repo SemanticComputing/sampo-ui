@@ -42,6 +42,8 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/production_places`}
         render={() =>
           <LeafletMap
+            center={[22.43, 10.37]}
+            zoom={2}
             results={props.places.results}
             layers={props.leafletMapLayers}
             pageType='facetResults'
