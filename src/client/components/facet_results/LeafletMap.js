@@ -17,8 +17,8 @@ import 'leaflet-fullscreen/dist/Leaflet.fullscreen.min.js'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import 'leaflet.markercluster/dist/leaflet.markercluster.js'
-import 'Leaflet.Control.Opacity/dist/L.Control.Opacity.css'
-import 'Leaflet.Control.Opacity/dist/L.Control.Opacity.js'
+import 'leaflet.control.opacity/dist/L.Control.Opacity.css'
+import 'leaflet.control.opacity'
 import 'Leaflet.extra-markers/dist/js/leaflet.extra-markers.min.js'
 import 'Leaflet.extra-markers/dist/css/leaflet.extra-markers.min.css'
 import 'Leaflet.extra-markers/dist/img/markers_default.png'
@@ -33,9 +33,17 @@ import markerIconViolet from '../../img/markers/marker-icon-violet.png'
 import markerIconGreen from '../../img/markers/marker-icon-green.png'
 import markerIconRed from '../../img/markers/marker-icon-red.png'
 import markerIconOrange from '../../img/markers/marker-icon-orange.png'
+import markerIconYellow from '../../img/markers/marker-icon-yellow.png'
 
 const styles = theme => ({
   leafletContainerfacetResults: {
+    height: 400,
+    [theme.breakpoints.up('md')]: {
+      height: 'calc(100% - 72px)'
+    },
+    position: 'relative'
+  },
+  leafletContainerclientFSResults: {
     height: 400,
     [theme.breakpoints.up('md')]: {
       height: 'calc(100% - 72px)'
@@ -525,7 +533,7 @@ class LeafletMap extends React.Component {
           events: result.events ? result.events : null
         })
       } else {
-        const color = 'green'
+        const color = result.markerColor || 'green'
         let markerIcon = ''
         switch (color) {
           case 'violet':
@@ -540,6 +548,11 @@ class LeafletMap extends React.Component {
           case 'orange':
             markerIcon = markerIconOrange
             break
+          case 'yellow':
+            markerIcon = markerIconYellow
+            break
+          default:
+            markerIcon = markerIconGreen
         }
         marker = L.marker(latLng, {
           icon: new ColorIcon({ iconUrl: markerIcon }),
