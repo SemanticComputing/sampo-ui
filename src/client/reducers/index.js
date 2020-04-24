@@ -4,7 +4,7 @@ import { reducer as toastrReducer } from 'react-redux-toastr'
 import error from './error'
 import options from './options'
 import animation from './animation'
-import leafletMapLayers from './leafletMapLayers'
+import leafletMap from './leafletMap'
 // portal spefic reducers:
 import clientSideFacetedSearch from './sampo/clientSideFacetedSearch'
 import perspective1 from './sampo/perspective1'
@@ -25,7 +25,7 @@ const reducer = combineReducers({
   perspective2Facets,
   perspective3Facets,
   places,
-  leafletMapLayers,
+  leafletMap,
   animation,
   options,
   error,

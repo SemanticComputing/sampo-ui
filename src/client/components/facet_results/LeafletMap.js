@@ -747,36 +747,37 @@ class LeafletMap extends React.Component {
   }
 
   createPopUpContentNameSampo = data => {
+    const { perspectiveID } = this.props
     let popUpTemplate = ''
     popUpTemplate += `<a href=${data.id} target='_blank'><h3>${data.prefLabel}</h3></a>`
     if (has(data, 'broaderTypeLabel')) {
       popUpTemplate += `
-        <p><b>${intl.get('perspectives.placesClientFS.properties.broaderTypeLabel.label')}</b>: ${data.broaderTypeLabel}</p>`
+        <p><b>${intl.get(`perspectives.${perspectiveID}.properties.broaderTypeLabel.label`)}</b>: ${data.broaderTypeLabel}</p>`
     }
     if (has(data, 'broaderAreaLabel')) {
       popUpTemplate += `
-        <p><b>${intl.get('perspectives.placesClientFS.properties.broaderAreaLabel.label')}</b>: ${data.broaderAreaLabel}</p>`
+        <p><b>${intl.get(`perspectives.${perspectiveID}.properties.broaderAreaLabel.label`)}</b>: ${data.broaderAreaLabel}</p>`
     }
     if (has(data, 'modifier')) {
       popUpTemplate += `
-        <p><b>${intl.get('perspectives.placesClientFS.properties.modifier.label')}</b>: ${data.modifier}</p>`
+        <p><b>${intl.get(`perspectives.${perspectiveID}.properties.modifier.label`)}</b>: ${data.modifier}</p>`
     }
     if (has(data, 'basicElement')) {
       popUpTemplate += `
-        <p><b>${intl.get('perspectives.placesClientFS.properties.basicElement.label')}</b>: ${data.basicElement}</p>`
+        <p><b>${intl.get(`perspectives.${perspectiveID}.properties.basicElement.label`)}</b>: ${data.basicElement}</p>`
     }
     if (has(data, 'collectionYear')) {
       popUpTemplate += `
-        <p><b>${intl.get('perspectives.placesClientFS.properties.collectionYear.label')}</b>: ${data.collectionYear}</p>`
+        <p><b>${intl.get(`perspectives.${perspectiveID}.properties.collectionYear.label`)}</b>: ${data.collectionYear}</p>`
     }
     if (has(data, 'source')) {
       if (has(data, 'namesArchiveLink')) {
         popUpTemplate += `
-        <p><b>${intl.get('perspectives.placesClientFS.properties.source.label')}</b>: 
+        <p><b>${intl.get(`perspectives.${perspectiveID}.properties.source.label`)}</b>: 
           <a href="${data.namesArchiveLink}" target="_blank">${data.source}</a></p>`
       } else {
         popUpTemplate += `
-        <p><b>${intl.get('perspectives.placesClientFS.properties.source.label')}</b>: ${data.source}</p>`
+        <p><b>${intl.get(`perspectives.${perspectiveID}.properties.source.label`)}</b>: ${data.source}</p>`
       }
     }
 

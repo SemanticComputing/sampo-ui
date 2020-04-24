@@ -73,7 +73,8 @@ class HierarchicalFacet extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      treeData: [],
+      treeData: this.props.facetedSearchMode === 'clientFS'
+        ? this.props.facet.values : [],
       searchString: '',
       searchFocusIndex: 0,
       searchFoundCount: null,
@@ -92,6 +93,19 @@ class HierarchicalFacet extends Component {
   }
 
   componentDidUpdate = prevProps => {
+    // console.log(this.props.facetedSearchMode)
+    // console.log(this.props)
+    this.props.facetedSearchMode === 'clientFS'
+      ? this.clientFScomponentDidUpdate(prevProps) : this.serverFScomponentDidUpdate(prevProps)
+  }
+
+  clientFScomponentDidUpdate = prevProps => {
+    if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
+      this.setState({ treeData: this.props.facet.values })
+    }
+  }
+
+  serverFScomponentDidUpdate = prevProps => {
     if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
       // update component state if the user modified this facet
       if (this.props.updatedFacet === this.props.facetID) {
@@ -171,14 +185,32 @@ class HierarchicalFacet extends Component {
     return nodes
   };
 
-  handleCheckboxChange = treeObj => () => {
-    this.props.updateFacetOption({
-      facetClass: this.props.facetClass,
-      facetID: this.props.facetID,
-      option: this.props.facet.filterType,
-      value: treeObj
-    })
-  };
+  handleCheckboxChange = treeObj => event => {
+    if (this.props.facetedSearchMode === 'clientFS') {
+      // const newTreeData = changeNodeAtPath({
+      //   treeData: this.state.treeData,
+      //   getNodeKey: ({ treeIndex }) => treeIndex,
+      //   path: treeObj.path,
+      //   newNode: {
+      //     ...treeObj.node,
+      //     selected: event.target.checked
+      //   }
+      // })
+      // this.setState({ treeData: newTreeData })
+      this.props.clientFSUpdateFacet({
+        facetID: this.props.facetID,
+        value: treeObj.node.prefLabel,
+        latestValues: this.props.facet.values
+      })
+    } else {
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+        option: this.props.facet.filterType,
+        value: treeObj
+      })
+    }
+  }
 
   handleSearchFieldOnChange = event => {
     this.setState({ searchString: event.target.value })
@@ -188,7 +220,12 @@ class HierarchicalFacet extends Component {
     const { uriFilter } = this.props.facet
     const { node } = treeObj
     const selectedCount = uriFilter == null ? 0 : Object.keys(this.props.facet.uriFilter).length
-    const isSelected = node.selected === 'true'
+    let isSelected
+    if (this.props.facetedSearchMode === 'clientFS') {
+      isSelected = this.props.facet.selectionsSet.has(node.id)
+    } else {
+      isSelected = node.selected === 'true'
+    }
     return {
       title: (
         <FormControlLabel
@@ -371,12 +408,14 @@ HierarchicalFacet.propTypes = {
   fetchFacet: PropTypes.func,
   someFacetIsFetching: PropTypes.bool.isRequired,
   updateFacetOption: PropTypes.func,
+  clientFSUpdateFacet: PropTypes.func,
   facetUpdateID: PropTypes.number,
   updatedFilter: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.string,
     PropTypes.array]),
-  updatedFacet: PropTypes.string
+  updatedFacet: PropTypes.string,
+  facetedSearchMode: PropTypes.string
 }
 
 export default withStyles(styles)(HierarchicalFacet)

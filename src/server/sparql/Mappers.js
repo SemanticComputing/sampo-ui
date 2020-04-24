@@ -64,6 +64,29 @@ export const mapTimespanFacet = sparqlBindings => {
   }
 }
 
+export const mapNameSampoResults = sparqlBindings => {
+  const results = sparqlBindings.map(b => {
+    return {
+      id: b.id.value,
+      prefLabel: b.prefLabel.value.charAt(0).toUpperCase() + b.prefLabel.value.slice(1), // capitalize
+      modifier: has(b, 'modifier') ? b.modifier.value : '-',
+      basicElement: has(b, 'basicElement') ? b.basicElement.value : '-',
+      typeLabel: has(b, 'typeLabel') ? b.typeLabel.value : '-',
+      broaderTypeLabel: has(b, 'broaderTypeLabel') ? b.broaderTypeLabel.value : '-',
+      collector: has(b, 'collector') ? b.collector.value : '-',
+      broaderAreaLabel: has(b, 'broaderAreaLabel') ? b.broaderAreaLabel.value : '-',
+      collectionYear: has(b, 'collectionYear') ? b.collectionYear.value : '-',
+      source: has(b, 'source') ? b.source.value : '-',
+      markerColor: has(b, 'markerColor') ? b.markerColor.value : '-',
+      namesArchiveLink: has(b, 'namesArchiveLink') ? b.namesArchiveLink.value : '-',
+      positioningAccuracy: has(b, 'positioningAccuracy') ? b.positioningAccuracy.value : '-',
+      ...(Object.prototype.hasOwnProperty.call(b, 'lat') && { lat: b.lat.value }),
+      ...(Object.prototype.hasOwnProperty.call(b, 'long') && { long: b.long.value })
+    }
+  })
+  return results
+}
+
 const mapFacetValues = sparqlBindings => {
   const results = sparqlBindings.map(b => {
     try {

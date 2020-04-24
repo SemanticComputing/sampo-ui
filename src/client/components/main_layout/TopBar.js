@@ -89,6 +89,7 @@ class TopBar extends React.Component {
   AdapterNavLink = React.forwardRef((props, ref) => <NavLink innerRef={ref} {...props} />);
 
   renderMobileMenuItem = perspective => {
+    const searchMode = perspective.id.startsWith('clientFS') ? 'federated-search' : 'faceted-search'
     if (has(perspective, 'externalUrl')) {
       return (
         <a
@@ -108,7 +109,7 @@ class TopBar extends React.Component {
         <MenuItem
           key={perspective.id}
           component={this.AdapterLink}
-          to={`/${perspective.id}/faceted-search`}
+          to={`/${perspective.id}/${searchMode}`}
         >
           {intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
         </MenuItem>
@@ -117,6 +118,7 @@ class TopBar extends React.Component {
   }
 
   renderDesktopTopMenuItem = perspective => {
+    const searchMode = perspective.id.startsWith('clientFS') ? 'federated-search' : 'faceted-search'
     if (has(perspective, 'externalUrl')) {
       return (
         <a
@@ -139,7 +141,7 @@ class TopBar extends React.Component {
           key={perspective.id}
           className={this.props.classes.appBarButton}
           component={this.AdapterNavLink}
-          to={`/${perspective.id}/faceted-search`}
+          to={`/${perspective.id}/${searchMode}`}
           isActive={(match, location) => location.pathname.startsWith(`/${perspective.id}`)}
           activeClassName={this.props.classes.appBarButtonActive}
         >

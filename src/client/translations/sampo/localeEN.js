@@ -10,6 +10,21 @@ export default {
   appDescription: `
     
   `,
+  appDescription1: `
+    Sampo is a web service for searching and studying place names. The search results
+    can be viewed as a table, on maps, and as statistical distributions. 
+    Historical and current background maps are provided.
+  `,
+  appDescription2: `
+    Start by choosing source dataset(s) and input a place name on the search field.
+    Alternatively you can search by area. 
+  `,
+  appDescription3: `
+    
+  `,
+  appDescription4: `
+  
+  `,
   selectPerspective: 'Select a perspective to search and browse the data:',
   mainPageImageLicence: 'Images used under license from Shutterstock.com',
   topBar: {
@@ -37,7 +52,12 @@ export default {
     migrations: 'migrations',
     network: 'network',
     export: 'export',
-    'by-period': 'by period'
+    'by-period': 'by period',
+    map_clusters: 'clustered map',
+    map_markers: 'map',
+    heatmap: 'heatmap',
+    statistics: 'statistics',
+    download: 'download'
   },
   table: {
     rowsPerPage: 'Rows per page',
@@ -45,6 +65,7 @@ export default {
   },
   exportToYasgui: 'open the result table query in yasgui sparql editor',
   openInLinkedDataBrowser: 'open in linked data browser',
+  resultsAsCSV: 'download the search results as a CSV table',
   facets: {
     dateFacet: {
       invalidDate: 'Epäkelpo päivämäärä.',
@@ -563,6 +584,71 @@ export default {
             The source database (Schoenberg, Bibale, and Bodleian) that provided
             the information about the event.
           `
+        }
+      }
+    },
+    clientFSPlaces: {
+      label: 'ClientFS',
+      shortDescription: 'Client-side faceted search',
+      datasets: {
+        kotus: {
+          label: 'Names Archive of the Institute for the Languages of Finland (NA)',
+          aboutLink: 'https://nimiarkisto.fi/wiki/Nimiarkisto:Tietoja'
+        },
+        pnr: {
+          label: 'Finnish Geographic Names Registry (PNR)',
+          aboutLink: 'https://www.maanmittauslaitos.fi/kartat-ja-paikkatieto/asiantuntevalle-kayttajalle/tuotekuvaukset/nimisto'
+        },
+        warsa_karelian_places: {
+          label: 'Karelian map names (KK)',
+          aboutLink: 'https://www.suomi.fi/palvelut/verkkoasiointi/vanhat-karjalan-kartat-maanmittauslaitos/f51d72a2-510c-4c34-bb3e-b752f5d38250'
+        },
+        tgn: {
+          label: 'The Getty Thesaurus of Geographic Names (TGN)',
+          aboutLink: 'http://www.getty.edu/research/tools/vocabularies/tgn/about.html'
+        }
+      },
+      facetResultsType: '',
+      inputPlaceHolder: 'Search place names',
+      searchByArea: 'Search by area',
+      searchByAreaTitle: `
+        Siirrä karttanäkymä tutkittavalle alueelle, aseta zoomaustasoksi 
+        vähintään 11 ja käytä alareunan hakupainiketta.
+      `,
+      searchByAreaCancel: 'Cancel',
+      searchByAreaSearch: 'Search',
+      properties: {
+        datasetSelector: {
+          label: 'Choose dataset(s)',
+          description: 'Description'
+        },
+        prefLabel: {
+          label: 'Name',
+          description: 'Description'
+        },
+        broaderTypeLabel: {
+          label: 'Type',
+          description: 'Description'
+        },
+        broaderAreaLabel: {
+          label: 'Area',
+          description: 'Description'
+        },
+        modifier: {
+          label: 'Modifier',
+          description: 'Description'
+        },
+        basicElement: {
+          label: 'Base',
+          description: 'Description'
+        },
+        collectionYear: {
+          label: 'Year',
+          description: 'Description'
+        },
+        source: {
+          label: 'Source',
+          description: 'Description'
         }
       }
     }
