@@ -25,7 +25,7 @@ export default {
   appDescription4: `
   
   `,
-  selectPerspective: 'Select a perspective to search and browse the data:',
+  selectPerspective: 'Select a perspective to search and browse the knowledge graph:',
   mainPageImageLicence: 'Images used under license from Shutterstock.com',
   topBar: {
     feedback: 'feedback',

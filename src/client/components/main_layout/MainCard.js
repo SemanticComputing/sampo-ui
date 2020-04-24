@@ -60,7 +60,7 @@ const MainCard = props => {
     <Grid
       className={classes.gridItem}
       key={perspective.id}
-      item xs={12} sm={6} md={4} // optimized for three perspectives
+      item xs={12} sm={6} // optimized for four perspectives
       component={externalPerspective ? 'a' : Link}
       to={externalPerspective ? null : `/${perspective.id}/${searchMode}`}
       container={xsScreen}
