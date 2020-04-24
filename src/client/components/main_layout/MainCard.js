@@ -62,7 +62,7 @@ const MainCard = props => {
       key={perspective.id}
       item xs={12} sm={6} // optimized for four perspectives
       component={externalPerspective ? 'a' : Link}
-      to={externalPerspective ? null : `/${perspective.id}/${searchMode}`}
+      to={externalPerspective ? null : `${props.rootUrl}/${perspective.id}/${searchMode}`}
       container={xsScreen}
       href={externalPerspective ? perspective.externalUrl : null}
       target={externalPerspective ? '_blank' : null}
@@ -102,7 +102,8 @@ const MainCard = props => {
 
 MainCard.propTypes = {
   perspective: PropTypes.object.isRequired,
-  cardHeadingVariant: PropTypes.string.isRequired
+  cardHeadingVariant: PropTypes.string.isRequired,
+  rootUrl: PropTypes.string.isRequired
 }
 
 export default MainCard

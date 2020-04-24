@@ -6,6 +6,8 @@ import Menu from '@material-ui/core/Menu'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { withStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
+import history from '../../History'
+import { updateLocaleToPathname } from '../../helpers/helpers'
 
 const styles = theme => ({
   link: {
@@ -33,6 +35,10 @@ class TopBarLanguageButton extends React.Component {
   };
 
   handleMenuItemOnClick = locale => () => {
+    const { pathname } = this.props.location
+    history.push({
+      pathname: updateLocaleToPathname({ pathname, locale, replaceOld: true })
+    })
     this.props.loadLocales(locale)
     this.handleClose()
   }
@@ -82,7 +88,8 @@ class TopBarLanguageButton extends React.Component {
 TopBarLanguageButton.propTypes = {
   classes: PropTypes.object.isRequired,
   currentLocale: PropTypes.string.isRequired,
-  availableLocales: PropTypes.array.isRequired
+  availableLocales: PropTypes.array.isRequired,
+  location: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(TopBarLanguageButton)

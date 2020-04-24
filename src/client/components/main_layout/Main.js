@@ -143,6 +143,7 @@ const Main = props => {
               key={perspective.id}
               perspective={perspective}
               cardHeadingVariant='h5'
+              rootUrl={props.rootUrl}
             />)}
         </Grid>
         <div className={classes.licenceTextContainer}>
@@ -155,7 +156,8 @@ const Main = props => {
 
 Main.propTypes = {
   perspectives: PropTypes.array.isRequired,
-  screenSize: PropTypes.string.isRequired
+  screenSize: PropTypes.string.isRequired,
+  rootUrl: PropTypes.string.isRequired
 }
 
 export default Main

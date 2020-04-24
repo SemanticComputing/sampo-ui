@@ -63,7 +63,7 @@ class TopBarInfoButton extends React.Component {
           <MenuItem
             key={0}
             component={this.AdapterLink}
-            to='/about'
+            to={`${this.props.rootUrl}/about`}
             onClick={this.handleInfoMenuClose}
           >
             {intl.get('topBar.info.aboutThePortal')}
@@ -86,7 +86,8 @@ class TopBarInfoButton extends React.Component {
 }
 
 TopBarInfoButton.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  rootUrl: PropTypes.string.isRequired
 }
 
 export default withStyles(styles)(TopBarInfoButton)

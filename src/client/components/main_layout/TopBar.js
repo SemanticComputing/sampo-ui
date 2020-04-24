@@ -109,7 +109,7 @@ class TopBar extends React.Component {
         <MenuItem
           key={perspective.id}
           component={this.AdapterLink}
-          to={`/${perspective.id}/${searchMode}`}
+          to={`${this.props.rootUrl}/${perspective.id}/${searchMode}`}
         >
           {intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
         </MenuItem>
@@ -141,8 +141,8 @@ class TopBar extends React.Component {
           key={perspective.id}
           className={this.props.classes.appBarButton}
           component={this.AdapterNavLink}
-          to={`/${perspective.id}/${searchMode}`}
-          isActive={(match, location) => location.pathname.startsWith(`/${perspective.id}`)}
+          to={`${this.props.rootUrl}/${perspective.id}/${searchMode}`}
+          isActive={(match, location) => location.pathname.startsWith(`${this.props.rootUrl}/${perspective.id}`)}
           activeClassName={this.props.classes.appBarButtonActive}
         >
           {intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
@@ -164,14 +164,14 @@ class TopBar extends React.Component {
       <MenuItem
         key='feedback'
         component={this.AdapterLink}
-        to='/feedback'
+        to={`${this.props.rootUrl}/feedback`}
       >
         {intl.get('topBar.feedback').toUpperCase()}
       </MenuItem>
       <MenuItem
         key={0}
         component={this.AdapterLink}
-        to='/about'
+        to={`${this.props.rootUrl}/about`}
       >
         {intl.get('topBar.info.aboutThePortal').toUpperCase()}
       </MenuItem>
@@ -189,7 +189,7 @@ class TopBar extends React.Component {
       <MenuItem
         key='info'
         component={this.AdapterLink}
-        to='/instructions'
+        to={`${this.props.rootUrl}/instructions`}
       >
         {intl.get('topBar.instructions').toUpperCase()}
       </MenuItem>
@@ -219,18 +219,18 @@ class TopBar extends React.Component {
               <Button
                 className={classes.appBarButton}
                 component={this.AdapterNavLink}
-                to='/feedback'
-                isActive={(match, location) => location.pathname.startsWith('/feedback')}
+                to={`${this.props.rootUrl}/feedback`}
+                isActive={(match, location) => location.pathname.startsWith(`${this.props.rootUrl}/feedback`)}
                 activeClassName={this.props.classes.appBarButtonActive}
               >
                 {intl.get('topBar.feedback')}
               </Button>
-              <TopBarInfoButton />
+              <TopBarInfoButton rootUrl={this.props.rootUrl} />
               <Button
                 className={classes.appBarButton}
                 component={this.AdapterNavLink}
-                to='/instructions'
-                isActive={(match, location) => location.pathname.startsWith('/instructions')}
+                to={`${this.props.rootUrl}/instructions`}
+                isActive={(match, location) => location.pathname.startsWith(`${this.props.rootUrl}/instructions`)}
                 activeClassName={this.props.classes.appBarButtonActive}
               >
                 {intl.get('topBar.instructions')}
@@ -240,11 +240,12 @@ class TopBar extends React.Component {
                   currentLocale={currentLocale}
                   availableLocales={availableLocales}
                   loadLocales={this.props.loadLocales}
+                  location={this.props.location}
                 />}
             </div>
             <a
               className={classes.secoLogo}
-              href='https://seco.cs.aalto.fi/projects/mmm'
+              href='https://seco.cs.aalto.fi'
               target='_blank'
               rel='noopener noreferrer'
             >
@@ -271,7 +272,8 @@ TopBar.propTypes = {
   perspectives: PropTypes.array.isRequired,
   currentLocale: PropTypes.string.isRequired,
   availableLocales: PropTypes.array.isRequired,
-  xsScreen: PropTypes.bool.isRequired
+  xsScreen: PropTypes.bool.isRequired,
+  location: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(TopBar)

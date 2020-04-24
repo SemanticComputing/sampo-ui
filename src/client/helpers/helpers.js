@@ -109,3 +109,15 @@ export const pickSelectedDatasets = datasets => {
   })
   return selected
 }
+
+export const updateLocaleToPathname = ({ pathname, locale, replaceOld }) => {
+  const numberOfSlashes = pathname.split('/').length - 1
+  let newPathname
+  if (replaceOld) {
+    const pathnameLangRemoved = numberOfSlashes === 1 ? '' : pathname.substring(pathname.indexOf('/', 1))
+    newPathname = `/${locale}${pathnameLangRemoved}` // TODO: handle rootUrl from generalConfig
+  } else {
+    newPathname = `/${locale}${pathname}`
+  }
+  return newPathname
+}

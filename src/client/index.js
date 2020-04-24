@@ -9,8 +9,10 @@ import history from './History'
 import reducer from './reducers'
 import rootEpic from './epics'
 import App from './components/App'
+import { availableLocales } from './epics/index.js'
 import { loadLocales } from './actions'
 import { defaultLocale } from './configs/sampo/GeneralConfig'
+import { updateLocaleToPathname } from './helpers/helpers'
 
 import './index.css'
 import 'react-sortable-tree/style.css'
@@ -35,7 +37,22 @@ epicMiddleware.run(rootEpic)
 bindActionCreators(toastrActions, store.dispatch)
 
 // init locale
-store.dispatch(loadLocales(defaultLocale))
+const localeFromUrl = window.location.pathname.substr(1, 2)
+let locale
+// check if a valid locale was given in url
+if (Object.prototype.hasOwnProperty.call(availableLocales, localeFromUrl)) {
+  locale = localeFromUrl
+} else {
+  // support urls without a locale
+  locale = defaultLocale
+  const newPathname = updateLocaleToPathname({
+    pathname: window.location.pathname,
+    locale,
+    replaceOld: false
+  })
+  history.push({ pathname: newPathname })
+}
+store.dispatch(loadLocales(locale))
 
 render(
   <Provider store={store}>
