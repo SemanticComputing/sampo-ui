@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import { has } from 'lodash'
 import { connect } from 'react-redux'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import { withRouter, Route, Redirect, Switch } from 'react-router-dom'
 import classNames from 'classnames'
 import compose from 'recompose/compose'
@@ -59,7 +59,7 @@ import {
 } from '../actions'
 import { filterResults } from '../selectors'
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     // Set app height for different screen sizes
@@ -86,8 +86,9 @@ const styles = theme => ({
   },
   mainContainer: {
     height: 'auto',
+    overflow: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 80px)' // 100% - app bar - padding
+      height: 'calc(100% - 64px)' // 100% - app bar - padding
     },
     [theme.breakpoints.down('sm')]: {
       marginTop: 56 // app bar
@@ -217,10 +218,11 @@ const styles = theme => ({
     paddingTop: '0px !important',
     paddingBottom: '0px !important'
   }
-})
+}))
 
 const SemanticPortal = props => {
-  const { classes, error } = props
+  const { error } = props
+  const classes = useStyles(props)
   const xsScreen = useMediaQuery(theme => theme.breakpoints.down('xs'))
   const smScreen = useMediaQuery(theme => theme.breakpoints.between('sm', 'md'))
   const mdScreen = useMediaQuery(theme => theme.breakpoints.between('md', 'lg'))
@@ -626,8 +628,6 @@ const mapDispatchToProps = ({
 })
 
 SemanticPortal.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
   options: PropTypes.object.isRequired,
   error: PropTypes.object.isRequired,
   perspective1: PropTypes.object.isRequired,
@@ -672,6 +672,5 @@ export default compose(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  ),
-  withStyles(styles, { withTheme: true })
+  )
 )(SemanticPortal)

@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     marginBottom: theme.spacing(1),
     [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 60px)',
+      height: 'calc(100% - 72px)',
       overflow: 'auto'
     }
   },
