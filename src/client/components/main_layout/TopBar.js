@@ -42,7 +42,14 @@ const styles = theme => ({
       display: 'none'
     }
   },
+  homeButtonText: {
+    whiteSpace: 'nowrap',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '1rem'
+    }
+  },
   appBarButton: {
+    whiteSpace: 'nowrap',
     color: 'white !important',
     border: `1px solid ${theme.palette.primary.main}`
   },
@@ -205,7 +212,7 @@ class TopBar extends React.Component {
         <AppBar position='absolute'>
           <Toolbar className={classes.toolbar}>
             <Button component={this.AdapterLink} to='/'>
-              <Typography variant='h6'>{intl.get('appTitle.short')}</Typography>
+              <Typography className={classes.homeButtonText} variant='h6'>{intl.get('appTitle.short')}</Typography>
             </Button>
             <TopBarSearchField
               fetchResultsClientSide={this.props.fetchResultsClientSide}

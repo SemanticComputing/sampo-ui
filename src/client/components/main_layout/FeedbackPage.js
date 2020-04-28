@@ -23,7 +23,19 @@ const styles = theme => ({
   // https://benmarshall.me/responsive-iframes/
   iframeContainer: {
     overflow: 'hidden',
-    paddingTop: '93%', // aspect ratio: 700 / 750
+    paddingTop: '93%', // paddingTop controls the aspect ratio
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: '185%'
+    },
+    [theme.breakpoints.between('sm', 700)]: {
+      paddingTop: '130%'
+    },
+    [theme.breakpoints.between(701, 800)]: {
+      paddingTop: '110%'
+    },
+    // [theme.breakpoints.between('md', 'lg')]: {
+    //   paddingTop: '110%'
+    // },
     position: 'relative'
   },
   iframe: {

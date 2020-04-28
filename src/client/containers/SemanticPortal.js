@@ -13,6 +13,8 @@ import moment from 'moment'
 import MomentUtils from '@date-io/moment'
 import 'moment/locale/fi'
 import Grid from '@material-ui/core/Grid'
+
+// ** General components **
 import TopBar from '../components/main_layout/TopBar'
 import InstanceHomePage from '../components/main_layout/InstanceHomePage'
 import InfoHeader from '../components/main_layout/InfoHeader'
@@ -20,6 +22,9 @@ import TextPage from '../components/main_layout/TextPage'
 import Message from '../components/main_layout/Message'
 import Main from '../components/main_layout/Main'
 import FacetBar from '../components/facet_bar/FacetBar'
+// ** General components end **
+
+// ** Portal specific components and configs **
 import Perspective1 from '../components/perspectives/sampo/Perspective1'
 import Perspective2 from '../components/perspectives/sampo/Perspective2'
 import Perspective3 from '../components/perspectives/sampo/Perspective3'
@@ -30,6 +35,8 @@ import Footer from '../components/perspectives/sampo/Footer'
 import { perspectiveConfig } from '../configs/sampo/PerspectiveConfig'
 import { perspectiveConfigOnlyInfoPages } from '../configs/sampo/PerspectiveConfigOnlyInfoPages'
 import { rootUrl } from '../configs/sampo/GeneralConfig'
+// ** Portal specific components and configs end **
+
 import {
   fetchResultCount,
   fetchPaginatedResults,
@@ -111,7 +118,18 @@ const useStyles = makeStyles(theme => ({
   },
   textPageContainer: {
     width: '100%',
-    padding: theme.spacing(1)
+    paddingBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    [theme.breakpoints.up('md')]: {
+      height: 'calc(100% - 80px)'
+    },
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 64 // app bar + padding
+    },
+    [theme.breakpoints.up('sm')]: {
+      marginTop: 72 // app bar + padding
+    }
   },
   perspectiveContainer: {
     height: 'auto',
@@ -658,7 +676,7 @@ SemanticPortal.propTypes = {
   updateMapBounds: PropTypes.func.isRequired,
   loadLocales: PropTypes.func.isRequired,
   animateMap: PropTypes.func.isRequired,
-  clientFS: PropTypes.object.isRequired,
+  clientFS: PropTypes.object,
   clientFSToggleDataset: PropTypes.func.isRequired,
   clientFSFetchResults: PropTypes.func.isRequired,
   clientFSClearResults: PropTypes.func.isRequired,
