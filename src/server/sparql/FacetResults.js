@@ -1,5 +1,4 @@
 import { runSelectQuery } from './SparqlApi'
-import { runNetworkQuery } from './NetworkApi'
 import { prefixes } from './sampo/SparqlQueriesPrefixes'
 import {
   countQuery,
@@ -10,11 +9,8 @@ import {
   manuscriptPropertiesFacetResults,
   manuscriptPropertiesInstancePage,
   productionPlacesQuery,
-  productionCoordinatesQuery,
   lastKnownLocationsQuery,
-  migrationsQuery,
-  networkLinksQuery,
-  networkNodesQuery
+  migrationsQuery
 } from './sampo/SparqlQueriesPerspective1'
 import { workProperties } from './sampo/SparqlQueriesPerspective2'
 import { eventProperties, eventPlacesQuery } from './sampo/SparqlQueriesPerspective3'
@@ -26,7 +22,7 @@ import {
   allPlacesQuery
 } from './sampo/SparqlQueriesPlaces'
 import { facetConfigs, endpoint } from './sampo/FacetConfigsSampo'
-import { mapCount, mapPlaces, mapCoordinates } from './Mappers'
+import { mapCount, mapPlaces } from './Mappers'
 import { makeObjectList } from './SparqlObjectMapper'
 import { generateConstraintsBlock } from './Filters'
 
@@ -77,18 +73,13 @@ export const getAllResults = ({
       filterTarget = 'id'
       break
     case 'placesMsProduced':
-      q = groupBy ? productionPlacesQuery : productionCoordinatesQuery
+      q = productionPlacesQuery
       filterTarget = 'manuscripts'
-      mapper = groupBy ? mapPlaces : mapCoordinates
+      mapper = mapPlaces
       break
     case 'lastKnownLocations':
       q = lastKnownLocationsQuery
       filterTarget = 'manuscripts'
-      mapper = mapPlaces
-      break
-    case 'placesActors':
-      q = placesActorsQuery
-      filterTarget = 'actor__id'
       mapper = mapPlaces
       break
     case 'placesMsMigrations':
@@ -98,14 +89,6 @@ export const getAllResults = ({
     case 'placesEvents':
       q = eventPlacesQuery
       filterTarget = 'event'
-      break
-    case 'eventsByTimePeriod':
-      q = generateEventsByPeriodQuery({ startYear: 1600, endYear: 1620, periodLength: 10 })
-      filterTarget = 'event'
-      break
-    case 'manuscriptsNetwork':
-      q = networkLinksQuery
-      filterTarget = 'source'
       break
   }
   if (constraints == null) {
@@ -118,15 +101,6 @@ export const getAllResults = ({
       filterTarget: filterTarget,
       facetID: null
     }))
-  }
-  if (resultClass === 'manuscriptsNetwork') {
-    // console.log(prefixes + q)
-    return runNetworkQuery({
-      endpoint,
-      prefixes,
-      links: q,
-      nodes: networkNodesQuery
-    })
   }
   // console.log(prefixes + q)
   return runSelectQuery({

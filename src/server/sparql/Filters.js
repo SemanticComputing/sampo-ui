@@ -20,11 +20,11 @@ export const hasPreviousSelectionsFromOtherFacets = (constraints, facetID) => {
 }
 
 export const getUriFilters = (constraints, facetID) => {
-  for (const [key, value] of Object.entries(constraints)) {
-    if (key === facetID && value.filterType === 'uriFilter') {
-      return value.values
+  constraints.forEach(facet => {
+    if (facet.facetID === facetID && facet.filter === 'uriFilter') {
+      return facet.values
     }
-  }
+  })
   return []
 }
 
@@ -36,27 +36,16 @@ export const generateConstraintsBlock = ({
   inverse,
   constrainSelf = false
 }) => {
-  // delete constraints[facetID];
   let filterStr = ''
-  const constraintsArr = []
   const skipFacetID = constrainSelf ? '' : facetID
-  for (const [key, value] of Object.entries(constraints)) {
-    if (key !== skipFacetID) {
-      constraintsArr.push({
-        id: key,
-        filterType: value.filterType,
-        priority: value.priority,
-        values: value.values
-      })
-    }
-  }
-  constraintsArr.sort((a, b) => a.priority - b.priority)
-  constraintsArr.map(c => {
+  const modifiedConstraints = constraints.filter(facet => facet.facetID !== skipFacetID)
+  modifiedConstraints.sort((a, b) => a.priority - b.priority)
+  modifiedConstraints.map(c => {
     switch (c.filterType) {
       case 'textFilter':
         filterStr += generateTextFilter({
           facetClass: facetClass,
-          facetID: c.id,
+          facetID: c.facetID,
           filterTarget: filterTarget,
           queryString: c.values,
           inverse: inverse
@@ -65,7 +54,7 @@ export const generateConstraintsBlock = ({
       case 'uriFilter':
         filterStr += generateUriFilter({
           facetClass: facetClass,
-          facetID: c.id,
+          facetID: c.facetID,
           filterTarget: filterTarget,
           values: c.values,
           inverse: inverse
@@ -74,7 +63,7 @@ export const generateConstraintsBlock = ({
       case 'spatialFilter':
         filterStr += generateSpatialFilter({
           facetClass: facetClass,
-          facetID: c.id,
+          facetID: c.facetID,
           filterTarget: filterTarget,
           values: c.values,
           inverse: inverse
@@ -84,7 +73,7 @@ export const generateConstraintsBlock = ({
       case 'dateFilter':
         filterStr += generateTimespanFilter({
           facetClass: facetClass,
-          facetID: c.id,
+          facetID: c.facetID,
           filterTarget: filterTarget,
           values: c.values,
           inverse: inverse
@@ -94,7 +83,7 @@ export const generateConstraintsBlock = ({
       case 'integerFilterRange':
         filterStr += generateIntegerFilter({
           facetClass: facetClass,
-          facetID: c.id,
+          facetID: c.facetID,
           filterTarget: filterTarget,
           values: c.values,
           inverse: inverse
