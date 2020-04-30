@@ -5,8 +5,9 @@ import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
 import MaterialTableFullTextResults from '../../facet_results/MaterialTableFullTextResults'
 import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay'
 
-const All = props => {
-  const perspectiveUrl = '/all'
+const FullTextSearch = props => {
+  const { rootUrl } = props
+  const perspectiveUrl = `${rootUrl}/full-text-search`
   return (
     <>
       <PerspectiveTabs
@@ -28,9 +29,9 @@ const All = props => {
         render={() => {
           return (
             <MaterialTableFullTextResults
-              data={props.clientSideFacetedSearch.results}
-              query={props.clientSideFacetedSearch.query}
-              fetching={props.clientSideFacetedSearch.textResultsFetching}
+              data={props.fullTextSearch.results || []}
+              query={props.fullTextSearch.query}
+              fetching={props.fullTextSearch.fetching}
             />
           )
         }}
@@ -39,12 +40,11 @@ const All = props => {
   )
 }
 
-All.propTypes = {
-  clientSideFacetedSearch: PropTypes.object.isRequired,
-  updatePage: PropTypes.func,
-  sortResults: PropTypes.func,
+FullTextSearch.propTypes = {
+  fullTextSearch: PropTypes.object.isRequired,
   routeProps: PropTypes.object.isRequired,
-  screenSize: PropTypes.string.isRequired
+  screenSize: PropTypes.string.isRequired,
+  rootUrl: PropTypes.string.isRequired
 }
 
-export default All
+export default FullTextSearch

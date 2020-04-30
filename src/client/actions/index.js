@@ -4,7 +4,7 @@ export const FETCH_RESULTS = 'FETCH_RESULTS'
 export const FETCH_RESULTS_FAILED = 'FETCH_RESULTS_FAILED'
 export const FETCH_RESULT_COUNT = 'FETCH_RESULT_COUNT'
 export const FETCH_RESULT_COUNT_FAILED = 'FETCH_RESULT_COUNT_FAILED'
-export const FETCH_RESULTS_CLIENT_SIDE = 'FETCH_RESULTS_CLIENT_SIDE'
+export const FETCH_FULL_TEXT_RESULTS = 'FETCH_FULL_TEXT_RESULTS'
 export const UPDATE_RESULT_COUNT = 'UPDATE_RESULT_COUNT'
 export const UPDATE_PAGINATED_RESULTS = 'UPDATE_PAGINATED_RESULTS'
 export const UPDATE_RESULTS = 'UPDATE_RESULTS'
@@ -59,12 +59,10 @@ export const fetchPaginatedResultsFailed = (resultClass, error, message) => ({
   error,
   message
 })
-export const fetchResults = ({ resultClass, facetClass, sortBy, groupBy = true }) => ({
+export const fetchResults = ({ resultClass, facetClass }) => ({
   type: FETCH_RESULTS,
   resultClass,
-  facetClass,
-  sortBy,
-  groupBy
+  facetClass
 })
 export const fetchResultCount = ({ resultClass, facetClass }) => ({
   type: FETCH_RESULT_COUNT,
@@ -77,10 +75,9 @@ export const fetchResultCountFailed = (resultClass, error, message) => ({
   error,
   message
 })
-export const fetchResultsClientSide = ({ resultClass, jenaIndex, query }) => ({
-  type: FETCH_RESULTS_CLIENT_SIDE,
+export const fetchFullTextResults = ({ resultClass, query }) => ({
+  type: FETCH_FULL_TEXT_RESULTS,
   resultClass,
-  jenaIndex,
   query
 })
 export const fetchResultsFailed = (resultClass, error, message) => ({

@@ -28,7 +28,7 @@ import FacetBar from '../components/facet_bar/FacetBar'
 import Perspective1 from '../components/perspectives/sampo/Perspective1'
 import Perspective2 from '../components/perspectives/sampo/Perspective2'
 import Perspective3 from '../components/perspectives/sampo/Perspective3'
-import All from '../components/perspectives/sampo/All'
+import FullTextSearch from '../components/perspectives/sampo/FullTextSearch'
 import ClientFSPerspective from '../components/perspectives/sampo/client_fs/ClientFSPerspective'
 import ClientFSMain from '../components/perspectives/sampo/client_fs/ClientFSMain'
 import Footer from '../components/perspectives/sampo/Footer'
@@ -41,7 +41,7 @@ import {
   fetchResultCount,
   fetchPaginatedResults,
   fetchResults,
-  fetchResultsClientSide,
+  fetchFullTextResults,
   clearResults,
   fetchByURI,
   fetchFacet,
@@ -334,8 +334,8 @@ const SemanticPortal = props => {
           <>
             <TopBar
               rootUrl={rootUrlWithLang}
-              search={props.clientSideFacetedSearch}
-              fetchResultsClientSide={props.fetchResultsClientSide}
+              search={props.fullTextSearch}
+              fetchFullTextResults={props.fetchFullTextResults}
               clearResults={props.clearResults}
               perspectives={perspectiveConfig}
               currentLocale={props.options.currentLocale}
@@ -371,14 +371,15 @@ const SemanticPortal = props => {
             />
             {/* route for full text search results */}
             <Route
-              path={`${rootUrlWithLang}/all`}
+              path={`${rootUrlWithLang}/full-text-search`}
               render={routeProps =>
                 <Grid container spacing={1} className={classes.mainContainer}>
                   <Grid item xs={12} className={classes.resultsContainer}>
-                    <All
-                      clientSideFacetedSearch={props.clientSideFacetedSearch}
+                    <FullTextSearch
+                      fullTextSearch={props.fullTextSearch}
                       routeProps={routeProps}
                       screenSize={screenSize}
+                      rootUrl={rootUrlWithLang}
                     />
                   </Grid>
                 </Grid>}
@@ -608,6 +609,7 @@ const mapStateToProps = state => {
     perspective3Facets: state.perspective3Facets,
     places: state.places,
     leafletMap: state.leafletMap,
+    fullTextSearch: state.fullTextSearch,
     clientFS: state.clientSideFacetedSearch,
     clientFSResults,
     clientFSFacetValues,
@@ -621,7 +623,7 @@ const mapDispatchToProps = ({
   fetchResultCount,
   fetchPaginatedResults,
   fetchResults,
-  fetchResultsClientSide,
+  fetchFullTextResults,
   fetchByURI,
   fetchFacet,
   fetchFacetConstrainSelf,
@@ -660,7 +662,7 @@ SemanticPortal.propTypes = {
   animationValue: PropTypes.array.isRequired,
   fetchResults: PropTypes.func.isRequired,
   fetchResultCount: PropTypes.func.isRequired,
-  fetchResultsClientSide: PropTypes.func.isRequired,
+  fetchFullTextResults: PropTypes.func.isRequired,
   fetchPaginatedResults: PropTypes.func.isRequired,
   fetchByURI: PropTypes.func.isRequired,
   fetchGeoJSONLayers: PropTypes.func.isRequired,

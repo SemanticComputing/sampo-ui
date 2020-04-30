@@ -203,7 +203,7 @@ class TopBar extends React.Component {
     </Menu>
 
   render () {
-    const { classes, perspectives, currentLocale, availableLocales } = this.props
+    const { classes, perspectives, currentLocale, availableLocales, rootUrl } = this.props
     return (
       <div className={classes.root}>
         {/* Add an empty Typography element to ensure that that the MuiTypography class is loaded for
@@ -215,9 +215,10 @@ class TopBar extends React.Component {
               <Typography className={classes.homeButtonText} variant='h6'>{intl.get('appTitle.short')}</Typography>
             </Button>
             <TopBarSearchField
-              fetchResultsClientSide={this.props.fetchResultsClientSide}
+              fetchFullTextResults={this.props.fetchFullTextResults}
               clearResults={this.props.clearResults}
               xsScreen={this.props.xsScreen}
+              rootUrl={rootUrl}
             />
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
@@ -273,14 +274,15 @@ class TopBar extends React.Component {
 
 TopBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  fetchResultsClientSide: PropTypes.func.isRequired,
+  fetchFullTextResults: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
   loadLocales: PropTypes.func.isRequired,
   perspectives: PropTypes.array.isRequired,
   currentLocale: PropTypes.string.isRequired,
   availableLocales: PropTypes.array.isRequired,
   xsScreen: PropTypes.bool.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
+  rootUrl: PropTypes.string.isRequired
 }
 
 export default withStyles(styles)(TopBar)
