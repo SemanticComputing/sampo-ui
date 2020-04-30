@@ -47,22 +47,9 @@ const styles = () => ({
   searchMatch: {
     boxShadow: '0 2px 0 #673ab7'
   },
-  label: {
-    // no styling
-  },
-  sdbmLabel: {
-    color: '#00796B'
-  },
-  bodleyLabel: {
-    color: '#F50057'
-  },
-  bibaleLabel: {
-    color: '#F57F17'
-  },
   facetLink: {
     textDecoration: 'inherit'
   }
-
 })
 
 /*
@@ -254,9 +241,6 @@ class HierarchicalFacet extends Component {
             />
           }
           label={this.generateLabel(treeObj.node)}
-          classes={{
-            label: this.generateLabelClass(this.props.classes, treeObj.node)
-          }}
         />
       )
     }
@@ -266,7 +250,6 @@ class HierarchicalFacet extends Component {
     const count = node.totalInstanceCount == null || node.totalInstanceCount === 0 ? node.instanceCount : node.totalInstanceCount
     let isSearchMatch = false
     if (this.state.matches.length > 0) {
-      // console.log(this.state.matches)
       isSearchMatch = this.state.matches.some(match => match.node.id === node.id)
     }
 
@@ -280,29 +263,10 @@ class HierarchicalFacet extends Component {
     )
   }
 
-  generateLabelClass = classes => {
-    const labelClass = classes.label
-    // if (this.props.facetID === 'author' || this.props.facetID === 'source') {
-    //   if (node.source === 'http://ldf.fi/mmm/schema/SDBM' || node.id === 'http://ldf.fi/mmm/schema/SDBM') {
-    //     labelClass = classes.sdbmLabel;
-    //   }
-    //   if (node.source === 'http://ldf.fi/mmm/schema/Bodley' || node.id === 'http://ldf.fi/mmm/schema/Bodley') {
-    //     labelClass = classes.bodleyLabel;
-    //   }
-    //   if (node.source === 'http://ldf.fi/mmm/schema/Bibale' || node.id === 'http://ldf.fi/mmm/schema/Bibale') {
-    //     labelClass = classes.bibaleLabel;
-    //   }
-    // }
-    return labelClass
-  }
-
   render () {
     const { searchString, searchFocusIndex, searchFoundCount } = this.state
     const { classes, facet, facetClass, facetID } = this.props
     const { isFetching, searchField } = facet
-    // if (this.props.facetID == 'owner') {
-    //   console.log(this.state.treeData)
-    // }
 
     // Case insensitive search of `node.title`
     const customSearchMethod = ({ node, searchQuery }) => {
