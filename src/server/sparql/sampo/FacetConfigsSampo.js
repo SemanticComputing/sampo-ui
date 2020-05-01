@@ -3,34 +3,6 @@ export const endpoint = 'http://ldf.fi/mmm/sparql'
 
 export const endpointUseAuth = false
 
-const invalidTransferOfCustodyTimespans = `
-        <http://ldf.fi/mmm/time/bibale_element_478356>,
-        <http://ldf.fi/mmm/time/bibale_element_503431>,
-        <http://ldf.fi/mmm/time/bibale_element_515064>,
-        <http://ldf.fi/mmm/time/bibale_element_515527>,
-        <http://ldf.fi/mmm/time/bibale_element_524327>,
-        <http://ldf.fi/mmm/time/bibale_element_524686>,
-        <http://ldf.fi/mmm/time/bibale_element_526456>,
-        <http://ldf.fi/mmm/time/bibale_element_527378>,
-        <http://ldf.fi/mmm/time/bibale_element_528274>,
-        <http://ldf.fi/mmm/time/bibale_element_530550>,
-        <http://ldf.fi/mmm/time/bibale_element_456150>,
-        <http://ldf.fi/mmm/time/bibale_element_466496>,
-        <http://ldf.fi/mmm/time/bibale_element_471075>
-`
-
-const invalidActors = `
-        <http://ldf.fi/mmm/actor/sdbm_names/>
-`
-
-const invalidLanguages = `
-        <http://ldf.fi/mmm/language/sdbm_languages/>
-`
-
-const invalidMaterials = `
-        <http://ldf.fi/mmm/material/>
-`
-
 export const facetConfigs = {
   perspective1: {
     facetClass: 'frbroo:F4_Manifestation_Singleton',
@@ -43,11 +15,7 @@ export const facetConfigs = {
     },
     author: {
       id: 'author',
-      facetValueFilter: `
-       FILTER(?id NOT IN (
-        ${invalidActors}
-       ))
-      `,
+      facetValueFilter: '',
       label: 'Author',
       labelPath: 'mmm-schema:manuscript_author/skos:prefLabel',
       predicate: 'mmm-schema:manuscript_author',
@@ -104,11 +72,7 @@ export const facetConfigs = {
 
     transferOfCustodyTimespan: {
       id: 'transferOfCustodyTimespan',
-      facetValueFilter: `
-       FILTER(?timespan NOT IN (
-         ${invalidTransferOfCustodyTimespans}
-       ))
-      `,
+      facetValueFilter: '',
       sortByAscPredicate: '^crm:P30_transferred_custody_of/crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
       sortByDescPredicate: '^crm:P30_transferred_custody_of/crm:P4_has_time-span/crm:P82b_end_of_the_end',
       predicate: '^crm:P30_transferred_custody_of/crm:P4_has_time-span',
@@ -130,11 +94,7 @@ export const facetConfigs = {
     },
     language: {
       id: 'language',
-      facetValueFilter: `
-       FILTER(?id NOT IN (
-        ${invalidLanguages}
-       ))
-      `,
+      facetValueFilter: '',
       label: 'Language',
       labelPath: 'crm:P128_carries/crm:P72_has_language/skos:prefLabel',
       predicate: 'crm:P128_carries/crm:P72_has_language',
@@ -142,11 +102,7 @@ export const facetConfigs = {
     },
     material: {
       id: 'material',
-      facetValueFilter: `
-       FILTER(?id NOT IN (
-        ${invalidMaterials}
-       ))
-      `,
+      facetValueFilter: '',
       label: 'Language',
       labelPath: 'crm:P45_consists_of/skos:prefLabel',
       predicate: 'crm:P45_consists_of',
@@ -217,11 +173,7 @@ export const facetConfigs = {
     },
     owner: {
       id: 'owner',
-      facetValueFilter: `
-       FILTER(?id NOT IN (
-        ${invalidActors}
-       ))
-      `,
+      facetValueFilter: '',
       label: 'Owner',
       labelPath: 'crm:P51_has_former_or_current_owner/skos:prefLabel',
       predicate: 'crm:P51_has_former_or_current_owner',
@@ -254,11 +206,7 @@ export const facetConfigs = {
     },
     author: {
       id: 'author',
-      facetValueFilter: `
-       FILTER(?id NOT IN (
-        ${invalidActors}
-       ))
-      `,
+      facetValueFilter: '',
       label: 'Author',
       labelPath: '^frbroo:R16_initiated/(mmm-schema:carried_out_by_as_possible_author|mmm-schema:carried_out_by_as_author)/skos:prefLabel',
       predicate: '^frbroo:R16_initiated/(mmm-schema:carried_out_by_as_possible_author|mmm-schema:carried_out_by_as_author)',
