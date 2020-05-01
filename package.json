@@ -6,7 +6,7 @@
     "client": "webpack-dev-server --config webpack.client.dev.js",
     "server": "cross-env NODE_ENV=development nodemon -r dotenv/config src/server/index.js --exec babel-node",
     "build-client": "webpack --progress --config webpack.client.prod.js",
-    "build-server": "babel src/server --out-dir ./dist/server",
+    "build-server": "babel src/server --out-dir ./dist/server --copy-files",
     "test": "jest --watch"
   },
   "jest": {
