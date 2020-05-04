@@ -1,7 +1,19 @@
 openapi: 3.0.3
 info:
   title: Sampo-UI API
-  description: Description
+  description: |
+    This API provides routes for the following search paradigms:
+    *faceted search*, *full text search*, and *federated full text or spatial search*. 
+    In general the purpose of the API is to
+    
+    1. convert a request into a SPARQL query using a set of query templates and configurations, 
+    2. run the query against a preconfigured SPARQL endpoint,
+    3. process the SPARQL results with a preconfigured result mapper, and  
+    4. return them in JSON or CSV format.
+
+    The routes related to faceted search accept only POST requests, because the
+    facet selection arrays may become so large that they need to be delived in the body of the request. 
+    See the schemas for each route for more info about the parameters.
   version: 1.0.0
 servers:
   - url: /api/v1
@@ -225,7 +237,7 @@ paths:
                     description: The SPARQL query that was used for the values of the facet                 
   /{resultClass}/page/{uri}:
     post: 
-      summary: Return information about a single resource
+      summary: Return information about a single resource, optionally applying facet filters
       parameters:
         - in: path
           name: resultClass
@@ -298,8 +310,8 @@ paths:
                     description: The SPARQL query that was used for retrieving the results    
   /federated-search:
     get:
-      summary: Federated search can be used for retrieving the initial result set for 
-        client-side faceted search.
+      summary: Federated search can be used for retrieving the initial result set from multiple SPARQL 
+        endpoints for client-side faceted search.
       parameters:
         - in: query
           name: dataset
