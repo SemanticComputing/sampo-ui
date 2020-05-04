@@ -771,7 +771,7 @@ class LeafletMap extends React.Component {
         <p><b>${intl.get(`perspectives.${perspectiveID}.properties.collectionYear.label`)}</b>: ${data.collectionYear}</p>`
     }
     if (has(data, 'source')) {
-      if (has(data, 'namesArchiveLink')) {
+      if (data.namesArchiveLink !== '-') {
         popUpTemplate += `
         <p><b>${intl.get(`perspectives.${perspectiveID}.properties.source.label`)}</b>: 
           <a href="${data.namesArchiveLink}" target="_blank">${data.source}</a></p>`
