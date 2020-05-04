@@ -257,6 +257,7 @@ class FacetBar extends React.Component {
             fetchFacetConstrainSelf={this.props.fetchFacetConstrainSelf}
             updateFacetOption={this.props.updateFacetOption}
             facetDescription={description}
+            rootUrl={this.props.rootUrl}
           />
         </ExpansionPanelSummary>
         <ExpansionPanelDetails
@@ -353,7 +354,8 @@ FacetBar.propTypes = {
   map: PropTypes.object,
   defaultActiveFacets: PropTypes.instanceOf(Set).isRequired,
   leafletMap: PropTypes.object,
-  showError: PropTypes.func
+  showError: PropTypes.func,
+  rootUrl: PropTypes.string.isRequired
 }
 
 export default withStyles(styles)(FacetBar)

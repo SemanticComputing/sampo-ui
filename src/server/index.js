@@ -132,7 +132,6 @@ new OpenApiValidator({
           constraints: body.constraints,
           resultFormat: 'json'
         })
-        console.log(data)
         res.json(data)
       } catch (error) {
         next(error)

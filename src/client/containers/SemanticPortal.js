@@ -422,6 +422,7 @@ const SemanticPortal = props => {
                                   fetchResultCount={props.fetchResultCount}
                                   updateFacetOption={props.updateFacetOption}
                                   defaultActiveFacets={perspective.defaultActiveFacets}
+                                  rootUrl={rootUrlWithLang}
                                 />
                               </Grid>
                               <Grid item xs={12} md={9} className={classes.resultsContainer}>
@@ -549,6 +550,7 @@ const SemanticPortal = props => {
                       updateMapBounds={props.updateMapBounds}
                       screenSize={screenSize}
                       showError={props.showError}
+                      rootUrl={rootUrlWithLang}
                     />
                   </Grid>
                   <Grid item sm={12} md={8} lg={9} className={classes.resultsContainerClientFS}>
