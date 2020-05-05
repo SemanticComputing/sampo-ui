@@ -7,7 +7,9 @@
     "server": "cross-env NODE_ENV=development nodemon -r dotenv/config src/server/index.js --exec babel-node",
     "build-client": "webpack --progress --config webpack.client.prod.js",
     "build-server": "babel src/server --out-dir ./dist/server --copy-files",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "storybook": "start-storybook",
+    "build-storybook": "build-storybook -c .storybook -o docs"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/src/client/setupTests.js"
@@ -26,6 +28,8 @@
     "@babel/plugin-transform-runtime": "^7.4.0",
     "@babel/preset-env": "^7.1.5",
     "@babel/preset-react": "^7.0.0",
+    "@storybook/addon-docs": "^5.3.18",
+    "@storybook/react": "^5.3.18",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^25.1.0",
     "babel-loader": "^8.0.4",
