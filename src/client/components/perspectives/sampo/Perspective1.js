@@ -5,7 +5,6 @@ import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
 import ResultTable from '../../facet_results/ResultTable'
 import LeafletMap from '../../facet_results/LeafletMap'
 import Deck from '../../facet_results/Deck'
-// import Network from '../../facet_results/Network'
 import Export from '../../facet_results/Export'
 import MigrationsMapLegend from './MigrationsMapLegend'
 import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../../configs/sampo/GeneralConfig'
@@ -27,7 +26,7 @@ const Perspective1 = props => {
         path={`${props.rootUrl}/${perspective.id}/faceted-search/table`}
         render={routeProps =>
           <ResultTable
-            data={props.perspective1}
+            data={props.facetResults}
             facetUpdateID={props.facetData.facetUpdateID}
             resultClass='perspective1'
             facetClass='perspective1'
@@ -45,7 +44,7 @@ const Perspective1 = props => {
           <LeafletMap
             center={[22.43, 10.37]}
             zoom={2}
-            results={props.places.results}
+            results={props.placesResults.results}
             layers={props.leafletMapLayers}
             pageType='facetResults'
             facetUpdateID={props.facetData.facetUpdateID}
@@ -55,11 +54,11 @@ const Perspective1 = props => {
             facetClass='perspective1'
             mapMode='cluster'
             showMapModeControl={false}
-            instance={props.places.instance}
+            instance={props.placesResults.instance}
             fetchResults={props.fetchResults}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             fetchByURI={props.fetchByURI}
-            fetching={props.places.fetching}
+            fetching={props.placesResults.fetching}
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
             showExternalLayers
@@ -69,12 +68,12 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/production_places_heatmap`}
         render={() =>
           <Deck
-            results={props.places.results}
+            results={props.placesResults.results}
             facetUpdateID={props.facetData.facetUpdateID}
             resultClass='placesMsProduced'
             facetClass='perspective1'
             fetchResults={props.fetchResults}
-            fetching={props.places.fetching}
+            fetching={props.placesResults.fetching}
             legendComponent={<MigrationsMapLegend />}
             layerType='heatmapLayer'
             mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
@@ -87,7 +86,7 @@ const Perspective1 = props => {
           <LeafletMap
             center={[22.43, 10.37]}
             zoom={2}
-            results={props.places.results}
+            results={props.placesResults.results}
             layers={props.leafletMapLayers}
             pageType='facetResults'
             facetUpdateID={props.facetData.facetUpdateID}
@@ -97,38 +96,26 @@ const Perspective1 = props => {
             facetClass='perspective1'
             mapMode='cluster'
             showMapModeControl={false}
-            instance={props.places.instance}
+            instance={props.placesResults.instance}
             fetchResults={props.fetchResults}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             fetchByURI={props.fetchByURI}
-            fetching={props.places.fetching}
+            fetching={props.placesResults.fetching}
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
             showExternalLayers
           />}
       />
-      {/* <Route
-        path={`${rootUrl}/${perspective.id}/faceted-search/network`}
-        render={() =>
-          <Network
-            results={props.perspective1.results}
-            resultUpdateID={props.perspective1.resultUpdateID}
-            fetchResults={props.fetchResults}
-            resultClass='perspective1Network'
-            facetClass='perspective1'
-            facetUpdateID={props.facetData.facetUpdateID}
-          />}
-      /> */}
       <Route
         path={`${rootUrl}/${perspective.id}/faceted-search/migrations`}
         render={() =>
           <Deck
-            results={props.places.results}
+            results={props.placesResults.results}
             facetUpdateID={props.facetData.facetUpdateID}
             resultClass='placesMsMigrations'
             facetClass='perspective1'
             fetchResults={props.fetchResults}
-            fetching={props.places.fetching}
+            fetching={props.placesResults.fetching}
             legendComponent={<MigrationsMapLegend />}
             layerType='arcLayer'
             mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
@@ -139,7 +126,7 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/export`}
         render={() =>
           <Export
-            sparqlQuery={props.perspective1.paginatedResultsSparqlQuery}
+            sparqlQuery={props.facetResults.paginatedResultsSparqlQuery}
             pageType='facetResults'
           />}
       />
@@ -148,8 +135,8 @@ const Perspective1 = props => {
 }
 
 Perspective1.propTypes = {
-  perspective1: PropTypes.object.isRequired,
-  places: PropTypes.object.isRequired,
+  facetResults: PropTypes.object.isRequired,
+  placesResults: PropTypes.object.isRequired,
   leafletMapLayers: PropTypes.object.isRequired,
   facetData: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,

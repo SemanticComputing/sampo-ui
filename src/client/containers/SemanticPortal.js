@@ -25,9 +25,7 @@ import FacetBar from '../components/facet_bar/FacetBar'
 // ** General components end **
 
 // ** Portal specific components and configs **
-import Perspective1 from '../components/perspectives/sampo/Perspective1'
-import Perspective2 from '../components/perspectives/sampo/Perspective2'
-import Perspective3 from '../components/perspectives/sampo/Perspective3'
+import FacetedSearchPerspective from '../components/perspectives/sampo/FacetedSearchPerspective'
 import FullTextSearch from '../components/perspectives/sampo/FullTextSearch'
 import ClientFSPerspective from '../components/perspectives/sampo/client_fs/ClientFSPerspective'
 import ClientFSMain from '../components/perspectives/sampo/client_fs/ClientFSMain'
@@ -255,77 +253,6 @@ const SemanticPortal = props => {
   const rootUrlWithLang = `${rootUrl}/${props.options.currentLocale}`
   const noResults = props.clientFS.results == null
 
-  const renderPerspective = (perspective, routeProps) => {
-    let perspectiveElement = null
-    switch (perspective.id) {
-      case 'perspective1':
-        perspectiveElement =
-          <Perspective1
-            perspective1={props.perspective1}
-            places={props.places}
-            leafletMapLayers={props.leafletMap}
-            facetData={props.perspective1Facets}
-            fetchPaginatedResults={props.fetchPaginatedResults}
-            fetchResults={props.fetchResults}
-            fetchGeoJSONLayers={props.fetchGeoJSONLayers}
-            fetchByURI={props.fetchByURI}
-            updatePage={props.updatePage}
-            updateRowsPerPage={props.updateRowsPerPage}
-            updateFacetOption={props.updateFacetOption}
-            sortResults={props.sortResults}
-            routeProps={routeProps}
-            perspective={perspective}
-            animationValue={props.animationValue}
-            animateMap={props.animateMap}
-            screenSize={screenSize}
-            rootUrl={rootUrlWithLang}
-          />
-        break
-      case 'perspective2':
-        perspectiveElement =
-          <Perspective2
-            perspective2={props.perspective2}
-            places={props.places}
-            leafletMapLayers={props.leafletMap}
-            facetData={props.perspective2Facets}
-            fetchPaginatedResults={props.fetchPaginatedResults}
-            fetchResults={props.fetchResults}
-            fetchByURI={props.fetchByURI}
-            updatePage={props.updatePage}
-            updateRowsPerPage={props.updateRowsPerPage}
-            sortResults={props.sortResults}
-            routeProps={routeProps}
-            perspective={perspective}
-            screenSize={screenSize}
-            rootUrl={rootUrlWithLang}
-          />
-        break
-      case 'perspective3':
-        perspectiveElement =
-          <Perspective3
-            perspective3={props.perspective3}
-            places={props.places}
-            leafletMapLayers={props.leafletMap}
-            facetData={props.perspective3Facets}
-            fetchPaginatedResults={props.fetchPaginatedResults}
-            fetchResults={props.fetchResults}
-            fetchByURI={props.fetchByURI}
-            updatePage={props.updatePage}
-            updateRowsPerPage={props.updateRowsPerPage}
-            updateFacetOption={props.updateFacetOption}
-            sortResults={props.sortResults}
-            routeProps={routeProps}
-            perspective={perspective}
-            screenSize={screenSize}
-            rootUrl={rootUrlWithLang}
-          />
-        break
-      default:
-        perspectiveElement = <div />
-        break
-    }
-    return perspectiveElement
-  }
   return (
     <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} locale={props.options.currentLocale}>
       <div className={classes.root}>
@@ -384,7 +311,7 @@ const SemanticPortal = props => {
                   </Grid>
                 </Grid>}
             />
-            {/* routes for perspectives that don't have an external url */}
+            {/* routes for faceted search perspectives */}
             {perspectiveConfig.map(perspective => {
               if (!has(perspective, 'externalUrl') && perspective.id !== 'placesClientFS') {
                 return (
@@ -426,7 +353,26 @@ const SemanticPortal = props => {
                                 />
                               </Grid>
                               <Grid item xs={12} md={9} className={classes.resultsContainer}>
-                                {renderPerspective(perspective, routeProps)}
+                                <FacetedSearchPerspective
+                                  facetResults={props[`${perspective.id}`]}
+                                  placesResults={props.places}
+                                  facetData={props[`${perspective.id}Facets`]}
+                                  leafletMap={props.leafletMap}
+                                  fetchPaginatedResults={props.fetchPaginatedResults}
+                                  fetchResults={props.fetchResults}
+                                  fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+                                  fetchByURI={props.fetchByURI}
+                                  updatePage={props.updatePage}
+                                  updateRowsPerPage={props.updateRowsPerPage}
+                                  updateFacetOption={props.updateFacetOption}
+                                  sortResults={props.sortResults}
+                                  routeProps={routeProps}
+                                  perspective={perspective}
+                                  animationValue={props.animationValue}
+                                  animateMap={props.animateMap}
+                                  screenSize={screenSize}
+                                  rootUrl={rootUrlWithLang}
+                                />
                               </Grid>
                             </Grid>
                           </>
@@ -480,7 +426,7 @@ const SemanticPortal = props => {
                 )
               }
             })}
-            {/* create routes for classes that have only info pages and no perspective */}
+            {/* create routes for classes that have only info pages and no faceted search perspective */}
             {perspectiveConfigOnlyInfoPages.map(perspective =>
               <Switch key={perspective.id}>
                 <Redirect

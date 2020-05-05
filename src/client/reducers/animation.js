@@ -9,6 +9,6 @@ const animation = (state = INITIAL_STATE, action) => {
     state = { ...state, value: action.value }
   }
   return state
-};
+}
 
 export default animation

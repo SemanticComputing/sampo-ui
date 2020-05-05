@@ -23,7 +23,7 @@ const Perspective3 = props => {
         path={`${props.rootUrl}/${perspective.id}/faceted-search/table`}
         render={routeProps =>
           <ResultTable
-            data={props.perspective3}
+            data={props.facetResults}
             facetUpdateID={props.facetData.facetUpdateID}
             resultClass='perspective3'
             facetClass='perspective3'
@@ -41,7 +41,7 @@ const Perspective3 = props => {
           <LeafletMap
             center={[22.43, 10.37]}
             zoom={2}
-            results={props.places.results}
+            results={props.placesResults.results}
             layers={props.leafletMapLayers}
             pageType='facetResults'
             facetUpdateID={props.facetData.facetUpdateID}
@@ -51,11 +51,11 @@ const Perspective3 = props => {
             facetClass='perspective3'
             mapMode='cluster'
             showMapModeControl={false}
-            instance={props.places.instance}
+            instance={props.placesResults.instance}
             fetchResults={props.fetchResults}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             fetchByURI={props.fetchByURI}
-            fetching={props.places.fetching}
+            fetching={props.placesResults.fetching}
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
             showExternalLayers
@@ -65,7 +65,7 @@ const Perspective3 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/export`}
         render={() =>
           <Export
-            sparqlQuery={props.perspective3.paginatedResultsSparqlQuery}
+            sparqlQuery={props.placesResults.paginatedResultsSparqlQuery}
             pageType='facetResults'
           />}
       />
@@ -74,11 +74,12 @@ const Perspective3 = props => {
 }
 
 Perspective3.propTypes = {
-  perspective3: PropTypes.object.isRequired,
-  places: PropTypes.object,
+  facetResults: PropTypes.object.isRequired,
+  placesResults: PropTypes.object.isRequired,
   leafletMapLayers: PropTypes.object.isRequired,
   facetData: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
+  fetchGeoJSONLayers: PropTypes.func.isRequired,
   fetchPaginatedResults: PropTypes.func.isRequired,
   fetchByURI: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
@@ -87,6 +88,8 @@ Perspective3.propTypes = {
   routeProps: PropTypes.object.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
   perspective: PropTypes.object.isRequired,
+  animationValue: PropTypes.array.isRequired,
+  animateMap: PropTypes.func.isRequired,
   screenSize: PropTypes.string.isRequired,
   rootUrl: PropTypes.string.isRequired
 }
