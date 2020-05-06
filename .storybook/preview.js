@@ -1,5 +1,4 @@
 import { addDecorator } from '@storybook/react'
-import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks'
 import React from 'react'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'

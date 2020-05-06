@@ -6,4 +6,4 @@ export default {
   title: 'TextPage'
 }
 
-export const string = () => <TextPage>Some content</TextPage>
+export const basic = () => <TextPage>Some content</TextPage>

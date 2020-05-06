@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import Button from '@material-ui/core/Button'
 import { Link, NavLink } from 'react-router-dom'
@@ -19,7 +19,7 @@ import { has } from 'lodash'
 import secoLogo from '../../img/logos/seco-logo-48x50.png'
 import { showLanguageButton } from '../../configs/sampo/GeneralConfig'
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1
   },
@@ -67,40 +67,26 @@ const styles = theme => ({
       display: 'none'
     }
   }
-})
+}))
 
-class TopBar extends React.Component {
-  state = {
-    infoAnchorEl: null,
-    mobileMoreAnchorEl: null
-  };
-
-  handleInfoMenuOpen = event => {
-    this.setState({ infoAnchorEl: event.currentTarget })
-  };
-
-  handleInfoMenuClose = () => {
-    this.setState({ infoAnchorEl: null })
-  };
-
-  handleMobileMenuOpen = event => {
-    this.setState({ mobileMoreAnchorEl: event.currentTarget })
-  };
-
-  handleMobileMenuClose = () => {
-    this.setState({ mobileMoreAnchorEl: null })
-  };
+const TopBar = props => {
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+  const { perspectives, currentLocale, availableLocales, rootUrl } = props
+  const classes = useStyles()
+  const handleMobileMenuOpen = event => setMobileMoreAnchorEl(event.currentTarget)
+  const handleMobileMenuClose = () => setMobileMoreAnchorEl(null)
 
   // https://material-ui.com/components/buttons/#third-party-routing-library
-  AdapterLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />);
-  AdapterNavLink = React.forwardRef((props, ref) => <NavLink innerRef={ref} {...props} />);
+  const AdapterLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />)
+  const AdapterNavLink = React.forwardRef((props, ref) => <NavLink innerRef={ref} {...props} />)
 
-  renderMobileMenuItem = perspective => {
+  const renderMobileMenuItem = perspective => {
     const searchMode = perspective.id.startsWith('clientFS') ? 'federated-search' : 'faceted-search'
     if (has(perspective, 'externalUrl')) {
       return (
         <a
-          className={this.props.classes.link}
+          className={classes.link}
           key={perspective.id}
           href={perspective.externalUrl}
           target='_blank'
@@ -115,8 +101,8 @@ class TopBar extends React.Component {
       return (
         <MenuItem
           key={perspective.id}
-          component={this.AdapterLink}
-          to={`${this.props.rootUrl}/${perspective.id}/${searchMode}`}
+          component={AdapterLink}
+          to={`${props.rootUrl}/${perspective.id}/${searchMode}`}
         >
           {intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
         </MenuItem>
@@ -124,19 +110,19 @@ class TopBar extends React.Component {
     }
   }
 
-  renderDesktopTopMenuItem = perspective => {
+  const renderDesktopTopMenuItem = perspective => {
     const searchMode = perspective.id.startsWith('clientFS') ? 'federated-search' : 'faceted-search'
     if (has(perspective, 'externalUrl')) {
       return (
         <a
-          className={this.props.classes.link}
+          className={classes.link}
           key={perspective.id}
           href={perspective.externalUrl}
           target='_blank'
           rel='noopener noreferrer'
         >
           <Button
-            className={this.props.classes.appBarButton}
+            className={classes.appBarButton}
           >
             {intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
           </Button>
@@ -146,11 +132,11 @@ class TopBar extends React.Component {
       return (
         <Button
           key={perspective.id}
-          className={this.props.classes.appBarButton}
-          component={this.AdapterNavLink}
-          to={`${this.props.rootUrl}/${perspective.id}/${searchMode}`}
-          isActive={(match, location) => location.pathname.startsWith(`${this.props.rootUrl}/${perspective.id}`)}
-          activeClassName={this.props.classes.appBarButtonActive}
+          className={classes.appBarButton}
+          component={AdapterNavLink}
+          to={`${props.rootUrl}/${perspective.id}/${searchMode}`}
+          isActive={(match, location) => location.pathname.startsWith(`${props.rootUrl}/${perspective.id}`)}
+          activeClassName={classes.appBarButtonActive}
         >
           {intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
         </Button>
@@ -158,32 +144,32 @@ class TopBar extends React.Component {
     }
   }
 
-  renderMobileMenu = perspectives =>
+  const renderMobileMenu = perspectives =>
     <Menu
-      anchorEl={this.state.mobileMoreAnchorEl}
+      anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={Boolean(this.state.mobileMoreAnchorEl)}
-      onClose={this.handleMobileMenuClose}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
     >
-      {perspectives.map(perspective => this.renderMobileMenuItem(perspective))}
+      {perspectives.map(perspective => renderMobileMenuItem(perspective))}
       <Divider />
       <MenuItem
         key='feedback'
-        component={this.AdapterLink}
-        to={`${this.props.rootUrl}/feedback`}
+        component={AdapterLink}
+        to={`${props.rootUrl}/feedback`}
       >
         {intl.get('topBar.feedback').toUpperCase()}
       </MenuItem>
       <MenuItem
         key={0}
-        component={this.AdapterLink}
-        to={`${this.props.rootUrl}/about`}
+        component={AdapterLink}
+        to={`${props.rootUrl}/about`}
       >
         {intl.get('topBar.info.aboutThePortal').toUpperCase()}
       </MenuItem>
       <a
-        className={this.props.classes.link}
+        className={classes.link}
         key={1}
         href={intl.get('topBar.info.blogUrl')}
         target='_blank'
@@ -195,85 +181,81 @@ class TopBar extends React.Component {
       </a>
       <MenuItem
         key='info'
-        component={this.AdapterLink}
-        to={`${this.props.rootUrl}/instructions`}
+        component={AdapterLink}
+        to={`${props.rootUrl}/instructions`}
       >
         {intl.get('topBar.instructions').toUpperCase()}
       </MenuItem>
     </Menu>
 
-  render () {
-    const { classes, perspectives, currentLocale, availableLocales, rootUrl } = this.props
-    return (
-      <div className={classes.root}>
-        {/* Add an empty Typography element to ensure that that the MuiTypography class is loaded for
+  return (
+    <div className={classes.root}>
+      {/* Add an empty Typography element to ensure that that the MuiTypography class is loaded for
          any lower level components that use MuiTypography class only in translation files */}
-        <Typography />
-        <AppBar position='absolute'>
-          <Toolbar className={classes.toolbar}>
-            <Button component={this.AdapterLink} to='/'>
-              <Typography className={classes.homeButtonText} variant='h6'>{intl.get('appTitle.short')}</Typography>
-            </Button>
-            <TopBarSearchField
-              fetchFullTextResults={this.props.fetchFullTextResults}
-              clearResults={this.props.clearResults}
-              xsScreen={this.props.xsScreen}
-              rootUrl={rootUrl}
-            />
-            <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              {perspectives.map((perspective, index) => this.renderDesktopTopMenuItem(perspective, index))}
-              <div className={classes.appBarDivider} />
-              <Button
-                className={classes.appBarButton}
-                component={this.AdapterNavLink}
-                to={`${this.props.rootUrl}/feedback`}
-                isActive={(match, location) => location.pathname.startsWith(`${this.props.rootUrl}/feedback`)}
-                activeClassName={this.props.classes.appBarButtonActive}
-              >
-                {intl.get('topBar.feedback')}
-              </Button>
-              <TopBarInfoButton rootUrl={this.props.rootUrl} />
-              <Button
-                className={classes.appBarButton}
-                component={this.AdapterNavLink}
-                to={`${this.props.rootUrl}/instructions`}
-                isActive={(match, location) => location.pathname.startsWith(`${this.props.rootUrl}/instructions`)}
-                activeClassName={this.props.classes.appBarButtonActive}
-              >
-                {intl.get('topBar.instructions')}
-              </Button>
-              {showLanguageButton &&
-                <TopBarLanguageButton
-                  currentLocale={currentLocale}
-                  availableLocales={availableLocales}
-                  loadLocales={this.props.loadLocales}
-                  location={this.props.location}
-                />}
-            </div>
-            <a
-              className={classes.secoLogo}
-              href='https://seco.cs.aalto.fi'
-              target='_blank'
-              rel='noopener noreferrer'
+      <Typography />
+      <AppBar position='absolute'>
+        <Toolbar className={classes.toolbar}>
+          <Button component={AdapterLink} to='/'>
+            <Typography className={classes.homeButtonText} variant='h6'>{intl.get('appTitle.short')}</Typography>
+          </Button>
+          <TopBarSearchField
+            fetchFullTextResults={props.fetchFullTextResults}
+            clearResults={props.clearResults}
+            xsScreen={props.xsScreen}
+            rootUrl={rootUrl}
+          />
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop}>
+            {perspectives.map((perspective, index) => renderDesktopTopMenuItem(perspective, index))}
+            <div className={classes.appBarDivider} />
+            <Button
+              className={classes.appBarButton}
+              component={AdapterNavLink}
+              to={`${props.rootUrl}/feedback`}
+              isActive={(match, location) => location.pathname.startsWith(`${props.rootUrl}/feedback`)}
+              activeClassName={classes.appBarButtonActive}
             >
-              <Button><img src={secoLogo} /></Button>
-            </a>
-            <div className={classes.sectionMobile}>
-              <IconButton aria-haspopup='true' onClick={this.handleMobileMenuOpen} color='inherit'>
-                <MoreIcon />
-              </IconButton>
-            </div>
-          </Toolbar>
-        </AppBar>
-        {this.renderMobileMenu(perspectives)}
-      </div>
-    )
-  }
+              {intl.get('topBar.feedback')}
+            </Button>
+            <TopBarInfoButton rootUrl={props.rootUrl} />
+            <Button
+              className={classes.appBarButton}
+              component={AdapterNavLink}
+              to={`${props.rootUrl}/instructions`}
+              isActive={(match, location) => location.pathname.startsWith(`${props.rootUrl}/instructions`)}
+              activeClassName={classes.appBarButtonActive}
+            >
+              {intl.get('topBar.instructions')}
+            </Button>
+            {showLanguageButton &&
+              <TopBarLanguageButton
+                currentLocale={currentLocale}
+                availableLocales={availableLocales}
+                loadLocales={props.loadLocales}
+                location={props.location}
+              />}
+          </div>
+          <a
+            className={classes.secoLogo}
+            href='https://seco.cs.aalto.fi'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <Button><img src={secoLogo} /></Button>
+          </a>
+          <div className={classes.sectionMobile}>
+            <IconButton aria-haspopup='true' onClick={handleMobileMenuOpen} color='inherit'>
+              <MoreIcon />
+            </IconButton>
+          </div>
+        </Toolbar>
+      </AppBar>
+      {renderMobileMenu(perspectives)}
+    </div>
+  )
 }
 
 TopBar.propTypes = {
-  classes: PropTypes.object.isRequired,
   fetchFullTextResults: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
   loadLocales: PropTypes.func.isRequired,
@@ -282,7 +264,10 @@ TopBar.propTypes = {
   availableLocales: PropTypes.array.isRequired,
   xsScreen: PropTypes.bool.isRequired,
   location: PropTypes.object.isRequired,
+  /**
+   * Root url of the application.
+   */
   rootUrl: PropTypes.string.isRequired
 }
 
-export default withStyles(styles)(TopBar)
+export default TopBar

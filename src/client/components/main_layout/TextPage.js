@@ -29,6 +29,9 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+/**
+  A component for creating a responsive page with static content.
+ */
 const TextPage = props => {
   const classes = useStyles()
   return (

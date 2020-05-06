@@ -112,7 +112,7 @@ class TopBarSearchField extends React.Component {
 
 TopBarSearchField.propTypes = {
   classes: PropTypes.object.isRequired,
-  fetchFullTextResults: PropTypes.func.isRequired,
+  fetchFullTextResults: PropTypes.func,
   xsScreen: PropTypes.bool.isRequired,
   rootUrl: PropTypes.string.isRequired
 }
