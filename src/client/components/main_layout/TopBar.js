@@ -69,6 +69,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+/**
+ * Responsive app bar with a search field, perspective links, info links and a language
+ * selector. Based on Material-UI's App Bar component.
+ */
 const TopBar = props => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
@@ -256,13 +260,37 @@ const TopBar = props => {
 }
 
 TopBar.propTypes = {
+  /**
+   * Redux action for full text search results using the search field.
+   */
   fetchFullTextResults: PropTypes.func.isRequired,
+  /**
+   * Redux action for clearing the full text results.
+   */
   clearResults: PropTypes.func.isRequired,
+  /**
+   * Redux action for loading translations.
+   */
   loadLocales: PropTypes.func.isRequired,
-  perspectives: PropTypes.array.isRequired,
+  /**
+   * Current locale as a two-letter code
+   */
   currentLocale: PropTypes.string.isRequired,
+  /**
+   * Available locales as an array of objects with two-letter codes as keys.
+   */
   availableLocales: PropTypes.array.isRequired,
+  /**
+   * Perspective config as an array of objects.
+   */
+  perspectives: PropTypes.array.isRequired,
+  /**
+   * Flag for checking if the screen is extra small.
+   */
   xsScreen: PropTypes.bool.isRequired,
+  /**
+   * React Router's location object. The perspective links are highlighted based on this.
+   */
   location: PropTypes.object.isRequired,
   /**
    * Root url of the application.

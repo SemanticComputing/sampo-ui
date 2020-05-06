@@ -10,6 +10,9 @@ const styles = () => ({
   }
 })
 
+/**
+  A component for displaying an event with or without a date in an ObjectListCollapsible.
+ */
 const ObjectListItemEvent = props => {
   const { data, isFirstValue } = props
   const label = Array.isArray(data.prefLabel) ? data.prefLabel[0] : data.prefLabel
@@ -37,9 +40,20 @@ const ObjectListItemEvent = props => {
 }
 
 ObjectListItemEvent.propTypes = {
-  classes: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired,
-  isFirstValue: PropTypes.bool.isRequired
+  /**
+   * Material-UI styles
+   */
+  classes: PropTypes.object,
+  /**
+   * An object with the following keys: id, prefLabel, date, dataProviderUrl.
+   */
+  data: PropTypes.object,
+  /**
+   * The first item in a ObjectListCollapsible is rendered differently in collapsed mode.
+   */
+  isFirstValue: PropTypes.bool
 }
+
+export const ObjectListItemEventComponent = ObjectListItemEvent
 
 export default withStyles(styles)(ObjectListItemEvent)
