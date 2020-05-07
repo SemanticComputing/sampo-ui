@@ -11,9 +11,11 @@ A framework for building user interfaces for semantic portals. The following por
 * [HistorySampo](https://github.com/SemanticComputing/historysampo-web-app) 
 * [ParliamentSampo?]
 
-Sampo-UI framework is being developed by the [Semantic Computing Research Group (SeCo)](https://seco.cs.aalto.fi) at the Aalto University, Finland.
+Sampo-UI framework is being developed by the [Semantic Computing Research Group (SeCo)](https://seco.cs.aalto.fi) at the Aalto University, Finland. See the [research page](https://seco.cs.aalto.fi/tools/sampo-ui) for more information. 
 
-See the [research page](https://seco.cs.aalto.fi/tools/sampo-ui) for more information. 
+## Documentation
+
+Sampo-UI's React components are documented [here](https://semanticcomputing.github.io/sampo-ui)
 
 ## Requirements
 

@@ -1,4 +1,4 @@
-import { addDecorator } from '@storybook/react'
+import { configure, addDecorator } from '@storybook/react'
 import React from 'react'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
@@ -11,8 +11,16 @@ import localeEN from '../src/client/translations/sampo/localeEN'
 import localeFI from '../src/client/translations/sampo/localeFI'
 import localeSV from '../src/client/translations/sampo/localeSV'
 import reducer from '../src/client/reducers'
-
 import '../src/client/index.css'
+
+const loaderFn = () => {
+  const allExports = [require('./welcome.stories.js')];
+  const req = require.context('../src/client/components', true, /\.stories\.js$/);
+  req.keys().forEach(fname => allExports.push(req(fname)));
+  return allExports;
+};
+
+configure(loaderFn, module);
 
 const store = createStore(reducer)
 
