@@ -3,7 +3,7 @@ import ObjectListItemEvent, { ObjectListItemEventComponent } from './ObjectListI
 
 export default {
   component: ObjectListItemEventComponent,
-  title: 'ObjectListItemEvent'
+  title: 'Sampo-UI/facet_results/ObjectListItemEvent'
 }
 
 export const basic = () =>

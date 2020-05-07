@@ -6,7 +6,7 @@ import { perspectiveConfig } from '../../configs/sampo/PerspectiveConfig'
 
 export default {
   component: TopBar,
-  title: 'TopBar'
+  title: 'Sampo-UI/main_layout/TopBar'
 }
 
 export const basic = props => {

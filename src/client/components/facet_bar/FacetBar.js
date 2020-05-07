@@ -61,6 +61,9 @@ const styles = theme => ({
   }
 })
 
+/**
+ * A component for rendering a preconfigured set of facets and related information.
+ */
 class FacetBar extends React.Component {
   constructor (props) {
     super(props)
@@ -351,11 +354,12 @@ FacetBar.propTypes = {
   clientFSClearResults: PropTypes.func,
   clientFSUpdateQuery: PropTypes.func,
   clientFSUpdateFacet: PropTypes.func,
-  map: PropTypes.object,
   defaultActiveFacets: PropTypes.instanceOf(Set).isRequired,
   leafletMap: PropTypes.object,
   showError: PropTypes.func,
   rootUrl: PropTypes.string.isRequired
 }
+
+export const FacetBarComponent = FacetBar
 
 export default withStyles(styles)(FacetBar)
