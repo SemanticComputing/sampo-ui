@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 /**
-  A component for creating a responsive page with static content.
+ * A component for creating a responsive page with static content.
  */
 const TextPage = props => {
   const classes = useStyles()
@@ -45,8 +45,8 @@ const TextPage = props => {
 
 TextPage.propTypes = {
   /**
-   The content of the page.
-  */
+   * The content of the page.
+   */
   children: PropTypes.node
 }
 

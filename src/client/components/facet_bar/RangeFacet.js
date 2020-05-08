@@ -34,6 +34,9 @@ const styles = theme => ({
   }
 })
 
+/**
+ * A component for a integer range facet.
+ */
 class RangeFacet extends Component {
   constructor (props) {
     super(props)

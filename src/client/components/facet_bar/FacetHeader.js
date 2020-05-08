@@ -35,6 +35,9 @@ const styles = theme => ({
   }
 })
 
+/**
+ * A component for rendering a header and optional settings dropdown for a facet component.
+ */
 class FacetHeader extends React.Component {
   state = {
     anchorEl: null

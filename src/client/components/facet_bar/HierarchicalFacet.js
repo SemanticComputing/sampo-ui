@@ -52,15 +52,15 @@ const styles = () => ({
   }
 })
 
-/*
-This component is based on the React Sortable Tree example at:
-https://frontend-collective.github.io/react-sortable-tree/storybook/?selectedKind=Basics&selectedStory=Search&full=0&addons=0&stories=1&panelRight=0
-*/
+/**
+ * A component for checkbox facets with or without hierarchy.
+ * Based on https://github.com/frontend-collective/react-sortable-tree
+ */
 class HierarchicalFacet extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      treeData: this.props.facetedSearchMode === 'clientFS'
+      treeData: this.props.facetedSearchMode === 'clientFS' || this.props.facetedSearchMode === 'storybook'
         ? this.props.facet.values : [],
       searchString: '',
       searchFocusIndex: 0,
@@ -348,6 +348,7 @@ class HierarchicalFacet extends Component {
                   onlyExpandSearchedNodes
                   theme={FileExplorerTheme}
                   generateNodeProps={this.generateNodeProps}
+                  isVirtualized={!this.props.facetedSearchMode === 'storybook'} // virtualization does not work in Storybook
                 />
               </div>}
             {facet.filterType === 'spatialFilter' &&
@@ -364,22 +365,56 @@ class HierarchicalFacet extends Component {
 }
 
 HierarchicalFacet.propTypes = {
+  /**
+   * Material-UI styles.
+   */
   classes: PropTypes.object.isRequired,
+  /**
+   * Unique id of the facet.
+   */
   facetID: PropTypes.string.isRequired,
+  /**
+   * An object containing the client-side config and values of the facet.
+   */
   facet: PropTypes.object.isRequired,
+  /**
+   * The class of the facet for server-side configs.
+   */
   facetClass: PropTypes.string,
-  resultClass: PropTypes.string,
-  fetchFacet: PropTypes.func,
+  /**
+   * A facet should be disabled while some other facet is updating.
+   */
   someFacetIsFetching: PropTypes.bool.isRequired,
-  updateFacetOption: PropTypes.func,
-  clientFSUpdateFacet: PropTypes.func,
+  /**
+   * An integer for detecting if some other facet was updated.
+   */
   facetUpdateID: PropTypes.number,
+  /**
+   * Lastly updated facet filter, from the Redux state.
+   */
   updatedFilter: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.string,
     PropTypes.array]),
   updatedFacet: PropTypes.string,
-  facetedSearchMode: PropTypes.string
+  /**
+   * Faceted search mode. Storybook mode disables virtualization of react-sortable-tree.
+   */
+  facetedSearchMode: PropTypes.oneOf(['serverFS', 'clientFS', 'storybook']),
+  /**
+   * Redux action for fetching the facet values.
+   */
+  fetchFacet: PropTypes.func,
+  /**
+   * Redux action for updating the client-side config of the facet.
+   */
+  updateFacetOption: PropTypes.func,
+  /**
+   * Redux action for updating the facet in clientFS mode.
+   */
+  clientFSUpdateFacet: PropTypes.func
 }
+
+export const HierarchicalFacetComponent = HierarchicalFacet
 
 export default withStyles(styles)(HierarchicalFacet)

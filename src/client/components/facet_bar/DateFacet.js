@@ -16,6 +16,9 @@ const styles = theme => ({
   }
 })
 
+/**
+ * A component for a date facet with pickers using @material-ui/pickers and Moment.js.
+ */
 class DateFacet extends React.Component {
   constructor (props) {
     super(props)
@@ -129,5 +132,7 @@ DateFacet.propTypes = {
   updateFacetOption: PropTypes.func.isRequired,
   facetUpdateID: PropTypes.number
 }
+
+export const DateFacetComponent = DateFacet
 
 export default withStyles(styles)(DateFacet)
