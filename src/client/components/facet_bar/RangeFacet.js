@@ -168,4 +168,6 @@ RangeFacet.propTypes = {
   updatedFacet: PropTypes.string
 }
 
+export const RangeFacetComponent = RangeFacet
+
 export default withStyles(styles)(RangeFacet)

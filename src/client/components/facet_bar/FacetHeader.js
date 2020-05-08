@@ -213,4 +213,6 @@ FacetHeader.propTypes = {
   rootUrl: PropTypes.string.isRequired
 }
 
+export const FacetHeaderComponent = FacetHeader
+
 export default withStyles(styles)(FacetHeader)

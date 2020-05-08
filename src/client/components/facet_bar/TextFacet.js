@@ -121,4 +121,6 @@ TextFacet.propTypes = {
   facetUpdateID: PropTypes.number
 }
 
+export const TextFacetComponent = TextFacet
+
 export default withStyles(styles)(TextFacet)

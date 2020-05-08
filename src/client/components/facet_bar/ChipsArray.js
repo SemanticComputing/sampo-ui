@@ -115,4 +115,6 @@ ChipsArray.propTypes = {
   fetchFacet: PropTypes.func.isRequired
 }
 
+export const ChipsArrayComponent = ChipsArray
+
 export default withStyles(styles)(ChipsArray)

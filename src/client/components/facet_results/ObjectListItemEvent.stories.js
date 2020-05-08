@@ -1,9 +1,13 @@
 import React from 'react'
+import Center from '../../../../.storybook/Center'
+import PaperContainer from '../../../../.storybook/PaperContainer'
+
 import ObjectListItemEvent, { ObjectListItemEventComponent } from './ObjectListItemEvent'
 
 export default {
   component: ObjectListItemEventComponent,
-  title: 'Sampo-UI/facet_results/ObjectListItemEvent'
+  title: 'Sampo-UI/facet_results/ObjectListItemEvent',
+  decorators: [storyFn => <Center><PaperContainer>{storyFn()}</PaperContainer></Center>]
 }
 
 export const basic = () =>

@@ -14,20 +14,22 @@ export const basic = props => {
   const perspective1Facets = useSelector(state => state.perspective1Facets)
   const perspective1FacetsConstrainSelf = useSelector(state => state.perspective1FacetsConstrainSelf)
   return (
-    <FacetBar
-      facetedSearchMode='serverFS'
-      facetData={perspective1Facets}
-      facetDataConstrainSelf={perspective1FacetsConstrainSelf}
-      facetClass={perspective.id}
-      resultClass={perspective.id}
-      fetchingResultCount={facetResults.fetchingResultCount}
-      resultCount={facetResults.resultCount}
-      fetchFacet={() => null}
-      fetchFacetConstrainSelf={() => null}
-      fetchResultCount={() => null}
-      updateFacetOption={() => null}
-      defaultActiveFacets={perspective.defaultActiveFacets}
-      rootUrl=''
-    />
+    <div style={{ width: 500 }}>
+      <FacetBar
+        facetedSearchMode='serverFS'
+        facetData={perspective1Facets}
+        facetDataConstrainSelf={perspective1FacetsConstrainSelf}
+        facetClass={perspective.id}
+        resultClass={perspective.id}
+        fetchingResultCount={facetResults.fetchingResultCount}
+        resultCount={facetResults.resultCount}
+        fetchFacet={() => null}
+        fetchFacetConstrainSelf={() => null}
+        fetchResultCount={() => null}
+        updateFacetOption={() => null}
+        defaultActiveFacets={perspective.defaultActiveFacets}
+        rootUrl=''
+      />
+    </div>
   )
 }
