@@ -64,6 +64,9 @@ const combineSmallGroups = (dataArray) => {
   }
 }
 
+/**
+ * A component for creating a pie chart from a facet result set. Based on Victory.
+ */
 const Pie = (props) => {
   const { classes, data, groupBy } = props
   const resultCount = data.length
@@ -139,5 +142,7 @@ Pie.propTypes = {
   groupByLabel: PropTypes.string.isRequired,
   query: PropTypes.string.isRequired
 }
+
+export const PieComponent = Pie
 
 export default withStyles(styles)(Pie)

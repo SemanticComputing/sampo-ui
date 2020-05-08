@@ -72,6 +72,10 @@ const calculateRowStyle = ({ index }) => {
   }
 }
 
+/**
+ * A component for displaying large facet result sets as a virtualized table, without pagination.
+ * Based on React Virtualized.
+ */
 class VirtualizedTable extends React.PureComponent {
   constructor (props) {
     super(props)
@@ -284,5 +288,7 @@ VirtualizedTable.propTypes = {
   clientFSSortResults: PropTypes.func,
   perspectiveID: PropTypes.string.isRequired
 }
+
+export const VirtualizedTableComponent = VirtualizedTable
 
 export default withStyles(styles)(VirtualizedTable)

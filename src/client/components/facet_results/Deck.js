@@ -43,6 +43,10 @@ const styles = theme => ({
     marginTop: theme.spacing(1)
   }
 })
+
+/**
+ * A component for WebGL maps using deck.gl and ReactMapGL.
+ */
 class Deck extends React.Component {
   state = {
     viewport: {
@@ -225,5 +229,7 @@ Deck.propTypes = {
   fetching: PropTypes.bool.isRequired,
   legendComponent: PropTypes.element
 }
+
+export const DeckComponent = Deck
 
 export default withStyles(styles)(Deck)

@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import { apiUrl } from '../../epics/index.js'
-import { stateToUrl } from '../../helpers/helpers'
+import { stateToUrl, objectToQueryParams } from '../../helpers/helpers'
 
 const styles = theme => ({
   root: {
@@ -26,6 +26,9 @@ const styles = theme => ({
   }
 })
 
+/**
+ * A component for creating a link for downloading raw facet results in CSV format.
+ */
 class ExportCSV extends React.Component {
   constructor (props) {
     super(props)
@@ -51,7 +54,7 @@ class ExportCSV extends React.Component {
       facets: this.props.facets,
       resultFormat: 'csv'
     })
-    return `${apiUrl}${this.props.resultClass}/all?${params}`
+    return `${apiUrl}${this.props.resultClass}/all?${objectToQueryParams(params)}`
   }
 
   render = () => {
@@ -80,5 +83,7 @@ ExportCSV.propTypes = {
   facets: PropTypes.object.isRequired,
   facetUpdateID: PropTypes.number.isRequired
 }
+
+export const ExportCSVComponent = ExportCSV
 
 export default withStyles(styles)(ExportCSV)

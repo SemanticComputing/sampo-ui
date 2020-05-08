@@ -25,6 +25,9 @@ const styles = theme => ({
   }
 })
 
+/**
+ * A Component for exporting client-side facet results as CSV.
+ */
 const CSVButton = props => {
   const { classes } = props
 
@@ -41,8 +44,16 @@ const CSVButton = props => {
 }
 
 CSVButton.propTypes = {
+  /**
+   * Material-UI styles.
+   */
   classes: PropTypes.object.isRequired,
+  /**
+   * Facet results as an array of objects.
+   */
   results: PropTypes.array.isRequired
 }
+
+export const CSVButtonComponent = CSVButton
 
 export default withStyles(styles)(CSVButton)

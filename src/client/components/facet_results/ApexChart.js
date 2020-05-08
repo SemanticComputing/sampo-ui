@@ -17,16 +17,6 @@ const styles = () => ({
   root: {
     width: '100%',
     height: '100%'
-    // width: 'calc(100% - 16px)',
-    // height: 'auto',
-    // padding: theme.spacing(1),
-    // [theme.breakpoints.up('md')]: {
-    //   height: 'calc(100% - 152px)',
-    //   width: 'calc(100% - 80px)',
-    //   padding: theme.spacing(5),
-    // },
-    // display: 'flex',
-    // alignItems: 'center',
   },
   spinnerContainer: {
     display: 'flex',
@@ -35,16 +25,10 @@ const styles = () => ({
     alignItems: 'center',
     justifyContent: 'center'
   }
-  // chart: {
-  //   width: '100%',
-  //   [theme.breakpoints.down('md')]: {
-  //     height: 400
-  //   },
-  //   //border: '1px solid rgba(224, 224, 224, 1);',
-  // }
-
 })
-
+/**
+ * A component for rendering charts, based on ApexCharts.
+ */
 class ApexChart extends React.Component {
   constructor (props) {
     super(props)
@@ -146,5 +130,7 @@ ApexChart.propTypes = {
   facetClass: PropTypes.string,
   facetID: PropTypes.string
 }
+
+export const ApexChartComponent = ApexChart
 
 export default withStyles(styles)(ApexChart)

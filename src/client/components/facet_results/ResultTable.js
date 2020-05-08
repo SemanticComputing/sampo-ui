@@ -69,6 +69,10 @@ const styles = theme => ({
   }
 })
 
+/**
+ * A component for showing facet results as paginated table.
+ * Based on Material-UI's Table component.
+ */
 class ResultTable extends React.Component {
   constructor (props) {
     super(props)
@@ -299,5 +303,7 @@ ResultTable.propTypes = {
   routeProps: PropTypes.object.isRequired,
   rootUrl: PropTypes.string.isRequired
 }
+
+export const ResultTableComponent = ResultTable
 
 export default withStyles(styles)(ResultTable)
