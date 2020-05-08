@@ -16,11 +16,12 @@ export const welcome = () =>
         <Typography paragraph>
             The source code of Sampo-UI is published on <a target='_blank' href='https://github.com/SemanticComputing/sampo-ui'>GitHub</a>. 
             The folders in this Storybook reflect the <a target='_blank' href='https://github.com/SemanticComputing/sampo-ui/tree/master/src/client/components'>folders</a> in 
-            the GitHub repository, where the components are split into three categories:
+            the GitHub repository, where the components are split into four categories:
         </Typography>
         <ul>
-            <li><Typography>main_layout</Typography></li>
+            <li><Typography>facet_bar</Typography></li>
             <li><Typography>facet_results</Typography></li>
+            <li><Typography>main_layout</Typography></li>
             <li><Typography>perspectives</Typography></li>
         </ul>
     </TextPage>

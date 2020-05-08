@@ -51,6 +51,9 @@ const styles = theme => ({
   }
 })
 
+/**
+ * A component for creating a footer. The logos are imported inside this component.
+ */
 const Footer = props => {
   const { classes } = props
   return (
@@ -79,7 +82,12 @@ const Footer = props => {
 }
 
 Footer.propTypes = {
+  /**
+   * Material-UI styles.
+   */
   classes: PropTypes.object.isRequired
 }
+
+export const FooterComponent = Footer
 
 export default withStyles(styles)(Footer)

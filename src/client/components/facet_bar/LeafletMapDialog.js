@@ -37,6 +37,9 @@ const styles = theme => ({
   }
 })
 
+/**
+ * A component for displaying a Leaflet map in a Material-UI Dialog.
+ */
 class LeafletMapDialog extends React.Component {
   state = {
     open: false,
@@ -131,5 +134,7 @@ LeafletMapDialog.propTypes = {
   fetching: PropTypes.bool,
   perspectiveID: PropTypes.string.isRequired
 }
+
+export const LeafletMapDialogComponent = LeafletMapDialog
 
 export default withStyles(styles)(LeafletMapDialog)

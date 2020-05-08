@@ -16,6 +16,9 @@ const styles = theme => ({
   }
 })
 
+/**
+ * A component for fetching and displaying the number of results, and displaying active filters.
+ */
 class FacetInfo extends React.Component {
   componentDidMount = () => {
     if (this.props.facetedSearchMode === 'serverFS') {
@@ -120,5 +123,7 @@ FacetInfo.propTypes = {
   someFacetIsFetching: PropTypes.bool.isRequired,
   fetchFacet: PropTypes.func
 }
+
+export const FacetInfoComponent = FacetInfo
 
 export default withStyles(styles)(FacetInfo)

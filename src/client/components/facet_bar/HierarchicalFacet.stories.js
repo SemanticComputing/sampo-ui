@@ -14,12 +14,7 @@ export default {
 export const basic = props => {
   const facetID = 'productionPlace'
   return (
-    <div style={{ width: 400, height: 500, overflow: 'auto' }}>
-      {/* <div style={{ height: 400 }}>
-        <SortableTree
-          treeData={productionPlace.values}
-        />
-      </div> */}
+    <div style={{ width: 400, height: 600, overflow: 'auto' }}>
       <HierarchicalFacet
         facetID={facetID}
         facet={productionPlace}

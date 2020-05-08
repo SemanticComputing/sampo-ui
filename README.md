@@ -15,7 +15,7 @@ Sampo-UI framework is being developed by the [Semantic Computing Research Group 
 
 ## Documentation
 
-Sampo-UI's React components are documented [here](https://semanticcomputing.github.io/sampo-ui)
+Sampo-UI's React components are documented [here](https://semanticcomputing.github.io/sampo-ui).
 
 ## Requirements
 

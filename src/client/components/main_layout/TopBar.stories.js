@@ -13,7 +13,6 @@ export const basic = props => {
   const fullTextSearch = useSelector(state => state.fullTextSearch)
   const options = useSelector(state => state.options)
   const location = useLocation()
-  // console.log(props)
   return (
     <TopBar
       rootUrl=''

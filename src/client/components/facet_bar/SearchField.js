@@ -22,6 +22,9 @@ const styles = theme => ({
   }
 })
 
+/**
+ * A component for text search in client-side faceted search architecture.
+ */
 class SearchField extends React.Component {
   state = {
     value: ''
@@ -127,5 +130,7 @@ SearchField.propTypes = {
   datasets: PropTypes.object.isRequired,
   perspectiveID: PropTypes.string.isRequired
 }
+
+export const SearchFieldComponent = SearchField
 
 export default withStyles(styles)(SearchField)

@@ -29,6 +29,9 @@ const styles = theme => ({
   }
 })
 
+/**
+ * A component for a slider range facet.
+ */
 class SliderFacet extends Component {
   componentDidMount = () => {
     const { isFetching, min, max } = this.props.facet
@@ -158,5 +161,7 @@ SliderFacet.propTypes = {
   updatedFacet: PropTypes.string,
   dataType: PropTypes.string.isRequired
 }
+
+export const SliderFacetComponent = SliderFacet
 
 export default withStyles(styles)(SliderFacet)

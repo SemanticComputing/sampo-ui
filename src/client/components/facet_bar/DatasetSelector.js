@@ -45,6 +45,9 @@ const styles = theme => ({
   }
 })
 
+/**
+ * A component for selecting the source datasets for ClientFS.
+ */
 class DatasetSelector extends React.Component {
   handleToggleDataset = value => () => {
     this.props.clientFSToggleDataset(value)
@@ -100,10 +103,24 @@ class DatasetSelector extends React.Component {
 }
 
 DatasetSelector.propTypes = {
+  /**
+   * Material-UI styles.
+   */
   classes: PropTypes.object.isRequired,
+  /**
+   * Available datasets as an array of objects.
+   */
   datasets: PropTypes.object.isRequired,
+  /**
+   * A Redux action for updating dataset selections.
+   */
   clientFSToggleDataset: PropTypes.func.isRequired,
+  /**
+   * The ID of the current perspective, used for translations.
+   */
   perspectiveID: PropTypes.string.isRequired
 }
+
+export const DatasetSelectorComponent = DatasetSelector
 
 export default withStyles(styles)(DatasetSelector)
