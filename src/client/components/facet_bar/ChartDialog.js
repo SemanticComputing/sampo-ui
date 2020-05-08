@@ -6,6 +6,10 @@ import Tooltip from '@material-ui/core/Tooltip'
 import GeneralDialog from '../main_layout/GeneralDialog'
 import ApexChart from '../facet_results/ApexChart'
 
+/**
+ * A component for displaying an ApexChart in a Material-UI Dialog.
+ * A Dialog is a type of modal window that appears in front of app content.
+ */
 const ChartDialog = props => {
   const [open, setOpen] = React.useState(false)
   const { fetchFacetConstrainSelf, facetID, facetClass, data, fetching } = props
@@ -85,10 +89,25 @@ const ChartDialog = props => {
 }
 
 ChartDialog.propTypes = {
+  /**
+   * Unique id of the facet.
+   */
   facetID: PropTypes.string,
+  /**
+   * The class of the facet for server-side configs.
+   */
   facetClass: PropTypes.string,
+  /**
+   * The data for Apex chart as an array of objecsts.
+   */
   data: PropTypes.array,
+  /**
+   * Loading indicator.
+   */
   fetching: PropTypes.bool.isRequired,
+  /**
+   * Redux action for fetching the data. Currently using a modified version of the fetchFacet action.
+   */
   fetchFacetConstrainSelf: PropTypes.func
 }
 

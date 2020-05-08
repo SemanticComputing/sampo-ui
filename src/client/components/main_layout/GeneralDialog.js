@@ -27,7 +27,7 @@ const GeneralDialog = props => {
       {children}
     </Dialog>
   )
-};
+}
 
 GeneralDialog.propTypes = {
   classes: PropTypes.object.isRequired,
