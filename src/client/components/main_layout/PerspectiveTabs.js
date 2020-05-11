@@ -15,6 +15,9 @@ const styles = () => ({
   }
 })
 
+/**
+ * A component for generating view tabs for a faceted search perspective or an entity landing page.
+ */
 class PerspectiveTabs extends React.Component {
   constructor (props) {
     super(props)
@@ -78,5 +81,7 @@ PerspectiveTabs.propTypes = {
   tabs: PropTypes.array.isRequired,
   screenSize: PropTypes.string.isRequired
 }
+
+export const PerspectiveTabsComponent = PerspectiveTabs
 
 export default withStyles(styles)(PerspectiveTabs)

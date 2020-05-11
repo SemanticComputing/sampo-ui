@@ -31,6 +31,9 @@ const styles = () => ({
   }
 })
 
+/**
+ * A component for generating a landing page for a single entity.
+ */
 class InstanceHomePage extends React.Component {
   constructor (props) {
     super(props)
@@ -145,7 +148,7 @@ class InstanceHomePage extends React.Component {
                 render={() => <Redirect to={`${rootUrl}/${resultClass}/page/${this.state.localID}/table`} />}
               />
               <Route
-                path={`${rootUrl}/${resultClass}/page/${this.state.localID}/table`}
+                path={[`${rootUrl}/${resultClass}/page/${this.state.localID}/table`, '/iframe.html']} // support also rendering in Storybook
                 render={() =>
                   <InstanceHomePageTable
                     resultClass={resultClass}
@@ -196,5 +199,7 @@ InstanceHomePage.propTypes = {
   screenSize: PropTypes.string.isRequired,
   rootUrl: PropTypes.string.isRequired
 }
+
+export const InstanceHomePageComponent = InstanceHomePage
 
 export default withStyles(styles)(InstanceHomePage)

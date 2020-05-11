@@ -1,7 +1,6 @@
 import React from 'react'
 import Center from '../../../../.storybook/Center'
 import PaperContainer from '../../../../.storybook/PaperContainer'
-
 import ObjectListItemEvent, { ObjectListItemEventComponent } from './ObjectListItemEvent'
 
 export default {

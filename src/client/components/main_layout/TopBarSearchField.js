@@ -50,6 +50,9 @@ const styles = theme => ({
   }
 })
 
+/**
+ * A search field that can be embedded into the TopBar.
+ */
 class TopBarSearchField extends React.Component {
   state = {
     value: ''
@@ -116,5 +119,7 @@ TopBarSearchField.propTypes = {
   xsScreen: PropTypes.bool.isRequired,
   rootUrl: PropTypes.string.isRequired
 }
+
+export const TopBarSearchFieldComponent = TopBarSearchField
 
 export default withStyles(styles)(TopBarSearchField)

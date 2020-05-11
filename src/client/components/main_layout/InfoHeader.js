@@ -49,6 +49,9 @@ const styles = theme => ({
   }
 })
 
+/**
+ * A component for instructions for a faceted search perspective or an entity landing page.
+ */
 const InfoHeader = props => {
   const handleExpandButtonOnClick = () => {
     props.updateExpanded({
@@ -117,5 +120,7 @@ InfoHeader.propTypes = {
   updateExpanded: PropTypes.func.isRequired,
   descriptionHeight: PropTypes.number.isRequired
 }
+
+export const InfoHeaderComponent = InfoHeader
 
 export default withStyles(styles)(InfoHeader)

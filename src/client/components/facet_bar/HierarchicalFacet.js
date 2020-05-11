@@ -348,7 +348,7 @@ class HierarchicalFacet extends Component {
                   onlyExpandSearchedNodes
                   theme={FileExplorerTheme}
                   generateNodeProps={this.generateNodeProps}
-                  isVirtualized={!this.props.facetedSearchMode === 'storybook'} // virtualization does not work in Storybook
+                  isVirtualized={!this.props.facetedSearchMode || !this.props.facetedSearchMode === 'storybook'} // virtualization does not work in Storybook
                 />
               </div>}
             {facet.filterType === 'spatialFilter' &&

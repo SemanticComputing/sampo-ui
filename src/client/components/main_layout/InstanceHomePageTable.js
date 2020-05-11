@@ -38,6 +38,9 @@ const styles = theme => ({
   }
 })
 
+/**
+ * A component for generating a table based on data about an entity.
+ */
 const InstanceHomePageTable = props => {
   const { classes, data, properties } = props
   return (
@@ -101,5 +104,7 @@ InstanceHomePageTable.propTypes = {
   data: PropTypes.object.isRequired,
   properties: PropTypes.array.isRequired
 }
+
+export const InstanceHomePageTableComponent = InstanceHomePageTable
 
 export default withStyles(styles)(InstanceHomePageTable)

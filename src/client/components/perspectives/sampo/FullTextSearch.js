@@ -5,6 +5,9 @@ import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
 import MaterialTableFullTextResults from '../../facet_results/MaterialTableFullTextResults'
 import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay'
 
+/**
+ * A component for displaying full text search results.
+ */
 const FullTextSearch = props => {
   const { rootUrl } = props
   const perspectiveUrl = `${rootUrl}/full-text-search`

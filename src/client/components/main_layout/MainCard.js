@@ -47,6 +47,9 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+/**
+ * A component for generating a Material-UI Card for a perspective on the portal's landing page.
+ */
 const MainCard = props => {
   const classes = useStyles(props)
   const { perspective, cardHeadingVariant } = props

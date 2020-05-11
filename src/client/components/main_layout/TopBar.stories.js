@@ -22,6 +22,9 @@ export const basic = props => {
       availableLocales={options.availableLocales}
       xsScreen={false}
       location={location}
+      fetchFullTextResults={() => null}
+      loadLocales={() => null}
+      clearResults={() => null}
     />
   )
 }
