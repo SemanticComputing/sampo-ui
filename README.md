@@ -91,22 +91,22 @@ src
  ┃ ┃ ┃ ┣ GeneralConfig.js 
  ┃ ┃ ┃ ┣ PerspectiveConfig.js 
  ┃ ┃ ┃ ┗ PerspectiveConfigOnlyInfoPages.js
- ┣ reducers
- ┃ ┣ YOUR_PORTAL   <-- add reducers for all your perspectives
- ┃ ┃ ┣ fullTextSearch.js
- ┃ ┃ ┣ perspective1.js
- ┃ ┃ ┣ perspective1Facets.js
- ┃ ┃ ┣ perspective2.js
- ┃ ┃ ┣ perspective2Facets.js
- ┃ ┃ ┣ ...
- ┃ ┣ index.js   <-- combine your reducers here
- ┣ translations
- ┃ ┗ YOUR_PORTAL
- ┃ ┃ ┣ localeEN.js
- ┃ ┃ ┣ ...
- server
+ ┃ ┣ reducers
+ ┃ ┃ ┗ YOUR_PORTAL   <-- add reducers for all your perspectives
+ ┃ ┃ ┃ ┣ fullTextSearch.js
+ ┃ ┃ ┃ ┣ perspective1.js
+ ┃ ┃ ┃ ┣ perspective1Facets.js
+ ┃ ┃ ┃ ┣ perspective2.js
+ ┃ ┃ ┃ ┣ perspective2Facets.js
+ ┃ ┃ ┃ ┣ ...
+ ┃ ┃ ┣ index.js   <-- combine your reducers here
+ ┃ ┣ translations
+ ┃ ┃ ┗ YOUR_PORTAL
+ ┃ ┃ ┃ ┣ localeEN.js
+ ┃ ┃ ┃ ┣ ...
+ ┣ server
  ┃ ┣ sparql
- ┃ ┃ ┣ YOUR_PORTAL
+ ┃ ┃ ┗ YOUR_PORTAL
  ┃ ┃ ┃ ┣ FacetConfigs.js   <-- url of the SPARQL endpoint and property paths for facets
  ┃ ┃ ┃ ┣ SparqlQueriesFullText.js   <-- add result set properties for full text search here
  ┃ ┃ ┃ ┣ SparqlQueriesPerspective1.js  <-- SPARQL queries related to a specific perspective
