@@ -28,4 +28,4 @@ RUN npm install && npm run build
 EXPOSE 3001
 
 # Express server handles the backend functionality and also serves the React app
-CMD ["node", "dist/server"]
+CMD ["node", "/opt/app/dist/server"]
