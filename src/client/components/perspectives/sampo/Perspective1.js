@@ -23,7 +23,7 @@ const Perspective1 = props => {
         render={() => <Redirect to={`${rootUrl}/${perspective.id}/faceted-search/table`} />}
       />
       <Route
-        path={`${props.rootUrl}/${perspective.id}/faceted-search/table`}
+        path={[`${props.rootUrl}/${perspective.id}/faceted-search/table`, '/iframe.html']}
         render={routeProps =>
           <ResultTable
             data={props.facetResults}

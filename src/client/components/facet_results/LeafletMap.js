@@ -85,7 +85,7 @@ const ColorIcon = L.Icon.extend({
 })
 
 /**
- * A component for a Leaflet map with optional functionalities for clustering of markers, 
+ * A component for a Leaflet map with optional functionalities for clustering of markers,
  * switchable basemaps and overlay layers.
  */
 class LeafletMap extends React.Component {

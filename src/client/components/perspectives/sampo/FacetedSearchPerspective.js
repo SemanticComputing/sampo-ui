@@ -4,6 +4,9 @@ import Perspective1 from './Perspective1'
 import Perspective2 from './Perspective2'
 import Perspective3 from './Perspective3'
 
+/**
+ * A component for creating a faceted search perspective for a semantic portal.
+ */
 const FacetedSearchPerspective = props => {
   const renderPerspective = () => {
     let perspectiveElement = null
@@ -83,27 +86,85 @@ const FacetedSearchPerspective = props => {
     }
     return perspectiveElement
   }
-  return renderPerspective()
+  return (
+    <>
+      {renderPerspective()}
+    </>
+  )
 }
 
 FacetedSearchPerspective.propTypes = {
+  /**
+   * Faceted search configs and results of this perspective.
+   */
   facetResults: PropTypes.object.isRequired,
+  /**
+   * Faceted search configs and results of places related to this perspective.
+   */
   placesResults: PropTypes.object.isRequired,
-  leafletMap: PropTypes.object.isRequired,
+  /**
+   * Facet configs and values.
+   */
   facetData: PropTypes.object.isRequired,
+  /**
+   * Leaflet map config and external layers.
+   */
+  leafletMap: PropTypes.object.isRequired,
+  /**
+   * Redux action for fetching paginated results.
+   */
   fetchPaginatedResults: PropTypes.func.isRequired,
+  /**
+   * Redux action for fetching all results.
+   */
   fetchResults: PropTypes.func.isRequired,
+  /**
+   * Redux action for loading external GeoJSON layers.
+   */
   fetchGeoJSONLayers: PropTypes.func.isRequired,
+  /**
+   * Redux action for fetching information about a single entity.
+   */
   fetchByURI: PropTypes.func.isRequired,
+  /**
+   * Redux action for updating the page of paginated results.
+   */
   updatePage: PropTypes.func.isRequired,
+  /**
+   * Redux action for updating the rows per page of paginated results.
+   */
   updateRowsPerPage: PropTypes.func.isRequired,
-  updateFacetOption: PropTypes.func.isRequired,
+  /**
+   * Redux action for sorting the paginated results.
+   */
   sortResults: PropTypes.func.isRequired,
+  /**
+   * Redux action for updating the active selection or config of a facet.
+   */
+  updateFacetOption: PropTypes.func.isRequired,
+  /**
+   * Routing information from React Router.
+   */
   routeProps: PropTypes.object.isRequired,
+  /**
+   * Perspective config.
+   */
   perspective: PropTypes.object.isRequired,
+  /**
+   * State of the animation, used by TemporalMap.
+   */
   animationValue: PropTypes.array.isRequired,
+  /**
+   * Redux action for animating TemporalMap.
+   */
   animateMap: PropTypes.func.isRequired,
+  /**
+   * Current screen size.
+   */
   screenSize: PropTypes.string.isRequired,
+  /**
+   * Root url of the application.
+   */
   rootUrl: PropTypes.string.isRequired
 }
 

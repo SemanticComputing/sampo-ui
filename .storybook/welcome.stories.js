@@ -8,7 +8,7 @@ export default {
 
 export const welcome = () => 
     <TextPage>
-        <Typography component='h1' variant='h2'>Welcome to Sampo-UI</Typography>
+        <Typography style={{ marginBottom: 24 }} component='h1' variant='h2'>Welcome to Sampo-UI</Typography>
         <Typography paragraph>
             This Storybook is used for documenting the reusable component library of 
             the Sampo-UI framework. These components are designed for building user interfaces for semantic portals.
@@ -24,4 +24,11 @@ export const welcome = () =>
             <li><Typography>main_layout</Typography></li>
             <li><Typography>perspectives</Typography></li>
         </ul>
+        <Typography paragraph>
+            Currently there is exactly one container 
+            component, <a target='_blank' href='https://github.com/SemanticComputing/sampo-ui/blob/master/src/client/containers/SemanticPortal.js'>SemanticPortal</a>, which
+            is rendered at the top level, and used for connecting all other Sampo-UI components to the Redux store. You can read more about the differences between container and presentational 
+            components <a target='_blank' href='https://redux.js.org/basics/usage-with-react#presentational-and-container-components'>here.</a>
+
+        </Typography>
     </TextPage>
