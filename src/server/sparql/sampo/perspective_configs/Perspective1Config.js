@@ -2,7 +2,7 @@ import {
   manuscriptPropertiesFacetResults,
   manuscriptPropertiesInstancePage
 } from '../sparql_queries/SparqlQueriesPerspective1'
-import { prefixes } from './sampo/SparqlQueriesPrefixes'
+import { prefixes } from '../sparql_queries/SparqlQueriesPrefixes'
 
 export const perspective1Config = {
   endpoint: {

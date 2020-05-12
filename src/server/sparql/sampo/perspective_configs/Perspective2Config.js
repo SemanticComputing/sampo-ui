@@ -1,7 +1,7 @@
 import {
   workProperties
 } from '../sparql_queries/SparqlQueriesPerspective2'
-import { prefixes } from './sampo/SparqlQueriesPrefixes'
+import { prefixes } from '../sparql_queries/SparqlQueriesPrefixes'
 
 export const perspective2Config = {
   endpoint: {

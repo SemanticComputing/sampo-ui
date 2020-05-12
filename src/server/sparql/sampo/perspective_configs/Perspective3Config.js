@@ -1,7 +1,7 @@
 import {
   eventProperties
 } from '../sparql_queries/SparqlQueriesPerspective3'
-import { prefixes } from './sampo/SparqlQueriesPrefixes'
+import { prefixes } from '../sparql_queries/SparqlQueriesPrefixes'
 
 export const perspective3Config = {
   endpoint: {
