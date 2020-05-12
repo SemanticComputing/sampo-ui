@@ -3,7 +3,6 @@ import { runSelectQuery } from './SparqlApi'
 import { makeObjectList } from './SparqlObjectMapper'
 import { mapCount } from './Mappers'
 import { generateConstraintsBlock } from './Filters'
-import { prefixes } from './sampo/SparqlQueriesPrefixes'
 import {
   countQuery,
   facetResultSetQuery,
@@ -72,9 +71,8 @@ export const getAllResults = ({
       facetID: null
     }))
   }
-  // console.log(prefixes + q)
   return runSelectQuery({
-    query: prefixes + q,
+    query: endpoint.prefixes + q,
     endpoint: endpoint.url,
     useAuth: endpoint.useAuth,
     resultMapper,
@@ -110,7 +108,7 @@ export const getResultCount = async ({
     }))
   }
   const response = await runSelectQuery({
-    query: prefixes + q,
+    query: endpoint.prefixes + q,
     endpoint: endpoint.url,
     useAuth: endpoint.useAuth,
     resultMapper: mapCount,
@@ -173,9 +171,8 @@ const getPaginatedData = ({
   }
   q = q.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`)
   q = q.replace('<RESULT_SET_PROPERTIES>', config.paginatedResults.properties)
-  // console.log(prefixes + q);
   return runSelectQuery({
-    query: prefixes + q,
+    query: endpoint.prefixes + q,
     endpoint: endpoint.url,
     useAuth: endpoint.useAuth,
     resultMapper: makeObjectList,
@@ -215,9 +212,8 @@ export const getByURI = ({
     }))
   }
   q = q.replace('<ID>', `<${uri}>`)
-  // console.log(prefixes + q)
   return runSelectQuery({
-    query: prefixes + q,
+    query: endpoint.prefixes + q,
     endpoint: endpoint.url,
     useAuth: endpoint.useAuth,
     resultMapper: makeObjectList,

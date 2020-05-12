@@ -1,11 +1,13 @@
 import {
   manuscriptPropertiesFacetResults,
   manuscriptPropertiesInstancePage
-} from './SparqlQueriesPerspective1'
+} from '../sparql_queries/SparqlQueriesPerspective1'
+import { prefixes } from './sampo/SparqlQueriesPrefixes'
 
 export const perspective1Config = {
   endpoint: {
     url: 'http://ldf.fi/mmm/sparql',
+    prefixes,
     useAuth: false
   },
   facetClass: 'frbroo:F4_Manifestation_Singleton',

@@ -1,10 +1,12 @@
 import {
   eventProperties
-} from './SparqlQueriesPerspective3'
+} from '../sparql_queries/SparqlQueriesPerspective3'
+import { prefixes } from './sampo/SparqlQueriesPrefixes'
 
 export const perspective3Config = {
   endpoint: {
     url: 'http://ldf.fi/mmm/sparql',
+    prefixes,
     useAuth: false
   },
   facetClass: 'crm:E10_Transfer_of_Custody crm:E12_Production mmm-schema:ManuscriptActivity',
