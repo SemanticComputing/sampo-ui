@@ -84,7 +84,6 @@ src
  ┃ ┃ ┃ ┗ YOUR_PORTAL
  ┃ ┃ ┃ ┃ ┣ FacetedSearchPerspective.js   <-- combine your perspective components here
  ┃ ┃ ┃ ┃ ┣ Perspective1.js
- ┃ ┃ ┃ ┃ ┣ Perspective2.js
  ┃ ┃ ┃ ┃ ┣ ...
  ┃ ┣ configs
  ┃ ┃ ┗ YOUR_PORTAL
@@ -96,23 +95,21 @@ src
  ┃ ┃ ┃ ┣ fullTextSearch.js
  ┃ ┃ ┃ ┣ perspective1.js
  ┃ ┃ ┃ ┣ perspective1Facets.js
- ┃ ┃ ┃ ┣ perspective2.js
- ┃ ┃ ┃ ┣ perspective2Facets.js
  ┃ ┃ ┃ ┣ ...
  ┃ ┃ ┣ index.js   <-- combine your reducers here
  ┃ ┣ translations
  ┃ ┃ ┗ YOUR_PORTAL
  ┃ ┃ ┃ ┣ localeEN.js
  ┃ ┃ ┃ ┣ ...
- ┣ server
+ ┗ server
  ┃ ┣ sparql
- ┃ ┃ ┗ YOUR_PORTAL
- ┃ ┃ ┃ ┣ FacetConfigs.js   <-- url of the SPARQL endpoint and property paths for facets
- ┃ ┃ ┃ ┣ SparqlQueriesFullText.js   <-- add result set properties for full text search here
- ┃ ┃ ┃ ┣ SparqlQueriesPerspective1.js  <-- SPARQL queries related to a specific perspective
- ┃ ┃ ┃ ┣ SparqlQueriesPerspective2.js
- ┃ ┃ ┃ ┣ ...
- ┃ ┃ ┃ ┗ SparqlQueriesPrefixes.js   <-- prefixes for all SPARQL queries
+ ┃ ┃ ┣ YOUR_PORTAL
+ ┃ ┃ ┃ ┣ perspective_configs
+ ┃ ┃ ┃ ┃ ┗ ... <-- endpoint and facet configs for each perspective 
+ ┃ ┃ ┃ ┣ sparql_queries
+ ┃ ┃ ┃ ┃ ┗ ...  <-- SPARQL queries
+ ┃ ┃ ┃ ┗ BackendSearchConfig.js <-- combine your backend config into this file  
+ ┃ ┗ index.js <-- import the backend config file here
 ```
 
 ## Documentation
