@@ -1,11 +1,22 @@
-export const endpoint = 'http://ldf.fi/mmm/sparql'
-// export const endpoint = 'http://localhost:3050/ds/sparql';
+import {
+  manuscriptPropertiesFacetResults,
+  manuscriptPropertiesInstancePage
+} from './SparqlQueriesPerspective1'
 
-export const endpointUseAuth = false
-
-export const facetConfigs = {
-  perspective1: {
-    facetClass: 'frbroo:F4_Manifestation_Singleton',
+export const perspective1Config = {
+  endpoint: {
+    url: 'http://ldf.fi/mmm/sparql',
+    useAuth: false
+  },
+  facetClass: 'frbroo:F4_Manifestation_Singleton',
+  paginatedResults: {
+    properties: manuscriptPropertiesFacetResults
+  },
+  instance: {
+    properties: manuscriptPropertiesInstancePage,
+    relatedInstances: ''
+  },
+  facets: {
     prefLabel: {
       id: 'prefLabel',
       labelPath: 'skos:prefLabel',
@@ -31,8 +42,8 @@ export const facetConfigs = {
     productionPlace: {
       id: 'productionPlace',
       facetValueFilter: `
-      ?id dct:source <http://vocab.getty.edu/tgn/> .
-      `,
+        ?id dct:source <http://vocab.getty.edu/tgn/> .
+        `,
       label: 'Production place',
       labelPath: '^crm:P108_has_produced/crm:P7_took_place_at/skos:prefLabel',
       predicate: '^crm:P108_has_produced/crm:P7_took_place_at',
@@ -60,8 +71,8 @@ export const facetConfigs = {
     transferOfCustodyPlace: {
       id: 'productionPlace',
       facetValueFilter: `
-      ?id dct:source <http://vocab.getty.edu/tgn/> .
-      `,
+        ?id dct:source <http://vocab.getty.edu/tgn/> .
+        `,
       label: 'Transfer of custody place',
       labelPath: '^crm:P30_transferred_custody_of/crm:P7_took_place_at/skos:prefLabel',
       predicate: '^crm:P30_transferred_custody_of/crm:P7_took_place_at',
@@ -83,8 +94,8 @@ export const facetConfigs = {
     lastKnownLocation: {
       id: 'lastKnownLocation',
       facetValueFilter: `
-      ?id dct:source <http://vocab.getty.edu/tgn/> .
-      `,
+        ?id dct:source <http://vocab.getty.edu/tgn/> .
+        `,
       label: 'Production place',
       labelPath: 'mmm-schema:last_known_location/skos:prefLabel',
       predicate: 'mmm-schema:last_known_location',
@@ -183,134 +194,6 @@ export const facetConfigs = {
       id: 'source',
       facetValueFilter: '',
       label: 'Source',
-      labelPath: 'dct:source/skos:prefLabel',
-      predicate: 'dct:source',
-      type: 'list'
-    }
-  },
-  perspective2: {
-    facetClass: 'frbroo:F1_Work',
-    prefLabel: {
-      id: 'prefLabel',
-      labelPath: 'skos:prefLabel',
-      textQueryPredicate: '', // empty for querying the facetClass
-      textQueryProperty: 'skos:prefLabel', // limit only to prefLabels
-      type: 'text'
-    },
-    source: {
-      id: 'source',
-      facetValueFilter: '',
-      labelPath: 'dct:source/skos:prefLabel',
-      predicate: 'dct:source',
-      type: 'list'
-    },
-    author: {
-      id: 'author',
-      facetValueFilter: '',
-      label: 'Author',
-      labelPath: '^frbroo:R16_initiated/(mmm-schema:carried_out_by_as_possible_author|mmm-schema:carried_out_by_as_author)/skos:prefLabel',
-      predicate: '^frbroo:R16_initiated/(mmm-schema:carried_out_by_as_possible_author|mmm-schema:carried_out_by_as_author)',
-      type: 'list'
-    },
-    manuscript: {
-      labelPath: '^mmm-schema:manuscript_work/skos:prefLabel'
-    },
-    language: {
-      id: 'language',
-      facetValueFilter: '',
-      label: 'Language',
-      labelPath: '^frbroo:R19_created_a_realisation_of/frbroo:R17_created/crm:P72_has_language/skos:prefLabel',
-      predicate: '^frbroo:R19_created_a_realisation_of/frbroo:R17_created/crm:P72_has_language',
-      type: 'list'
-    },
-    material: {
-      id: 'material',
-      facetValueFilter: '',
-      label: 'Language',
-      labelPath: '^mmm-schema:manuscript_work/crm:P45_consists_of/skos:prefLabel',
-      predicate: '^mmm-schema:manuscript_work/crm:P45_consists_of',
-      type: 'list'
-    },
-    collection: {
-      id: 'collection',
-      facetValueFilter: '',
-      labelPath: '^mmm-schema:manuscript_work/crm:P46i_forms_part_of/skos:prefLabel',
-      predicate: '^mmm-schema:manuscript_work/crm:P46i_forms_part_of',
-      type: 'list'
-    },
-    productionTimespan: {
-      id: 'productionTimespan',
-      facetValueFilter: '',
-      sortByAscPredicate: '^mmm-schema:manuscript_work/^crm:P108_has_produced/crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
-      sortByDescPredicate: '^mmm-schema:manuscript_work/^crm:P108_has_produced/crm:P4_has_time-span/crm:P82b_end_of_the_end',
-      predicate: '^mmm-schema:manuscript_work/^crm:P108_has_produced/crm:P4_has_time-span',
-      startProperty: 'crm:P82a_begin_of_the_begin',
-      endProperty: 'crm:P82b_end_of_the_end',
-      type: 'timespan'
-    }
-  },
-  perspective3: {
-    facetClass: 'crm:E10_Transfer_of_Custody crm:E12_Production mmm-schema:ManuscriptActivity',
-    prefLabel: {
-      id: 'prefLabel',
-      labelPath: 'skos:prefLabel'
-    },
-    type: {
-      predicate: 'a',
-      facetValueFilter: `
-        FILTER(?id NOT IN (
-          <http://ldf.fi/mmm/schema/PlaceNationality>
-        ))  
-      `,
-      type: 'list',
-      labelPath: 'a/(skos:prefLabel|rdfs:label)'
-    },
-    manuscript: {
-      textQueryPredicate: `
-        (crm:P30_transferred_custody_of
-         |crm:P108_has_produced
-         |mmm-schema:observed_manuscript)`,
-      textQueryProperty: 'skos:prefLabel', // limit only to prefLabels
-      type: 'text',
-      labelPath: `(crm:P30_transferred_custody_of
-                  |crm:P108_has_produced
-                  |mmm-schema:observed_manuscript
-                  )/skos:prefLabel`
-    },
-    eventTimespan: {
-      id: 'eventTimespan',
-      facetValueFilter: '',
-      sortByAscPredicate: 'crm:P4_has_time-span/crm:P82a_begin_of_the_begin',
-      sortByDescPredicate: 'crm:P4_has_time-span/crm:P82b_end_of_the_end',
-      predicate: 'crm:P4_has_time-span',
-      startProperty: 'crm:P82a_begin_of_the_begin',
-      endProperty: 'crm:P82b_end_of_the_end',
-      type: 'timespan'
-    },
-    place: {
-      id: 'place',
-      facetValueFilter: `
-      ?id dct:source <http://vocab.getty.edu/tgn/> .
-      `,
-      label: 'Place',
-      labelPath: 'crm:P7_took_place_at/skos:prefLabel',
-      predicate: 'crm:P7_took_place_at',
-      parentProperty: 'gvp:broaderPreferred',
-      parentPredicate: 'crm:P7_took_place_at/gvp:broaderPreferred+',
-      type: 'hierarchical'
-    },
-    placeType: {
-      id: 'placeType',
-      facetValueFilter: '',
-      label: 'Place type',
-      labelPath: 'crm:P7_took_place_at/gvp:placeTypePreferred',
-      predicate: 'crm:P7_took_place_at/gvp:placeTypePreferred',
-      type: 'list',
-      literal: true
-    },
-    source: {
-      id: 'source',
-      facetValueFilter: '',
       labelPath: 'dct:source/skos:prefLabel',
       predicate: 'dct:source',
       type: 'list'

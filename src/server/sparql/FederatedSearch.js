@@ -1,11 +1,10 @@
 import { runSelectQuery } from './SparqlApi'
-import datasetConfig from './sampo/SparqlQueriesFederatedSearch'
 import {
   mapNameSampoResults
 } from './Mappers'
 
-const getResults = async (queryTerm, latMin, longMin, latMax, longMax, datasetId, resultFormat) => {
-  const { endpoint, resultQuery } = datasetConfig[datasetId]
+const getResults = async (federatedSearchDatasets, queryTerm, latMin, longMin, latMax, longMax, datasetId, resultFormat) => {
+  const { endpoint, resultQuery } = federatedSearchDatasets[datasetId]
   let query = ''
   if (datasetId !== 'tgn') {
     if (queryTerm !== '') {
@@ -25,6 +24,7 @@ const getResults = async (queryTerm, latMin, longMin, latMax, longMax, datasetId
 }
 
 export const getFederatedResults = async ({
+  federatedSearchDatasets,
   queryTerm,
   latMin,
   longMin,
@@ -34,7 +34,7 @@ export const getFederatedResults = async ({
   resultFormat
 }) => {
   const federatedResults = await Promise.all(datasets.map((datasetId) =>
-    getResults(queryTerm, latMin, longMin, latMax, longMax, datasetId, resultFormat)))
+    getResults(federatedSearchDatasets, queryTerm, latMin, longMin, latMax, longMax, datasetId, resultFormat)))
 
   // merge search results from multiple endpoints into a single array
   let results = []

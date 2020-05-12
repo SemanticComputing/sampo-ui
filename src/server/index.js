@@ -1,3 +1,4 @@
+import { backendSearchConfig } from './sparql/sampo/BackendSearchConfig'
 import fs from 'fs'
 import express from 'express'
 import path from 'path'
@@ -69,6 +70,7 @@ new OpenApiValidator({
       const { params, body } = req
       try {
         const data = await getPaginatedResults({
+          backendSearchConfig,
           resultClass: params.resultClass,
           page: body.page,
           pagesize: parseInt(body.pagesize),
@@ -89,6 +91,7 @@ new OpenApiValidator({
       const resultFormat = 'json'
       try {
         const data = await getAllResults({
+          backendSearchConfig,
           resultClass: params.resultClass,
           facetClass: body.facetClass,
           constraints: body.constraints,
@@ -112,6 +115,7 @@ new OpenApiValidator({
       const { params, body } = req
       try {
         const data = await getResultCount({
+          backendSearchConfig,
           resultClass: params.resultClass,
           constraints: body.constraints,
           resultFormat: 'json'
@@ -126,6 +130,7 @@ new OpenApiValidator({
       const { params, body } = req
       try {
         const data = await getByURI({
+          backendSearchConfig,
           resultClass: params.resultClass,
           uri: params.uri,
           facetClass: body.facetClass,
@@ -142,6 +147,7 @@ new OpenApiValidator({
       const { params, body } = req
       try {
         const data = await getFacet({
+          backendSearchConfig,
           facetClass: params.facetClass,
           facetID: params.id,
           sortBy: body.sortBy,
@@ -159,7 +165,9 @@ new OpenApiValidator({
     app.get(`${apiPath}/full-text-search`, async (req, res, next) => {
       try {
         const data = await queryJenaIndex({
+          backendSearchConfig,
           queryTerm: req.query.q,
+          resultClass: 'jenaText',
           resultFormat: 'json'
         })
         res.json(data)
@@ -185,6 +193,7 @@ new OpenApiValidator({
       }
       try {
         const data = await getFederatedResults({
+          federatedSearchDatasets: backendSearchConfig.federatedSearch.datasets,
           queryTerm,
           latMin,
           longMin,

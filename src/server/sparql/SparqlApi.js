@@ -1,13 +1,13 @@
 import axios from 'axios'
 import querystring from 'querystring'
-import { endpointUseAuth } from './sampo/FacetConfigsSampo'
 
 export const runSelectQuery = async ({
   query,
   endpoint,
   resultMapper,
   previousSelections = null,
-  resultFormat
+  resultFormat,
+  useAuth = false
 }) => {
   const MIMEtype = resultFormat === 'json'
     ? 'application/sparql-results+json; charset=utf-8'
@@ -16,7 +16,7 @@ export const runSelectQuery = async ({
     'Content-Type': 'application/x-www-form-urlencoded',
     Accept: MIMEtype
   }
-  if (endpointUseAuth) {
+  if (useAuth) {
     headers.Authorization = `Basic ${process.env.SPARQL_ENDPOINT_BASIC_AUTH}`
   }
   const q = querystring.stringify({ query })
