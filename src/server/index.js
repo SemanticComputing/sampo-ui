@@ -111,6 +111,31 @@ new OpenApiValidator({
       }
     })
 
+    // GET endpoint for supporting CSV button
+    app.get(`${apiPath}/faceted-search/:resultClass/all`, async (req, res, next) => {
+      try {
+        const resultFormat = req.query.resultFormat == null ? 'json' : req.query.resultFormat
+        const data = await getAllResults({
+          backendSearchConfig,
+          resultClass: req.params.resultClass,
+          facetClass: req.query.facetClass || null,
+          constraints: req.query.constraints == null ? null : JSON.parse(req.query.constraints),
+          resultFormat: resultFormat
+        })
+        if (resultFormat === 'csv') {
+          res.writeHead(200, {
+            'Content-Type': 'text/csv',
+            'Content-Disposition': 'attachment; filename=results.csv'
+          })
+          res.end(data)
+        } else {
+          res.json(data)
+        }
+      } catch (error) {
+        next(error)
+      }
+    })
+
     app.post(`${apiPath}/faceted-search/:resultClass/count`, async (req, res, next) => {
       const { params, body } = req
       try {

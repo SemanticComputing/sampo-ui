@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import { apiUrl } from '../../epics/index.js'
-import { stateToUrl, objectToQueryParams } from '../../helpers/helpers'
+import { stateToUrl } from '../../helpers/helpers'
 
 const styles = theme => ({
   root: {
@@ -51,10 +51,10 @@ class ExportCSV extends React.Component {
   createDownloadLink = () => {
     const params = stateToUrl({
       facetClass: this.props.facetClass,
-      facets: this.props.facets,
-      resultFormat: 'csv'
+      facets: this.props.facets
     })
-    return `${apiUrl}${this.props.resultClass}/all?${objectToQueryParams(params)}`
+    const constraints = params.constraints ? `&constraints=${encodeURIComponent(JSON.stringify(params.constraints))}` : ''
+    return `${apiUrl}/faceted-search/${this.props.resultClass}/all?facetClass=${this.props.facetClass}&resultFormat=csv${constraints}`
   }
 
   render = () => {

@@ -127,6 +127,16 @@ paths:
                   sparqlQuery:
                     type: string
                     description: The SPARQL query that was used for the results
+    get:
+        summary: Return all search results as a CSV file
+        responses:
+          '200':   
+            description: All search results as a CSV file
+            content:
+              text/plain:
+                schema:
+                  type: string
+                  format: binary                  
   /faceted-search/{resultClass}/count:
     post:
       summary: Return the total count of the faceted search results
