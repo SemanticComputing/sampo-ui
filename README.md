@@ -130,12 +130,17 @@ Here is a list of the main JavaScript libraries on which the Sampo-UI client is 
 * [React &ndash; A JavaScript library for building user interfaces](https://reactjs.org/)
 * [Material-UI &ndash; React components for faster and easier web development](https://material-ui.com/)
 * [Redux &ndash; A Predictable State Container for JS Apps](https://redux.js.org/)
-* [React Router](https://reacttraining.com/react-router/web/guides/quick-start)
+* [redux-observable &ndash; RxJS-based middleware for Redux](https://redux-observable.js.org/)
+* [Reselect &ndash; Selector library for Redux](https://github.com/reduxjs/reselect)
+* [React Router &ndash; Declarative routing for React](https://reacttraining.com/react-router/web/guides/quick-start)
 * [react-intl-universal &ndash; React internationalization package developed by Alibaba Group](https://github.com/alibaba/react-intl-universal)
 * [deck.gl &ndash; Large-scale WebGL-powered Data Visualization](https://deck.gl) 
+* [react-map-gl &ndash; React friendly API wrapper around MapboxGL JS](https://github.com/visgl/react-map-gl) 
 * [Leaflet &ndash; a JavaScript library for interactive maps](https://leafletjs.com/) 
 * [Cytoscape &ndash; an open source software platform for visualizing complex networks](https://cytoscape.org/)
 * [ApexCharts.js &ndash; Open Source JavaScript Charts for your website](https://apexcharts.com/)
+* [React Sortable Tree &ndash; A React component for representation of hierarchical data](https://github.com/frontend-collective/react-sortable-tree)
+* [Moment.js &ndash; Parse, validate, manipulate, and display dates and times in JavaScript](https://momentjs.com/)
 
 ### Backend
 
@@ -149,7 +154,7 @@ An API documentation with example configuration can been seen [here](https://sam
 Sampo-UI's backend is based on the following JavaScript libraries:
 
 * [Express &ndash; Fast, unopinionated, minimalist web framework for Node.js](https://expressjs.com/)
-* [axios &ndash; Promise based HTTP client for the browser and Node.js](https://expressjs.com/)
+* [axios &ndash; Promise based HTTP client for the browser and Node.js](https://github.com/axios/axios)
 * [Lodash &ndash; A modern JavaScript utility library delivering modularity, performance & extras](https://lodash.com/)
 
 ## Extra: forking into the same organization account
