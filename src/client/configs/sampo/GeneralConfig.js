@@ -23,3 +23,9 @@ export const yasguiParams = {
   requestMethod: 'POST',
   tabTitle: 'Exported query'
 }
+
+export const SLIDER_DURATION = {
+  halfSpeed: 1200,
+  normalSpeed: 600,
+  doubleSpeed: 300
+}

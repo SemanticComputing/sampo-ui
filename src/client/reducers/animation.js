@@ -1,7 +1,7 @@
 import { ANIMATE_MAP } from '../actions'
 
 export const INITIAL_STATE = {
-  value: []
+  value: [131]
 }
 
 const animation = (state = INITIAL_STATE, action) => {
