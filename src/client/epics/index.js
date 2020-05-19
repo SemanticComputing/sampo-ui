@@ -450,17 +450,17 @@ const fetchGeoJSONLayer = async (layerID, bounds) => {
   const baseUrl = 'http://kartta.nba.fi/arcgis/services/WFS/MV_Kulttuuriymparisto/MapServer/WFSServer'
   // const baseUrl = 'http://avaa.tdata.fi/geoserver/kotus/ows'
   // const baseUrl = 'http://avaa.tdata.fi/geoserver/paituli/wfs'
-  // const boundsStr =
-  //   `${bounds._southWest.lng},${bounds._southWest.lat},${bounds._northEast.lng},${bounds._northEast.lat}`
+  const boundsStr =
+    `${bounds._southWest.lng},${bounds._southWest.lat},${bounds._northEast.lng},${bounds._northEast.lat}`
   const mapServerParams = {
     request: 'GetFeature',
     service: 'WFS',
     version: '2.0.0',
     typeName: layerID,
     srsName: 'EPSG:4326',
-    // outputFormat: 'geojson'
-    outputFormat: 'application/json'
-    // bbox: boundsStr
+    outputFormat: 'geojson',
+    bbox: boundsStr
+    // outputFormat: 'application/json' for kotus layers
   }
   const url = `${baseUrl}?${querystring.stringify(mapServerParams)}`
   try {

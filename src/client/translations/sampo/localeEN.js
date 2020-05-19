@@ -104,6 +104,7 @@ export default {
       heatmap: 'Heatmap'
     },
     wrongZoomLevel: 'The map zoom level has to at least 11',
+    wrongZoomLevelFHA: 'The map zoom level has to be at least 13 in order to show this layer',
     tooManyResults: 'More than 3000 results, please use clustered map or heatmap'
   },
   instancePageGeneral: {

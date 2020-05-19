@@ -222,9 +222,9 @@ class LeafletMap extends React.Component {
     if (this.props.showExternalLayers) {
       const basemaps = {
         [intl.get(`leafletMap.basemaps.mapbox.${MAPBOX_STYLE}`)]: mapboxBaseLayer
-      // [intl.get('leafletMap.basemaps.googleRoadmap')]: googleRoadmap,
-      // [intl.get('leafletMap.basemaps.topographicalMapNLS')]: topographicalMapNLS,
-      // [intl.get('leafletMap.basemaps.backgroundMapNLS')]: backgroundMapNLS
+        // [intl.get('leafletMap.basemaps.googleRoadmap')]: googleRoadmap,
+        // [intl.get('leafletMap.basemaps.topographicalMapNLS')]: topographicalMapNLS,
+        // [intl.get('leafletMap.basemaps.backgroundMapNLS')]: backgroundMapNLS
       }
       this.initOverLays(basemaps)
     }
@@ -250,8 +250,8 @@ class LeafletMap extends React.Component {
     // return 'https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/' +
     // layerID + '/default/WGS84_Pseudo-Mercator/{z}/{x}/{y}.png';
     return 'https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts?service=WMTS' +
-    '&request=GetTile&version=1.0.0&layer=' + layerID + '&style=default' +
-    '&format=image/png&TileMatrixSet=WGS84_Pseudo-Mercator&TileMatrix={z}&TileRow={y}&TileCol={x}'
+      '&request=GetTile&version=1.0.0&layer=' + layerID + '&style=default' +
+      '&format=image/png&TileMatrixSet=WGS84_Pseudo-Mercator&TileMatrix={z}&TileRow={y}&TileCol={x}'
   }
 
   boundsToValues = () => {
@@ -308,6 +308,11 @@ class LeafletMap extends React.Component {
             layerIDs: this.state.activeOverlays,
             bounds: this.leafletMap.getBounds()
           })
+        } else {
+          this.props.showError({
+            title: '',
+            text: intl.get('leafletMap.wrongZoomLevelFHA')
+          })
         }
       }
     })
@@ -327,28 +332,28 @@ class LeafletMap extends React.Component {
       this.setState({ prevZoomLevel: this.leafletMap.getZoom() })
     })
     // Fired when zooming ends
-    // this.leafletMap.on('zoomend', () => {
-    //   if (this.state.activeOverlays.length > 0 && this.isSafeToLoadLargeLayersAfterZooming()) {
-    //     this.props.fetchGeoJSONLayers({
-    //       layerIDs: this.state.activeOverlays,
-    //       bounds: this.leafletMap.getBounds()
-    //     })
-    //   }
-    // })
+    this.leafletMap.on('zoomend', () => {
+      if (this.state.activeOverlays.length > 0 && this.isSafeToLoadLargeLayersAfterZooming()) {
+        this.props.fetchGeoJSONLayers({
+          layerIDs: this.state.activeOverlays,
+          bounds: this.leafletMap.getBounds()
+        })
+      }
+    })
     // Fired when dragging ends
-    // this.leafletMap.on('dragend', () => {
-    //   if (this.state.activeOverlays.length > 0 && this.isSafeToLoadLargeLayers()) {
-    //     this.props.fetchGeoJSONLayers({
-    //       layerIDs: this.state.activeOverlays,
-    //       bounds: this.leafletMap.getBounds()
-    //     })
-    //   }
-    // })
+    this.leafletMap.on('dragend', () => {
+      if (this.state.activeOverlays.length > 0 && this.isSafeToLoadLargeLayers()) {
+        this.props.fetchGeoJSONLayers({
+          layerIDs: this.state.activeOverlays,
+          bounds: this.leafletMap.getBounds()
+        })
+      }
+    })
   }
 
   isSafeToLoadLargeLayersAfterZooming = () => {
     return (this.leafletMap.getZoom() === 13 ||
-    (this.leafletMap.getZoom() >= 13 && this.state.prevZoomLevel > this.leafletMap.getZoom()))
+      (this.leafletMap.getZoom() >= 13 && this.state.prevZoomLevel > this.leafletMap.getZoom()))
   }
 
   isSafeToLoadLargeLayers = () => this.leafletMap.getZoom() >= 13
@@ -356,6 +361,8 @@ class LeafletMap extends React.Component {
   initOverLays = basemaps => {
     const fhaArchaeologicalSiteRegistryAreas = L.layerGroup([], {
       id: 'arkeologiset_kohteet_alue',
+      type: 'geoJSON',
+      source: 'FHA',
       // this layer includes only GeoJSON Polygons, define style for them
       geojsonMPolygonOptions: {
         color: '#dd2c00',
@@ -365,6 +372,8 @@ class LeafletMap extends React.Component {
     })
     const fhaArchaeologicalSiteRegistryPoints = L.layerGroup([], {
       id: 'arkeologiset_kohteet_piste',
+      type: 'geoJSON',
+      source: 'FHA',
       // this layer includes only GeoJSON points, define style for them
       geojsonMarkerOptions: {
         radius: 8,
@@ -377,6 +386,7 @@ class LeafletMap extends React.Component {
     // const kotusParishes1938 = L.layerGroup([], {
     //   id: 'kotus:pitajat',
     //   type: 'geoJSON',
+    //   source: 'kotus',
     //   // this layer includes only GeoJSON Polygons, define style for them
     //   geojsonMPolygonOptions: {
     //     color: '#dd2c00',
@@ -387,6 +397,7 @@ class LeafletMap extends React.Component {
     // const kotusParishesDialecticalRegions = L.layerGroup([], {
     //   id: 'kotus:rajat-sms-alueet',
     //   type: 'geoJSON',
+    //   source: 'kotus',
     //   // this layer includes only GeoJSON Polygons, define style for them
     //   geojsonMPolygonOptions: {
     //     color: '#fca903',
@@ -397,6 +408,7 @@ class LeafletMap extends React.Component {
     // const kotusParishesDialecticalSubRegions = L.layerGroup([], {
     //   id: 'kotus:rajat-sms-alueosat',
     //   type: 'geoJSON',
+    //   source: 'kotus',
     //   // this layer includes only GeoJSON Polygons, define style for them
     //   geojsonMPolygonOptions: {
     //     color: '#119100',
@@ -407,6 +419,7 @@ class LeafletMap extends React.Component {
     // const kotusParishesDialecticalBorder = L.layerGroup([], {
     //   id: 'kotus:rajat-lansi-ita',
     //   type: 'geoJSON',
+    //   source: 'kotus',
     //   // this layer includes only GeoJSON Polygons, define style for them
     //   geojsonMPolygonOptions: {
     //     color: '#2403fc',
@@ -456,7 +469,7 @@ class LeafletMap extends React.Component {
       style: leafletOverlay.options.geojsonMPolygonOptions,
       // add popups
       onEachFeature: (feature, layer) => {
-        layer.bindPopup(this.createPopUpContentGeoJSON(feature.properties))
+        layer.bindPopup(this.createPopUpContentGeoJSON(layerObj.layerID, feature.properties))
       }
     })
     leafletGeoJSONLayer.addTo(leafletOverlay).addTo(this.leafletMap)
@@ -582,10 +595,6 @@ class LeafletMap extends React.Component {
     this.leafletMap.removeControl(this.drawControlFull)
     this.leafletMap.removeControl(this.drawControlEditOnly)
   }
-
-  // drawHeatmap = latLngs => {
-
-  // }
 
   updateMarkers = results => {
     this.resultMarkerLayer.clearLayers()
@@ -786,9 +795,15 @@ class LeafletMap extends React.Component {
         <p><b>${intl.get(`perspectives.${perspectiveID}.properties.source.label`)}</b>: ${data.source}</p>`
       }
     }
-
-    // console.log(popUpTemplate)
     return popUpTemplate
+  }
+
+  createPopUpContentGeoJSON = (layerID, properties) => {
+    if (layerID === 'arkeologiset_kohteet_alue' || layerID === 'arkeologiset_kohteet_piste') {
+      return this.createPopUpContentGeoJSONFHA(properties)
+    } else {
+      return this.createPopUpContentGeoJSONKotus(properties)
+    }
   }
 
   createPopUpContentGeoJSONFHA = properties => {
@@ -882,7 +897,8 @@ LeafletMap.propTypes = {
   showExternalLayers: PropTypes.bool,
   updateFacetOption: PropTypes.func,
   facetedSearchMode: PropTypes.string,
-  container: PropTypes.string
+  container: PropTypes.string,
+  showError: PropTypes.func
 }
 
 export const LeafletMapComponent = LeafletMap

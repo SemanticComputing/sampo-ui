@@ -371,6 +371,7 @@ const SemanticPortal = props => {
                                   updateRowsPerPage={props.updateRowsPerPage}
                                   updateFacetOption={props.updateFacetOption}
                                   sortResults={props.sortResults}
+                                  showError={props.showError}
                                   routeProps={routeProps}
                                   perspective={perspective}
                                   animationValue={props.animationValue}

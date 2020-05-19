@@ -42,8 +42,10 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/production_places`}
         render={() =>
           <LeafletMap
-            center={[22.43, 10.37]}
-            zoom={2}
+            // center={[22.43, 10.37]}
+            // zoom={2}
+            center={[60.17, 24.81]}
+            zoom={14}
             results={props.placesResults.results}
             layers={props.leafletMapLayers}
             pageType='facetResults'
@@ -62,6 +64,7 @@ const Perspective1 = props => {
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
             showExternalLayers
+            showError={props.showError}
           />}
       />
       <Route
@@ -152,7 +155,8 @@ Perspective1.propTypes = {
   animationValue: PropTypes.array.isRequired,
   animateMap: PropTypes.func.isRequired,
   screenSize: PropTypes.string.isRequired,
-  rootUrl: PropTypes.string.isRequired
+  rootUrl: PropTypes.string.isRequired,
+  showError: PropTypes.func.isRequired
 }
 
 export default Perspective1

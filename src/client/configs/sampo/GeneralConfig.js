@@ -6,7 +6,7 @@ export const showLanguageButton = true
 
 export const publishedPort = 3006
 
-export const MAPBOX_ACCESS_TOKEN = '' // https://docs.mapbox.com/accounts/overview/tokens/
+export const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZWtrb25lbiIsImEiOiJja2FkbGxiY2owMDZkMnFxcGVqNTZ0dmk2In0.6keLTN8VveJkM5y4_OFmUw' // https://docs.mapbox.com/accounts/overview/tokens/
 
 export const MAPBOX_STYLE = 'light-v10' // https://docs.mapbox.com/api/maps/#styles
 

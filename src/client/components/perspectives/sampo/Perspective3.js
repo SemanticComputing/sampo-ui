@@ -91,7 +91,8 @@ Perspective3.propTypes = {
   animationValue: PropTypes.array.isRequired,
   animateMap: PropTypes.func.isRequired,
   screenSize: PropTypes.string.isRequired,
-  rootUrl: PropTypes.string.isRequired
+  rootUrl: PropTypes.string.isRequired,
+  showError: PropTypes.func.isRequired
 }
 
 export default Perspective3
