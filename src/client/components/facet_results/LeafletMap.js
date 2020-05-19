@@ -110,6 +110,9 @@ class LeafletMap extends React.Component {
     if (this.props.mapMode && this.props.pageType === 'clientFSResults') {
       this.drawPointData()
     }
+    if (this.props.showExternalLayers) {
+      this.props.clearGeoJSONLayers()
+    }
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -888,6 +891,7 @@ LeafletMap.propTypes = {
   facetUpdateID: PropTypes.number,
   fetchResults: PropTypes.func,
   fetchGeoJSONLayers: PropTypes.func,
+  clearGeoJSONLayers: PropTypes.func,
   resultClass: PropTypes.string,
   facetClass: PropTypes.string,
   fetchByURI: PropTypes.func,

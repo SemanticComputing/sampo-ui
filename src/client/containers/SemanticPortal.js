@@ -46,6 +46,7 @@ import {
   fetchFacetConstrainSelf,
   fetchGeoJSONLayers,
   fetchGeoJSONLayersBackend,
+  clearGeoJSONLayers,
   sortResults,
   updateFacetOption,
   updatePage,
@@ -366,6 +367,7 @@ const SemanticPortal = props => {
                                   fetchPaginatedResults={props.fetchPaginatedResults}
                                   fetchResults={props.fetchResults}
                                   fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+                                  clearGeoJSONLayers={props.clearGeoJSONLayers}
                                   fetchByURI={props.fetchByURI}
                                   updatePage={props.updatePage}
                                   updateRowsPerPage={props.updateRowsPerPage}
@@ -583,6 +585,7 @@ const mapDispatchToProps = ({
   fetchFacetConstrainSelf,
   fetchGeoJSONLayers,
   fetchGeoJSONLayersBackend,
+  clearGeoJSONLayers,
   sortResults,
   clearResults,
   updateFacetOption,
@@ -674,6 +677,10 @@ SemanticPortal.propTypes = {
    * Redux action for loading external GeoJSON layers.
    */
   fetchGeoJSONLayers: PropTypes.func.isRequired,
+  /**
+   * Redux action for clearing external GeoJSON layers.
+   */
+  clearGeoJSONLayers: PropTypes.func.isRequired,
   /**
    * Redux action for loading external GeoJSON layers via the backend.
    * Useful when the API or similar needs to be hidden.

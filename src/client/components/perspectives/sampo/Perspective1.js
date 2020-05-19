@@ -59,6 +59,7 @@ const Perspective1 = props => {
             instance={props.placesResults.instance}
             fetchResults={props.fetchResults}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+            clearGeoJSONLayers={props.clearGeoJSONLayers}
             fetchByURI={props.fetchByURI}
             fetching={props.placesResults.fetching}
             showInstanceCountInClusters
@@ -102,11 +103,13 @@ const Perspective1 = props => {
             instance={props.placesResults.instance}
             fetchResults={props.fetchResults}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+            clearGeoJSONLayers={props.clearGeoJSONLayers}
             fetchByURI={props.fetchByURI}
             fetching={props.placesResults.fetching}
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
             showExternalLayers
+            showError={props.showError}
           />}
       />
       <Route
@@ -143,6 +146,7 @@ Perspective1.propTypes = {
   leafletMapLayers: PropTypes.object.isRequired,
   facetData: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
+  clearGeoJSONLayers: PropTypes.func.isRequired,
   fetchGeoJSONLayers: PropTypes.func.isRequired,
   fetchPaginatedResults: PropTypes.func.isRequired,
   fetchByURI: PropTypes.func.isRequired,

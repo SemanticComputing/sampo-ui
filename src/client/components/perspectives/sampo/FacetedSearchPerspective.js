@@ -21,6 +21,7 @@ const FacetedSearchPerspective = props => {
             fetchPaginatedResults={props.fetchPaginatedResults}
             fetchResults={props.fetchResults}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+            clearGeoJSONLayers={props.clearGeoJSONLayers}
             fetchByURI={props.fetchByURI}
             updatePage={props.updatePage}
             updateRowsPerPage={props.updateRowsPerPage}
@@ -45,6 +46,7 @@ const FacetedSearchPerspective = props => {
             fetchPaginatedResults={props.fetchPaginatedResults}
             fetchResults={props.fetchResults}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+            clearGeoJSONLayers={props.clearGeoJSONLayers}
             fetchByURI={props.fetchByURI}
             updatePage={props.updatePage}
             updateRowsPerPage={props.updateRowsPerPage}
@@ -69,6 +71,7 @@ const FacetedSearchPerspective = props => {
             fetchPaginatedResults={props.fetchPaginatedResults}
             fetchResults={props.fetchResults}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+            clearGeoJSONLayers={props.clearGeoJSONLayers}
             fetchByURI={props.fetchByURI}
             updatePage={props.updatePage}
             updateRowsPerPage={props.updateRowsPerPage}
@@ -125,6 +128,10 @@ FacetedSearchPerspective.propTypes = {
    * Redux action for loading external GeoJSON layers.
    */
   fetchGeoJSONLayers: PropTypes.func.isRequired,
+  /**
+   * Redux action for clearing external GeoJSON layers.
+   */
+  clearGeoJSONLayers: PropTypes.func.isRequired,
   /**
    * Redux action for fetching information about a single entity.
    */
