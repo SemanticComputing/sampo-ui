@@ -519,6 +519,9 @@ const SemanticPortal = props => {
                         clientFSSortResults={props.clientFSSortResults}
                         leafletMap={props.leafletMap}
                         fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
+                        fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+                        clearGeoJSONLayers={props.clearGeoJSONLayers}
+                        showError={props.showError}
                         rootUrl={rootUrlWithLang}
                       />}
                   </Grid>

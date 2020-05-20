@@ -12,6 +12,7 @@ import CSVButton from '../../../facet_results/CSVButton'
 
 const ClientFSPerspective = props => {
   const { rootUrl, perspective } = props
+  console.log(perspective.id)
   return (
     <>
       <PerspectiveTabs
@@ -46,6 +47,8 @@ const ClientFSPerspective = props => {
             facetUpdateID={props.clientFS.facetUpdateID}
             showMapModeControl={false}
             fetchGeoJSONLayers={props.fetchGeoJSONLayersBackend}
+            clearGeoJSONLayers={props.clearGeoJSONLayers}
+            showError={props.showError}
             fetchByURI={props.fetchByURI}
             fetching={false}
             showInstanceCountInClusters={false}
@@ -72,12 +75,15 @@ const ClientFSPerspective = props => {
                 facetUpdateID={props.clientFS.facetUpdateID}
                 showMapModeControl={false}
                 fetchGeoJSONLayers={props.fetchGeoJSONLayersBackend}
+                clearGeoJSONLayers={props.clearGeoJSONLayers}
+                showError={props.showError}
                 fetchByURI={props.fetchByURI}
                 fetching={false}
                 showInstanceCountInClusters={false}
                 updateFacetOption={props.updateFacetOption}
                 showExternalLayers
                 facetedSearchMode='clientFS'
+                perspectiveID={perspective.id}
               />
             )
           }
@@ -110,7 +116,10 @@ ClientFSPerspective.propTypes = {
   clientFSResults: PropTypes.array,
   clientFSSortResults: PropTypes.func.isRequired,
   leafletMap: PropTypes.object.isRequired,
+  fetchGeoJSONLayers: PropTypes.func,
   fetchGeoJSONLayersBackend: PropTypes.func.isRequired,
+  clearGeoJSONLayers: PropTypes.func.isRequired,
+  showError: PropTypes.func.isRequired,
   rootUrl: PropTypes.string.isRequired
 }
 

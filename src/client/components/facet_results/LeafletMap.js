@@ -439,8 +439,8 @@ class LeafletMap extends React.Component {
       attribution: 'SeCo'
     })
     this.overlayLayers = {
-      [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_alue')]: fhaArchaeologicalSiteRegistryAreas,
-      [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_piste')]: fhaArchaeologicalSiteRegistryPoints,
+      // [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_alue')]: fhaArchaeologicalSiteRegistryAreas,
+      // [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_piste')]: fhaArchaeologicalSiteRegistryPoints,
       [intl.get('leafletMap.externalLayers.karelianMaps')]: karelianMaps,
       [intl.get('leafletMap.externalLayers.senateAtlas')]: senateAtlas
       // [intl.get('leafletMap.externalLayers.kotus:pitajat')]: kotusParishes1938,
