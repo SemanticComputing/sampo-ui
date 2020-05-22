@@ -14,7 +14,7 @@ import intl from 'react-intl-universal'
 import localeEN from '../translations/sampo/localeEN'
 import localeFI from '../translations/sampo/localeFI'
 import localeSV from '../translations/sampo/localeSV'
-import { stateToUrl, handleAxiosError, pickSelectedDatasets, boundsToValues } from '../helpers/helpers'
+import { stateToUrl, handleAxiosError, pickSelectedDatasets /* boundsToValues */ } from '../helpers/helpers'
 import querystring from 'querystring'
 import {
   FETCH_RESULT_COUNT,
@@ -411,16 +411,16 @@ const fetchGeoJSONLayersBackendEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_GEOJSON_LAYERS_BACKEND),
   withLatestFrom(state$),
   mergeMap(([action]) => {
-    const { layerIDs, bounds } = action
-    const { latMin, longMin, latMax, longMax } = boundsToValues(bounds)
+    const { layerIDs /* bounds */ } = action
+    // const { latMin, longMin, latMax, longMax } = boundsToValues(bounds)
     const params = {
-      layerID: layerIDs,
-      latMin,
-      longMin,
-      latMax,
-      longMax
+      layerID: layerIDs
+      // latMin,
+      // longMin,
+      // latMax,
+      // longMax
     }
-    const requestUrl = `${apiUrl}wfs?${querystring.stringify(params)}`
+    const requestUrl = `${apiUrl}/wfs?${querystring.stringify(params)}`
     return ajax.getJSON(requestUrl).pipe(
       map(res => updateGeoJSONLayers({
         payload: res

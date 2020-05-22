@@ -12,7 +12,6 @@ import CSVButton from '../../../facet_results/CSVButton'
 
 const ClientFSPerspective = props => {
   const { rootUrl, perspective } = props
-  console.log(perspective.id)
   return (
     <>
       <PerspectiveTabs

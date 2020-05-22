@@ -58,7 +58,7 @@ const Perspective1 = props => {
             showMapModeControl={false}
             instance={props.placesResults.instance}
             fetchResults={props.fetchResults}
-            fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+            fetchGeoJSONLayers={props.fetchGeoJSONLayersBackend}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
             fetchByURI={props.fetchByURI}
             fetching={props.placesResults.fetching}
@@ -102,7 +102,7 @@ const Perspective1 = props => {
             showMapModeControl={false}
             instance={props.placesResults.instance}
             fetchResults={props.fetchResults}
-            fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+            fetchGeoJSONLayers={props.fetchGeoJSONLayersBackend}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
             fetchByURI={props.fetchByURI}
             fetching={props.placesResults.fetching}
@@ -148,6 +148,7 @@ Perspective1.propTypes = {
   fetchResults: PropTypes.func.isRequired,
   clearGeoJSONLayers: PropTypes.func.isRequired,
   fetchGeoJSONLayers: PropTypes.func.isRequired,
+  fetchGeoJSONLayersBackend: PropTypes.func.isRequired,
   fetchPaginatedResults: PropTypes.func.isRequired,
   fetchByURI: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,

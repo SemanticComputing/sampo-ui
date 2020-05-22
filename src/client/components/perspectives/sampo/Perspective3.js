@@ -54,7 +54,7 @@ const Perspective3 = props => {
             instance={props.placesResults.instance}
             fetchResults={props.fetchResults}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
-            fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+            fetchGeoJSONLayers={props.fetchGeoJSONLayersBackend}
             fetchByURI={props.fetchByURI}
             fetching={props.placesResults.fetching}
             showInstanceCountInClusters
@@ -82,6 +82,7 @@ Perspective3.propTypes = {
   facetData: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
   fetchGeoJSONLayers: PropTypes.func.isRequired,
+  fetchGeoJSONLayersBackend: PropTypes.func.isRequired,
   clearGeoJSONLayers: PropTypes.func.isRequired,
   fetchPaginatedResults: PropTypes.func.isRequired,
   fetchByURI: PropTypes.func.isRequired,

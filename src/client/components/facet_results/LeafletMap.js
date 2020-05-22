@@ -354,42 +354,20 @@ class LeafletMap extends React.Component {
     })
   }
 
-  isSafeToLoadLargeLayersAfterZooming = () => {
-    return (this.leafletMap.getZoom() === 13 ||
-      (this.leafletMap.getZoom() >= 13 && this.state.prevZoomLevel > this.leafletMap.getZoom()))
-  }
+  isSafeToLoadLargeLayersAfterZooming = () => true
+  // {
+  //   return (this.leafletMap.getZoom() === 13 ||
+  //     (this.leafletMap.getZoom() >= 13 && this.state.prevZoomLevel > this.leafletMap.getZoom()))
+  // }
 
-  isSafeToLoadLargeLayers = () => this.leafletMap.getZoom() >= 13
+  isSafeToLoadLargeLayers = () => true
+  // this.leafletMap.getZoom() >= 13
 
   initOverLays = basemaps => {
-    const fhaArchaeologicalSiteRegistryAreas = L.layerGroup([], {
-      id: 'arkeologiset_kohteet_alue',
-      type: 'geoJSON',
-      source: 'FHA',
-      // this layer includes only GeoJSON Polygons, define style for them
-      geojsonMPolygonOptions: {
-        color: '#dd2c00',
-        cursor: 'pointer',
-        dashArray: '3, 5'
-      }
-    })
-    const fhaArchaeologicalSiteRegistryPoints = L.layerGroup([], {
-      id: 'arkeologiset_kohteet_piste',
-      type: 'geoJSON',
-      source: 'FHA',
-      // this layer includes only GeoJSON points, define style for them
-      geojsonMarkerOptions: {
-        radius: 8,
-        fillColor: '#dd2c00',
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
-      }
-    })
-    // const kotusParishes1938 = L.layerGroup([], {
-    //   id: 'kotus:pitajat',
+    // const fhaArchaeologicalSiteRegistryAreas = L.layerGroup([], {
+    //   id: 'arkeologiset_kohteet_alue',
     //   type: 'geoJSON',
-    //   source: 'kotus',
+    //   source: 'FHA',
     //   // this layer includes only GeoJSON Polygons, define style for them
     //   geojsonMPolygonOptions: {
     //     color: '#dd2c00',
@@ -397,39 +375,63 @@ class LeafletMap extends React.Component {
     //     dashArray: '3, 5'
     //   }
     // })
-    // const kotusParishesDialecticalRegions = L.layerGroup([], {
-    //   id: 'kotus:rajat-sms-alueet',
+    // const fhaArchaeologicalSiteRegistryPoints = L.layerGroup([], {
+    //   id: 'arkeologiset_kohteet_piste',
     //   type: 'geoJSON',
-    //   source: 'kotus',
-    //   // this layer includes only GeoJSON Polygons, define style for them
-    //   geojsonMPolygonOptions: {
-    //     color: '#fca903',
-    //     cursor: 'pointer',
-    //     dashArray: '3, 5'
+    //   source: 'FHA',
+    //   // this layer includes only GeoJSON points, define style for them
+    //   geojsonMarkerOptions: {
+    //     radius: 8,
+    //     fillColor: '#dd2c00',
+    //     weight: 1,
+    //     opacity: 1,
+    //     fillOpacity: 0.8
     //   }
     // })
-    // const kotusParishesDialecticalSubRegions = L.layerGroup([], {
-    //   id: 'kotus:rajat-sms-alueosat',
-    //   type: 'geoJSON',
-    //   source: 'kotus',
-    //   // this layer includes only GeoJSON Polygons, define style for them
-    //   geojsonMPolygonOptions: {
-    //     color: '#119100',
-    //     cursor: 'pointer',
-    //     dashArray: '3, 5'
-    //   }
-    // })
-    // const kotusParishesDialecticalBorder = L.layerGroup([], {
-    //   id: 'kotus:rajat-lansi-ita',
-    //   type: 'geoJSON',
-    //   source: 'kotus',
-    //   // this layer includes only GeoJSON Polygons, define style for them
-    //   geojsonMPolygonOptions: {
-    //     color: '#2403fc',
-    //     cursor: 'pointer',
-    //     dashArray: '3, 5'
-    //   }
-    // })
+    const kotusParishes1938 = L.layerGroup([], {
+      id: 'kotus:pitajat',
+      type: 'geoJSON',
+      source: 'kotus',
+      // this layer includes only GeoJSON Polygons, define style for them
+      geojsonMPolygonOptions: {
+        color: '#dd2c00',
+        cursor: 'pointer',
+        dashArray: '3, 5'
+      }
+    })
+    const kotusParishesDialecticalRegions = L.layerGroup([], {
+      id: 'kotus:rajat-sms-alueet',
+      type: 'geoJSON',
+      source: 'kotus',
+      // this layer includes only GeoJSON Polygons, define style for them
+      geojsonMPolygonOptions: {
+        color: '#fca903',
+        cursor: 'pointer',
+        dashArray: '3, 5'
+      }
+    })
+    const kotusParishesDialecticalSubRegions = L.layerGroup([], {
+      id: 'kotus:rajat-sms-alueosat',
+      type: 'geoJSON',
+      source: 'kotus',
+      // this layer includes only GeoJSON Polygons, define style for them
+      geojsonMPolygonOptions: {
+        color: '#119100',
+        cursor: 'pointer',
+        dashArray: '3, 5'
+      }
+    })
+    const kotusParishesDialecticalBorder = L.layerGroup([], {
+      id: 'kotus:rajat-lansi-ita',
+      type: 'geoJSON',
+      source: 'kotus',
+      // this layer includes only GeoJSON Polygons, define style for them
+      geojsonMPolygonOptions: {
+        color: '#2403fc',
+        cursor: 'pointer',
+        dashArray: '3, 5'
+      }
+    })
     const karelianMaps = L.tileLayer('http:///mapwarper.onki.fi/mosaics/tile/4/{z}/{x}/{y}.png', {
       type: 'tile',
       attribution: 'SeCo'
@@ -442,11 +444,11 @@ class LeafletMap extends React.Component {
       // [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_alue')]: fhaArchaeologicalSiteRegistryAreas,
       // [intl.get('leafletMap.externalLayers.arkeologiset_kohteet_piste')]: fhaArchaeologicalSiteRegistryPoints,
       [intl.get('leafletMap.externalLayers.karelianMaps')]: karelianMaps,
-      [intl.get('leafletMap.externalLayers.senateAtlas')]: senateAtlas
-      // [intl.get('leafletMap.externalLayers.kotus:pitajat')]: kotusParishes1938,
-      // [intl.get('leafletMap.externalLayers.kotus:rajat-sms-alueet')]: kotusParishesDialecticalRegions,
-      // [intl.get('leafletMap.externalLayers.kotus:rajat-sms-alueosat')]: kotusParishesDialecticalSubRegions,
-      // [intl.get('leafletMap.externalLayers.kotus:rajat-lansi-ita')]: kotusParishesDialecticalBorder
+      [intl.get('leafletMap.externalLayers.senateAtlas')]: senateAtlas,
+      [intl.get('leafletMap.externalLayers.kotus:pitajat')]: kotusParishes1938,
+      [intl.get('leafletMap.externalLayers.kotus:rajat-sms-alueet')]: kotusParishesDialecticalRegions,
+      [intl.get('leafletMap.externalLayers.kotus:rajat-sms-alueosat')]: kotusParishesDialecticalSubRegions,
+      [intl.get('leafletMap.externalLayers.kotus:rajat-lansi-ita')]: kotusParishesDialecticalBorder
     }
     L.control.layers(basemaps, this.overlayLayers).addTo(this.leafletMap)
     const opacityLayers = {

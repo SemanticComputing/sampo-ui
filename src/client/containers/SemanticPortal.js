@@ -367,6 +367,7 @@ const SemanticPortal = props => {
                                   fetchPaginatedResults={props.fetchPaginatedResults}
                                   fetchResults={props.fetchResults}
                                   fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+                                  fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
                                   clearGeoJSONLayers={props.clearGeoJSONLayers}
                                   fetchByURI={props.fetchByURI}
                                   updatePage={props.updatePage}

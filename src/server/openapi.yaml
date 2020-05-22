@@ -364,6 +364,27 @@ paths:
                   type: object
                 description: Search results from multiple SPARQL endpoints
                       merged into a single array
+  /wfs:
+    get:
+      summary: Make preconfigured Web Feature Service (WFS) API calls via the backend. 
+      parameters:
+        - in: query
+          name: layerID
+          schema: 
+            type: array
+            items: 
+              type: string
+          explode: true
+          required: true
+      responses:
+        '200':
+          description: An array of GeoJSON layers.
+          content:
+            application/json:
+              schema:
+                type: array
 
+
+        
 
 
