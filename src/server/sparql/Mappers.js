@@ -31,7 +31,6 @@ export const mapCount = sparqlBindings => {
 }
 
 export const mapFacet = (sparqlBindings, previousSelections) => {
-  // console.log(previousSelections)
   let results = []
   if (sparqlBindings.length > 0) {
     results = mapFacetValues(sparqlBindings)
@@ -40,7 +39,6 @@ export const mapFacet = (sparqlBindings, previousSelections) => {
 }
 
 export const mapHierarchicalFacet = (sparqlBindings, previousSelections) => {
-  // console.log(previousSelections)
   const results = mapFacetValues(sparqlBindings)
   let treeData = getTreeFromFlatData({
     flatData: results,

@@ -5,7 +5,7 @@ export const runSelectQuery = async ({
   query,
   endpoint,
   resultMapper,
-  previousSelections = null,
+  previousSelections = null, // not in use
   resultFormat,
   useAuth = false
 }) => {

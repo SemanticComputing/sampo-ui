@@ -1,29 +1,31 @@
 export const hasPreviousSelections = (constraints, facetID) => {
   let hasPreviousSelections = false
-  for (const [key, value] of Object.entries(constraints)) {
-    if (key === facetID && value.filterType === 'uriFilter') {
+  constraints.map(facet => {
+    if (facet.facetID === facetID && facet.filterType === 'uriFilter') {
       hasPreviousSelections = true
     }
-  }
+  })
   return hasPreviousSelections
 }
 
 export const hasPreviousSelectionsFromOtherFacets = (constraints, facetID) => {
-  for (const [key, value] of Object.entries(constraints)) {
-    if (key !== facetID && value.filterType === 'uriFilter') {
-      return true
+  let hasPreviousSelectionsFromOtherFacets = false
+  constraints.map(facet => {
+    if (facet.facetID !== facetID && facet.filterType === 'uriFilter') {
+      hasPreviousSelectionsFromOtherFacets = true
     }
-  }
-  return false
+  })
+  return hasPreviousSelectionsFromOtherFacets
 }
 
 export const getUriFilters = (constraints, facetID) => {
-  constraints.forEach(facet => {
-    if (facet.facetID === facetID && facet.filter === 'uriFilter') {
-      return facet.values
+  let filters = []
+  constraints.map(facet => {
+    if (facet.facetID === facetID && facet.filterType === 'uriFilter') {
+      filters = facet.values
     }
   })
-  return []
+  return filters
 }
 
 export const generateConstraintsBlock = ({
@@ -58,7 +60,9 @@ export const generateConstraintsBlock = ({
           facetID: c.facetID,
           filterTarget: filterTarget,
           values: c.values,
-          inverse: inverse
+          inverse: inverse,
+          selectAlsoSubconcepts: Object.prototype.hasOwnProperty.call(c, 'selectAlsoSubconcepts')
+            ? c.selectAlsoSubconcepts : true // default behaviour for hierarchical facets, can be controlled via reducers
         })
         break
       case 'spatialFilter':
@@ -235,14 +239,15 @@ const generateUriFilter = ({
   facetID,
   filterTarget,
   values,
-  inverse
+  inverse,
+  selectAlsoSubconcepts
 }) => {
   let s = ''
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
-  const addChildren = facetConfig.type === 'hierarchical'
+  const includeChildren = facetConfig.type === 'hierarchical' && selectAlsoSubconcepts
   const literal = facetConfig.literal
   const valuesStr = literal ? `"${values.join('" "')}"` : `<${values.join('> <')}></$>`
-  if (addChildren) {
+  if (includeChildren) {
     s = `
          VALUES ?${facetID}Filter { ${valuesStr} }
          ?${facetID}FilterWithChildren ${facetConfig.parentProperty}* ?${facetID}Filter .
@@ -260,7 +265,7 @@ const generateUriFilter = ({
        }
      `
   } else {
-    const filterValue = addChildren
+    const filterValue = includeChildren
       ? `?${facetID}FilterWithChildren`
       : `?${facetID}Filter`
     s += `
@@ -277,6 +282,6 @@ export const generateSelectedFilter = ({
   inverse
 }) => {
   return (`
-      FILTER(?id ${inverse ? 'NOT' : ''} IN ( <${getUriFilters(constraints, facetID).join('>, <')}> ))
+          FILTER(?id ${inverse ? 'NOT' : ''} IN ( <${getUriFilters(constraints, facetID).join('>, <')}> ))
   `)
 }

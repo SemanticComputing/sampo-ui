@@ -33,7 +33,6 @@ export const getFacet = async ({
   // choose query template and result mapper:
   let q = ''
   let mapper = null
-  let previousSelections = null
   switch (facetConfig.type) {
     case 'list':
       q = facetValuesQuery
@@ -70,10 +69,11 @@ export const getFacet = async ({
       inverse: false,
       constrainSelf
     })
-    previousSelections = new Set(getUriFilters(constraints, facetID))
+    // previousSelections = new Set(getUriFilters(constraints, facetID))
     // if this facet has previous selections, include them in the query
     if (hasPreviousSelections(constraints, facetID)) {
       selectedBlock = generateSelectedBlock({
+        backendSearchConfig,
         facetID,
         constraints
       })
@@ -81,6 +81,7 @@ export const getFacet = async ({
          additional block for facet values that return 0 hits */
       if (hasPreviousSelectionsFromOtherFacets(constraints, facetID)) {
         selectedNoHitsBlock = generateSelectedNoHitsBlock({
+          backendSearchConfig,
           facetClass,
           facetID,
           constraints
@@ -88,9 +89,13 @@ export const getFacet = async ({
       }
     }
   }
+  // if (facetID === 'productionPlace') {
+  //   console.log(selectedBlock)
+  // }
   if (facetConfig.type === 'hierarchical') {
     const { parentPredicate } = facetConfig
     parentBlock = generateParentBlock({
+      backendSearchConfig,
       facetClass,
       facetID,
       constraints,
@@ -128,7 +133,7 @@ export const getFacet = async ({
     endpoint: endpoint.url,
     useAuth: endpoint.useAuth,
     resultMapper: mapper,
-    previousSelections,
+    // previousSelections,
     resultFormat
   })
   if (facetConfig.type === 'hierarchical') {
@@ -224,7 +229,7 @@ const generateParentBlock = ({
         UNION
         # parents for all facet values
         {
-          ${parentFilterStr}
+            ${parentFilterStr}
           # these instances should not be counted, so use another variable name
           ?instance2 ${parentPredicate} ?id .
           VALUES ?facetClass { <FACET_CLASS> }
