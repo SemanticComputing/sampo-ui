@@ -49,34 +49,39 @@ class FacetHeader extends React.Component {
 
   handleSortOnClick = buttonID => () => {
     this.setState({ anchorEl: null })
-    if (buttonID === 'prefLabel' && this.props.facet.sortBy === 'instanceCount') {
-      this.props.updateFacetOption({
-        facetClass: this.props.facetClass,
-        facetID: this.props.facetID,
-        option: 'sortBy',
-        value: 'prefLabel'
-      })
+    let sortDirection
+    if (buttonID === 'prefLabel') {
+      if (this.props.facet.sortBy === 'instanceCount') {
+        sortDirection = 'asc' // default sort direction when sorting by prefLabel
+      } else {
+        sortDirection = this.props.facet.sortDirection === 'asc'
+          ? 'desc' : 'asc'
+      }
     }
-    if (buttonID === 'instanceCount' && this.props.facet.sortBy === 'prefLabel') {
-      this.props.updateFacetOption({
-        facetClass: this.props.facetClass,
-        facetID: this.props.facetID,
-        option: 'sortDirection',
-        value: 'desc'
-      })
-      this.props.updateFacetOption({
-        facetClass: this.props.facetClass,
-        facetID: this.props.facetID,
-        option: 'sortBy',
-        value: 'instanceCount'
-      })
+    if (buttonID === 'instanceCount') {
+      if (this.props.facet.sortBy === 'prefLabel') {
+        sortDirection = 'desc' // default sort direction when sorting by instanceCount
+      } else {
+        sortDirection = this.props.facet.sortDirection === 'asc'
+          ? 'desc' : 'asc'
+      }
     }
+    this.props.updateFacetOption({
+      facetClass: this.props.facetClass,
+      facetID: this.props.facetID,
+      option: 'sortDirection',
+      value: sortDirection
+    })
+    this.props.updateFacetOption({
+      facetClass: this.props.facetClass,
+      facetID: this.props.facetID,
+      option: 'sortBy',
+      value: buttonID
+    })
   };
 
   handleFilterTypeOnClick = buttonID => () => {
-    // console.log(event.target)
     this.setState({ anchorEl: null })
-
     if (buttonID === 'uriFilter' && this.props.facet.filterType === 'spatialFilter') {
       this.props.updateFacetOption({
         facetClass: this.props.facetClass,
