@@ -29,7 +29,9 @@ export const stateToUrl = ({
           facetID: key,
           filterType: value.filterType,
           priority: value.priority,
-          values: Object.keys(value.uriFilter)
+          values: Object.keys(value.uriFilter),
+          ...(Object.prototype.hasOwnProperty.call(value, 'selectAlsoSubconcepts') &&
+            { selectAlsoSubconcepts: value.selectAlsoSubconcepts })
         })
       } else if (has(value, 'spatialFilter') && value.spatialFilter !== null) {
         constraints.push({

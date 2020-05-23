@@ -249,7 +249,8 @@ export const updateFacetValues = (state, action) => {
         ...state.facets,
         [action.id]: {
           ...state.facets[action.id],
-          distinctValueCount: action.data.length || 0,
+          distinctValueCount: state.facets[action.id].type === 'hierarchical'
+            ? action.flatData.length : action.data.length,
           values: action.data || [],
           flatValues: action.flatData || [],
           isFetching: false

@@ -86,6 +86,7 @@ export const INITIAL_STATE = {
       uriFilter: null,
       spatialFilter: null,
       type: 'hierarchical',
+      selectAlsoSubconcepts: true,
       priority: 5
     },
     productionTimespan: {
