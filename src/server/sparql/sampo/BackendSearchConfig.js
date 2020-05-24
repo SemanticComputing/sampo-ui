@@ -4,10 +4,23 @@ import { perspective3Config } from './perspective_configs/Perspective3Config'
 import {
   productionPlacesQuery,
   lastKnownLocationsQuery,
-  migrationsQuery
+  migrationsQuery,
+  manuscriptPropertiesInstancePage,
+  expressionProperties,
+  collectionProperties
 } from './sparql_queries/SparqlQueriesPerspective1'
-import { /* eventProperties, */ eventPlacesQuery } from './sparql_queries/SparqlQueriesPerspective3'
 import {
+  workProperties
+} from './sparql_queries/SparqlQueriesPerspective2'
+import {
+  eventProperties,
+  eventPlacesQuery
+} from './sparql_queries/SparqlQueriesPerspective3'
+import {
+  actorProperties
+} from './sparql_queries/SparqlQueriesActors'
+import {
+  placePropertiesInstancePage,
   placePropertiesInfoWindow,
   manuscriptsProducedAt,
   lastKnownLocationsAt
@@ -21,6 +34,55 @@ export const backendSearchConfig = {
   perspective1: perspective1Config,
   perspective2: perspective2Config,
   perspective3: perspective3Config,
+  manuscripts: {
+    perspectiveID: 'perspective1', // use endpoint config from perspective1
+    instance: {
+      properties: manuscriptPropertiesInstancePage,
+      relatedInstances: ''
+    }
+  },
+  works: {
+    perspectiveID: 'perspective1', // use endpoint config from perspective1
+    instance: {
+      properties: workProperties,
+      relatedInstances: ''
+    }
+  },
+  events: {
+    perspectiveID: 'perspective1', // use endpoint config from perspective1
+    instance: {
+      properties: eventProperties,
+      relatedInstances: ''
+    }
+  },
+  actors: {
+    perspectiveID: 'perspective1', // use endpoint config from perspective1
+    instance: {
+      properties: actorProperties,
+      relatedInstances: ''
+    }
+  },
+  places: {
+    perspectiveID: 'perspective1', // use endpoint config from perspective1
+    instance: {
+      properties: placePropertiesInstancePage,
+      relatedInstances: ''
+    }
+  },
+  expressions: {
+    perspectiveID: 'perspective1', // use endpoint config from perspective1
+    instance: {
+      properties: expressionProperties,
+      relatedInstances: ''
+    }
+  },
+  collections: {
+    perspectiveID: 'perspective1', // use endpoint config from perspective1
+    instance: {
+      properties: collectionProperties,
+      relatedInstances: ''
+    }
+  },
   placesMsProduced: {
     perspectiveID: 'perspective1', // use endpoint config from perspective1
     q: productionPlacesQuery,

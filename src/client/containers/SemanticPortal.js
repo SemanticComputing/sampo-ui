@@ -443,7 +443,7 @@ const SemanticPortal = props => {
                   to={`${rootUrlWithLang}/${perspective.id}/page/:id`}
                 />
                 <Route
-                  path={`/${perspective.id}/page/:id`}
+                  path={`${rootUrlWithLang}/${perspective.id}/page/:id`}
                   render={routeProps => {
                     return (
                       <>
@@ -567,6 +567,12 @@ const mapStateToProps = state => {
     perspective2Facets: state.perspective2Facets,
     perspective3: state.perspective3,
     perspective3Facets: state.perspective3Facets,
+    manuscripts: state.manuscripts,
+    works: state.works,
+    events: state.events,
+    actors: state.actors,
+    expressions: state.expressions,
+    collections: state.collections,
     places: state.places,
     leafletMap: state.leafletMap,
     fullTextSearch: state.fullTextSearch,

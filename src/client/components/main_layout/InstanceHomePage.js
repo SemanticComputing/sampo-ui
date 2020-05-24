@@ -71,6 +71,27 @@ class InstanceHomePage extends React.Component {
       case 'perspective3':
         uri = `${base}/event/${localID}`
         break
+      case 'manuscripts':
+        uri = `${base}/manifestation_singleton/${localID}`
+        break
+      case 'expressions':
+        uri = `${base}/expression/${localID}`
+        break
+      case 'collections':
+        uri = `${base}/collection/${localID}`
+        break
+      case 'works':
+        uri = `${base}/work/${localID}`
+        break
+      case 'events':
+        uri = `${base}/event/${localID}`
+        break
+      case 'actors':
+        uri = `${base}/actor/${localID}`
+        break
+      case 'places':
+        uri = `${base}/place/${localID}`
+        break
     }
     this.props.fetchByURI({
       resultClass: this.props.resultClass,
