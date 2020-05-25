@@ -81,7 +81,7 @@
     "moment-range": "^4.0.2",
     "node-sass": "^4.13.1",
     "react": "^16.13.0",
-    "react-compound-slider": "^1.2.2",
+    "react-compound-slider": "^2.5.0",
     "react-csv": "^2.0.3",
     "react-dom": "^16.8.6",
     "react-html-parser": "^2.0.2",
