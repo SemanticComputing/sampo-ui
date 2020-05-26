@@ -432,11 +432,11 @@ class LeafletMap extends React.Component {
         dashArray: '3, 5'
       }
     })
-    const karelianMaps = L.tileLayer('http:///mapwarper.onki.fi/mosaics/tile/4/{z}/{x}/{y}.png', {
+    const karelianMaps = L.tileLayer('https:///mapwarper.onki.fi/mosaics/tile/4/{z}/{x}/{y}.png', {
       type: 'tile',
       attribution: 'SeCo'
     })
-    const senateAtlas = L.tileLayer('http:///mapwarper.onki.fi/mosaics/tile/5/{z}/{x}/{y}.png', {
+    const senateAtlas = L.tileLayer('https:///mapwarper.onki.fi/mosaics/tile/5/{z}/{x}/{y}.png', {
       type: 'tile',
       attribution: 'SeCo'
     })
