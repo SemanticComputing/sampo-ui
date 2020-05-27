@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import ApexCharts from 'apexcharts'
-import Paper from '@material-ui/core/Paper'
+// import Paper from '@material-ui/core/Paper'
 import purple from '@material-ui/core/colors/purple'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
@@ -110,14 +110,14 @@ class ApexChart extends React.Component {
   render () {
     const { classes, fetching } = this.props
     return (
-      <Paper square className={classes.root}>
+      <div className={classes.root}>
         {fetching &&
           <div className={this.props.classes.spinnerContainer}>
             <CircularProgress style={{ color: purple[500] }} thickness={5} />
           </div>}
         {!fetching &&
           <div className={classes.chart} ref={this.chartRef} />}
-      </Paper>
+      </div>
     )
   }
 }
