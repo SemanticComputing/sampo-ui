@@ -74,11 +74,13 @@ const ChartDialog = props => {
               }
             },
             tooltip: {
-              // enabled: false,
-              followCursor: false,
-              fixed: {
-                enabled: true,
-                position: 'topRight'
+              custom: ({ series, seriesIndex, dataPointIndex, w }) => {
+                console.log(seriesIndex)
+                return `
+                  <div class="arrow_box">
+                    <span>${series[seriesIndex]}</span> 
+                  </div>
+                `
               }
             }
           }}

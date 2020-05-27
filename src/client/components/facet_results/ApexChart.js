@@ -64,8 +64,10 @@ class ApexChart extends React.Component {
     let otherCount = 0
     const totalLength = this.props.data.length
     const threshold = 0.15
+    let sum = 0
     this.props.data.map(item => {
       const portion = parseInt(item.instanceCount) / totalLength
+      sum += item.instanceCount
       if (portion < threshold) {
         otherCount += parseInt(item.instanceCount)
       } else {
@@ -91,7 +93,8 @@ class ApexChart extends React.Component {
       ...this.props.options,
       series,
       labels,
-      colors: chartColors
+      colors: chartColors,
+      sum
     }
     // Destroy the previous chart
     if (!this.chart == null) {
