@@ -45,3 +45,7 @@ a, a:visited, a:hover, a:active {
 .apexcharts-legend-marker {
     top: 3px !important;
 }
+
+.apexcharts-custom-tooltip {
+    padding: 8px
+}
