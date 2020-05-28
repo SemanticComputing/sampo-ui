@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import intl from 'react-intl-universal'
 import { withStyles } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -8,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import Typography from '@material-ui/core/Typography'
 import InfoIcon from '@material-ui/icons/InfoOutlined'
+import ListSubheader from '@material-ui/core/ListSubheader'
 import history from '../../History'
 import ChartDialog from './ChartDialog'
 
@@ -107,42 +109,120 @@ class FacetHeader extends React.Component {
     }
   }
 
+  handleSubconceptsOnClick = buttonID => () => {
+    this.setState({ anchorEl: null })
+    let selectAlsoSubconcepts
+    if (buttonID === 'selectAlsoSubconcepts') {
+      selectAlsoSubconcepts = true
+    }
+    if (buttonID === 'doNotSelectSubconcepts') {
+      selectAlsoSubconcepts = false
+    }
+    this.props.clearFacet({
+      facetClass: this.props.facetClass,
+      facetID: this.props.facetID
+    })
+    this.props.updateFacetOption({
+      facetClass: this.props.facetClass,
+      facetID: this.props.facetID,
+      option: 'selectAlsoSubconcepts',
+      value: selectAlsoSubconcepts
+    })
+  };
+
   handleMenuClose = () => {
     this.setState({ anchorEl: null })
   }
 
   renderFacetMenu = () => {
     const { anchorEl } = this.state
-    const { sortButton, spatialFilterButton, sortBy, filterType, chartButton = false } = this.props.facet
+    const {
+      sortButton,
+      spatialFilterButton,
+      sortBy,
+      filterType,
+      type,
+      chartButton = false,
+      selectAlsoSubconceptsButton = false,
+      selectAlsoSubconcepts
+    } = this.props.facet
     const open = Boolean(anchorEl)
     const menuButtons = []
+
     if (sortButton) {
-      menuButtons.push({
-        id: 'prefLabel',
-        menuItemText: 'Sort alphabetically',
-        selected: sortBy === 'prefLabel',
-        onClickHandler: this.handleSortOnClick
-      })
-      menuButtons.push({
-        id: 'instanceCount',
-        menuItemText: `Sort by number of ${this.props.resultClass}`,
-        selected: sortBy === 'instanceCount',
-        onClickHandler: this.handleSortOnClick
-      })
+      menuButtons.push(
+        <ListSubheader component='div' key='sortingOptionsSubheader'>
+          {intl.get('facetBar.sortingOptions')}
+        </ListSubheader>
+      )
+      menuButtons.push(
+        <MenuItem
+          key='prefLabel'
+          selected={sortBy === 'prefLabel'}
+          onClick={this.handleSortOnClick('prefLabel')}
+        >
+          {intl.get('facetBar.sortAlphabetically')}
+        </MenuItem>
+      )
+      menuButtons.push(
+        <MenuItem
+          key='instanceCount'
+          selected={sortBy === 'instanceCount'}
+          onClick={this.handleSortOnClick('instanceCount')}
+        >
+          {intl.get('facetBar.sortByNumberOfSearchResults')}
+        </MenuItem>
+      )
     }
     if (spatialFilterButton) {
-      menuButtons.push({
-        id: 'uriFilter',
-        menuItemText: 'Filter by name',
-        selected: filterType === 'uriFilter',
-        onClickHandler: this.handleFilterTypeOnClick
-      })
-      menuButtons.push({
-        id: 'spatialFilter',
-        menuItemText: 'Filter by bounding box',
-        selected: filterType === 'spatialFilter',
-        onClickHandler: this.handleFilterTypeOnClick
-      })
+      menuButtons.push(
+        <ListSubheader component='div' key='filterOptionsSubheader'>
+          {intl.get('facetBar.filterOptions')}
+        </ListSubheader>
+      )
+      menuButtons.push(
+        <MenuItem
+          key='uriFilter'
+          selected={filterType === 'uriFilter'}
+          onClick={this.handleFilterTypeOnClick('uriFilter')}
+        >
+          {intl.get('facetBar.filterByName')}
+        </MenuItem>
+      )
+      menuButtons.push(
+        <MenuItem
+          key='spatialFilter'
+          selected={filterType === 'spatialFilter'}
+          onClick={this.handleFilterTypeOnClick('spatialFilter')}
+        >
+          {intl.get('facetBar.filterByBoundingBox')}
+        </MenuItem>
+      )
+    }
+    if (type === 'hierarchical' && selectAlsoSubconceptsButton) {
+      menuButtons.push(
+        <ListSubheader component='div' key='selectionOptionsSubheader'>
+          {intl.get('facetBar.selectionOptions')}
+        </ListSubheader>
+      )
+      menuButtons.push(
+        <MenuItem
+          key='selectAlsoSubconcepts'
+          selected={selectAlsoSubconcepts}
+          onClick={this.handleSubconceptsOnClick('selectAlsoSubconcepts')}
+        >
+          {intl.get('facetBar.selectAlsoSubconcepts')}
+        </MenuItem>
+      )
+      menuButtons.push(
+        <MenuItem
+          key='doNotSelectSubconcepts'
+          selected={!selectAlsoSubconcepts}
+          onClick={this.handleSubconceptsOnClick('doNotSelectSubconcepts')}
+        >
+          {intl.get('facetBar.doNotSelectSubconcepts')}
+        </MenuItem>
+      )
     }
     return (
       <>
@@ -170,11 +250,7 @@ class FacetHeader extends React.Component {
           open={open}
           onClose={this.handleMenuClose}
         >
-          {menuButtons.map(button => (
-            <MenuItem key={button.id} selected={button.selected} onClick={button.onClickHandler(button.id)}>
-              {button.menuItemText}
-            </MenuItem>
-          ))}
+          {menuButtons}
         </Menu>
       </>
     )
@@ -216,6 +292,7 @@ FacetHeader.propTypes = {
   resultClass: PropTypes.string,
   fetchFacet: PropTypes.func,
   fetchFacetConstrainSelf: PropTypes.func,
+  clearFacet: PropTypes.func,
   updateFacetOption: PropTypes.func,
   facetDescription: PropTypes.string.isRequired,
   rootUrl: PropTypes.string.isRequired

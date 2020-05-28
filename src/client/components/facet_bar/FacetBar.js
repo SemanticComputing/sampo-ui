@@ -258,6 +258,7 @@ class FacetBar extends React.Component {
             resultClass={this.props.resultClass}
             fetchFacet={this.props.fetchFacet}
             fetchFacetConstrainSelf={this.props.fetchFacetConstrainSelf}
+            clearFacet={this.props.clearFacet}
             updateFacetOption={this.props.updateFacetOption}
             facetDescription={description}
             rootUrl={this.props.rootUrl}
@@ -344,6 +345,7 @@ FacetBar.propTypes = {
   fetchingResultCount: PropTypes.bool.isRequired,
   fetchFacet: PropTypes.func,
   fetchFacetConstrainSelf: PropTypes.func,
+  clearFacet: PropTypes.func,
   fetchResultCount: PropTypes.func,
   updateFacetOption: PropTypes.func,
   updateMapBounds: PropTypes.func,

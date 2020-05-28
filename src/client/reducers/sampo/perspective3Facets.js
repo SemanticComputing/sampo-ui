@@ -2,13 +2,15 @@ import {
   FETCH_FACET,
   FETCH_FACET_FAILED,
   UPDATE_FACET_VALUES,
-  UPDATE_FACET_OPTION
+  UPDATE_FACET_OPTION,
+  CLEAR_FACET
 } from '../../actions'
 import {
   fetchFacet,
   fetchFacetFailed,
   updateFacetValues,
-  updateFacetOption
+  updateFacetOption,
+  clearFacet
 } from '../helpers'
 
 export const INITIAL_STATE = {
@@ -88,6 +90,8 @@ export const INITIAL_STATE = {
       uriFilter: null,
       spatialFilter: null,
       type: 'hierarchical',
+      selectAlsoSubconceptsButton: true,
+      selectAlsoSubconcepts: true,
       priority: 6
     },
     placeType: {
@@ -140,6 +144,8 @@ const eventsFacets = (state = INITIAL_STATE, action) => {
         return updateFacetValues(state, action)
       case UPDATE_FACET_OPTION:
         return updateFacetOption(state, action)
+      case CLEAR_FACET:
+        return clearFacet(state, action)
       default:
         return state
     }
