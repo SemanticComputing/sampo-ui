@@ -258,8 +258,8 @@ class FacetHeader extends React.Component {
 
   render () {
     const { classes, isActive, facetDescription, facetLabel } = this.props
-    const { sortButton, spatialFilterButton, chartButton } = this.props.facet
-    const showButtons = isActive && (sortButton || spatialFilterButton || chartButton)
+    const { sortButton, spatialFilterButton, chartButton, selectAlsoSubconceptsButton } = this.props.facet
+    const showButtons = isActive && (sortButton || spatialFilterButton || chartButton || selectAlsoSubconceptsButton)
 
     return (
       <div className={classes.headingContainer}>

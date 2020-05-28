@@ -214,7 +214,6 @@ export const fetchFacet = (state, action) => {
 }
 
 export const clearFacet = (state, action) => {
-  console.log(state.facetUpdateID)
   return {
     ...state,
     updatedFacet: '', // force all facets to fetch new falues
