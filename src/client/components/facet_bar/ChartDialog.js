@@ -6,6 +6,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import GeneralDialog from '../main_layout/GeneralDialog'
 import ApexChart from '../facet_results/ApexChart'
 import { makeStyles } from '@material-ui/core/styles'
+import { createApexPieChartData } from '../../configs/sampo/ApexChartsConfig'
 
 const useStyles = makeStyles(theme => ({
   chartContainer: {
@@ -20,8 +21,9 @@ const useStyles = makeStyles(theme => ({
  */
 const ChartDialog = props => {
   const [open, setOpen] = React.useState(false)
-  const { fetchFacetConstrainSelf, facetID, facetClass, data, fetching } = props
+  const { fetchData, facetID, rawData, rawDataUpdateID, facetClass, fetching } = props
   const classes = useStyles()
+  console.log(rawDataUpdateID)
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -51,56 +53,11 @@ const ChartDialog = props => {
           <ApexChart
             facetID={facetID}
             facetClass={facetClass}
-            fetchFacetConstrainSelf={fetchFacetConstrainSelf}
-            data={data}
+            fetchData={fetchData}
             fetching={fetching}
-            options={{
-              chart: {
-                type: 'pie',
-                width: '100%',
-                height: '100%',
-                parentHeightOffset: 10,
-                fontFamily: 'Roboto'
-              },
-              legend: {
-                position: 'right',
-                width: 400,
-                fontSize: 16,
-                itemMargin: {
-                  horizontal: 5
-                },
-                onItemHover: {
-                  highlightDataSeries: false
-                },
-                onItemClick: {
-                  toggleDataSeries: false
-                },
-                markers: {
-                  width: 18,
-                  height: 18
-                },
-                formatter: (seriesName, opts) => {
-                  const { series } = opts.w.globals
-                  const value = series[opts.seriesIndex]
-                  const arrSum = series.reduce((a, b) => a + b, 0)
-                  const percentage = value / arrSum * 100
-                  return `${seriesName}: ${value} (${percentage.toFixed(2)} %)`
-                }
-              },
-              tooltip: {
-                custom: ({ series, seriesIndex, dataPointIndex, w }) => {
-                  const arrSum = series.reduce((a, b) => a + b, 0)
-                  const value = series[seriesIndex]
-                  const percentage = value / arrSum * 100
-                  return `
-                      <div class="apexcharts-custom-tooltip">
-                        <span>${w.config.labels[seriesIndex]}: ${value} (${percentage.toFixed(2)} %)</span> 
-                      </div>  
-        
-                  `
-                }
-              }
-            }}
+            rawData={rawData}
+            rawDataUpdateID={rawDataUpdateID}
+            createChartData={createApexPieChartData}
           />
         </div>
       </GeneralDialog>
@@ -110,25 +67,34 @@ const ChartDialog = props => {
 
 ChartDialog.propTypes = {
   /**
-   * Unique id of the facet.
+   * The data as an array of objects.
    */
-  facetID: PropTypes.string,
+  rawData: PropTypes.array.isRequired,
   /**
-   * The class of the facet for server-side configs.
+   * An ID to detect if the raw data has changed.
    */
-  facetClass: PropTypes.string,
+  rawDataUpdateID: PropTypes.number.isRequired,
   /**
-   * The data for Apex chart as an array of objecsts.
+   * Redux action for fetching the raw data.
    */
-  data: PropTypes.array,
+  fetchData: PropTypes.func,
   /**
-   * Loading indicator.
+    Loading indicator.
    */
   fetching: PropTypes.bool.isRequired,
   /**
-   * Redux action for fetching the data. Currently using a modified version of the fetchFacet action.
+   * Unique id of the facet.
+   * Used with e.g. 'fetchFacetConstrainSelf' action.
    */
-  fetchFacetConstrainSelf: PropTypes.func
+  facetID: PropTypes.string,
+  /**
+   * The class of the facets for server-side configs.
+   */
+  facetClass: PropTypes.string,
+  /**
+   * The class of results for server-side configs.
+   */
+  resultClass: PropTypes.string
 }
 
 export default ChartDialog

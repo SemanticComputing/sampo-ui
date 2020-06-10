@@ -228,11 +228,12 @@ class FacetHeader extends React.Component {
       <>
         {chartButton &&
           <ChartDialog
-            data={this.props.facetConstrainSelf.values}
+            rawData={this.props.facetConstrainSelf.values}
+            rawDataUpdateID={this.props.facetConstrainSelfUpdateID}
             fetching={this.props.facetConstrainSelf.isFetching}
+            fetchData={this.props.fetchFacetConstrainSelf}
             facetID={this.props.facetID}
             facetClass={this.props.facetClass}
-            fetchFacetConstrainSelf={this.props.fetchFacetConstrainSelf}
           />}
         <Tooltip disableFocusListener title='Filter options'>
           <IconButton
@@ -287,6 +288,7 @@ FacetHeader.propTypes = {
   facetLabel: PropTypes.string.isRequired,
   facet: PropTypes.object,
   facetConstrainSelf: PropTypes.object,
+  facetConstrainSelfUpdateID: PropTypes.number.isRequired,
   isActive: PropTypes.bool.isRequired,
   facetClass: PropTypes.string,
   resultClass: PropTypes.string,

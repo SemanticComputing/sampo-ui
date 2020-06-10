@@ -17,7 +17,7 @@ export const perspectiveConfig = [
     id: 'perspective1',
     frontPageImage: manuscriptsImage,
     perspectiveDescHeight: 160,
-    defaultActiveFacets: new Set(['prefLabel', 'productionPlace']),
+    defaultActiveFacets: new Set(['prefLabel', 'language']),
     tabs: [
       {
         id: 'table',
