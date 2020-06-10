@@ -57,6 +57,7 @@ class ApexChart extends React.Component {
     if (!this.chart == null) {
       this.chart.destroy()
     }
+    console.log(this.props.createChartData(this.props.rawData))
     this.chart = new ApexCharts(
       this.chartRef.current,
       this.props.createChartData(this.props.rawData)

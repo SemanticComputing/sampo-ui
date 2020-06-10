@@ -6,7 +6,6 @@ import Tooltip from '@material-ui/core/Tooltip'
 import GeneralDialog from '../main_layout/GeneralDialog'
 import ApexChart from '../facet_results/ApexChart'
 import { makeStyles } from '@material-ui/core/styles'
-import { createApexPieChartData } from '../../configs/sampo/ApexChartsConfig'
 
 const useStyles = makeStyles(theme => ({
   chartContainer: {
@@ -21,7 +20,7 @@ const useStyles = makeStyles(theme => ({
  */
 const ChartDialog = props => {
   const [open, setOpen] = React.useState(false)
-  const { fetchData, facetID, rawData, rawDataUpdateID, facetClass, fetching } = props
+  const { fetchData, facetID, rawData, rawDataUpdateID, createChartData, facetClass, fetching } = props
   const classes = useStyles()
 
   const handleClickOpen = () => {
@@ -56,7 +55,7 @@ const ChartDialog = props => {
             fetching={fetching}
             rawData={rawData}
             rawDataUpdateID={rawDataUpdateID}
-            createChartData={createApexPieChartData}
+            createChartData={createChartData}
           />
         </div>
       </GeneralDialog>
@@ -77,6 +76,10 @@ ChartDialog.propTypes = {
    * Redux action for fetching the raw data.
    */
   fetchData: PropTypes.func,
+  /**
+   * Function for creating chart data from raw data
+   */
+  createChartData: PropTypes.func.isRequired,
   /**
     Loading indicator.
    */
