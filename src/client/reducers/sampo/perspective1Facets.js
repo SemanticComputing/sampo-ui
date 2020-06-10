@@ -379,7 +379,7 @@ export const INITIAL_STATE = {
       sortDirection: 'desc',
       sortButton: false,
       spatialFilterButton: false,
-      chartButton: false,
+      chartButton: true,
       isFetching: false,
       searchField: false,
       containerClass: 'three',

@@ -23,7 +23,6 @@ const ChartDialog = props => {
   const [open, setOpen] = React.useState(false)
   const { fetchData, facetID, rawData, rawDataUpdateID, facetClass, fetching } = props
   const classes = useStyles()
-  console.log(rawDataUpdateID)
 
   const handleClickOpen = () => {
     setOpen(true)
