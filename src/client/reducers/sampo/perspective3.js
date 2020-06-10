@@ -35,6 +35,7 @@ export const INITIAL_STATE = {
   paginatedResults: [],
   paginatedResultsSparqlQuery: null,
   instance: null,
+  instanceNetworkData: null,
   instanceSparqlQuery: null,
   resultCount: 0,
   page: -1,

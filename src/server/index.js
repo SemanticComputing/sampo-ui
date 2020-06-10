@@ -168,6 +168,24 @@ new OpenApiValidator({
       }
     })
 
+    app.get(`${apiPath}/:resultClass/network/:id`, async (req, res, next) => {
+      const { params, query } = req
+      try {
+        const data = await getByURI({
+          backendSearchConfig,
+          resultClass: params.resultClass,
+          uri: params.id,
+          limit: query.limit,
+          optimize: query.optimize,
+          constraints: null,
+          resultFormat: 'json'
+        })
+        res.json(data)
+      } catch (error) {
+        next(error)
+      }
+    })
+
     app.post(`${apiPath}/faceted-search/:facetClass/facet/:id`, async (req, res, next) => {
       const { params, body } = req
       try {
