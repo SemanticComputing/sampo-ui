@@ -16,7 +16,6 @@ import Grid from '@material-ui/core/Grid'
 
 // ** General components **
 import TopBar from '../components/main_layout/TopBar'
-import InstanceHomePage from '../components/main_layout/InstanceHomePage'
 import InfoHeader from '../components/main_layout/InfoHeader'
 import TextPage from '../components/main_layout/TextPage'
 import Message from '../components/main_layout/Message'
@@ -29,6 +28,7 @@ import FacetedSearchPerspective from '../components/perspectives/sampo/FacetedSe
 import FullTextSearch from '../components/perspectives/sampo/FullTextSearch'
 import ClientFSPerspective from '../components/perspectives/sampo/client_fs/ClientFSPerspective'
 import ClientFSMain from '../components/perspectives/sampo/client_fs/ClientFSMain'
+import InstanceHomePage from '../components/perspectives/sampo/InstanceHomePage'
 import Footer from '../components/perspectives/sampo/Footer'
 import { perspectiveConfig } from '../configs/sampo/PerspectiveConfig'
 import { perspectiveConfigOnlyInfoPages } from '../configs/sampo/PerspectiveConfigOnlyInfoPages'
