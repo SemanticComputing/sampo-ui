@@ -38,6 +38,14 @@ export const updateInstanceRelatedData = (state, action) => {
   }
 }
 
+export const updateInstanceNetworkData = (state, action) => {
+  return {
+    ...state,
+    instanceNetworkData: action.data,
+    resultUpdateID: ++state.resultUpdateID
+  }
+}
+
 export const updatePage = (state, action) => {
   if (isNaN(action.page)) {
     return state
