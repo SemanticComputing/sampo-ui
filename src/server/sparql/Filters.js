@@ -168,9 +168,13 @@ const generateTimespanFilter = ({
 }) => {
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
   const { start, end } = values
-  const selectionStart = start
-  const selectionEnd = end
+  let selectionStart = start
+  let selectionEnd = end
   const dataType = has(facetConfig, 'dataType') ? facetConfig.dataType : 'xsd:date'
+  if (dataType === 'xsd:dateTime') {
+    selectionStart = `${selectionStart}T00:00:00Z`
+    selectionEnd = `${selectionEnd}T00:00:00Z`
+  }
   // return `
   //   ?${filterTarget} ${facetConfig.predicate} ?timespan .
   //   ?timespan ${facetConfig.startProperty} ?start .
