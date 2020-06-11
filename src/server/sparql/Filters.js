@@ -1,3 +1,5 @@
+import { has } from 'lodash'
+
 export const hasPreviousSelections = (constraints, facetID) => {
   let hasPreviousSelections = false
   constraints.map(facet => {
@@ -168,6 +170,7 @@ const generateTimespanFilter = ({
   const { start, end } = values
   const selectionStart = start
   const selectionEnd = end
+  const dataType = has(facetConfig, 'dataType') ? facetConfig.dataType : 'xsd:date'
   // return `
   //   ?${filterTarget} ${facetConfig.predicate} ?timespan .
   //   ?timespan ${facetConfig.startProperty} ?start .
@@ -182,9 +185,9 @@ const generateTimespanFilter = ({
     ?${facetID} ${facetConfig.endProperty} ?${facetID}End .
     # either start or end is in selected range
     FILTER(
-      ?${facetID}Start >= "${selectionStart}"^^xsd:date && ?${facetID}Start <= "${selectionEnd}"^^xsd:date
+      ?${facetID}Start >= "${selectionStart}"^^${dataType} && ?${facetID}Start <= "${selectionEnd}"^^${dataType}
       ||
-      ?${facetID}End >= "${selectionStart}"^^xsd:date && ?${facetID}End <= "${selectionEnd}"^^xsd:date
+      ?${facetID}End >= "${selectionStart}"^^${dataType} && ?${facetID}End <= "${selectionEnd}"^^${dataType}
     )
   `
   if (inverse) {
