@@ -1,5 +1,6 @@
 import { has } from 'lodash'
 import { runSelectQuery } from './SparqlApi'
+import { runNetworkQuery } from './NetworkApi'
 import { makeObjectList } from './SparqlObjectMapper'
 import { mapCount } from './Mappers'
 import { generateConstraintsBlock } from './Filters'
@@ -71,13 +72,22 @@ export const getAllResults = ({
       facetID: null
     }))
   }
-  return runSelectQuery({
-    query: endpoint.prefixes + q,
-    endpoint: endpoint.url,
-    useAuth: endpoint.useAuth,
-    resultMapper,
-    resultFormat
-  })
+  if (has(config, 'useNetworkAPI') && config.useNetworkAPI) {
+    return runNetworkQuery({
+      endpoint: endpoint.url,
+      prefixes: endpoint.prefixes,
+      links: q,
+      nodes: config.nodes
+    })
+  } else {
+    return runSelectQuery({
+      query: endpoint.prefixes + q,
+      endpoint: endpoint.url,
+      useAuth: endpoint.useAuth,
+      resultMapper,
+      resultFormat
+    })
+  }
 }
 
 export const getResultCount = async ({
@@ -186,6 +196,8 @@ export const getByURI = ({
   facetClass,
   constraints,
   uri,
+  limit, // only used with NetworkAPI
+  optimize, // only used with NetworkAPI
   resultFormat
 }) => {
   const config = backendSearchConfig[resultClass]
@@ -196,6 +208,17 @@ export const getByURI = ({
     endpoint = config.endpoint
   } else {
     endpoint = backendSearchConfig[config.perspectiveID].endpoint
+  }
+  if (has(config, 'useNetworkAPI') && config.useNetworkAPI) {
+    return runNetworkQuery({
+      endpoint: endpoint.url,
+      prefixes: endpoint.prefixes,
+      id: uri,
+      links: config.links,
+      nodes: config.nodes,
+      limit,
+      optimize
+    })
   }
   q = q.replace('<PROPERTIES>', properties)
   q = q.replace('<RELATED_INSTANCES>', relatedInstances)
