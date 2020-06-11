@@ -201,8 +201,6 @@ export const getByURI = ({
   resultFormat
 }) => {
   const config = backendSearchConfig[resultClass]
-  const { properties, relatedInstances } = config.instance
-  let q = instanceQuery
   let endpoint
   if (has(config, 'endpoint')) {
     endpoint = config.endpoint
@@ -220,6 +218,8 @@ export const getByURI = ({
       optimize
     })
   }
+  const { properties, relatedInstances } = config.instance
+  let q = instanceQuery
   q = q.replace('<PROPERTIES>', properties)
   q = q.replace('<RELATED_INSTANCES>', relatedInstances)
   if (constraints == null) {
