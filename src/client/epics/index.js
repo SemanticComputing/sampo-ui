@@ -32,6 +32,8 @@ import {
   FETCH_SIMILAR_DOCUMENTS_BY_ID_FAILED,
   FETCH_FACET_FAILED,
   FETCH_GEOJSON_LAYERS,
+  FETCH_NETWORK_BY_ID,
+  FETCH_NETWORK_BY_ID_FAILED,
   FETCH_GEOJSON_LAYERS_BACKEND,
   CLIENT_FS_FETCH_RESULTS,
   CLIENT_FS_FETCH_RESULTS_FAILED,
@@ -42,6 +44,7 @@ import {
   clientFSUpdateResults,
   updateInstance,
   updateInstanceRelatedData,
+  updateInstanceNetworkData,
   updateFacetValues,
   updateFacetValuesConstrainSelf,
   updateLocale,
@@ -120,10 +123,12 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_RESULTS),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { resultClass, facetClass } = action
+    const { resultClass, facetClass, limit, optimize } = action
     const params = stateToUrl({
       facets: state[`${facetClass}Facets`].facets,
-      facetClass
+      facetClass,
+      limit,
+      optimize
     })
     const requestUrl = `${apiUrl}/faceted-search/${resultClass}/all`
     // https://rxjs-dev.firebaseapp.com/api/ajax/ajax
@@ -407,6 +412,32 @@ const fetchSimilarDocumentsEpic = (action$, state$) => action$.pipe(
   })
 )
 
+const fetchNetworkByURIEpic = (action$, state$) => action$.pipe(
+  ofType(FETCH_NETWORK_BY_ID),
+  withLatestFrom(state$),
+  mergeMap(([action]) => {
+    const { resultClass, id, limit, optimize } = action
+    const params = { limit, optimize }
+    const requestUrl = `${apiUrl}/${resultClass}/network/${encodeURIComponent(id)}?${querystring.stringify(params)}`
+    return ajax.getJSON(requestUrl).pipe(
+      map(response => updateInstanceNetworkData({
+        resultClass: resultClass,
+        data: response.data,
+        sparqlQuery: response.sparqlQuery
+      })),
+      catchError(error => of({
+        type: FETCH_NETWORK_BY_ID_FAILED,
+        resultClass: resultClass,
+        error: error,
+        message: {
+          text: backendErrorText,
+          title: 'Error'
+        }
+      }))
+    )
+  })
+)
+
 const fetchGeoJSONLayersBackendEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_GEOJSON_LAYERS_BACKEND),
   withLatestFrom(state$),
@@ -481,6 +512,7 @@ const rootEpic = combineEpics(
   fetchByURIEpic,
   fetchFacetEpic,
   fetchFacetConstrainSelfEpic,
+  fetchNetworkByURIEpic,
   fullTextSearchEpic,
   clientFSFetchResultsEpic,
   loadLocalesEpic,
