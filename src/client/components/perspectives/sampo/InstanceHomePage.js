@@ -10,6 +10,7 @@ import InstanceHomePageTable from '../../main_layout/InstanceHomePageTable'
 import Network from '../../facet_results/Network'
 import LeafletMap from '../../facet_results/LeafletMap'
 import Export from '../../facet_results/Export'
+import { coseLayout, cytoscapeStyle } from '../../../configs/sampo/Cytoscape.js/NetworkConfig'
 import { Route, Redirect } from 'react-router-dom'
 import { has } from 'lodash'
 
@@ -191,6 +192,8 @@ class InstanceHomePage extends React.Component {
                     id={data.id}
                     limit={200}
                     optimize={1.2}
+                    style={cytoscapeStyle}
+                    layout={coseLayout}
                   />}
               />
               <Route

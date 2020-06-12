@@ -16,26 +16,6 @@ const styles = theme => ({
     height: '100%'
   }
 })
-
-const layout = {
-  name: 'cose',
-  idealEdgeLength: 100,
-  nodeOverlap: 20,
-  refresh: 20,
-  fit: true,
-  padding: 30,
-  randomize: false,
-  componentSpacing: 100,
-  nodeRepulsion: 400000,
-  edgeElasticity: 100,
-  nestingFactor: 5,
-  gravity: 80,
-  numIter: 1347,
-  initialTemp: 200,
-  coolingFactor: 0.95,
-  minTemp: 1.0
-}
-
 class Network extends React.Component {
   constructor (props) {
     super(props)
@@ -58,47 +38,15 @@ class Network extends React.Component {
         optimize: this.props.optimize
       })
     }
+
     this.cy = cytoscape({
       container: this.cyRef.current,
-
-      style: [ // the stylesheet for the graph
-        {
-          selector: 'node',
-          style: {
-            shape: 'ellipse',
-            'font-size': '12',
-            'background-color': ele => ele.data('color') || '#666',
-            label: ' data(prefLabel)',
-            height: ele => (ele.data('size') || 16 / (ele.data('distance') + 1) || '16px'),
-            width: ele => (ele.data('size') || 16 / (ele.data('distance') + 1) || '16px')
-          }
-        },
-        {
-          selector: 'edge',
-          style: {
-            width: ele => ele.data('weight') || 1,
-            'line-color': ele => ele.data('color') || '#BBB',
-            'curve-style': 'bezier',
-            content: ' data(prefLabel) ',
-            'target-arrow-shape': 'triangle',
-            'target-arrow-color': '#999',
-            color: '#555',
-            'font-size': '6',
-            'text-valign': 'top',
-            'text-halign': 'center',
-            'edge-text-rotation': 'autorotate',
-            'text-background-opacity': 1,
-            'text-background-color': 'white',
-            'text-background-shape': 'roundrectangle'
-          }
-        }
-      ]
+      style: this.props.style
     })
 
     this.cy.on('tap', 'node', function () {
       try {
         if (this.data('href')) {
-          // console.log(this.data('href'))
           history.push(this.data('href'))
         }
       } catch (e) { // fall back on url change
@@ -106,14 +54,30 @@ class Network extends React.Component {
         console.log(this.data())
       }
     })
+
+    this.cy.on('mouseover', 'node', function (event) {
+      const node = event.target
+      if (node.data('href')) {
+        document.body.style.cursor = 'pointer'
+      }
+      /** // possibility to change node appearance
+      node.style({
+        'background-color': '#F00'}
+        )
+      */
+    })
+
+    this.cy.on('mouseout', 'node', function (event) {
+      document.body.style.cursor = 'default'
+    })
   }
 
   componentDidUpdate = prevProps => {
     if (prevProps.resultUpdateID !== this.props.resultUpdateID) {
-      // console.log(this.props.results.elements);
+      // console.log(this.props.results.elements)
       this.cy.elements().remove()
       this.cy.add(this.props.results.elements)
-      this.cy.layout(layout).run()
+      this.cy.layout(this.props.layout).run()
     }
     // check if filters have changed
     if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
@@ -143,7 +107,9 @@ Network.propTypes = {
   facetUpdateID: PropTypes.number,
   resultUpdateID: PropTypes.number.isRequired,
   limit: PropTypes.number.isRequired,
-  optimize: PropTypes.number.isRequired
+  optimize: PropTypes.number.isRequired,
+  style: PropTypes.array.isRequired,
+  layout: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(Network)
