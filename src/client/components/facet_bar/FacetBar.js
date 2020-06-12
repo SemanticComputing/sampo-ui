@@ -253,7 +253,8 @@ class FacetBar extends React.Component {
             facetLabel={label}
             facet={facet}
             facetConstrainSelf={facetConstrainSelf}
-            facetConstrainSelfUpdateID={this.props.facetDataConstrainSelf.facetUpdateID}
+            facetConstrainSelfUpdateID={this.props.facetDataConstrainSelf
+              ? this.props.facetDataConstrainSelf.facetUpdateID : null}
             isActive={isActive}
             facetClass={this.props.facetClass}
             resultClass={this.props.resultClass}
