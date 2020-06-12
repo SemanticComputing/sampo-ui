@@ -426,21 +426,24 @@ export const collectionProperties =
      }
 `
 
-export const networkLinksQuery = `
-  SELECT DISTINCT ?source ?target ("author" as ?prefLabel)
+export const manuscriptNetworkLinksQuery = `
+  SELECT DISTINCT ?source ?target
   WHERE {
-    <FILTER>
-    ?source ^mmm-schema:manuscript_author ?target .
-  }
+    VALUES ?id { <ID> }
+    BIND(?id AS ?source)
+    ?source ^mmm-schema:manuscript_author ?author .
+    ?author mmm-schema:manuscript_author ?target .
+  } 
 `
 
-export const networkNodesQuery = `
-  SELECT DISTINCT ?id ?prefLabel ?class
+export const manuscriptNetworkNodesQuery = `
+  SELECT DISTINCT ?id ?prefLabel ?class ?href
   WHERE {
-    VALUES ?class { frbroo:F4_Manifestation_Singleton crm:E21_Person }
+    VALUES ?class { frbroo:F4_Manifestation_Singleton }
     VALUES ?id { <ID_SET> }
     ?id a ?class ;
-        skos:prefLabel ?prefLabel .
+      skos:prefLabel ?prefLabel .
+    BIND(CONCAT("../", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1"),"/network") AS ?href)
   }
 `
 

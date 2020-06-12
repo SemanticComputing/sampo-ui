@@ -8,7 +8,9 @@ import {
   manuscriptPropertiesInstancePage,
   expressionProperties,
   collectionProperties,
-  productionsByDecadeQuery
+  productionsByDecadeQuery,
+  manuscriptNetworkLinksQuery,
+  manuscriptNetworkNodesQuery
 } from './sparql_queries/SparqlQueriesPerspective1'
 import {
   workProperties
@@ -125,6 +127,12 @@ export const backendSearchConfig = {
     q: productionsByDecadeQuery,
     filterTarget: 'instance',
     resultMapper: mapLineChart
+  },
+  manuscriptInstancePageNetwork: {
+    perspectiveID: 'perspective1',
+    links: manuscriptNetworkLinksQuery,
+    nodes: manuscriptNetworkNodesQuery,
+    useNetworkAPI: true
   },
   jenaText: {
     perspectiveID: 'perspective1',

@@ -7,6 +7,7 @@ import SettingsBrightnessIcon from '@material-ui/icons/SettingsBrightness'
 import RedoIcon from '@material-ui/icons/Redo'
 import PieChartIcon from '@material-ui/icons/PieChart'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
+import BubbleChartIcon from '@material-ui/icons/BubbleChart'
 import manuscriptsImage from '../../img/main_page/manuscripts-452x262.jpg'
 import worksImage from '../../img/main_page/works-452x262.jpg'
 import eventsImage from '../../img/main_page/events-452x262.jpg'
@@ -56,10 +57,14 @@ export const perspectiveConfig = [
         value: 0,
         icon: <CalendarViewDayIcon />
       },
-
+      {
+        id: 'network',
+        value: 1,
+        icon: <BubbleChartIcon />
+      },
       {
         id: 'export',
-        value: 1,
+        value: 2,
         icon: <CloudDownloadIcon />
       }
     ]
