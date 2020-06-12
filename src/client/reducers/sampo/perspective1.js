@@ -47,7 +47,7 @@ export const INITIAL_STATE = {
   fetching: false,
   fetchingResultCount: false,
   facetedSearchHeaderExpanded: false,
-  instancePageHeaderExpanded: true,
+  instancePageHeaderExpanded: false,
   properties: [
     {
       id: 'uri',
@@ -287,7 +287,8 @@ export const INITIAL_STATE = {
 
 const resultClasses = new Set([
   'perspective1',
-  'productionTimespanLineChart'
+  'productionTimespanLineChart',
+  'manuscriptInstancePageNetwork'
 ])
 
 const perspective1 = (state = INITIAL_STATE, action) => {

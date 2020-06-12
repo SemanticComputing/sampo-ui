@@ -427,12 +427,11 @@ export const collectionProperties =
 `
 
 export const manuscriptNetworkLinksQuery = `
-  SELECT DISTINCT ?source ?target
+  SELECT DISTINCT (?id as ?source) ?target
   WHERE {
     VALUES ?id { <ID> }
-    BIND(?id AS ?source)
-    ?source ^mmm-schema:manuscript_author ?author .
-    ?author mmm-schema:manuscript_author ?target .
+    # get links to other manuscripts with the same author
+    ?id mmm-schema:manuscript_author/^mmm-schema:manuscript_author ?target .
   } 
 `
 
@@ -443,7 +442,7 @@ export const manuscriptNetworkNodesQuery = `
     VALUES ?id { <ID_SET> }
     ?id a ?class ;
       skos:prefLabel ?prefLabel .
-    BIND(CONCAT("../", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1"),"/network") AS ?href)
+    BIND(CONCAT("/perspective1/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?href)
   }
 `
 
