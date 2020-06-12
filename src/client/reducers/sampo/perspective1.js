@@ -284,7 +284,8 @@ export const INITIAL_STATE = {
 }
 
 const resultClasses = new Set([
-  'perspective1'
+  'perspective1',
+  'productionTimespanLineChart'
 ])
 
 const perspective1 = (state = INITIAL_STATE, action) => {

@@ -14,6 +14,8 @@ import history from '../../History'
 import ChartDialog from './ChartDialog'
 import { createApexPieChartData } from '../../configs/sampo/ApexCharts/PieChartConfig'
 import { createApexLineChartData } from '../../configs/sampo/ApexCharts/LineChartConfig'
+import PieChartIcon from '@material-ui/icons/PieChart'
+import LineChartIcon from '@material-ui/icons/ShowChart'
 
 const styles = theme => ({
   root: {
@@ -238,16 +240,18 @@ class FacetHeader extends React.Component {
             createChartData={createApexPieChartData}
             facetID={this.props.facetID}
             facetClass={this.props.facetClass}
+            icon={<PieChartIcon />}
           />}
         {lineChartButton &&
           <ChartDialog
-            rawData={this.props.facetConstrainSelf.values}
-            rawDataUpdateID={this.props.facetConstrainSelfUpdateID}
-            fetching={this.props.facetConstrainSelf.isFetching}
-            fetchData={this.props.fetchFacetConstrainSelf}
+            rawData={this.props.facetResults.results}
+            rawDataUpdateID={this.props.facetResults.resultUpdateID}
+            fetching={this.props.facetResults.fetching}
+            fetchData={this.props.fetchResults}
             createChartData={createApexLineChartData}
-            facetID={this.props.facetID}
+            resultClass={`${this.props.facetID}LineChart`}
             facetClass={this.props.facetClass}
+            icon={<LineChartIcon />}
           />}
         {menuButtons.length > 0 &&
           <>
@@ -312,6 +316,8 @@ FacetHeader.propTypes = {
   resultClass: PropTypes.string,
   fetchFacet: PropTypes.func,
   fetchFacetConstrainSelf: PropTypes.func,
+  fetchResults: PropTypes.func,
+  facetResults: PropTypes.object,
   clearFacet: PropTypes.func,
   updateFacetOption: PropTypes.func,
   facetDescription: PropTypes.string.isRequired,

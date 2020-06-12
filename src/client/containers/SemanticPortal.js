@@ -347,12 +347,14 @@ const SemanticPortal = props => {
                                   facetDataConstrainSelf={has(props, `${perspective.id}FacetsConstrainSelf`)
                                     ? props[`${perspective.id}FacetsConstrainSelf`]
                                     : null}
+                                  facetResults={props[`${perspective.id}`]}
                                   facetClass={perspective.id}
                                   resultClass={perspective.id}
                                   fetchingResultCount={props[perspective.id].fetchingResultCount}
                                   resultCount={props[perspective.id].resultCount}
                                   fetchFacet={props.fetchFacet}
                                   fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
+                                  fetchResults={props.fetchResults}
                                   clearFacet={props.clearFacet}
                                   fetchResultCount={props.fetchResultCount}
                                   updateFacetOption={props.updateFacetOption}
@@ -365,9 +367,13 @@ const SemanticPortal = props => {
                                   facetResults={props[`${perspective.id}`]}
                                   placesResults={props.places}
                                   facetData={props[`${perspective.id}Facets`]}
+                                  facetDataConstrainSelf={has(props, `${perspective.id}FacetsConstrainSelf`)
+                                    ? props[`${perspective.id}FacetsConstrainSelf`]
+                                    : null}
                                   leafletMap={props.leafletMap}
                                   fetchPaginatedResults={props.fetchPaginatedResults}
                                   fetchResults={props.fetchResults}
+                                  fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
                                   fetchGeoJSONLayers={props.fetchGeoJSONLayers}
                                   fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
                                   clearGeoJSONLayers={props.clearGeoJSONLayers}

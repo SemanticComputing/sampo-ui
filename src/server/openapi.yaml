@@ -118,15 +118,6 @@ paths:
             application/json:
               schema: 
                 type: object
-                properties: 
-                  data: 
-                    type: array
-                    items: 
-                      type: object
-                    description: Results as an array of objects
-                  sparqlQuery:
-                    type: string
-                    description: The SPARQL query that was used for the results
     get:
         summary: Return all search results as a CSV file
         responses:

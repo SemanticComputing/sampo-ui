@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import IconButton from '@material-ui/core/IconButton'
-import PieChartIcon from '@material-ui/icons/PieChart'
 import Tooltip from '@material-ui/core/Tooltip'
 import GeneralDialog from '../main_layout/GeneralDialog'
 import ApexChart from '../facet_results/ApexChart'
@@ -9,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   chartContainer: {
-    height: 'calc(100% - 10px)',
+    height: 'calc(100% - 30px)',
     paddingRight: theme.spacing(1)
   }
 }))
@@ -20,7 +19,7 @@ const useStyles = makeStyles(theme => ({
  */
 const ChartDialog = props => {
   const [open, setOpen] = React.useState(false)
-  const { fetchData, facetID, rawData, rawDataUpdateID, createChartData, facetClass, fetching } = props
+  const { fetchData, facetID, rawData, rawDataUpdateID, createChartData, facetClass, resultClass, fetching } = props
   const classes = useStyles()
 
   const handleClickOpen = () => {
@@ -40,7 +39,7 @@ const ChartDialog = props => {
           aria-haspopup='true'
           onClick={handleClickOpen}
         >
-          <PieChartIcon />
+          {props.icon}
         </IconButton>
       </Tooltip>
       <GeneralDialog
@@ -50,6 +49,7 @@ const ChartDialog = props => {
         <div className={classes.chartContainer}>
           <ApexChart
             facetID={facetID}
+            resultClass={resultClass}
             facetClass={facetClass}
             fetchData={fetchData}
             fetching={fetching}
@@ -65,9 +65,12 @@ const ChartDialog = props => {
 
 ChartDialog.propTypes = {
   /**
-   * The data as an array of objects.
+   * The input data.
    */
-  rawData: PropTypes.array.isRequired,
+  rawData: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object
+  ]),
   /**
    * An ID to detect if the raw data has changed.
    */

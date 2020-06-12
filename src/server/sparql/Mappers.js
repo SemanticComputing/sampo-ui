@@ -85,6 +85,19 @@ export const mapNameSampoResults = sparqlBindings => {
   return results
 }
 
+export const mapLineChart = sparqlBindings => {
+  const seriesData = []
+  const categoriesData = []
+  sparqlBindings.map(b => {
+    seriesData.push(b.count.value)
+    categoriesData.push(b.category.value)
+  })
+  return {
+    seriesData,
+    categoriesData
+  }
+}
+
 const mapFacetValues = sparqlBindings => {
   const results = sparqlBindings.map(b => {
     try {

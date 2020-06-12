@@ -20,7 +20,7 @@ const styles = () => ({
   }
 })
 /**
- * A component for rendering charts, based on ApexCharts.
+ * A component for rendering charts with ApexCharts.
  */
 class ApexChart extends React.Component {
   constructor (props) {
@@ -29,7 +29,7 @@ class ApexChart extends React.Component {
   }
 
   componentDidMount = () => {
-    if (this.props.rawData.length > 0) {
+    if (this.props.rawData && this.props.rawData.length > 0) {
       this.renderChart()
     }
     this.props.fetchData({
@@ -57,7 +57,6 @@ class ApexChart extends React.Component {
     if (!this.chart == null) {
       this.chart.destroy()
     }
-    console.log(this.props.createChartData(this.props.rawData))
     this.chart = new ApexCharts(
       this.chartRef.current,
       this.props.createChartData(this.props.rawData)
@@ -83,7 +82,10 @@ class ApexChart extends React.Component {
 ApexChart.propTypes = {
   classes: PropTypes.object.isRequired,
   createChartData: PropTypes.func.isRequired,
-  rawData: PropTypes.array,
+  rawData: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object
+  ]),
   rawDataUpdateID: PropTypes.number,
   fetchData: PropTypes.func.isRequired,
   fetching: PropTypes.bool.isRequired,
