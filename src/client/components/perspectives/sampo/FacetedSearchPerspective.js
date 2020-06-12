@@ -18,8 +18,10 @@ const FacetedSearchPerspective = props => {
             placesResults={props.placesResults}
             leafletMapLayers={props.leafletMap}
             facetData={props.facetData}
+            facetDataConstrainSelf={props.facetDataConstrainSelf}
             fetchPaginatedResults={props.fetchPaginatedResults}
             fetchResults={props.fetchResults}
+            fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
@@ -44,8 +46,10 @@ const FacetedSearchPerspective = props => {
             placesResults={props.placesResults}
             leafletMapLayers={props.leafletMap}
             facetData={props.facetData}
+            facetDataConstrainSelf={props.facetDataConstrainSelf}
             fetchPaginatedResults={props.fetchPaginatedResults}
             fetchResults={props.fetchResults}
+            fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
@@ -70,8 +74,10 @@ const FacetedSearchPerspective = props => {
             placesResults={props.placesResults}
             leafletMapLayers={props.leafletMap}
             facetData={props.facetData}
+            facetDataConstrainSelf={props.facetDataConstrainSelf}
             fetchPaginatedResults={props.fetchPaginatedResults}
             fetchResults={props.fetchResults}
+            fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
@@ -116,6 +122,10 @@ FacetedSearchPerspective.propTypes = {
    */
   facetData: PropTypes.object.isRequired,
   /**
+   * Facet values where facets constrain themselves, used for statistics.
+   */
+  facetDataConstrainSelf: PropTypes.object.isRequired,
+  /**
    * Leaflet map config and external layers.
    */
   leafletMap: PropTypes.object.isRequired,
@@ -127,6 +137,10 @@ FacetedSearchPerspective.propTypes = {
    * Redux action for fetching all results.
    */
   fetchResults: PropTypes.func.isRequired,
+  /**
+   * Redux action for fetching facet values for statistics.
+   */
+  fetchFacetConstrainSelf: PropTypes.func.isRequired,
   /**
    * Redux action for loading external GeoJSON layers.
    */

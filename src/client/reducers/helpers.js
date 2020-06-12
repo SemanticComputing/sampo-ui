@@ -1,4 +1,5 @@
 import { has, isEmpty } from 'lodash'
+import { UPDATE_FACET_VALUES_CONSTRAIN_SELF } from '../actions'
 
 export const fetchResults = state => {
   return {
@@ -256,6 +257,8 @@ export const updateFacetValues = (state, action) => {
     state.facets[action.id].type === 'integer') {
     return {
       ...state,
+      // with normal facets the 'facetUpdateID' is handled with the 'updateFacetFilter' function
+      ...(action.type === UPDATE_FACET_VALUES_CONSTRAIN_SELF) && { facetUpdateID: ++state.facetUpdateID },
       facets: {
         ...state.facets,
         [action.id]: {
@@ -269,6 +272,8 @@ export const updateFacetValues = (state, action) => {
   } else {
     return {
       ...state,
+      // with normal facets the 'facetUpdateID' is handled with the 'updateFacetFilter' function
+      ...(action.type === UPDATE_FACET_VALUES_CONSTRAIN_SELF) && { facetUpdateID: ++state.facetUpdateID },
       facets: {
         ...state.facets,
         [action.id]: {

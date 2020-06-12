@@ -500,3 +500,12 @@ export const migrationsQuery = `
     BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/mmm/place/", ""))) as ?id)
   }
 `
+
+export const productionsByDecadeQuery = `
+  SELECT ?category (count(?instance) as ?count) WHERE {
+    <FILTER>
+    ?instance ^crm:P108_has_produced/crm:P4_has_time-span/mmm-schema:decade ?category .
+  }
+  GROUP BY ?category
+  ORDER BY ?category
+`

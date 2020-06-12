@@ -12,6 +12,10 @@ import InfoIcon from '@material-ui/icons/InfoOutlined'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import history from '../../History'
 import ChartDialog from './ChartDialog'
+import { createApexPieChartData } from '../../configs/sampo/ApexCharts/PieChartConfig'
+import { createApexLineChartData } from '../../configs/sampo/ApexCharts/LineChartConfig'
+import PieChartIcon from '@material-ui/icons/PieChart'
+import LineChartIcon from '@material-ui/icons/ShowChart'
 
 const styles = theme => ({
   root: {
@@ -142,7 +146,8 @@ class FacetHeader extends React.Component {
       sortBy,
       filterType,
       type,
-      chartButton = false,
+      pieChartButton = false,
+      lineChartButton = false,
       selectAlsoSubconceptsButton = false,
       selectAlsoSubconcepts
     } = this.props.facet
@@ -226,40 +231,58 @@ class FacetHeader extends React.Component {
     }
     return (
       <>
-        {chartButton &&
+        {pieChartButton &&
           <ChartDialog
-            data={this.props.facetConstrainSelf.values}
+            rawData={this.props.facetConstrainSelf.values}
+            rawDataUpdateID={this.props.facetConstrainSelfUpdateID}
             fetching={this.props.facetConstrainSelf.isFetching}
+            fetchData={this.props.fetchFacetConstrainSelf}
+            createChartData={createApexPieChartData}
             facetID={this.props.facetID}
             facetClass={this.props.facetClass}
-            fetchFacetConstrainSelf={this.props.fetchFacetConstrainSelf}
+            icon={<PieChartIcon />}
           />}
-        <Tooltip disableFocusListener title='Filter options'>
-          <IconButton
-            aria-label='Filter options'
-            aria-owns={open ? 'facet-option-menu' : undefined}
-            aria-haspopup='true'
-            onClick={this.handleMenuButtonClick}
-          >
-            <MoreVertIcon />
-          </IconButton>
-        </Tooltip>
-        <Menu
-          id='facet-option-menu'
-          anchorEl={anchorEl}
-          open={open}
-          onClose={this.handleMenuClose}
-        >
-          {menuButtons}
-        </Menu>
+        {lineChartButton &&
+          <ChartDialog
+            rawData={this.props.facetResults.results}
+            rawDataUpdateID={this.props.facetResults.resultUpdateID}
+            fetching={this.props.facetResults.fetching}
+            fetchData={this.props.fetchResults}
+            createChartData={createApexLineChartData}
+            resultClass={`${this.props.facetID}LineChart`}
+            facetClass={this.props.facetClass}
+            icon={<LineChartIcon />}
+          />}
+        {menuButtons.length > 0 &&
+          <>
+            <Tooltip disableFocusListener title='Filter options'>
+              <IconButton
+                aria-label='Filter options'
+                aria-owns={open ? 'facet-option-menu' : undefined}
+                aria-haspopup='true'
+                onClick={this.handleMenuButtonClick}
+              >
+                <MoreVertIcon />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              id='facet-option-menu'
+              anchorEl={anchorEl}
+              open={open}
+              onClose={this.handleMenuClose}
+            >
+              {menuButtons}
+            </Menu>
+          </>}
       </>
     )
   }
 
   render () {
     const { classes, isActive, facetDescription, facetLabel } = this.props
-    const { sortButton, spatialFilterButton, chartButton, selectAlsoSubconceptsButton } = this.props.facet
-    const showButtons = isActive && (sortButton || spatialFilterButton || chartButton || selectAlsoSubconceptsButton)
+    const { sortButton, spatialFilterButton, pieChartButton, lineChartButton, selectAlsoSubconceptsButton } = this.props.facet
+    const showButtons = isActive &&
+      (sortButton || spatialFilterButton || pieChartButton || lineChartButton || selectAlsoSubconceptsButton)
 
     return (
       <div className={classes.headingContainer}>
@@ -287,11 +310,14 @@ FacetHeader.propTypes = {
   facetLabel: PropTypes.string.isRequired,
   facet: PropTypes.object,
   facetConstrainSelf: PropTypes.object,
+  facetConstrainSelfUpdateID: PropTypes.number.isRequired,
   isActive: PropTypes.bool.isRequired,
   facetClass: PropTypes.string,
   resultClass: PropTypes.string,
   fetchFacet: PropTypes.func,
   fetchFacetConstrainSelf: PropTypes.func,
+  fetchResults: PropTypes.func,
+  facetResults: PropTypes.object,
   clearFacet: PropTypes.func,
   updateFacetOption: PropTypes.func,
   facetDescription: PropTypes.string.isRequired,
