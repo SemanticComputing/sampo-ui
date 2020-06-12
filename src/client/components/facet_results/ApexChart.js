@@ -30,6 +30,14 @@ class ApexChart extends React.Component {
     if (prevProps.rawDataUpdateID !== this.props.rawDataUpdateID) {
       this.renderChart()
     }
+    // check if filters have changed
+    if (this.props.pageType === 'facetResults' && prevProps.facetUpdateID !== this.props.facetUpdateID) {
+      this.props.fetchData({
+        resultClass: this.props.resultClass,
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID
+      })
+    }
   }
 
   componentWillUnmount () {
