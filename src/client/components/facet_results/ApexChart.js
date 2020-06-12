@@ -1,24 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
 import ApexCharts from 'apexcharts'
 // import Paper from '@material-ui/core/Paper'
 import purple from '@material-ui/core/colors/purple'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-const styles = () => ({
-  root: {
-    width: '100%',
-    height: '100%'
-  },
-  spinnerContainer: {
-    display: 'flex',
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
 /**
  * A component for rendering charts with ApexCharts.
  */
@@ -65,22 +51,43 @@ class ApexChart extends React.Component {
   }
 
   render () {
-    const { classes, fetching } = this.props
+    const { fetching, pageType } = this.props
+    let rootStyle = {
+      width: '100%',
+      height: '100%'
+    }
+    if (pageType === 'facetResults') {
+      rootStyle = {
+        height: 'calc(100% - 136px)',
+        width: 'calc(100% - 64px)',
+        padding: 32,
+        backgroundColor: '#fff',
+        borderTop: '1px solid rgba(224, 224, 224, 1)'
+      }
+    }
+    const spinnerContainerStyle = {
+      ...rootStyle,
+      display: 'flex',
+      width: '100%',
+      height: '100%',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
     return (
-      <div className={classes.root}>
+      <div style={rootStyle}>
         {fetching &&
-          <div className={this.props.classes.spinnerContainer}>
+          <div style={spinnerContainerStyle}>
             <CircularProgress style={{ color: purple[500] }} thickness={5} />
           </div>}
         {!fetching &&
-          <div className={classes.chart} ref={this.chartRef} />}
+          <div ref={this.chartRef} />}
       </div>
     )
   }
 }
 
 ApexChart.propTypes = {
-  classes: PropTypes.object.isRequired,
+  pageType: PropTypes.string.isRequired,
   createChartData: PropTypes.func.isRequired,
   rawData: PropTypes.oneOfType([
     PropTypes.array,
@@ -94,6 +101,4 @@ ApexChart.propTypes = {
   facetID: PropTypes.string
 }
 
-export const ApexChartComponent = ApexChart
-
-export default withStyles(styles)(ApexChart)
+export default ApexChart
