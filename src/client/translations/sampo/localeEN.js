@@ -61,7 +61,7 @@ export default {
     migrations: 'migrations',
     network: 'network',
     export: 'export',
-    'by-period': 'by period',
+    production_dates: 'production dates',
     map_clusters: 'clustered map',
     map_markers: 'map',
     heatmap: 'heatmap',

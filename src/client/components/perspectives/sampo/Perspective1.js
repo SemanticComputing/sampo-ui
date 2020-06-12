@@ -8,8 +8,8 @@ import Deck from '../../facet_results/Deck'
 import Export from '../../facet_results/Export'
 import MigrationsMapLegend from './MigrationsMapLegend'
 import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../../configs/sampo/GeneralConfig'
-// import ApexChart from '../../facet_results/ApexChart'
-// import { createApexLineChartData } from '../../../configs/sampo/ApexCharts/LineChartConfig'
+import ApexChart from '../../facet_results/ApexChart'
+import { createApexLineChartData } from '../../../configs/sampo/ApexCharts/LineChartConfig'
 
 const Perspective1 = props => {
   const { rootUrl, perspective } = props
@@ -130,19 +130,21 @@ const Perspective1 = props => {
             mapBoxStyle={MAPBOX_STYLE}
           />}
       />
-      {/* <Route
-        path={`${rootUrl}/${perspective.id}/faceted-search/statistics`}
+      <Route
+        path={`${rootUrl}/${perspective.id}/faceted-search/production_dates`}
         render={() =>
           <ApexChart
-            facetClass='perspective1'
-            facetID='productionTimespan'
-            fetchData={props.fetchFacetConstrainSelf}
-            fetching={props.facetDataConstrainSelf.facets.productionTimespan.isFetching}
-            rawData={props.facetDataConstrainSelf.facets.productionTimespan.values}
-            rawDataUpdateID={props.facetDataConstrainSelf.facetUpdateID}
+            pageType='facetResults'
+            rawData={props.facetResults.results}
+            rawDataUpdateID={props.facetResults.resultUpdateID}
+            facetUpdateID={props.facetData.facetUpdateID}
+            fetching={props.facetResults.fetching}
+            fetchData={props.fetchResults}
             createChartData={createApexLineChartData}
+            resultClass='productionTimespanLineChart'
+            facetClass='perspective1'
           />}
-      /> */}
+      />
       <Route
         path={`${rootUrl}/${perspective.id}/faceted-search/export`}
         render={() =>

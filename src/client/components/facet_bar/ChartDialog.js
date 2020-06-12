@@ -48,6 +48,7 @@ const ChartDialog = props => {
       >
         <div className={classes.chartContainer}>
           <ApexChart
+            pageType='dialog'
             facetID={facetID}
             resultClass={resultClass}
             facetClass={facetClass}

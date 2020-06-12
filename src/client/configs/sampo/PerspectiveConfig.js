@@ -8,6 +8,7 @@ import RedoIcon from '@material-ui/icons/Redo'
 import PieChartIcon from '@material-ui/icons/PieChart'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
 import BubbleChartIcon from '@material-ui/icons/BubbleChart'
+import LineChartIcon from '@material-ui/icons/ShowChart'
 import manuscriptsImage from '../../img/main_page/manuscripts-452x262.jpg'
 import worksImage from '../../img/main_page/works-452x262.jpg'
 import eventsImage from '../../img/main_page/events-452x262.jpg'
@@ -36,18 +37,23 @@ export const perspectiveConfig = [
         icon: <AddLocationIcon />
       },
       {
-        id: 'last_known_locations',
+        id: 'production_dates',
         value: 3,
+        icon: <LineChartIcon />
+      },
+      {
+        id: 'last_known_locations',
+        value: 4,
         icon: <LocationOnIcon />
       },
       {
         id: 'migrations',
-        value: 4,
+        value: 5,
         icon: <RedoIcon />
       },
       {
         id: 'export',
-        value: 5,
+        value: 6,
         icon: <CloudDownloadIcon />
       }
     ],
