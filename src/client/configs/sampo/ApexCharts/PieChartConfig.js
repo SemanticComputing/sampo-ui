@@ -1,4 +1,4 @@
-export const createApexPieChartData = rawData => {
+export const createApexPieChartData = ({ rawData }) => {
   const labels = []
   const series = []
   let otherCount = 0
