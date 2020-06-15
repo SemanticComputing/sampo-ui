@@ -1,16 +1,33 @@
-export const createApexLineChartData = rawData => {
+export const createApexLineChartData = ({
+  rawData,
+  title,
+  xaxisTitle,
+  yaxisTitle,
+  seriesTitle
+}) => {
   const apexChartOptionsWithData = {
     ...apexLineChartOptions,
     series: [
       {
-        name: 'Count',
+        name: seriesTitle,
         data: rawData.seriesData
       }
     ],
+    title: {
+      text: title
+    },
     xaxis: {
       categories: rawData.categoriesData,
       labels: {
         rotate: 0
+      },
+      title: {
+        text: xaxisTitle
+      }
+    },
+    yaxis: {
+      title: {
+        text: yaxisTitle
       }
     }
   }

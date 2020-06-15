@@ -141,6 +141,10 @@ const Perspective1 = props => {
             fetching={props.facetResults.fetching}
             fetchData={props.fetchResults}
             createChartData={createApexLineChartData}
+            title='Manuscript production by decade'
+            xaxisTitle='Decade'
+            yaxisTitle='Manuscript count'
+            seriesTitle='Manuscript count'
             resultClass='productionTimespanLineChart'
             facetClass='perspective1'
           />}
