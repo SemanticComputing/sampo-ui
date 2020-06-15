@@ -21,7 +21,9 @@ import collections from './sampo/collections'
 import perspective1Facets from './sampo/perspective1Facets'
 import perspective1FacetsConstrainSelf from './sampo/perspective1FacetsConstrainSelf'
 import perspective2Facets from './sampo/perspective2Facets'
+import perspective2FacetsConstrainSelf from './sampo/perspective2FacetsConstrainSelf'
 import perspective3Facets from './sampo/perspective3Facets'
+import perspective3FacetsConstrainSelf from './sampo/perspective3FacetsConstrainSelf'
 
 const reducer = combineReducers({
   perspective1,
@@ -30,7 +32,9 @@ const reducer = combineReducers({
   perspective1Facets,
   perspective1FacetsConstrainSelf,
   perspective2Facets,
+  perspective2FacetsConstrainSelf,
   perspective3Facets,
+  perspective3FacetsConstrainSelf,
   manuscripts,
   works,
   events,

@@ -135,7 +135,7 @@ class ResultTable extends React.Component {
   }
 
   fetchResults = () => {
-    this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.data.sortBy, this.props.variant)
+    this.props.fetchPaginatedResults(this.props.resultClass, this.props.facetClass, this.props.data.sortBy)
   }
 
   needNewResults = prevProps => {
@@ -294,7 +294,6 @@ ResultTable.propTypes = {
   data: PropTypes.object.isRequired,
   resultClass: PropTypes.string.isRequired,
   facetClass: PropTypes.string.isRequired,
-  variant: PropTypes.string,
   facetUpdateID: PropTypes.number.isRequired,
   fetchPaginatedResults: PropTypes.func.isRequired,
   sortResults: PropTypes.func.isRequired,

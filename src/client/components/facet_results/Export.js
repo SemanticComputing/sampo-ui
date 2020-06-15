@@ -27,11 +27,24 @@ const styles = theme => ({
 })
 
 class Export extends React.Component {
+  componentDidMount = () => {
+    if (this.props.data.page === -1) {
+      this.props.updatePage(this.props.resultClass, 0)
+    }
+    if (this.props.pageType === 'facetResults') {
+      this.props.fetchPaginatedResults(
+        this.props.resultClass,
+        this.props.facetClass,
+        this.props.data.sortBy
+      )
+    }
+  }
+
   render = () => {
-    const { classes, sparqlQuery } = this.props
+    const { classes, data } = this.props
     let yasguiUrl = ''
-    if (this.props.sparqlQuery !== null) {
-      yasguiUrl = `${yasguiBaseUrl}/#query=${encodeURIComponent(sparqlQuery)}&${querystring.stringify(yasguiParams)}`
+    if (data.paginatedResultsSparqlQuery !== null) {
+      yasguiUrl = `${yasguiBaseUrl}/#query=${encodeURIComponent(data.paginatedResultsSparqlQuery)}&${querystring.stringify(yasguiParams)}`
     }
     return (
       <div className={classes.root}>
@@ -63,7 +76,12 @@ class Export extends React.Component {
 
 Export.propTypes = {
   classes: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
   pageType: PropTypes.string.isRequired,
+  resultClass: PropTypes.string.isRequired,
+  facetClass: PropTypes.string.isRequired,
+  fetchPaginatedResults: PropTypes.func.isRequired,
+  updatePage: PropTypes.func.isRequired,
   sparqlQuery: PropTypes.string,
   id: PropTypes.string
 }

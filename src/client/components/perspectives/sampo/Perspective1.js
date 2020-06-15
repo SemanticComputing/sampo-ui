@@ -153,8 +153,12 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/export`}
         render={() =>
           <Export
-            sparqlQuery={props.facetResults.paginatedResultsSparqlQuery}
+            data={props.facetResults}
+            resultClass='perspective1'
+            facetClass='perspective1'
             pageType='facetResults'
+            fetchPaginatedResults={props.fetchPaginatedResults}
+            updatePage={props.updatePage}
           />}
       />
     </>
