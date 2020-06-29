@@ -30,8 +30,8 @@ const styles = theme => ({
 })
 
 /**
- * A component for a slider range facet.
- */
+* A component for a slider range facet.
+*/
 class SliderFacet extends Component {
   componentDidMount = () => {
     const { isFetching, min, max } = this.props.facet
@@ -61,89 +61,92 @@ class SliderFacet extends Component {
     const { isFetching, min, max } = this.props.facet
     let domain = null
     let values = null
-    if (isFetching || min == null || max == null) {
+    if (isFetching) {
       return (
         <div className={classes.spinnerContainer}>
           <CircularProgress style={{ color: purple[500] }} thickness={5} />
         </div>
       )
-    } else {
-      if (this.props.dataType === 'ISOString') {
-        const minYear = ISOStringToYear(min)
-        const maxYear = ISOStringToYear(max)
-        domain = [minYear, maxYear]
-        if (this.props.facet.timespanFilter == null) {
-          values = domain
-        } else {
-          const { start, end } = this.props.facet.timespanFilter
-          values = [ISOStringToYear(start), ISOStringToYear(end)]
-        }
-      } else if (this.props.dataType === 'integer') {
-        domain = [parseInt(min), parseInt(max)]
-        if (this.props.facet.integerFilter == null) {
-          values = domain
-        } else {
-          const { start, end } = this.props.facet.integerFilter
-          values = [start, end]
-        }
-      }
-
-      // Slider documentation: https://github.com/sghall/react-compound-slider
+    }
+    if (min === null || max === null) {
       return (
-        <div className={classes.root}>
-          <Slider
-            mode={1}
-            step={1}
-            domain={domain}
-            disabled={someFacetIsFetching}
-            reversed={false}
-            rootStyle={sliderRootStyle}
-            onChange={this.handleSliderOnChange}
-            values={values}
-          >
-            <Rail>{railProps => <TooltipRail {...railProps} />}</Rail>
-            <Handles>
-              {({ handles, activeHandleID, getHandleProps }) => (
-                <div className='slider-handles'>
-                  {handles.map(handle => (
-                    <Handle
-                      key={handle.id}
-                      handle={handle}
-                      domain={domain}
-                      isActive={handle.id === activeHandleID}
-                      getHandleProps={getHandleProps}
-                    />
-                  ))}
-                </div>
-              )}
-            </Handles>
-            <Tracks left={false} right={false}>
-              {({ tracks, getTrackProps }) => (
-                <div className='slider-tracks'>
-                  {tracks.map(({ id, source, target }) => (
-                    <Track
-                      key={id}
-                      source={source}
-                      target={target}
-                      getTrackProps={getTrackProps}
-                    />
-                  ))}
-                </div>
-              )}
-            </Tracks>
-            <Ticks count={10}>
-              {({ ticks }) => (
-                <div className='slider-ticks'>
-                  {ticks.map(tick => (
-                    <Tick key={tick.id} tick={tick} count={ticks.length} />
-                  ))}
-                </div>
-              )}
-            </Ticks>
-          </Slider>
-        </div>
+        <div />
       )
     }
+    if (this.props.dataType === 'ISOString') {
+      const minYear = ISOStringToYear(min)
+      const maxYear = ISOStringToYear(max)
+      domain = [minYear, maxYear]
+      if (this.props.facet.timespanFilter == null) {
+        values = domain
+      } else {
+        const { start, end } = this.props.facet.timespanFilter
+        values = [ISOStringToYear(start), ISOStringToYear(end)]
+      }
+    } else if (this.props.dataType === 'integer') {
+      domain = [parseInt(min), parseInt(max)]
+      if (this.props.facet.integerFilter == null) {
+        values = domain
+      } else {
+        const { start, end } = this.props.facet.integerFilter
+        values = [start, end]
+      }
+    }
+    // Slider documentation: https://github.com/sghall/react-compound-slider
+    return (
+      <div className={classes.root}>
+        <Slider
+          mode={1}
+          step={1}
+          domain={domain}
+          disabled={someFacetIsFetching}
+          reversed={false}
+          rootStyle={sliderRootStyle}
+          onChange={this.handleSliderOnChange}
+          values={values}
+        >
+          <Rail>{railProps => <TooltipRail {...railProps} />}</Rail>
+          <Handles>
+            {({ handles, activeHandleID, getHandleProps }) => (
+              <div className='slider-handles'>
+                {handles.map(handle => (
+                  <Handle
+                    key={handle.id}
+                    handle={handle}
+                    domain={domain}
+                    isActive={handle.id === activeHandleID}
+                    getHandleProps={getHandleProps}
+                  />
+                ))}
+              </div>
+            )}
+          </Handles>
+          <Tracks left={false} right={false}>
+            {({ tracks, getTrackProps }) => (
+              <div className='slider-tracks'>
+                {tracks.map(({ id, source, target }) => (
+                  <Track
+                    key={id}
+                    source={source}
+                    target={target}
+                    getTrackProps={getTrackProps}
+                  />
+                ))}
+              </div>
+            )}
+          </Tracks>
+          <Ticks count={10}>
+            {({ ticks }) => (
+              <div className='slider-ticks'>
+                {ticks.map(tick => (
+                  <Tick key={tick.id} tick={tick} count={ticks.length} />
+                ))}
+              </div>
+            )}
+          </Ticks>
+        </Slider>
+      </div>
+    )
   }
 }
 

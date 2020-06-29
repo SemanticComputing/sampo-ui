@@ -287,8 +287,8 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
       })),
       catchError(error => of({
         type: FETCH_FACET_FAILED,
-        resultClass: action.resultClass,
-        id: action.id,
+        facetClass,
+        facetID,
         error: error,
         message: {
           text: backendErrorText,
