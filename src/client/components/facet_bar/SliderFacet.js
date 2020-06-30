@@ -68,7 +68,7 @@ class SliderFacet extends Component {
         </div>
       )
     }
-    if (min === null || max === null) {
+    if (min == null || max == null) {
       return (
         <div />
       )

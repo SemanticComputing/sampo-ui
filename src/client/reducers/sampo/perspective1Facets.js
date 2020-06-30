@@ -274,7 +274,7 @@ export const INITIAL_STATE = {
       isFetching: false,
       containerClass: 'five',
       type: 'integer',
-      filterType: 'integerFilterRange',
+      filterType: 'integerFilter',
       integerFilter: null,
       unit: 'mm',
       priority: 11
