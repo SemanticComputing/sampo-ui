@@ -504,7 +504,7 @@ export const migrationsQuery = `
 `
 
 export const productionsByDecadeQuery = `
-  SELECT ?category (count(?instance) as ?count) WHERE {
+  SELECT ?category (COUNT (DISTINCT ?instance) as ?count) WHERE {
     <FILTER>
     ?instance ^crm:P108_has_produced/crm:P4_has_time-span/mmm-schema:decade ?category .
   }
