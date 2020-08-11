@@ -62,6 +62,7 @@ export default {
     network: 'network',
     export: 'export',
     production_dates: 'production dates',
+    event_dates: 'event dates',
     map_clusters: 'clustered map',
     map_markers: 'map',
     heatmap: 'heatmap',
@@ -71,6 +72,11 @@ export default {
   table: {
     rowsPerPage: 'Rows per page',
     of: 'of'
+  },
+  lineChart: {
+    productionCount: 'Production',
+    transferCount: 'Transfer of custody',
+    observationCount: 'Observation'
   },
   exportToYasgui: 'open the result table query in yasgui sparql editor',
   openInLinkedDataBrowser: 'open in linked data browser',

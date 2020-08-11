@@ -42,18 +42,23 @@ export const perspectiveConfig = [
         icon: <LineChartIcon />
       },
       {
-        id: 'last_known_locations',
+        id: 'event_dates',
         value: 4,
+        icon: <LineChartIcon />
+      },
+      {
+        id: 'last_known_locations',
+        value: 5,
         icon: <LocationOnIcon />
       },
       {
         id: 'migrations',
-        value: 5,
+        value: 6,
         icon: <RedoIcon />
       },
       {
         id: 'export',
-        value: 6,
+        value: 7,
         icon: <CloudDownloadIcon />
       }
     ],

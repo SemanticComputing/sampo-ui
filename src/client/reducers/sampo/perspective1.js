@@ -287,7 +287,8 @@ export const INITIAL_STATE = {
 
 const resultClasses = new Set([
   'perspective1',
-  'productionTimespanLineChart',
+  'productionLineChart',
+  'eventLineChart',
   'manuscriptInstancePageNetwork'
 ])
 

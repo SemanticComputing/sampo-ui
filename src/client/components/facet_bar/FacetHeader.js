@@ -13,7 +13,7 @@ import ListSubheader from '@material-ui/core/ListSubheader'
 import history from '../../History'
 import ChartDialog from './ChartDialog'
 import { createApexPieChartData } from '../../configs/sampo/ApexCharts/PieChartConfig'
-import { createApexLineChartData } from '../../configs/sampo/ApexCharts/LineChartConfig'
+import { createSingleLineChartData } from '../../configs/sampo/ApexCharts/LineChartConfig'
 import PieChartIcon from '@material-ui/icons/PieChart'
 import LineChartIcon from '@material-ui/icons/ShowChart'
 
@@ -248,7 +248,7 @@ class FacetHeader extends React.Component {
             rawDataUpdateID={this.props.facetResults.resultUpdateID}
             fetching={this.props.facetResults.fetching}
             fetchData={this.props.fetchResults}
-            createChartData={createApexLineChartData}
+            createChartData={createSingleLineChartData}
             resultClass={`${this.props.facetID}LineChart`}
             facetClass={this.props.facetClass}
             icon={<LineChartIcon />}

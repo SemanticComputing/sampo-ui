@@ -511,3 +511,28 @@ export const productionsByDecadeQuery = `
   GROUP BY ?category
   ORDER BY ?category
 `
+export const eventsByDecadeQuery = `
+  SELECT DISTINCT ?category 
+  (COUNT(?production) AS ?productionCount) 
+  (COUNT(?transfer) AS ?transferCount) 
+  (COUNT(?observation) AS ?observationCount) 
+  WHERE {
+    <FILTER>
+    { 
+      ?manuscript ^crm:P108_has_produced ?production .
+      ?production crm:P4_has_time-span/mmm-schema:decade ?category .
+    } 
+    UNION 
+    {
+      ?manuscript ^crm:P30_transferred_custody_of ?transfer .
+      ?transfer crm:P4_has_time-span/mmm-schema:decade ?category .
+    } 
+    UNION 
+    {
+      ?manuscript ^mmm-schema:observed_manuscript ?observation .
+      ?observation crm:P4_has_time-span/mmm-schema:decade ?category .
+    }
+  } 
+  GROUP BY ?category 
+  ORDER BY ?category
+`
