@@ -99,7 +99,6 @@ export const mapLineChart = sparqlBindings => {
 }
 
 export const mapMultipleLineChart = sparqlBindings => {
-  console.log(sparqlBindings)
   const res = {}
   sparqlBindings.forEach(b => {
     for (const p in b) {
