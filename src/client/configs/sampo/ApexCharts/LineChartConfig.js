@@ -44,17 +44,12 @@ export const createMultipleLineChartData = ({
   yaxisTitle,
   seriesTitle
 }) => {
-  let categories = []
   const series = []
-  for (const p in rawData) {
-    if (p === 'category') {
-      categories = rawData[p]
-    } else {
-      series.push({
-        name: intl.get(`lineChart.${p}`),
-        data: rawData[p]
-      })
-    }
+  for (const lineID in rawData) {
+    series.push({
+      name: intl.get(`lineChart.${lineID}`),
+      data: rawData[lineID]
+    })
   }
   const apexChartOptionsWithData = {
     ...multipleLineChartOptions,
