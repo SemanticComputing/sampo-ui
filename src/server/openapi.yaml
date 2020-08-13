@@ -120,6 +120,35 @@ paths:
                 type: object
     get:
         summary: Return all search results as a CSV file
+        parameters:
+        - in: path
+          name: resultClass
+          schema: 
+            type: string
+            example: perspective1
+          required: true
+          description: The class of the results
+        - in: query
+          name: facetClass
+          schema: 
+            type: string
+            example: perspective1
+          required: true
+          description: The class for facet configs
+        - in: query
+          name: constraints
+          required: false
+          content: 
+            application/json:
+              schema:
+                type: array
+        - in: query
+          name: resultFormat
+          schema: 
+            type: string
+            example: csv
+          required: true
+          description: Result format, only support for CSV for now.
         responses:
           '200':   
             description: All search results as a CSV file
