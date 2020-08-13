@@ -13,7 +13,7 @@ const theme = createMuiTheme({
         fontSize: '1 rem'
       }
     },
-    MuiExpansionPanel: {
+    MuiAccordion: {
       root: {
         '&$expanded': {
           marginTop: 8,

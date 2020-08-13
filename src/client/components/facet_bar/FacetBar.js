@@ -13,9 +13,9 @@ import FacetInfo from './FacetInfo'
 import DatasetSelector from './DatasetSelector'
 import SearchField from './SearchField'
 import LeafletMapDialog from './LeafletMapDialog'
-import ExpansionPanel from '@material-ui/core/ExpansionPanel'
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import Accordion from '@material-ui/core/Accordion'
+import AccordionSummary from '@material-ui/core/AccordionSummary'
+import AccordionDetails from '@material-ui/core/AccordionDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import clsx from 'clsx'
 
@@ -29,14 +29,14 @@ const styles = theme => ({
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0
   },
-  expansionPanelSummaryRoot: {
+  accordionSummaryRoot: {
     paddingLeft: theme.spacing(1),
     cursor: 'default !important'
   },
-  expansionPanelSummaryContent: {
+  accordionSummaryContent: {
     margin: 0
   },
-  expansionPanelDetails: {
+  accordionDetails: {
     paddingTop: 0,
     paddingLeft: theme.spacing(1),
     flexDirection: 'column'
@@ -234,14 +234,14 @@ class FacetBar extends React.Component {
         break
     }
     return (
-      <ExpansionPanel
+      <Accordion
         key={facetID}
         expanded={isActive}
       >
-        <ExpansionPanelSummary
+        <AccordionSummary
           classes={{
-            root: classes.expansionPanelSummaryRoot,
-            content: classes.expansionPanelSummaryContent
+            root: classes.accordionSummaryRoot,
+            content: classes.accordionSummaryContent
           }}
           expandIcon={<ExpandMoreIcon />}
           IconButtonProps={{ onClick: this.handleExpandButtonOnClick(facetID) }}
@@ -267,13 +267,13 @@ class FacetBar extends React.Component {
             facetDescription={description}
             rootUrl={this.props.rootUrl}
           />
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails
-          className={clsx(classes[facet.containerClass], classes.expansionPanelDetails)}
+        </AccordionSummary>
+        <AccordionDetails
+          className={clsx(classes[facet.containerClass], classes.accordionDetails)}
         >
           {isActive && facetComponent}
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+        </AccordionDetails>
+      </Accordion>
     )
   }
 
