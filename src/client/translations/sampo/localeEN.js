@@ -1367,6 +1367,149 @@ export default {
         }
       }
     },
+    finds: {
+      label: 'Archaeological finds',
+      facetResultsType: 'finds',
+      shortDescription: 'Data provided by the Finnish Heritage Agency',
+      longDescription: `
+        <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+          Use this perspective to access data related to physical manuscript objects.
+          If two or more source datasets include the same manuscript and
+          this has been verified, the information from the source datasets has been merged
+          into one manuscript. See <a href="/instructions">instructions</a> for using the
+          filters. The result view can be selected using the tabs:
+        </p>
+        <ul class="MuiTypography-root MuiTypography-body1">
+          <li>
+            <strong>TABLE</STRONG> view includes all manuscripts in
+            the MMM data. One table row is equivalent to one manuscript.
+          </li>
+          <li>
+            <strong>PRODUCTION PLACES</STRONG> view visualizes the connection
+            between manuscripts and the places where they were produced.
+          </li>
+          <li>
+            <strong>MIGRATIONS</strong> view visualizes the migration of a
+            manuscript from place of production to its most recently observed location.
+          </li>
+          <li>
+            <strong>EXPORT</strong> the SPARQL query used to generate the result
+            table view into YASGUI query editor.
+          </li>
+        </ul>
+      `,
+      instancePage: {
+        label: 'Archaeological find',
+        description: `
+          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+            MMM’s Manuscript entity corresponds to
+            <a href='https://www.ifla.org/publications/node/11240' target='_blank' rel='noopener noreferrer'>FRBRoo’s</a>
+            Manifestation Singleton, defined as "physical objects that each carry an instance of
+            [an Expression], and that were produced as unique objects..." The various types
+            of records that describe manuscripts in each of the three contributing MMM
+            datasets have been mapped to this entity.
+          </p>
+          <h6 class="MuiTypography-root MuiTypography-h6">
+            Manuscript labels
+          </h6>
+          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+            If the Bibale or Oxford databases reference a shelf mark for the manuscript,
+            that information will appear as its label. Otherwise, an SDBM ID number will serve
+            as its label. SDBM ID numbers contain prefixes that indicate different things about
+            the type of record they contain:
+          </p>
+          <ul class="MuiTypography-root MuiTypography-body1">
+            <li>
+              SDBM_MS: SDBM Manuscript Record, which aggregates the data of two or more SDBM
+              Entries. Each Entry represents a different observation of a manuscript at a different
+              point in time, derived from various sources.
+            </li>
+            <li>
+              SDBM_MS_orphan: a single Entry in the SDBM, meaning it has not been linked to any
+              other Entries and therefore has no SDBM Manuscript Record.
+            </li>
+            <li>
+              SDBM_MS_part: a record identified as a fragment of a larger manuscript.
+            </li>
+          </ul>
+          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"></p>
+        `
+      },
+      properties: {
+        uri: {
+          label: 'URI',
+          description: 'Uniform Resource Identifier'
+        },
+        findName: {
+          label: 'Find name',
+          description: 'Find name.'
+        },
+        specification: {
+          label: 'Specification',
+          description: 'Specification.'
+        },
+        prefLabel: {
+          label: 'Find name',
+          description: 'Find name.'
+        },
+        type: {
+          label: 'Type',
+          description: `
+            Type.
+          `
+        },
+        subCategory: {
+          label: 'Sub category',
+          description: `
+            Sub category.
+          `
+        },
+        objectSubCategory: {
+          label: 'Sub category ontologized',
+          description: `
+            Sub category using ontology terms.
+          `
+        },
+        material: {
+          label: 'Material',
+          description: `
+            Material.
+          `
+        },
+        materialLiteral: {
+          label: 'Material literal',
+          description: `
+            Material literal.
+          `
+        },
+        period: {
+          label: 'Period',
+          description: 'Period'
+        },
+        periodObject: {
+          label: 'Period ontologized',
+          description: 'Ontologized period. May include both earliest and lates periods.'
+        },
+        startYear: {
+          label: 'Start year',
+          description: `
+            Start year.
+          `
+        },
+        endYear: {
+          label: 'End year',
+          description: `
+            End year.
+          `
+        },
+        municipality: {
+          label: 'Municipality',
+          description: `
+            Municipality.
+          `
+        }
+      }
+    },
     clientFSPlaces: {
       label: 'ClientFS',
       shortDescription: 'Client-side faceted search',

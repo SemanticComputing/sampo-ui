@@ -1,6 +1,7 @@
 import { perspective1Config } from './perspective_configs/Perspective1Config'
 import { perspective2Config } from './perspective_configs/Perspective2Config'
 import { perspective3Config } from './perspective_configs/Perspective3Config'
+import { findsPerspectiveConfig } from './perspective_configs/FindsPerspectiveConfig'
 import {
   productionPlacesQuery,
   lastKnownLocationsQuery,
@@ -29,6 +30,11 @@ import {
   manuscriptsProducedAt,
   lastKnownLocationsAt
 } from './sparql_queries/SparqlQueriesPlaces'
+import {
+  findPropertiesInstancePage,
+  findsPlacesQuery,
+  findsTimelineQuery
+} from './sparql_queries/SparqlQueriesFinds'
 import { federatedSearchDatasets } from './sparql_queries/SparqlQueriesFederatedSearch'
 import { fullTextSearchProperties } from './sparql_queries/SparqlQueriesFullText'
 import { makeObjectList } from '../SparqlObjectMapper'
@@ -42,6 +48,7 @@ export const backendSearchConfig = {
   perspective1: perspective1Config,
   perspective2: perspective2Config,
   perspective3: perspective3Config,
+  finds: findsPerspectiveConfig,
   manuscripts: {
     perspectiveID: 'perspective1', // use endpoint config from perspective1
     instance: {
@@ -144,6 +151,22 @@ export const backendSearchConfig = {
     links: manuscriptNetworkLinksQuery,
     nodes: manuscriptNetworkNodesQuery,
     useNetworkAPI: true
+  },
+  findsPlaces: {
+    perspectiveID: 'finds', // use endpoint config from finds
+    q: findsPlacesQuery,
+    filterTarget: 'id',
+    resultMapper: mapPlaces,
+    instance: {
+      properties: findPropertiesInstancePage,
+      relatedInstances: ''
+    }
+  },
+  findsTimeline: {
+    perspectiveID: 'finds', // use endpoint config from finds
+    q: findsTimelineQuery,
+    filterTarget: 'find',
+    resultMapper: makeObjectList
   },
   jenaText: {
     perspectiveID: 'perspective1',

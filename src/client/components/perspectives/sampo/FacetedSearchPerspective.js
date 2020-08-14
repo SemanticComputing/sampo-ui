@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Perspective1 from './Perspective1'
 import Perspective2 from './Perspective2'
 import Perspective3 from './Perspective3'
+import Finds from './Finds'
 
 /**
  * A component for creating a faceted search perspective for a semantic portal.
@@ -80,6 +81,31 @@ const FacetedSearchPerspective = props => {
             fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
+            clearGeoJSONLayers={props.clearGeoJSONLayers}
+            fetchByURI={props.fetchByURI}
+            updatePage={props.updatePage}
+            updateRowsPerPage={props.updateRowsPerPage}
+            updateFacetOption={props.updateFacetOption}
+            sortResults={props.sortResults}
+            showError={props.showError}
+            routeProps={props.routeProps}
+            perspective={props.perspective}
+            animationValue={props.animationValue}
+            animateMap={props.animateMap}
+            screenSize={props.screenSize}
+            rootUrl={props.rootUrl}
+          />
+        break
+      case 'finds':
+        perspectiveElement =
+          <Finds
+            facetResults={props.facetResults}
+            placesResults={props.placesResults}
+            leafletMapLayers={props.leafletMap}
+            facetData={props.facetData}
+            fetchPaginatedResults={props.fetchPaginatedResults}
+            fetchResults={props.fetchResults}
+            fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
             fetchByURI={props.fetchByURI}
             updatePage={props.updatePage}

@@ -12,7 +12,8 @@ import {
   UPDATE_PAGE,
   UPDATE_ROWS_PER_PAGE,
   SORT_RESULTS,
-  UPDATE_PERSPECTIVE_HEADER_EXPANDED
+  UPDATE_PERSPECTIVE_HEADER_EXPANDED,
+  UPDATE_URL
 } from '../../actions'
 import {
   fetchResults,
@@ -29,7 +30,8 @@ import {
 } from '../helpers'
 
 export const INITIAL_STATE = {
-  results: [],
+  results: null,
+  resultUpdateID: 0,
   resultsSparqlQuery: null,
   paginatedResults: [],
   paginatedResultsSparqlQuery: null,
@@ -37,14 +39,13 @@ export const INITIAL_STATE = {
   instanceSparqlQuery: null,
   resultCount: 0,
   page: -1,
-  pagesize: 10,
+  pagesize: 15,
   sortBy: null,
-  sortDirection: 'asc',
+  sortDirection: null,
   fetching: false,
   fetchingResultCount: false,
-  sparqlQuery: null,
-  facetedSearchHeaderExpanded: true,
-  instancePageHeaderExpanded: true,
+  facetedSearchHeaderExpanded: false,
+  instancePageHeaderExpanded: false,
   properties: [
     {
       id: 'uri',
@@ -62,89 +63,98 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 170
+      minWidth: 180
     },
     {
-      id: 'placeType',
+      id: 'specification',
+      valueType: 'string',
+      makeLink: true,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 180
+    },
+    {
+      id: 'type',
       valueType: 'string',
       makeLink: false,
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 170
+      minWidth: 180
     },
     {
-      id: 'area',
-      valueType: 'object',
-      makeLink: true,
+      id: 'subCategory',
+      valueType: 'string',
+      makeLink: false,
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 170
+      minWidth: 180
     },
     {
-      id: 'manuscriptProduced',
+      id: 'material',
       valueType: 'object',
-      makeLink: true,
+      makeLink: false,
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 250,
-      onlyOnInstancePage: true
+      minWidth: 180
     },
     {
-      id: 'manuscriptTransferred',
-      valueType: 'object',
-      makeLink: true,
+      id: 'period',
+      valueType: 'string',
+      makeLink: false,
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 250,
-      onlyOnInstancePage: true
-    },
-    {
-      id: 'manuscriptObserved',
-      valueType: 'object',
-      makeLink: true,
-      externalLink: false,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 250,
-      onlyOnInstancePage: true
-    },
-    {
-      id: 'actor',
-      valueType: 'object',
-      makeLink: true,
-      externalLink: false,
-      sortValues: true,
-      numberedList: false,
-      minWidth: 250,
-      onlyOnInstancePage: true
-    },
-    {
-      id: 'source',
-      valueType: 'object',
-      makeLink: true,
-      externalLink: true,
-      sortValues: true,
-      numberedList: false
+      minWidth: 180
     }
+    // {
+    //   id: 'startYear',
+    //   valueType: 'string',
+    //   makeLink: false,
+    //   externalLink: false,
+    //   sortValues: true,
+    //   numberedList: false,
+    //   minWidth: 180
+    // },
+    // {
+    //   id: 'endYear',
+    //   valueType: 'string',
+    //   makeLink: false,
+    //   externalLink: false,
+    //   sortValues: true,
+    //   numberedList: false,
+    //   minWidth: 180
+    // },
+    // {
+    //   id: 'earliestStart',
+    //   valueType: 'string',
+    //   makeLink: false,
+    //   externalLink: false,
+    //   sortValues: true,
+    //   numberedList: false,
+    //   minWidth: 180
+    // },
+    // {
+    //   id: 'latestEnd',
+    //   valueType: 'string',
+    //   makeLink: false,
+    //   externalLink: false,
+    //   sortValues: true,
+    //   numberedList: false,
+    //   minWidth: 180
+    // }
   ]
 }
 
 const resultClasses = new Set([
-  'places',
-  'placesAll',
-  'placesActors',
-  'placesMsProduced',
-  'lastKnownLocations',
-  'placesMsMigrations',
-  'placesEvents',
-  'findsPlaces'
+  'finds',
+  'findsTimeline'
 ])
 
-const places = (state = INITIAL_STATE, action) => {
+const finds = (state = INITIAL_STATE, action) => {
   if (resultClasses.has(action.resultClass)) {
     switch (action.type) {
       case FETCH_RESULTS:
@@ -172,10 +182,12 @@ const places = (state = INITIAL_STATE, action) => {
         return updateRowsPerPage(state, action)
       case UPDATE_PERSPECTIVE_HEADER_EXPANDED:
         return updateHeaderExpanded(state, action)
+      case UPDATE_URL:
+        return (state)
       default:
         return state
     }
   } else return state
 }
 
-export default places
+export default finds

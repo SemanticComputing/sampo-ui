@@ -141,13 +141,18 @@ const Main = props => {
           container spacing={screenSize === 'sm' ? 2 : 1}
           justify={screenSize === 'xs' || screenSize === 'sm' ? 'center' : 'flex-start'}
         >
-          {perspectives.map(perspective =>
-            <MainCard
-              key={perspective.id}
-              perspective={perspective}
-              cardHeadingVariant='h5'
-              rootUrl={props.rootUrl}
-            />)}
+          {perspectives.map(perspective => {
+            if (!perspective.isHidden) {
+              return (
+                <MainCard
+                  key={perspective.id}
+                  perspective={perspective}
+                  cardHeadingVariant='h5'
+                  rootUrl={props.rootUrl}
+                />
+              )
+            }
+          })}
         </Grid>
         <div className={classes.licenceTextContainer}>
           <Typography className={classes.licenceText}>{intl.getHTML('mainPageImageLicence')}</Typography>
