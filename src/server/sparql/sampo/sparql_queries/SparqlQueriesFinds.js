@@ -38,6 +38,13 @@ export const findPropertiesInstancePage =
       ?id :municipality ?municipality__id .
       ?municipality__id skos:prefLabel ?municipality__prefLabel .
     }
+    UNION
+    {
+      ?id :image_url ?image__id .
+      ?id :find_name ?image__title .
+      BIND(?image__id as ?image__url)
+      BIND(CONCAT("Sample description text for image ", ?image__id) as ?image__description) 
+    }
 `
 
 export const findPropertiesFacetResults =
@@ -111,6 +118,13 @@ export const findPropertiesFacetResults =
     {
       ?id crm:P4_has_time_span/crm:P82b_end_of_the_end ?latestEnd .
       BIND (YEAR(?latestEnd) as ?endYear) .
+    }
+    UNION
+    {
+      ?id :image_url ?image__id .
+      ?id :find_name ?image__title .
+      BIND(?image__id as ?image__url)
+      BIND(CONCAT("Sample description text for image ", ?image__id) as ?image__description) 
     }
   `
 

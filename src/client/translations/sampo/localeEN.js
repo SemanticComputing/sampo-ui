@@ -1507,6 +1507,10 @@ export default {
           description: `
             Municipality.
           `
+        },
+        image: {
+          label: 'Image',
+          description: 'Image description.'
         }
       }
     },

@@ -73,6 +73,7 @@ const InstanceHomePageTable = props => {
                 numberedList={row.numberedList}
                 container='cell'
                 expanded
+                previewImageHeight={row.previewImageHeight}
                 linkAsButton={has(row, 'linkAsButton')
                   ? row.linkAsButton
                   : null}

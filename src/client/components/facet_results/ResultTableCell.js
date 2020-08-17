@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import TableCell from '@material-ui/core/TableCell'
 import ObjectListCollapsible from './ObjectListCollapsible'
 import StringList from './StringList'
+import ImageGallerySRL from '../main_layout/ImageGallerySRL'
 
 const ResultTableCell = props => {
   const {
     data, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, minWidth,
     container, columnId, expanded, linkAsButton, collapsedMaxWords, showSource,
-    sourceExternalLink, renderAsHTML
+    sourceExternalLink, renderAsHTML, previewImageHeight
   } = props
   let cellContent = null
   const cellStyle = minWidth == null ? {} : { minWidth: minWidth }
@@ -38,6 +39,10 @@ const ResultTableCell = props => {
           renderAsHTML={renderAsHTML}
         />
       break
+    case 'image':
+      cellContent = data
+        ? <ImageGallerySRL data={data} previewImageHeight={previewImageHeight} />
+        : ''
   }
   if (container === 'div') {
     return (
@@ -67,6 +72,7 @@ ResultTableCell.propTypes = {
   expanded: PropTypes.bool.isRequired,
   collapsedMaxWords: PropTypes.number,
   minWidth: PropTypes.number,
+  previewImageHeight: PropTypes.number,
   showSource: PropTypes.bool,
   sourceExternalLink: PropTypes.bool
 }

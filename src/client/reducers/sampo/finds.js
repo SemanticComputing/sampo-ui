@@ -57,6 +57,17 @@ export const INITIAL_STATE = {
       onlyOnInstancePage: true
     },
     {
+      id: 'image',
+      valueType: 'image',
+      previewImageHeight: 200,
+      makeLink: true,
+      externalLink: true,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 180,
+      hideHeader: true
+    },
+    {
       id: 'prefLabel',
       valueType: 'object',
       makeLink: true,

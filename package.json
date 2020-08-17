@@ -99,6 +99,7 @@
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
     "sass-loader": "^8.0.0",
+    "simple-react-lightbox": "^3.3.2",
     "swagger-ui-express": "^4.1.4",
     "victory": "^0.26.1"
   },

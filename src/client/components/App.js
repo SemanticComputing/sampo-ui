@@ -2,6 +2,7 @@ import React from 'react'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import SemanticPortal from '../containers/SemanticPortal'
 import deepPurple from '@material-ui/core/colors/deepPurple'
+import SimpleReactLightbox from 'simple-react-lightbox';
 
 const theme = createMuiTheme({
   palette: {
@@ -31,7 +32,9 @@ const theme = createMuiTheme({
 
 const App = () => (
   <MuiThemeProvider theme={theme}>
-    <SemanticPortal />
+    <SimpleReactLightbox>
+      <SemanticPortal />
+    </SimpleReactLightbox>
   </MuiThemeProvider>
 )
 

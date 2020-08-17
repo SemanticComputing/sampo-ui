@@ -207,6 +207,7 @@ class ResultTable extends React.Component {
           sortBy={column.sortBy}
           numberedList={column.numberedList}
           minWidth={column.minWidth}
+          previewImageHeight={column.previewImageHeight}
           container='cell'
           expanded={expanded}
           linkAsButton={has(column, 'linkAsButton')

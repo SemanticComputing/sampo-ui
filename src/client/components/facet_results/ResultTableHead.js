@@ -27,6 +27,11 @@ const ResultTableHead = props => {
         <TableCell className={classes.headerCol} key='empty' />
         {columns.map(column => {
           if (column.onlyOnInstancePage) { return null }
+          if (column.hideHeader) {
+            return (
+              <TableCell className={classes.headerCol} key='empty2' />
+            )
+          }
           const label = intl.get(`perspectives.${props.resultClass}.properties.${column.id}.label`)
           const description = intl.get(`perspectives.${props.resultClass}.properties.${column.id}.description`)
           return (
