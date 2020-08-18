@@ -1,29 +1,43 @@
 import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import { SRLWrapper, useLightbox } from 'simple-react-lightbox'
 import Button from '@material-ui/core/Button'
 
-let options = {
+const useStyles = makeStyles({
+  previewImage: {
+    border: '1px solid lightgray'
+  }
+})
+
+const options = {
+  settings: {
+    hideControlsAfter: false
+  },
   caption: {
     captionFontFamily: 'roboto'
   }
 }
 
+const optionsSingleImage = {
+  ...options,
+  thumbnails: {
+    showThumbnails: false
+  },
+  buttons: {
+    showPrevButton: false,
+    showNextButton: false,
+    showAutoplayButton: false
+  }
+}
+
 const ImageGallerySRL = props => {
+  const classes = useStyles()
   const { openLightbox } = useLightbox()
   let { data } = props
+  let srlOptions = options
   if (!Array.isArray(data)) {
     data = [data]
-    options = {
-      ...options,
-      thumbnails: {
-        showThumbnails: false
-      },
-      buttons: {
-        showPrevButton: false,
-        showNextButton: false,
-        showAutoplayButton: false
-      }
-    }
+    srlOptions = optionsSingleImage
   }
   const images = data.map(item => {
     return {
@@ -35,9 +49,13 @@ const ImageGallerySRL = props => {
   return (
     <>
       <Button onClick={() => openLightbox()}>
-        <img height={props.previewImageHeight} src={images[0].src} />
+        <img
+          className={classes.previewImage}
+          height={props.previewImageHeight}
+          src={images[0].src}
+        />
       </Button>
-      <SRLWrapper options={options} images={images} />
+      <SRLWrapper options={srlOptions} images={images} />
     </>
   )
 }

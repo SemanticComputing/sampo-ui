@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import TableCell from '@material-ui/core/TableCell'
 import ObjectListCollapsible from './ObjectListCollapsible'
 import StringList from './StringList'
+import SimpleReactLightbox from 'simple-react-lightbox'
 import ImageGallerySRL from '../main_layout/ImageGallerySRL'
 
 const ResultTableCell = props => {
@@ -41,7 +42,7 @@ const ResultTableCell = props => {
       break
     case 'image':
       cellContent = data
-        ? <ImageGallerySRL data={data} previewImageHeight={previewImageHeight} />
+        ? <SimpleReactLightbox><ImageGallerySRL data={data} previewImageHeight={previewImageHeight} /></SimpleReactLightbox>
         : ''
   }
   if (container === 'div') {
