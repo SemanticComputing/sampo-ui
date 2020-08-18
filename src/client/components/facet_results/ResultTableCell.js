@@ -41,7 +41,7 @@ const ResultTableCell = props => {
         />
       break
     case 'image':
-      cellContent = data
+      cellContent = data && data !== '-'
         ? <SimpleReactLightbox><ImageGallerySRL data={data} previewImageHeight={previewImageHeight} /></SimpleReactLightbox>
         : ''
   }
