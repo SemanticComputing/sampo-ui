@@ -328,6 +328,18 @@ paths:
             type: string
           required: true
           description: The URI of the resource
+        - in: query
+          name: limit
+          schema: 
+            type: string
+          required: false
+          description: Limit the number of links, default 1000.
+        - in: query
+          name: optimize
+          schema: 
+            type: string
+          required: true
+          description: First performs a query with optimize * limit results, and then densifies the network. Default 1.0. 
       responses:
         '200':
           description: Network data
