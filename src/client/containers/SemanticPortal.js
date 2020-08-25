@@ -517,7 +517,7 @@ const SemanticPortal = props => {
                       clientFSClearResults={props.clientFSClearResults}
                       clientFSUpdateQuery={props.clientFSUpdateQuery}
                       clientFSUpdateFacet={props.clientFSUpdateFacet}
-                      defaultActiveFacets={perspectiveConfig[3].defaultActiveFacets}
+                      defaultActiveFacets={perspectiveConfig[4].defaultActiveFacets}
                       leafletMap={props.leafletMap}
                       updateMapBounds={props.updateMapBounds}
                       screenSize={screenSize}
@@ -530,7 +530,7 @@ const SemanticPortal = props => {
                     {!noResults &&
                       <ClientFSPerspective
                         routeProps={routeProps}
-                        perspective={perspectiveConfig[3]}
+                        perspective={perspectiveConfig[4]}
                         screenSize={screenSize}
                         clientFS={props.clientFS}
                         clientFSResults={props.clientFSResults}
