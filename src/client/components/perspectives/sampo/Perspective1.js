@@ -61,7 +61,7 @@ const Perspective1 = props => {
             facetClass='perspective1'
             mapMode='cluster'
             showMapModeControl={false}
-            instance={props.placesResults.instance}
+            instance={props.placesResults.instanceTableData}
             fetchResults={props.fetchResults}
             fetchGeoJSONLayers={props.fetchGeoJSONLayersBackend}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
@@ -105,7 +105,7 @@ const Perspective1 = props => {
             facetClass='perspective1'
             mapMode='cluster'
             showMapModeControl={false}
-            instance={props.placesResults.instance}
+            instance={props.placesResults.instanceTableData}
             fetchResults={props.fetchResults}
             fetchGeoJSONLayers={props.fetchGeoJSONLayersBackend}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
@@ -148,7 +148,7 @@ const Perspective1 = props => {
             xaxisTitle='Decade'
             yaxisTitle='Manuscript count'
             seriesTitle='Manuscript count'
-            resultClass='productionLineChart'
+            resultClass='productionTimespanLineChart'
             facetClass='perspective1'
           />}
       />

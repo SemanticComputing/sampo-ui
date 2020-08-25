@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import intl from 'react-intl-universal'
 import L from 'leaflet'
-import { has, orderBy } from 'lodash'
+import { has, orderBy, isEqual } from 'lodash'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { purple } from '@material-ui/core/colors'
 import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../configs/sampo/GeneralConfig'
@@ -161,7 +161,7 @@ class LeafletMap extends React.Component {
     }
 
     // check if instance have changed
-    if ((this.props.instance !== null) && prevProps.instance !== this.props.instance) {
+    if ((this.props.instance !== null) && !isEqual(prevProps.instance, this.props.instance)) {
       this.markers[this.props.instance.id]
         .bindPopup(this.createPopUpContent(this.props.instance), {
           maxHeight: 300,

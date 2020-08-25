@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import { reducer as toastrReducer } from 'react-redux-toastr'
 // general reducers:
-import error from './error'
-import options from './options'
-import animation from './animation'
-import leafletMap from './leafletMap'
+import error from './general/error'
+import options from './general/options'
+import animation from './general/animation'
+import leafletMap from './general/leafletMap'
 // portal spefic reducers:
 import fullTextSearch from './sampo/fullTextSearch'
 import clientSideFacetedSearch from './sampo/clientSideFacetedSearch'

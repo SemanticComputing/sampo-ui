@@ -410,7 +410,7 @@ const SemanticPortal = props => {
                               <InfoHeader
                                 resultClass={perspective.id}
                                 pageType='instancePage'
-                                instanceData={props[perspective.id].instance}
+                                instanceData={props[perspective.id].instanceTableData}
                                 expanded={props[perspective.id].instancePageHeaderExpanded}
                                 updateExpanded={props.updatePerspectiveHeaderExpanded}
                                 descriptionHeight={perspective.perspectiveDescHeight}
@@ -426,11 +426,12 @@ const SemanticPortal = props => {
                                     fetchByURI={props.fetchByURI}
                                     fetchNetworkById={props.fetchNetworkById}
                                     resultClass={perspective.id}
-                                    resultUpdateID={props[perspective.id].resultUpdateID}
+                                    tableData={props[perspective.id].instanceTableData}
+                                    tableExternalData={props[perspective.id].instancePageTableExternalData}
                                     properties={props[perspective.id].properties}
+                                    analysisData={props[perspective.id].instanceAnalysisData}
+                                    analysisDataUpdateID={props[perspective.id].instanceAnalysisDataUpdateID}
                                     tabs={perspective.instancePageTabs}
-                                    data={props[perspective.id].instance}
-                                    networkData={props[perspective.id].instanceNetworkData}
                                     sparqlQuery={props[perspective.id].instanceSparqlQuery}
                                     isLoading={props[perspective.id].fetching}
                                     routeProps={routeProps}
@@ -462,7 +463,7 @@ const SemanticPortal = props => {
                         <InfoHeader
                           resultClass={perspective.id}
                           pageType='instancePage'
-                          instanceData={props[perspective.id].instance}
+                          instanceData={props[perspective.id].instanceTableData}
                           expanded={props[perspective.id].instancePageHeaderExpanded}
                           updateExpanded={props.updatePerspectiveHeaderExpanded}
                           descriptionHeight={perspective.perspectiveDescHeight}
@@ -478,11 +479,12 @@ const SemanticPortal = props => {
                               fetchByURI={props.fetchByURI}
                               fetchNetworkById={props.fetchNetworkById}
                               resultClass={perspective.id}
-                              resultUpdateID={props[perspective.id].resultUpdateID}
+                              tableData={props[perspective.id].instanceTableData}
+                              tableExternalData={props[perspective.id].instancePageTableExternalData}
                               properties={props[perspective.id].properties}
+                              analysisData={props[perspective.id].instanceAnalysisData}
+                              analysisDataUpdateID={props[perspective.id].instanceAnalysisDataUpdateID}
                               tabs={perspective.instancePageTabs}
-                              data={props[perspective.id].instance}
-                              networkData={props[perspective.id].instanceNetworkData}
                               sparqlQuery={props[perspective.id].instanceSparqlQuery}
                               isLoading={props[perspective.id].fetching}
                               routeProps={routeProps}

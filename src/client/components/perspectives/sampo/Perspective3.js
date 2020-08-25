@@ -51,7 +51,7 @@ const Perspective3 = props => {
             facetClass='perspective3'
             mapMode='cluster'
             showMapModeControl={false}
-            instance={props.placesResults.instance}
+            instance={props.placesResults.instanceTableData}
             fetchResults={props.fetchResults}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
             fetchGeoJSONLayers={props.fetchGeoJSONLayersBackend}

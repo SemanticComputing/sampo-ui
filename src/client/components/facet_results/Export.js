@@ -28,10 +28,10 @@ const styles = theme => ({
 
 class Export extends React.Component {
   componentDidMount = () => {
-    if (this.props.data.page === -1) {
-      this.props.updatePage(this.props.resultClass, 0)
-    }
     if (this.props.pageType === 'facetResults') {
+      if (this.props.data.page === -1) {
+        this.props.updatePage(this.props.resultClass, 0)
+      }
       this.props.fetchPaginatedResults(
         this.props.resultClass,
         this.props.facetClass,
@@ -41,10 +41,11 @@ class Export extends React.Component {
   }
 
   render = () => {
-    const { classes, data } = this.props
+    const { classes, data, pageType } = this.props
     let yasguiUrl = ''
-    if (data.paginatedResultsSparqlQuery !== null) {
-      yasguiUrl = `${yasguiBaseUrl}/#query=${encodeURIComponent(data.paginatedResultsSparqlQuery)}&${querystring.stringify(yasguiParams)}`
+    const sparqlQuery = pageType === 'facetResults' ? data.paginatedResultsSparqlQuery : this.props.sparqlQuery
+    if (sparqlQuery !== null) {
+      yasguiUrl = `${yasguiBaseUrl}/#query=${encodeURIComponent(sparqlQuery)}&${querystring.stringify(yasguiParams)}`
     }
     return (
       <div className={classes.root}>
@@ -76,12 +77,12 @@ class Export extends React.Component {
 
 Export.propTypes = {
   classes: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object,
   pageType: PropTypes.string.isRequired,
-  resultClass: PropTypes.string.isRequired,
-  facetClass: PropTypes.string.isRequired,
-  fetchPaginatedResults: PropTypes.func.isRequired,
-  updatePage: PropTypes.func.isRequired,
+  resultClass: PropTypes.string,
+  facetClass: PropTypes.string,
+  fetchPaginatedResults: PropTypes.func,
+  updatePage: PropTypes.func,
   sparqlQuery: PropTypes.string,
   id: PropTypes.string
 }

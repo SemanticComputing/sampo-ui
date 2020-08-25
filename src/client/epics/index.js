@@ -42,9 +42,9 @@ import {
   updatePaginatedResults,
   updateResults,
   clientFSUpdateResults,
-  updateInstance,
-  updateInstanceRelatedData,
-  updateInstanceNetworkData,
+  updateInstanceTable,
+  updateInstanceTableExternal,
+  updateInstanceAnalysis,
   updateFacetValues,
   updateFacetValuesConstrainSelf,
   updateLocale,
@@ -238,7 +238,7 @@ const fetchByURIEpic = (action$, state$) => action$.pipe(
       },
       body: params
     }).pipe(
-      map(ajaxResponse => updateInstance({
+      map(ajaxResponse => updateInstanceTable({
         resultClass: resultClass,
         data: ajaxResponse.response.data,
         sparqlQuery: ajaxResponse.response.sparqlQuery
@@ -394,7 +394,7 @@ const fetchSimilarDocumentsEpic = (action$, state$) => action$.pipe(
     const { resultClass, id, modelName, resultSize } = action
     const requestUrl = `${documentFinderAPIUrl}/top-similar/${modelName}/${id}?n=${resultSize}`
     return ajax.getJSON(requestUrl).pipe(
-      map(res => updateInstanceRelatedData({
+      map(res => updateInstanceTableExternal({
         resultClass,
         data: res.documents || null
       })),
@@ -420,7 +420,7 @@ const fetchNetworkByURIEpic = (action$, state$) => action$.pipe(
     const params = { limit, optimize }
     const requestUrl = `${apiUrl}/${resultClass}/network/${encodeURIComponent(id)}?${querystring.stringify(params)}`
     return ajax.getJSON(requestUrl).pipe(
-      map(response => updateInstanceNetworkData({
+      map(response => updateInstanceAnalysis({
         resultClass: resultClass,
         data: response.data,
         sparqlQuery: response.sparqlQuery

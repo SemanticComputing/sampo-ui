@@ -1,7 +1,7 @@
 import {
   UPDATE_LOCALE
-} from '../actions'
-import { availableLocales } from '../epics/index.js'
+} from '../../actions'
+import { availableLocales } from '../../epics/index.js'
 
 const localeArray = []
 for (const [key, value] of Object.entries(availableLocales)) {

@@ -1,15 +1,4 @@
-import {
-  FETCH_FACET_CONSTRAIN_SELF,
-  FETCH_FACET_CONSTRAIN_SELF_FAILED,
-  UPDATE_FACET_VALUES_CONSTRAIN_SELF
-} from '../../actions'
-import {
-  fetchFacet,
-  fetchFacetFailed,
-  updateFacetValues
-  // updateFacetOption,
-} from '../helpers'
-
+import { handleFacetConstrainSelfAction } from '../general/facetsConstrainSelf'
 export const INITIAL_STATE = {
   updatedFacet: null,
   facetUpdateID: 0,
@@ -195,24 +184,15 @@ export const INITIAL_STATE = {
       containerClass: 'ten',
       filterType: 'uriFilter',
       uriFilter: null,
-      priority: 4,
-    },
+      priority: 4
+    }
   }
 }
 
-const manuscriptsFacets = (state = INITIAL_STATE, action) => {
+const findsFacetsConstrainSelf = (state = INITIAL_STATE, action) => {
   if (action.facetClass === 'finds') {
-    switch (action.type) {
-      case FETCH_FACET_CONSTRAIN_SELF:
-        return fetchFacet(state, action)
-      case FETCH_FACET_CONSTRAIN_SELF_FAILED:
-        return fetchFacetFailed(state, action)
-      case UPDATE_FACET_VALUES_CONSTRAIN_SELF:
-        return updateFacetValues(state, action)
-      default:
-        return state
-    }
+    return handleFacetConstrainSelfAction(state, action)
   } else return state
 }
 
-export default manuscriptsFacets
+export default findsFacetsConstrainSelf

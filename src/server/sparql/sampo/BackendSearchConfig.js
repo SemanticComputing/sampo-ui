@@ -134,7 +134,7 @@ export const backendSearchConfig = {
       relatedInstances: ''
     }
   },
-  productionLineChart: {
+  productionTimespanLineChart: {
     perspectiveID: 'perspective1',
     q: productionsByDecadeQuery,
     filterTarget: 'instance',
