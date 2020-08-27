@@ -15,7 +15,6 @@ import 'moment/locale/fi'
 import Grid from '@material-ui/core/Grid'
 
 // ** General components **
-import TopBar from '../components/main_layout/TopBar'
 import InfoHeader from '../components/main_layout/InfoHeader'
 import TextPage from '../components/main_layout/TextPage'
 import Message from '../components/main_layout/Message'
@@ -24,6 +23,7 @@ import FacetBar from '../components/facet_bar/FacetBar'
 // ** General components end **
 
 // ** Portal specific components and configs **
+import TopBar from '../components/perspectives/sampo/TopBar'
 import FacetedSearchPerspective from '../components/perspectives/sampo/FacetedSearchPerspective'
 import FullTextSearch from '../components/perspectives/sampo/FullTextSearch'
 import ClientFSPerspective from '../components/perspectives/sampo/client_fs/ClientFSPerspective'
@@ -111,7 +111,7 @@ const useStyles = makeStyles(theme => ({
       height: 'calc(100% - 144px)' // 100% - app bar - padding * 2
     },
     [theme.breakpoints.down('sm')]: {
-      marginTop: 56 // app bar
+      marginTop: 64 // app bar
     },
     [theme.breakpoints.up('sm')]: {
       marginTop: 72 // app bar + padding
@@ -171,9 +171,9 @@ const useStyles = makeStyles(theme => ({
   facetBarContainerClientFS: {
     height: 'auto',
     [theme.breakpoints.up('md')]: {
-      height: '100%'
+      height: '100%',
+      overflow: 'auto'
     },
-    overflow: 'auto',
     // paddingTop: theme.spacing(1),
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(0.5),
@@ -191,17 +191,21 @@ const useStyles = makeStyles(theme => ({
     }
   },
   resultsContainerClientFS: {
-    height: 'auto',
+    height: 800,
+    [theme.breakpoints.down('md')]: {
+      marginBottom: 8,
+      width: 'calc(100% - 2px)'
+    },
     [theme.breakpoints.up('md')]: {
       height: '100%'
     },
     paddingTop: '0px !important',
     paddingBottom: '0px !important',
-    paddingRight: theme.spacing(1),
-    paddingLeft: theme.spacing(0.5),
-    [theme.breakpoints.down('sm')]: {
-      marginTop: theme.spacing(1)
-    }
+    paddingRight: theme.spacing(0.5),
+    paddingLeft: theme.spacing(0.5)
+    // [theme.breakpoints.down('sm')]: {
+    //   marginTop: theme.spacing(1)
+    // }
   },
   instancePageContainer: {
     height: 'auto',

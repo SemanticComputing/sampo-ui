@@ -188,7 +188,7 @@ export const perspectiveConfig = [
   {
     id: 'clientFSPlaces',
     frontPageImage: placesImage,
-    defaultActiveFacets: new Set(['datasetSelector', 'prefLabel']),
+    defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {
         id: 'table',

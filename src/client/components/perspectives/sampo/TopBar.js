@@ -11,13 +11,13 @@ import { makeStyles } from '@material-ui/core/styles'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import Button from '@material-ui/core/Button'
 import { Link, NavLink } from 'react-router-dom'
-import TopBarSearchField from './TopBarSearchField'
-import TopBarInfoButton from './TopBarInfoButton'
-import TopBarLanguageButton from './TopBarLanguageButton'
+import TopBarSearchField from '../../main_layout/TopBarSearchField'
+import TopBarInfoButton from '../../main_layout/TopBarInfoButton'
+import TopBarLanguageButton from '../../main_layout/TopBarLanguageButton'
 import Divider from '@material-ui/core/Divider'
 import { has } from 'lodash'
-import secoLogo from '../../img/logos/seco-logo-48x50.png'
-import { showLanguageButton } from '../../configs/sampo/GeneralConfig'
+import secoLogo from '../../../img/logos/seco-logo-48x50.png'
+import { showLanguageButton } from '../../../configs/sampo/GeneralConfig'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -80,6 +80,7 @@ const TopBar = props => {
   const classes = useStyles()
   const handleMobileMenuOpen = event => setMobileMoreAnchorEl(event.currentTarget)
   const handleMobileMenuClose = () => setMobileMoreAnchorEl(null)
+  const clientFSMode = props.location.pathname.indexOf('clientFS') !== -1
 
   // https://material-ui.com/components/buttons/#third-party-routing-library
   const AdapterLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />)
@@ -202,12 +203,13 @@ const TopBar = props => {
           <Button component={AdapterLink} to='/'>
             <Typography className={classes.homeButtonText} variant='h6'>{intl.get('appTitle.short')}</Typography>
           </Button>
-          <TopBarSearchField
-            fetchFullTextResults={props.fetchFullTextResults}
-            clearResults={props.clearResults}
-            xsScreen={props.xsScreen}
-            rootUrl={rootUrl}
-          />
+          {!clientFSMode &&
+            <TopBarSearchField
+              fetchFullTextResults={props.fetchFullTextResults}
+              clearResults={props.clearResults}
+              xsScreen={props.xsScreen}
+              rootUrl={rootUrl}
+            />}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             {perspectives.map((perspective, index) => perspective.isHidden ? null : renderDesktopTopMenuItem(perspective, index))}
