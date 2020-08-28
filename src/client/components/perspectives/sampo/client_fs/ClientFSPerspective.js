@@ -9,6 +9,7 @@ import ResultInfo from '../../../facet_results/ResultInfo'
 import VirtualizedTable from '../../../facet_results/VirtualizedTable'
 import Pie from '../../../facet_results/Pie.js'
 import CSVButton from '../../../facet_results/CSVButton'
+import Footer from '../Footer'
 
 const ClientFSPerspective = props => {
   const { rootUrl, perspective } = props
@@ -103,6 +104,7 @@ const ClientFSPerspective = props => {
         render={() =>
           <CSVButton results={props.clientFSResults} />}
       />
+      <Footer />
     </>
   )
 }

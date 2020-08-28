@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 import intl from 'react-intl-universal'
 import bgImage from '../../../../img/main_page/bg2.jpg'
+import Footer from '../Footer'
 
 const styles = theme => ({
   root: {
@@ -47,27 +48,30 @@ const styles = theme => ({
 const ClientFSMain = props => {
   const { classes } = props
   return (
-    <Paper className={classes.root}>
-      <div className={classes.content}>
-        <div className={classes.textContainer}>
-          <Typography className={classes.frontPageHeading} component='h1' variant='h3' align='center' color='textPrimary' gutterBottom>
-            {intl.getHTML('appTitle.long')}
-          </Typography>
-          <Typography className={classes.frontPageText} variant='h5' align='left' color='textPrimary' paragraph>
-            {intl.get('appDescription1')}
-          </Typography>
-          <Typography className={classes.frontPageText} variant='h5' align='left' color='textPrimary' paragraph>
-            {intl.get('appDescription2')}
-          </Typography>
-          <Typography className={classes.frontPageText} variant='h5' align='left' color='textPrimary' paragraph>
-            {intl.get('appDescription3')}
-          </Typography>
-          <Typography className={classes.frontPageText} variant='h5' align='left' color='textPrimary' paragraph>
-            {intl.get('appDescription4')}
-          </Typography>
+    <>
+      <Paper className={classes.root}>
+        <div className={classes.content}>
+          <div className={classes.textContainer}>
+            <Typography className={classes.frontPageHeading} component='h1' variant='h3' align='center' color='textPrimary' gutterBottom>
+              {intl.getHTML('appTitle.long')}
+            </Typography>
+            <Typography className={classes.frontPageText} variant='h5' align='left' color='textPrimary' paragraph>
+              {intl.get('appDescription1')}
+            </Typography>
+            <Typography className={classes.frontPageText} variant='h5' align='left' color='textPrimary' paragraph>
+              {intl.get('appDescription2')}
+            </Typography>
+            <Typography className={classes.frontPageText} variant='h5' align='left' color='textPrimary' paragraph>
+              {intl.get('appDescription3')}
+            </Typography>
+            <Typography className={classes.frontPageText} variant='h5' align='left' color='textPrimary' paragraph>
+              {intl.get('appDescription4')}
+            </Typography>
+          </div>
         </div>
-      </div>
-    </Paper>
+      </Paper>
+      <Footer />
+    </>
   )
 }
 

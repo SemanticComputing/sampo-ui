@@ -175,6 +175,9 @@ const useStyles = makeStyles(theme => ({
       height: '100%',
       overflow: 'auto'
     },
+    [theme.breakpoints.down('md')]: {
+      marginBottom: theme.spacing(1)
+    },
     paddingLeft: theme.spacing(0.5),
     paddingRight: theme.spacing(0.5)
   },
