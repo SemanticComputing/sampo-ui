@@ -108,6 +108,7 @@ const TopBar = props => {
           key={perspective.id}
           component={AdapterLink}
           to={`${props.rootUrl}/${perspective.id}/${searchMode}`}
+          onClick={handleMobileMenuClose}
         >
           {intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
         </MenuItem>
@@ -163,6 +164,7 @@ const TopBar = props => {
         key='feedback'
         component={AdapterLink}
         to={`${props.rootUrl}/feedback`}
+        onClick={handleMobileMenuClose}
       >
         {intl.get('topBar.feedback').toUpperCase()}
       </MenuItem>
@@ -170,6 +172,7 @@ const TopBar = props => {
         key={0}
         component={AdapterLink}
         to={`${props.rootUrl}/about`}
+        onClick={handleMobileMenuClose}
       >
         {intl.get('topBar.info.aboutThePortal').toUpperCase()}
       </MenuItem>
@@ -179,6 +182,7 @@ const TopBar = props => {
         href={intl.get('topBar.info.blogUrl')}
         target='_blank'
         rel='noopener noreferrer'
+        onClick={handleMobileMenuClose}
       >
         <MenuItem>
           {intl.get('topBar.info.blog').toUpperCase()}
@@ -188,6 +192,7 @@ const TopBar = props => {
         key='info'
         component={AdapterLink}
         to={`${props.rootUrl}/instructions`}
+        onClick={handleMobileMenuClose}
       >
         {intl.get('topBar.instructions').toUpperCase()}
       </MenuItem>

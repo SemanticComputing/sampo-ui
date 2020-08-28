@@ -139,7 +139,7 @@ const useStyles = makeStyles(theme => ({
     },
     padding: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      marginTop: 133 // app bar + header
+      marginTop: 126 // app bar + header
     },
     [theme.breakpoints.up('sm')]: {
       marginTop: 130 // app bar + header
@@ -170,14 +170,13 @@ const useStyles = makeStyles(theme => ({
   },
   facetBarContainerClientFS: {
     height: 'auto',
+    width: '100%',
     [theme.breakpoints.up('md')]: {
       height: '100%',
       overflow: 'auto'
     },
-    // paddingTop: theme.spacing(1),
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(0.5),
-    paddingBottom: theme.spacing(1)
+    paddingLeft: theme.spacing(0.5),
+    paddingRight: theme.spacing(0.5)
   },
   resultsContainer: {
     height: 'auto',
