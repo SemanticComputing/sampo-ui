@@ -219,7 +219,7 @@ class Deck extends React.Component {
 
 Deck.propTypes = {
   classes: PropTypes.object.isRequired,
-  results: PropTypes.array.isRequired,
+  results: PropTypes.array,
   mapBoxAccessToken: PropTypes.string.isRequired,
   mapBoxStyle: PropTypes.string.isRequired,
   facetUpdateID: PropTypes.number,
