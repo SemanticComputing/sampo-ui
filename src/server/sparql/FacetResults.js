@@ -75,6 +75,9 @@ export const getAllResults = ({
       facetID: null
     }))
   }
+  if (uri !== null) {
+    q = q.replace('<ID>', `<${uri}>`)
+  }
   if (has(config, 'useNetworkAPI') && config.useNetworkAPI) {
     return runNetworkQuery({
       endpoint: endpoint.url,

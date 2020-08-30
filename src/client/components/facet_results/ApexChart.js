@@ -21,7 +21,8 @@ class ApexChart extends React.Component {
     this.props.fetchData({
       resultClass: this.props.resultClass,
       facetClass: this.props.facetClass,
-      facetID: this.props.facetID
+      facetID: this.props.facetID,
+      uri: this.props.uri
     })
   }
 
@@ -70,7 +71,7 @@ class ApexChart extends React.Component {
       width: '100%',
       height: '100%'
     }
-    if (pageType === 'facetResults') {
+    if (pageType === 'facetResults' || pageType === 'instancePage') {
       rootStyle = {
         height: 'calc(100% - 136px)',
         width: 'calc(100% - 64px)',
@@ -112,7 +113,8 @@ ApexChart.propTypes = {
   fetching: PropTypes.bool.isRequired,
   resultClass: PropTypes.string,
   facetClass: PropTypes.string,
-  facetID: PropTypes.string
+  facetID: PropTypes.string,
+  uri: PropTypes.string
 }
 
 export default ApexChart
