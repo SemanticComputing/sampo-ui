@@ -17,7 +17,7 @@ export const cytoscapeStyle = [
       width: ele => constrainWidth(ele.data('weight')),
       'line-color': ele => ele.data('color') || '#BBB',
       'curve-style': 'bezier',
-      content: ' data(prefLabel) ',
+      // content: ' data(prefLabel) ',
       'target-arrow-shape': 'triangle',
       'target-arrow-color': '#999',
       color: '#555',

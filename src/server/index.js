@@ -94,8 +94,11 @@ new OpenApiValidator({
           backendSearchConfig,
           resultClass: params.resultClass,
           facetClass: body.facetClass,
+          uri: body.uri,
           constraints: body.constraints,
-          resultFormat: resultFormat
+          resultFormat: resultFormat,
+          limit: body.limit,
+          optimize: body.optimize
         })
         if (resultFormat === 'csv') {
           res.writeHead(200, {
@@ -175,8 +178,6 @@ new OpenApiValidator({
           backendSearchConfig,
           resultClass: params.resultClass,
           uri: params.id,
-          limit: query.limit,
-          optimize: query.optimize,
           constraints: null,
           resultFormat: 'json'
         })

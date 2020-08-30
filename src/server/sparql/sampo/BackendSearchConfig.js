@@ -148,7 +148,7 @@ export const backendSearchConfig = {
   },
   manuscriptInstancePageNetwork: {
     perspectiveID: 'perspective1',
-    links: manuscriptNetworkLinksQuery,
+    q: manuscriptNetworkLinksQuery,
     nodes: manuscriptNetworkNodesQuery,
     useNetworkAPI: true
   },

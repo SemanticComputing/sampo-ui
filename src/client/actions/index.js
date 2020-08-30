@@ -64,10 +64,11 @@ export const fetchPaginatedResultsFailed = (resultClass, error, message) => ({
   error,
   message
 })
-export const fetchResults = ({ resultClass, facetClass, limit = null, optimize = null }) => ({
+export const fetchResults = ({ resultClass, facetClass, uri = null, limit = null, optimize = null }) => ({
   type: FETCH_RESULTS,
   resultClass,
   facetClass,
+  uri,
   limit,
   optimize
 })
@@ -153,19 +154,6 @@ export const fetchSimilarDocumentsById = ({ resultClass, id, modelName, resultSi
   modelName,
   resultSize
 })
-export const fetchNetworkById = ({ resultClass, id, limit = null, optimize = null }) => ({
-  type: FETCH_NETWORK_BY_ID,
-  resultClass,
-  id,
-  limit,
-  optimize
-})
-export const fetchNetworkByIdFailed = ({ resultClass, id, error, message }) => ({
-  type: FETCH_NETWORK_BY_ID_FAILED,
-  resultClass,
-  error,
-  message
-})
 export const fetchSimilarDocumentsByIdFailed = (resultClass, id, error, message) => ({
   type: FETCH_SIMILAR_DOCUMENTS_BY_ID_FAILED,
   resultClass,
@@ -181,11 +169,6 @@ export const updateInstanceTable = ({ resultClass, data, sparqlQuery }) => ({
 })
 export const updateInstanceTableExternal = ({ resultClass, data }) => ({
   type: UPDATE_INSTANCE_TABLE_EXTERNAL,
-  resultClass,
-  data
-})
-export const updateInstanceAnalysis = ({ resultClass, data }) => ({
-  type: UPDATE_INSTANCE_ANALYSIS,
   resultClass,
   data
 })

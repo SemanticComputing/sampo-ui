@@ -158,11 +158,11 @@ class InstanceHomePage extends React.Component {
                 render={() =>
                   <Network
                     pageType='instancePage'
-                    results={this.props.analysisData}
-                    resultUpdateID={this.props.analysisDataUpdateID}
-                    fetchNetworkById={this.props.fetchNetworkById}
+                    results={this.props.results}
+                    resultUpdateID={this.props.resultUpdateID}
+                    fetchResults={this.props.fetchResults}
                     resultClass='manuscriptInstancePageNetwork'
-                    id={tableData.id}
+                    uri={tableData.id}
                     limit={200}
                     optimize={1.2}
                     style={cytoscapeStyle}
@@ -188,11 +188,12 @@ class InstanceHomePage extends React.Component {
 InstanceHomePage.propTypes = {
   classes: PropTypes.object.isRequired,
   fetchByURI: PropTypes.func.isRequired,
+  fetchResults: PropTypes.func.isRequired,
   resultClass: PropTypes.string.isRequired,
   tableData: PropTypes.object,
   tableExternalData: PropTypes.object,
-  analysisData: PropTypes.object,
-  analysisDataUpdateID: PropTypes.number,
+  results: PropTypes.object,
+  resultUpdateID: PropTypes.number.isRequired,
   sparqlQuery: PropTypes.string,
   properties: PropTypes.array.isRequired,
   tabs: PropTypes.array.isRequired,

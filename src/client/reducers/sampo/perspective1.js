@@ -17,8 +17,6 @@ export const INITIAL_STATE = {
   instancePageHeaderExpanded: false,
   instanceTableData: null,
   instanceTableExternalData: null,
-  instanceAnalysisData: null,
-  instanceAnalysisDataUpdateID: 0,
   instanceSparqlQuery: null,
   properties: [
     {

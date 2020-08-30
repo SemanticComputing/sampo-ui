@@ -23,21 +23,13 @@ class Network extends React.Component {
   }
 
   componentDidMount = () => {
-    if (this.props.pageType === 'instancePage') {
-      this.props.fetchNetworkById({
-        resultClass: this.props.resultClass,
-        id: this.props.id,
-        limit: this.props.limit,
-        optimize: this.props.optimize
-      })
-    } else {
-      this.props.fetchResults({
-        resultClass: this.props.resultClass,
-        facetClass: this.props.facetClass,
-        limit: this.props.limit,
-        optimize: this.props.optimize
-      })
-    }
+    this.props.fetchResults({
+      resultClass: this.props.resultClass,
+      facetClass: this.props.facetClass,
+      uri: this.props.uri,
+      limit: this.props.limit,
+      optimize: this.props.optimize
+    })
 
     this.cy = cytoscape({
       container: this.cyRef.current,
@@ -106,6 +98,7 @@ Network.propTypes = {
   facetClass: PropTypes.string,
   facetUpdateID: PropTypes.number,
   resultUpdateID: PropTypes.number.isRequired,
+  uri: PropTypes.string,
   limit: PropTypes.number.isRequired,
   optimize: PropTypes.number.isRequired,
   style: PropTypes.array.isRequired,

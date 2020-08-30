@@ -42,7 +42,6 @@ import {
   fetchFullTextResults,
   clearResults,
   fetchByURI,
-  fetchNetworkById,
   fetchFacet,
   fetchFacetConstrainSelf,
   clearFacet,
@@ -430,13 +429,13 @@ const SemanticPortal = props => {
                                   <InstanceHomePage
                                     rootUrl={rootUrlWithLang}
                                     fetchByURI={props.fetchByURI}
-                                    fetchNetworkById={props.fetchNetworkById}
+                                    fetchResults={props.fetchResults}
                                     resultClass={perspective.id}
                                     tableData={props[perspective.id].instanceTableData}
                                     tableExternalData={props[perspective.id].instancePageTableExternalData}
                                     properties={props[perspective.id].properties}
-                                    analysisData={props[perspective.id].instanceAnalysisData}
-                                    analysisDataUpdateID={props[perspective.id].instanceAnalysisDataUpdateID}
+                                    results={props[perspective.id].results}
+                                    resultUpdateID={props[perspective.id].resultUpdateID}
                                     tabs={perspective.instancePageTabs}
                                     sparqlQuery={props[perspective.id].instanceSparqlQuery}
                                     isLoading={props[perspective.id].fetching}
@@ -483,13 +482,13 @@ const SemanticPortal = props => {
                             <InstanceHomePage
                               rootUrl={rootUrlWithLang}
                               fetchByURI={props.fetchByURI}
-                              fetchNetworkById={props.fetchNetworkById}
+                              fetchResults={props.fetchREsults}
                               resultClass={perspective.id}
                               tableData={props[perspective.id].instanceTableData}
                               tableExternalData={props[perspective.id].instancePageTableExternalData}
                               properties={props[perspective.id].properties}
-                              analysisData={props[perspective.id].instanceAnalysisData}
-                              analysisDataUpdateID={props[perspective.id].instanceAnalysisDataUpdateID}
+                              results={props[perspective.id].results}
+                              resultUpdateID={props[perspective.id].resultUpdateID}
                               tabs={perspective.instancePageTabs}
                               sparqlQuery={props[perspective.id].instanceSparqlQuery}
                               isLoading={props[perspective.id].fetching}
@@ -623,7 +622,6 @@ const mapDispatchToProps = ({
   fetchFacetConstrainSelf,
   clearFacet,
   fetchGeoJSONLayers,
-  fetchNetworkById,
   fetchGeoJSONLayersBackend,
   clearGeoJSONLayers,
   sortResults,
@@ -713,10 +711,6 @@ SemanticPortal.propTypes = {
    * Redux action for fetching information about a single entity.
    */
   fetchByURI: PropTypes.func.isRequired,
-  /**
-   * Redux action for fetching network of a single entity.
-   */
-  fetchNetworkById: PropTypes.func.isRequired,
   /**
    * Redux action for loading external GeoJSON layers.
    */
