@@ -4,6 +4,7 @@ import Perspective1 from './Perspective1'
 import Perspective2 from './Perspective2'
 import Perspective3 from './Perspective3'
 import Finds from './Finds'
+import EmloActors from './EmloActors'
 
 /**
  * A component for creating a faceted search perspective for a semantic portal.
@@ -103,9 +104,40 @@ const FacetedSearchPerspective = props => {
             placesResults={props.placesResults}
             leafletMapLayers={props.leafletMap}
             facetData={props.facetData}
+            facetDataConstrainSelf={props.facetDataConstrainSelf}
             fetchPaginatedResults={props.fetchPaginatedResults}
             fetchResults={props.fetchResults}
+            fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+            fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
+            clearGeoJSONLayers={props.clearGeoJSONLayers}
+            fetchByURI={props.fetchByURI}
+            updatePage={props.updatePage}
+            updateRowsPerPage={props.updateRowsPerPage}
+            updateFacetOption={props.updateFacetOption}
+            sortResults={props.sortResults}
+            showError={props.showError}
+            routeProps={props.routeProps}
+            perspective={props.perspective}
+            animationValue={props.animationValue}
+            animateMap={props.animateMap}
+            screenSize={props.screenSize}
+            rootUrl={props.rootUrl}
+          />
+        break
+      case 'emloActors':
+        perspectiveElement =
+          <EmloActors
+            facetResults={props.facetResults}
+            placesResults={props.placesResults}
+            leafletMapLayers={props.leafletMap}
+            facetData={props.facetData}
+            facetDataConstrainSelf={props.facetDataConstrainSelf}
+            fetchPaginatedResults={props.fetchPaginatedResults}
+            fetchResults={props.fetchResults}
+            fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
+            fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+            fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
             fetchByURI={props.fetchByURI}
             updatePage={props.updatePage}

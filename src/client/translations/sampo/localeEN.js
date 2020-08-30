@@ -67,6 +67,8 @@ export default {
     map_markers: 'map',
     heatmap: 'heatmap',
     statistics: 'statistics',
+    emloLetterNetwork: 'Network of letters',
+    emloSentReceived: 'Sent and received letters',
     download: 'download'
   },
   table: {
@@ -76,7 +78,10 @@ export default {
   lineChart: {
     productionCount: 'Production',
     transferCount: 'Transfer of custody',
-    observationCount: 'Observation'
+    observationCount: 'Observation',
+    sentCount: 'Sent',
+    receivedCount: 'Received',
+    allCount: 'All'
   },
   exportToYasgui: 'open the result table query in yasgui sparql editor',
   openInLinkedDataBrowser: 'open in linked data browser',
@@ -1511,6 +1516,423 @@ export default {
         image: {
           label: 'Image',
           description: 'Image description.'
+        }
+      }
+    },
+    emloActors: {
+      label: 'Actors',
+      facetResultsType: 'actors',
+      shortDescription: 'Description',
+      longDescription: `
+        <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+          Use this perspective to access data related to physical manuscript objects.
+          If two or more source datasets include the same manuscript and
+          this has been verified, the information from the source datasets has been merged
+          into one manuscript. See <a href="/instructions">instructions</a> for using the
+          filters. The result view can be selected using the tabs:
+        </p>
+        <ul class="MuiTypography-root MuiTypography-body1">
+          <li>
+            <strong>TABLE</STRONG> view includes all manuscripts in
+            the MMM data. One table row is equivalent to one manuscript.
+          </li>
+          <li>
+            <strong>PRODUCTION PLACES</STRONG> view visualizes the connection
+            between manuscripts and the places where they were produced.
+          </li>
+          <li>
+            <strong>MIGRATIONS</strong> view visualizes the migration of a
+            manuscript from place of production to its most recently observed location.
+          </li>
+          <li>
+            <strong>EXPORT</strong> the SPARQL query used to generate the result
+            table view into YASGUI query editor.
+          </li>
+        </ul>
+      `,
+      instancePage: {
+        label: 'Actor',
+        description: `
+          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+            TODO: description.
+          </p>
+        `
+      },
+      properties: {
+        uri: {
+          label: 'URI',
+          description: 'Uniform Resource Identifier'
+        },
+        prefLabel: {
+          label: 'Label',
+          description: 'A short label describing the manuscript.'
+        },
+        author: {
+          label: 'Author',
+          description: `
+            The author(s) who have contributed to the intellectual content (works)
+            contained in the manuscript.
+          `
+        },
+        gender: {
+          label: 'Gender',
+          description: 'The gender of a person.'
+        },
+        type: {
+          label: 'Type',
+          description: 'The type is a Person or a Group.'
+        },
+        birthDateTimespan: {
+          label: 'Birth date',
+          description: `
+          Birth date of a person
+          `
+        },
+        deathDateTimespan: {
+          label: 'Death date',
+          description: `
+          Death date of a person
+          `
+        },
+        altLabel: {
+          label: 'Alternative names or occupations',
+          description: `
+            Alternative names or occupations of the actor.
+          `
+        },
+        related: {
+          label: 'External links',
+          description: `
+            External links.
+          `
+        },
+        event: {
+          label: 'Event',
+          description: `
+            Events related to the manuscript.
+          `
+        },
+        owner: {
+          label: 'Owner',
+          description: `
+            Former or current owners (individual or institutional).
+          `
+        },
+        rel: {
+          label: 'Related actors',
+          description: `
+            Related actors, e.g. parents, spouses, acquaintances.
+          `
+        },
+        cor: {
+          label: 'Correspondences',
+          description: `
+            Other actors who have been in correspondence with this actor. 
+            The number of mutually sent letters is in parenthesis at end of the label.
+          `
+        },
+        transferOfCustodyTimespan: {
+          label: 'Transfer of Custody Date',
+          description: `
+            The dates of “Transfer of Custody” events related to the manuscript.
+          `
+        },
+        knownLocation: {
+          label: 'Known locations',
+          description: `
+            Known locations by letter correspondence.
+          `
+        },
+        material: {
+          label: 'Material',
+          description: `
+            The physical material on which the text is written.
+          `
+        },
+        height: {
+          label: 'Height',
+          description: `
+            The height of the manuscript in millimeters.
+          `
+        },
+        width: {
+          label: 'Width',
+          description: `
+            The width of the manuscript in millimeters.
+          `
+        },
+        folios: {
+          label: 'Folios',
+          description: `
+            The number of folios (leaves).
+          `
+        },
+        lines: {
+          label: 'Lines',
+          description: `
+            The number of lines in a text block. Left blank if the number of lines
+            occurring throughout the manuscript is too irregular to be a useful
+            descriptor for searching.
+          `
+        },
+        columns: {
+          label: 'Columns',
+          description: `
+            The number of columns. Left blank if the number of columns
+            occurring throughout the manuscript is too irregular to be a useful
+            descriptor for searching.
+          `
+        },
+        miniatures: {
+          label: 'Miniatures',
+          description: `
+            The number of miniatures.
+          `
+        },
+        decoratedInitials: {
+          label: 'Decorated initials',
+          description: `
+            The number of decorated initials.
+          `
+        },
+        historiatedInitials: {
+          label: 'Historiated initials',
+          description: `
+            The number of historiated initials.
+          `
+        },
+        source: {
+          label: 'Source',
+          description: `
+            The source dataset(s) (Bibale, Bodleian, or SDBM) contributing the
+            information on the manuscript. If two or more source datasets include
+            the same manuscript and this has been manually verified, the information
+            from the source datasets have been merged into one manuscript (table row).
+             Click on the links to view the original record on the source’s website.
+          `
+        }
+      }
+    },
+    emloLetters: {
+      label: 'Letters',
+      facetResultsType: 'letters',
+      shortDescription: 'Description',
+      longDescription: `
+        <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+          TODO: description.
+        </p>
+      `,
+      instancePage: {
+        label: 'Letter',
+        description: `
+          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+            TODO: description.
+          </p>
+        `
+      },
+      properties: {
+        uri: {
+          label: 'URI',
+          description: 'Uniform Resource Identifier'
+        },
+        prefLabel: {
+          label: 'Title',
+          description: 'The name or title of the Work.'
+        },
+        language: {
+          label: 'Language',
+          description: `
+            The language in which a Work is written in the manuscript
+            (i.e., an “Expression” of a Work). One manuscript may contain multiple languages.
+          `
+        },
+        subject: {
+          label: 'Subject',
+          description: `
+            The subject of the letter.
+          `
+        },
+        datasource: {
+          label: 'Data source',
+          description: `
+            The data source of the letter.
+          `
+        },
+        excipit: {
+          label: 'Excipit',
+          description: `
+          An excipit of the letter.
+          `
+        },
+        description: {
+          label: 'Description',
+          description: `
+            The description of the letter content.
+          `
+        },
+        manuscript: {
+          label: 'Manuscript',
+          description: `
+            The specific manuscript(s) in which the Work can be found.
+          `
+        },
+        productionTimespan: {
+          label: 'Date',
+          description: `
+            The date(s) when the manuscript(s) in which the Work can be found were written.
+            Multiple production dates may appear for a single manuscript,
+            when there are discrepancies between the contributing data source
+            or when the precise date is uncertain.
+          `
+        },
+        collection: {
+          label: 'Collection',
+          description: `
+            The specific collection(s) of manuscripts in which a Work can be found.
+          `
+        },
+        source: {
+          label: 'Sender',
+          description: `
+            Sender of the letter.
+          `
+        },
+        target: {
+          label: 'Receiver',
+          description: `
+          Receiver of the letter.
+          `
+        },
+        from: {
+          label: 'Place of sending',
+          description: `
+          Place from where the letter was sent.
+          `
+        },
+        to: {
+          label: 'Place of receiving',
+          description: `
+          The receiving place of the letter.
+          `
+        }
+
+      }
+    },
+    emloPlaces: {
+      label: 'Places',
+      facetResultsType: 'Places',
+      shortDescription: 'Description',
+      longDescription: `
+        <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+          Use this perspective to access data related to events associated with the
+          histories of manuscripts and manuscript collections over the centuries.
+          See <a href="/instructions">instructions</a> for using the filters.
+          The result view can be selected using the tabs:
+        </p>
+        <ul class="MuiTypography-root MuiTypography-body1">
+          <li>
+            <strong>TABLE</STRONG> view includes all events in the MMM data.
+          </li>
+          <li>
+            <strong>MAP</STRONG> view visualizes the events that have location information on a map.
+          </li>
+          <li>
+            <strong>EXPORT</strong> the SPARQL query used to generate the result
+            table view into YASGUI query editor.
+          </li>
+        </ul>
+      `,
+      instancePage: {
+        label: 'Place',
+        description: `
+          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+            Events refer to various activities related to Manuscripts and Actors. Event
+            types include Production, Transfer of Custody, and Activity events.
+            Production events refer to the production of the physical manuscript.
+            Transfer of Custody events indicate a change of ownership that involved
+            a transaction of some kind, usually through an auction house or bookseller.
+            The generic Activity event type covers all other types of events.
+          </p>
+        `
+      },
+      properties: {
+        uri: {
+          label: 'URI',
+          description: 'Uniform Resource Identifier'
+        },
+        type: {
+          label: 'Type',
+          description: `
+            Distinguish between “Transfer of Custody”, “Production”, and other
+            types of “Activity” events.
+          `
+        },
+        prefLabel: {
+          label: 'Label',
+          description: `
+            Preferable place label.
+          `
+        },
+        country: {
+          label: 'Country',
+          description: `
+            Related country.
+          `
+        },
+        broader: {
+          label: 'Parent place',
+          description: `
+          Parent place, e.g. a municipality, county or country.
+          `
+        },
+        narrower: {
+          label: 'Places within',
+          description: `
+            Smaller places, e.g. towns and villages contained within the place.
+          `
+        },
+        place: {
+          label: 'Place',
+          description: `
+            The specific place(s) associated with the event.
+          `
+        },
+        placeType: {
+          label: 'Place type',
+          description: `
+            The type of the specific place(s) associated with the event.
+          `
+        },
+        note: {
+          label: 'Note',
+          description: `
+            Note
+          `
+        },
+        surrender: {
+          label: 'Custody surrendered by',
+          description: `
+            Custody surrendered by
+          `
+        },
+        receiver: {
+          label: 'Custody received by',
+          description: `
+            Custody received by
+          `
+        },
+        observedOwner: {
+          label: 'Observed owner',
+          description: `
+            Observed owner
+          `
+        },
+        source: {
+          label: 'Source',
+          description: `
+            The source database (Schoenberg, Bibale, and Bodleian) that provided
+            the information about the event.
+          `
         }
       }
     },

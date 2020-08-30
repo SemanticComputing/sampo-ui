@@ -186,6 +186,124 @@ export const perspectiveConfig = [
     ]
   },
   {
+    id: 'emloActors',
+    isHidden: true,
+    frontPageImage: null,
+    perspectiveDescHeight: 160,
+    defaultActiveFacets: new Set(['prefLabel']),
+    tabs: [
+      {
+        id: 'table',
+        value: 0,
+        icon: <CalendarViewDayIcon />
+      },
+      {
+        id: 'map',
+        value: 1,
+        icon: <AddLocationIcon />
+      },
+      {
+        id: 'export',
+        value: 2,
+        icon: <CloudDownloadIcon />
+      }
+    ],
+    instancePageTabs: [
+      {
+        id: 'table',
+        value: 0,
+        icon: <CalendarViewDayIcon />
+      },
+      {
+        id: 'emloLetterNetwork',
+        value: 1,
+        icon: <BubbleChartIcon />
+      },
+      {
+        id: 'emloSentReceived',
+        value: 2,
+        icon: <LineChartIcon />
+      },
+      {
+        id: 'export',
+        value: 3,
+        icon: <CloudDownloadIcon />
+      }
+    ]
+  },
+  {
+    id: 'emloLetters',
+    isHidden: true,
+    frontPageImage: null,
+    perspectiveDescHeight: 160,
+    defaultActiveFacets: new Set(['prefLabel']),
+    tabs: [
+      {
+        id: 'table',
+        value: 0,
+        icon: <CalendarViewDayIcon />
+      },
+      {
+        id: 'migrations',
+        value: 1,
+        icon: <RedoIcon />
+      },
+      {
+        id: 'by_year',
+        value: 2,
+        icon: <LineChartIcon />
+      },
+      {
+        id: 'export',
+        value: 3,
+        icon: <CloudDownloadIcon />
+      }
+    ],
+    instancePageTabs: [
+      {
+        id: 'table',
+        value: 0,
+        icon: <CalendarViewDayIcon />
+      },
+      {
+        id: 'export',
+        value: 1,
+        icon: <CloudDownloadIcon />
+      }
+    ]
+  },
+  {
+    id: 'emloPlaces',
+    isHidden: true,
+    frontPageImage: null,
+    perspectiveDescHeight: 160,
+    defaultActiveFacets: new Set(['prefLabel']),
+    tabs: [
+      {
+        id: 'table',
+        value: 0,
+        icon: <CalendarViewDayIcon />
+      },
+      {
+        id: 'export',
+        value: 1,
+        icon: <CloudDownloadIcon />
+      }
+    ],
+    instancePageTabs: [
+      {
+        id: 'table',
+        value: 0,
+        icon: <CalendarViewDayIcon />
+      },
+      {
+        id: 'export',
+        value: 1,
+        icon: <CloudDownloadIcon />
+      }
+    ]
+  },
+  {
     id: 'clientFSPlaces',
     frontPageImage: placesImage,
     defaultActiveFacets: new Set(['prefLabel']),

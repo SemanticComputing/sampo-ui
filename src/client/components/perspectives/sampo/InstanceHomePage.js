@@ -8,8 +8,10 @@ import purple from '@material-ui/core/colors/purple'
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
 import InstanceHomePageTable from '../../main_layout/InstanceHomePageTable'
 import Network from '../../facet_results/Network'
+import ApexChart from '../../facet_results/ApexChart'
 import Export from '../../facet_results/Export'
 import { coseLayout, cytoscapeStyle } from '../../../configs/sampo/Cytoscape.js/NetworkConfig'
+import { createMultipleLineChartData } from '../../../configs/sampo/ApexCharts/LineChartConfig'
 import { Route, Redirect } from 'react-router-dom'
 import { has } from 'lodash'
 
@@ -96,6 +98,15 @@ class InstanceHomePage extends React.Component {
       case 'finds':
         uri = `http://ldf.fi/findsampo/finds/${localID}`
         break
+      case 'emloActors':
+        uri = `http://emlo.bodleian.ox.ac.uk/id/${localID}`
+        break
+      case 'emloLetters':
+        uri = `http://emlo.bodleian.ox.ac.uk/id/${localID}`
+        break
+      case 'emloPlaces':
+        uri = `http://emlo.bodleian.ox.ac.uk/id/${localID}`
+        break
     }
     this.props.fetchByURI({
       resultClass: this.props.resultClass,
@@ -167,6 +178,39 @@ class InstanceHomePage extends React.Component {
                     optimize={1.2}
                     style={cytoscapeStyle}
                     layout={coseLayout}
+                  />}
+              />
+              <Route
+                path={`${rootUrl}/${resultClass}/page/${this.state.localID}/emloLetterNetwork`}
+                render={() =>
+                  <Network
+                    pageType='instancePage'
+                    results={this.props.results}
+                    resultUpdateID={this.props.resultUpdateID}
+                    fetchResults={this.props.fetchResults}
+                    resultClass='emloLetterNetwork'
+                    uri={tableData.id}
+                    limit={100}
+                    optimize={5.0}
+                    style={cytoscapeStyle}
+                    layout={coseLayout}
+                  />}
+              />
+              <Route
+                path={`${rootUrl}/${resultClass}/page/${this.state.localID}/emloSentReceived`}
+                render={() =>
+                  <ApexChart
+                    pageType='instancePage'
+                    rawData={this.props.results}
+                    rawDataUpdateID={this.props.resultUpdateID}
+                    fetching={isLoading}
+                    fetchData={this.props.fetchResults}
+                    uri={tableData.id}
+                    createChartData={createMultipleLineChartData}
+                    title='Letters by year'
+                    xaxisTitle='Year'
+                    yaxisTitle='Number of letters'
+                    resultClass='emloSentReceived'
                   />}
               />
               <Route

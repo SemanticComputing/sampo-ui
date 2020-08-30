@@ -482,7 +482,7 @@ const SemanticPortal = props => {
                             <InstanceHomePage
                               rootUrl={rootUrlWithLang}
                               fetchByURI={props.fetchByURI}
-                              fetchResults={props.fetchREsults}
+                              fetchResults={props.fetchResults}
                               resultClass={perspective.id}
                               tableData={props[perspective.id].instanceTableData}
                               tableExternalData={props[perspective.id].instancePageTableExternalData}
@@ -601,6 +601,9 @@ const mapStateToProps = state => {
     finds: state.finds,
     findsFacets: state.findsFacets,
     findsFacetsConstrainSelf: state.findsFacetsConstrainSelf,
+    emloActors: state.emloActors,
+    emloActorsFacets: state.emloActorsFacets,
+    emloActorsFacetsConstrainSelf: state.emloActorsFacetsConstrainSelf,
     leafletMap: state.leafletMap,
     fullTextSearch: state.fullTextSearch,
     clientFS: state.clientSideFacetedSearch,
