@@ -136,7 +136,8 @@ export const INITIAL_STATE = {
 
 const resultClasses = new Set([
   'finds',
-  'findsTimeline'
+  'findsTimeline',
+  'nearbyFinds'
 ])
 
 const finds = (state = INITIAL_STATE, action) => {

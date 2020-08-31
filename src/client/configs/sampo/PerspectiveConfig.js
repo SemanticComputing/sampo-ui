@@ -4,6 +4,7 @@ import TripOriginIcon from '@material-ui/icons/TripOrigin'
 import LocationOnIcon from '@material-ui/icons/LocationOn'
 import AddLocationIcon from '@material-ui/icons/AddLocation'
 // import SettingsBrightnessIcon from '@material-ui/icons/SettingsBrightness'
+import StarIcon from '@material-ui/icons/Star'
 import RedoIcon from '@material-ui/icons/Redo'
 import PieChartIcon from '@material-ui/icons/PieChart'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
@@ -164,7 +165,6 @@ export const perspectiveConfig = [
         value: 1,
         icon: <AddLocationIcon />
       },
-
       {
         id: 'export',
         value: 2,
@@ -177,10 +177,14 @@ export const perspectiveConfig = [
         value: 0,
         icon: <CalendarViewDayIcon />
       },
-
+      {
+        id: 'recommendations',
+        value: 1,
+        icon: <StarIcon />
+      },
       {
         id: 'export',
-        value: 1,
+        value: 2,
         icon: <CloudDownloadIcon />
       }
     ]

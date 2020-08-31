@@ -34,7 +34,8 @@ import {
 import {
   findPropertiesInstancePage,
   findsPlacesQuery,
-  findsTimelineQuery
+  findsTimelineQuery,
+  nearbyFindsQuery
 } from './sparql_queries/SparqlQueriesFinds'
 import {
   emloLetterLinksQuery,
@@ -179,6 +180,15 @@ export const backendSearchConfig = {
     q: findsTimelineQuery,
     filterTarget: 'find',
     resultMapper: makeObjectList
+  },
+  nearbyFinds: {
+    perspectiveID: 'finds', // use endpoint config from finds
+    q: nearbyFindsQuery,
+    resultMapper: mapPlaces,
+    instance: {
+      properties: findPropertiesInstancePage,
+      relatedInstances: ''
+    }
   },
   emloPlacesActors: {
     perspectiveID: 'emloActors',

@@ -4,7 +4,7 @@ import {
 } from '../sparql_queries/SparqlQueriesFinds'
 import { prefixes } from '../sparql_queries/SparqlQueriesPrefixesFindSampo'
 
-export const findsPerspectiveConfig = {
+export const findsConfig = {
   endpoint: {
     url: 'https://ldf.fi/sualt-fha-finds/sparql',
     // url: 'http://localhost:3039/ds/sparql',

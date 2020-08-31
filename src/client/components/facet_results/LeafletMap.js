@@ -99,11 +99,13 @@ class LeafletMap extends React.Component {
   }
 
   componentDidMount = () => {
-    if (this.props.mapMode && this.props.pageType === 'facetResults') {
+    if (this.props.mapMode &&
+      (this.props.pageType === 'facetResults' || this.props.pageType === 'instancePage')) {
       this.props.fetchResults({
         resultClass: this.props.resultClass,
         facetClass: this.props.facetClass,
-        sortBy: null
+        sortBy: null,
+        uri: this.props.uri
       })
     }
     this.initMap()
@@ -710,12 +712,12 @@ class LeafletMap extends React.Component {
           events: result.events ? result.events : null
         })
       }
-      if (this.props.pageType === 'facetResults') {
+      if (this.props.pageType === 'facetResults' || this.props.pageType === 'instancePage') {
         marker.on('click', this.markerOnClickFacetResults)
       }
-      if (this.props.pageType === 'instancePage') {
-        marker.bindPopup(this.createPopUpContent(marker.options))
-      }
+      // if (this.props.pageType === 'instancePage') {
+      //   marker.bindPopup(this.createPopUpContent(marker.options))
+      // }
       if (this.props.pageType === 'clientFSResults') {
         marker.bindPopup(this.createPopUpContentNameSampo(result))
       }
@@ -904,7 +906,8 @@ LeafletMap.propTypes = {
   updateFacetOption: PropTypes.func,
   facetedSearchMode: PropTypes.string,
   container: PropTypes.string,
-  showError: PropTypes.func
+  showError: PropTypes.func,
+  uri: PropTypes.string
 }
 
 export const LeafletMapComponent = LeafletMap

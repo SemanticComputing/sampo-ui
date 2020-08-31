@@ -69,7 +69,8 @@ export default {
     statistics: 'statistics',
     emloLetterNetwork: 'Network of letters',
     emloSentReceived: 'Sent and received letters',
-    download: 'download'
+    download: 'download',
+    recommendations: 'recommendations'
   },
   table: {
     rowsPerPage: 'Rows per page',

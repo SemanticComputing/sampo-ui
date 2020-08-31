@@ -137,6 +137,20 @@ export const findsPlacesQuery = `
   }
 `
 
+export const nearbyFindsQuery = `
+  SELECT ?id ?lat ?long
+  WHERE {
+    BIND(<ID> as ?find)
+    ?find wgs84:lat ?fLat ;
+        wgs84:long ?fLong .
+    BIND(?fLat as ?findLat)
+    BIND(?fLong as ?findLong)
+    ?id spatial:nearby (?findLat ?findLong 20 'km') .
+    ?id wgs84:lat ?lat ;
+        wgs84:long ?long .
+  }
+`
+
 export const findsTimelineQuery = `
   SELECT ?id ?group ?data__id ?data__uri ?data__label
   ?data__data__id ?data__data__label ?data__data__val ?data__data__timeRange

@@ -10,6 +10,7 @@ import InstanceHomePageTable from '../../main_layout/InstanceHomePageTable'
 import Network from '../../facet_results/Network'
 import ApexChart from '../../facet_results/ApexChart'
 import Export from '../../facet_results/Export'
+import LeafletMap from '../../facet_results/LeafletMap'
 import { coseLayout, cytoscapeStyle } from '../../../configs/sampo/Cytoscape.js/NetworkConfig'
 import { createMultipleLineChartData } from '../../../configs/sampo/ApexCharts/LineChartConfig'
 import { Route, Redirect } from 'react-router-dom'
@@ -214,6 +215,30 @@ class InstanceHomePage extends React.Component {
                   />}
               />
               <Route
+                path={`${rootUrl}/${resultClass}/page/${this.state.localID}/recommendations`}
+                render={() =>
+                  <LeafletMap
+                    center={[22.43, 10.37]}
+                    zoom={2}
+                    results={this.props.results}
+                    layers={this.props.leafletMap}
+                    pageType='instancePage'
+                    resultClass='nearbyFinds'
+                    uri={tableData.id}
+                    mapMode='cluster'
+                    showMapModeControl={false}
+                    instance={this.props.tableData}
+                    fetchResults={this.props.fetchResults}
+                    fetchGeoJSONLayers={this.props.fetchGeoJSONLayersBackend}
+                    clearGeoJSONLayers={this.props.clearGeoJSONLayers}
+                    fetchByURI={this.props.fetchByURI}
+                    fetching={isLoading}
+                    showInstanceCountInClusters={false}
+                    showExternalLayers
+                    showError={this.props.showError}
+                  />}
+              />
+              <Route
                 path={`${rootUrl}/${resultClass}/page/${this.state.localID}/export`}
                 render={() =>
                   <Export
@@ -236,7 +261,7 @@ InstanceHomePage.propTypes = {
   resultClass: PropTypes.string.isRequired,
   tableData: PropTypes.object,
   tableExternalData: PropTypes.object,
-  results: PropTypes.object,
+  results: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   resultUpdateID: PropTypes.number.isRequired,
   sparqlQuery: PropTypes.string,
   properties: PropTypes.array.isRequired,
@@ -244,7 +269,12 @@ InstanceHomePage.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   routeProps: PropTypes.object.isRequired,
   screenSize: PropTypes.string.isRequired,
-  rootUrl: PropTypes.string.isRequired
+  rootUrl: PropTypes.string.isRequired,
+  fetchGeoJSONLayers: PropTypes.func.isRequired,
+  fetchGeoJSONLayersBackend: PropTypes.func.isRequired,
+  clearGeoJSONLayers: PropTypes.func.isRequired,
+  leafletMap: PropTypes.object.isRequired,
+  showError: PropTypes.func.isRequired
 }
 
 export const InstanceHomePageComponent = InstanceHomePage
