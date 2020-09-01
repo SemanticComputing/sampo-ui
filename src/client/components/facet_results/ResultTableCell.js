@@ -38,6 +38,7 @@ const ResultTableCell = props => {
           expanded={expanded}
           collapsedMaxWords={collapsedMaxWords}
           renderAsHTML={renderAsHTML}
+          numberedList={numberedList}
         />
       break
     case 'image':

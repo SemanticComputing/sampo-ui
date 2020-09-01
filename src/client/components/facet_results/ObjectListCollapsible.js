@@ -27,7 +27,7 @@ const styles = () => ({
 const ObjectList = props => {
   const {
     sortValues, sortBy, makeLink, externalLink, linkAsButton, columnId, showSource,
-    sourceExternalLink
+    sourceExternalLink, numberedList
   } = props
   let { data } = props
 
@@ -80,6 +80,25 @@ const ObjectList = props => {
     }
   }
 
+  const renderListItems = data =>
+    <>
+      {data.map(item =>
+        <li key={item.id}>
+          {renderItem({ collapsed: false, itemData: item })}
+        </li>
+      )}
+    </>
+
+  const renderBulletedList = data =>
+    <ul className={props.classes.valueList}>
+      {renderListItems(data)}
+    </ul>
+
+  const renderNumberedList = data =>
+    <ol className={props.classes.valueList}>
+      {renderListItems(data)}
+    </ol>
+
   if (data == null || data === '-') {
     return '-'
   } else if (Array.isArray(data)) {
@@ -88,13 +107,7 @@ const ObjectList = props => {
       <>
         {!props.expanded && renderItem({ collapsed: true, itemData: data[0], isFirstValue: true })}
         <Collapse in={props.expanded} timeout='auto' unmountOnExit>
-          <ul className={props.classes.valueList}>
-            {data.map(item =>
-              <li key={item.id}>
-                {renderItem({ collapsed: false, itemData: item })}
-              </li>
-            )}
-          </ul>
+          {numberedList ? renderNumberedList(data) : renderBulletedList(data)}
         </Collapse>
       </>
     )

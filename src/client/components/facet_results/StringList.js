@@ -36,11 +36,19 @@ const StringList = props => {
 
   const createBasicList = data => {
     data = data.sort()
-    return (
-      <ul className={props.classes.valueList}>
-        {data.map((item, i) => <li key={i}>{item}</li>)}
-      </ul>
-    )
+    if (props.numberedList) {
+      return (
+        <ol className={props.classes.valueList}>
+          {data.map((item, i) => <li key={i}>{item}</li>)}
+        </ol>
+      )
+    } else {
+      return (
+        <ul className={props.classes.valueList}>
+          {data.map((item, i) => <li key={i}>{item}</li>)}
+        </ul>
+      )
+    }
   }
 
   const transform = (node, index) => {
@@ -76,7 +84,8 @@ StringList.propTypes = {
   data: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   expanded: PropTypes.bool.isRequired,
   collapsedMaxWords: PropTypes.number,
-  renderAsHTML: PropTypes.bool
+  renderAsHTML: PropTypes.bool,
+  numberedList: PropTypes.bool
 }
 
 export default withStyles(styles)(StringList)
