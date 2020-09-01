@@ -18,6 +18,10 @@ const styles = () => ({
     listStyle: 'none',
     paddingLeft: 0
   },
+  numberedList: {
+    maxHeight: 200,
+    overflow: 'auto'
+  },
   dateContainer: {
     width: 180,
     display: 'inline-block'
@@ -95,7 +99,7 @@ const ObjectList = props => {
     </ul>
 
   const renderNumberedList = data =>
-    <ol className={props.classes.valueList}>
+    <ol className={props.classes.numberedList}>
       {renderListItems(data)}
     </ol>
 

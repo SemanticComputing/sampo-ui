@@ -14,6 +14,10 @@ const styles = () => ({
   valueListNoBullets: {
     listStyle: 'none',
     paddingLeft: 0
+  },
+  numberedList: {
+    maxHeight: 200,
+    overflow: 'auto'
   }
 })
 
@@ -38,7 +42,7 @@ const StringList = props => {
     data = data.sort()
     if (props.numberedList) {
       return (
-        <ol className={props.classes.valueList}>
+        <ol className={props.classes.numberedList}>
           {data.map((item, i) => <li key={i}>{item}</li>)}
         </ol>
       )
