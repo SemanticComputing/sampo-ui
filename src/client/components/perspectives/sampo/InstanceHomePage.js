@@ -10,7 +10,7 @@ import InstanceHomePageTable from '../../main_layout/InstanceHomePageTable'
 import Network from '../../facet_results/Network'
 import ApexChart from '../../facet_results/ApexChart'
 import Export from '../../facet_results/Export'
-import LeafletMap from '../../facet_results/LeafletMap'
+import Recommendations from './Recommendations'
 import { coseLayout, cytoscapeStyle } from '../../../configs/sampo/Cytoscape.js/NetworkConfig'
 import { createMultipleLineChartData } from '../../../configs/sampo/ApexCharts/LineChartConfig'
 import { Route, Redirect } from 'react-router-dom'
@@ -217,24 +217,20 @@ class InstanceHomePage extends React.Component {
               <Route
                 path={`${rootUrl}/${resultClass}/page/${this.state.localID}/recommendations`}
                 render={() =>
-                  <LeafletMap
-                    center={[22.43, 10.37]}
-                    zoom={2}
+                  <Recommendations
+                    rootUrl={this.props.rootUrl}
+                    routeProps={this.props.routeProps}
                     results={this.props.results}
-                    layers={this.props.leafletMap}
-                    pageType='instancePage'
-                    resultClass='nearbyFinds'
-                    uri={tableData.id}
-                    mapMode='cluster'
-                    showMapModeControl={false}
-                    instance={this.props.tableData}
+                    resultUpdateID={this.props.resultUpdateID}
+                    isLoading={isLoading}
+                    tableData={tableData}
+                    properties={this.props.properties}
+                    leafletMap={this.props.leafletMap}
                     fetchResults={this.props.fetchResults}
-                    fetchGeoJSONLayers={this.props.fetchGeoJSONLayersBackend}
+                    fetchGeoJSONLayers={this.props.fetchGeoJSONLayers}
+                    fetchGeoJSONLayersBackend={this.props.fetchGeoJSONLayersBackend}
                     clearGeoJSONLayers={this.props.clearGeoJSONLayers}
                     fetchByURI={this.props.fetchByURI}
-                    fetching={isLoading}
-                    showInstanceCountInClusters={false}
-                    showExternalLayers
                     showError={this.props.showError}
                   />}
               />
