@@ -536,3 +536,13 @@ export const eventsByDecadeQuery = `
   GROUP BY ?category 
   ORDER BY ?category
 `
+
+export const knowledgeGraphMetadataQuery = `
+  SELECT * 
+  WHERE {
+    ?id a sd:Dataset ;
+        dct:title ?title ;
+        dct:publisher ?publisher ;
+        dct:rightsHolder ?rightsHolder .
+  }
+`

@@ -13,7 +13,8 @@ import {
   productionsByDecadeQuery,
   eventsByDecadeQuery,
   manuscriptNetworkLinksQuery,
-  manuscriptNetworkNodesQuery
+  manuscriptNetworkNodesQuery,
+  knowledgeGraphMetadataQuery
 } from './sparql_queries/SparqlQueriesPerspective1'
 import {
   workProperties
@@ -211,6 +212,11 @@ export const backendSearchConfig = {
     q: emloSentReceivedQuery,
     // filterTarget: 'id',
     resultMapper: mapMultipleLineChart
+  },
+  perspective1KnowledgeGraphMetadata: {
+    perspectiveID: 'perspective1',
+    q: knowledgeGraphMetadataQuery,
+    resultMapper: makeObjectList
   },
   jenaText: {
     perspectiveID: 'perspective1',

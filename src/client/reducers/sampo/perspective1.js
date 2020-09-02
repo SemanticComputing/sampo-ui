@@ -259,7 +259,8 @@ const resultClasses = new Set([
   'perspective1',
   'productionTimespanLineChart',
   'eventLineChart',
-  'manuscriptInstancePageNetwork'
+  'manuscriptInstancePageNetwork',
+  'perspective1KnowledgeGraphMetadata'
 ])
 
 const perspective1 = (state = INITIAL_STATE, action) => {

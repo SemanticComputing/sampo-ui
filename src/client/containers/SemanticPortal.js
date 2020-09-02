@@ -62,7 +62,8 @@ import {
   clientFSSortResults,
   clientFSClearResults,
   clientFSUpdateQuery,
-  clientFSUpdateFacet
+  clientFSUpdateFacet,
+  fetchKnowledgeGraphMetadata
 } from '../actions'
 import { filterResults } from '../selectors'
 
@@ -574,7 +575,12 @@ const SemanticPortal = props => {
               path={`${rootUrlWithLang}/about`}
               render={() =>
                 <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
-                  <TextPage>{intl.getHTML('aboutThePortal')}</TextPage>
+                  <TextPage
+                    fetchKnowledgeGraphMetadata={props.fetchKnowledgeGraphMetadata}
+                    knowledgeGraphMetadata={props.perspective1.knowledgeGraphMetadata}
+                  >
+                    {intl.getHTML('aboutThePortal')}
+                  </TextPage>
                 </div>}
             />
             <Route
@@ -654,7 +660,8 @@ const mapDispatchToProps = ({
   clientFSClearResults,
   clientFSSortResults,
   clientFSUpdateQuery,
-  clientFSUpdateFacet
+  clientFSUpdateFacet,
+  fetchKnowledgeGraphMetadata
 })
 
 SemanticPortal.propTypes = {

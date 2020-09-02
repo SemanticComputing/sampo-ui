@@ -51,6 +51,9 @@ export const CLIENT_FS_UPDATE_RESULTS = 'CLIENT_FS_UPDATE_RESULTS'
 export const CLIENT_FS_CLEAR_RESULTS = 'CLIENT_FS_CLEAR_RESULTS'
 export const CLIENT_FS_UPDATE_FACET = 'CLIENT_FS_UPDATE_FACET'
 export const CLIENT_FS_SORT_RESULTS = 'CLIENT_FS_SORT_RESULTS'
+export const FETCH_KNOWLEDGE_GRAPH_METADATA = 'FETCH_KNOWLEDGE_GRAPH_METADATA'
+export const FETCH_KNOWLEDGE_GRAPH_METADATA_FAILED = 'FETCH_KNOWLEDGE_GRAPH_METADATA_FAILED'
+export const UPDATE_KNOWLEDGE_GRAPH_METADATA = 'UPDATE_KNOWLEDGE_GRAPH_METADATA'
 
 export const fetchPaginatedResults = (resultClass, facetClass, sortBy) => ({
   type: FETCH_PAGINATED_RESULTS,
@@ -327,4 +330,20 @@ export const clientFSUpdateFacet = ({ facetID, value, latestValues }) => ({
 export const clientFSSortResults = options => ({
   type: CLIENT_FS_SORT_RESULTS,
   options
+})
+export const fetchKnowledgeGraphMetadata = ({ resultClass }) => ({
+  type: FETCH_KNOWLEDGE_GRAPH_METADATA,
+  resultClass
+})
+export const fetchKnowledgeGraphMetadataFailded = (resultClass, error, message) => ({
+  type: FETCH_KNOWLEDGE_GRAPH_METADATA_FAILED,
+  resultClass,
+  error,
+  message
+})
+export const updateKnowledgeGraphMetadata = ({ resultClass, data, sparqlQuery }) => ({
+  type: UPDATE_KNOWLEDGE_GRAPH_METADATA,
+  resultClass,
+  data,
+  sparqlQuery
 })

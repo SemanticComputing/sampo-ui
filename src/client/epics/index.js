@@ -33,6 +33,8 @@ import {
   FETCH_FACET_FAILED,
   FETCH_GEOJSON_LAYERS,
   FETCH_GEOJSON_LAYERS_BACKEND,
+  FETCH_KNOWLEDGE_GRAPH_METADATA,
+  FETCH_KNOWLEDGE_GRAPH_METADATA_FAILED,
   CLIENT_FS_FETCH_RESULTS,
   CLIENT_FS_FETCH_RESULTS_FAILED,
   LOAD_LOCALES,
@@ -46,6 +48,7 @@ import {
   updateFacetValuesConstrainSelf,
   updateLocale,
   updateGeoJSONLayers,
+  updateKnowledgeGraphMetadata,
   SHOW_ERROR
 } from '../actions'
 import {
@@ -477,6 +480,33 @@ const fetchGeoJSONLayer = async (layerID, bounds) => {
   }
 }
 
+const fetchKnowledgeGraphMetadataEpic = (action$, state$) => action$.pipe(
+  ofType(FETCH_KNOWLEDGE_GRAPH_METADATA),
+  withLatestFrom(state$),
+  mergeMap(([action]) => {
+    const requestUrl = `${apiUrl}/void/${action.resultClass}`
+    return ajax({
+      url: requestUrl,
+      method: 'GET'
+    }).pipe(
+      map(ajaxResponse => updateKnowledgeGraphMetadata({
+        resultClass: action.resultClass,
+        data: ajaxResponse.response.data || [],
+        sparqlQuery: ajaxResponse.response.sparqlQuery
+      })),
+      catchError(error => of({
+        type: FETCH_KNOWLEDGE_GRAPH_METADATA_FAILED,
+        perspectiveID: action.resultClass,
+        error: error,
+        message: {
+          text: backendErrorText,
+          title: 'Error'
+        }
+      }))
+    )
+  })
+)
+
 const rootEpic = combineEpics(
   fetchPaginatedResultsEpic,
   fetchResultsEpic,
@@ -489,7 +519,8 @@ const rootEpic = combineEpics(
   loadLocalesEpic,
   fetchSimilarDocumentsEpic,
   fetchGeoJSONLayersEpic,
-  fetchGeoJSONLayersBackendEpic
+  fetchGeoJSONLayersBackendEpic,
+  fetchKnowledgeGraphMetadataEpic
 )
 
 export default rootEpic

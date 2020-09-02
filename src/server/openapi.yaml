@@ -312,41 +312,6 @@ paths:
                   sparqlQuery:
                     type: string
                     description: The SPARQL query that was used for retrieving the metadata
-  /{resultClass}/network/{id}:
-    get: 
-      summary: Return a network of a single resource
-      parameters:
-        - in: path
-          name: resultClass
-          schema: 
-            type: string
-          required: true
-          description: The class of the resource
-        - in: path
-          name: id
-          schema: 
-            type: string
-          required: true
-          description: The URI of the resource
-        - in: query
-          name: limit
-          schema: 
-            type: string
-          required: false
-          description: Limit the number of links, default 1000.
-        - in: query
-          name: optimize
-          schema: 
-            type: string
-          required: true
-          description: First performs a query with optimize * limit results, and then densifies the network. Default 1.0. 
-      responses:
-        '200':
-          description: Network data
-          content:
-            application/json:
-              schema: 
-                type: object
   /full-text-search:
     get:
       summary: Full text search
@@ -438,6 +403,22 @@ paths:
             application/json:
               schema:
                 type: array
+  /void/{perspectiveID}:
+    get:
+      summary: Retrieve a VoID description
+      parameters:
+        - in: path
+          name: perspectiveID
+          schema: 
+            type: string
+          required: true
+      responses:
+        '200':
+          description: VoID description as JSON.
+          content:
+            application/json:
+              schema:
+                type: object              
 
 
         

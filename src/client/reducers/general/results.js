@@ -14,7 +14,8 @@ import {
   UPDATE_PAGE,
   UPDATE_ROWS_PER_PAGE,
   SORT_RESULTS,
-  UPDATE_PERSPECTIVE_HEADER_EXPANDED
+  UPDATE_PERSPECTIVE_HEADER_EXPANDED,
+  UPDATE_KNOWLEDGE_GRAPH_METADATA
 } from '../../actions'
 import {
   fetchResults,
@@ -29,7 +30,8 @@ import {
   updateInstanceAnalysisData,
   updatePage,
   updateRowsPerPage,
-  updateHeaderExpanded
+  updateHeaderExpanded,
+  updateKnowledgeGraphMetadata
 } from './helpers'
 
 export const handleDataFetchingAction = (state, action) => {
@@ -63,6 +65,8 @@ export const handleDataFetchingAction = (state, action) => {
       return updateRowsPerPage(state, action)
     case UPDATE_PERSPECTIVE_HEADER_EXPANDED:
       return updateHeaderExpanded(state, action)
+    case UPDATE_KNOWLEDGE_GRAPH_METADATA:
+      return updateKnowledgeGraphMetadata(state, action)
     default:
       return state
   }

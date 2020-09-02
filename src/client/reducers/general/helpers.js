@@ -305,3 +305,11 @@ export const updateHeaderExpanded = (state, action) => {
     }
   }
 }
+
+export const updateKnowledgeGraphMetadata = (state, action) => {
+  return {
+    ...state,
+    knowledgeGraphMetadata: action.data,
+    fetching: false
+  }
+}

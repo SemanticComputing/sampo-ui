@@ -171,22 +171,6 @@ new OpenApiValidator({
       }
     })
 
-    app.get(`${apiPath}/:resultClass/network/:id`, async (req, res, next) => {
-      const { params, query } = req
-      try {
-        const data = await getByURI({
-          backendSearchConfig,
-          resultClass: params.resultClass,
-          uri: params.id,
-          constraints: null,
-          resultFormat: 'json'
-        })
-        res.json(data)
-      } catch (error) {
-        next(error)
-      }
-    })
-
     app.post(`${apiPath}/faceted-search/:facetClass/facet/:id`, async (req, res, next) => {
       const { params, body } = req
       try {
@@ -256,6 +240,20 @@ new OpenApiValidator({
       const layerIDs = castArray(req.query.layerID)
       try {
         const data = await Promise.all(layerIDs.map(layerID => fetchGeoJSONLayer({ layerID })))
+        res.json(data)
+      } catch (error) {
+        next(error)
+      }
+    })
+
+    app.get(`${apiPath}/void/:resultClass`, async (req, res, next) => {
+      const { params } = req
+      try {
+        const data = await getAllResults({
+          backendSearchConfig,
+          resultClass: params.resultClass,
+          resultFormat: 'json'
+        })
         res.json(data)
       } catch (error) {
         next(error)
