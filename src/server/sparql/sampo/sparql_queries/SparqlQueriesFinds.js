@@ -67,8 +67,8 @@ export const findPropertiesFacetResults =
     }
     UNION
     {
-      ?id :object_type ?objectSubCatecory__id.
-      ?objectSubCatecory___id skos:prefLabel ?objectSubCatecory___prefLabel .
+      ?id :object_type ?objectType__id.
+      ?objectType__id skos:prefLabel ?objectType__prefLabel .
     }
     UNION
     {

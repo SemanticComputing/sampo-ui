@@ -94,43 +94,43 @@ export const INITIAL_STATE = {
       sortValues: true,
       numberedList: false,
       minWidth: 180
+    },
+    {
+      id: 'startYear',
+      valueType: 'string',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 180
+    },
+    {
+      id: 'endYear',
+      valueType: 'string',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 180
+    },
+    {
+      id: 'earliestStart',
+      valueType: 'string',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 180
+    },
+    {
+      id: 'latestEnd',
+      valueType: 'string',
+      makeLink: false,
+      externalLink: false,
+      sortValues: true,
+      numberedList: false,
+      minWidth: 180
     }
-    // {
-    //   id: 'startYear',
-    //   valueType: 'string',
-    //   makeLink: false,
-    //   externalLink: false,
-    //   sortValues: true,
-    //   numberedList: false,
-    //   minWidth: 180
-    // },
-    // {
-    //   id: 'endYear',
-    //   valueType: 'string',
-    //   makeLink: false,
-    //   externalLink: false,
-    //   sortValues: true,
-    //   numberedList: false,
-    //   minWidth: 180
-    // },
-    // {
-    //   id: 'earliestStart',
-    //   valueType: 'string',
-    //   makeLink: false,
-    //   externalLink: false,
-    //   sortValues: true,
-    //   numberedList: false,
-    //   minWidth: 180
-    // },
-    // {
-    //   id: 'latestEnd',
-    //   valueType: 'string',
-    //   makeLink: false,
-    //   externalLink: false,
-    //   sortValues: true,
-    //   numberedList: false,
-    //   minWidth: 180
-    // }
   ]
 }
 
