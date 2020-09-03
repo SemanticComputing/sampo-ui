@@ -36,10 +36,12 @@ const TextPage = props => {
   const classes = useStyles()
 
   useEffect(() => {
-    props.fetchKnowledgeGraphMetadata({ resultClass: 'perspective1KnowledgeGraphMetadata' })
+    if (props.fetchKnowledgeGraphMetadata) {
+      const resultClass = { props }
+      props.fetchKnowledgeGraphMetadata({ resultClass })
+    }
   }, [])
 
-  // console.log(props.knowledgeGraphMetadata)
   return (
     <div className={classes.root}>
       <Paper className={classes.layout}>
@@ -53,7 +55,9 @@ TextPage.propTypes = {
   /**
    * The content of the page.
    */
-  children: PropTypes.node
+  children: PropTypes.node,
+  fetchKnowledgeGraphMetadata: PropTypes.func,
+  resultClass: PropTypes.string
 }
 
 export default TextPage
