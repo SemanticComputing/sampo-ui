@@ -30,6 +30,7 @@ import ClientFSPerspective from '../components/perspectives/sampo/client_fs/Clie
 import ClientFSMain from '../components/perspectives/sampo/client_fs/ClientFSMain'
 import InstanceHomePage from '../components/perspectives/sampo/InstanceHomePage'
 import Footer from '../components/perspectives/sampo/Footer'
+import KnowledgeGraphMetadataTable from '../components/perspectives/sampo/KnowledgeGraphMetadataTable'
 import { perspectiveConfig } from '../configs/sampo/PerspectiveConfig'
 import { perspectiveConfigOnlyInfoPages } from '../configs/sampo/PerspectiveConfigOnlyInfoPages'
 import { rootUrl } from '../configs/sampo/GeneralConfig'
@@ -575,12 +576,14 @@ const SemanticPortal = props => {
               path={`${rootUrlWithLang}/about`}
               render={() =>
                 <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
-                  <TextPage
-                    resultClass='perspective1KnowledgeGraphMetadata'
-                    fetchKnowledgeGraphMetadata={props.fetchKnowledgeGraphMetadata}
-                    knowledgeGraphMetadata={props.perspective1.knowledgeGraphMetadata}
-                  >
-                    {intl.getHTML('aboutThePortal')}
+                  <TextPage>
+                    {intl.getHTML('aboutThePortalPartOne')}
+                    <KnowledgeGraphMetadataTable
+                      resultClass='perspective1KnowledgeGraphMetadata'
+                      fetchKnowledgeGraphMetadata={props.fetchKnowledgeGraphMetadata}
+                      knowledgeGraphMetadata={props.perspective1.knowledgeGraphMetadata}
+                    />
+                    {intl.getHTML('aboutThePortalPartTwo')}
                   </TextPage>
                 </div>}
             />

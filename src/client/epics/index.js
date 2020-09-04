@@ -491,7 +491,7 @@ const fetchKnowledgeGraphMetadataEpic = (action$, state$) => action$.pipe(
     }).pipe(
       map(ajaxResponse => updateKnowledgeGraphMetadata({
         resultClass: action.resultClass,
-        data: ajaxResponse.response.data || [],
+        data: ajaxResponse.response.data[0],
         sparqlQuery: ajaxResponse.response.sparqlQuery
       })),
       catchError(error => of({

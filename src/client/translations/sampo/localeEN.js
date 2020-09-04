@@ -2003,7 +2003,7 @@ export default {
       }
     }
   },
-  aboutThePortal: `
+  aboutThePortalPartOne: `
     <h1 class="MuiTypography-root MuiTypography-h2 MuiTypography-gutterBottom">
       About the Portal
     </h1>
@@ -2033,29 +2033,8 @@ export default {
       leo, vel faucibus dui convallis sed. Ut sed libero eu nisi accumsan mollis. Pellentesque 
       ultricies est non porta luctus. Maecenas eget viverra mauris.
     </p>
-    <ul class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom">
-      <li>
-        <a href=""
-          target='_blank' rel='noopener noreferrer'
-        >
-          Suspendisse et ligula quis
-        </a>
-      </li>
-      <li>
-        <a href=""
-          target='_blank' rel='noopener noreferrer'
-        >
-          Aliquam pellentesque odio
-        </a>
-      </li>
-      <li>
-        <a href=""
-          target='_blank' rel='noopener noreferrer'
-        >
-          Cras at odio a libero laoreet
-        </a>
-      </li>
-    </ul>
+    `,
+  aboutThePortalPartTwo: `
     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
       Mauris porttitor ante nec auctor vulputate. Phasellus varius, odio sed egestas bibendum, 
       dolor lacus consequat turpis, ac pulvinar libero lorem maximus nunc. Praesent egestas volutpat 
