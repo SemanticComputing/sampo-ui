@@ -3,7 +3,8 @@ import {
   FETCH_RESULTS_FAILED,
   FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_FACET_FAILED,
-  FETCH_BY_URI_FAILED
+  FETCH_BY_URI_FAILED,
+  FETCH_KNOWLEDGE_GRAPH_METADATA_FAILED
 } from '../../actions'
 
 export const INITIAL_STATE = {
@@ -18,6 +19,7 @@ const error = (state = INITIAL_STATE, action) => {
     case FETCH_PAGINATED_RESULTS_FAILED:
     case FETCH_BY_URI_FAILED:
     case FETCH_FACET_FAILED:
+    case FETCH_KNOWLEDGE_GRAPH_METADATA_FAILED:
       return {
         ...state,
         id: state.id + 1,
