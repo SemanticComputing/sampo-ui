@@ -37,7 +37,7 @@ const TextPage = props => {
 
   useEffect(() => {
     if (props.fetchKnowledgeGraphMetadata) {
-      const resultClass = { props }
+      const { resultClass } = props
       props.fetchKnowledgeGraphMetadata({ resultClass })
     }
   }, [])

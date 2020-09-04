@@ -576,6 +576,7 @@ const SemanticPortal = props => {
               render={() =>
                 <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
                   <TextPage
+                    resultClass='perspective1KnowledgeGraphMetadata'
                     fetchKnowledgeGraphMetadata={props.fetchKnowledgeGraphMetadata}
                     knowledgeGraphMetadata={props.perspective1.knowledgeGraphMetadata}
                   >
