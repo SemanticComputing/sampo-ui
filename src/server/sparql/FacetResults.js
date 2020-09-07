@@ -123,7 +123,8 @@ export const getResultCount = async ({
       facetClass: resultClass,
       constraints: constraints,
       filterTarget: 'id',
-      facetID: null
+      facetID: null,
+      filterTripleFirst: true
     }))
   }
   // console.log(endpoint.prefixes + q)

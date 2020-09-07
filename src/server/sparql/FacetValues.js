@@ -128,7 +128,7 @@ export const getFacet = async ({
     q = q.replace('<START_PROPERTY>', facetConfig.startProperty)
     q = q.replace('<END_PROPERTY>', facetConfig.endProperty)
   }
-  // if (facetID === 'productionPlace') {
+  // if (facetID === 'owner') {
   //   console.log(endpoint.prefixes + q)
   // }
   const response = await runSelectQuery({

@@ -37,7 +37,8 @@ export const generateConstraintsBlock = ({
   filterTarget,
   facetID,
   inverse,
-  constrainSelf = false
+  constrainSelf = false,
+  filterTripleFirst = false
 }) => {
   let filterStr = ''
   const skipFacetID = constrainSelf ? '' : facetID
@@ -63,6 +64,7 @@ export const generateConstraintsBlock = ({
           filterTarget: filterTarget,
           values: c.values,
           inverse: inverse,
+          filterTripleFirst,
           selectAlsoSubconcepts: Object.prototype.hasOwnProperty.call(c, 'selectAlsoSubconcepts')
             ? c.selectAlsoSubconcepts : true // default behaviour for hierarchical facets, can be controlled via reducers
         })
@@ -127,6 +129,7 @@ const generateTextFilter = ({
     return `
       FILTER NOT EXISTS {
         ${filterStr}
+        ?instance ?predicate ?id . 
       }
     `
   } else {
@@ -247,7 +250,8 @@ const generateUriFilter = ({
   filterTarget,
   values,
   inverse,
-  selectAlsoSubconcepts
+  selectAlsoSubconcepts,
+  filterTripleFirst
 }) => {
   let s = ''
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
@@ -258,13 +262,7 @@ const generateUriFilter = ({
     ? `?${facetID}FilterWithChildren`
     : `?${facetID}Filter`
   const filterTriple = `?${filterTarget} ${facetConfig.predicate} ${filterValue} .`
-  if (inverse) {
-    s += `
-       FILTER NOT EXISTS {
-         ${filterTriple}
-       }
-     `
-  } else {
+  if (filterTripleFirst) {
     s += filterTriple
   }
   if (includeChildren) {
@@ -276,6 +274,17 @@ const generateUriFilter = ({
     s += `
         VALUES ?${facetID}Filter { ${valuesStr} }
      `
+  }
+  if (inverse) {
+    s += `
+       FILTER NOT EXISTS {
+         ${filterTriple}
+         ?instance ?predicate ?id . 
+       }
+     `
+  }
+  if (!inverse && !filterTripleFirst) {
+    s += filterTriple
   }
   return s
 }
