@@ -4,7 +4,7 @@ import intl from 'react-intl-universal'
 import ChipsArray from './ChipsArray'
 
 const ActiveFilters = props => {
-  const { uriFilters, textFilters, timespanFilters, integerFilters, facetClass, someFacetIsFetching } = props
+  const { uriFilters, textFilters, timespanFilters, integerFilters, facetClass, someFacetIsFetching, fetchingResultCount } = props
   const facetValues = []
   Object.keys(uriFilters).map(activeFacetID => {
     // URI filter may have multiple values
@@ -47,6 +47,7 @@ const ActiveFilters = props => {
       facetClass={props.facetClass}
       updateFacetOption={props.updateFacetOption}
       someFacetIsFetching={someFacetIsFetching}
+      fetchingResultCount={fetchingResultCount}
       fetchFacet={props.fetchFacet}
     />
   )
@@ -61,6 +62,7 @@ ActiveFilters.propTypes = {
   integerFilters: PropTypes.object.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
   someFacetIsFetching: PropTypes.bool.isRequired,
+  fetchingResultCount: PropTypes.bool.isRequired,
   fetchFacet: PropTypes.func.isRequired
 }
 

@@ -277,9 +277,6 @@ const generateUriFilter = ({
         VALUES ?${facetID}Filter { ${valuesStr} }
      `
   }
-  if (inverse) {
-    console.log(s)
-  }
   return s
 }
 

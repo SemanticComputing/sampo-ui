@@ -98,6 +98,7 @@ class FacetInfo extends React.Component {
                 integerFilters={integerFilters}
                 updateFacetOption={this.props.updateFacetOption}
                 someFacetIsFetching={someFacetIsFetching}
+                fetchingResultCount={this.props.fetchingResultCount}
                 fetchFacet={this.props.fetchFacet}
               />
             </div>

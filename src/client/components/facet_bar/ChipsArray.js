@@ -22,7 +22,7 @@ const styles = theme => ({
  */
 const ChipsArray = props => {
   const handleDelete = item => () => {
-    if (!props.someFacetIsFetching) {
+    if (!props.someFacetIsFetching && !props.fetchingResultCount) {
       switch (item.filterType) {
         case 'uriFilter':
           props.updateFacetOption({
@@ -100,6 +100,7 @@ const ChipsArray = props => {
               icon={icon}
               label={generateLabel(item.facetLabel, valueLabel, item.filterType)}
               className={classes.chip}
+              disabled={props.someFacetIsFetching || props.fetchingResultCount}
               onDelete={handleDelete(item)}
               color='primary'
             />
@@ -116,6 +117,7 @@ ChipsArray.propTypes = {
   facetClass: PropTypes.string.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
   someFacetIsFetching: PropTypes.bool.isRequired,
+  fetchingResultCount: PropTypes.bool.isRequired,
   fetchFacet: PropTypes.func.isRequired
 }
 
