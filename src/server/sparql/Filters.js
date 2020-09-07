@@ -254,20 +254,18 @@ const generateUriFilter = ({
   const includeChildren = facetConfig.type === 'hierarchical' && selectAlsoSubconcepts
   const literal = facetConfig.literal
   const valuesStr = literal ? `"${values.join('" "')}"` : `<${values.join('> <')}>`
+  const filterValue = includeChildren
+    ? `?${facetID}FilterWithChildren`
+    : `?${facetID}Filter`
+  const filterTriple = `?${filterTarget} ${facetConfig.predicate} ${filterValue} .`
   if (inverse) {
     s += `
        FILTER NOT EXISTS {
-         ?${filterTarget} ${facetConfig.predicate} ?${facetID}Filter .
-         ?${filterTarget} ${facetConfig.predicate} ?id .
+         ${filterTriple}
        }
      `
   } else {
-    const filterValue = includeChildren
-      ? `?${facetID}FilterWithChildren`
-      : `?${facetID}Filter`
-    s += `
-       ?${filterTarget} ${facetConfig.predicate} ${filterValue} .
-     `
+    s += filterTriple
   }
   if (includeChildren) {
     s += `
@@ -278,6 +276,9 @@ const generateUriFilter = ({
     s += `
         VALUES ?${facetID}Filter { ${valuesStr} }
      `
+  }
+  if (inverse) {
+    console.log(s)
   }
   return s
 }

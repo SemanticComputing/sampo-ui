@@ -20,7 +20,7 @@ export const perspectiveConfig = [
     id: 'perspective1',
     frontPageImage: manuscriptsImage,
     perspectiveDescHeight: 160,
-    defaultActiveFacets: new Set(['prefLabel', 'productionTimespan']),
+    defaultActiveFacets: new Set([]),
     tabs: [
       {
         id: 'table',
