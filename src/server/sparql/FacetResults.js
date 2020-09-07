@@ -126,6 +126,7 @@ export const getResultCount = async ({
       facetID: null
     }))
   }
+  // console.log(endpoint.prefixes + q)
   const response = await runSelectQuery({
     query: endpoint.prefixes + q,
     endpoint: endpoint.url,
