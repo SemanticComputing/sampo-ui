@@ -52,6 +52,17 @@ export const coseLayout = {
   minTemp: 1.0
 }
 
+export const preprocess = elements => {
+  const vals = elements.edges.map(ele => ele.data.weight)
+  const valmax = Math.max(...vals)
+  const valmin = Math.min(...vals)
+  const wmax = 6.0
+  const wmin = 1.0
+  const a = (wmax - wmin) / (valmax - valmin)
+  const b = wmin - valmin * (wmax - wmin) / (valmax - valmin)
+  elements.edges.forEach((ele, i) => { ele.data.weight = vals[i] * a + b })
+}
+
 const maxEdgeWidth = 8
 
 const constrainWidth = width => {
