@@ -77,6 +77,8 @@ export const INITIAL_STATE = {
       type: 'hierarchical',
       selectAlsoSubconceptsButton: true,
       selectAlsoSubconcepts: true,
+      useConjuctionButton: true,
+      useConjuction: false,
       priority: 5
     },
     productionTimespan: {
@@ -152,6 +154,8 @@ export const INITIAL_STATE = {
       containerClass: 'ten',
       filterType: 'uriFilter',
       uriFilter: null,
+      useConjuctionButton: true,
+      useConjuction: false,
       priority: 3
     },
     collection: {

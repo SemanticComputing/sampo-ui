@@ -67,8 +67,7 @@ export const generateConstraintsBlock = ({
           filterTripleFirst,
           selectAlsoSubconcepts: Object.prototype.hasOwnProperty.call(c, 'selectAlsoSubconcepts')
             ? c.selectAlsoSubconcepts : true, // default behaviour for hierarchical facets, can be controlled via reducers
-          conjuction: Object.prototype.hasOwnProperty.call(c, 'conjuction')
-            ? c.conjuction : false
+          useConjuction: c.useConjuction
         })
         break
       case 'spatialFilter':
@@ -254,46 +253,56 @@ const generateUriFilter = ({
   inverse,
   selectAlsoSubconcepts,
   filterTripleFirst,
-  conjuction
+  useConjuction
 }) => {
-  // if (facetID === 'productionPlace') {
-  //   console.log(conjuction)
-  // }
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
   const includeChildren = facetConfig.type === 'hierarchical' && selectAlsoSubconcepts
-  const literal = facetConfig.literal
-  const valuesStr = generateValuesForUriFilter({ values, literal, conjuction })
-  return generateDisjunctionForUriFilter({
-    facetConfig,
-    facetID,
-    filterTarget,
-    inverse,
-    filterTripleFirst,
-    includeChildren,
-    valuesStr
-  })
+  const { literal, predicate, parentProperty } = facetConfig
+  const valuesStr = generateValuesForUriFilter({ values, literal, useConjuction })
+  const s = useConjuction
+    ? generateConjuctionForUriFilter({
+      facetID,
+      predicate,
+      parentProperty,
+      filterTarget,
+      inverse,
+      includeChildren,
+      valuesStr
+    })
+    : generateDisjunctionForUriFilter({
+      facetID,
+      predicate,
+      parentProperty,
+      filterTarget,
+      inverse,
+      filterTripleFirst,
+      includeChildren,
+      valuesStr
+    })
+  return s
 }
 
-const generateValuesForUriFilter = ({ values, literal, conjuction }) => {
+const generateValuesForUriFilter = ({ values, literal, useConjuction }) => {
   let str = ''
-  if (literal && conjuction) {
+  if (literal && useConjuction) {
     str = `"${values.join('", "')}" .`
   }
-  if (!literal && conjuction) {
+  if (!literal && useConjuction) {
     str = `<${values.join('>, <')}> .`
   }
-  if (literal && !conjuction) {
+  if (literal && !useConjuction) {
     str = `"${values.join('" "')}" `
   }
-  if (!literal && !conjuction) {
+  if (!literal && !useConjuction) {
     str = `<${values.join('> <')}> `
   }
   return str
 }
 
 const generateDisjunctionForUriFilter = ({
-  facetConfig,
   facetID,
+  predicate,
+  parentProperty,
   filterTarget,
   inverse,
   filterTripleFirst,
@@ -304,14 +313,14 @@ const generateDisjunctionForUriFilter = ({
   const filterValue = includeChildren
     ? `?${facetID}FilterWithChildren`
     : `?${facetID}Filter`
-  const filterTriple = `?${filterTarget} ${facetConfig.predicate} ${filterValue} .`
+  const filterTriple = `?${filterTarget} ${predicate} ${filterValue} .`
   if (filterTripleFirst) {
     s += filterTriple
   }
   if (includeChildren) {
     s += `
         VALUES ?${facetID}Filter { ${valuesStr} }
-        ?${facetID}FilterWithChildren ${facetConfig.parentProperty}* ?${facetID}Filter .
+        ?${facetID}FilterWithChildren ${parentProperty}* ?${facetID}Filter .
      `
   } else {
     s += `
@@ -330,6 +339,29 @@ const generateDisjunctionForUriFilter = ({
     s += filterTriple
   }
   return s
+}
+
+const generateConjuctionForUriFilter = ({
+  facetID,
+  predicate,
+  parentProperty,
+  filterTarget,
+  inverse,
+  includeChildren,
+  valuesStr
+}) => {
+  const predicateModified = includeChildren
+    ? `${predicate}/${parentProperty}*`
+    : predicate
+  if (inverse) {
+    return `
+        FILTER NOT EXISTS {
+          ?${filterTarget} ${predicateModified} ${valuesStr}
+        }
+      `
+  } else {
+    return `?${filterTarget} ${predicateModified} ${valuesStr}`
+  }
 }
 
 export const generateSelectedFilter = ({

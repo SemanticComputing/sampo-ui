@@ -264,7 +264,7 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
     const { facetClass, facetID } = action
     const facets = state[`${facetClass}Facets`].facets
     const facet = facets[facetID]
-    const { sortBy, sortDirection } = facet
+    const { sortBy, sortDirection = false } = facet
     const params = stateToUrl({
       facets: facets,
       sortBy: sortBy,
