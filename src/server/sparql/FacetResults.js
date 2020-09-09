@@ -75,9 +75,6 @@ export const getAllResults = ({
       facetID: null
     }))
   }
-  if (uri !== null) {
-    q = q.replace('<ID>', `<${uri}>`)
-  }
   if (has(config, 'useNetworkAPI') && config.useNetworkAPI) {
     return runNetworkQuery({
       endpoint: endpoint.url,
@@ -89,6 +86,9 @@ export const getAllResults = ({
       limit
     })
   } else {
+    if (uri !== null) {
+      q = q.replace('<ID>', `<${uri}>`)
+    }
     return runSelectQuery({
       query: endpoint.prefixes + q,
       endpoint: endpoint.url,
