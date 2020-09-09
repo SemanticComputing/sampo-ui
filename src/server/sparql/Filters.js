@@ -66,7 +66,9 @@ export const generateConstraintsBlock = ({
           inverse: inverse,
           filterTripleFirst,
           selectAlsoSubconcepts: Object.prototype.hasOwnProperty.call(c, 'selectAlsoSubconcepts')
-            ? c.selectAlsoSubconcepts : true // default behaviour for hierarchical facets, can be controlled via reducers
+            ? c.selectAlsoSubconcepts : true, // default behaviour for hierarchical facets, can be controlled via reducers
+          conjuction: Object.prototype.hasOwnProperty.call(c, 'conjuction')
+            ? c.conjuction : false
         })
         break
       case 'spatialFilter':
@@ -251,13 +253,54 @@ const generateUriFilter = ({
   values,
   inverse,
   selectAlsoSubconcepts,
-  filterTripleFirst
+  filterTripleFirst,
+  conjuction
 }) => {
-  let s = ''
+  // if (facetID === 'productionPlace') {
+  //   console.log(conjuction)
+  // }
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
   const includeChildren = facetConfig.type === 'hierarchical' && selectAlsoSubconcepts
   const literal = facetConfig.literal
-  const valuesStr = literal ? `"${values.join('" "')}"` : `<${values.join('> <')}>`
+  const valuesStr = generateValuesForUriFilter({ values, literal, conjuction })
+  return generateDisjunctionForUriFilter({
+    facetConfig,
+    facetID,
+    filterTarget,
+    inverse,
+    filterTripleFirst,
+    includeChildren,
+    valuesStr
+  })
+}
+
+const generateValuesForUriFilter = ({ values, literal, conjuction }) => {
+  let str = ''
+  if (literal && conjuction) {
+    str = `"${values.join('", "')}" .`
+  }
+  if (!literal && conjuction) {
+    str = `<${values.join('>, <')}> .`
+  }
+  if (literal && !conjuction) {
+    str = `"${values.join('" "')}" `
+  }
+  if (!literal && !conjuction) {
+    str = `<${values.join('> <')}> `
+  }
+  return str
+}
+
+const generateDisjunctionForUriFilter = ({
+  facetConfig,
+  facetID,
+  filterTarget,
+  inverse,
+  filterTripleFirst,
+  includeChildren,
+  valuesStr
+}) => {
+  let s = ''
   const filterValue = includeChildren
     ? `?${facetID}FilterWithChildren`
     : `?${facetID}Filter`
