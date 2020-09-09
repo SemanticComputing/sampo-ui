@@ -69,7 +69,7 @@ class Network extends React.Component {
       // console.log(this.props.results.elements)
       this.cy.elements().remove()
       if (this.props.preprocess) {
-        this.preprocess(this.props.results.elements)
+        this.props.preprocess(this.props.results.elements)
       }
       this.cy.add(this.props.results.elements)
       this.cy.layout(this.props.layout).run()
