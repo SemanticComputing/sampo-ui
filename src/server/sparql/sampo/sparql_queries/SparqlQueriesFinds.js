@@ -137,20 +137,6 @@ export const findsPlacesQuery = `
   }
 `
 
-export const nearbyFindsQuery = `
-  SELECT ?id ?lat ?long
-  WHERE {
-    BIND(<ID> as ?find)
-    ?find wgs84:lat ?fLat ;
-        wgs84:long ?fLong .
-    BIND(?fLat as ?findLat)
-    BIND(?fLong as ?findLong)
-    ?id spatial:nearby (?findLat ?findLong 20 'km') .
-    ?id wgs84:lat ?lat ;
-        wgs84:long ?long .
-  }
-`
-
 export const findsTimelineQuery = `
   SELECT ?id ?group ?data__id ?data__uri ?data__label
   ?data__data__id ?data__data__label ?data__data__val ?data__data__timeRange
@@ -160,9 +146,13 @@ export const findsTimelineQuery = `
 
     ?find :material/skos:prefLabel ?id  . # ?id = first hierarchy level
     BIND (?id as ?group)
-    ?find :find_name ?data__id . # ?data__id = second hierarchy level
+    #?find :find_name ?data__id . # ?data__id = second hierarchy level
+
+     ?find :find_name ?lable_temp .
+    BIND( STRAFTER(STR(?find),'http://ldf.fi/findsampo/finds/' ) AS ?find_num ).
+    BIND (CONCAT(str(?lable_temp), str(?find_num)) as ?data__id) .
     BIND (?data__id as ?data__label)
-    BIND (?find as ?data__data__id) # ?data__data__id = third hierarchy level
+    BIND (?find_num as ?data__data__id) # ?data__data__id = third hierarchy level
     BIND (?data__id as ?data__data__label)
     BIND (?data__id as ?data__data__val)
 

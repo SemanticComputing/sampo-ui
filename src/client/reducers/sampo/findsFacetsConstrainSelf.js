@@ -1,4 +1,5 @@
 import { handleFacetConstrainSelfAction } from '../general/facetsConstrainSelf'
+
 export const INITIAL_STATE = {
   updatedFacet: null,
   facetUpdateID: 0,
@@ -21,6 +22,25 @@ export const INITIAL_STATE = {
       filterType: 'uriFilter',
       uriFilter: null,
       priority: 1
+    },
+    objectType: {
+      id: 'objectType',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'instanceCount',
+      sortDirection: 'desc',
+      sortButton: true,
+      spatialFilterButton: false,
+      pieChartButton: true,
+      isFetching: false,
+      searchField: true,
+      containerClass: 'ten',
+      filterType: 'uriFilter',
+      uriFilter: null,
+      type: 'hierarchical',
+      priority: 6
     },
     specification: {
       id: 'specification',
@@ -150,24 +170,6 @@ export const INITIAL_STATE = {
       type: 'hierarchical',
       priority: 5
     },
-    municipality: {
-      id: 'municipality',
-      // predicate: defined in backend
-      distinctValueCount: 0,
-      values: [],
-      flatValues: [],
-      sortBy: 'instanceCount',
-      sortDirection: 'desc',
-      sortButton: true,
-      spatialFilterButton: false,
-      chartButton: false,
-      isFetching: false,
-      searchField: true,
-      containerClass: 'ten',
-      filterType: 'uriFilter',
-      uriFilter: null,
-      priority: 6
-    },
     materialLiteral: {
       id: 'materialLiteral',
       // predicate: defined in backend
@@ -185,7 +187,27 @@ export const INITIAL_STATE = {
       filterType: 'uriFilter',
       uriFilter: null,
       priority: 4
+    },
+    place: {
+      id: 'place',
+      // predicate: defined in backend
+      distinctValueCount: 0,
+      values: [],
+      flatValues: [],
+      sortBy: 'instanceCount',
+      sortDirection: 'desc',
+      sortButton: true,
+      spatialFilterButton: false,
+      pieChartButton: true,
+      isFetching: false,
+      searchField: true,
+      containerClass: 'ten',
+      filterType: 'uriFilter',
+      uriFilter: null,
+      type: 'hierarchical',
+      priority: 6
     }
+
   }
 }
 

@@ -116,6 +116,25 @@ export const findsConfig = {
       predicate: ':municipality',
       labelPath: ':municipality/skos:prefLabel',
       type: 'list'
+    },
+    place: {
+      id: 'place',
+      facetValueFilter: '',
+      predicate: ':municipality/skos:related',
+      labelPath: ':municipalityskos:related//skos:prefLabel',
+      type: 'hierarchical',
+      parentPredicate: ':municipality/skos:related/skos:broader+',
+      parentProperty: 'skos:broader',
+      facetLabelFilter: 'FILTER(LANG(?prefLabel_) = \'fi\')'
+    },
+    objectType: {
+      id: 'objectType',
+      facetValueFilter: '',
+      predicate: ':object_type',
+      labelPath: ':object_type/skos:prefLabel',
+      type: 'hierarchical',
+      parentPredicate: ':object_type/skos:broader+',
+      parentProperty: 'skos:broader'
     }
   }
 }
