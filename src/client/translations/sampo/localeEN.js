@@ -50,7 +50,9 @@ export default {
     doNotSelectSubconcepts: 'Do not select subconcepts',
     sortingOptions: 'Sorting options',
     sortAlphabetically: 'Sort alphabetically',
-    sortByNumberOfSearchResults: 'Sort by number of search results'
+    sortByNumberOfSearchResults: 'Sort by number of search results',
+    useDisjunction: 'Use logical OR between selections',
+    useConjuction: 'Use logical AND between selections'
   },
   tabs: {
     table: 'table',
