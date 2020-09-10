@@ -330,8 +330,8 @@ const generateDisjunctionForUriFilter = ({
   if (inverse) {
     s += `
        FILTER NOT EXISTS {
+        ?${filterTarget} ?randomPredicate ?id .
          ${filterTriple}
-         ?instance ?predicate ?id . 
        }
      `
   }
@@ -356,6 +356,7 @@ const generateConjuctionForUriFilter = ({
   if (inverse) {
     return `
         FILTER NOT EXISTS {
+          ?${filterTarget} ?randomPredicate ?id .
           ?${filterTarget} ${predicateModified} ${valuesStr}
         }
       `
