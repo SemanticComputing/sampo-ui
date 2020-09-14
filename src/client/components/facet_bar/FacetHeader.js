@@ -170,6 +170,7 @@ class FacetHeader extends React.Component {
       pieChartButton = false,
       lineChartButton = false,
       selectAlsoSubconceptsButton = false,
+      intersectionBarChartButton = false,
       selectAlsoSubconcepts,
       useConjuctionButton = false,
       useConjuction
@@ -295,6 +296,17 @@ class FacetHeader extends React.Component {
             fetchData={this.props.fetchResults}
             createChartData={createSingleLineChartData}
             resultClass={`${this.props.facetID}LineChart`}
+            facetClass={this.props.facetClass}
+            icon={<LineChartIcon />}
+          />}
+        {intersectionBarChartButton &&
+          <ChartDialog
+            rawData={this.props.facetResults.results}
+            rawDataUpdateID={this.props.facetResults.resultUpdateID}
+            fetching={this.props.facetResults.fetching}
+            fetchData={this.props.fetchResults}
+            createChartData={createSingleLineChartData}
+            resultClass={`${this.props.facetID}IntersectionBarChart`}
             facetClass={this.props.facetClass}
             icon={<LineChartIcon />}
           />}
