@@ -175,10 +175,11 @@ export const updateInstanceTableExternal = ({ resultClass, data }) => ({
   resultClass,
   data
 })
-export const fetchFacet = ({ facetClass, facetID }) => ({
+export const fetchFacet = ({ facetClass, facetID, constrainSelf = false }) => ({
   type: FETCH_FACET,
   facetClass,
-  facetID
+  facetID,
+  constrainSelf
 })
 export const clearFacet = ({ facetClass, facetID }) => ({
   type: CLEAR_FACET,

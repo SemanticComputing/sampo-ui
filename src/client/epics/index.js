@@ -261,14 +261,15 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_FACET),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { facetClass, facetID } = action
+    const { facetClass, facetID, constrainSelf } = action
     const facets = state[`${facetClass}Facets`].facets
     const facet = facets[facetID]
     const { sortBy, sortDirection = false } = facet
     const params = stateToUrl({
-      facets: facets,
-      sortBy: sortBy,
-      sortDirection: sortDirection
+      facets,
+      sortBy,
+      sortDirection,
+      constrainSelf
     })
     const requestUrl = `${apiUrl}/faceted-search/${action.facetClass}/facet/${facetID}`
     return ajax({

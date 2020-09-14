@@ -50,7 +50,6 @@ export const getAllResults = ({
   uri,
   constraints,
   resultFormat,
-  groupBy,
   optimize,
   limit
 }) => {

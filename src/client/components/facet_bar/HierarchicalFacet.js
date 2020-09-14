@@ -95,7 +95,7 @@ class HierarchicalFacet extends Component {
   serverFScomponentDidUpdate = prevProps => {
     if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
       // update component state if the user modified this facet
-      if (this.props.updatedFacet === this.props.facetID) {
+      if (!this.props.facet.useConjuction && this.props.updatedFacet === this.props.facetID) {
         if (has(this.props.updatedFilter, 'path')) {
           const treeObj = this.props.updatedFilter
           const newTreeData = changeNodeAtPath({
@@ -126,7 +126,8 @@ class HierarchicalFacet extends Component {
         // console.log(`fetching new values for ${this.props.facetID}`)
         this.props.fetchFacet({
           facetClass: this.props.facetClass,
-          facetID: this.props.facetID
+          facetID: this.props.facetID,
+          constrainSelf: this.props.facet.useConjuction
         })
       }
     }
@@ -232,8 +233,8 @@ class HierarchicalFacet extends Component {
                 node.id === 'http://ldf.fi/MISSING_VALUE' ||
                 // prevent selecting when another facet is still updating:
                 this.props.someFacetIsFetching ||
-                // prevent selecting all facet values:
-                (selectedCount >= this.props.facet.distinctValueCount - 1 && !isSelected) ||
+                // prevent selecting all facet values when there is a logical OR between the selections:
+                (this.props.facet.useConjuction && !isSelected && selectedCount >= this.props.facet.distinctValueCount - 1) ||
                 // prevent selecting when parent has been selected
                 node.disabled === 'true'
               }
