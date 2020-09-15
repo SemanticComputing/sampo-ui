@@ -408,12 +408,10 @@ const generateConjuctionForUriFilter = ({
 }
 
 export const generateSelectedFilter = ({
-  backendSearchConfig,
-  facetID,
-  constraints,
+  currentSelectionsWithoutUnknown,
   inverse
 }) => {
   return (`
-          FILTER(?id ${inverse ? 'NOT' : ''} IN ( <${getUriFilters(constraints, facetID).join('>, <')}> ))
+          FILTER(?id ${inverse ? 'NOT' : ''} IN ( <${currentSelectionsWithoutUnknown.join('>, <')}> ))
   `)
 }

@@ -63,6 +63,7 @@ export const getFacet = async ({
   let unknownSelected = 'false'
   let useConjuction = false
   let selectParents = facetConfig.type === 'hierarchical'
+  let currentSelectionsWithoutUnknown = []
   if (constraints !== null) {
     filterBlock = generateConstraintsBlock({
       backendSearchConfig,
@@ -74,7 +75,9 @@ export const getFacet = async ({
       constrainSelf
     })
     const currentSelections = getUriFilters(constraints, facetID)
-    const { indexOfUnknown } = handleUnknownValue(currentSelections)
+    // If <http://ldf.fi/MISSING_VALUE> is selected, it needs special care
+    const { indexOfUnknown, modifiedValues } = handleUnknownValue(currentSelections)
+    currentSelectionsWithoutUnknown = modifiedValues
     const facet = constraints.find(c => c.facetID === facetID)
     useConjuction = (has(facet, 'useConjuction') && facet.useConjuction)
     if (indexOfUnknown !== -1) {
@@ -87,19 +90,18 @@ export const getFacet = async ({
     // if this facet has previous selections, include them in the query
     if (hasPreviousSelections(constraints, facetID)) {
       selectedBlock = generateSelectedBlock({
-        backendSearchConfig,
-        facetID,
-        constraints
+        currentSelectionsWithoutUnknown
       })
       /* if there are also filters from other facets, we need this
          additional block for facet values that return 0 hits */
-      if (hasPreviousSelectionsFromOtherFacets(constraints, facetID)) {
+      if (currentSelectionsWithoutUnknown.length > 0 &&
+        hasPreviousSelectionsFromOtherFacets(constraints, facetID)) {
         selectedNoHitsBlock = generateSelectedNoHitsBlock({
           backendSearchConfig,
           facetClass,
           facetID,
           constraints,
-          constrainSelf
+          currentSelectionsWithoutUnknown
         })
       }
     }
@@ -111,7 +113,8 @@ export const getFacet = async ({
       facetClass,
       facetID,
       constraints,
-      parentPredicate
+      parentPredicate,
+      currentSelectionsWithoutUnknown
     })
     parentsForFacetValues = `
       OPTIONAL { ?id ${facetConfig.parentProperty} ?parent_ }
@@ -142,7 +145,7 @@ export const getFacet = async ({
     q = q.replace('<START_PROPERTY>', facetConfig.startProperty)
     q = q.replace('<END_PROPERTY>', facetConfig.endProperty)
   }
-  // if (facetID === 'productionPlace') {
+  // if (facetID === 'collection') {
   //   console.log(endpoint.prefixes + q)
   // }
   const response = await runSelectQuery({
@@ -171,14 +174,10 @@ export const getFacet = async ({
 }
 
 const generateSelectedBlock = ({
-  backendSearchConfig,
-  facetID,
-  constraints
+  currentSelectionsWithoutUnknown
 }) => {
   const selectedFilter = generateSelectedFilter({
-    backendSearchConfig,
-    facetID,
-    constraints,
+    currentSelectionsWithoutUnknown,
     inverse: false
   })
   return `
@@ -194,7 +193,7 @@ const generateSelectedNoHitsBlock = ({
   facetClass,
   facetID,
   constraints,
-  constrainSelf
+  currentSelectionsWithoutUnknown
 }) => {
   const noHitsFilter = generateConstraintsBlock({
     backendSearchConfig,
@@ -202,14 +201,13 @@ const generateSelectedNoHitsBlock = ({
     constraints: constraints,
     filterTarget: 'instance',
     facetID: facetID,
-    inverse: true,
-    constrainSelf
+    inverse: true
   })
   return `
   UNION
   # facet values that have been selected but return no results
   {
-    VALUES ?id { <${getUriFilters(constraints, facetID).join('> <')}> }
+    VALUES ?id { <${currentSelectionsWithoutUnknown.join('> <')}> }
     ${noHitsFilter}
     BIND(true AS ?selected_)
   }
@@ -221,7 +219,8 @@ const generateParentBlock = ({
   facetClass,
   facetID,
   constraints,
-  parentPredicate
+  parentPredicate,
+  currentSelectionsWithoutUnknown
 }) => {
   let parentFilterStr = '# no filters'
   let ignoreSelectedValues = '# no selected values'
@@ -236,9 +235,7 @@ const generateParentBlock = ({
     })
     if (hasPreviousSelections) {
       ignoreSelectedValues = generateSelectedFilter({
-        backendSearchConfig,
-        facetID: facetID,
-        constraints: constraints,
+        currentSelectionsWithoutUnknown,
         inverse: true
       })
     }

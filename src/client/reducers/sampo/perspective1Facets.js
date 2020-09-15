@@ -77,8 +77,6 @@ export const INITIAL_STATE = {
       type: 'hierarchical',
       selectAlsoSubconceptsButton: true,
       selectAlsoSubconcepts: true,
-      // useConjuctionButton: true,
-      // useConjuction: true,
       priority: 5
     },
     productionTimespan: {
@@ -154,7 +152,7 @@ export const INITIAL_STATE = {
       containerClass: 'ten',
       filterType: 'uriFilter',
       uriFilter: null,
-      useConjuctionButton: true,
+      useConjuctionButton: true, // experimental, does not work well with hierarchical facets
       useConjuction: false,
       priority: 3
     },
