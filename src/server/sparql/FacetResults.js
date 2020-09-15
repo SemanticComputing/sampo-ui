@@ -195,7 +195,7 @@ const getPaginatedData = ({
   }
   q = q.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`)
   q = q.replace('<RESULT_SET_PROPERTIES>', config.paginatedResults.properties)
-  console.log(endpoint.prefixes + q)
+  // console.log(endpoint.prefixes + q)
   return runSelectQuery({
     query: endpoint.prefixes + q,
     endpoint: endpoint.url,
