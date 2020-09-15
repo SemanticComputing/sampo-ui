@@ -173,7 +173,6 @@ const getPaginatedData = ({
       facetID: null
     }))
   }
-  q = q.replace(/<FACET_CLASS>/g, config.facetClass)
   if (sortBy == null) {
     q = q.replace('<ORDER_BY_TRIPLE>', '')
     q = q.replace('<ORDER_BY>', '# no sorting')
@@ -193,6 +192,7 @@ const getPaginatedData = ({
     q = q.replace('<ORDER_BY>',
       `ORDER BY (!BOUND(?orderBy)) ${sortDirection}(?orderBy)`)
   }
+  q = q.replace(/<FACET_CLASS>/g, config.facetClass)
   q = q.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`)
   q = q.replace('<RESULT_SET_PROPERTIES>', config.paginatedResults.properties)
   // console.log(endpoint.prefixes + q)
