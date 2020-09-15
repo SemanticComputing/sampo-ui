@@ -258,28 +258,70 @@ const generateUriFilter = ({
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
   const includeChildren = facetConfig.type === 'hierarchical' && selectAlsoSubconcepts
   const { literal, predicate, parentProperty } = facetConfig
-  const valuesStr = generateValuesForUriFilter({ values, literal, useConjuction })
-  const s = useConjuction
-    ? generateConjuctionForUriFilter({
-      facetID,
-      predicate,
-      parentProperty,
-      filterTarget,
-      inverse,
-      includeChildren,
-      valuesStr
-    })
-    : generateDisjunctionForUriFilter({
-      facetID,
-      predicate,
-      parentProperty,
-      filterTarget,
-      inverse,
-      filterTripleFirst,
-      includeChildren,
-      valuesStr
-    })
+  const { modifiedValues, indexOfUnknown } = handleUnknownValue(values)
+  let s
+  if (modifiedValues.length > 0) {
+    const valuesStr = generateValuesForUriFilter({ values: modifiedValues, literal, useConjuction })
+    s = useConjuction
+      ? generateConjuctionForUriFilter({
+        facetID,
+        predicate,
+        parentProperty,
+        filterTarget,
+        inverse,
+        includeChildren,
+        valuesStr
+      })
+      : generateDisjunctionForUriFilter({
+        facetID,
+        predicate,
+        parentProperty,
+        filterTarget,
+        inverse,
+        filterTripleFirst,
+        includeChildren,
+        valuesStr
+      })
+  }
+  if (modifiedValues.length > 0 && indexOfUnknown !== -1) {
+    s = `
+    {
+      ${s}
+    }
+    UNION 
+    {
+      ${generateMissingValueBlock({ predicate, filterTarget })}
+    }
+    `
+  }
+  if (modifiedValues.length === 0 && indexOfUnknown !== -1) {
+    s = `
+      ${generateMissingValueBlock({ predicate, filterTarget })}
+    `
+  }
   return s
+}
+
+export const handleUnknownValue = values => {
+  const modifiedValues = [...values]
+  const indexOfUnknown = values.indexOf('http://ldf.fi/MISSING_VALUE')
+  if (indexOfUnknown !== -1) {
+    modifiedValues.splice(indexOfUnknown, 1)
+  }
+  return {
+    indexOfUnknown,
+    modifiedValues
+  }
+}
+
+const generateMissingValueBlock = ({ predicate, filterTarget }) => {
+  return ` 
+    VALUES ?facetClass { <FACET_CLASS> }
+    ?${filterTarget} a ?facetClass .
+    FILTER NOT EXISTS {
+      ?${filterTarget} ${predicate} [] .
+    }
+  `
 }
 
 const generateValuesForUriFilter = ({ values, literal, useConjuction }) => {
@@ -324,8 +366,8 @@ const generateDisjunctionForUriFilter = ({
      `
   } else {
     s += `
-        VALUES ?${facetID}Filter { ${valuesStr} }
-     `
+    VALUES ?${facetID}Filter { ${valuesStr} }
+    `
   }
   if (inverse) {
     s += `
@@ -357,7 +399,7 @@ const generateConjuctionForUriFilter = ({
     return `
         FILTER NOT EXISTS {
           ?${filterTarget} ?randomPredicate ?id .
-          ?${filterTarget} ${predicateModified} ${valuesStr}
+          ?${filterTarget} ${predicate} ${valuesStr}
         }
       `
   } else {

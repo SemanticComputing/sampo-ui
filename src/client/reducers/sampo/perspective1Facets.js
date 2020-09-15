@@ -77,8 +77,8 @@ export const INITIAL_STATE = {
       type: 'hierarchical',
       selectAlsoSubconceptsButton: true,
       selectAlsoSubconcepts: true,
-      useConjuctionButton: true,
-      useConjuction: false,
+      // useConjuctionButton: true,
+      // useConjuction: true,
       priority: 5
     },
     productionTimespan: {

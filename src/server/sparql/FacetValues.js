@@ -10,7 +10,8 @@ import {
   hasPreviousSelectionsFromOtherFacets,
   getUriFilters,
   generateConstraintsBlock,
-  generateSelectedFilter
+  generateSelectedFilter,
+  handleUnknownValue
 } from './Filters'
 import {
   mapFacet,
@@ -59,6 +60,9 @@ export const getFacet = async ({
   let filterBlock = '# no filters'
   let parentBlock = '# no parents'
   let parentsForFacetValues = '# no parents for facet values'
+  let unknownSelected = 'false'
+  let useConjuction = false
+  let selectParents = facetConfig.type === 'hierarchical'
   if (constraints !== null) {
     filterBlock = generateConstraintsBlock({
       backendSearchConfig,
@@ -69,7 +73,17 @@ export const getFacet = async ({
       inverse: false,
       constrainSelf
     })
-    // previousSelections = new Set(getUriFilters(constraints, facetID))
+    const currentSelections = getUriFilters(constraints, facetID)
+    const { indexOfUnknown } = handleUnknownValue(currentSelections)
+    const facet = constraints.find(c => c.facetID === facetID)
+    useConjuction = (has(facet, 'useConjuction') && facet.useConjuction)
+    if (indexOfUnknown !== -1) {
+      unknownSelected = 'true'
+      // always ignore parents when 'Unknown' is selected in a hierarchical 'AND facet'
+      if (useConjuction) {
+        selectParents = false
+      }
+    }
     // if this facet has previous selections, include them in the query
     if (hasPreviousSelections(constraints, facetID)) {
       selectedBlock = generateSelectedBlock({
@@ -84,15 +98,13 @@ export const getFacet = async ({
           backendSearchConfig,
           facetClass,
           facetID,
-          constraints
+          constraints,
+          constrainSelf
         })
       }
     }
   }
-  // if (facetID === 'productionPlace') {
-  //   console.log(selectedBlock)
-  // }
-  if (facetConfig.type === 'hierarchical') {
+  if (selectParents) {
     const { parentPredicate } = facetConfig
     parentBlock = generateParentBlock({
       backendSearchConfig,
@@ -121,14 +133,16 @@ export const getFacet = async ({
   } else {
     q = q.replace('<ORDER_BY>', '# no need for ordering')
   }
-  q = q.replace(/<FACET_CLASS>/g, backendSearchConfig[facetClass].facetClass)
   q = q.replace(/<FILTER>/g, filterBlock)
-  q = q.replace(/<PREDICATE>/g, facetConfig.predicate)
+  q = q.replace(/<FACET_CLASS>/g, backendSearchConfig[facetClass].facetClass)
+  q = q.replace('<UNKNOWN_SELECTED>', unknownSelected)
+  q = q.replace('<MISSING_PREDICATE>', facetConfig.predicate)
+  q = q.replace('<PREDICATE>', facetConfig.predicate)
   if (facetConfig.type === 'timespan') {
     q = q.replace('<START_PROPERTY>', facetConfig.startProperty)
     q = q.replace('<END_PROPERTY>', facetConfig.endProperty)
   }
-  // if (facetID === 'owner') {
+  // if (facetID === 'productionPlace') {
   //   console.log(endpoint.prefixes + q)
   // }
   const response = await runSelectQuery({
@@ -136,7 +150,6 @@ export const getFacet = async ({
     endpoint: endpoint.url,
     useAuth: endpoint.useAuth,
     resultMapper: mapper,
-    // previousSelections,
     resultFormat
   })
   if (facetConfig.type === 'hierarchical') {
@@ -180,7 +193,8 @@ const generateSelectedNoHitsBlock = ({
   backendSearchConfig,
   facetClass,
   facetID,
-  constraints
+  constraints,
+  constrainSelf
 }) => {
   const noHitsFilter = generateConstraintsBlock({
     backendSearchConfig,
@@ -188,12 +202,13 @@ const generateSelectedNoHitsBlock = ({
     constraints: constraints,
     filterTarget: 'instance',
     facetID: facetID,
-    inverse: true
+    inverse: true,
+    constrainSelf
   })
   return `
   UNION
-  {
   # facet values that have been selected but return no results
+  {
     VALUES ?id { <${getUriFilters(constraints, facetID).join('> <')}> }
     ${noHitsFilter}
     BIND(true AS ?selected_)

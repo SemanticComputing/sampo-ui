@@ -230,11 +230,11 @@ class HierarchicalFacet extends Component {
                 node.instanceCount === 0 &&
                 node.selected === 'false') ||
                 // prevent selecting unknown value:
-                node.id === 'http://ldf.fi/MISSING_VALUE' ||
+                // node.id === 'http://ldf.fi/MISSING_VALUE' ||
                 // prevent selecting when another facet is still updating:
                 this.props.someFacetIsFetching ||
                 // prevent selecting all facet values when there is a logical OR between the selections:
-                (this.props.facet.useConjuction && !isSelected && selectedCount >= this.props.facet.distinctValueCount - 1) ||
+                (!this.props.facet.useConjuction && !isSelected && selectedCount >= this.props.facet.distinctValueCount - 1) ||
                 // prevent selecting when parent has been selected
                 node.disabled === 'true'
               }

@@ -78,7 +78,7 @@ export const facetValuesQuery = `
           VALUES ?facetClass { <FACET_CLASS> }
           ?instance a ?facetClass .
           FILTER NOT EXISTS {
-            ?instance <PREDICATE> [] .
+            ?instance <MISSING_PREDICATE> [] .
           }
         }
       }
@@ -86,7 +86,7 @@ export const facetValuesQuery = `
       BIND(IRI("http://ldf.fi/MISSING_VALUE") AS ?id)
       BIND("Unknown" AS ?prefLabel)
       BIND('0' as ?parent)
-      BIND(false as ?selected)
+      BIND(<UNKNOWN_SELECTED> as ?selected)
     }
   }
   <ORDER_BY>

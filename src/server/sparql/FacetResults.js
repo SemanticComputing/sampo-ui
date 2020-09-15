@@ -74,6 +74,7 @@ export const getAllResults = ({
       facetID: null
     }))
   }
+  q = q.replace(/<FACET_CLASS>/g, backendSearchConfig[config.perspectiveID].facetClass)
   if (has(config, 'useNetworkAPI') && config.useNetworkAPI) {
     return runNetworkQuery({
       endpoint: endpoint.url,
@@ -88,6 +89,7 @@ export const getAllResults = ({
     if (uri !== null) {
       q = q.replace('<ID>', `<${uri}>`)
     }
+    // console.log(endpoint.prefixes + q)
     return runSelectQuery({
       query: endpoint.prefixes + q,
       endpoint: endpoint.url,
@@ -112,7 +114,6 @@ export const getResultCount = async ({
   } else {
     endpoint = backendSearchConfig[config.perspectiveID].endpoint
   }
-  q = q.replace('<FACET_CLASS>', config.facetClass)
   if (constraints == null) {
     q = q.replace('<FILTER>', '# no filters')
   } else {
@@ -126,6 +127,7 @@ export const getResultCount = async ({
       filterTripleFirst: true
     }))
   }
+  q = q.replace(/<FACET_CLASS>/g, config.facetClass)
   // console.log(endpoint.prefixes + q)
   const response = await runSelectQuery({
     query: endpoint.prefixes + q,
@@ -171,7 +173,7 @@ const getPaginatedData = ({
       facetID: null
     }))
   }
-  q = q.replace('<FACET_CLASS>', config.facetClass)
+  q = q.replace(/<FACET_CLASS>/g, config.facetClass)
   if (sortBy == null) {
     q = q.replace('<ORDER_BY_TRIPLE>', '')
     q = q.replace('<ORDER_BY>', '# no sorting')
