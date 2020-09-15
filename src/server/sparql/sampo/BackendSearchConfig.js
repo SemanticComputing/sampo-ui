@@ -64,56 +64,56 @@ export const backendSearchConfig = {
   finds: findsConfig,
   emloActors: actorsConfig,
   manuscripts: {
-    perspectiveID: 'perspective1', // use endpoint config from perspective1
+    perspectiveID: 'perspective1', // get rest of the config from 'perspective1'
     instance: {
       properties: manuscriptPropertiesInstancePage,
       relatedInstances: ''
     }
   },
   works: {
-    perspectiveID: 'perspective1', // use endpoint config from perspective1
+    perspectiveID: 'perspective1',
     instance: {
       properties: workProperties,
       relatedInstances: ''
     }
   },
   events: {
-    perspectiveID: 'perspective1', // use endpoint config from perspective1
+    perspectiveID: 'perspective1', 
     instance: {
       properties: eventProperties,
       relatedInstances: ''
     }
   },
   actors: {
-    perspectiveID: 'perspective1', // use endpoint config from perspective1
+    perspectiveID: 'perspective1',
     instance: {
       properties: actorProperties,
       relatedInstances: ''
     }
   },
   places: {
-    perspectiveID: 'perspective1', // use endpoint config from perspective1
+    perspectiveID: 'perspective1',
     instance: {
       properties: placePropertiesInstancePage,
       relatedInstances: ''
     }
   },
   expressions: {
-    perspectiveID: 'perspective1', // use endpoint config from perspective1
+    perspectiveID: 'perspective1',
     instance: {
       properties: expressionProperties,
       relatedInstances: ''
     }
   },
   collections: {
-    perspectiveID: 'perspective1', // use endpoint config from perspective1
+    perspectiveID: 'perspective1',
     instance: {
       properties: collectionProperties,
       relatedInstances: ''
     }
   },
   placesMsProduced: {
-    perspectiveID: 'perspective1', // use endpoint config from perspective1
+    perspectiveID: 'perspective1',
     q: productionPlacesQuery,
     filterTarget: 'manuscripts',
     resultMapper: mapPlaces,
