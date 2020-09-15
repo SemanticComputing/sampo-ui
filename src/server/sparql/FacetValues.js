@@ -140,12 +140,12 @@ export const getFacet = async ({
   q = q.replace(/<FACET_CLASS>/g, backendSearchConfig[facetClass].facetClass)
   q = q.replace('<UNKNOWN_SELECTED>', unknownSelected)
   q = q.replace('<MISSING_PREDICATE>', facetConfig.predicate)
-  q = q.replace('<PREDICATE>', facetConfig.predicate)
+  q = q.replace(/<PREDICATE>/g, facetConfig.predicate)
   if (facetConfig.type === 'timespan') {
     q = q.replace('<START_PROPERTY>', facetConfig.startProperty)
     q = q.replace('<END_PROPERTY>', facetConfig.endProperty)
   }
-  // if (facetID === 'collection') {
+  // if (facetID === 'productionTimespan') {
   //   console.log(endpoint.prefixes + q)
   // }
   const response = await runSelectQuery({
