@@ -183,16 +183,19 @@ const getPaginatedData = ({
       sortByPredicate = sortDirection === 'asc'
         ? config.facets[sortBy].sortByAscPredicate
         : config.facets[sortBy].sortByDescPredicate
+    } else if (has(config.facets[sortBy], 'orderByPattern')) {
+      q = q.replace('<ORDER_BY_TRIPLE>', config.facets[sortBy].orderByPattern)
     } else {
       sortByPredicate = config.facets[sortBy].labelPath
-    }
-    q = q.replace('<ORDER_BY_TRIPLE>',
+      q = q.replace('<ORDER_BY_TRIPLE>',
       `OPTIONAL { ?id ${sortByPredicate} ?orderBy }`)
+    }
     q = q.replace('<ORDER_BY>',
       `ORDER BY (!BOUND(?orderBy)) ${sortDirection}(?orderBy)`)
   }
   q = q.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`)
   q = q.replace('<RESULT_SET_PROPERTIES>', config.paginatedResults.properties)
+  console.log(endpoint.prefixes + q)
   return runSelectQuery({
     query: endpoint.prefixes + q,
     endpoint: endpoint.url,
