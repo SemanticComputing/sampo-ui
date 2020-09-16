@@ -308,6 +308,42 @@ export const perspectiveConfig = [
     ]
   },
   {
+    id: 'hellerau',
+    isHidden: true,
+    frontPageImage: null,
+    perspectiveDescHeight: 160,
+    defaultActiveFacets: new Set(['prefLabel']),
+    tabs: [
+      {
+        id: 'table',
+        value: 0,
+        icon: <CalendarViewDayIcon />
+      },
+      {
+        id: 'migrations',
+        value: 1,
+        icon: <RedoIcon />
+      },
+      {
+        id: 'export',
+        value: 2,
+        icon: <CloudDownloadIcon />
+      }
+    ],
+    instancePageTabs: [
+      {
+        id: 'table',
+        value: 0,
+        icon: <CalendarViewDayIcon />
+      },
+      {
+        id: 'export',
+        value: 1,
+        icon: <CloudDownloadIcon />
+      }
+    ]
+  },
+  {
     id: 'clientFSPlaces',
     frontPageImage: placesImage,
     defaultActiveFacets: new Set(['prefLabel']),

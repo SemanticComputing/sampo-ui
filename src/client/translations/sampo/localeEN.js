@@ -1939,6 +1939,124 @@ export default {
         }
       }
     },
+    hellerau: {
+      label: 'Hellerau',
+      facetResultsType: 'people',
+      shortDescription: 'Description',
+      longDescription: `
+        <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+          Use this perspective to access data related to events associated with the
+          histories of manuscripts and manuscript collections over the centuries.
+          See <a href="/instructions">instructions</a> for using the filters.
+          The result view can be selected using the tabs:
+        </p>
+        <ul class="MuiTypography-root MuiTypography-body1">
+          <li>
+            <strong>TABLE</STRONG> view includes all events in the MMM data.
+          </li>
+          <li>
+            <strong>MAP</STRONG> view visualizes the events that have location information on a map.
+          </li>
+          <li>
+            <strong>EXPORT</strong> the SPARQL query used to generate the result
+            table view into YASGUI query editor.
+          </li>
+        </ul>
+      `,
+      instancePage: {
+        label: 'Place',
+        description: `
+          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+            Events refer to various activities related to Manuscripts and Actors. Event
+            types include Production, Transfer of Custody, and Activity events.
+            Production events refer to the production of the physical manuscript.
+            Transfer of Custody events indicate a change of ownership that involved
+            a transaction of some kind, usually through an auction house or bookseller.
+            The generic Activity event type covers all other types of events.
+          </p>
+        `
+      },
+      properties: {
+        uri: {
+          label: 'URI',
+          description: 'Uniform Resource Identifier'
+        },
+        type: {
+          label: 'Type',
+          description: `
+            Distinguish between “Transfer of Custody”, “Production”, and other
+            types of “Activity” events.
+          `
+        },
+        prefLabel: {
+          label: 'Label',
+          description: `
+            Preferable place label.
+          `
+        },
+        country: {
+          label: 'Country',
+          description: `
+            Related country.
+          `
+        },
+        broader: {
+          label: 'Parent place',
+          description: `
+          Parent place, e.g. a municipality, county or country.
+          `
+        },
+        narrower: {
+          label: 'Places within',
+          description: `
+            Smaller places, e.g. towns and villages contained within the place.
+          `
+        },
+        place: {
+          label: 'Place',
+          description: `
+            The specific place(s) associated with the event.
+          `
+        },
+        placeType: {
+          label: 'Place type',
+          description: `
+            The type of the specific place(s) associated with the event.
+          `
+        },
+        note: {
+          label: 'Note',
+          description: `
+            Note
+          `
+        },
+        surrender: {
+          label: 'Custody surrendered by',
+          description: `
+            Custody surrendered by
+          `
+        },
+        receiver: {
+          label: 'Custody received by',
+          description: `
+            Custody received by
+          `
+        },
+        observedOwner: {
+          label: 'Observed owner',
+          description: `
+            Observed owner
+          `
+        },
+        source: {
+          label: 'Source',
+          description: `
+            The source database (Schoenberg, Bibale, and Bodleian) that provided
+            the information about the event.
+          `
+        }
+      }
+    },
     clientFSPlaces: {
       label: 'ClientFS',
       shortDescription: 'Client-side faceted search',

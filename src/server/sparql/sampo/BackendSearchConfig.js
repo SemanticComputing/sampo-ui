@@ -3,6 +3,7 @@ import { perspective2Config } from './perspective_configs/Perspective2Config'
 import { perspective3Config } from './perspective_configs/Perspective3Config'
 import { findsConfig } from './perspective_configs/FindsConfig'
 import { actorsConfig } from './perspective_configs/EmloActorsConfig'
+import { hellerauConfig } from './perspective_configs/HellerauConfig'
 import {
   productionPlacesQuery,
   lastKnownLocationsQuery,
@@ -48,6 +49,7 @@ import {
   emloPlacePropertiesInfoWindow,
   emloPeopleRelatedTo
 } from './sparql_queries/SparqlQueriesEmloPlaces'
+import { hellerauMigrationsQuery } from './sparql_queries/SparqlQueriesHellerau'
 import { federatedSearchDatasets } from './sparql_queries/SparqlQueriesFederatedSearch'
 import { fullTextSearchProperties } from './sparql_queries/SparqlQueriesFullText'
 import { makeObjectList } from '../SparqlObjectMapper'
@@ -63,6 +65,7 @@ export const backendSearchConfig = {
   perspective3: perspective3Config,
   finds: findsConfig,
   emloActors: actorsConfig,
+  hellerau: hellerauConfig,
   manuscripts: {
     perspectiveID: 'perspective1', // get rest of the config from 'perspective1'
     instance: {
@@ -78,7 +81,7 @@ export const backendSearchConfig = {
     }
   },
   events: {
-    perspectiveID: 'perspective1', 
+    perspectiveID: 'perspective1',
     instance: {
       properties: eventProperties,
       relatedInstances: ''
@@ -212,6 +215,12 @@ export const backendSearchConfig = {
     q: emloSentReceivedQuery,
     // filterTarget: 'id',
     resultMapper: mapMultipleLineChart
+  },
+  hellerauMigrations: {
+    perspectiveID: 'hellerau',
+    q: hellerauMigrationsQuery,
+    filterTarget: 'person__id',
+    resultMapper: makeObjectList
   },
   perspective1KnowledgeGraphMetadata: {
     perspectiveID: 'perspective1',

@@ -16,5 +16,8 @@ export const prefixes = `
   PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
   PREFIX spatial: <http://jena.apache.org/spatial#>
   PREFIX text: <http://jena.apache.org/text#>
-  PREFIX sd: <http://www.w3.org/ns/sparql-service-description#> 
+  PREFIX sd: <http://www.w3.org/ns/sparql-service-description#>
+  PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+  PREFIX h-schema: <http://ldf.fi/schema/hellerau/> 
+  PREFIX gn: <http://www.geonames.org/ontology#>
 `
