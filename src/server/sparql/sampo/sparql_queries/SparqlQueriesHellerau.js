@@ -35,6 +35,6 @@ export const hellerauMigrationsQuery = `
     ?to__id gn:name ?to__prefLabel ;
             wgs84:lat ?to__lat ;
             wgs84:long ?to__long .
-    BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "https://sws.geonames.org", "--->"))) as ?id)
+    BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "https://sws.geonames.org", "--"))) as ?id)
   }
 `

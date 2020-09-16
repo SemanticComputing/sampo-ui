@@ -28,10 +28,18 @@ export const hellerauConfig = {
       type: 'text'
     },
     home1930: {
-      labelPath: 'h-schema:home_1930/gn:name'
+      id: 'home1930',
+      predicate: 'h-schema:home_1930',
+      labelPath: 'h-schema:home_1930/gn:name',
+      facetValueFilter: '',
+      type: 'list'
     },
     home1937: {
-      labelPath: 'h-schema:home_1937/gn:name'
+      id: 'home1937',
+      predicate: 'h-schema:home_1937',
+      labelPath: 'h-schema:home_1937/gn:name',
+      facetValueFilter: '',
+      type: 'list'
     }
   }
 }
