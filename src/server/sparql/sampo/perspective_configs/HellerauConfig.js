@@ -32,6 +32,7 @@ export const hellerauConfig = {
       predicate: 'h-schema:home_1930',
       labelPath: 'h-schema:home_1930/gn:name',
       facetValueFilter: '',
+      facetLabelPredicate: 'gn:name',
       type: 'list'
     },
     home1937: {
@@ -39,6 +40,7 @@ export const hellerauConfig = {
       predicate: 'h-schema:home_1937',
       labelPath: 'h-schema:home_1937/gn:name',
       facetValueFilter: '',
+      facetLabelPredicate: 'gn:name',
       type: 'list'
     }
   }
