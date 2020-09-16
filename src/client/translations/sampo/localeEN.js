@@ -1963,96 +1963,40 @@ export default {
           </li>
         </ul>
       `,
-      instancePage: {
-        label: 'Place',
-        description: `
-          <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
-            Events refer to various activities related to Manuscripts and Actors. Event
-            types include Production, Transfer of Custody, and Activity events.
-            Production events refer to the production of the physical manuscript.
-            Transfer of Custody events indicate a change of ownership that involved
-            a transaction of some kind, usually through an auction house or bookseller.
-            The generic Activity event type covers all other types of events.
-          </p>
-        `
-      },
+      // instancePage: {
+      //   label: 'Place',
+      //   description: `
+      //     <p class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph">
+      //       Events refer to various activities related to Manuscripts and Actors. Event
+      //       types include Production, Transfer of Custody, and Activity events.
+      //       Production events refer to the production of the physical manuscript.
+      //       Transfer of Custody events indicate a change of ownership that involved
+      //       a transaction of some kind, usually through an auction house or bookseller.
+      //       The generic Activity event type covers all other types of events.
+      //     </p>
+      //   `
+      // },
       properties: {
         uri: {
           label: 'URI',
           description: 'Uniform Resource Identifier'
         },
-        type: {
-          label: 'Type',
-          description: `
-            Distinguish between “Transfer of Custody”, “Production”, and other
-            types of “Activity” events.
-          `
-        },
         prefLabel: {
-          label: 'Label',
+          label: 'Name',
           description: `
             Preferable place label.
           `
         },
-        country: {
-          label: 'Country',
+        home1930: {
+          label: 'Hometown 1930',
           description: `
-            Related country.
+            Hometown 1930 description.
           `
         },
-        broader: {
-          label: 'Parent place',
+        home1937: {
+          label: 'Hometown 1937',
           description: `
-          Parent place, e.g. a municipality, county or country.
-          `
-        },
-        narrower: {
-          label: 'Places within',
-          description: `
-            Smaller places, e.g. towns and villages contained within the place.
-          `
-        },
-        place: {
-          label: 'Place',
-          description: `
-            The specific place(s) associated with the event.
-          `
-        },
-        placeType: {
-          label: 'Place type',
-          description: `
-            The type of the specific place(s) associated with the event.
-          `
-        },
-        note: {
-          label: 'Note',
-          description: `
-            Note
-          `
-        },
-        surrender: {
-          label: 'Custody surrendered by',
-          description: `
-            Custody surrendered by
-          `
-        },
-        receiver: {
-          label: 'Custody received by',
-          description: `
-            Custody received by
-          `
-        },
-        observedOwner: {
-          label: 'Observed owner',
-          description: `
-            Observed owner
-          `
-        },
-        source: {
-          label: 'Source',
-          description: `
-            The source database (Schoenberg, Bibale, and Bodleian) that provided
-            the information about the event.
+            Hometown 1937 description.
           `
         }
       }

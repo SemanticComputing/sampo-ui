@@ -2,9 +2,17 @@ const perspectiveID = 'hellerau'
 
 export const personPropertiesFacetResults =
 `   {
-      ?id skos:prefLabel ?prefLabel__id .
-      BIND (?prefLabel__id as ?prefLabel__prefLabel)
-      BIND(CONCAT("/${perspectiveID}/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
+      ?id skos:prefLabel ?prefLabel .
+      # BIND (?prefLabel__id as ?prefLabel__prefLabel)
+      # BIND(CONCAT("/${perspectiveID}/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
+    }
+    UNION 
+    {
+      ?id h-schema:home_1930/gn:name ?home1930 .
+    }
+    UNION
+    {
+      ?id h-schema:home_1937/gn:name ?home1937 .
     }
 `
 

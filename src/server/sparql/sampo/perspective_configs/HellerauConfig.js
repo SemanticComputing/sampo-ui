@@ -6,8 +6,8 @@ import { prefixes } from '../sparql_queries/SparqlQueriesPrefixes'
 
 export const hellerauConfig = {
   endpoint: {
-    // url: 'https://ldf.fi/sualt-fha-finds/sparql',
-    url: 'http://localhost:3037/ds/sparql',
+    url: 'https://ldf.fi/hellerau/sparql',
+    // url: 'http://localhost:3037/ds/sparql',
     prefixes,
     useAuth: false
   },
@@ -26,6 +26,12 @@ export const hellerauConfig = {
       textQueryPredicate: '', // empty for querying the facetClass
       textQueryProperty: '',
       type: 'text'
+    },
+    home1930: {
+      labelPath: 'h-schema:home_1930/gn:name'
+    },
+    home1937: {
+      labelPath: 'h-schema:home_1937/gn:name'
     }
   }
 }
