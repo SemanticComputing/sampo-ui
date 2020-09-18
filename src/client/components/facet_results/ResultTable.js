@@ -255,6 +255,9 @@ class ResultTable extends React.Component {
             toolbar: classes.paginationToolbar
           }}
           count={resultCount}
+          labelDisplayedRows={resultCount == null
+            ? () => '-'
+            : ({ from, to, count }) => `${from}-${to} of ${count}`}
           rowsPerPage={pagesize}
           labelRowsPerPage={intl.get('table.rowsPerPage')}
           rowsPerPageOptions={[5, 10, 15, 25, 30, 50, 100]}

@@ -12,6 +12,7 @@ export const fetchResults = state => {
 export const fetchResultCount = state => {
   return {
     ...state,
+    resultCount: null,
     fetchingResultCount: true
   }
 }
