@@ -346,7 +346,7 @@ FacetBar.propTypes = {
   facetResults: PropTypes.object,
   facetClass: PropTypes.string.isRequired,
   resultClass: PropTypes.string.isRequired,
-  resultCount: PropTypes.number.isRequired,
+  resultCount: PropTypes.number,
   fetchingResultCount: PropTypes.bool.isRequired,
   fetchFacet: PropTypes.func,
   fetchFacetConstrainSelf: PropTypes.func,
