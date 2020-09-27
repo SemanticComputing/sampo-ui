@@ -254,7 +254,7 @@ class ResultTable extends React.Component {
             caption: classes.paginationCaption,
             toolbar: classes.paginationToolbar
           }}
-          count={resultCount}
+          count={resultCount == null ? 0 : resultCount}
           labelDisplayedRows={resultCount == null
             ? () => '-'
             : ({ from, to, count }) => `${from}-${to} of ${count}`}
