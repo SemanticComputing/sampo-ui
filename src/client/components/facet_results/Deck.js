@@ -211,7 +211,6 @@ class Deck extends React.Component {
             layers={[layer]}
             getCursor={() => 'initial'}
           />
-          />
           {this.renderSpinner()}
           {layerType === 'arcLayer' &&
             <MigrationsMapDialog
