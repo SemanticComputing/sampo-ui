@@ -6,6 +6,7 @@ import { ArcLayer } from '@deck.gl/layers'
 import { HeatmapLayer, HexagonLayer } from '@deck.gl/aggregation-layers'
 import ReactMapGL, { NavigationControl, FullscreenControl, HTMLOverlay } from 'react-map-gl'
 import MigrationsMapDialog from '../perspectives/sampo/MigrationsMapDialog'
+import MigrationsMapTooltip from '../perspectives/sampo/MigrationsMapTooltip'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { purple } from '@material-ui/core/colors'
 
@@ -61,7 +62,8 @@ class Deck extends React.Component {
     dialog: {
       open: false,
       data: null
-    }
+    },
+    hoverInfo: null
   }
 
   componentDidMount = () => {
@@ -126,7 +128,9 @@ class Deck extends React.Component {
       getTargetColor: [255, 0, 0, 255],
       getSourcePosition: d => this.parseCoordinates(d.from),
       getTargetPosition: d => this.parseCoordinates(d.to),
-      onClick: info => this.setDialog(info)
+      onClick: info => this.setDialog(info),
+      onHover: info => this.setState({ hoverInfo: info }),
+      autoHighlight: true
     })
 
   createHeatmapLayer = data =>
@@ -156,7 +160,9 @@ class Deck extends React.Component {
     })
 
   render () {
-    const { classes, mapBoxAccessToken, mapBoxStyle, layerType, fetching, results } = this.props
+    const { classes, mapBoxAccessToken, mapBoxStyle, layerType, fetching, results, showTooltips } = this.props
+    const { hoverInfo } = this.state
+    const showTooltip = showTooltips && hoverInfo && hoverInfo.object
     const hasData = !fetching && results && results.length > 0 &&
       ((results[0].lat && results[0].long) || (results[0].from && results[0].to))
 
@@ -203,6 +209,8 @@ class Deck extends React.Component {
           <DeckGL
             viewState={this.state.viewport}
             layers={[layer]}
+            getCursor={() => 'initial'}
+          />
           />
           {this.renderSpinner()}
           {layerType === 'arcLayer' &&
@@ -211,6 +219,7 @@ class Deck extends React.Component {
               onClose={this.closeDialog.bind(this)}
               data={this.state.dialog.data}
             />}
+          {showTooltip && <MigrationsMapTooltip data={hoverInfo} />}
         </ReactMapGL>
       </div>
     )
@@ -220,6 +229,8 @@ class Deck extends React.Component {
 Deck.propTypes = {
   classes: PropTypes.object.isRequired,
   results: PropTypes.array,
+  layerType: PropTypes.oneOf(['arcLayer', 'heatmapLayer', 'hexagonLayer']),
+  tooltips: PropTypes.bool,
   mapBoxAccessToken: PropTypes.string.isRequired,
   mapBoxStyle: PropTypes.string.isRequired,
   facetUpdateID: PropTypes.number,

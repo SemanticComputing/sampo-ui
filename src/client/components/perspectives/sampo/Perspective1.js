@@ -129,6 +129,7 @@ const Perspective1 = props => {
             fetching={props.placesResults.fetching}
             legendComponent={<MigrationsMapLegend />}
             layerType='arcLayer'
+            showTooltips
             mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
             mapBoxStyle={MAPBOX_STYLE}
           />}
