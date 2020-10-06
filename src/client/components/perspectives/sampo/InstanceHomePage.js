@@ -11,7 +11,7 @@ import Network from '../../facet_results/Network'
 import ApexChart from '../../facet_results/ApexChart'
 import Export from '../../facet_results/Export'
 import Recommendations from './Recommendations'
-import { coseLayout, cytoscapeStyle } from '../../../configs/sampo/Cytoscape.js/NetworkConfig'
+import { coseLayout, cytoscapeStyle, preprocess } from '../../../configs/sampo/Cytoscape.js/NetworkConfig'
 import { createMultipleLineChartData } from '../../../configs/sampo/ApexCharts/LineChartConfig'
 import { Route, Redirect } from 'react-router-dom'
 import { has } from 'lodash'
@@ -199,6 +199,7 @@ class InstanceHomePage extends React.Component {
                     optimize={5.0}
                     style={cytoscapeStyle}
                     layout={coseLayout}
+                    preprocess={preprocess}
                   />}
               />
               <Route

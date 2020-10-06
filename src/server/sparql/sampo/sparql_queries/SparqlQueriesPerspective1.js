@@ -435,6 +435,14 @@ export const manuscriptNetworkLinksQuery = `
   } 
 `
 
+export const manuscriptFacetResultsNetworkLinksQuery = `
+  SELECT DISTINCT (?manuscript as ?source) ?target ("Author" as ?prefLabel)
+  WHERE {
+    <FILTER>
+    ?manuscript mmm-schema:manuscript_author/^mmm-schema:manuscript_author ?target .
+  }
+`
+
 export const manuscriptNetworkNodesQuery = `
   SELECT DISTINCT ?id ?prefLabel ?class ?href
   WHERE {

@@ -1,21 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
 import history from '../../History'
 import cytoscape from 'cytoscape'
+import purple from '@material-ui/core/colors/purple'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
-const styles = theme => ({
-  root: {
-    height: 400,
-    [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 21px)'
-    }
-  },
-  cyContainer: {
-    width: '100%',
-    height: '100%'
-  }
-})
+const cyContainerStyle = {
+  width: '100%',
+  height: '100%'
+}
+
 class Network extends React.Component {
   constructor (props) {
     super(props)
@@ -65,14 +59,10 @@ class Network extends React.Component {
   }
 
   componentDidUpdate = prevProps => {
-    if (prevProps.resultUpdateID !== this.props.resultUpdateID) {
-      // console.log(this.props.results.elements)
-      this.cy.elements().remove()
-      if (this.props.preprocess) {
-        this.props.preprocess(this.props.results.elements)
-      }
-      this.cy.add(this.props.results.elements)
-      this.cy.layout(this.props.layout).run()
+    // Render the chart again if the raw data has changed
+    if (prevProps.resultUpdateID !== this.props.resultUpdateID ||
+      (prevProps.fetching && !this.props.fetching)) {
+      this.renderCytocape()
     }
     // check if filters have changed
     if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
@@ -83,17 +73,48 @@ class Network extends React.Component {
     }
   }
 
+  renderCytocape = () => {
+    this.cy.elements().remove()
+    if (this.props.preprocess) {
+      this.props.preprocess(this.props.results.elements)
+    }
+    this.cy.add(this.props.results.elements)
+    this.cy.layout(this.props.layout).run()
+  }
+
   render = () => {
+    const { fetching, pageType } = this.props
+    const rootStyle = {
+      width: '100%',
+      backgroundColor: '#fff',
+      borderTop: '1px solid rgba(224, 224, 224, 1)'
+    }
+    if (pageType === 'instancePage') {
+      rootStyle.height = 'calc(100% - 1px)'
+    }
+    if (pageType === 'facetResults') {
+      rootStyle.height = 'calc(100% - 72px)'
+    }
+    const spinnerContainerStyle = {
+      ...rootStyle,
+      display: 'flex',
+      width: '100%',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
     return (
-      <div className={this.props.classes.root}>
-        <div className={this.props.classes.cyContainer} ref={this.cyRef} />
+      <div style={rootStyle}>
+        {fetching &&
+          <div style={spinnerContainerStyle}>
+            <CircularProgress style={{ color: purple[500] }} thickness={5} />
+          </div>}
+        <div style={cyContainerStyle} ref={this.cyRef} />
       </div>
     )
   }
 }
 
 Network.propTypes = {
-  classes: PropTypes.object.isRequired,
   results: PropTypes.object,
   fetchResults: PropTypes.func,
   fetchNetworkById: PropTypes.func,
@@ -106,7 +127,8 @@ Network.propTypes = {
   optimize: PropTypes.number.isRequired,
   style: PropTypes.array.isRequired,
   layout: PropTypes.object.isRequired,
-  preprocess: PropTypes.func
+  preprocess: PropTypes.func,
+  fetching: PropTypes.bool
 }
 
-export default withStyles(styles)(Network)
+export default Network

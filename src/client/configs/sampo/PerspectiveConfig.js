@@ -58,8 +58,13 @@ export const perspectiveConfig = [
         icon: <RedoIcon />
       },
       {
-        id: 'export',
+        id: 'network',
         value: 7,
+        icon: <BubbleChartIcon />
+      },
+      {
+        id: 'export',
+        value: 8,
         icon: <CloudDownloadIcon />
       }
     ],

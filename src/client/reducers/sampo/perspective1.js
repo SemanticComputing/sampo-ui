@@ -260,6 +260,7 @@ const resultClasses = new Set([
   'productionTimespanLineChart',
   'eventLineChart',
   'manuscriptInstancePageNetwork',
+  'manuscriptFacetResultsNetwork',
   'perspective1KnowledgeGraphMetadata'
 ])
 

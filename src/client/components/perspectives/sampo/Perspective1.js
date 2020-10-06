@@ -5,14 +5,16 @@ import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
 import ResultTable from '../../facet_results/ResultTable'
 import LeafletMap from '../../facet_results/LeafletMap'
 import Deck from '../../facet_results/Deck'
+import ApexChart from '../../facet_results/ApexChart'
+import Network from '../../facet_results/Network'
 import Export from '../../facet_results/Export'
 import MigrationsMapLegend from './MigrationsMapLegend'
 import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../../configs/sampo/GeneralConfig'
-import ApexChart from '../../facet_results/ApexChart'
 import {
   createSingleLineChartData,
   createMultipleLineChartData
 } from '../../../configs/sampo/ApexCharts/LineChartConfig'
+import { coseLayout, cytoscapeStyle, preprocess } from '../../../configs/sampo/Cytoscape.js/NetworkConfig'
 
 const Perspective1 = props => {
   const { rootUrl, perspective } = props
@@ -170,6 +172,25 @@ const Perspective1 = props => {
             seriesTitle='Count'
             resultClass='eventLineChart'
             facetClass='perspective1'
+          />}
+      />
+      <Route
+        path={`${rootUrl}/${perspective.id}/faceted-search/network`}
+        render={() =>
+          <Network
+            results={props.facetResults.results}
+            facetUpdateID={props.facetData.facetUpdateID}
+            resultUpdateID={props.facetResults.resultUpdateID}
+            fetchResults={props.fetchResults}
+            fetching={props.facetResults.fetching}
+            resultClass='manuscriptFacetResultsNetwork'
+            facetClass='perspective1'
+            limit={500}
+            optimize={1.2}
+            style={cytoscapeStyle}
+            layout={coseLayout}
+            preprocess={preprocess}
+            pageType='facetResults'
           />}
       />
       <Route

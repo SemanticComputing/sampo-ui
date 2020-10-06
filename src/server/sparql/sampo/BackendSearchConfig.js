@@ -14,6 +14,7 @@ import {
   productionsByDecadeQuery,
   eventsByDecadeQuery,
   manuscriptNetworkLinksQuery,
+  manuscriptFacetResultsNetworkLinksQuery,
   manuscriptNetworkNodesQuery,
   knowledgeGraphMetadataQuery
 } from './sparql_queries/SparqlQueriesPerspective1'
@@ -167,6 +168,13 @@ export const backendSearchConfig = {
     perspectiveID: 'perspective1',
     q: manuscriptNetworkLinksQuery,
     nodes: manuscriptNetworkNodesQuery,
+    useNetworkAPI: true
+  },
+  manuscriptFacetResultsNetwork: {
+    perspectiveID: 'perspective1',
+    q: manuscriptFacetResultsNetworkLinksQuery,
+    nodes: manuscriptNetworkNodesQuery,
+    filterTarget: 'manuscript',
     useNetworkAPI: true
   },
   findsPlaces: {
