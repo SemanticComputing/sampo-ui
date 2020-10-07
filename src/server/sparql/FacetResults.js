@@ -179,6 +179,7 @@ const getPaginatedData = ({
   } else {
     let sortByPredicate = ''
     if (sortBy.endsWith('Timespan')) {
+      q = q.replace('<ORDER_BY_TRIPLE>', '')
       sortByPredicate = sortDirection === 'asc'
         ? config.facets[sortBy].sortByAscPredicate
         : config.facets[sortBy].sortByDescPredicate
