@@ -403,6 +403,37 @@ paths:
             application/json:
               schema:
                 type: array
+  /nls-wmts:
+    get:
+      summary: Route for password protected WMTS layers. 
+      parameters:
+        - in: query
+          name: layerID
+          schema: 
+            type: string
+          required: true
+        - in: query
+          name: x
+          schema: 
+            type: string
+          required: true
+        - in: query
+          name: y 
+          schema: 
+            type: string
+          required: true
+        - in: query
+          name: z
+          schema: 
+            type: string
+          required: true  
+      responses:
+        '200':
+          description: An array of GeoJSON layers.
+          content:
+            application/json:
+              schema:
+                type: array              
   /void/{perspectiveID}:
     get:
       summary: Retrieve a VoID description

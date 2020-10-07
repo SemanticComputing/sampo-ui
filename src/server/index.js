@@ -3,6 +3,7 @@ import fs from 'fs'
 import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
+import axios from 'axios'
 import { has, castArray } from 'lodash'
 import {
   getResultCount,
@@ -231,6 +232,35 @@ new OpenApiValidator({
           resultFormat: req.query.resultFormat == null ? 'json' : req.query.resultFormat
         })
         res.json(data)
+      } catch (error) {
+        next(error)
+      }
+    })
+
+    app.get(`${apiPath}/wfs`, async (req, res, next) => {
+      const layerIDs = castArray(req.query.layerID)
+      try {
+        const data = await Promise.all(layerIDs.map(layerID => fetchGeoJSONLayer({ layerID })))
+        res.json(data)
+      } catch (error) {
+        next(error)
+      }
+    })
+
+    app.get(`${apiPath}/nls-wmts`, async (req, res, next) => {
+      const url = `https://karttakuva.maanmittauslaitos.fi/maasto/wmts/1.0.0/${req.query.layerID}/default/WGS84_Pseudo-Mercator/${req.query.z}/${req.query.y}/${req.query.x}.png`
+      const headers = {
+        'Content-Type': 'image/png',
+        Authorization: `Basic ${process.env.NLS_WMTS_BASIC_AUTH}`
+      }
+      try {
+        const response = await axios({
+          method: 'get',
+          url,
+          responseType: 'arraybuffer',
+          headers
+        })
+        res.end(response.data, 'base64')
       } catch (error) {
         next(error)
       }

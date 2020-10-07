@@ -7,6 +7,7 @@ import { has, orderBy, isEqual } from 'lodash'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { purple } from '@material-ui/core/colors'
 import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../configs/sampo/GeneralConfig'
+// import { apiUrl } from '../../epics'
 import 'leaflet/dist/leaflet.css' // Official Leaflet styles
 import './LeafletMap.css' // Customizations to Leaflet styles
 
@@ -195,15 +196,21 @@ class LeafletMap extends React.Component {
       tileSize: 512,
       zoomOffset: -1
     })
+
+    /*
+      Password protected base layers from https://www.maanmittauslaitos.fi/karttakuvapalvelu/tekninen-kuvaus-wmts
+      Routed via backend.
+    */
+    // const backgroundMapNLS = L.tileLayer(`${apiUrl}/nls-wmts?z={z}&x={x}&y={y}&layerID=taustakartta`, {
+    //   attribution: 'National Land Survey of Finland',
+    //   maxZoom: 18
+    // })
+    // const topographicalMapNLS = L.tileLayer(`${apiUrl}/nls-wmts?z={z}&x={x}&y={y}&layerID=maastokartta`, {
+    //   attribution: 'National Land Survey of Finland',
+    //   maxZoom: 18
+    // })
     // const googleRoadmap = L.gridLayer.googleMutant({
     //   type: 'roadmap'
-    // })
-    // const topographicalMapNLS = L.tileLayer(this.createNLSUrl('maastokartta'), {
-    //   attribution: 'National Land Survey of Finland'
-    // })
-    // // https://www.maanmittauslaitos.fi/kartat-ja-paikkatieto/asiantuntevalle-kayttajalle/kartta-ja-paikkatietojen-rajapintapalvelut-19
-    // const backgroundMapNLS = L.tileLayer(this.createNLSUrl('taustakartta'), {
-    //   attribution: 'National Land Survey of Finland'
     // })
 
     // layer for markers
@@ -227,9 +234,9 @@ class LeafletMap extends React.Component {
     if (this.props.showExternalLayers) {
       const basemaps = {
         [intl.get(`leafletMap.basemaps.mapbox.${MAPBOX_STYLE}`)]: mapboxBaseLayer
+        // [intl.get('leafletMap.basemaps.backgroundMapNLS')]: backgroundMapNLS,
+        // [intl.get('leafletMap.basemaps.topographicalMapNLS')]: topographicalMapNLS
         // [intl.get('leafletMap.basemaps.googleRoadmap')]: googleRoadmap,
-        // [intl.get('leafletMap.basemaps.topographicalMapNLS')]: topographicalMapNLS,
-        // [intl.get('leafletMap.basemaps.backgroundMapNLS')]: backgroundMapNLS
       }
       this.initOverLays(basemaps)
     }
@@ -249,14 +256,6 @@ class LeafletMap extends React.Component {
         this.props.updateMapBounds(this.boundsToValues())
       })
     }
-  }
-
-  createNLSUrl = layerID => {
-    // return 'https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/' +
-    // layerID + '/default/WGS84_Pseudo-Mercator/{z}/{x}/{y}.png';
-    return 'https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts?service=WMTS' +
-      '&request=GetTile&version=1.0.0&layer=' + layerID + '&style=default' +
-      '&format=image/png&TileMatrixSet=WGS84_Pseudo-Mercator&TileMatrix={z}&TileRow={y}&TileCol={x}'
   }
 
   boundsToValues = () => {
