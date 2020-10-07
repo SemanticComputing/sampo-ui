@@ -4,14 +4,15 @@ A framework for building user interfaces for semantic portals.
 
 The following portals use this repository as a base:
 
-* [NameSampo](https://github.com/SemanticComputing/nimisampo.fi)
-* [Mapping Manuscript Migrations](https://github.com/mapping-manuscript-migrations/mmm-web-app)
-* [WarVictimSampo 1914&ndash;1922](https://github.com/SemanticComputing/sotasurmat-web-app)
-* [LawSampo](https://github.com/SemanticComputing/lawsampo-web-app)
-* [AcademySampo](https://github.com/SemanticComputing/academysampo-web-app)
-* [FindSampo](https://github.com/SemanticComputing/findsampo-web-app) 
-* [HistorySampo](https://github.com/SemanticComputing/historysampo-web-app) 
-* ParliamentSampo (TBA)
+1. [NameSampo](https://github.com/SemanticComputing/nimisampo.fi)
+2. [Mapping Manuscript Migrations](https://github.com/mapping-manuscript-migrations/mmm-web-app)
+3. [WarVictimSampo 1914&ndash;1922](https://github.com/SemanticComputing/sotasurmat-web-app)
+4. [LawSampo](https://github.com/SemanticComputing/lawsampo-web-app)
+5. [AcademySampo](https://github.com/SemanticComputing/academysampo-web-app)
+6. [FindSampo](https://github.com/SemanticComputing/findsampo-web-app) 
+7. [HistorySampo](https://github.com/SemanticComputing/historysampo-web-app) 
+8. ParliamentSampo (TBA)
+9. LetterSampo (TBA)
 
 An example deployment generated from this repository is published at [sampo-ui.demo.seco.cs.aalto.fi](https://sampo-ui.demo.seco.cs.aalto.fi). It combines perspectives from the Mapping Manuscript Migrations and NameSampo portals, and can be used for testing and as a starting point for developing new portals. 
 
