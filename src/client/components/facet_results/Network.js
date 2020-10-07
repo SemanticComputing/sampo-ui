@@ -79,7 +79,12 @@ class Network extends React.Component {
       this.props.preprocess(this.props.results.elements)
     }
     this.cy.add(this.props.results.elements)
-    this.cy.layout(this.props.layout).run()
+    if (this.props.layout) {
+      this.cy.layout(this.props.layout).run()
+    }
+    if (this.props.fitLayout) {
+      this.cy.fit()
+    }
   }
 
   render = () => {
@@ -126,9 +131,10 @@ Network.propTypes = {
   limit: PropTypes.number.isRequired,
   optimize: PropTypes.number.isRequired,
   style: PropTypes.array.isRequired,
-  layout: PropTypes.object.isRequired,
+  layout: PropTypes.object,
   preprocess: PropTypes.func,
-  fetching: PropTypes.bool
+  fetching: PropTypes.bool,
+  fitLayout: PropTypes.bool
 }
 
 export default Network
