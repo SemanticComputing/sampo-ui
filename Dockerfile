@@ -1,4 +1,5 @@
 FROM node:10.15.3-alpine
+ARG API_URL
 
 # Create app directory
 RUN mkdir /opt/app && chown node:node /opt/app
@@ -23,7 +24,7 @@ COPY babel.config.js ./
 COPY src ./src
 
 # Run the scripts defined in package.json
-RUN npm install && npm run build
+RUN npm install && API_URL=$API_URL npm run build
 
 EXPOSE 3001
 

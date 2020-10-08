@@ -52,20 +52,15 @@ import {
   SHOW_ERROR
 } from '../actions'
 import {
-  rootUrl,
-  publishedPort,
   documentFinderAPIUrl,
   backendErrorText
 } from '../configs/sampo/GeneralConfig'
 
-// set port if running on localhost with NODE_ENV = 'production'
-const port = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? `:${publishedPort}`
-  : ''
-
-export const apiUrl = (process.env.NODE_ENV === 'development')
-  ? `http://localhost:3001${rootUrl}/api/v1`
-  : `${window.location.protocol}//${window.location.hostname}${port}${rootUrl}/api/v1`
+/*
+* Note that all code inside the 'client' folder runs on the browser, so there is no 'process' object as in Node.js.
+* Instead, the variable 'process.env.API_URL' is defined in 'webpack.client.common.js'.
+*/
+const apiUrl = process.env.API_URL
 
 export const availableLocales = {
   en: localeEN,

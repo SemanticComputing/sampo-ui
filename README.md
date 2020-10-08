@@ -49,10 +49,16 @@ Run client and server concurrently:
 
 `npm run dev`
 
-### Deploy with Docker
+## Deploy with Docker
+
+These example commands can be used to deploy the server at http://localhost:3006/ in **production** mode. Production mode means in this case that the server listens for API requests at URLs beginning with http://localhost:3006/api/v1/... and additionally serves the client (React app) at http://localhost:3006/. The API docs can be found at http://localhost:3006/api-docs/.
+
+Note that in **development** mode Webpack is used for serving the client, and the server is used only for handling API requests. 
+
+The build argument API_URL must be provided.
 
 ### Build
- `docker build -t sampo-web-app-image .`
+ `docker build --build-arg API_URL=http://localhost:3006/api/v1 -t sampo-web-app-image .`
 
 ### Run
  `docker run -d -p 3006:3001 --name sampo-web-app sampo-web-app-image`
@@ -62,7 +68,7 @@ Run client and server concurrently:
 
 ### Upgrade
 ```
-docker build -t sampo-web-app-image .
+docker build --build-arg API_URL=http://localhost:3006/api/v1 -t sampo-web-app-image .
 docker stop sampo-web-app
 docker rm sampo-web-app
 docker run -d -p 3006:3001 --name sampo-web-app sampo-web-app-image
