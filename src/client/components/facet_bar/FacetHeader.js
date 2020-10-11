@@ -317,7 +317,11 @@ class FacetHeader extends React.Component {
             resultClass={`${this.props.facetID}LineChart`}
             facetClass={this.props.facetClass}
             icon={<LineChartIcon />}
-            tooltip={intl.get('facetBar.lineChart')}
+            tooltip={intl.get('facetBar.lineChart.tooltip')}
+            title={intl.get(`facetBar.lineChart.${this.props.facetID}.title`)}
+            xaxisTitle={intl.get(`facetBar.lineChart.${this.props.facetID}.xaxisTitle`)}
+            yaxisTitle={intl.get(`facetBar.lineChart.${this.props.facetID}.yaxisTitle`)}
+            seriesTitle={intl.get(`facetBar.lineChart.${this.props.facetID}.seriesTitle`)}
           />}
         {menuButtons.length > 0 &&
           <>

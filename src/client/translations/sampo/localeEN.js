@@ -66,7 +66,13 @@ export default {
       }
     },
     lineChart: {
-      tooltip: 'Line chart'
+      tooltip: 'Line chart',
+      productionTimespan: {
+        title: 'Manuscript production by decade',
+        xaxisTitle: 'Decade',
+        yaxisTitle: 'Manuscript count',
+        seriesTitle: 'Manuscript count'
+      }
     }
   },
   tabs: {
