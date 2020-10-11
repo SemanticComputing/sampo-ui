@@ -127,6 +127,7 @@ export const INITIAL_STATE = {
       sortDirection: 'desc',
       sortButton: true,
       spatialFilterButton: false,
+      barChartButton: true,
       pieChartButton: true,
       isFetching: false,
       searchField: true,

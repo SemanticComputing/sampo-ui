@@ -52,7 +52,22 @@ export default {
     sortAlphabetically: 'Sort alphabetically',
     sortByNumberOfSearchResults: 'Sort by number of search results',
     useDisjunction: 'Use logical OR between selections',
-    useConjuction: 'Use logical AND between selections'
+    useConjuction: 'Use logical AND between selections',
+    pieChart: {
+      tooltip: 'Pie chart'
+    },
+    barChart: {
+      tooltip: 'Bar chart',
+      language: {
+        title: 'Language',
+        xaxisTitle: 'Language',
+        yaxisTitle: 'Manuscript count',
+        seriesTitle: 'Manuscript count'
+      }
+    },
+    lineChart: {
+      tooltip: 'Line chart'
+    }
   },
   tabs: {
     table: 'table',

@@ -9,7 +9,8 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(theme => ({
   chartContainer: {
     height: 'calc(100% - 30px)',
-    paddingRight: theme.spacing(1)
+
+    padding: theme.spacing(1)
   }
 }))
 
@@ -19,7 +20,10 @@ const useStyles = makeStyles(theme => ({
  */
 const ChartDialog = props => {
   const [open, setOpen] = React.useState(false)
-  const { fetchData, facetID, rawData, rawDataUpdateID, createChartData, facetClass, resultClass, fetching } = props
+  const {
+    fetchData, facetID, rawData, rawDataUpdateID, createChartData, facetClass,
+    resultClass, fetching, tooltip, title, xaxisTitle, yaxisTitle, seriesTitle
+  } = props
   const classes = useStyles()
 
   const handleClickOpen = () => {
@@ -32,9 +36,9 @@ const ChartDialog = props => {
 
   return (
     <>
-      <Tooltip disableFocusListener title='Chart'>
+      <Tooltip disableFocusListener title={tooltip}>
         <IconButton
-          aria-label='Chart'
+          aria-label={tooltip}
           aria-owns={open ? 'facet-option-menu' : undefined}
           aria-haspopup='true'
           onClick={handleClickOpen}
@@ -57,6 +61,10 @@ const ChartDialog = props => {
             rawData={rawData}
             rawDataUpdateID={rawDataUpdateID}
             createChartData={createChartData}
+            title={title}
+            xaxisTitle={xaxisTitle}
+            yaxisTitle={yaxisTitle}
+            seriesTitle={seriesTitle}
           />
         </div>
       </GeneralDialog>
@@ -100,7 +108,14 @@ ChartDialog.propTypes = {
   /**
    * The class of results for server-side configs.
    */
-  resultClass: PropTypes.string
+  resultClass: PropTypes.string,
+  /**
+   * Tooltip text.
+   */
+  tooltip: PropTypes.string.isRequired,
+  xaxisTitle: PropTypes.string,
+  yaxisTitle: PropTypes.string,
+  seriesTitle: PropTypes.string
 }
 
 export default ChartDialog
