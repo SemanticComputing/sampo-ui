@@ -11,6 +11,9 @@ export const perspective1Config = {
     useAuth: false
   },
   facetClass: 'frbroo:F4_Manifestation_Singleton',
+  // defaultConstraint: `
+  //   <SUBJECT> dct:source mmm-schema:Bibale .
+  // `,
   paginatedResults: {
     properties: manuscriptPropertiesFacetResults
   },

@@ -23,19 +23,20 @@ export const getPaginatedResults = ({
   let q = facetResultSetQuery
   const config = backendSearchConfig[resultClass]
   let endpoint
-  if (has(config, 'endpoint')) {
-    endpoint = config.endpoint
+  let defaultConstraint = null
+  if (has(config, 'perspectiveID')) {
+    ({ endpoint, defaultConstraint } = backendSearchConfig[config.perspectiveID])
   } else {
-    endpoint = backendSearchConfig[config.perspectiveID].endpoint
+    ({ endpoint, defaultConstraint } = config)
   }
-  if (constraints == null) {
+  if (constraints == null && defaultConstraint == null) {
     q = q.replace('<FILTER>', '# no filters')
   } else {
     q = q.replace('<FILTER>', generateConstraintsBlock({
       backendSearchConfig,
-      resultClass: resultClass,
-      facetClass: resultClass,
-      constraints: constraints,
+      facetClass: resultClass, // use resultClass as facetClass
+      constraints,
+      defaultConstraint,
       filterTarget: 'id',
       facetID: null
     }))
@@ -87,21 +88,22 @@ export const getAllResults = ({
 }) => {
   const config = backendSearchConfig[resultClass]
   let endpoint
-  if (has(config, 'endpoint')) {
-    endpoint = config.endpoint
+  let defaultConstraint = null
+  if (has(config, 'perspectiveID')) {
+    ({ endpoint, defaultConstraint } = backendSearchConfig[config.perspectiveID])
   } else {
-    endpoint = backendSearchConfig[config.perspectiveID].endpoint
+    ({ endpoint, defaultConstraint } = config)
   }
   const { filterTarget, resultMapper } = config
   let { q } = config
-  if (constraints == null) {
+  if (constraints == null && defaultConstraint == null) {
     q = q.replace('<FILTER>', '# no filters')
   } else {
     q = q.replace('<FILTER>', generateConstraintsBlock({
       backendSearchConfig,
-      resultClass: resultClass,
-      facetClass: facetClass,
-      constraints: constraints,
+      facetClass,
+      constraints,
+      defaultConstraint,
       filterTarget: filterTarget,
       facetID: null
     }))
@@ -141,19 +143,20 @@ export const getResultCount = ({
   let q = countQuery
   const config = backendSearchConfig[resultClass]
   let endpoint
-  if (has(config, 'endpoint')) {
-    endpoint = config.endpoint
+  let defaultConstraint = null
+  if (has(config, 'perspectiveID')) {
+    ({ endpoint, defaultConstraint } = backendSearchConfig[config.perspectiveID])
   } else {
-    endpoint = backendSearchConfig[config.perspectiveID].endpoint
+    ({ endpoint, defaultConstraint } = config)
   }
-  if (constraints == null) {
+  if (constraints == null && defaultConstraint == null) {
     q = q.replace('<FILTER>', '# no filters')
   } else {
     q = q.replace('<FILTER>', generateConstraintsBlock({
       backendSearchConfig,
-      resultClass: resultClass,
-      facetClass: resultClass,
-      constraints: constraints,
+      facetClass: resultClass, // use resultClass as facetClass
+      constraints,
+      defaultConstraint,
       filterTarget: 'id',
       facetID: null,
       filterTripleFirst: true

@@ -38,72 +38,79 @@ export const generateConstraintsBlock = ({
   facetID,
   inverse,
   constrainSelf = false,
-  filterTripleFirst = false
+  filterTripleFirst = false,
+  defaultConstraint = null
 }) => {
   let filterStr = ''
-  const skipFacetID = constrainSelf ? '' : facetID
-  const modifiedConstraints = constraints.filter(facet => facet.facetID !== skipFacetID)
-  modifiedConstraints.sort((a, b) => a.priority - b.priority)
-  modifiedConstraints.map(c => {
-    switch (c.filterType) {
-      case 'textFilter':
-        filterStr += generateTextFilter({
-          backendSearchConfig,
-          facetClass: facetClass,
-          facetID: c.facetID,
-          filterTarget: filterTarget,
-          queryString: c.values,
-          inverse: inverse
-        })
-        break
-      case 'uriFilter':
-        filterStr += generateUriFilter({
-          backendSearchConfig,
-          facetClass: facetClass,
-          facetID: c.facetID,
-          filterTarget: filterTarget,
-          values: c.values,
-          inverse: inverse,
-          filterTripleFirst,
-          selectAlsoSubconcepts: Object.prototype.hasOwnProperty.call(c, 'selectAlsoSubconcepts')
-            ? c.selectAlsoSubconcepts : true, // default behaviour for hierarchical facets, can be controlled via reducers
-          useConjuction: c.useConjuction
-        })
-        break
-      case 'spatialFilter':
-        filterStr += generateSpatialFilter({
-          backendSearchConfig,
-          facetClass: facetClass,
-          facetID: c.facetID,
-          filterTarget: filterTarget,
-          values: c.values,
-          inverse: inverse
-        })
-        break
-      case 'timespanFilter':
-      case 'dateFilter':
-        filterStr += generateTimespanFilter({
-          backendSearchConfig,
-          facetClass: facetClass,
-          facetID: c.facetID,
-          filterTarget: filterTarget,
-          values: c.values,
-          inverse: inverse
-        })
-        break
-      case 'integerFilter':
-      case 'integerFilterRange':
-        filterStr += generateIntegerFilter({
-          backendSearchConfig,
-          facetClass: facetClass,
-          facetID: c.facetID,
-          filterTarget: filterTarget,
-          values: c.values,
-          inverse: inverse
-        })
-        break
-    }
-  })
+  if (constraints !== null) {
+    const skipFacetID = constrainSelf ? '' : facetID
+    const modifiedConstraints = constraints.filter(facet => facet.facetID !== skipFacetID)
+    modifiedConstraints.sort((a, b) => a.priority - b.priority)
+    modifiedConstraints.map(c => {
+      switch (c.filterType) {
+        case 'textFilter':
+          filterStr += generateTextFilter({
+            backendSearchConfig,
+            facetClass: facetClass,
+            facetID: c.facetID,
+            filterTarget: filterTarget,
+            queryString: c.values,
+            inverse: inverse
+          })
+          break
+        case 'uriFilter':
+          filterStr += generateUriFilter({
+            backendSearchConfig,
+            facetClass: facetClass,
+            facetID: c.facetID,
+            filterTarget: filterTarget,
+            values: c.values,
+            inverse: inverse,
+            filterTripleFirst,
+            selectAlsoSubconcepts: Object.prototype.hasOwnProperty.call(c, 'selectAlsoSubconcepts')
+              ? c.selectAlsoSubconcepts : true, // default behaviour for hierarchical facets, can be controlled via reducers
+            useConjuction: c.useConjuction
+          })
+          break
+        case 'spatialFilter':
+          filterStr += generateSpatialFilter({
+            backendSearchConfig,
+            facetClass: facetClass,
+            facetID: c.facetID,
+            filterTarget: filterTarget,
+            values: c.values,
+            inverse: inverse
+          })
+          break
+        case 'timespanFilter':
+        case 'dateFilter':
+          filterStr += generateTimespanFilter({
+            backendSearchConfig,
+            facetClass: facetClass,
+            facetID: c.facetID,
+            filterTarget: filterTarget,
+            values: c.values,
+            inverse: inverse
+          })
+          break
+        case 'integerFilter':
+        case 'integerFilterRange':
+          filterStr += generateIntegerFilter({
+            backendSearchConfig,
+            facetClass: facetClass,
+            facetID: c.facetID,
+            filterTarget: filterTarget,
+            values: c.values,
+            inverse: inverse
+          })
+          break
+      }
+    })
+  }
+  if (defaultConstraint !== null) {
+    const defaultConstraintTriple = defaultConstraint.replace('<SUBJECT>', `?${filterTarget}`)
+    filterStr += defaultConstraintTriple
+  }
   return filterStr
 }
 

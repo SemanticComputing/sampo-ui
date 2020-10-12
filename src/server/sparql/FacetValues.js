@@ -30,7 +30,7 @@ export const getFacet = async ({
   constrainSelf
 }) => {
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
-  const endpoint = backendSearchConfig[facetClass].endpoint
+  const { endpoint, defaultConstraint = null } = backendSearchConfig[facetClass]
   // choose query template and result mapper:
   let q = ''
   let mapper = null
@@ -57,23 +57,28 @@ export const getFacet = async ({
   }
   let selectedBlock = '# no selections'
   let selectedNoHitsBlock = '# no filters from other facets'
-  let filterBlock = '# no filters'
+  let filterBlock
   let parentBlock = '# no parents'
   let parentsForFacetValues = '# no parents for facet values'
   let unknownSelected = 'false'
   let useConjuction = false
   let selectParents = facetConfig.type === 'hierarchical'
   let currentSelectionsWithoutUnknown = []
-  if (constraints !== null) {
+  if (constraints == null && defaultConstraint == null) {
+    filterBlock = '# no filters'
+  } else {
     filterBlock = generateConstraintsBlock({
       backendSearchConfig,
-      facetClass: facetClass,
-      constraints: constraints,
+      facetClass,
+      constraints,
+      defaultConstraint,
       filterTarget: 'instance',
-      facetID: facetID,
+      facetID,
       inverse: false,
       constrainSelf
     })
+  }
+  if (constraints) {
     const currentSelections = getUriFilters(constraints, facetID)
     // If <http://ldf.fi/MISSING_VALUE> is selected, it needs special care
     const { indexOfUnknown, modifiedValues } = handleUnknownValue(currentSelections)
@@ -101,6 +106,7 @@ export const getFacet = async ({
           facetClass,
           facetID,
           constraints,
+          // no defaultConstraint here
           currentSelectionsWithoutUnknown
         })
       }
@@ -113,6 +119,7 @@ export const getFacet = async ({
       facetClass,
       facetID,
       constraints,
+      defaultConstraint,
       parentPredicate,
       currentSelectionsWithoutUnknown
     })
@@ -149,9 +156,9 @@ export const getFacet = async ({
     q = q.replace('<START_PROPERTY>', facetConfig.startProperty)
     q = q.replace('<END_PROPERTY>', facetConfig.endProperty)
   }
-  // if (facetID === 'productionTimespan') {
-  //   console.log(endpoint.prefixes + q)
-  // }
+  if (facetID === 'language') {
+    console.log(endpoint.prefixes + q)
+  }
   const response = await runSelectQuery({
     query: endpoint.prefixes + q,
     endpoint: endpoint.url,
@@ -202,7 +209,7 @@ const generateSelectedNoHitsBlock = ({
   const noHitsFilter = generateConstraintsBlock({
     backendSearchConfig,
     facetClass: facetClass,
-    constraints: constraints,
+    constraints,
     filterTarget: 'instance',
     facetID: facetID,
     inverse: true
@@ -223,16 +230,18 @@ const generateParentBlock = ({
   facetClass,
   facetID,
   constraints,
+  defaultConstraint,
   parentPredicate,
   currentSelectionsWithoutUnknown
 }) => {
   let parentFilterStr = '# no filters'
   let ignoreSelectedValues = '# no selected values'
-  if (constraints !== null) {
+  if (constraints !== null || defaultConstraint !== null) {
     parentFilterStr = generateConstraintsBlock({
       backendSearchConfig,
       facetClass: facetClass,
-      constraints: constraints,
+      constraints,
+      defaultConstraint,
       filterTarget: 'instance2',
       facetID: facetID,
       inverse: false
