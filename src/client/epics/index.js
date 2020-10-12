@@ -94,16 +94,14 @@ const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
     }).pipe(
       map(ajaxResponse =>
         updatePaginatedResults({
-          resultClass: ajaxResponse.response.resultClass,
-          page: ajaxResponse.response.page,
-          pagesize: ajaxResponse.response.pagesize,
+          resultClass,
           data: ajaxResponse.response.data,
           sparqlQuery: ajaxResponse.response.sparqlQuery
         })),
       // https://redux-observable.js.org/docs/recipes/ErrorHandling.html
       catchError(error => of({
         type: FETCH_PAGINATED_RESULTS_FAILED,
-        resultClass: resultClass,
+        resultClass,
         error: error,
         message: {
           text: backendErrorText,
@@ -137,13 +135,13 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
       body: params
     }).pipe(
       map(ajaxResponse => updateResults({
-        resultClass: resultClass,
+        resultClass,
         data: ajaxResponse.response.data,
         sparqlQuery: ajaxResponse.response.sparqlQuery
       })),
       catchError(error => of({
         type: FETCH_RESULTS_FAILED,
-        resultClass: resultClass,
+        resultClass,
         error: error,
         message: {
           text: backendErrorText,
@@ -172,13 +170,13 @@ const fetchResultCountEpic = (action$, state$) => action$.pipe(
       body: params
     }).pipe(
       map(ajaxResponse => updateResultCount({
-        resultClass: ajaxResponse.response.resultClass,
+        resultClass,
         data: ajaxResponse.response.data,
         sparqlQuery: ajaxResponse.response.sparqlQuery
       })),
       catchError(error => of({
         type: FETCH_RESULT_COUNT_FAILED,
-        resultClass: resultClass,
+        resultClass,
         error: error,
         message: {
           text: backendErrorText,
@@ -235,7 +233,7 @@ const fetchByURIEpic = (action$, state$) => action$.pipe(
       body: params
     }).pipe(
       map(ajaxResponse => updateInstanceTable({
-        resultClass: resultClass,
+        resultClass,
         data: ajaxResponse.response.data,
         sparqlQuery: ajaxResponse.response.sparqlQuery
       })),
@@ -276,7 +274,7 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
       body: params
     }).pipe(
       map(ajaxResponse => updateFacetValues({
-        facetClass: facetClass,
+        facetClass,
         id: ajaxResponse.response.id,
         data: ajaxResponse.response.data || [],
         flatData: ajaxResponse.response.flatData || [],
@@ -320,7 +318,7 @@ const fetchFacetConstrainSelfEpic = (action$, state$) => action$.pipe(
       body: params
     }).pipe(
       map(ajaxResponse => updateFacetValuesConstrainSelf({
-        facetClass: facetClass,
+        facetClass,
         id: facetID,
         data: ajaxResponse.response.data || [],
         flatData: ajaxResponse.response.flatData || [],
@@ -328,7 +326,7 @@ const fetchFacetConstrainSelfEpic = (action$, state$) => action$.pipe(
       })),
       catchError(error => of({
         type: FETCH_FACET_FAILED,
-        resultClass: action.facetClass,
+        resultClass: facetClass,
         id: action.id,
         error: error,
         message: {
