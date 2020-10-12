@@ -176,22 +176,24 @@ const getPaginatedData = ({
   if (sortBy == null) {
     q = q.replace('<ORDER_BY_TRIPLE>', '')
     q = q.replace('<ORDER_BY>', '# no sorting')
-  } else {
-    let sortByPredicate = ''
+  }
+  if (sortBy !== null) {
+    let sortByPredicate
     if (sortBy.endsWith('Timespan')) {
-      q = q.replace('<ORDER_BY_TRIPLE>', '')
       sortByPredicate = sortDirection === 'asc'
         ? config.facets[sortBy].sortByAscPredicate
         : config.facets[sortBy].sortByDescPredicate
-    } else if (has(config.facets[sortBy], 'orderByPattern')) {
-      q = q.replace('<ORDER_BY_TRIPLE>', config.facets[sortBy].orderByPattern)
     } else {
       sortByPredicate = config.facets[sortBy].labelPath
-      q = q.replace('<ORDER_BY_TRIPLE>',
-      `OPTIONAL { ?id ${sortByPredicate} ?orderBy }`)
     }
-    q = q.replace('<ORDER_BY>',
-      `ORDER BY (!BOUND(?orderBy)) ${sortDirection}(?orderBy)`)
+    let sortByPattern
+    if (has(config.facets[sortBy], 'orderByPattern')) {
+      sortByPattern = config.facets[sortBy].orderByPattern
+    } else {
+      sortByPattern = `OPTIONAL { ?id ${sortByPredicate} ?orderBy }`
+    }
+    q = q.replace('<ORDER_BY_TRIPLE>', sortByPattern)
+    q = q = q.replace('<ORDER_BY>', `ORDER BY (!BOUND(?orderBy)) ${sortDirection}(?orderBy)`)
   }
   q = q.replace(/<FACET_CLASS>/g, config.facetClass)
   q = q.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`)
