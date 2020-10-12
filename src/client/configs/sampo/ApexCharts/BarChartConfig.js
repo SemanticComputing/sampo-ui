@@ -6,21 +6,24 @@ export const createApexBarChartData = ({
   seriesTitle
 }) => {
   const categories = []
+  const colors = []
   const data = []
   let otherCount = 0
   const totalLength = rawData.length
-  const threshold = 0.15
+  const threshold = 0.3
   rawData.map(item => {
     const portion = parseInt(item.instanceCount) / totalLength
     if (portion < threshold) {
       otherCount += parseInt(item.instanceCount)
     } else {
       categories.push(item.prefLabel)
+      colors.push('#000000')
       data.push(parseInt(item.instanceCount))
     }
   })
   if (otherCount !== 0) {
     categories.push('Other')
+    colors.push('#000000')
     data.push(otherCount)
   }
   const apexChartOptionsWithData = {
@@ -42,6 +45,13 @@ export const createApexBarChartData = ({
       title: {
         text: yaxisTitle
       }
+    },
+    dataLabels: {
+      offsetY: -20,
+      style: {
+        fontWeight: 400,
+        colors
+      }
     }
   }
   return apexChartOptionsWithData
@@ -56,7 +66,14 @@ const apexBarChartOptions = {
     parentHeightOffset: 10,
     fontFamily: 'Roboto'
   },
-  dataLabels: {
-    enabled: false
+  plotOptions: {
+    bar: {
+      dataLabels: {
+        position: 'top',
+        maxItems: 100,
+        hideOverflowingLabels: true,
+        orientation: 'horizontal'
+      }
+    }
   }
 }
