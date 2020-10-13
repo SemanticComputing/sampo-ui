@@ -1,35 +1,5 @@
 import { has } from 'lodash'
 
-export const hasPreviousSelections = (constraints, facetID) => {
-  let hasPreviousSelections = false
-  constraints.map(facet => {
-    if (facet.facetID === facetID && facet.filterType === 'uriFilter') {
-      hasPreviousSelections = true
-    }
-  })
-  return hasPreviousSelections
-}
-
-export const hasPreviousSelectionsFromOtherFacets = (constraints, facetID) => {
-  let hasPreviousSelectionsFromOtherFacets = false
-  constraints.map(facet => {
-    if (facet.facetID !== facetID && facet.filterType === 'uriFilter') {
-      hasPreviousSelectionsFromOtherFacets = true
-    }
-  })
-  return hasPreviousSelectionsFromOtherFacets
-}
-
-export const getUriFilters = (constraints, facetID) => {
-  let filters = []
-  constraints.map(facet => {
-    if (facet.facetID === facetID && facet.filterType === 'uriFilter') {
-      filters = facet.values
-    }
-  })
-  return filters
-}
-
 export const generateConstraintsBlock = ({
   backendSearchConfig,
   facetClass,
@@ -413,13 +383,4 @@ const generateConjuctionForUriFilter = ({
   } else {
     return `?${filterTarget} ${predicateModified} ${valuesStr}`
   }
-}
-
-export const generateSelectedFilter = ({
-  currentSelectionsWithoutUnknown,
-  inverse
-}) => {
-  return (`
-          FILTER(?id ${inverse ? 'NOT' : ''} IN ( <${currentSelectionsWithoutUnknown.join('>, <')}> ))
-  `)
 }

@@ -6,11 +6,7 @@ import {
   facetValuesRange
 } from './SparqlQueriesGeneral'
 import {
-  hasPreviousSelections,
-  hasPreviousSelectionsFromOtherFacets,
-  getUriFilters,
   generateConstraintsBlock,
-  generateSelectedFilter,
   handleUnknownValue
 } from './Filters'
 import {
@@ -205,7 +201,7 @@ const generateSelectedNoHitsBlock = ({
 }) => {
   const noHitsFilter = generateConstraintsBlock({
     backendSearchConfig,
-    facetClass: facetClass,
+    facetClass,
     constraints,
     filterTarget: 'instance',
     facetID: facetID,
@@ -263,4 +259,46 @@ const generateParentBlock = ({
           ${ignoreSelectedValues}
         }
     `
+}
+
+const hasPreviousSelections = (constraints, facetID) => {
+  let hasPreviousSelections = false
+  constraints.map(facet => {
+    if (facet.facetID === facetID && facet.filterType === 'uriFilter') {
+      hasPreviousSelections = true
+    }
+  })
+  return hasPreviousSelections
+}
+
+const hasPreviousSelectionsFromOtherFacets = (constraints, facetID) => {
+  let hasPreviousSelectionsFromOtherFacets = false
+  constraints.map(facet => {
+    if (facet.facetID !== facetID && facet.filterType === 'uriFilter') {
+      const unknownAsOnlySelection = facet.values.length === 1 && facet.values[0] === 'http://ldf.fi/MISSING_VALUE'
+      if (!unknownAsOnlySelection) {
+        hasPreviousSelectionsFromOtherFacets = true
+      }
+    }
+  })
+  return hasPreviousSelectionsFromOtherFacets
+}
+
+const getUriFilters = (constraints, facetID) => {
+  let filters = []
+  constraints.map(facet => {
+    if (facet.facetID === facetID && facet.filterType === 'uriFilter') {
+      filters = facet.values
+    }
+  })
+  return filters
+}
+
+export const generateSelectedFilter = ({
+  currentSelectionsWithoutUnknown,
+  inverse
+}) => {
+  return (`
+          FILTER(?id ${inverse ? 'NOT' : ''} IN ( <${currentSelectionsWithoutUnknown.join('>, <')}> ))
+  `)
 }
