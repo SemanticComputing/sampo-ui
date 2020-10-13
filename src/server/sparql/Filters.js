@@ -290,7 +290,8 @@ const generateUriFilter = ({
         valuesStr
       })
   }
-  if (modifiedValues.length > 0 && indexOfUnknown !== -1) {
+  // TODO: how to handle 'http://ldf.fi/MISSING_VALUE' in inverse setting?
+  if (!inverse && modifiedValues.length > 0 && indexOfUnknown !== -1) {
     s = `
     {
       ${s}
@@ -301,7 +302,7 @@ const generateUriFilter = ({
     }
     `
   }
-  if (modifiedValues.length === 0 && indexOfUnknown !== -1) {
+  if (!inverse && modifiedValues.length === 0 && indexOfUnknown !== -1) {
     s = `
       ${generateMissingValueBlock({ predicate, filterTarget })}
     `
