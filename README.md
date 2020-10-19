@@ -11,8 +11,9 @@ The following portals use this repository as a base:
 5. [AcademySampo](https://github.com/SemanticComputing/academysampo-web-app)
 6. [FindSampo](https://github.com/SemanticComputing/findsampo-web-app) 
 7. [HistorySampo](https://github.com/SemanticComputing/historysampo-web-app) 
-8. ParliamentSampo (TBA)
-9. LetterSampo (TBA)
+8. [LetterSampo](https://github.com/SemanticComputing/lettersampo-web-app)
+9. [Hellerau](https://github.com/SemanticComputing/hellerau-web-app)
+10. ParliamentSampo (TBA)
 
 An example deployment generated from this repository is published at [sampo-ui.demo.seco.cs.aalto.fi](https://sampo-ui.demo.seco.cs.aalto.fi). It combines perspectives from the Mapping Manuscript Migrations and NameSampo portals, and can be used for testing and as a starting point for developing new portals. 
 
@@ -25,7 +26,7 @@ more information.
 Sampo-UI offers a comprehensive "starting base" of a full stack JavaScript web application. 
 Therefore it is not possible to include Sampo-UI as separate component into an existing 
 application. The 
-most convienient way to build a new user interface using Sampo-UI is to read the documentation 
+most convenient way to build a new user interface using Sampo-UI is to read the documentation 
 provided below, fork this repository, and start developing from there.
 
 ## Requirements
@@ -78,7 +79,7 @@ docker run -d -p 3006:3001 --name sampo-web-app sampo-web-app-image
 
  ### Coding style
 
-The [JavaScript style guide, linter, and formatter](https://standardjs.com) module (named "standard" in package.json) is installed by default as development dependency. Do not install or create any additional style definitions or configurations. Instead, install an appropriate [plugin](https://standardjs.com/index.html#are-there-text-editor-plugins) for your text editor. If there are no plugins  available for your favourite editor, it is highly recommended to switch into a supported editor. 
+The [JavaScript style guide, linter, and formatter](https://standardjs.com) module (named "standard" in package.json) is installed by default as development dependency. Do not install or create any additional style definitions or configurations. Instead, install an appropriate [plugin](https://standardjs.com/index.html#are-there-text-editor-plugins) for your text editor. If there are no plugins  available for your favorite editor, it is highly recommended to switch into a supported editor. 
 
 ### Configuration and folder structure
 
@@ -181,21 +182,21 @@ You can name it how you like and you can rename your local folder to match that.
 
 3. Copy the url of your new repository.
 
-4. With terminal go to the folder with the clone of this repository (sampo-web-app).
+4. With terminal go to the folder with the clone of this repository (*sampo-ui*).
 
-5. Change remote origin from sampo-web-app to your new repository:
+5. Change remote origin from *sampo-ui* to your new repository:
 `git remote set-url origin [your new github repo here]`
 
 6. Check that the origin changed to your new repository:
 `git remote -v`
 
-7. Push your local clone of sampo-web-app to your new repository:
+7. Push your local clone of *sampo-ui* to your new repository:
 `git push`
 
-8. Set the original repository (sampo-web-app) as the upstream of your new repository:
+8. Set *sampo-ui* as the upstream of your new repository:
 `git remote add upstream git@github.com:SemanticComputing/sampo-ui.git`
 
-9. When new commits appear on the original repository (sampo-web-app) you can fetch them to your new repository.
+9. When new commits appear on the *sampo-ui* repository you can fetch them to your new repository.
 The example fetches only master branch:
 `git fetch upstream master`
 
