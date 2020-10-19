@@ -3,10 +3,9 @@ import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
 import ResultTable from '../../facet_results/ResultTable'
-import LeafletMap from '../../facet_results/LeafletMap'
+// import LeafletMap from '../../facet_results/LeafletMap'
 import Deck from '../../facet_results/Deck'
-import Export from '../../facet_results/Export'
-import MigrationsMapLegend from './MigrationsMapLegend'
+// import Export from '../../facet_results/Export'
 import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../../configs/sampo/GeneralConfig'
 
 const Hellerau = props => {
@@ -48,7 +47,6 @@ const Hellerau = props => {
             facetClass='hellerau'
             fetchResults={props.fetchResults}
             fetching={props.placesResults.fetching}
-            legendComponent={<MigrationsMapLegend />}
             layerType='arcLayer'
             mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
             mapBoxStyle={MAPBOX_STYLE}

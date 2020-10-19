@@ -2,11 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
-// import ManuscriptList from './ManuscriptList'
 
 const MigrationsMapTooltip = props => {
-  const { data } = props
-  const { from, to /* manuscript */ } = data.object
+  const { data, fromText, toText, showMoreText } = props
+  const { from, to } = data.object
   const rootStyle = {
     padding: 12,
     position: 'absolute',
@@ -18,21 +17,23 @@ const MigrationsMapTooltip = props => {
 
   return (
     <Paper style={rootStyle}>
-      <Typography>Production place: &nbsp;
+      <Typography>{fromText} &nbsp;
         {Array.isArray(from.prefLabel) ? from.prefLabel[0] : from.prefLabel}
       </Typography>
-      <Typography>Last known location: &nbsp;
+      <Typography>{toText} &nbsp;
         {Array.isArray(to.prefLabel) ? to.prefLabel[0] : to.prefLabel}
       </Typography>
       <br />
-      <Typography>Click to show more information.</Typography>
-      {/* <ManuscriptList manuscripts={manuscript} /> */}
+      <Typography>{showMoreText}</Typography>
     </Paper>
   )
 }
 
 MigrationsMapTooltip.propTypes = {
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  fromText: PropTypes.string.isRequired,
+  toText: PropTypes.string.isRequired,
+  showMoreText: PropTypes.string.isRequired
 }
 
 export default MigrationsMapTooltip

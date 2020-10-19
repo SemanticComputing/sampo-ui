@@ -8,7 +8,6 @@ import Deck from '../../facet_results/Deck'
 // import Network from '../../facet_results/Network'
 // import Timeline from '../../facet_results/Timeline'
 import Export from '../../facet_results/Export'
-import MigrationsMapLegend from '../sampo/MigrationsMapLegend'
 import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../../configs/sampo/GeneralConfig'
 
 const Finds = props => {
@@ -78,7 +77,6 @@ const Finds = props => {
             facetClass='finds'
             fetchResults={props.fetchResults}
             fetching={props.placesResults.fetching}
-            legendComponent={<MigrationsMapLegend />}
             layerType='heatmapLayer'
             mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
             mapBoxStyle={MAPBOX_STYLE}

@@ -5,8 +5,9 @@ import DeckGL from '@deck.gl/react'
 import { ArcLayer } from '@deck.gl/layers'
 import { HeatmapLayer, HexagonLayer } from '@deck.gl/aggregation-layers'
 import ReactMapGL, { NavigationControl, FullscreenControl, HTMLOverlay } from 'react-map-gl'
-import MigrationsMapDialog from '../perspectives/sampo/MigrationsMapDialog'
-import MigrationsMapTooltip from '../perspectives/sampo/MigrationsMapTooltip'
+import DeckArcLayerLegend from './DeckArcLayerLegend'
+import DeckArcLayerDialog from './DeckArcLayerDialog'
+import DeckArcLayerTooltip from './DeckArcLayerTooltip'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { purple } from '@material-ui/core/colors'
 
@@ -205,7 +206,14 @@ class Deck extends React.Component {
               container={document.querySelector('mapboxgl-map')}
             />
           </div>
-          <HTMLOverlay redraw={() => this.props.legendComponent} />
+          {layerType === 'arcLayer' &&
+            <HTMLOverlay redraw={() =>
+              <DeckArcLayerLegend
+                title={this.props.legendTitle}
+                fromText={this.props.legendFromText}
+                toText={this.props.legendToText}
+              />}
+            />}
           <DeckGL
             viewState={this.state.viewport}
             layers={[layer]}
@@ -213,12 +221,22 @@ class Deck extends React.Component {
           />
           {this.renderSpinner()}
           {layerType === 'arcLayer' &&
-            <MigrationsMapDialog
+            <DeckArcLayerDialog
               open={this.state.dialog.open}
               onClose={this.closeDialog.bind(this)}
               data={this.state.dialog.data}
+              fromText={this.props.fromText}
+              toText={this.props.toText}
+              listHeadingSingleInstance={this.props.listHeadingSingleInstance}
+              listHeadingMultipleInstances={this.props.listHeadingMultipleInstances}
             />}
-          {showTooltip && <MigrationsMapTooltip data={hoverInfo} />}
+          {layerType === 'arcLayer' && showTooltip &&
+            <DeckArcLayerTooltip
+              data={hoverInfo}
+              fromText={this.props.fromText}
+              toText={this.props.toText}
+              showMoreText={this.props.showMoreText}
+            />}
         </ReactMapGL>
       </div>
     )
@@ -237,7 +255,15 @@ Deck.propTypes = {
   resultClass: PropTypes.string,
   facetClass: PropTypes.string,
   fetching: PropTypes.bool.isRequired,
-  legendComponent: PropTypes.element
+  legendComponent: PropTypes.element,
+  fromText: PropTypes.string,
+  toText: PropTypes.string,
+  legendFromText: PropTypes.string,
+  legendToText: PropTypes.string,
+  legendTitle: PropTypes.string,
+  showMoreText: PropTypes.string,
+  listHeadingSingleInstance: PropTypes.string,
+  listHeadingMultipleInstances: PropTypes.string
 }
 
 export const DeckComponent = Deck

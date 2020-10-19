@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import ManuscriptList from './ManuscriptList'
+import InstanceList from '../main_layout/InstanceList'
 import { Link } from 'react-router-dom'
 
 const styles = () => ({
@@ -15,8 +15,11 @@ const styles = () => ({
   }
 })
 
-const MigrationsMapDialog = props => {
-  const { classes, open, onClose, data } = props
+const DeckArcLayerDialog = props => {
+  const {
+    classes, open, onClose, data, fromText, toText,
+    listHeadingSingleInstance, listHeadingMultipleInstances
+  } = props
   const hasData = data !== null && data.from && data.to && data.manuscript
 
   return (
@@ -29,28 +32,36 @@ const MigrationsMapDialog = props => {
       <DialogContent>
         {hasData &&
           <>
-            <Typography>Production place: &nbsp;
+            <Typography>{fromText} &nbsp;
               <Link to={data.from.dataProviderUrl}>
                 {Array.isArray(data.from.prefLabel) ? data.from.prefLabel[0] : data.from.prefLabel}
               </Link>
             </Typography>
-            <Typography>Last known location: &nbsp;
+            <Typography>{toText} &nbsp;
               <Link to={data.to.dataProviderUrl}>
                 {Array.isArray(data.to.prefLabel) ? data.to.prefLabel[0] : data.to.prefLabel}
               </Link>
             </Typography>
-            <ManuscriptList manuscripts={data.manuscript} />
+            <InstanceList
+              data={data.manuscript}
+              listHeadingSingleInstance={listHeadingSingleInstance}
+              listHeadingMultipleInstances={listHeadingMultipleInstances}
+            />
           </>}
       </DialogContent>
     </Dialog>
   )
 }
 
-MigrationsMapDialog.propTypes = {
+DeckArcLayerDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  data: PropTypes.object
+  data: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  fromText: PropTypes.string.isRequired,
+  toText: PropTypes.string.isRequired,
+  listHeadingSingleInstance: PropTypes.string.isRequired,
+  listHeadingMultipleInstances: PropTypes.string.isRequired
 }
 
-export default withStyles(styles)(MigrationsMapDialog)
+export default withStyles(styles)(DeckArcLayerDialog)
