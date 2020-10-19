@@ -49,8 +49,10 @@ class PerspectiveTabs extends React.Component {
   };
 
   render () {
-    const { classes, tabs, screenSize } = this.props
-    const largeScreen = screenSize === 'lg' || screenSize === 'xl'
+    const { classes, tabs } = this.props
+    // const largeScreen = screenSize === 'xl'
+    const variant = tabs.length > 3 ? 'scrollable' : 'fullWidth'
+    const scrollButtons = tabs.length > 3 ? 'auto' : 'on'
     return (
       <Paper className={classes.root}>
         <Tabs
@@ -58,8 +60,8 @@ class PerspectiveTabs extends React.Component {
           onChange={this.handleChange}
           indicatorColor='secondary'
           textColor='secondary'
-          variant={largeScreen ? 'fullWidth' : 'scrollable'}
-          scrollButtons={largeScreen ? 'auto' : 'on'}
+          variant={variant}
+          scrollButtons={scrollButtons}
         >
           {tabs.map(tab =>
             <Tab
@@ -68,6 +70,7 @@ class PerspectiveTabs extends React.Component {
               label={intl.get(`tabs.${tab.id}`)}
               component={Link}
               to={tab.id}
+              wrapped
             />
           )}
         </Tabs>
