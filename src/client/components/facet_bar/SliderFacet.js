@@ -3,14 +3,8 @@ import PropTypes from 'prop-types'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import purple from '@material-ui/core/colors/purple'
 import { withStyles } from '@material-ui/core/styles'
-import { Slider, Rail, Handles, Tracks, Ticks } from 'react-compound-slider'
-import { Handle, Track, Tick, TooltipRail } from './SliderComponents'
+import Slider from '@material-ui/core/Slider'
 import { YearToISOString, ISOStringToYear } from './FacetHelpers'
-
-const sliderRootStyle = {
-  position: 'relative',
-  width: '100%'
-}
 
 const styles = theme => ({
   root: {
@@ -33,34 +27,80 @@ const styles = theme => ({
 * A component for a slider range facet.
 */
 class SliderFacet extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      min: null,
+      max: null,
+      values: null
+    }
+  }
+
   componentDidMount = () => {
-    const { isFetching, min, max } = this.props.facet
-    if (!isFetching && (min == null || max == null)) {
-      this.props.fetchFacet({
-        facetClass: this.props.facetClass,
-        facetID: this.props.facetID
+    this.props.fetchFacet({
+      facetClass: this.props.facetClass,
+      facetID: this.props.facetID
+    })
+  }
+
+  componentDidUpdate = prevProps => {
+    if (prevProps.facet.min !== this.props.facet.min ||
+      prevProps.facetFilter !== this.props.facetFilter ||
+      (prevProps.facet.isFetching && !this.props.facet.isFetching)) {
+      let domain = null
+      let values = null
+      const { min, max } = this.props.facet
+      if (this.props.dataType === 'ISOString') {
+        const minYear = ISOStringToYear(min)
+        const maxYear = ISOStringToYear(max)
+        domain = [minYear, maxYear]
+        if (this.props.facetFilter == null) {
+          values = domain
+        } else {
+          const { start, end } = this.props.facetFilter
+          values = [ISOStringToYear(start), ISOStringToYear(end)]
+        }
+      } else if (this.props.dataType === 'integer') {
+        domain = [parseInt(min), parseInt(max)]
+        if (this.props.facetFilter == null) {
+          values = domain
+        } else {
+          const { start, end } = this.props.facetFilter
+          values = [start, end]
+        }
+      }
+      this.setState({
+        min: domain[0],
+        max: domain[1],
+        values
       })
     }
   }
 
-  handleSliderOnChange = values => {
+  handleSliderOnChange = (event, newValues) => {
+    this.setState({ values: newValues })
+  }
+
+  handleSliderOnChangeCommitted = (event, newValues) => {
+    let facetValues = []
     if (this.props.dataType === 'ISOString') {
-      values[0] = YearToISOString({ year: values[0], start: true })
-      values[1] = YearToISOString({ year: values[1], start: false })
+      facetValues[0] = YearToISOString({ year: newValues[0], start: true })
+      facetValues[1] = YearToISOString({ year: newValues[1], start: false })
+    } else {
+      facetValues = newValues
     }
     this.props.updateFacetOption({
       facetClass: this.props.facetClass,
       facetID: this.props.facetID,
       option: this.props.facet.filterType,
-      value: values
+      value: facetValues
     })
   }
 
   render () {
+    const { min, max, values } = this.state
     const { classes, someFacetIsFetching } = this.props
-    const { isFetching, min, max } = this.props.facet
-    let domain = null
-    let values = null
+    const { isFetching } = this.props.facet
     if (isFetching) {
       return (
         <div className={classes.spinnerContainer}>
@@ -68,83 +108,18 @@ class SliderFacet extends Component {
         </div>
       )
     }
-    if (min == null || max == null) {
-      return (
-        <div />
-      )
-    }
-    if (this.props.dataType === 'ISOString') {
-      const minYear = ISOStringToYear(min)
-      const maxYear = ISOStringToYear(max)
-      domain = [minYear, maxYear]
-      if (this.props.facet.timespanFilter == null) {
-        values = domain
-      } else {
-        const { start, end } = this.props.facet.timespanFilter
-        values = [ISOStringToYear(start), ISOStringToYear(end)]
-      }
-    } else if (this.props.dataType === 'integer') {
-      domain = [parseInt(min), parseInt(max)]
-      if (this.props.facet.integerFilter == null) {
-        values = domain
-      } else {
-        const { start, end } = this.props.facet.integerFilter
-        values = [start, end]
-      }
-    }
-    // Slider documentation: https://github.com/sghall/react-compound-slider
     return (
       <div className={classes.root}>
         <Slider
-          mode={1}
-          step={1}
-          domain={domain}
-          disabled={someFacetIsFetching}
-          reversed={false}
-          rootStyle={sliderRootStyle}
+          min={min}
+          max={max}
+          value={values}
           onChange={this.handleSliderOnChange}
-          values={values}
-        >
-          <Rail>{railProps => <TooltipRail {...railProps} />}</Rail>
-          <Handles>
-            {({ handles, activeHandleID, getHandleProps }) => (
-              <div className='slider-handles'>
-                {handles.map(handle => (
-                  <Handle
-                    key={handle.id}
-                    handle={handle}
-                    domain={domain}
-                    isActive={handle.id === activeHandleID}
-                    getHandleProps={getHandleProps}
-                  />
-                ))}
-              </div>
-            )}
-          </Handles>
-          <Tracks left={false} right={false}>
-            {({ tracks, getTrackProps }) => (
-              <div className='slider-tracks'>
-                {tracks.map(({ id, source, target }) => (
-                  <Track
-                    key={id}
-                    source={source}
-                    target={target}
-                    getTrackProps={getTrackProps}
-                  />
-                ))}
-              </div>
-            )}
-          </Tracks>
-          <Ticks count={10}>
-            {({ ticks }) => (
-              <div className='slider-ticks'>
-                {ticks.map(tick => (
-                  <Tick key={tick.id} tick={tick} count={ticks.length} />
-                ))}
-              </div>
-            )}
-          </Ticks>
-        </Slider>
+          onChangeCommitted={this.handleSliderOnChangeCommitted}
+          valueLabelDisplay='on'
+          aria-labelledby='range-slider'
+          disabled={someFacetIsFetching}
+        />
       </div>
     )
   }
@@ -154,15 +129,12 @@ SliderFacet.propTypes = {
   classes: PropTypes.object.isRequired,
   facetID: PropTypes.string.isRequired,
   facet: PropTypes.object.isRequired,
+  facetFilter: PropTypes.object,
   facetClass: PropTypes.string,
-  resultClass: PropTypes.string,
   fetchFacet: PropTypes.func,
   someFacetIsFetching: PropTypes.bool.isRequired,
   updateFacetOption: PropTypes.func,
-  facetUpdateID: PropTypes.number,
-  updatedFilter: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  updatedFacet: PropTypes.string,
-  dataType: PropTypes.string.isRequired
+  dataType: PropTypes.oneOf(['ISOString', 'integer']).isRequired
 }
 
 export const SliderFacetComponent = SliderFacet
