@@ -26,6 +26,9 @@ export const YearToISOString = ({ year, start }) => {
     s = '0' + s
     s = negative ? s = '-' + s : s
   }
+  if (abs >= 1000) {
+    s = negative ? s = '-' + s : s
+  }
   s = start ? s + '-01-01' : s + '-12-31'
   return s
 }
