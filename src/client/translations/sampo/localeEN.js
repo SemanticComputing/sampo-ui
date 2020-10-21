@@ -53,6 +53,11 @@ export default {
     sortByNumberOfSearchResults: 'Sort by number of search results',
     useDisjunction: 'Use logical OR between selections',
     useConjuction: 'Use logical AND between selections',
+    minYear: 'Min year',
+    maxYear: 'Max year',
+    min: 'Min',
+    max: 'Max',
+    applyFacetSelection: 'apply',
     pieChart: {
       tooltip: 'Pie chart'
     },

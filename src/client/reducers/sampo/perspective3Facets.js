@@ -52,7 +52,7 @@ export const INITIAL_STATE = {
       spatialFilterButton: false,
       isFetching: false,
       searchField: false,
-      containerClass: 'three',
+      containerClass: 'four',
       filterType: 'timespanFilter',
       min: null,
       max: null,

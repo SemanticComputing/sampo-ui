@@ -160,6 +160,8 @@ class FacetBar extends React.Component {
             someFacetIsFetching={someFacetIsFetching}
             updateFacetOption={this.props.updateFacetOption}
             dataType='ISOString'
+            minLabel={intl.get('facetBar.minYear')}
+            maxLabel={intl.get('facetBar.maxYear')}
           />
         )
         break
@@ -188,6 +190,8 @@ class FacetBar extends React.Component {
             someFacetIsFetching={someFacetIsFetching}
             updateFacetOption={this.props.updateFacetOption}
             dataType='integer'
+            minLabel={intl.get('facetBar.min')}
+            maxLabel={intl.get('facetBar.max')}
           />
         )
         break
