@@ -8,7 +8,7 @@ export const ISOStringToYear = str => {
   return year
 }
 
-export const YearToISOString = ({ year, start }) => {
+export const yearToISOString = ({ year, start }) => {
   const abs = Math.abs(year)
   let s = year.toString()
   let negative = false
@@ -24,11 +24,8 @@ export const YearToISOString = ({ year, start }) => {
   }
   if (abs >= 100 && abs < 1000) {
     s = '0' + s
-    s = negative ? s = '-' + s : s
   }
-  if (abs >= 1000) {
-    s = negative ? s = '-' + s : s
-  }
+  s = negative ? s = '-' + s : s
   s = start ? s + '-01-01' : s + '-12-31'
   return s
 }

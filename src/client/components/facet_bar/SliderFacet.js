@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Slider from '@material-ui/core/Slider'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import { YearToISOString, ISOStringToYear } from './FacetHelpers'
+import { yearToISOString, ISOStringToYear } from './FacetHelpers'
 
 const styles = theme => ({
   root: {
@@ -123,8 +123,8 @@ class SliderFacet extends Component {
     const { start, end } = this.state
     let facetValues = []
     if (this.props.dataType === 'ISOString') {
-      facetValues[0] = YearToISOString({ year: start, start: true })
-      facetValues[1] = YearToISOString({ year: end, start: false })
+      facetValues[0] = yearToISOString({ year: start, start: true })
+      facetValues[1] = yearToISOString({ year: end, start: false })
     } else {
       facetValues = [start, end]
     }
