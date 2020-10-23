@@ -156,24 +156,23 @@ const generateTimespanFilter = ({
     selectionStart = `${selectionStart}T00:00:00Z`
     selectionEnd = `${selectionEnd}T00:00:00Z`
   }
-  // return `
-  //   ?${filterTarget} ${facetConfig.predicate} ?timespan .
-  //   ?timespan ${facetConfig.startProperty} ?start .
-  //   ?timespan ${facetConfig.endProperty} ?end .
-  //   # both start and end is in selected range
-  //   FILTER(?start >= "${start}"^^xsd:date)
-  //   FILTER(?end <= "${end}"^^xsd:date)
-  // `;
   const filterStr = `
-    ?${filterTarget} ${facetConfig.predicate} ?${facetID} .
-    ?${facetID} ${facetConfig.startProperty} ?${facetID}Start .
-    ?${facetID} ${facetConfig.endProperty} ?${facetID}End .
-    # either start or end is in selected range
+    ?${filterTarget} ${facetConfig.predicate} ?tspan .
+    ?tspan ${facetConfig.startProperty} ?startA ;
+           ${facetConfig.endProperty} ?endA .       
+    BIND("${selectionStart}"^^${dataType} as ?startB)
+    BIND("${selectionEnd}"^^${dataType} as ?endB)      
+    # Determine whether two date ranges overlap: https://stackoverflow.com/a/325964/6028835
+    # Also make sure that starts and ends are in right order in the RDF data.
     FILTER(
-      ?${facetID}Start >= "${selectionStart}"^^${dataType} && ?${facetID}Start <= "${selectionEnd}"^^${dataType}
-      ||
-      ?${facetID}End >= "${selectionStart}"^^${dataType} && ?${facetID}End <= "${selectionEnd}"^^${dataType}
+      (?startA <= ?endB) && (?endA >= ?startB) && (?startA <= ?endA)
     )
+    # Alternative, stricter implementation:
+    # Determine whether range B (facet selection) is entirely within range A (timespan in RDF data).
+    # Also make sure that starts and ends are in right order in the RDF data.
+    # FILTER(
+    #  (?startA >= ?startB) && (?endA <= ?endB) && (?startA <= ?endA)
+    # )
   `
   if (inverse) {
     return `

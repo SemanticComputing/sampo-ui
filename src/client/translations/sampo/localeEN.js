@@ -127,6 +127,9 @@ export default {
     },
     textFacet: {
       inputLabel: 'Etsi nimellä'
+    },
+    sliderFacet: {
+      invalidStartOrEnd: 'Min value must be smaller than max value. The smallest value can be {min} and the largest value can be {max}.'
     }
   },
   leafletMap: {
