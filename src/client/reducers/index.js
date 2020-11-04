@@ -23,9 +23,6 @@ import findsFacets from './sampo/findsFacets'
 import emloActors from './sampo/emloActors'
 import emloActorsFacets from './sampo/emloActorsFacets'
 import emloActorsFacetsConstrainSelf from './sampo/emloActorsFacetsConstrainSelf'
-import hellerau from './sampo/hellerau'
-import hellerauFacets from './sampo/hellerauFacets'
-import hellerauFacetsConstrainSelf from './sampo/hellerauFacetsConstrainSelf'
 import findsFacetsConstrainSelf from './sampo/findsFacetsConstrainSelf'
 import perspective1Facets from './sampo/perspective1Facets'
 import perspective1FacetsConstrainSelf from './sampo/perspective1FacetsConstrainSelf'
@@ -57,9 +54,6 @@ const reducer = combineReducers({
   emloActors,
   emloActorsFacets,
   emloActorsFacetsConstrainSelf,
-  hellerau,
-  hellerauFacets,
-  hellerauFacetsConstrainSelf,
   leafletMap,
   animation,
   options,
