@@ -332,6 +332,7 @@ class FacetBar extends React.Component {
               someFacetIsFetching={someFacetIsFetching}
               fetchFacet={this.props.fetchFacet}
               perspectiveID={facetClass}
+              clearAllFacets={this.props.clearAllFacets}
             />
           </Paper>}
         {facets && Object.keys(facets).map(facetID => {
@@ -358,6 +359,7 @@ FacetBar.propTypes = {
   fetchFacetConstrainSelf: PropTypes.func,
   fetchResults: PropTypes.func,
   clearFacet: PropTypes.func,
+  clearAllFacets: PropTypes.func,
   fetchResultCount: PropTypes.func,
   updateFacetOption: PropTypes.func,
   updateMapBounds: PropTypes.func,

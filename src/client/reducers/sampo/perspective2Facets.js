@@ -113,7 +113,7 @@ export const INITIAL_STATE = {
 
 const perspective2Facets = (state = INITIAL_STATE, action) => {
   if (action.facetClass === 'perspective2') {
-    return handleFacetAction(state, action)
+    return handleFacetAction(state, action, INITIAL_STATE)
   } else return state
 }
 
