@@ -107,6 +107,7 @@ class FacetInfo extends React.Component {
                 className={classes.button}
                 startIcon={<DeleteIcon />}
                 onClick={this.handleRemoveAllFiltersOnClick}
+                disabled={someFacetIsFetching}
               >{intl.get('facetBar.removeAllFilters')}
               </Button>
             </div>
