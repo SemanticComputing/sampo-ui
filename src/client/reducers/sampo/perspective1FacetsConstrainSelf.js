@@ -348,7 +348,7 @@ export const INITIAL_STATE = {
 
 const perspective1FacetsConstrainself = (state = INITIAL_STATE, action) => {
   if (action.facetClass === 'perspective1') {
-    return handleFacetConstrainSelfAction(state, action)
+    return handleFacetConstrainSelfAction(state, action, INITIAL_STATE)
   } else return state
 }
 

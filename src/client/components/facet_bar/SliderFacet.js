@@ -62,6 +62,9 @@ class SliderFacet extends Component {
   }
 
   componentDidUpdate = prevProps => {
+    if (this.props.facet.min == null || this.props.facet.max == null) {
+      return
+    }
     if (prevProps.facet.min !== this.props.facet.min ||
       prevProps.facetFilter !== this.props.facetFilter ||
       (prevProps.facet.isFetching && !this.props.facet.isFetching)) {

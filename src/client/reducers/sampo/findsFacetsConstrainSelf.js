@@ -213,7 +213,7 @@ export const INITIAL_STATE = {
 
 const findsFacetsConstrainSelf = (state = INITIAL_STATE, action) => {
   if (action.facetClass === 'finds') {
-    return handleFacetConstrainSelfAction(state, action)
+    return handleFacetConstrainSelfAction(state, action, INITIAL_STATE)
   } else return state
 }
 

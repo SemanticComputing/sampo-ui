@@ -1,4 +1,4 @@
-import { handleFacetAction } from '../general/facets'
+import { handleFacetConstrainSelfAction } from '../general/facetsConstrainSelf'
 
 export const INITIAL_STATE = {
   updatedFacet: null,
@@ -113,7 +113,7 @@ export const INITIAL_STATE = {
 
 const perspective2FacetsConstrainSelf = (state = INITIAL_STATE, action) => {
   if (action.facetClass === 'perspective2') {
-    return handleFacetAction(state, action)
+    return handleFacetConstrainSelfAction(state, action, INITIAL_STATE)
   } else return state
 }
 
