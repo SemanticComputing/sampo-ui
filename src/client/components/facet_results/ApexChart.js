@@ -94,7 +94,10 @@ class ApexChart extends React.Component {
 
   render () {
     const { fetching, pageType, classes, facetResultsType, dropdownForResultClasses } = this.props
-    const facetResultsTypeCapitalized = facetResultsType[0].toUpperCase() + facetResultsType.substring(1).toLowerCase()
+    let facetResultsTypeCapitalized
+    if (dropdownForResultClasses) {
+      facetResultsTypeCapitalized = facetResultsType[0].toUpperCase() + facetResultsType.substring(1).toLowerCase()
+    }
     let rootStyle = {
       width: '100%',
       height: '100%'
