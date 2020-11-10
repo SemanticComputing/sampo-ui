@@ -97,6 +97,17 @@ export const mapLineChart = sparqlBindings => {
   }
 }
 
+export const mapPieChart = sparqlBindings => {
+  const results = sparqlBindings.map(b => {
+    return {
+      category: b.category.value,
+      prefLabel: b.prefLabel.value,
+      instanceCount: b.instanceCount.value
+    }
+  })
+  return results
+}
+
 export const mapMultipleLineChart = sparqlBindings => {
   const res = {}
   sparqlBindings.forEach(b => {
