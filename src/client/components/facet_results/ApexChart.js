@@ -13,10 +13,11 @@ import Typography from '@material-ui/core/Typography'
 const styles = theme => ({
   selectContainer: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: theme.spacing(1)
   },
   formControl: {
-    marginLeft: 8
+    marginLeft: theme.spacing(1)
   }
 })
 
@@ -28,7 +29,9 @@ class ApexChart extends React.Component {
     super(props)
     this.chartRef = React.createRef()
     this.state = {
-      resultClass: props.resultClass
+      resultClass: props.resultClass,
+      createChartData: props.createChartData,
+      chartType: props.dropdownForChartTypes ? props.chartTypes[0].id : null
     }
   }
 
@@ -64,6 +67,9 @@ class ApexChart extends React.Component {
         facetID: this.props.facetID
       })
     }
+    if (prevState.chartType !== this.state.chartType) {
+      this.renderChart()
+    }
   }
 
   componentWillUnmount () {
@@ -74,12 +80,12 @@ class ApexChart extends React.Component {
 
   renderChart = () => {
     // Destroy the previous chart
-    if (!this.chart == null) {
+    if (this.chart !== undefined) {
       this.chart.destroy()
     }
     this.chart = new ApexCharts(
       this.chartRef.current,
-      this.props.createChartData({
+      this.state.createChartData({
         rawData: this.props.rawData,
         title: this.props.title,
         xaxisTitle: this.props.xaxisTitle || '',
@@ -90,13 +96,28 @@ class ApexChart extends React.Component {
     this.chart.render()
   }
 
-  handleSelectOnChanhge = event => this.setState({ resultClass: event.target.value })
+  handleResultClassOnChanhge = event => this.setState({ resultClass: event.target.value })
+
+  handleChartTypeOnChanhge = event => {
+    const chartType = event.target.value
+    const chartTypeObj = this.props.chartTypes.find(chartTypeObj => chartTypeObj.id === chartType)
+    this.setState({
+      chartType,
+      createChartData: chartTypeObj.createChartData
+    })
+  }
 
   render () {
-    const { fetching, pageType, classes, facetResultsType, dropdownForResultClasses } = this.props
+    const { fetching, pageType, classes, facetResultsType, dropdownForResultClasses, dropdownForChartTypes } = this.props
+    const rootHeightReduction = 136 // tabs + padding
+    let chartHeightReduction = 0
     let facetResultsTypeCapitalized
     if (dropdownForResultClasses) {
       facetResultsTypeCapitalized = facetResultsType[0].toUpperCase() + facetResultsType.substring(1).toLowerCase()
+      chartHeightReduction += 40 // dropdown height
+    }
+    if (dropdownForChartTypes) {
+      chartHeightReduction += 40 // dropdown height
     }
     let rootStyle = {
       width: '100%',
@@ -104,7 +125,7 @@ class ApexChart extends React.Component {
     }
     if (pageType === 'facetResults' || pageType === 'instancePage') {
       rootStyle = {
-        height: 'calc(100% - 136px)',
+        height: `calc(100% - ${rootHeightReduction}px)`,
         width: 'calc(100% - 64px)',
         padding: 32,
         backgroundColor: '#fff',
@@ -119,6 +140,10 @@ class ApexChart extends React.Component {
       alignItems: 'center',
       justifyContent: 'center'
     }
+    const chartContainerStyle = {
+      width: '100%',
+      height: `calc(100% - ${chartHeightReduction}px)`
+    }
     return (
       <div style={rootStyle}>
         {dropdownForResultClasses &&
@@ -128,10 +153,25 @@ class ApexChart extends React.Component {
               <Select
                 id='select-result-class'
                 value={this.state.resultClass}
-                onChange={this.handleSelectOnChanhge}
+                onChange={this.handleResultClassOnChanhge}
               >
                 {this.props.resultClasses.map(resultClass =>
                   <MenuItem key={resultClass} value={resultClass}>{intl.get(`pieChart.resultClasses.${resultClass}`)}</MenuItem>
+                )}
+              </Select>
+            </FormControl>
+          </div>}
+        {dropdownForChartTypes &&
+          <div className={classes.selectContainer}>
+            <Typography>{intl.get('pieChart.chartType')}</Typography>
+            <FormControl className={classes.formControl}>
+              <Select
+                id='select-chart-type'
+                value={this.state.chartType}
+                onChange={this.handleChartTypeOnChanhge}
+              >
+                {this.props.chartTypes.map(chartType =>
+                  <MenuItem key={chartType.id} value={chartType.id}>{intl.get(`pieChart.${chartType.id}`)}</MenuItem>
                 )}
               </Select>
             </FormControl>
@@ -141,7 +181,9 @@ class ApexChart extends React.Component {
             <CircularProgress style={{ color: purple[500] }} thickness={5} />
           </div>}
         {!fetching &&
-          <div ref={this.chartRef} />}
+          <div style={chartContainerStyle}>
+            <div ref={this.chartRef} />
+          </div>}
       </div>
     )
   }
@@ -149,7 +191,7 @@ class ApexChart extends React.Component {
 
 ApexChart.propTypes = {
   pageType: PropTypes.string.isRequired,
-  createChartData: PropTypes.func.isRequired,
+  createChartData: PropTypes.func,
   rawData: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.object
