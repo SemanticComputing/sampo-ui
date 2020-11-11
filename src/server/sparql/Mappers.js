@@ -97,6 +97,31 @@ export const mapLineChart = sparqlBindings => {
   }
 }
 
+export const mapLineChartFillEmptyValues = sparqlBindings => {
+  const seriesData = []
+  const categoriesData = []
+  const sparqlBindingsLength = sparqlBindings.length
+  sparqlBindings.map((b, index, bindings) => {
+    const currentCategory = b.category.value
+    const currentValue = b.count.value
+    seriesData.push(currentValue)
+    categoriesData.push(currentCategory)
+    if (index + 1 < sparqlBindingsLength) {
+      let currentCategoryInt = parseInt(currentCategory)
+      const nextCategoryInt = parseInt(bindings[index + 1].category.value)
+      while (currentCategoryInt < nextCategoryInt) {
+        currentCategoryInt += 1
+        seriesData.push(0)
+        categoriesData.push(currentCategoryInt)
+      }
+    }
+  })
+  return {
+    seriesData,
+    categoriesData
+  }
+}
+
 export const mapPieChart = sparqlBindings => {
   const results = sparqlBindings.map(b => {
     return {
