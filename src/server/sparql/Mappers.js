@@ -102,17 +102,18 @@ export const mapLineChartFillEmptyValues = sparqlBindings => {
   const categoriesData = []
   const sparqlBindingsLength = sparqlBindings.length
   sparqlBindings.map((b, index, bindings) => {
-    const currentCategory = b.category.value
-    const currentValue = b.count.value
+    const currentCategory = parseInt(b.category.value)
+    const currentValue = parseInt(b.count.value)
     seriesData.push(currentValue)
     categoriesData.push(currentCategory)
     if (index + 1 < sparqlBindingsLength) {
-      let currentCategoryInt = parseInt(currentCategory)
-      const nextCategoryInt = parseInt(bindings[index + 1].category.value)
-      while (currentCategoryInt < nextCategoryInt) {
-        currentCategoryInt += 1
+      let categoryIter = currentCategory
+      const nextNonZeroCategory = parseInt(bindings[index + 1].category.value)
+      // add zeros until we reach the next category with a non zero value
+      while (categoryIter < nextNonZeroCategory - 1) {
+        categoryIter += 1
         seriesData.push(0)
-        categoriesData.push(currentCategoryInt)
+        categoriesData.push(categoryIter)
       }
     }
   })
