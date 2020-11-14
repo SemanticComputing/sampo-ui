@@ -97,9 +97,9 @@ export const getAllResults = ({
   const { filterTarget, resultMapper } = config
   let { q } = config
   if (constraints == null && defaultConstraint == null) {
-    q = q.replace('<FILTER>', '# no filters')
+    q = q.replace(/<FILTER>/g, '# no filters')
   } else {
-    q = q.replace('<FILTER>', generateConstraintsBlock({
+    q = q.replace(/<FILTER>/g, generateConstraintsBlock({
       backendSearchConfig,
       facetClass,
       constraints,
