@@ -10,7 +10,7 @@ const ResultTableCell = props => {
   const {
     data, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, minWidth,
     container, columnId, expanded, linkAsButton, collapsedMaxWords, showSource,
-    sourceExternalLink, renderAsHTML, previewImageHeight
+    sourceExternalLink, renderAsHTML, HTMLParserTask, annotationData, previewImageHeight
   } = props
   let cellContent = null
   const cellStyle = minWidth == null ? {} : { minWidth: minWidth }
@@ -38,6 +38,8 @@ const ResultTableCell = props => {
           expanded={expanded}
           collapsedMaxWords={collapsedMaxWords}
           renderAsHTML={renderAsHTML}
+          HTMLParserTask={HTMLParserTask}
+          annotationData={annotationData}
           numberedList={numberedList}
         />
       break

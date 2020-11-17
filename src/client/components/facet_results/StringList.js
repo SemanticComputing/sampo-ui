@@ -2,10 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Collapse from '@material-ui/core/Collapse'
-import ReactHtmlParser from 'react-html-parser'
-import { Link } from 'react-router-dom'
+import HTMLParser from '../../helpers/HTMLParser'
 
-const styles = () => ({
+const styles = theme => ({
   valueList: {
     paddingLeft: 20,
     maxHeight: 200,
@@ -18,6 +17,16 @@ const styles = () => ({
   numberedList: {
     maxHeight: 200,
     overflow: 'auto'
+  },
+  tooltip: {
+    maxWidth: 500
+  },
+  tooltipContent: {
+    padding: theme.spacing(1)
+  },
+  tooltipList: {
+    listStylePosition: 'inside',
+    paddingLeft: 0
   }
 })
 
@@ -55,14 +64,6 @@ const StringList = props => {
     }
   }
 
-  const transform = (node, index) => {
-    if (node.type === 'tag' && node.name === 'a') {
-      const href = node.attribs.href
-      const text = node.children[0].data
-      return <Link key={index} to={href}>{text}</Link>
-    }
-  }
-
   const { renderAsHTML } = props
   let { data } = props
   if (data == null || data === '-') {
@@ -70,7 +71,8 @@ const StringList = props => {
   }
   const isArray = Array.isArray(data)
   if (renderAsHTML) {
-    data = ReactHtmlParser(data, { transform })
+    const parser = new HTMLParser(props)
+    data = parser.parseHTML(data)
   }
   return (
     <>

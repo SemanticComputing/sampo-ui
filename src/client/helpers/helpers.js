@@ -141,3 +141,9 @@ export const updateLocaleToPathname = ({ pathname, locale, replaceOld }) => {
 export const objectToQueryParams = data => {
   return Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join('&')
 }
+
+export const arrayToObject = ({ array, keyField }) =>
+  array.reduce((obj, item) => {
+    obj[item[keyField]] = item
+    return obj
+  }, {})
