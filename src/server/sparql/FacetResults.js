@@ -121,7 +121,7 @@ export const getAllResults = ({
     })
   } else {
     if (uri !== null) {
-      q = q.replace('<ID>', `<${uri}>`)
+      q = q.replace(/<ID>/g, `<${uri}>`)
     }
     // console.log(endpoint.prefixes + q)
     return runSelectQuery({

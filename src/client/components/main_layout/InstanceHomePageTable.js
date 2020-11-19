@@ -41,68 +41,83 @@ const styles = theme => ({
 /**
  * A component for generating a table based on data about an entity.
  */
-const InstanceHomePageTable = props => {
-  const { classes, data, properties } = props
-  return (
-    <Table className={classes.instanceTable}>
-      <TableBody>
-        {properties.map(row => {
-          const label = intl.get(`perspectives.${props.resultClass}.properties.${row.id}.label`)
-          const description = intl.get(`perspectives.${props.resultClass}.properties.${row.id}.description`)
-          return (
-            <TableRow key={row.id}>
-              <TableCell className={classes.labelCell}>
-                {label}
-                <Tooltip
-                  title={description}
-                  enterDelay={300}
-                >
-                  <IconButton>
-                    <InfoIcon />
-                  </IconButton>
-                </Tooltip>
-              </TableCell>
-              <ResultTableCell
-                columnId={row.id}
-                data={data[row.id]}
-                valueType={row.valueType}
-                makeLink={row.makeLink}
-                externalLink={row.externalLink}
-                sortValues={row.sortValues}
-                sortBy={row.sortBy}
-                numberedList={row.numberedList}
-                container='cell'
-                expanded
-                previewImageHeight={row.previewImageHeight}
-                linkAsButton={has(row, 'linkAsButton')
-                  ? row.linkAsButton
-                  : null}
-                collapsedMaxWords={has(row, 'collapsedMaxWords')
-                  ? row.collapsedMaxWords
-                  : null}
-                showSource={has(row, 'showSource')
-                  ? row.showSource
-                  : null}
-                sourceExternalLink={has(row, 'sourceExternalLink')
-                  ? row.sourceExternalLink
-                  : null}
-                renderAsHTML={has(row, 'renderAsHTML')
-                  ? row.renderAsHTML
-                  : null}
-              />
-            </TableRow>
-          )
-        }
-        )}
-      </TableBody>
-    </Table>
-  )
+class InstanceHomePageTable extends React.Component {
+  componentDidMount = () => {
+    if (this.props.fetchResultsWhenMounted) {
+      this.props.fetchResults({
+        resultClass: this.props.resultClassVariant,
+        facetClass: this.props.facetClass,
+        uri: this.props.uri
+      })
+    }
+  }
+
+  render = () => {
+    const { classes, data, resultClass, properties } = this.props
+    return (
+      <>
+        {data &&
+          <Table className={classes.instanceTable}>
+            <TableBody>
+              {properties.map(row => {
+                const label = intl.get(`perspectives.${resultClass}.properties.${row.id}.label`)
+                const description = intl.get(`perspectives.${resultClass}.properties.${row.id}.description`)
+                return (
+                  <TableRow key={row.id}>
+                    <TableCell className={classes.labelCell}>
+                      {label}
+                      <Tooltip
+                        title={description}
+                        enterDelay={300}
+                      >
+                        <IconButton>
+                          <InfoIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+                    <ResultTableCell
+                      columnId={row.id}
+                      data={data[row.id]}
+                      valueType={row.valueType}
+                      makeLink={row.makeLink}
+                      externalLink={row.externalLink}
+                      sortValues={row.sortValues}
+                      sortBy={row.sortBy}
+                      numberedList={row.numberedList}
+                      container='cell'
+                      expanded
+                      previewImageHeight={row.previewImageHeight}
+                      linkAsButton={has(row, 'linkAsButton')
+                        ? row.linkAsButton
+                        : null}
+                      collapsedMaxWords={has(row, 'collapsedMaxWords')
+                        ? row.collapsedMaxWords
+                        : null}
+                      showSource={has(row, 'showSource')
+                        ? row.showSource
+                        : null}
+                      sourceExternalLink={has(row, 'sourceExternalLink')
+                        ? row.sourceExternalLink
+                        : null}
+                      renderAsHTML={has(row, 'renderAsHTML')
+                        ? row.renderAsHTML
+                        : null}
+                    />
+                  </TableRow>
+                )
+              }
+              )}
+            </TableBody>
+          </Table>}
+      </>
+    )
+  }
 }
 
 InstanceHomePageTable.propTypes = {
   classes: PropTypes.object.isRequired,
   resultClass: PropTypes.string.isRequired,
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object,
   properties: PropTypes.array.isRequired
 }
 
