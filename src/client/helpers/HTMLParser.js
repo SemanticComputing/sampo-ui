@@ -2,10 +2,12 @@ import React from 'react'
 import ReactHtmlParser from 'react-html-parser'
 import { Link } from 'react-router-dom'
 import Tooltip from '@material-ui/core/Tooltip'
+import { arrayToObject } from './helpers'
 
 export default class HTMLParser {
   constructor (props) {
     this.props = props
+    this.referencedTermsObj = null
   }
 
   parseHTML (html) {
@@ -15,6 +17,7 @@ export default class HTMLParser {
         transform = this.addReactRouterLinks
         break
       case 'addAnnotationTooltips':
+        this.processReferencedTerms()
         transform = this.addAnnotationTooltips
         break
       default:
@@ -28,6 +31,13 @@ export default class HTMLParser {
       const href = node.attribs.href
       const text = node.children[0].data
       return <Link key={index} to={href}>{text}</Link>
+    }
+  }
+
+  processReferencedTerms = () => {
+    const { referencedTerm } = this.props
+    if (Array.isArray(referencedTerm)) {
+      this.referencedTermsObj = arrayToObject({ array: referencedTerm, keyField: 'id' })
     }
   }
 
@@ -89,17 +99,16 @@ export default class HTMLParser {
   }
 
   renderAnnotation = uri => {
-    const props = this.props
     if (uri.startsWith('http://ldf.fi/ttp/')) {
       const localID = uri.replace('http://ldf.fi/ttp/', '')
       uri = `http://ldf.fi/ttp/${encodeURIComponent(localID)}`
     }
     return (
       <>
-        <li><i><small>URI:</small></i> <a href={uri} target='_blank' rel='noopener noreferrer'>{props.annotationData[uri].id}</a></li>
-        <li><i><small>dctems:hasFormat:</small></i> <a href={props.annotationData[uri].format} target='_blank' rel='noopener noreferrer'>{props.annotationData[uri].format}</a></li>
-        <li><i><small>skos:prefLabel:</small></i> {props.annotationData[uri].prefLabel}</li>
-        <li><i><small>rdfs:comment:</small></i> {props.annotationData[uri].comment}</li>
+        <li><i><small>URI:</small></i> <a href={uri} target='_blank' rel='noopener noreferrer'>{this.referencedTermsObj[uri].id}</a></li>
+        <li><i><small>dctems:hasFormat:</small></i> <a href={this.referencedTermsObj[uri].format} target='_blank' rel='noopener noreferrer'>{this.referencedTermsObj[uri].format}</a></li>
+        <li><i><small>skos:prefLabel:</small></i> {this.referencedTermsObj[uri].prefLabel}</li>
+        <li><i><small>rdfs:comment:</small></i> {this.referencedTermsObj[uri].comment}</li>
       </>
     )
   }

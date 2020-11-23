@@ -10,7 +10,6 @@ import ResultTableCell from '../facet_results/ResultTableCell'
 import Tooltip from '@material-ui/core/Tooltip'
 import IconButton from '@material-ui/core/IconButton'
 import InfoIcon from '@material-ui/icons/InfoOutlined'
-import has from 'lodash'
 
 const styles = theme => ({
   instanceTable: {
@@ -62,6 +61,10 @@ class InstanceHomePageTable extends React.Component {
               {properties.map(row => {
                 const label = intl.get(`perspectives.${resultClass}.properties.${row.id}.label`)
                 const description = intl.get(`perspectives.${resultClass}.properties.${row.id}.description`)
+                const {
+                  id, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, previewImageHeight,
+                  linkAsButton, collapsedMaxWords, showSource, sourceExternalLink, renderAsHTML, HTMLParserTask
+                } = row
                 return (
                   <TableRow key={row.id}>
                     <TableCell className={classes.labelCell}>
@@ -76,32 +79,24 @@ class InstanceHomePageTable extends React.Component {
                       </Tooltip>
                     </TableCell>
                     <ResultTableCell
-                      columnId={row.id}
-                      data={data[row.id]}
-                      valueType={row.valueType}
-                      makeLink={row.makeLink}
-                      externalLink={row.externalLink}
-                      sortValues={row.sortValues}
-                      sortBy={row.sortBy}
-                      numberedList={row.numberedList}
+                      columnId={id}
+                      data={data[id]}
+                      valueType={valueType}
+                      makeLink={makeLink}
+                      externalLink={externalLink}
+                      sortValues={sortValues}
+                      sortBy={sortBy}
+                      numberedList={numberedList}
                       container='cell'
                       expanded
-                      previewImageHeight={row.previewImageHeight}
-                      linkAsButton={has(row, 'linkAsButton')
-                        ? row.linkAsButton
-                        : null}
-                      collapsedMaxWords={has(row, 'collapsedMaxWords')
-                        ? row.collapsedMaxWords
-                        : null}
-                      showSource={has(row, 'showSource')
-                        ? row.showSource
-                        : null}
-                      sourceExternalLink={has(row, 'sourceExternalLink')
-                        ? row.sourceExternalLink
-                        : null}
-                      renderAsHTML={has(row, 'renderAsHTML')
-                        ? row.renderAsHTML
-                        : null}
+                      previewImageHeight={previewImageHeight}
+                      linkAsButton={linkAsButton}
+                      collapsedMaxWords={collapsedMaxWords}
+                      showSource={showSource}
+                      sourceExternalLink={sourceExternalLink}
+                      renderAsHTML={renderAsHTML}
+                      HTMLParserTask={HTMLParserTask}
+                      referencedTerm={data.referencedTerm}
                     />
                   </TableRow>
                 )
