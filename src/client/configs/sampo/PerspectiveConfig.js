@@ -351,7 +351,8 @@ export const perspectiveConfig = [
   {
     id: 'clientFSPlaces',
     frontPageImage: placesImage,
-    defaultActiveFacets: new Set(['prefLabel']),
+    defaultActiveFacets: new Set(['datasetSelector']),
+    searchMode: 'federated-search',
     tabs: [
       {
         id: 'table',

@@ -20,7 +20,12 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('xs')]: {
       justifyContent: 'center'
     },
-    height: props.perspective.frontPageElement === 'card' ? 'inherit' : 228
+    height: 228,
+    [props.perspective.frontPageElement === 'card']: {
+      height: 'inherit',
+      maxWidth: 269,
+      minWidth: 269
+    }
   }),
   perspectiveCardPaper: props => ({
     padding: theme.spacing(1.5),
@@ -44,6 +49,12 @@ const useStyles = makeStyles(theme => ({
   }),
   cardMedia: {
     height: 100
+  },
+  cardContent: {
+    height: 90
+  },
+  card: {
+    width: '100%'
   }
 }))
 
@@ -57,7 +68,7 @@ const MainCard = props => {
   // const smScreen = useMediaQuery(theme => theme.breakpoints.between('sm', 'md'))
   const externalPerspective = has(perspective, 'externalUrl')
   const card = has(perspective, 'frontPageElement') && perspective.frontPageElement === 'card'
-  const searchMode = perspective.id.startsWith('clientFS') ? 'federated-search' : 'faceted-search'
+  const searchMode = has(perspective, 'searchMode') ? perspective.searchMode : 'faceted-search'
 
   return (
     <Grid
@@ -80,7 +91,7 @@ const MainCard = props => {
           </Typography>
         </Paper>}
       {card &&
-        <Card>
+        <Card className={classes.card}>
           <CardActionArea>
             <CardMedia
               className={classes.cardMedia}
