@@ -93,10 +93,11 @@ export const getAllResults = ({
   const config = backendSearchConfig[resultClass]
   let endpoint
   let defaultConstraint = null
+  let langTag = null
   if (has(config, 'perspectiveID')) {
-    ({ endpoint, defaultConstraint } = backendSearchConfig[config.perspectiveID])
+    ({ endpoint, defaultConstraint, langTag } = backendSearchConfig[config.perspectiveID])
   } else {
-    ({ endpoint, defaultConstraint } = config)
+    ({ endpoint, defaultConstraint, langTag } = config)
   }
   const { filterTarget, resultMapper } = config
   let { q } = config
@@ -113,6 +114,9 @@ export const getAllResults = ({
     }))
   }
   q = q.replace(/<FACET_CLASS>/g, backendSearchConfig[config.perspectiveID].facetClass)
+  if (langTag) {
+    q = q.replace(/<LANG>/g, langTag)
+  }
   if (has(config, 'useNetworkAPI') && config.useNetworkAPI) {
     return runNetworkQuery({
       endpoint: endpoint.url,
@@ -187,10 +191,11 @@ export const getByURI = ({
 }) => {
   const config = backendSearchConfig[resultClass]
   let endpoint
-  if (has(config, 'endpoint')) {
-    endpoint = config.endpoint
+  let langTag = null
+  if (has(config, 'perspectiveID')) {
+    ({ endpoint, langTag } = backendSearchConfig[config.perspectiveID])
   } else {
-    endpoint = backendSearchConfig[config.perspectiveID].endpoint
+    ({ endpoint, langTag } = config)
   }
   const { properties, relatedInstances } = config.instance
   let q = instanceQuery
@@ -209,6 +214,9 @@ export const getByURI = ({
     }))
   }
   q = q.replace('<ID>', `<${uri}>`)
+  if (langTag) {
+    q = q.replace(/<LANG>/g, langTag)
+  }
   return runSelectQuery({
     query: endpoint.prefixes + q,
     endpoint: endpoint.url,
