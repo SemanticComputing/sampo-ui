@@ -24,10 +24,11 @@ export const getPaginatedResults = ({
   const config = backendSearchConfig[resultClass]
   let endpoint
   let defaultConstraint = null
+  let langTag = null
   if (has(config, 'perspectiveID')) {
-    ({ endpoint, defaultConstraint } = backendSearchConfig[config.perspectiveID])
+    ({ endpoint, defaultConstraint, langTag } = backendSearchConfig[config.perspectiveID])
   } else {
-    ({ endpoint, defaultConstraint } = config)
+    ({ endpoint, defaultConstraint, langTag } = config)
   }
   if (constraints == null && defaultConstraint == null) {
     q = q.replace('<FILTER>', '# no filters')
@@ -66,6 +67,9 @@ export const getPaginatedResults = ({
   q = q.replace(/<FACET_CLASS>/g, config.facetClass)
   q = q.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`)
   q = q.replace('<RESULT_SET_PROPERTIES>', config.paginatedResults.properties)
+  if (langTag) {
+    q = q.replace(/<LANG>/g, langTag)
+  }
   // console.log(endpoint.prefixes + q)
   return runSelectQuery({
     query: endpoint.prefixes + q,

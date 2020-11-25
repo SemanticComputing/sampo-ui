@@ -26,7 +26,7 @@ export const getFacet = async ({
   constrainSelf
 }) => {
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
-  const { endpoint, defaultConstraint = null } = backendSearchConfig[facetClass]
+  const { endpoint, defaultConstraint = null, langTag = null } = backendSearchConfig[facetClass]
   // choose query template and result mapper:
   let q = ''
   let mapper = null
@@ -151,6 +151,9 @@ export const getFacet = async ({
   if (facetConfig.type === 'timespan') {
     q = q.replace('<START_PROPERTY>', facetConfig.startProperty)
     q = q.replace('<END_PROPERTY>', facetConfig.endProperty)
+  }
+  if (langTag) {
+    q = q.replace(/<LANG>/g, langTag)
   }
   const response = await runSelectQuery({
     query: endpoint.prefixes + q,
