@@ -178,7 +178,9 @@ const mapFacetValues = sparqlBindings => {
     try {
       return {
         id: b.id.value,
-        prefLabel: b.prefLabel ? b.prefLabel.value : null,
+        prefLabel: b.prefLabel
+          ? b.prefLabel.value
+          : '0', // temporary prefLabel for <http://ldf.fi/MISSING_VALUE> to support sorting
         selected: b.selected.value,
         parent: b.parent ? b.parent.value : null,
         instanceCount: b.instanceCount.value
