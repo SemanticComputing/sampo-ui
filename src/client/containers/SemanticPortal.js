@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import { has } from 'lodash'
@@ -268,6 +268,10 @@ const SemanticPortal = props => {
   if (xlScreen) { screenSize = 'xl' }
   const rootUrlWithLang = `${rootUrl}/${props.options.currentLocale}`
   const noResults = props.clientFS.results == null
+
+  useEffect(() => {
+    document.title = intl.get('appTitle.short')
+  }, [props.options.currentLocale])
 
   return (
     <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} locale={props.options.currentLocale}>

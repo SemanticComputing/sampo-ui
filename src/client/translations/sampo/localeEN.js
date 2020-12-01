@@ -1,7 +1,7 @@
 export default {
   languageLabel: 'English',
   appTitle: {
-    short: 'sampo-ui',
+    short: 'Sampo-UI',
     long: ' &nbsp; &nbsp; Sampo-UI  &nbsp;  &nbsp;',
     subheading: `
       "Here to forge for us the Sampo, Hammer us the lid in colors"
