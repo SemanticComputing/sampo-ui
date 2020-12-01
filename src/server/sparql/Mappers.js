@@ -178,7 +178,7 @@ const mapFacetValues = sparqlBindings => {
     try {
       return {
         id: b.id.value,
-        prefLabel: b.prefLabel.value,
+        prefLabel: b.prefLabel ? b.prefLabel.value : null,
         selected: b.selected.value,
         parent: b.parent ? b.parent.value : null,
         instanceCount: b.instanceCount.value

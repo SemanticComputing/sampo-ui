@@ -255,7 +255,11 @@ class HierarchicalFacet extends Component {
     if (this.state.matches.length > 0) {
       isSearchMatch = this.state.matches.some(match => match.node.id === node.id)
     }
-
+    if (node.id === 'http://ldf.fi/MISSING_VALUE') {
+      // Check if there is a translated label for missing value, or use defaults
+      node.prefLabel = intl.get(`perspectives.${this.props.facetClass}.properties.${this.props.facetID}.missingValueLabel`) ||
+        intl.get('facetBar.defaultMissingValueLabel') || 'Unknown'
+    }
     return (
       <>
         <Typography className={isSearchMatch ? this.props.classes.searchMatch : ''} variant='body2'>

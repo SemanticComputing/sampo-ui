@@ -84,7 +84,7 @@ export const facetValuesQuery = `
       }
       FILTER(?instanceCount > 0)
       BIND(IRI("http://ldf.fi/MISSING_VALUE") AS ?id)
-      BIND("Unknown" AS ?prefLabel)
+      # prefLabel for <http://ldf.fi/MISSING_VALUE> is given in client/translations
       BIND('0' as ?parent)
       BIND(<UNKNOWN_SELECTED> as ?selected)
     }

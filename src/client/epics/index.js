@@ -376,7 +376,8 @@ const loadLocalesEpic = action$ => action$.pipe(
   mergeMap(async action => {
     await intl.init({
       currentLocale: action.currentLanguage,
-      locales: availableLocales
+      locales: availableLocales,
+      warningHandler: () => null
     })
     return updateLocale({ language: action.currentLanguage })
   })
