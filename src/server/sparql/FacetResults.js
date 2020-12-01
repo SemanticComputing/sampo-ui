@@ -25,10 +25,11 @@ export const getPaginatedResults = ({
   let endpoint
   let defaultConstraint = null
   let langTag = null
+  let langTagSecondary = null
   if (has(config, 'perspectiveID')) {
-    ({ endpoint, defaultConstraint, langTag } = backendSearchConfig[config.perspectiveID])
+    ({ endpoint, defaultConstraint, langTag, langTagSecondary } = backendSearchConfig[config.perspectiveID])
   } else {
-    ({ endpoint, defaultConstraint, langTag } = config)
+    ({ endpoint, defaultConstraint, langTag, langTagSecondary } = config)
   }
   if (constraints == null && defaultConstraint == null) {
     q = q.replace('<FILTER>', '# no filters')
@@ -70,6 +71,9 @@ export const getPaginatedResults = ({
   if (langTag) {
     q = q.replace(/<LANG>/g, langTag)
   }
+  if (langTagSecondary) {
+    q = q.replace(/<LANG_SECONDARY>/g, langTagSecondary)
+  }
   // console.log(endpoint.prefixes + q)
   return runSelectQuery({
     query: endpoint.prefixes + q,
@@ -94,10 +98,11 @@ export const getAllResults = ({
   let endpoint
   let defaultConstraint = null
   let langTag = null
+  let langTagSecondary = null
   if (has(config, 'perspectiveID')) {
-    ({ endpoint, defaultConstraint, langTag } = backendSearchConfig[config.perspectiveID])
+    ({ endpoint, defaultConstraint, langTag, langTagSecondary } = backendSearchConfig[config.perspectiveID])
   } else {
-    ({ endpoint, defaultConstraint, langTag } = config)
+    ({ endpoint, defaultConstraint, langTag, langTagSecondary } = config)
   }
   const { filterTarget, resultMapper } = config
   let { q } = config
@@ -116,6 +121,9 @@ export const getAllResults = ({
   q = q.replace(/<FACET_CLASS>/g, backendSearchConfig[config.perspectiveID].facetClass)
   if (langTag) {
     q = q.replace(/<LANG>/g, langTag)
+  }
+  if (langTagSecondary) {
+    q = q.replace(/<LANG_SECONDARY>/g, langTagSecondary)
   }
   if (has(config, 'useNetworkAPI') && config.useNetworkAPI) {
     return runNetworkQuery({
@@ -192,10 +200,11 @@ export const getByURI = ({
   const config = backendSearchConfig[resultClass]
   let endpoint
   let langTag = null
+  let langTagSecondary = null
   if (has(config, 'perspectiveID')) {
-    ({ endpoint, langTag } = backendSearchConfig[config.perspectiveID])
+    ({ endpoint, langTag, langTagSecondary } = backendSearchConfig[config.perspectiveID])
   } else {
-    ({ endpoint, langTag } = config)
+    ({ endpoint, langTag, langTagSecondary } = config)
   }
   const { properties, relatedInstances } = config.instance
   let q = instanceQuery
@@ -216,6 +225,9 @@ export const getByURI = ({
   q = q.replace('<ID>', `<${uri}>`)
   if (langTag) {
     q = q.replace(/<LANG>/g, langTag)
+  }
+  if (langTagSecondary) {
+    q = q.replace(/<LANG_SECONDARY>/g, langTagSecondary)
   }
   return runSelectQuery({
     query: endpoint.prefixes + q,
