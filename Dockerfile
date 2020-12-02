@@ -1,4 +1,4 @@
-FROM node:10.15.3-alpine
+FROM node:14.15.1-alpine
 ARG API_URL
 
 # Create app directory
