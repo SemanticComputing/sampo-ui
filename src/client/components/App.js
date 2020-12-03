@@ -25,6 +25,17 @@ const theme = createMuiTheme({
       endIcon: {
         marginLeft: 0
       }
+    },
+    MuiIconButton: {
+      root: {
+        padding: 4
+      }
+    },
+    MuiTableCell: {
+      sizeSmall: {
+        paddingTop: 2,
+        paddingBottom: 2
+      }
     }
   }
 })

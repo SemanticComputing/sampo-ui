@@ -13,9 +13,9 @@ import InfoIcon from '@material-ui/icons/InfoOutlined'
 
 const styles = theme => ({
   instanceTable: {
-    // maxWidth: 800,
+    // maxWidth: 1000,
     // width: '100%',
-    height: '100%',
+    // height: '100%',
     borderTop: '1px solid rgba(224, 224, 224, 1);'
   },
   divider: {
@@ -34,6 +34,9 @@ const styles = theme => ({
   },
   labelCell: {
     width: 240
+  },
+  tooltip: {
+    marginTop: -3
   }
 })
 
@@ -56,7 +59,7 @@ class InstanceHomePageTable extends React.Component {
     return (
       <>
         {data &&
-          <Table className={classes.instanceTable}>
+          <Table className={classes.instanceTable} size='small'>
             <TableBody>
               {properties.map(row => {
                 const label = intl.get(`perspectives.${resultClass}.properties.${row.id}.label`)
@@ -70,6 +73,7 @@ class InstanceHomePageTable extends React.Component {
                     <TableCell className={classes.labelCell}>
                       {label}
                       <Tooltip
+                        className={classes.tooltip}
                         title={description}
                         enterDelay={300}
                       >
