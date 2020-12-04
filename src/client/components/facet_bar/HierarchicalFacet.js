@@ -309,7 +309,7 @@ class HierarchicalFacet extends Component {
             {searchField && facet.filterType !== 'spatialFilter' &&
               <div className={classes.facetSearchContainer}>
                 <Input
-                  placeholder='Search...'
+                  placeholder={intl.get('facetBar.facetSearchFieldPlaceholder')}
                   onChange={this.handleSearchFieldOnChange}
                   value={this.state.searchString}
                 />

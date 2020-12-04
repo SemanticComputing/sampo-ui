@@ -59,6 +59,7 @@ export default {
     maxYear: 'Max year',
     min: 'Min',
     max: 'Max',
+    facetSearchFieldPlaceholder: 'Search...',
     applyFacetSelection: 'apply',
     pieChart: {
       tooltip: 'Pie chart'

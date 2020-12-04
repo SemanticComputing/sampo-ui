@@ -325,9 +325,9 @@ class FacetHeader extends React.Component {
           />}
         {menuButtons.length > 0 &&
           <>
-            <Tooltip disableFocusListener title='Filter options'>
+            <Tooltip disableFocusListener title={intl.get('facetBar.filterOptions')}>
               <IconButton
-                aria-label='Filter options'
+                aria-label={intl.get('facetBar.filterOptions')}
                 aria-owns={open ? 'facet-option-menu' : undefined}
                 aria-haspopup='true'
                 onClick={this.handleMenuButtonClick}
