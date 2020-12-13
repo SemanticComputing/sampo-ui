@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const webpack = require('webpack')
 
 const outputDirectory = 'dist/public'
+const apiUrl = typeof process.env.API_URL !== 'undefined' ? process.env.API_URL : 'http://localhost:3001/api/v1'
 
 module.exports = {
   entry: {
@@ -25,7 +26,10 @@ module.exports = {
       template: 'src/client/index.html',
       favicon: 'src/client/favicon.ico'
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.API_URL': JSON.stringify(apiUrl)
+    })
   ],
   output: {
     filename: '[name].[fullhash].js',
