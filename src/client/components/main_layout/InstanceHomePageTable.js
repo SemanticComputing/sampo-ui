@@ -96,6 +96,7 @@ class InstanceHomePageTable extends React.Component {
       hasExpandableContent = true
     }
     if (!isArray &&
+        data &&
         data !== '-' &&
         config.valueType === 'string' &&
         config.collapsedMaxWords &&
