@@ -8,8 +8,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   chartContainer: {
-    height: 'calc(100% - 30px)',
-
+    height: 'calc(100% - 100px)',
     padding: theme.spacing(1)
   }
 }))
@@ -19,12 +18,12 @@ const useStyles = makeStyles(theme => ({
  * A Dialog is a type of modal window that appears in front of app content.
  */
 const ChartDialog = props => {
-  const [open, setOpen] = React.useState(false)
   const {
     fetchData, facetID, rawData, rawDataUpdateID, createChartData, facetClass,
     resultClass, fetching, tooltip, title, xaxisTitle, yaxisTitle, seriesTitle
   } = props
   const classes = useStyles()
+  const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -49,6 +48,7 @@ const ChartDialog = props => {
       <GeneralDialog
         open={open}
         onClose={handleClose}
+        dialogTitle={props.dialogTitle}
       >
         <div className={classes.chartContainer}>
           <ApexChart

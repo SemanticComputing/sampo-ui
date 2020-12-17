@@ -47,9 +47,12 @@ const styles = theme => ({
  * A component for rendering a header and optional settings dropdown for a facet component.
  */
 class FacetHeader extends React.Component {
-  state = {
-    anchorEl: null
-  };
+  constructor (props) {
+    super(props)
+    this.state = {
+      anchorEl: null
+    }
+  }
 
   handleMenuButtonClick = event => {
     this.setState({ anchorEl: event.currentTarget })
@@ -290,6 +293,7 @@ class FacetHeader extends React.Component {
             facetClass={this.props.facetClass}
             icon={<PieChartIcon />}
             tooltip={intl.get('facetBar.pieChart.tooltip')}
+            dialogTitle={this.props.facetLabel}
           />}
         {barChartButton &&
           <ChartDialog
