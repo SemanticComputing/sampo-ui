@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import { withStyles } from '@material-ui/core/styles'
 import { has } from 'lodash'
-import SortableTree, { changeNodeAtPath, getNodeAtPath } from 'react-sortable-tree'
+import SortableTree, { changeNodeAtPath } from 'react-sortable-tree'
 import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -95,37 +95,37 @@ class HierarchicalFacet extends Component {
   serverFScomponentDidUpdate = prevProps => {
     // update component state if the user modified this facet
     if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
-      // When removing, node may be already removed by the SPARQL query, check for those
       if (!this.props.facet.useConjuction && this.props.updatedFacet === this.props.facetID) {
-        if (has(this.props.updatedFilter, 'path') &&
-            !this.props.updatedFilter.added &&
-            !getNodeAtPath(this.props.updatedFilter.path)
-        ) { return }
         if (has(this.props.updatedFilter, 'path')) {
           const treeObj = this.props.updatedFilter
-          const newTreeData = changeNodeAtPath({
-            treeData: this.state.treeData,
-            getNodeKey: ({ treeIndex }) => treeIndex,
-            path: treeObj.path,
-            newNode: () => {
-              const oldNode = treeObj.node
-              if (has(oldNode, 'children')) {
-                return {
-                  ...oldNode,
-                  selected: treeObj.added ? 'true' : 'false',
-                  // select also children by default if 'selectAlsoSubconcepts' is not defined
-                  ...((!Object.prototype.hasOwnProperty.call(this.props.facet, 'selectAlsoSubconcepts') || this.props.facet.selectAlsoSubconcepts) &&
-                  { children: this.recursiveSelect(oldNode.children, treeObj.added) })
-                }
-              } else {
-                return {
-                  ...oldNode,
-                  selected: treeObj.added ? 'true' : 'false'
+          try {
+            const newTreeData = changeNodeAtPath({
+              treeData: this.state.treeData,
+              getNodeKey: ({ treeIndex }) => treeIndex,
+              path: treeObj.path,
+              newNode: () => {
+                const oldNode = treeObj.node
+                if (has(oldNode, 'children')) {
+                  return {
+                    ...oldNode,
+                    selected: treeObj.added ? 'true' : 'false',
+                    // select also children by default if 'selectAlsoSubconcepts' is not defined
+                    ...((!Object.prototype.hasOwnProperty.call(this.props.facet, 'selectAlsoSubconcepts') || this.props.facet.selectAlsoSubconcepts) &&
+                    { children: this.recursiveSelect(oldNode.children, treeObj.added) })
+                  }
+                } else {
+                  return {
+                    ...oldNode,
+                    selected: treeObj.added ? 'true' : 'false'
+                  }
                 }
               }
-            }
-          })
-          this.setState({ treeData: newTreeData })
+            })
+            this.setState({ treeData: newTreeData })
+          } catch (err) {
+            // console.log(err)
+            // Ignore the error -- the null return will be explanation enough
+          }
         }
       } else { // else fetch new values, because some other facet was updated
         // console.log(`fetching new values for ${this.props.facetID}`)
