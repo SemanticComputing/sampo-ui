@@ -93,7 +93,7 @@ export const getFacet = async ({
     /* if this facet has previous selections (exluding <http://ldf.fi/MISSING_VALUE>),
        they need to be binded as selected */
     if (currentSelectionsWithoutUnknown.length > 0 && hasPreviousSelections) {
-      selectedBlock = generateSelectedBlock({ currentSelectionsWithoutUnknown })
+      selectedBlock = generateSelectedBlock({ currentSelectionsWithoutUnknown, literal: facetConfig.literal })
     }
     /* if there is previous selections in this facet AND in some other facet, we need an
         additional block for facet values that return 0 hits */
@@ -104,7 +104,8 @@ export const getFacet = async ({
         facetID,
         constraints,
         // no defaultConstraint here
-        currentSelectionsWithoutUnknown
+        currentSelectionsWithoutUnknown,
+        literal: facetConfig.literal
       })
     }
   }
@@ -181,11 +182,13 @@ export const getFacet = async ({
 }
 
 const generateSelectedBlock = ({
-  currentSelectionsWithoutUnknown
+  currentSelectionsWithoutUnknown,
+  literal
 }) => {
   const selectedFilter = generateSelectedFilter({
     currentSelectionsWithoutUnknown,
-    inverse: false
+    inverse: false,
+    literal
   })
   return `
           OPTIONAL {
@@ -200,7 +203,8 @@ const generateSelectedNoHitsBlock = ({
   facetClass,
   facetID,
   constraints,
-  currentSelectionsWithoutUnknown
+  currentSelectionsWithoutUnknown,
+  literal
 }) => {
   const noHitsFilter = generateConstraintsBlock({
     backendSearchConfig,
@@ -210,11 +214,12 @@ const generateSelectedNoHitsBlock = ({
     facetID: facetID,
     inverse: true
   })
+  const selections = literal ? `'${currentSelectionsWithoutUnknown.join(', ')}'` : `<${currentSelectionsWithoutUnknown.join('>, <')}>`
   return `
   UNION
   # facet values that have been selected but return no results
   {
-    VALUES ?id { <${currentSelectionsWithoutUnknown.join('> <')}> }
+    VALUES ?id { ${selections} }
     ${noHitsFilter}
     BIND(true AS ?selected_)
   }
@@ -299,9 +304,11 @@ const getUriFilters = (constraints, facetID) => {
 
 export const generateSelectedFilter = ({
   currentSelectionsWithoutUnknown,
-  inverse
+  inverse,
+  literal
 }) => {
+  const selections = literal ? `'${currentSelectionsWithoutUnknown.join(', ')}'` : `<${currentSelectionsWithoutUnknown.join('>, <')}>`
   return (`
-          FILTER(?id ${inverse ? 'NOT' : ''} IN ( <${currentSelectionsWithoutUnknown.join('>, <')}> ))
+          FILTER(?id ${inverse ? 'NOT' : ''} IN ( ${selections} ))
   `)
 }
