@@ -93,10 +93,15 @@ class HierarchicalFacet extends Component {
   }
 
   serverFScomponentDidUpdate = prevProps => {
+    // update component state if the user modified this facet
     if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
-      // update component state if the user modified this facet
+      // When removing, node may be already removed by the SPARQL query, check for those
       if (!this.props.facet.useConjuction && this.props.updatedFacet === this.props.facetID) {
-        if (has(this.props.updatedFilter, 'path') && getNodeAtPath(this.props.updatedFilter.path)) {
+        if (has(this.props.updatedFilter, 'path') &&
+            !this.props.updatedFilter.added &&
+            !getNodeAtPath(this.props.updatedFilter.path)
+        ) { return }
+        if (has(this.props.updatedFilter, 'path')) {
           const treeObj = this.props.updatedFilter
           const newTreeData = changeNodeAtPath({
             treeData: this.state.treeData,
