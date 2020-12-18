@@ -97,7 +97,7 @@ export const getFacet = async ({
     }
     /* if there is previous selections in this facet AND in some other facet, we need an
         additional block for facet values that return 0 hits */
-    if (previousSelectionsExist && previousSelectionsFromOtherFacetsExist) {
+    if (previousSelectionsExist && previousSelectionsFromOtherFacetsExist && currentSelectionsWithoutUnknown.length > 0) {
       selectedNoHitsBlock = generateSelectedNoHitsBlock({
         backendSearchConfig,
         facetClass,
@@ -156,6 +156,9 @@ export const getFacet = async ({
   if (langTag) {
     q = q.replace(/<LANG>/g, langTag)
   }
+  // if (facetID === '...') {
+  //   console.log(endpoint.prefixes + q)
+  // }
   const response = await runSelectQuery({
     query: endpoint.prefixes + q,
     endpoint: endpoint.url,
