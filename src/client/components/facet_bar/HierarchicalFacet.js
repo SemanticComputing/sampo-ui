@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import { withStyles } from '@material-ui/core/styles'
 import { has } from 'lodash'
-import SortableTree, { changeNodeAtPath } from 'react-sortable-tree'
+import SortableTree, { changeNodeAtPath, getNodeAtPath } from 'react-sortable-tree'
 import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -96,7 +96,7 @@ class HierarchicalFacet extends Component {
     if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
       // update component state if the user modified this facet
       if (!this.props.facet.useConjuction && this.props.updatedFacet === this.props.facetID) {
-        if (has(this.props.updatedFilter, 'path')) {
+        if (has(this.props.updatedFilter, 'path') && getNodeAtPath(this.props.updatedFilter.path)) {
           const treeObj = this.props.updatedFilter
           const newTreeData = changeNodeAtPath({
             treeData: this.state.treeData,
