@@ -5,13 +5,16 @@ module.exports = function (api) {
   const plugins = []
   if (isBrowser) {
     presets.push([
+      // https://babeljs.io/docs/en/babel-preset-env
       '@babel/preset-env',
       {
         /**
          * Target Browserslist’s default browsers.
          * https://github.com/browserslist/browserslist
          */
-        targets: 'defaults'
+        targets: 'defaults',
+        useBuiltIns: 'usage',
+        corejs: { version: 3, proposals: true }
       }
     ])
     presets.push('@babel/preset-react')
