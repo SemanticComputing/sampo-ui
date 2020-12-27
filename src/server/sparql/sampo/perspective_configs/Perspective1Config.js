@@ -11,6 +11,7 @@ export const perspective1Config = {
     useAuth: false
   },
   facetClass: 'frbroo:F4_Manifestation_Singleton',
+  includeInSitemap: true,
   // defaultConstraint: `
   //   <SUBJECT> dct:source mmm-schema:Bibale .
   // `,

@@ -290,16 +290,6 @@ new OpenApiValidator({
       }
     })
 
-    /* Some example paths for serving individual files: */
-
-    // app.get('/robots.txt', (request, response) => {
-    //   response.sendFile(path.join(publicPath, 'robots.txt'))
-    // })
-
-    // app.get('/sitemap.xml', (request, response) => {
-    //   response.sendFile(path.join(publicPath, 'sitemap.xml'))
-    // })
-
     // Express server is used to serve the React app only in production
     if (!isDevelopment) {
       /*  Routes are matched to a url in order of their definition

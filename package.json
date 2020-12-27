@@ -18,7 +18,7 @@
     "client": "webpack serve --config webpack.client.dev.js",
     "dev": "concurrently --prefix none --kill-others \"npm run server\" \"npm run client\"",
     "server": "cross-env NODE_ENV=development nodemon -r dotenv/config src/server/index.js --exec babel-node",
-    "sitemap": "babel-node src/server/sitemap_generator/Sitemap.js",
+    "sitemap": "babel-node src/server/sitemap_generator/SitemapGenerator.js",
     "storybook": "start-storybook",
     "test": "jest --watch"
   },
@@ -72,7 +72,7 @@
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
     "simple-react-lightbox": "^3.3.4-2",
-    "sitemap": "^6.1.5",
+    "sitemap": "^6.3.5",
     "swagger-ui-express": "^4.1.4",
     "victory": "^0.26.1"
   },

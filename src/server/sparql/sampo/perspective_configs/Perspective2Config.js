@@ -10,6 +10,7 @@ export const perspective2Config = {
     useAuth: false
   },
   facetClass: 'frbroo:F1_Work',
+  includeInSitemap: false,
   paginatedResults: {
     properties: workProperties
   },

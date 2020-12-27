@@ -125,3 +125,13 @@ export const facetValuesRange = `
     <FACET_VALUE_FILTER>
   }
 `
+
+export const sitemapQuery = `
+  SELECT ?url 
+  WHERE {
+    VALUES ?resultClass { <RESULT_CLASS> }
+    ?uri a ?resultClass .
+    BIND(CONCAT("/<PERSPECTIVE>/page/", REPLACE(STR(?uri), "^.*\\\\/(.+)", "$1")) AS ?url)
+  }
+  LIMIT 100
+`
