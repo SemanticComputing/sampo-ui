@@ -34,7 +34,7 @@
     "Leaflet.extra-markers": "git+https://github.com/SemanticComputing/Leaflet.ExtraMarkers.git",
     "apexcharts": "^3.19.2",
     "axios": "^0.19.0",
-    "core-js": "^3.6.4",
+    "core-js": "^3.8.1",
     "cytoscape": "^3.12.1",
     "date-fns": "^2.0.0-alpha.27",
     "deck.gl": "^8.3.11",
