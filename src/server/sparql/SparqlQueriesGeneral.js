@@ -133,5 +133,5 @@ export const sitemapQuery = `
     ?uri a ?resultClass .
     BIND(CONCAT("/<PERSPECTIVE>/page/", REPLACE(STR(?uri), "^.*\\\\/(.+)", "$1")) AS ?url)
   }
-  LIMIT 100
+  # LIMIT 10
 `

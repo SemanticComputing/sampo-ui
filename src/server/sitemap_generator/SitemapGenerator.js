@@ -1,7 +1,7 @@
 import { backendSearchConfig } from '../sparql/sampo/BackendSearchConfig'
 import { createWriteStream } from 'fs'
 import { resolve } from 'path'
-// import { createGzip } from 'zlib'
+import { createGzip } from 'zlib'
 // import { Readable } from 'stream'
 import { has } from 'lodash'
 import {
@@ -11,7 +11,7 @@ import {
 import { sitemapQuery } from '../sparql/SparqlQueriesGeneral'
 import { runSelectQuery } from '../sparql/SparqlApi'
 
-const outputDir = './src/server/sitemap_generator/sitemap'
+const outputDir = './src/server/sitemap_generator/sitemap_output'
 const baseURL = 'https://sampo-ui.demo.seco.cs.aalto.fi/en'
 const sitemapURL = 'https://sampo-ui.demo.seco.cs.aalto.fi/sitemap'
 
@@ -30,27 +30,35 @@ const getURLs = async resultClasses => {
     // for it to write the sitemap urls to and the expected url where that sitemap will be hosted
     getSitemapStream: index => {
       const sitemapStream = new SitemapStream({ hostname: baseURL })
-      const fileName = `sitemap-${index}.xml`
+      const fileName = `sitemap-${index}.xml.gz`
 
       sitemapStream
-        // .pipe(createGzip()) // compress the output of the sitemap
-        .pipe(createWriteStream(resolve(`${outputDir}/${fileName}`))) // write it to sitemap-NUMBER.xml
+        .pipe(createGzip()) // compress the output
+        .pipe(createWriteStream(resolve(`${outputDir}/${fileName}`))) // write it to sitemap-NUMBER.xml.gz
 
       return [`${sitemapURL}/${fileName}`, sitemapStream]
     }
   })
 
   sitemapStream
-    // .pipe(createGzip())
-    .pipe(createWriteStream(resolve(`${outputDir}/sitemap-index.xml`)))
+    .pipe(createGzip()) // compress the output
+    .pipe(createWriteStream(resolve(`${outputDir}/sitemap-index.xml.gz`))) // write it to sitemap-index.xml.gz
 
-  // Process each resultClass
+  // Add portal's main level URLs to sitemap
+  sitemapStream.write({ url: baseURL })
+  sitemapStream.write({ url: `${baseURL}/about` })
+  sitemapStream.write({ url: `${baseURL}/instructions` })
+  sitemapStream.write({ url: `${baseURL}/feedback` })
+
+  // Then process each resultClass
   for (const resultClass of resultClasses) {
-    const searchMode = resultClass.searchMode ? resultClass.searchMode : 'faceted-search'
-    // Add perspective URL to sitemap
-    sitemapStream.write({
-      url: `${baseURL}/${resultClass.perspectiveID}/${searchMode}`
-    })
+    if (resultClass.hasSearchPerspective) {
+      // If there is a search perspective, add it's URL to sitemap
+      const searchMode = resultClass.searchMode ? resultClass.searchMode : 'faceted-search'
+      sitemapStream.write({
+        url: `${baseURL}/${resultClass.perspectiveID}/${searchMode}`
+      })
+    }
     const response = await queryInstancePageURLs(resultClass)
     // Add instance page URLs to sitemap
     response.data.forEach(item => sitemapStream.write(item))
@@ -76,13 +84,21 @@ const resultClasses = []
 
 for (let [resultClass, config] of Object.entries(backendSearchConfig)) {
   if (config.includeInSitemap) {
+    let rdfType
+    let hasSearchPerspective
     if (!has(config, 'facetClass')) {
+      rdfType = config.rdfType
       config = backendSearchConfig[config.perspectiveID]
+      hasSearchPerspective = false
+    } else {
+      rdfType = config.facetClass
+      hasSearchPerspective = true
     }
     resultClasses.push({
       endpoint: config.endpoint,
       perspectiveID: resultClass,
-      rdfType: config.facetClass
+      hasSearchPerspective,
+      rdfType
     })
   }
 }
