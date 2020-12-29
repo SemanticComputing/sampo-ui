@@ -17,7 +17,7 @@ module.exports = merge(common, {
          * into output folder.
          */
         {
-          from: 'src/server/sitemap_generator/sitemap',
+          from: 'src/server/sitemap_generator/sitemap_output',
           to: `${common.output.path}/sitemap`,
           noErrorOnMissing: true
         }
