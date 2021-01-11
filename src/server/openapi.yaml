@@ -321,6 +321,7 @@ paths:
           schema: 
             type: string
           required: true
+          allowReserved: true 
           description: The query string
       responses:
         '200':
