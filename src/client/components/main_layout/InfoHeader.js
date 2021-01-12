@@ -8,6 +8,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 // import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton'
+import InfoIcon from '@material-ui/icons/InfoOutlined'
 import intl from 'react-intl-universal'
 
 const styles = theme => ({
@@ -33,6 +35,15 @@ const styles = theme => ({
   summaryContent: {
     display: 'block',
     marginBottom: `${theme.spacing(1)}px !important`
+  },
+  headingContainer: {
+    display: 'flex'
+  },
+  infoIconButton: {
+    marginLeft: theme.spacing(0.5)
+  },
+  infoIcon: {
+    fontSize: 32
   },
   label: {
     marginTop: theme.spacing(1),
@@ -84,14 +95,17 @@ const InfoHeader = props => {
           id='panel1a-header'
           IconButtonProps={{ onClick: handleExpandButtonOnClick }}
         >
-          <Typography component='h1' variant='h4'>
-            {props.pageType === 'facetResults' && intl.get(`perspectives.${props.resultClass}.label`)}
-            {props.pageType === 'instancePage' && intl.get(`perspectives.${props.resultClass}.instancePage.label`)}
-          </Typography>
+          <div className={props.classes.headingContainer}>
+            <Typography component='h1' variant='h4'>
+              {props.pageType === 'facetResults' && intl.get(`perspectives.${props.resultClass}.label`)}
+              {props.pageType === 'instancePage' && intl.get(`perspectives.${props.resultClass}.instancePage.label`)}
+            </Typography>
+            <IconButton className={props.classes.infoIconButton} onClick={handleExpandButtonOnClick}>
+              <InfoIcon className={props.classes.infoIcon} />
+            </IconButton>
+          </div>
           {props.pageType === 'instancePage' &&
-            <>
-              <Typography className={props.classes.label} component='h1' variant='h6'>{generateLabel()}</Typography>
-            </>}
+            <Typography className={props.classes.label} component='h1' variant='h6'>{generateLabel()}</Typography>}
         </AccordionSummary>
         <AccordionDetails
           className={props.classes.content}
