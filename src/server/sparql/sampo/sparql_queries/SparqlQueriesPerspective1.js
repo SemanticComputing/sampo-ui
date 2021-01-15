@@ -426,13 +426,14 @@ export const collectionProperties =
      }
 `
 
-export const manuscriptNetworkLinksQuery = `
-  SELECT DISTINCT (?id as ?source) ?target
+export const manuscriptInstancePageNetworkLinksQuery = `
+  SELECT DISTINCT (?id as ?source) ?target (1 as ?weight)
   WHERE {
     VALUES ?id { <ID> }
-    # get links to other manuscripts with the same author
-    ?id mmm-schema:manuscript_author/^mmm-schema:manuscript_author ?target .
+    ?id crm:P51_has_former_or_current_owner ?owner .
+    ?target crm:P51_has_former_or_current_owner ?owner .
   } 
+  LIMIT 10
 `
 
 export const manuscriptFacetResultsNetworkLinksQuery = `

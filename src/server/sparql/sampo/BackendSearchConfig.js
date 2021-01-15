@@ -13,7 +13,7 @@ import {
   collectionProperties,
   productionsByDecadeQuery,
   eventsByDecadeQuery,
-  manuscriptNetworkLinksQuery,
+  manuscriptInstancePageNetworkLinksQuery,
   manuscriptFacetResultsNetworkLinksQuery,
   manuscriptNetworkNodesQuery,
   knowledgeGraphMetadataQuery
@@ -166,7 +166,7 @@ export const backendSearchConfig = {
   },
   manuscriptInstancePageNetwork: {
     perspectiveID: 'perspective1',
-    q: manuscriptNetworkLinksQuery,
+    q: manuscriptInstancePageNetworkLinksQuery,
     nodes: manuscriptNetworkNodesQuery,
     useNetworkAPI: true
   },
