@@ -75,6 +75,7 @@ class Network extends React.Component {
 
   renderCytocape = () => {
     this.cy.elements().remove()
+    this.cy.resize() // this fixes panning issues on a faceted search perspective
     if (this.props.preprocess) {
       this.props.preprocess(this.props.results.elements)
     }
