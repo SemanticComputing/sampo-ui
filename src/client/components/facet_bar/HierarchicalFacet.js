@@ -255,7 +255,7 @@ class HierarchicalFacet extends Component {
   };
 
   generateLabel = node => {
-    const count = node.totalInstanceCount == null || node.totalInstanceCount === 0 ? node.instanceCount : node.totalInstanceCount
+    const count = node.instanceCount
     let isSearchMatch = false
     if (this.state.matches.length > 0) {
       isSearchMatch = this.state.matches.some(match => match.node.id === node.id)

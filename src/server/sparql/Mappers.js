@@ -1,6 +1,5 @@
 import { has } from 'lodash'
 import { getTreeFromFlatData } from 'react-sortable-tree'
-// import { makeObjectList } from './SparqlObjectMapper';
 
 export const mapPlaces = sparqlBindings => {
   const results = sparqlBindings.map(b => {
@@ -15,7 +14,6 @@ export const mapPlaces = sparqlBindings => {
 }
 
 export const mapCoordinates = sparqlBindings => {
-  // console.log(sparqlBindings);
   const results = sparqlBindings.map(b => {
     return {
       lat: b.lat.value,
@@ -45,8 +43,7 @@ export const mapHierarchicalFacet = (sparqlBindings, previousSelections) => {
     getParentKey: node => node.parent, // resolve node's parent's key
     rootKey: '0' // The value of the parent key when there is no parent (i.e., at root level)
   })
-  treeData = recursiveSort(treeData)
-  treeData.forEach(node => sumUpAndSelectChildren(node))
+  treeData = recursiveSortAndSelectChildren(treeData)
   return ({
     treeData,
     flatData: results
@@ -202,25 +199,17 @@ const comparator = (a, b) => {
   return a.prefLabel.localeCompare(b.prefLabel)
 }
 
-const sumUpAndSelectChildren = node => {
-  node.totalInstanceCount = parseInt(node.instanceCount)
-  if (has(node, 'children')) {
-    for (const child of node.children) {
-      if (node.selected === 'true') {
-        child.selected = 'true'
-        child.disabled = 'true'
-      }
-      node.totalInstanceCount += sumUpAndSelectChildren(child)
-    }
-  }
-  return node.totalInstanceCount
-}
-
-const recursiveSort = nodes => {
+const recursiveSortAndSelectChildren = nodes => {
   nodes.sort(comparator)
   nodes.forEach(node => {
     if (has(node, 'children')) {
-      recursiveSort(node.children)
+      for (const child of node.children) {
+        if (node.selected === 'true') {
+          child.selected = 'true'
+          child.disabled = 'true'
+        }
+      }
+      recursiveSortAndSelectChildren(node.children)
     }
   })
   return nodes

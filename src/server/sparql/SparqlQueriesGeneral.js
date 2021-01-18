@@ -45,20 +45,20 @@ export const facetValuesQuery = `
   SELECT DISTINCT ?id ?prefLabel ?selected ?parent ?instanceCount {
     {
       {
-        SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?selected {
+        SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?parent ?selected {
           # facet values that return results
           {
             <FILTER>
             ?instance <PREDICATE> ?id .
+            <PARENTS>
             VALUES ?facetClass { <FACET_CLASS> }
             ?instance a ?facetClass .
             <SELECTED_VALUES>
           }
-          <SELECTED_VALUES_NO_HITS>
-          <PARENTS>
+          <SELECTED_VALUES_NO_HITS>     
           BIND(COALESCE(?selected_, false) as ?selected)
         }
-        GROUP BY ?id ?selected
+        GROUP BY ?id ?parent ?selected
       }
       FILTER(BOUND(?id))
       <FACET_VALUE_FILTER>
@@ -66,7 +66,6 @@ export const facetValuesQuery = `
         ?id <FACET_LABEL_PREDICATE> ?prefLabel_
         <FACET_LABEL_FILTER>
       }
-      <PARENTS_FOR_FACET_VALUES>
       BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
     }
     UNION

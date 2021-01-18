@@ -329,22 +329,14 @@ const generateDisjunctionForUriFilter = ({
   valuesStr
 }) => {
   let s = ''
-  const filterValue = includeChildren
-    ? `?${facetID}FilterWithChildren`
-    : `?${facetID}Filter`
-  const filterTriple = `?${filterTarget} ${predicate} ${filterValue} .`
+  const predicateModified = includeChildren
+    ? `${predicate}/${parentProperty}+`
+    : predicate
+  const filterTriple = `?${filterTarget} ${predicateModified} ?${facetID}Filter .`
   if (filterTripleFirst) {
-    s += filterTriple
-  }
-  if (includeChildren) {
-    s += `
-        VALUES ?${facetID}Filter { ${valuesStr} }
-        ?${facetID}FilterWithChildren ${parentProperty}* ?${facetID}Filter .
-     `
-  } else {
-    s += `
-    VALUES ?${facetID}Filter { ${valuesStr} }
+    s += `VALUES ?${facetID}Filter { ${valuesStr} }
     `
+    s += filterTriple
   }
   if (inverse) {
     s += `
@@ -355,6 +347,7 @@ const generateDisjunctionForUriFilter = ({
      `
   }
   if (!inverse && !filterTripleFirst) {
+    s += `VALUES ?${facetID}Filter { ${valuesStr} }`
     s += filterTriple
   }
   return s
@@ -370,7 +363,7 @@ const generateConjuctionForUriFilter = ({
   valuesStr
 }) => {
   const predicateModified = includeChildren
-    ? `${predicate}/${parentProperty}*`
+    ? `${predicate}/${parentProperty}+`
     : predicate
   if (inverse) {
     return `

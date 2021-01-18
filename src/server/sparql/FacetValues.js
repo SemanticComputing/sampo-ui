@@ -54,11 +54,7 @@ export const getFacet = async ({
   let selectedBlock = '# no selections'
   let selectedNoHitsBlock = '# no filters from other facets'
   let filterBlock
-  let parentBlock = '# no parents'
-  let parentsForFacetValues = '# no parents for facet values'
   let unknownSelected = 'false'
-  let useConjuction = false
-  let selectParents = facetConfig.type === 'hierarchical'
   let currentSelectionsWithoutUnknown = []
   if (constraints == null && defaultConstraint == null) {
     filterBlock = '# no filters'
@@ -79,16 +75,10 @@ export const getFacet = async ({
     // if <http://ldf.fi/MISSING_VALUE> is selected, it needs special care
     const { indexOfUnknown, modifiedValues } = handleUnknownValue(currentSelections)
     currentSelectionsWithoutUnknown = modifiedValues
-    const facet = constraints.find(c => c.facetID === facetID)
     const previousSelectionsExist = hasPreviousSelections(constraints, facetID)
     const previousSelectionsFromOtherFacetsExist = hasPreviousSelectionsFromOtherFacets(constraints, facetID)
-    useConjuction = (has(facet, 'useConjuction') && facet.useConjuction)
     if (indexOfUnknown !== -1) {
       unknownSelected = 'true'
-      // always ignore parents when 'Unknown' is selected in a hierarchical 'AND facet'
-      if (useConjuction) {
-        selectParents = false
-      }
     }
     /* if this facet has previous selections (exluding <http://ldf.fi/MISSING_VALUE>),
        they need to be binded as selected */
@@ -109,22 +99,6 @@ export const getFacet = async ({
       })
     }
   }
-  if (selectParents) {
-    const { parentPredicate } = facetConfig
-    parentBlock = generateParentBlock({
-      backendSearchConfig,
-      facetClass,
-      facetID,
-      constraints,
-      defaultConstraint,
-      parentPredicate,
-      currentSelectionsWithoutUnknown
-    })
-    parentsForFacetValues = `
-      OPTIONAL { ?id ${facetConfig.parentProperty} ?parent_ }
-      BIND(COALESCE(?parent_, '0') as ?parent)
-    `
-  }
   q = q.replace('<SELECTED_VALUES>', selectedBlock)
   q = q.replace('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock)
   q = q.replace(/<FACET_VALUE_FILTER>/g, facetConfig.facetValueFilter)
@@ -133,18 +107,22 @@ export const getFacet = async ({
       ? facetConfig.facetLabelFilter
       : ''
   )
-  q = q.replace('<PARENTS>', parentBlock)
-  q = q.replace('<PARENTS_FOR_FACET_VALUES>', parentsForFacetValues)
-  if (facetConfig.type === 'list') {
-    q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})`)
-  } else {
+  if (facetConfig.type === 'hierarchical') {
     q = q.replace('<ORDER_BY>', '# no need for ordering')
+    q = q.replace(/<PREDICATE>/g, `${facetConfig.predicate}/${facetConfig.parentProperty}+`)
+    q = q.replace('<PARENTS>', `
+            OPTIONAL { ?id ${facetConfig.parentProperty} ?parent_ }
+            BIND(COALESCE(?parent_, '0') as ?parent)
+    `)
+  } else {
+    q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})`)
+    q = q.replace(/<PREDICATE>/g, facetConfig.predicate)
+    q = q.replace('<PARENTS>', ' # no parents')
   }
   q = q.replace(/<FILTER>/g, filterBlock)
   q = q.replace(/<FACET_CLASS>/g, backendSearchConfig[facetClass].facetClass)
   q = q.replace('<UNKNOWN_SELECTED>', unknownSelected)
   q = q.replace('<MISSING_PREDICATE>', facetConfig.predicate)
-  q = q.replace(/<PREDICATE>/g, facetConfig.predicate)
   const facetLabelPredicate = facetConfig.facetLabelPredicate
     ? facetConfig.facetLabelPredicate
     : 'skos:prefLabel|rdfs:label'
@@ -156,7 +134,7 @@ export const getFacet = async ({
   if (langTag) {
     q = q.replace(/<LANG>/g, langTag)
   }
-  // if (facetID === '...') {
+  // if (facetID === 'productionPlace') {
   //   console.log(endpoint.prefixes + q)
   // }
   const response = await runSelectQuery({
@@ -217,7 +195,7 @@ const generateSelectedNoHitsBlock = ({
     facetID: facetID,
     inverse: true
   })
-  const selections = literal ? `'${currentSelectionsWithoutUnknown.join(', ')}'` : `<${currentSelectionsWithoutUnknown.join('>, <')}>`
+  const selections = literal ? `'${currentSelectionsWithoutUnknown.join(' ')}'` : `<${currentSelectionsWithoutUnknown.join('> <')}>`
   return `
   UNION
   # facet values that have been selected but return no results
@@ -226,49 +204,6 @@ const generateSelectedNoHitsBlock = ({
     ${noHitsFilter}
     BIND(true AS ?selected_)
   }
-    `
-}
-
-const generateParentBlock = ({
-  backendSearchConfig,
-  facetClass,
-  facetID,
-  constraints,
-  defaultConstraint,
-  parentPredicate,
-  currentSelectionsWithoutUnknown
-}) => {
-  let parentFilterStr = '# no filters'
-  let ignoreSelectedValues = '# no selected values'
-  if (constraints !== null || defaultConstraint !== null) {
-    parentFilterStr = generateConstraintsBlock({
-      backendSearchConfig,
-      facetClass: facetClass,
-      constraints,
-      defaultConstraint,
-      filterTarget: 'instance2',
-      facetID: facetID,
-      inverse: false
-    })
-    if (hasPreviousSelections) {
-      ignoreSelectedValues = generateSelectedFilter({
-        currentSelectionsWithoutUnknown,
-        inverse: true
-      })
-    }
-  }
-  return `
-        UNION
-        # parents for all facet values
-        {
-            ${parentFilterStr}
-          # these instances should not be counted, so use another variable name
-          ?instance2 ${parentPredicate} ?id .
-          VALUES ?facetClass { <FACET_CLASS> }
-          ?instance2 a ?facetClass .
-          BIND(false AS ?selected_)
-          ${ignoreSelectedValues}
-        }
     `
 }
 

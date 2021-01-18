@@ -66,7 +66,6 @@ export const findsConfig = {
       predicate: ':material',
       labelPath: ':material/skos:prefLabel',
       type: 'hierarchical',
-      parentPredicate: ':material/skos:broader+',
       parentProperty: 'skos:broader'
     },
     materialLiteral: {
@@ -91,7 +90,6 @@ export const findsConfig = {
       predicate: ':earliest_period|:latest_period',
       labelPath: ':earliest_period/skos:prefLabel|:latest_period/skos:prefLabel',
       type: 'hierarchical',
-      parentPredicate: ':earliest_perio/skos:broader+|:latest_period/skos:broader+',
       parentProperty: 'skos:broader'
     },
     // startYear: {
@@ -123,7 +121,6 @@ export const findsConfig = {
       predicate: ':municipality/skos:related',
       labelPath: ':municipalityskos:related//skos:prefLabel',
       type: 'hierarchical',
-      parentPredicate: ':municipality/skos:related/skos:broader+',
       parentProperty: 'skos:broader',
       facetLabelFilter: 'FILTER(LANG(?prefLabel_) = \'fi\')'
     },
@@ -133,7 +130,6 @@ export const findsConfig = {
       predicate: ':object_type',
       labelPath: ':object_type/skos:prefLabel',
       type: 'hierarchical',
-      parentPredicate: ':object_type/skos:broader+',
       parentProperty: 'skos:broader'
     }
   }
