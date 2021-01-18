@@ -125,7 +125,7 @@ export const getFacet = async ({
   q = q.replace('<MISSING_PREDICATE>', facetConfig.predicate)
   const facetLabelPredicate = facetConfig.facetLabelPredicate
     ? facetConfig.facetLabelPredicate
-    : 'skos:prefLabel|rdfs:label'
+    : 'skos:prefLabel'
   q = q.replace('<FACET_LABEL_PREDICATE>', facetLabelPredicate)
   if (facetConfig.type === 'timespan') {
     q = q.replace('<START_PROPERTY>', facetConfig.startProperty)
