@@ -109,7 +109,7 @@ export const getFacet = async ({
   )
   if (facetConfig.type === 'hierarchical') {
     q = q.replace('<ORDER_BY>', '# no need for ordering')
-    q = q.replace(/<PREDICATE>/g, `${facetConfig.predicate}/${facetConfig.parentProperty}+`)
+    q = q.replace(/<PREDICATE>/g, `${facetConfig.predicate}/${facetConfig.parentProperty}*`)
     q = q.replace('<PARENTS>', `
             OPTIONAL { ?id ${facetConfig.parentProperty} ?parent_ }
             BIND(COALESCE(?parent_, '0') as ?parent)
