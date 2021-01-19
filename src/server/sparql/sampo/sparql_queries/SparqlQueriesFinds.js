@@ -137,6 +137,17 @@ export const findsPlacesQuery = `
   }
 `
 
+export const nearbyFindsQuery = `
+  SELECT *
+  WHERE {
+    ?id spatial:nearby (64.791 29.249 50 'km') . # Vuokkijärvi, Suomussalmi
+    ?id wgs84:lat ?lat ;
+        wgs84:long ?long .
+    BIND(CONCAT("/${perspectiveID}/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?dataProviderUrl)    
+    ${findPropertiesInstancePage}
+  }
+`
+
 export const findsTimelineQuery = `
   SELECT ?id ?group ?data__id ?data__uri ?data__label
   ?data__data__id ?data__data__label ?data__data__val ?data__data__timeRange

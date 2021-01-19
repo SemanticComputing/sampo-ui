@@ -196,7 +196,7 @@ export const backendSearchConfig = {
   nearbyFinds: {
     perspectiveID: 'finds', // use endpoint config from finds
     q: nearbyFindsQuery,
-    resultMapper: mapPlaces,
+    resultMapper: makeObjectList,
     instance: {
       properties: findPropertiesInstancePage,
       relatedInstances: ''

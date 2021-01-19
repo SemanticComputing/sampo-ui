@@ -6,6 +6,7 @@ import L from 'leaflet'
 import { has, orderBy, isEqual } from 'lodash'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { purple } from '@material-ui/core/colors'
+import history from '../../History'
 import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../configs/sampo/GeneralConfig'
 // import { apiUrl } from '../../epics'
 import 'leaflet/dist/leaflet.css' // Official Leaflet styles
@@ -711,17 +712,23 @@ class LeafletMap extends React.Component {
           events: result.events ? result.events : null
         })
       }
-      if (this.props.pageType === 'facetResults' || this.props.pageType === 'instancePage') {
+      if (this.props.pageType === 'facetResults') {
         marker.on('click', this.markerOnClickFacetResults)
       }
-      // if (this.props.pageType === 'instancePage') {
-      //   marker.bindPopup(this.createPopUpContent(marker.options))
-      // }
+      if (this.props.pageType === 'instancePage') {
+        marker.bindPopup(this.createPopUpContentFindSampo(result))
+      }
       if (this.props.pageType === 'clientFSResults') {
         marker.bindPopup(this.createPopUpContentNameSampo(result))
       }
       return marker
     }
+  }
+
+  createNavButton = ({ href, text }) => {
+    const el = document.createElement('button')
+    el.textContent = text
+    el.addEventListener('click', history.push(href))
   }
 
   markerOnClickFacetResults = event => {
@@ -802,6 +809,65 @@ class LeafletMap extends React.Component {
       }
     }
     return popUpTemplate
+  }
+
+  createPopUpContentFindSampo = data => {
+    const container = document.createElement('div')
+    const heading = document.createElement('h3')
+    const headingLink = document.createElement('a')
+    headingLink.href = ''
+    headingLink.textContent = data.prefLabel.prefLabel
+    headingLink.addEventListener('click', () => history.push(data.dataProviderUrl))
+    heading.appendChild(headingLink)
+    container.appendChild(heading)
+    if (has(data, 'type')) {
+      container.appendChild(this.createPopUpElement({
+        label: intl.get('perspectives.finds.properties.type.label'),
+        value: data.type
+      }))
+    }
+    if (has(data, 'subCategory')) {
+      container.appendChild(this.createPopUpElement({
+        label: intl.get('perspectives.finds.properties.subCategory.label'),
+        value: data.subCategory
+      }))
+    }
+    if (has(data, 'material')) {
+      container.appendChild(this.createPopUpElement({
+        label: intl.get('perspectives.finds.properties.material.label'),
+        value: data.material.prefLabel
+      }))
+    }
+    if (has(data, 'period')) {
+      container.appendChild(this.createPopUpElement({
+        label: intl.get('perspectives.finds.properties.period.label'),
+        value: data.period
+      }))
+    }
+    if (has(data, 'municipality')) {
+      container.appendChild(this.createPopUpElement({
+        label: intl.get('perspectives.finds.properties.municipality.label'),
+        value: data.municipality.prefLabel
+      }))
+    }
+    if (has(data, 'id')) {
+      container.appendChild(this.createPopUpElement({
+        label: intl.get('perspectives.finds.properties.uri.label'),
+        value: data.id
+      }))
+    }
+    return container
+  }
+
+  createPopUpElement = ({ label, value }) => {
+    const p = document.createElement('p')
+    const b = document.createElement('b')
+    const span = document.createElement('span')
+    b.textContent = (`${label}: `)
+    span.textContent = value
+    p.appendChild(b)
+    p.appendChild(span)
+    return p
   }
 
   createPopUpContentGeoJSON = (layerID, properties) => {

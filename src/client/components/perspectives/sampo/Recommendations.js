@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Recommendations = props => {
-  const { tableData, results } = props
+  const { results } = props
   const classes = useStyles()
   return (
     <div className={classes.root}>
@@ -45,14 +45,11 @@ const Recommendations = props => {
                 layers={props.leafletMap}
                 pageType='instancePage'
                 resultClass='nearbyFinds'
-                uri={tableData.id}
                 mapMode='cluster'
                 showMapModeControl={false}
-                instance={props.tableData}
                 fetchResults={props.fetchResults}
                 fetchGeoJSONLayers={props.fetchGeoJSONLayersBackend}
                 clearGeoJSONLayers={props.clearGeoJSONLayers}
-                fetchByURI={props.fetchByURI}
                 fetching={false}
                 showInstanceCountInClusters={false}
                 showExternalLayers
