@@ -739,39 +739,41 @@ class LeafletMap extends React.Component {
     })
   };
 
-  // TODO: add click events instead of a tags:
-  // https://stackoverflow.com/questions/54744762/click-event-on-leaflet-popup-content
-  createPopUpContent = result => {
-    let popUpTemplate = ''
-    if (Array.isArray(result.prefLabel)) {
-      result.prefLabel = result.prefLabel[0]
+  createPopUpContent = data => {
+    if (Array.isArray(data.prefLabel)) {
+      data.prefLabel = data.prefLabel[0]
     }
-    if (has(result.prefLabel, 'dataProviderUrl')) {
-      popUpTemplate += `<a href=${result.prefLabel.dataProviderUrl}><h3>${result.prefLabel.prefLabel}</h3></a>`
+    const container = document.createElement('div')
+    const h3 = document.createElement('h3')
+    if (has(data.prefLabel, 'dataProviderUrl')) {
+      const link = document.createElement('a')
+      link.addEventListener('click', () => history.push(data.prefLabel.dataProviderUrl))
+      link.textContent = data.prefLabel.prefLabel
+      link.style.cssText = 'cursor: pointer; text-decoration: underline'
+      h3.appendChild(link)
     } else {
-      popUpTemplate += `<h3>${result.prefLabel.prefLabel}</h3>`
+      h3.textContent = data.prefLabel.prefLabel
     }
-    if (has(result, 'sameAs')) {
-      popUpTemplate += `<p>Place authority: <a target="_blank" rel="noopener noreferrer" href=${result.sameAs}>${result.sameAs}</a></p>`
-    }
+    container.appendChild(h3)
     if (this.props.resultClass === 'placesMsProduced') {
-      popUpTemplate += '<p>Manuscripts produced here:</p>'
-      popUpTemplate += this.createInstanceListing(result.related)
+      const p = document.createElement('p')
+      p.textContent = 'Manuscripts produced here:'
+      container.appendChild(p)
+      container.appendChild(this.createInstanceListing(data.related))
     }
     if (this.props.resultClass === 'lastKnownLocations') {
-      popUpTemplate += '<p>Last known location of:</p>'
-      popUpTemplate += this.createInstanceListing(result.related)
+      const p = document.createElement('p')
+      p.textContent = 'Last known location of:'
+      container.appendChild(p)
+      container.appendChild(this.createInstanceListing(data.related))
     }
     if (this.props.resultClass === 'placesActors') {
-      popUpTemplate += '<p>Actors:</p>'
-      popUpTemplate += this.createInstanceListing(result.related)
+      const p = document.createElement('p')
+      p.textContent = 'Actors:'
+      container.appendChild(p)
+      container.appendChild(this.createInstanceListing(data.related))
     }
-    if (this.props.resultClass === 'instanceEvents') {
-      popUpTemplate += '<p>Events:</p>'
-      popUpTemplate += this.createInstanceListing(result.events)
-    }
-    // console.log(popUpTemplate)
-    return popUpTemplate
+    return container
   }
 
   createPopUpContentNameSampo = data => {
@@ -909,18 +911,28 @@ class LeafletMap extends React.Component {
   }
 
   createInstanceListing = instances => {
-    let html = ''
+    let root
     if (Array.isArray(instances)) {
+      root = document.createElement('ul')
       instances = orderBy(instances, 'prefLabel')
-      html += '<ul>'
       instances.forEach(i => {
-        html += '<li><a href=' + i.dataProviderUrl + '>' + i.prefLabel + '</a></li>'
+        const li = document.createElement('li')
+        const link = document.createElement('a')
+        link.addEventListener('click', () => history.push(i.dataProviderUrl))
+        link.textContent = i.prefLabel
+        link.style.cssText = 'cursor: pointer; text-decoration: underline'
+        li.appendChild(link)
+        root.appendChild(li)
       })
-      html += '</ul>'
     } else {
-      html += '<p><a href=' + instances.dataProviderUrl + '>' + instances.prefLabel + '</a></p>'
+      root = document.createElement('p')
+      const link = document.createElement('a')
+      link.addEventListener('click', () => history.push(instances.dataProviderUrl))
+      link.textContent = instances.prefLabel
+      link.style.cssText = 'cursor: pointer; text-decoration: underline'
+      root.appendChild(link)
     }
-    return html
+    return root
   }
 
   createOpacitySlider = overlayLayers => {
