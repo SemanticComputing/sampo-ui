@@ -18,9 +18,9 @@ const styles = () => ({
 const DeckArcLayerDialog = props => {
   const {
     classes, open, onClose, data, fromText, toText,
-    listHeadingSingleInstance, listHeadingMultipleInstances
+    listHeadingSingleInstance, listHeadingMultipleInstances, instanceVariable
   } = props
-  const hasData = data !== null && data.from && data.to && data.manuscript
+  const hasData = data !== null && data.from && data.to && data[instanceVariable]
 
   return (
     <Dialog
@@ -43,7 +43,7 @@ const DeckArcLayerDialog = props => {
               </Link>
             </Typography>
             <InstanceList
-              data={data.manuscript}
+              data={data[instanceVariable]}
               listHeadingSingleInstance={listHeadingSingleInstance}
               listHeadingMultipleInstances={listHeadingMultipleInstances}
             />

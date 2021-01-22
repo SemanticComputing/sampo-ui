@@ -137,6 +137,7 @@ const Perspective1 = props => {
             showMoreText={intl.get('deckGlMap.showMoreInformation')}
             listHeadingSingleInstance={intl.get('deckGlMap.manuscriptMigrations.listHeadingSingleInstance')}
             listHeadingMultipleInstances={intl.get('deckGlMap.manuscriptMigrations.listHeadingMultipleInstances')}
+            instanceVariable='manuscript'
             showTooltips
             mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
             mapBoxStyle={MAPBOX_STYLE}

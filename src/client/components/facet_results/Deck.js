@@ -229,6 +229,7 @@ class Deck extends React.Component {
               toText={this.props.toText}
               listHeadingSingleInstance={this.props.listHeadingSingleInstance}
               listHeadingMultipleInstances={this.props.listHeadingMultipleInstances}
+              instanceVariable={[this.props.instanceVariable]}
             />}
           {layerType === 'arcLayer' && showTooltip &&
             <DeckArcLayerTooltip
