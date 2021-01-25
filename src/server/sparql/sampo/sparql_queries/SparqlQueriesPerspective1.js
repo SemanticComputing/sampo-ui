@@ -507,7 +507,8 @@ export const migrationsQuery = `
             geo:lat ?to__lat ;
             geo:long ?to__long .
     BIND(CONCAT("/places/page/", REPLACE(STR(?to__id), "^.*\\\\/(.+)", "$1")) AS ?to__dataProviderUrl)
-    BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/yoma/place/", ""))) as ?id)
+    BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/mmm/place/", ""))) as ?id)
+    FILTER(?from__id != ?to__id)
   }
   GROUP BY ?id 
   ?from__id ?from__prefLabel ?from__lat ?from__long ?from__dataProviderUrl
