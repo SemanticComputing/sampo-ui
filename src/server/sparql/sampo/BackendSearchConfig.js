@@ -8,6 +8,7 @@ import {
   productionPlacesQuery,
   lastKnownLocationsQuery,
   migrationsQuery,
+  migrationsDialogQuery,
   manuscriptPropertiesInstancePage,
   expressionProperties,
   collectionProperties,
@@ -57,7 +58,8 @@ import { makeObjectList } from '../SparqlObjectMapper'
 import {
   mapPlaces,
   mapLineChart,
-  mapMultipleLineChart
+  mapMultipleLineChart,
+  linearScale
 } from '../Mappers'
 
 export const backendSearchConfig = {
@@ -139,7 +141,21 @@ export const backendSearchConfig = {
   placesMsMigrations: {
     perspectiveID: 'perspective1',
     q: migrationsQuery,
-    filterTarget: 'manuscript__id',
+    filterTarget: 'manuscript',
+    resultMapper: makeObjectList,
+    postprocess: {
+      func: linearScale,
+      config: {
+        variable: 'instanceCount',
+        minAllowed: 3,
+        maxAllowed: 30
+      }
+    }
+  },
+  placesMsMigrationsDialog: {
+    perspectiveID: 'perspective1',
+    q: migrationsDialogQuery,
+    filterTarget: 'id',
     resultMapper: makeObjectList
   },
   placesEvents: {

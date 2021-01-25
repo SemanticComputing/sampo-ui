@@ -124,13 +124,19 @@ const Perspective1 = props => {
           <Deck
             results={props.placesResults.results}
             facetUpdateID={props.facetData.facetUpdateID}
+            instanceAnalysisData={props.placesResults.instanceAnalysisData}
+            instanceAnalysisDataUpdateID={props.placesResults.instanceAnalysisDataUpdateID}
             resultClass='placesMsMigrations'
             facetClass='perspective1'
             fetchResults={props.fetchResults}
+            fetchInstanceAnalysis={props.fetchInstanceAnalysis}
             fetching={props.placesResults.fetching}
+            fetchingInstanceAnalysisData={props.placesResults.fetchingInstanceAnalysisData}
             layerType='arcLayer'
+            getArcWidth={d => d.instanceCountScaled}
             fromText={intl.get('deckGlMap.manuscriptMigrations.from')}
             toText={intl.get('deckGlMap.manuscriptMigrations.to')}
+            countText={intl.get('deckGlMap.manuscriptMigrations.count')}
             legendTitle={intl.get('deckGlMap.manuscriptMigrations.legendTitle')}
             legendFromText={intl.get('deckGlMap.manuscriptMigrations.legendFrom')}
             legendToText={intl.get('deckGlMap.manuscriptMigrations.legendTo')}

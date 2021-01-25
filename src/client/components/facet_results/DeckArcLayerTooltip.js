@@ -4,8 +4,8 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 
 const MigrationsMapTooltip = props => {
-  const { data, fromText, toText, showMoreText } = props
-  const { from, to } = data.object
+  const { data, fromText, toText, countText, showMoreText } = props
+  const { from, to, instanceCount } = data.object
   const rootStyle = {
     padding: 12,
     position: 'absolute',
@@ -22,6 +22,9 @@ const MigrationsMapTooltip = props => {
       </Typography>
       <Typography>{toText} &nbsp;
         {Array.isArray(to.prefLabel) ? to.prefLabel[0] : to.prefLabel}
+      </Typography>
+      <Typography>{countText} &nbsp;
+        {instanceCount}
       </Typography>
       <br />
       <Typography>{showMoreText}</Typography>

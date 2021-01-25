@@ -62,7 +62,9 @@ class Deck extends React.Component {
     },
     dialog: {
       open: false,
-      data: null
+      data: null,
+      from: null,
+      to: null
     },
     hoverInfo: null
   }
@@ -85,21 +87,34 @@ class Deck extends React.Component {
         sortBy: null
       })
     }
+    // if (prevProps.instanceAnalysisDataUpdateID !== this.props.instanceAnalysisDataUpdateID) {
+    //   this.setState({
+    //     dialog: { data: this.props.instanceAnalysisData }
+    //   })
+    // }
   }
 
-  setDialog = info =>
+  setDialog = info => {
     this.setState({
       dialog: {
         open: true,
-        data: info.object
+        from: info.object.from,
+        to: info.object.to
       }
     })
+    this.props.fetchInstanceAnalysis({
+      resultClass: `${this.props.resultClass}Dialog`,
+      facetClass: this.props.facetClass,
+      fromID: info.object.from.id,
+      toID: info.object.to.id
+    })
+  }
 
   closeDialog = () =>
     this.setState({
       dialog: {
         open: false,
-        data: {}
+        data: null
       }
     })
 
@@ -107,7 +122,7 @@ class Deck extends React.Component {
     this.state.mounted && this.setState({ viewport });
 
   renderSpinner () {
-    if (this.props.fetching) {
+    if (this.props.fetching || this.props.fetchingInstanceAnalysisData) {
       return (
         <div className={this.props.classes.spinner}>
           <CircularProgress style={{ color: purple[500] }} thickness={5} />
@@ -124,7 +139,7 @@ class Deck extends React.Component {
       id: 'arc-layer',
       data,
       pickable: true,
-      getWidth: 3,
+      getWidth: this.props.getArcWidth ? this.props.getArcWidth : 3,
       getSourceColor: [0, 0, 255, 255],
       getTargetColor: [255, 0, 0, 255],
       getSourcePosition: d => this.parseCoordinates(d.from),
@@ -220,22 +235,27 @@ class Deck extends React.Component {
             getCursor={() => 'initial'}
           />
           {this.renderSpinner()}
-          {layerType === 'arcLayer' &&
+          {layerType === 'arcLayer' && this.props.instanceAnalysisData && this.state.dialog.open &&
             <DeckArcLayerDialog
-              open={this.state.dialog.open}
               onClose={this.closeDialog.bind(this)}
-              data={this.state.dialog.data}
+              data={this.props.instanceAnalysisData}
+              from={this.state.dialog.from}
+              to={this.state.dialog.to}
               fromText={this.props.fromText}
               toText={this.props.toText}
+              countText={this.props.countText}
               listHeadingSingleInstance={this.props.listHeadingSingleInstance}
               listHeadingMultipleInstances={this.props.listHeadingMultipleInstances}
               instanceVariable={[this.props.instanceVariable]}
+              resultClass={this.props.resultClass}
+              facetClass={this.props.facetClass}
             />}
           {layerType === 'arcLayer' && showTooltip &&
             <DeckArcLayerTooltip
               data={hoverInfo}
               fromText={this.props.fromText}
               toText={this.props.toText}
+              countText={this.props.countText}
               showMoreText={this.props.showMoreText}
             />}
         </ReactMapGL>

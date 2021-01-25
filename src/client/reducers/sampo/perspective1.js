@@ -13,10 +13,13 @@ export const INITIAL_STATE = {
   sortDirection: null,
   fetching: false,
   fetchingResultCount: false,
+  fetchingInstanceAnalysisData: false,
   facetedSearchHeaderExpanded: false,
   instancePageHeaderExpanded: false,
   instanceTableData: null,
   instanceTableExternalData: null,
+  instanceAnalysisData: null,
+  instanceAnalysisDataUpdateID: 0,
   instanceSparqlQuery: null,
   properties: [
     {

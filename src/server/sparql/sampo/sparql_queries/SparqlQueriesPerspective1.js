@@ -491,24 +491,37 @@ export const lastKnownLocationsQuery = `
 
 // # https://github.com/uber/deck.gl/blob/master/docs/layers/arc-layer.md
 export const migrationsQuery = `
-  SELECT DISTINCT ?id ?manuscript__id ?manuscript__prefLabel ?manuscript__dataProviderUrl
-    ?from__id ?from__prefLabel ?from__dataProviderUrl ?from__lat ?from__long
-    ?to__id ?to__prefLabel ?to__dataProviderUrl ?to__lat ?to__long
+  SELECT DISTINCT ?id 
+  ?from__id ?from__prefLabel ?from__lat ?from__long ?from__dataProviderUrl
+  ?to__id ?to__prefLabel ?to__lat ?to__long ?to__dataProviderUrl
+  (COUNT(DISTINCT ?manuscript) as ?instanceCount)
   WHERE {
     <FILTER>
-    ?manuscript__id ^crm:P108_has_produced/crm:P7_took_place_at ?from__id ;
-                    mmm-schema:last_known_location ?to__id ;
-                    skos:prefLabel ?manuscript__prefLabel .
-    BIND(CONCAT("/${perspectiveID}/page/", REPLACE(STR(?manuscript__id), "^.*\\\\/(.+)", "$1")) AS ?manuscript__dataProviderUrl)
+    ?manuscript ^crm:P108_has_produced/crm:P7_took_place_at ?from__id ;
+            mmm-schema:last_known_location ?to__id .
     ?from__id skos:prefLabel ?from__prefLabel ;
-              wgs84:lat ?from__lat ;
-              wgs84:long ?from__long .
+              geo:lat ?from__lat ;
+              geo:long ?from__long .
     BIND(CONCAT("/places/page/", REPLACE(STR(?from__id), "^.*\\\\/(.+)", "$1")) AS ?from__dataProviderUrl)
     ?to__id skos:prefLabel ?to__prefLabel ;
-            wgs84:lat ?to__lat ;
-            wgs84:long ?to__long .
+            geo:lat ?to__lat ;
+            geo:long ?to__long .
     BIND(CONCAT("/places/page/", REPLACE(STR(?to__id), "^.*\\\\/(.+)", "$1")) AS ?to__dataProviderUrl)
-    BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/mmm/place/", ""))) as ?id)
+    BIND(IRI(CONCAT(STR(?from__id), "-", REPLACE(STR(?to__id), "http://ldf.fi/yoma/place/", ""))) as ?id)
+  }
+  GROUP BY ?id 
+  ?from__id ?from__prefLabel ?from__lat ?from__long ?from__dataProviderUrl
+  ?to__id ?to__prefLabel ?to__lat ?to__long ?to__dataProviderUrl
+  ORDER BY desc(?instanceCount)
+`
+
+export const migrationsDialogQuery = `
+  SELECT * {
+    <FILTER>
+    ?id ^crm:P108_has_produced/crm:P7_took_place_at <FROM_ID> ;
+                    mmm-schema:last_known_location <TO_ID> ;
+                    skos:prefLabel ?prefLabel .
+    BIND(CONCAT("/${perspectiveID}/page/", REPLACE(STR(?id), "^.*\\\\/(.+)", "$1")) AS ?dataProviderUrl)
   }
 `
 

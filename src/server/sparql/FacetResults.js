@@ -92,7 +92,9 @@ export const getAllResults = ({
   constraints,
   resultFormat,
   optimize,
-  limit
+  limit,
+  fromID = null,
+  toID = null
 }) => {
   const config = backendSearchConfig[resultClass]
   let endpoint
@@ -104,7 +106,7 @@ export const getAllResults = ({
   } else {
     ({ endpoint, defaultConstraint, langTag, langTagSecondary } = config)
   }
-  const { filterTarget, resultMapper } = config
+  const { filterTarget, resultMapper, postprocess = null } = config
   let { q } = config
   if (constraints == null && defaultConstraint == null) {
     q = q.replace(/<FILTER>/g, '# no filters')
@@ -124,6 +126,12 @@ export const getAllResults = ({
   }
   if (langTagSecondary) {
     q = q.replace(/<LANG_SECONDARY>/g, langTagSecondary)
+  }
+  if (fromID) {
+    q = q.replace(/<FROM_ID>/g, `<${fromID}>`)
+  }
+  if (toID) {
+    q = q.replace(/<TO_ID>/g, `<${toID}>`)
   }
   if (has(config, 'useNetworkAPI') && config.useNetworkAPI) {
     return runNetworkQuery({
@@ -145,6 +153,7 @@ export const getAllResults = ({
       endpoint: endpoint.url,
       useAuth: endpoint.useAuth,
       resultMapper,
+      postprocess,
       resultFormat
     })
   }

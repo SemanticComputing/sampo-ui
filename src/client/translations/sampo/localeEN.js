@@ -195,6 +195,7 @@ export default {
       legendTo: 'Last known location',
       from: 'Production place:',
       to: 'Last known location:',
+      count: 'Manuscript count',
       listHeadingSingleInstance: 'Manuscript:',
       listHeadingMultipleInstances: 'Manuscripts:'
     }

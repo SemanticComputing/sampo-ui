@@ -18,6 +18,8 @@ export const FETCH_SIMILAR_DOCUMENTS_BY_ID = 'FETCH_SIMILAR_DOCUMENTS_BY_ID'
 export const FETCH_SIMILAR_DOCUMENTS_BY_ID_FAILED = 'FETCH_SIMILAR_DOCUMENTS_BY_ID_FAILED'
 export const FETCH_NETWORK_BY_ID = 'FETCH_NETWORK_BY_ID'
 export const FETCH_NETWORK_BY_ID_FAILED = 'FETCH_NETWORK_BY_ID_FAILED'
+export const FETCH_INSTANCE_ANALYSIS = 'FETCH_INSTANCE_ANALYSIS'
+export const FETCH_INSTANCE_ANALYSIS_FAILED = 'FETCH_INSTANCE_ANALYSIS_FAILED'
 export const UPDATE_INSTANCE_TABLE = 'UPDATE_INSTANCE_TABLE'
 export const UPDATE_INSTANCE_TABLE_EXTERNAL = 'UPDATE_INSTANCE_TABLE_EXTERNAL'
 export const UPDATE_INSTANCE_ANALYSIS = 'UPDATE_INSTANCE_ANALYSIS'
@@ -68,13 +70,33 @@ export const fetchPaginatedResultsFailed = (resultClass, error, message) => ({
   error,
   message
 })
-export const fetchResults = ({ resultClass, facetClass, uri = null, limit = null, optimize = null }) => ({
+export const fetchResults = ({
+  resultClass,
+  facetClass,
+  uri = null,
+  limit = null,
+  optimize = null
+}) => ({
   type: FETCH_RESULTS,
   resultClass,
   facetClass,
   uri,
   limit,
   optimize
+})
+export const fetchInstanceAnalysis = ({
+  resultClass,
+  facetClass,
+  uri = null,
+  fromID = null,
+  toID = null
+}) => ({
+  type: FETCH_INSTANCE_ANALYSIS,
+  resultClass,
+  facetClass,
+  uri,
+  fromID,
+  toID
 })
 export const fetchResultCount = ({ resultClass, facetClass }) => ({
   type: FETCH_RESULT_COUNT,
@@ -173,6 +195,11 @@ export const updateInstanceTable = ({ resultClass, data, sparqlQuery }) => ({
 })
 export const updateInstanceTableExternal = ({ resultClass, data }) => ({
   type: UPDATE_INSTANCE_TABLE_EXTERNAL,
+  resultClass,
+  data
+})
+export const updateInstanceAnalysisData = ({ resultClass, data, sparqlQuery }) => ({
+  type: UPDATE_INSTANCE_ANALYSIS,
   resultClass,
   data
 })

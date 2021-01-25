@@ -22,6 +22,7 @@ import {
   FETCH_PAGINATED_RESULTS,
   FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_RESULTS,
+  FETCH_INSTANCE_ANALYSIS,
   FETCH_FULL_TEXT_RESULTS,
   FETCH_RESULTS_FAILED,
   FETCH_BY_URI,
@@ -44,6 +45,7 @@ import {
   clientFSUpdateResults,
   updateInstanceTable,
   updateInstanceTableExternal,
+  updateInstanceAnalysisData,
   updateFacetValues,
   updateFacetValuesConstrainSelf,
   updateLocale,
@@ -135,6 +137,46 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
       body: params
     }).pipe(
       map(ajaxResponse => updateResults({
+        resultClass,
+        data: ajaxResponse.response.data,
+        sparqlQuery: ajaxResponse.response.sparqlQuery
+      })),
+      catchError(error => of({
+        type: FETCH_RESULTS_FAILED,
+        resultClass,
+        error: error,
+        message: {
+          text: backendErrorText,
+          title: 'Error'
+        }
+      }))
+    )
+  })
+)
+
+const fetchInstanceAnalysisEpic = (action$, state$) => action$.pipe(
+  ofType(FETCH_INSTANCE_ANALYSIS),
+  withLatestFrom(state$),
+  mergeMap(([action, state]) => {
+    const { resultClass, facetClass, fromID, toID } = action
+    const params = stateToUrl({
+      facets: facetClass ? state[`${facetClass}Facets`].facets : null,
+      facetClass,
+      uri: action.uri ? action.uri : null,
+      fromID,
+      toID
+    })
+    const requestUrl = `${apiUrl}/faceted-search/${resultClass}/all`
+    // https://rxjs-dev.firebaseapp.com/api/ajax/ajax
+    return ajax({
+      url: requestUrl,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: params
+    }).pipe(
+      map(ajaxResponse => updateInstanceAnalysisData({
         resultClass,
         data: ajaxResponse.response.data,
         sparqlQuery: ajaxResponse.response.sparqlQuery
@@ -505,6 +547,7 @@ const fetchKnowledgeGraphMetadataEpic = (action$, state$) => action$.pipe(
 const rootEpic = combineEpics(
   fetchPaginatedResultsEpic,
   fetchResultsEpic,
+  fetchInstanceAnalysisEpic,
   fetchResultCountEpic,
   fetchByURIEpic,
   fetchFacetEpic,

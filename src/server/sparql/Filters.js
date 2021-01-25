@@ -334,7 +334,8 @@ const generateDisjunctionForUriFilter = ({
     : predicate
   const filterTriple = `?${filterTarget} ${predicateModified} ?${facetID}Filter .`
   if (filterTripleFirst) {
-    s += `VALUES ?${facetID}Filter { ${valuesStr} }
+    s += `
+    VALUES ?${facetID}Filter { ${valuesStr} }
     `
     s += filterTriple
   }
@@ -347,7 +348,9 @@ const generateDisjunctionForUriFilter = ({
      `
   }
   if (!inverse && !filterTripleFirst) {
-    s += `VALUES ?${facetID}Filter { ${valuesStr} }`
+    s += `
+    VALUES ?${facetID}Filter { ${valuesStr} }
+    `
     s += filterTriple
   }
   return s

@@ -154,6 +154,20 @@ export const mapMultipleLineChart = sparqlBindings => {
   return res
 }
 
+export const linearScale = ({ data, config }) => {
+  const { variable, minAllowed, maxAllowed } = config
+  const length = data.length
+  const min = data[length - 1][variable]
+  const max = data[0].[variable]
+  data.forEach(item => {
+    if (item[variable]) {
+      const unscaledNum = item[variable]
+      // https://stackoverflow.com/a/31687097
+      item[`${variable}Scaled`] = (maxAllowed - minAllowed) * (unscaledNum - min) / (max - min) + minAllowed
+    }
+  })
+}
+
 /* Data processing as in:
 *  https://github.com/apexcharts/apexcharts.js/blob/master/samples/vue/area/timeseries-with-irregular-data.html
 *  Trim zero values from array start and end
