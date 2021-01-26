@@ -27,3 +27,5 @@ export const SLIDER_DURATION = {
   normalSpeed: 600,
   doubleSpeed: 300
 }
+
+export const feedbackLink = 'https://link.webropolsurveys.com/'

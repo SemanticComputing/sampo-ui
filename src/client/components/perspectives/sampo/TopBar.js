@@ -17,7 +17,7 @@ import TopBarLanguageButton from '../../main_layout/TopBarLanguageButton'
 import Divider from '@material-ui/core/Divider'
 import { has } from 'lodash'
 import secoLogo from '../../../img/logos/seco-logo-48x50.png'
-import { showLanguageButton } from '../../../configs/sampo/GeneralConfig'
+import { showLanguageButton, feedbackLink } from '../../../configs/sampo/GeneralConfig'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -98,7 +98,9 @@ const TopBar = props => {
           rel='noopener noreferrer'
         >
           <MenuItem>
-            {intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
+            {perspective.label
+              ? perspective.label.toUpperCase()
+              : intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
           </MenuItem>
         </a>
       )
@@ -130,7 +132,9 @@ const TopBar = props => {
           <Button
             className={classes.appBarButton}
           >
-            {intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
+            {perspective.label
+              ? perspective.label
+              : intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
           </Button>
         </a>
       )
@@ -160,14 +164,19 @@ const TopBar = props => {
     >
       {perspectives.map(perspective => perspective.isHidden ? null : renderMobileMenuItem(perspective))}
       <Divider />
-      <MenuItem
+      {renderMobileMenuItem({
+        id: 'feedback',
+        externalUrl: feedbackLink,
+        label: intl.get('topBar.feedback')
+      })}
+      {/* <MenuItem
         key='feedback'
         component={AdapterLink}
         to={`${props.rootUrl}/feedback`}
         onClick={handleMobileMenuClose}
       >
         {intl.get('topBar.feedback').toUpperCase()}
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem
         key={0}
         component={AdapterLink}
@@ -219,15 +228,11 @@ const TopBar = props => {
           <div className={classes.sectionDesktop}>
             {perspectives.map((perspective, index) => perspective.isHidden ? null : renderDesktopTopMenuItem(perspective, index))}
             <div className={classes.appBarDivider} />
-            <Button
-              className={classes.appBarButton}
-              component={AdapterNavLink}
-              to={`${props.rootUrl}/feedback`}
-              isActive={(match, location) => location.pathname.startsWith(`${props.rootUrl}/feedback`)}
-              activeClassName={classes.appBarButtonActive}
-            >
-              {intl.get('topBar.feedback')}
-            </Button>
+            {renderDesktopTopMenuItem({
+              id: 'feedback',
+              externalUrl: feedbackLink,
+              label: intl.get('topBar.feedback')
+            })}
             <TopBarInfoButton rootUrl={props.rootUrl} />
             <Button
               className={classes.appBarButton}
