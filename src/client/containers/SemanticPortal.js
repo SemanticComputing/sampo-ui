@@ -574,13 +574,13 @@ const SemanticPortal = props => {
                 </Grid>}
             />
             {/* create routes for info buttons */}
-            <Route
+            {/* <Route
               path={`${rootUrlWithLang}/feedback`}
               render={() =>
                 <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
                   <TextPage>{intl.getHTML('feedback')}</TextPage>
                 </div>}
-            />
+            /> */}
             <Route
               path={`${rootUrlWithLang}/about`}
               render={() =>
