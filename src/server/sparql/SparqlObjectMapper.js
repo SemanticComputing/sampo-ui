@@ -1,5 +1,8 @@
 import _ from 'lodash'
 
+// const NS_PER_SEC = 1e9
+// const MS_PER_NS = 1e-6
+
 /**
 * @param {Array} objects A list of objects as SPARQL results.
 * @returns {Array} The mapped object list.
@@ -8,7 +11,7 @@ import _ from 'lodash'
 * id are merged into one object.
 */
 export const makeObjectList = (objects) => {
-  // console.log(objects)
+  // const time = process.hrtime()
   const objList = _.transform(objects, function (result, obj) {
     if (!obj.id) {
       return null
@@ -18,6 +21,8 @@ export const makeObjectList = (objects) => {
     // obj = reviseObject(obj, orig);
     mergeValueToList(result, obj)
   })
+  // const diff = process.hrtime(time)
+  // console.log(`makeObjectList took ${(diff[0] * NS_PER_SEC + diff[1]) * MS_PER_NS} milliseconds`)
   return objList
   // return self.postProcess(objList);
 }
