@@ -215,11 +215,11 @@ export const getByURI = ({
   } else {
     ({ endpoint, langTag, langTagSecondary } = config)
   }
-  const { properties, relatedInstances } = config.instance
+  const { properties, relatedInstances, noFilterForRelatedInstances = false } = config.instance
   let q = instanceQuery
   q = q.replace('<PROPERTIES>', properties)
   q = q.replace('<RELATED_INSTANCES>', relatedInstances)
-  if (constraints == null) {
+  if (constraints == null || noFilterForRelatedInstances) {
     q = q.replace('<FILTER>', '# no filters')
   } else {
     q = q.replace('<FILTER>', generateConstraintsBlock({
