@@ -10,6 +10,8 @@ import { availableLocales } from './epics/index.js'
 import { loadLocales } from './actions'
 import { defaultLocale } from './configs/sampo/GeneralConfig'
 import { updateLocaleToPathname } from './helpers/helpers'
+import { library, dom } from '@fortawesome/fontawesome-svg-core'
+import { faMinus, faPlus, faExpand } from '@fortawesome/free-solid-svg-icons'
 
 import './index.css'
 import 'react-sortable-tree/style.css'
@@ -35,6 +37,10 @@ if (Object.prototype.hasOwnProperty.call(availableLocales, localeFromUrl)) {
   history.push({ pathname: newPathname })
 }
 store.dispatch(loadLocales(locale))
+
+// https://www.pullrequest.com/blog/webpack-fontawesome-guide/
+library.add(faMinus, faPlus, faExpand)
+dom.watch()
 
 render(
   <Provider store={store}>

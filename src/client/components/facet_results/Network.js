@@ -2,8 +2,36 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import history from '../../History'
 import cytoscape from 'cytoscape'
+import panzoom from 'cytoscape-panzoom'
+import 'cytoscape-panzoom/cytoscape.js-panzoom.css'
 import purple from '@material-ui/core/colors/purple'
 import CircularProgress from '@material-ui/core/CircularProgress'
+
+const zoomControlOptions = {
+  zoomFactor: 0.05, // zoom factor per zoom tick
+  zoomDelay: 45, // how many ms between zoom ticks
+  minZoom: 0.1, // min zoom level
+  maxZoom: 10, // max zoom level
+  fitPadding: 50, // padding when fitting
+  panSpeed: 10, // how many ms in between pan ticks
+  panDistance: 10, // max pan distance per tick
+  panDragAreaSize: 75, // the length of the pan drag box in which the vector for panning is calculated (bigger = finer control of pan speed and direction)
+  panMinPercentSpeed: 0.25, // the slowest speed we can pan by (as a percent of panSpeed)
+  panInactiveArea: 8, // radius of inactive area in pan drag box
+  panIndicatorMinOpacity: 0.5, // min opacity of pan indicator (the draggable nib); scales from this to 1.0
+  zoomOnly: false, // a minimal version of the ui only with zooming (useful on systems with bad mousewheel resolution)
+  fitSelector: undefined, // selector of elements to fit
+  animateOnFit: function () { // whether to animate on fit
+    return false
+  },
+  fitAnimationDuration: 1000, // duration of animation on fit
+
+  // icon class names
+  sliderHandleIcon: 'fas fa-minus',
+  zoomInIcon: 'fas fa-plus',
+  zoomOutIcon: 'fas fa-minus',
+  resetIcon: 'fas fa-expand'
+}
 
 const cyContainerStyle = {
   width: '100%',
@@ -17,6 +45,7 @@ class Network extends React.Component {
   }
 
   componentDidMount = () => {
+    console.log('did mount')
     this.props.fetchResults({
       resultClass: this.props.resultClass,
       facetClass: this.props.facetClass,
@@ -56,6 +85,13 @@ class Network extends React.Component {
     this.cy.on('mouseout', 'node', function (event) {
       document.body.style.cursor = 'default'
     })
+
+    if (this.cy.panzoom == null) {
+      // register panzoom extension
+      panzoom(cytoscape)
+    }
+    // add the panzoom control
+    this.cy.panzoom(zoomControlOptions)
   }
 
   componentDidUpdate = prevProps => {
