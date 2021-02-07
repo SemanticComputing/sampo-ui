@@ -136,6 +136,7 @@ class InstanceHomePage extends React.Component {
 
   render = () => {
     const { classes, tableData, isLoading, resultClass, rootUrl } = this.props
+    const hasTableData = this.hasTableData()
     return (
       <div className={classes.root}>
         <PerspectiveTabs
@@ -144,18 +145,18 @@ class InstanceHomePage extends React.Component {
           screenSize={this.props.screenSize}
         />
         <Paper square className={classes.content}>
-          {isLoading &&
+          {isLoading && !hasTableData &&
             <div className={classes.spinnerContainer}>
               <CircularProgress style={{ color: purple[500] }} thickness={5} />
             </div>}
-          {!this.hasTableData() &&
-            <>
+          {!hasTableData &&
+            <div className={classes.spinnerContainer}>
               <Typography variant='h6'>
                 No data found for id: <span style={{ fontStyle: 'italic' }}>{this.state.localID}</span>
               </Typography>
-            </>}
+            </div>}
           {/* make sure that tableData exists before rendering any components */}
-          {this.hasTableData() &&
+          {hasTableData &&
             <>
               <Route
                 exact path={`${rootUrl}/${resultClass}/page/${this.state.localID}`}
@@ -178,6 +179,8 @@ class InstanceHomePage extends React.Component {
                     results={this.props.results}
                     resultUpdateID={this.props.resultUpdateID}
                     fetchResults={this.props.fetchResults}
+                    fetching={isLoading}
+                    // fetching
                     resultClass='manuscriptInstancePageNetwork'
                     uri={tableData.id}
                     limit={200}
@@ -194,6 +197,7 @@ class InstanceHomePage extends React.Component {
                     results={this.props.results}
                     resultUpdateID={this.props.resultUpdateID}
                     fetchResults={this.props.fetchResults}
+                    fetching={isLoading}
                     resultClass='emloLetterNetwork'
                     uri={tableData.id}
                     limit={100}

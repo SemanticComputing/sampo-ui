@@ -102,9 +102,9 @@ class Network extends React.Component {
       rootStyle.height = 'calc(100% - 72px)'
     }
     const spinnerContainerStyle = {
-      ...rootStyle,
       display: 'flex',
       width: '100%',
+      height: '100%',
       alignItems: 'center',
       justifyContent: 'center'
     }

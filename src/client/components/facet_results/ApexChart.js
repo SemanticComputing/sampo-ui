@@ -133,7 +133,6 @@ class ApexChart extends React.Component {
       }
     }
     const spinnerContainerStyle = {
-      ...rootStyle,
       display: 'flex',
       width: '100%',
       height: '100%',
