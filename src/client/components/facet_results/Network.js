@@ -6,6 +6,8 @@ import panzoom from 'cytoscape-panzoom'
 import 'cytoscape-panzoom/cytoscape.js-panzoom.css'
 import purple from '@material-ui/core/colors/purple'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { library, dom } from '@fortawesome/fontawesome-svg-core'
+import { faMinus, faPlus, faExpand } from '@fortawesome/free-solid-svg-icons'
 
 const zoomControlOptions = {
   zoomFactor: 0.05, // zoom factor per zoom tick
@@ -91,6 +93,10 @@ class Network extends React.Component {
     }
     // add the panzoom control
     this.cy.panzoom(zoomControlOptions)
+
+    // https://www.pullrequest.com/blog/webpack-fontawesome-guide/
+    library.add(faMinus, faPlus, faExpand)
+    dom.watch({ observeMutationsRoot: document.getElementById('cytoscape-container') })
   }
 
   componentDidUpdate = prevProps => {
@@ -149,7 +155,7 @@ class Network extends React.Component {
           <div style={spinnerContainerStyle}>
             <CircularProgress style={{ color: purple[500] }} thickness={5} />
           </div>}
-        <div style={cyContainerStyle} ref={this.cyRef} />
+        <div id='cytoscape-container' style={cyContainerStyle} ref={this.cyRef} />
       </div>
     )
   }
