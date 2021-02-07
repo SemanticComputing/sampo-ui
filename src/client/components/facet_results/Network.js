@@ -45,7 +45,6 @@ class Network extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log('did mount')
     this.props.fetchResults({
       resultClass: this.props.resultClass,
       facetClass: this.props.facetClass,
