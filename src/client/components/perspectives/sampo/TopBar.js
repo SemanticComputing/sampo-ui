@@ -260,6 +260,13 @@ const TopBar = props => {
             <Button><img src={secoLogo} /></Button>
           </a>
           <div className={classes.sectionMobile}>
+            {showLanguageButton &&
+              <TopBarLanguageButton
+                currentLocale={currentLocale}
+                availableLocales={availableLocales}
+                loadLocales={props.loadLocales}
+                location={props.location}
+              />}
             <IconButton aria-haspopup='true' onClick={handleMobileMenuOpen} color='inherit'>
               <MoreIcon />
             </IconButton>
