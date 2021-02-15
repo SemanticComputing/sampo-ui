@@ -1,5 +1,11 @@
 export default {
   languageLabel: 'English',
+  html: {
+    title: 'Sampo-UI – A framework for building user interfaces for semantic portals',
+    description: `The Sampo-UI framework makes it possible to create highly customizable, 
+      user-friendly, and responsive user interfaces using current state-of-the-art JavaScript 
+      libraries and data from SPARQL endpoints.`
+  },
   appTitle: {
     short: 'Sampo-UI',
     long: ' &nbsp; &nbsp; Sampo-UI  &nbsp;  &nbsp;',
