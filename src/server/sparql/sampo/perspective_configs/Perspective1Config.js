@@ -20,7 +20,8 @@ export const perspective1Config = {
   },
   instance: {
     properties: manuscriptPropertiesInstancePage,
-    relatedInstances: ''
+    relatedInstances: '',
+    defaultTab: 'table'
   },
   facets: {
     prefLabel: {

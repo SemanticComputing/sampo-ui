@@ -125,12 +125,12 @@ export const facetValuesRange = `
   }
 `
 
-export const sitemapQuery = `
-  SELECT ?url 
+export const sitemapInstancePageQuery = `
+  SELECT ?path 
   WHERE {
     VALUES ?resultClass { <RESULT_CLASS> }
     ?uri a ?resultClass .
-    BIND(CONCAT("/<PERSPECTIVE>/page/", REPLACE(STR(?uri), "^.*\\\\/(.+)", "$1")) AS ?url)
+    BIND(CONCAT("<PERSPECTIVE>/page/", REPLACE(STR(?uri), "^.*\\\\/(.+)", "$1"), "/<DEFAULT_TAB>") AS ?path)
   }
-  # LIMIT 10
+  # LIMIT 100
 `
