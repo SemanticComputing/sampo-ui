@@ -79,6 +79,8 @@ export const backendSearchConfig = {
   },
   works: {
     perspectiveID: 'perspective1',
+    rdfType: 'frbroo:F1_Work',
+    includeInSitemap: true,
     instance: {
       properties: workProperties,
       relatedInstances: ''

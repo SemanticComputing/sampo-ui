@@ -11,6 +11,31 @@ import { runSelectQuery } from '../sparql/SparqlApi'
 
 const { sitemapConfig } = backendSearchConfig
 
+const resultClasses = [] // gather portal specific configs for sitemap here
+
+for (let [resultClass, config] of Object.entries(backendSearchConfig)) {
+  if (config.includeInSitemap) {
+    let rdfType
+    let hasSearchPerspective
+    const instancePageDefaultTab = config.instance.defaultTab || 'table'
+    if (!has(config, 'facetClass')) {
+      rdfType = config.rdfType
+      config = backendSearchConfig[config.perspectiveID]
+      hasSearchPerspective = false
+    } else {
+      rdfType = config.facetClass
+      hasSearchPerspective = true
+    }
+    resultClasses.push({
+      endpoint: config.endpoint,
+      perspectiveID: resultClass,
+      hasSearchPerspective,
+      rdfType,
+      instancePageDefaultTab
+    })
+  }
+}
+
 const mapURLs = sparqlBindings => {
   const results = sparqlBindings.map(b => {
     return createSitemapEntry({ path: b.path.value })
@@ -75,31 +100,6 @@ const queryInstancePageURLs = config => {
   })
 }
 
-const resultClasses = []
-
-for (let [resultClass, config] of Object.entries(backendSearchConfig)) {
-  if (config.includeInSitemap) {
-    let rdfType
-    let hasSearchPerspective
-    const instancePageDefaultTab = config.instance.defaultTab || 'table'
-    if (!has(config, 'facetClass')) {
-      rdfType = config.rdfType
-      config = backendSearchConfig[config.perspectiveID]
-      hasSearchPerspective = false
-    } else {
-      rdfType = config.facetClass
-      hasSearchPerspective = true
-    }
-    resultClasses.push({
-      endpoint: config.endpoint,
-      perspectiveID: resultClass,
-      hasSearchPerspective,
-      rdfType,
-      instancePageDefaultTab
-    })
-  }
-}
-
 const createSitemapEntry = ({ path }) => {
   path = path ? `/${path}` : '' // do not add trailing slash
   const entry = {
@@ -112,4 +112,5 @@ const createSitemapEntry = ({ path }) => {
   return entry
 }
 
+// generate sitemap
 getURLs(resultClasses)
