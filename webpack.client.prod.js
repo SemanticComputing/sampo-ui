@@ -20,6 +20,10 @@ module.exports = merge(common, {
           from: 'src/server/sitemap_generator/sitemap_output',
           to: `${common.output.path}/sitemap`,
           noErrorOnMissing: true
+        },
+        {
+          from: 'src/client/robots.txt',
+          to: `${common.output.path}`
         }
       ]
     })
