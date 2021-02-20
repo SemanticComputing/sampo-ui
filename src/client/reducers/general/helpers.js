@@ -5,6 +5,8 @@ export const fetchResults = state => {
   return {
     ...state,
     instance: null,
+    instanceTableData: null,
+    instanceTableExternalData: null,
     fetching: true
   }
 }
