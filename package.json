@@ -88,7 +88,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@storybook/addon-docs": "^5.3.19",
-    "@storybook/react": "^5.3.19",
+    "@storybook/react": "^6.1.20",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.1.0",
     "babel-loader": "^8.2.2",
