@@ -76,7 +76,7 @@ export const fetchResults = ({
   uri = null,
   limit = null,
   optimize = null,
-  clearTableData = false
+  clearTableData = true
 }) => ({
   type: FETCH_RESULTS,
   resultClass,
