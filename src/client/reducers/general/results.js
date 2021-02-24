@@ -41,7 +41,7 @@ export const handleDataFetchingAction = (state, action) => {
     case FETCH_RESULTS:
     case FETCH_PAGINATED_RESULTS:
     case FETCH_BY_URI:
-      return fetchResults(state)
+      return fetchResults(state, action)
     case FETCH_RESULT_COUNT:
       return fetchResultCount(state)
     case FETCH_INSTANCE_ANALYSIS:

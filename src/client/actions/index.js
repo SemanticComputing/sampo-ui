@@ -75,14 +75,16 @@ export const fetchResults = ({
   facetClass,
   uri = null,
   limit = null,
-  optimize = null
+  optimize = null,
+  clearTableData = false
 }) => ({
   type: FETCH_RESULTS,
   resultClass,
   facetClass,
   uri,
   limit,
-  optimize
+  optimize,
+  clearTableData
 })
 export const fetchInstanceAnalysis = ({
   resultClass,
