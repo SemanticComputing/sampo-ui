@@ -2,7 +2,6 @@ import { has, isEmpty } from 'lodash'
 import { UPDATE_FACET_VALUES_CONSTRAIN_SELF } from '../../actions'
 
 export const fetchResults = (state, action) => {
-  console.log(action)
   return {
     ...state,
     instance: null,
