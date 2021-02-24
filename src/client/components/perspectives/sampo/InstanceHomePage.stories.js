@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import InstanceHomePage, { InstanceHomePageComponent } from './InstanceHomePage'
-import { perspectiveConfig } from '../../configs/sampo/PerspectiveConfig'
+import { perspectiveConfig } from '../../../configs/sampo/PerspectiveConfig'
 import { data, sparqlQuery } from './InstanceHomePage.testData.js'
 
 export default {

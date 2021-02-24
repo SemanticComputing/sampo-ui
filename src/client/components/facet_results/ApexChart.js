@@ -207,4 +207,6 @@ ApexChart.propTypes = {
   resultClasses: PropTypes.array
 }
 
+export const ApexChartComponent = ApexChart
+
 export default withStyles(styles)(ApexChart)

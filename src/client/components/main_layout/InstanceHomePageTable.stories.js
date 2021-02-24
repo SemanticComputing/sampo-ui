@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import InstanceHomePageTable, { InstanceHomePageTableComponent } from './InstanceHomePageTable'
-import { data } from './InstanceHomePage.testData.js'
+import { data } from '../perspectives/sampo/InstanceHomePage.testData.js'
 import PaperContainer from '../../../../.storybook/PaperContainer'
 
 export default {
