@@ -33,7 +33,7 @@
     "@material-ui/pickers": "^3.2.10",
     "@shakacode/recompose": "^0.30.3",
     "Leaflet.extra-markers": "git+https://github.com/SemanticComputing/Leaflet.ExtraMarkers.git",
-    "apexcharts": "^3.19.2",
+    "apexcharts": "^3.25.0",
     "axios": "^0.21.1",
     "core-js": "^3.8.1",
     "cytoscape": "^3.12.1",
