@@ -74,8 +74,7 @@ class InstanceHomePageTable extends React.Component {
       this.props.fetchResults({
         resultClass: this.props.resultClassVariant,
         facetClass: this.props.facetClass,
-        uri: this.props.uri,
-        clearTableData: false
+        uri: this.props.uri
       })
     }
   }

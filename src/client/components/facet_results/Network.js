@@ -52,8 +52,7 @@ class Network extends React.Component {
       facetClass: this.props.facetClass,
       uri: this.props.uri,
       limit: this.props.limit,
-      optimize: this.props.optimize,
-      clearTableData: false
+      optimize: this.props.optimize
     })
 
     this.cy = cytoscape({

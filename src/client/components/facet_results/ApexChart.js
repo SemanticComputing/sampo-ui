@@ -43,8 +43,7 @@ class ApexChart extends React.Component {
       resultClass: this.state.resultClass,
       facetClass: this.props.facetClass,
       facetID: this.props.facetID,
-      uri: this.props.uri,
-      clearTableData: false
+      uri: this.props.uri
     })
   }
 
@@ -58,16 +57,14 @@ class ApexChart extends React.Component {
       this.props.fetchData({
         resultClass: this.state.resultClass,
         facetClass: this.props.facetClass,
-        facetID: this.props.facetID,
-        clearTableData: false
+        facetID: this.props.facetID
       })
     }
     if (prevState.resultClass !== this.state.resultClass) {
       this.props.fetchData({
         resultClass: this.state.resultClass,
         facetClass: this.props.facetClass,
-        facetID: this.props.facetID,
-        clearTableData: false
+        facetID: this.props.facetID
       })
     }
     if (prevState.chartType !== this.state.chartType) {

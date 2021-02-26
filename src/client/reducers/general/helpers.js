@@ -6,8 +6,7 @@ export const fetchResults = (state, action) => {
     ...state,
     instance: null,
     instanceTableExternalData: null,
-    fetching: true,
-    ...(action.clearTableData && { instanceTableData: null })
+    fetching: true
   }
 }
 
