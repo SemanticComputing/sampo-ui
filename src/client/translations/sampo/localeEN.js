@@ -151,8 +151,9 @@ export default {
       backgroundMapNLS: 'Background map (National Land Survey of Finland)'
     },
     externalLayers: {
-      arkeologiset_kohteet_alue: 'Register of Archaeological Sites, areas',
-      arkeologiset_kohteet_piste: 'Register of Archaeological Sites, points',
+      arkeologiset_kohteet_alue: 'Register of Archaeological Sites, areas (Finnish Heritage Agency)',
+      arkeologiset_kohteet_piste: 'Register of Archaeological Sites, points (Finnish Heritage Agency)',
+      fhaLidar: 'Elevation model (Finnish Heritage Agency)',
       karelianMaps: 'Karelian maps, 1:100 000 topographic (SeCo)',
       senateAtlas: 'Senate atlas, 1:21 000 topographic (SeCo)',
       'kotus:pitajat': 'Finnish parishes in 1938 (Institute for the Languages of Finland)',
