@@ -72,6 +72,7 @@ const Perspective1 = props => {
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
             showExternalLayers
+            layerControlExpanded
             showError={props.showError}
           />}
       />
