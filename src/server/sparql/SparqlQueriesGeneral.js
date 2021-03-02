@@ -126,7 +126,7 @@ export const facetValuesRange = `
 `
 
 export const sitemapInstancePageQuery = `
-  SELECT ?path 
+  SELECT DISTINCT ?path 
   WHERE {
     VALUES ?resultClass { <RESULT_CLASS> }
     ?uri a ?resultClass .
