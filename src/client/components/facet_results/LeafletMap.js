@@ -30,6 +30,8 @@ import 'leaflet-draw/dist/leaflet.draw.js'
 import 'leaflet-draw/dist/leaflet.draw.css'
 import 'leaflet.zoominfo/dist/L.Control.Zoominfo'
 import 'leaflet.zoominfo/dist/L.Control.Zoominfo.css'
+import 'leaflet-usermarker/src/leaflet.usermarker.js'
+import 'leaflet-usermarker/src/leaflet.usermarker.css'
 // import 'leaflet.gridlayer.googlemutant/Leaflet.GoogleMutant.js'
 
 import markerShadowIcon from '../../img/markers/marker-shadow.png'
@@ -227,8 +229,8 @@ class LeafletMap extends React.Component {
     const container = this.props.container ? this.props.container : 'map'
 
     this.leafletMap = L.map(container, {
-      center: this.props.center,
-      zoom: this.props.zoom,
+      ...(this.props.center && { center: this.props.center }),
+      ...(this.props.zoom && { zoom: this.props.zoom }),
       zoomControl: false,
       zoominfoControl: true,
       layers: [
@@ -264,6 +266,31 @@ class LeafletMap extends React.Component {
         this.props.updateMapBounds(this.boundsToValues())
       })
     }
+
+    if (this.props.locateUser) {
+      this.leafletMap.on('locationfound', this.onLocationFound)
+      this.leafletMap.on('locationerror', this.onLocationError)
+      this.leafletMap.locate({ setView: true, enableHighAccuracy: true })
+    }
+  }
+
+  onLocationFound = e => {
+    L.userMarker(e.latlng, {
+      pulsing: true,
+      accuracy: e.accuracy,
+      smallIcon: true
+    })
+      .addTo(this.leafletMap)
+      .bindPopup('You are within ' + e.accuracy + ' meters from this point')
+      // .openPopup()
+  }
+
+  onLocationError = e => {
+    console.log(e)
+    this.props.showError({
+      title: '',
+      text: e.message
+    })
   }
 
   boundsToValues = () => {

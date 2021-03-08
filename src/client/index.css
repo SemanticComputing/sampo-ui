@@ -65,3 +65,7 @@ a, a:visited, a:hover, a:active {
     }
 }
 
+.leaflet-usermarker-small i.pulse {
+    top: -12px !important;
+    left: -12px !important;
+}
