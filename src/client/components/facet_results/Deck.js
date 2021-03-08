@@ -42,7 +42,8 @@ const styles = theme => ({
     zIndex: 1
   },
   fullscreenButton: {
-    marginTop: theme.spacing(1)
+    position: 'absolute',
+    top: 105
   }
 })
 
