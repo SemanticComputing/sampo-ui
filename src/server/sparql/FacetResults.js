@@ -231,7 +231,7 @@ export const getByURI = ({
       facetID: null
     }))
   }
-  q = q.replace('<ID>', `<${uri}>`)
+  q = q.replace(/<ID>/g, `<${uri}>`)
   if (langTag) {
     q = q.replace(/<LANG>/g, langTag)
   }
