@@ -117,14 +117,8 @@ class LeafletMap extends React.Component {
     if (this.props.mapMode && this.props.pageType === 'clientFSResults') {
       this.drawPointData()
     }
-    if (this.props.showExternalLayers) {
-      this.props.clearGeoJSONLayers()
-      if (this.state.activeOverlays.length > 0 && this.isSafeToLoadLargeLayers()) {
-        this.props.fetchGeoJSONLayers({
-          layerIDs: this.state.activeOverlays,
-          bounds: this.leafletMap.getBounds()
-        })
-      }
+    if (this.props.showExternalLayers && !this.props.locateUser) {
+      this.fetchDefaultGeoJSONLayers()
     }
   }
 
@@ -229,8 +223,10 @@ class LeafletMap extends React.Component {
     const container = this.props.container ? this.props.container : 'map'
 
     this.leafletMap = L.map(container, {
-      ...(this.props.center && { center: this.props.center }),
-      ...(this.props.zoom && { zoom: this.props.zoom }),
+      ...(!this.props.locateUser && {
+        center: this.props.center,
+        zoom: this.props.zoom
+      }),
       zoomControl: false,
       zoominfoControl: true,
       layers: [
@@ -249,6 +245,9 @@ class LeafletMap extends React.Component {
         // [intl.get('leafletMap.basemaps.googleRoadmap')]: googleRoadmap,
       }
       this.initOverLays(basemaps)
+      if (!this.props.locateUser) {
+        this.initMapEventListeners()
+      }
     }
 
     // Add scale
@@ -283,14 +282,27 @@ class LeafletMap extends React.Component {
       .addTo(this.leafletMap)
       .bindPopup('You are within ' + e.accuracy + ' meters from this point')
       // .openPopup()
+    this.initMapEventListeners()
+    this.fetchDefaultGeoJSONLayers()
   }
 
   onLocationError = e => {
-    console.log(e)
-    this.props.showError({
-      title: '',
-      text: e.message
-    })
+    // this.props.showError({
+    //   title: '',
+    //   text: e.message
+    // })
+    this.initMapEventListeners()
+    this.fetchDefaultGeoJSONLayers()
+  }
+
+  fetchDefaultGeoJSONLayers = () => {
+    this.props.clearGeoJSONLayers()
+    if (this.state.activeOverlays.length > 0 && this.isSafeToLoadLargeLayers()) {
+      this.props.fetchGeoJSONLayers({
+        layerIDs: this.state.activeOverlays,
+        bounds: this.leafletMap.getBounds()
+      })
+    }
   }
 
   boundsToValues = () => {
@@ -510,7 +522,6 @@ class LeafletMap extends React.Component {
       [intl.get('leafletMap.externalLayers.senateAtlas')]: senateAtlas
     }
     this.createOpacitySlider(opacityLayers)
-    this.initMapEventListeners()
   }
 
   populateOverlay = layerObj => {
