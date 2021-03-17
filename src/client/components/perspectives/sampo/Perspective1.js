@@ -169,10 +169,10 @@ const Perspective1 = props => {
             title='Manuscript production by decade'
             xaxisTitle='Decade'
             xaxisType='category'
-            // xaxisLabels={{ rotate: 0 }}
             xaxisTickAmount={30}
             yaxisTitle='Manuscript count'
             seriesTitle='Manuscript count'
+            stroke={{ width: 2 }}
             resultClass='productionTimespanLineChart'
             facetClass='perspective1'
           />}
@@ -194,6 +194,10 @@ const Perspective1 = props => {
             xaxisTickAmount={30}
             yaxisTitle='Count'
             seriesTitle='Count'
+            stroke={{
+              curve: 'straight',
+              width: 2
+            }}
             resultClass='eventLineChart'
             facetClass='perspective1'
           />}

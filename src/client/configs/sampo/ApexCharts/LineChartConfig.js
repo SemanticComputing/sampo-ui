@@ -9,7 +9,9 @@ export const createSingleLineChartData = ({
   xaxisTickAmount,
   xaxisLabels,
   yaxisTitle,
-  seriesTitle
+  seriesTitle,
+  stroke,
+  tooltip
 }) => {
   const apexChartOptionsWithData = {
     ...singleLineChartOptions,
@@ -35,7 +37,9 @@ export const createSingleLineChartData = ({
       title: {
         text: yaxisTitle
       }
-    }
+    },
+    ...(stroke) && { stroke },
+    ...(tooltip) && { tooltip }
   }
   return apexChartOptionsWithData
 }
@@ -48,7 +52,9 @@ export const createMultipleLineChartData = ({
   xaxisTickAmount,
   xaxisLabels,
   yaxisTitle,
-  seriesTitle
+  seriesTitle,
+  stroke,
+  tooltip
 }) => {
   const series = []
   for (const lineID in rawData) {
@@ -79,10 +85,8 @@ export const createMultipleLineChartData = ({
         text: yaxisTitle
       }
     },
-    stroke: {
-      curve: 'straight',
-      width: 2
-    },
+    ...(stroke) && { stroke },
+    ...(tooltip) && { tooltip },
     fill: {
       type: 'gradient',
       gradient: {
