@@ -175,7 +175,10 @@ export const backendSearchConfig = {
     perspectiveID: 'perspective1',
     q: productionsByDecadeQuery,
     filterTarget: 'instance',
-    resultMapper: mapLineChart
+    resultMapper: mapLineChart,
+    resultMapperConfig: {
+      fillEmptyValues: false
+    }
   },
   eventLineChart: {
     perspectiveID: 'perspective1',
