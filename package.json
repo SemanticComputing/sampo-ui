@@ -32,7 +32,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/pickers": "^3.2.10",
     "@shakacode/recompose": "^0.30.3",
-    "apexcharts": "^3.25.0",
+    "apexcharts": "^3.26.0",
     "axios": "^0.21.1",
     "core-js": "^3.8.1",
     "cytoscape": "^3.12.1",
