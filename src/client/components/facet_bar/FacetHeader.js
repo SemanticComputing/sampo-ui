@@ -326,6 +326,7 @@ class FacetHeader extends React.Component {
             xaxisTitle={intl.get(`facetBar.lineChart.${this.props.facetID}.xaxisTitle`)}
             yaxisTitle={intl.get(`facetBar.lineChart.${this.props.facetID}.yaxisTitle`)}
             seriesTitle={intl.get(`facetBar.lineChart.${this.props.facetID}.seriesTitle`)}
+            lineChartConfig={this.props.facet.lineChartConfig}
           />}
         {menuButtons.length > 0 &&
           <>

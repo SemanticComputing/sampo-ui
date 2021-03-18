@@ -90,6 +90,11 @@ export const INITIAL_STATE = {
       sortButton: false,
       spatialFilterButton: false,
       lineChartButton: true,
+      lineChartConfig: {
+        xaxisType: 'category',
+        xaxisTickAmount: 30,
+        stroke: { width: 2 }
+      },
       isFetching: false,
       searchField: false,
       containerClass: 'four',
