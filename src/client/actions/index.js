@@ -36,6 +36,7 @@ export const UPDATE_CLIENT_SIDE_FILTER = 'UPDATE_CLIENT_SIDE_FILTER'
 export const UPDATE_MAP_BOUNDS = 'UPDATE_MAP_BOUNDS'
 export const FETCH_GEOJSON_LAYERS = 'FETCH_GEOJSON_LAYERS'
 export const FETCH_GEOJSON_LAYERS_BACKEND = 'FETCH_GEOJSON_LAYERS_BACKEND'
+export const FETCH_GEOJSON_LAYERS_FAILED = 'FETCH_GEOJSON_LAYERS_FAILED'
 export const CLEAR_GEOJSON_LAYERS = 'CLEAR_GEOJSON_LAYERS'
 export const UPDATE_GEOJSON_LAYERS = 'UPDATE_GEOJSON_LAYERS'
 export const OPEN_MARKER_POPUP = 'OPEN_MARKER_POPUP'
@@ -327,6 +328,11 @@ export const fetchGeoJSONLayersBackend = ({ layerIDs, bounds }) => ({
 export const updateGeoJSONLayers = ({ payload }) => ({
   type: UPDATE_GEOJSON_LAYERS,
   payload
+})
+export const fetchGeoJSONLayersFailed = ({ error, message }) => ({
+  type: FETCH_GEOJSON_LAYERS_FAILED,
+  error,
+  message
 })
 export const clientFSUpdateQuery = query => ({
   type: CLIENT_FS_UPDATE_QUERY,

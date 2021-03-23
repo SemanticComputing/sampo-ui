@@ -3,7 +3,8 @@ import {
   FETCH_GEOJSON_LAYERS_BACKEND,
   CLEAR_GEOJSON_LAYERS,
   UPDATE_GEOJSON_LAYERS,
-  UPDATE_MAP_BOUNDS
+  UPDATE_MAP_BOUNDS,
+  FETCH_GEOJSON_LAYERS_FAILED
 } from '../../actions'
 
 export const INITIAL_STATE = {
@@ -24,6 +25,11 @@ const leafletMap = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         fetching: true
+      }
+    case FETCH_GEOJSON_LAYERS_FAILED:
+      return {
+        ...state,
+        fetching: false
       }
     case UPDATE_GEOJSON_LAYERS:
       return {

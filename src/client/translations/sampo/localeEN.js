@@ -33,6 +33,7 @@ export default {
   `,
   selectPerspective: 'Select a perspective to search and browse the knowledge graph:',
   mainPageImageLicence: 'Images used under license from Shutterstock.com',
+  backendErrorText: 'One of the backend services is not available at the moment. Please try again later.',
   topBar: {
     feedback: 'feedback',
     info: {

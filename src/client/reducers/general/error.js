@@ -4,7 +4,8 @@ import {
   FETCH_PAGINATED_RESULTS_FAILED,
   FETCH_FACET_FAILED,
   FETCH_BY_URI_FAILED,
-  FETCH_KNOWLEDGE_GRAPH_METADATA_FAILED
+  FETCH_KNOWLEDGE_GRAPH_METADATA_FAILED,
+  FETCH_GEOJSON_LAYERS_FAILED
 } from '../../actions'
 
 export const INITIAL_STATE = {
@@ -20,6 +21,7 @@ const error = (state = INITIAL_STATE, action) => {
     case FETCH_BY_URI_FAILED:
     case FETCH_FACET_FAILED:
     case FETCH_KNOWLEDGE_GRAPH_METADATA_FAILED:
+    case FETCH_GEOJSON_LAYERS_FAILED:
       return {
         ...state,
         id: state.id + 1,
