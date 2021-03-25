@@ -53,7 +53,7 @@ const Perspective1 = props => {
             zoom={2}
             // locateUser
             // center={[60.187, 24.821]}
-            // zoom={15}
+            // zoom={13}
             results={props.placesResults.results}
             layers={props.leafletMapLayers}
             pageType='facetResults'
@@ -73,10 +73,112 @@ const Perspective1 = props => {
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
             showExternalLayers
-            // activeOverlays={[
-            //   'arkeologiset_kohteet_alue',
-            //   'arkeologiset_kohteet_piste'
-            // ]}
+            layerConfigs={[
+              // {
+              //   id: 'arkeologiset_kohteet_alue',
+              //   type: 'GeoJSON',
+              //   minZoom: 13,
+              //   buffer: {
+              //     distance: 200,
+              //     units: 'metres',
+              //     style: {
+              //       color: '#6E6E6E',
+              //       dashArray: '3, 5'
+              //     }
+              //   },
+              //   // this layer includes only GeoJSON Polygons, define style for them
+              //   geojsonPolygonOptions: {
+              //     color: '#dd2c00',
+              //     cursor: 'pointer'
+              //   },
+              //   createPopup: data => {
+              //     let html = ''
+              //     const name = data.kohdenimi
+              //       ? `<b>Kohteen nimi:</b> ${data.kohdenimi}</p>` : ''
+              //     const type = data.laji ? `<b>Kohteen tyyppi:</b> ${data.laji}</p>` : ''
+              //     const municipality = data.kunta ? `<b>Kunta:</b> ${data.kunta}</p>` : ''
+              //     const link = data.mjtunnus
+              //       ? `<a href="https://www.kyppi.fi/to.aspx?id=112.${data.mjtunnus}" target="_blank">Avaa kohde Muinaisjäännösrekisterissä</a></p>` : ''
+              //     html += `
+              //     <div>
+              //       ${name}
+              //       ${type}
+              //       ${municipality}
+              //       ${link}
+              //     </div>
+              //     `
+              //     return html
+              //   }
+              // },
+              // {
+              //   id: 'arkeologiset_kohteet_piste',
+              //   type: 'GeoJSON',
+              //   minZoom: 13,
+              //   buffer: {
+              //     distance: 200,
+              //     units: 'metres',
+              //     style: {
+              //       color: '#6E6E6E',
+              //       dashArray: '3, 5'
+              //     }
+              //   },
+              //   // this layer includes only GeoJSON points, define style for them
+              //   geojsonMarkerOptions: {
+              //     radius: 8,
+              //     fillColor: '#dd2c00',
+              //     color: '#000',
+              //     weight: 1,
+              //     opacity: 1,
+              //     fillOpacity: 0.8
+              //   },
+              //   createPopup: data => {
+              //     let html = ''
+              //     const name = data.kohdenimi
+              //       ? `<b>Kohteen nimi:</b> ${data.kohdenimi}</p>` : ''
+              //     const type = data.laji ? `<b>Kohteen tyyppi:</b> ${data.laji}</p>` : ''
+              //     const municipality = data.kunta ? `<b>Kunta:</b> ${data.kunta}</p>` : ''
+              //     const link = data.mjtunnus
+              //       ? `<a href="https://www.kyppi.fi/to.aspx?id=112.${data.mjtunnus}" target="_blank">Avaa kohde Muinaisjäännösrekisterissä</a></p>` : ''
+              //     html += `
+              //     <div>
+              //       ${name}
+              //       ${type}
+              //       ${municipality}
+              //       ${link}
+              //     </div>
+              //     `
+              //     return html
+              //   }
+              // },
+              // {
+              //   id: 'fhaLidar',
+              //   type: 'WMS',
+              //   url: `${process.env.API_URL}/fha-wms`,
+              //   layers: 'NBA:lidar',
+              //   version: '1.3.0',
+              //   attribution: 'FHA',
+              //   minZoom: 13,
+              //   maxZoom: 16
+              // },
+              {
+                id: 'karelianMaps',
+                type: 'WMTS',
+                url: 'https:///mapwarper.onki.fi/mosaics/tile/4/{z}/{x}/{y}.png',
+                opacityControl: true,
+                attribution: 'Semantic Computing Research Group'
+              },
+              {
+                id: 'senateAtlas',
+                type: 'WMTS',
+                url: 'https:///mapwarper.onki.fi/mosaics/tile/5/{z}/{x}/{y}.png',
+                opacityControl: true,
+                attribution: 'Semantic Computing Research Group'
+              }
+            ]}
+            activeLayers={[
+              // 'arkeologiset_kohteet_alue'
+              // 'arkeologiset_kohteet_piste'
+            ]}
             layerControlExpanded
             showError={props.showError}
           />}

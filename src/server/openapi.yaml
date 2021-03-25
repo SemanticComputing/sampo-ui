@@ -404,37 +404,75 @@ paths:
             application/json:
               schema:
                 type: array
-  /nls-wmts:
+  /fha-wms:
     get:
-      summary: Route for password protected WMTS layers. 
+      summary: Route for password protected WMS layers.
       parameters:
         - in: query
-          name: layerID
-          schema: 
+          name: service
+          schema:
             type: string
           required: true
         - in: query
-          name: x
-          schema: 
+          name: request
+          schema:
             type: string
-          required: true
+          required: true 
         - in: query
-          name: y 
-          schema: 
-            type: string
-          required: true
-        - in: query
-          name: z
-          schema: 
+          name: layers
+          schema:
             type: string
           required: true  
+        - in: query
+          name: styles
+          schema:
+            type: string
+          allowEmptyValue : true
+          required: true  
+        - in: query
+          name: format
+          schema:
+            type: string
+          required: true    
+        - in: query
+          name: transparent
+          schema:
+            type: boolean
+          required: true
+        - in: query
+          name: version
+          schema:
+            type: string
+          required: true   
+        - in: query
+          name: width
+          schema:
+            type: number
+          required: true
+        - in: query
+          name: height
+          schema:
+            type: number
+          required: true
+        - in: query
+          name: crs
+          schema:
+            type: string
+          required: true 
+        - in: query
+          name: bbox
+          schema:
+            type: string
+          allowReserved: true  
+          required: true       
       responses:
         '200':
-          description: An array of GeoJSON layers.
+          description: Image
           content:
-            application/json:
+            image/jpeg:
               schema:
-                type: array              
+                type: string
+                format: binary     
   /void/{perspectiveID}:
     get:
       summary: Retrieve a VoID description
