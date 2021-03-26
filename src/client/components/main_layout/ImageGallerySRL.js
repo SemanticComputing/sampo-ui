@@ -55,7 +55,7 @@ const ImageGallerySRL = props => {
           src={images[0].src}
         />
       </Button>
-      <SRLWrapper options={srlOptions} images={images} />
+      <SRLWrapper options={srlOptions} elements={images} />
     </>
   )
 }
