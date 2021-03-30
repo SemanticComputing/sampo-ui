@@ -222,7 +222,6 @@ const Perspective1 = props => {
             fetching={props.placesResults.fetching}
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
-            showExternalLayers
             showError={props.showError}
           />}
       />
