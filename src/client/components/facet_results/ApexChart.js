@@ -95,6 +95,7 @@ class ApexChart extends React.Component {
         xaxisTickAmount: this.props.xaxisTickAmount || null,
         xaxisLabels: this.props.xaxisLabels || null,
         stroke: this.props.stroke || null,
+        fill: this.props.fill || null,
         tooltip: this.props.tooltip || null
       })
     )

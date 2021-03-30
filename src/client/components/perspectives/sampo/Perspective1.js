@@ -300,6 +300,16 @@ const Perspective1 = props => {
               curve: 'straight',
               width: 2
             }}
+            fill={{
+              type: 'gradient',
+              gradient: {
+                shadeIntensity: 1,
+                inverseColors: false,
+                opacityFrom: 0.6,
+                opacityTo: 0.05,
+                stops: [20, 60, 100, 100]
+              }
+            }}
             resultClass='eventLineChart'
             facetClass='perspective1'
           />}

@@ -11,10 +11,16 @@ export const createSingleLineChartData = ({
   yaxisTitle,
   seriesTitle,
   stroke,
+  fill,
   tooltip
 }) => {
   const apexChartOptionsWithData = {
-    ...singleLineChartOptions,
+    chart: {
+      type: 'line',
+      width: '100%',
+      height: '100%',
+      fontFamily: 'Roboto'
+    },
     series: [
       {
         name: seriesTitle,
@@ -39,6 +45,7 @@ export const createSingleLineChartData = ({
       }
     },
     ...(stroke) && { stroke },
+    ...(fill) && { fill },
     ...(tooltip) && { tooltip }
   }
   return apexChartOptionsWithData
@@ -54,6 +61,7 @@ export const createMultipleLineChartData = ({
   yaxisTitle,
   seriesTitle,
   stroke,
+  fill,
   tooltip
 }) => {
   const series = []
@@ -64,7 +72,12 @@ export const createMultipleLineChartData = ({
     })
   }
   const apexChartOptionsWithData = {
-    ...multipleLineChartOptions,
+    chart: {
+      type: 'area',
+      width: '100%',
+      height: '100%',
+      fontFamily: 'Roboto'
+    },
     series: series,
     title: {
       text: title
@@ -86,37 +99,8 @@ export const createMultipleLineChartData = ({
       }
     },
     ...(stroke) && { stroke },
-    ...(tooltip) && { tooltip },
-    fill: {
-      type: 'gradient',
-      gradient: {
-        shadeIntensity: 1,
-        inverseColors: false,
-        opacityFrom: 0.6,
-        opacityTo: 0.05,
-        stops: [20, 60, 100, 100]
-      }
-    }
+    ...(fill) && { fill },
+    ...(tooltip) && { tooltip }
   }
   return apexChartOptionsWithData
-}
-
-const singleLineChartOptions = {
-  // see https://apexcharts.com/docs --> Options
-  chart: {
-    type: 'line',
-    width: '100%',
-    height: '100%',
-    fontFamily: 'Roboto'
-  }
-}
-
-const multipleLineChartOptions = {
-  // see https://apexcharts.com/docs --> Options
-  chart: {
-    type: 'area',
-    width: '100%',
-    height: '100%',
-    fontFamily: 'Roboto'
-  }
 }
