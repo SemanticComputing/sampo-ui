@@ -172,7 +172,7 @@ export const linearScale = ({ data, config }) => {
   const { variable, minAllowed, maxAllowed } = config
   const length = data.length
   const min = data[length - 1][variable]
-  const max = data[0].[variable]
+  const max = data[0][variable]
   data.forEach(item => {
     if (item[variable]) {
       const unscaledNum = item[variable]
