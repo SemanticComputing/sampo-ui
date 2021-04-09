@@ -478,14 +478,14 @@ class LeafletMap extends React.Component {
       leafletGeoJSONBufferLayer.addTo(leafletOverlay).addTo(this.leafletMap)
     }
 
-    const { geojsonMarkerOptions, geojsonPolygonOptions, createPopup } = leafletOverlay.options
+    const { createGeoJSONPointStyle, createGeoJSONPolygonStyle, createPopup } = leafletOverlay.options
     const leafletGeoJSONLayer = L.geoJSON(layerObj.geoJSON, {
       // style for GeoJSON Points
       pointToLayer: (feature, latlng) => {
-        return L.circleMarker(latlng, geojsonMarkerOptions)
+        return L.circleMarker(latlng, createGeoJSONPointStyle(feature))
       },
       // style for GeoJSON Polygons
-      style: geojsonPolygonOptions,
+      style: createGeoJSONPolygonStyle,
       // add popups
       onEachFeature: (feature, layer) => {
         layer.bindPopup(createPopup(feature.properties))

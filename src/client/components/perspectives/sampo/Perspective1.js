@@ -81,15 +81,27 @@ const Perspective1 = props => {
               //   buffer: {
               //     distance: 200,
               //     units: 'metres',
-              //     style: {
-              //       color: '#6E6E6E',
-              //       dashArray: '3, 5'
+              //     style: feature => {
+              //       if (feature.properties.laji.includes('poistettu kiinteä muinaisjäännös')) {
+              //         return {
+              //           fillOpacity: 0,
+              //           weight: 0
+              //         }
+              //       } else {
+              //         return {
+              //           color: '#6E6E6E',
+              //           dashArray: '3, 5'
+              //         }
+              //       }
               //     }
               //   },
-              //   // this layer includes only GeoJSON Polygons, define style for them
-              //   geojsonPolygonOptions: {
-              //     color: '#dd2c00',
-              //     cursor: 'pointer'
+              //   createGeoJSONPointStyle: feature => null, //  this layer includes only GeoJSON Polygons
+              //   createGeoJSONPolygonStyle: feature => {
+              //     // console.log(feature)
+              //     return {
+              //       color: '#dd2c00',
+              //       cursor: 'pointer'
+              //     }
               //   },
               //   createPopup: data => {
               //     let html = ''
@@ -117,20 +129,31 @@ const Perspective1 = props => {
               //   buffer: {
               //     distance: 200,
               //     units: 'metres',
-              //     style: {
-              //       color: '#6E6E6E',
-              //       dashArray: '3, 5'
+              //     style: feature => {
+              //       if (feature.properties.laji.includes('poistettu kiinteä muinaisjäännös')) {
+              //         return {
+              //           fillOpacity: 0,
+              //           weight: 0
+              //         }
+              //       } else {
+              //         return {
+              //           color: '#6E6E6E',
+              //           dashArray: '3, 5'
+              //         }
+              //       }
               //     }
               //   },
-              //   // this layer includes only GeoJSON points, define style for them
-              //   geojsonMarkerOptions: {
-              //     radius: 8,
-              //     fillColor: '#dd2c00',
-              //     color: '#000',
-              //     weight: 1,
-              //     opacity: 1,
-              //     fillOpacity: 0.8
+              //   createGeoJSONPointStyle: feature => {
+              //     return {
+              //       radius: 8,
+              //       fillColor: '#dd2c00',
+              //       color: '#000',
+              //       weight: 1,
+              //       opacity: 1,
+              //       fillOpacity: 0.8
+              //     }
               //   },
+              //   createGeoJSONPolygonStyle: feature => null, // this layer includes only GeoJSON points
               //   createPopup: data => {
               //     let html = ''
               //     const name = data.kohdenimi
@@ -175,10 +198,10 @@ const Perspective1 = props => {
                 attribution: 'Semantic Computing Research Group'
               }
             ]}
-            activeLayers={[
-              // 'arkeologiset_kohteet_alue'
-              // 'arkeologiset_kohteet_piste'
-            ]}
+            // activeLayers={[
+            //   'arkeologiset_kohteet_alue',
+            //   'arkeologiset_kohteet_piste'
+            // ]}
             layerControlExpanded
             showError={props.showError}
           />}
