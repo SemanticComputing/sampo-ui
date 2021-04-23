@@ -197,7 +197,7 @@ const generateIntegerFilter = ({
   const { start, end } = values
   const typecasting = facetConfig.typecasting
     ? facetConfig.typecasting
-    : 'BIND(xsd:integer(ROUND(?value)) as ?valueAsInteger)'
+    : 'BIND(xsd:integer(?value) as ?valueAsInteger)'
   let integerFilter = ''
   if (start === '') {
     integerFilter = `?valueAsInteger <= ${end}`
