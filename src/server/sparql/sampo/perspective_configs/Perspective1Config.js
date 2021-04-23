@@ -128,7 +128,8 @@ export const perspective1Config = {
       facetValueFilter: '',
       labelPath: 'mmm-schema:height/crm:P90_has_value',
       predicate: 'mmm-schema:height/crm:P90_has_value',
-      type: 'integer'
+      type: 'integer',
+      typecasting: 'BIND(xsd:integer(ROUND(?value)) as ?valueAsInteger)'
     },
     width: {
       id: 'width',
