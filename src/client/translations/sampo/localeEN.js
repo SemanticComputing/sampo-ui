@@ -667,6 +667,22 @@ export default {
         }
       }
     },
+    fullTextSearch: {
+      properties: {
+        prefLabel: {
+          label: 'Label',
+          description: ''
+        },
+        type: {
+          label: 'Type',
+          description: ''
+        },
+        source: {
+          label: 'Source',
+          description: ''
+        }
+      }
+    },
     manuscripts: {
       label: 'Manuscripts',
       facetResultsType: 'manuscripts',
