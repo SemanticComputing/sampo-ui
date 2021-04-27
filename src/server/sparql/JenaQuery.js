@@ -18,7 +18,7 @@ export const queryJenaIndex = async ({
     endpoint = backendSearchConfig[config.perspectiveID].endpoint
   }
   const { properties } = config
-  q = q.replace('<QUERY>', `?id text:query ('${queryTerm.toLowerCase()}' 2000) .`)
+  q = q.replace('<QUERY>', `(?id ?score) text:query ('${queryTerm.toLowerCase()}' 2000) .`)
   q = q.replace('<RESULT_SET_PROPERTIES>', properties)
   const results = await runSelectQuery({
     query: endpoint.prefixes + q,

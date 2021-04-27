@@ -1,6 +1,6 @@
 export const fullTextSearchProperties = `
   {
-    VALUES ?type_uri {
+    VALUES ?type__id {
       frbroo:F4_Manifestation_Singleton 
       frbroo:F1_Work
       frbroo:F2_Expression
@@ -16,8 +16,12 @@ export const fullTextSearchProperties = `
       crm:E53_Place
       crm:E78_Collection
     }
-    ?id a ?type_uri .
-    ?type_uri skos:prefLabel|rdfs:label ?type_ . 
+    ?id a ?type__id .
+    ?type__id skos:prefLabel|rdfs:label ?type__prefLabel . 
+  }
+  UNION
+  {
+    ?id crm:P3_has_note ?note . # crm:P3_has_note has been added to text index
   }
   UNION
   {

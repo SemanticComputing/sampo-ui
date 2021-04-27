@@ -23,12 +23,22 @@ export const INITIAL_STATE = {
     },
     {
       id: 'type',
-      valueType: 'string',
+      valueType: 'object',
       makeLink: false,
       externalLink: false,
       sortValues: false,
       numberedList: false,
       minWidth: 300
+    },
+    {
+      id: 'note',
+      valueType: 'string',
+      makeLink: false,
+      externalLink: false,
+      sortValues: false,
+      numberedList: false,
+      minWidth: 400,
+      collapsedMaxWords: 4
     }
   ],
   fetching: false
@@ -62,13 +72,15 @@ const fullTextSearch = (state = INITIAL_STATE, action) => {
           sortBy = action.sortBy
           sortDirection = 'asc'
         }
+        const sortByProperty = state.properties.find(property => property.id === sortBy)
+        const sortByPath = sortByProperty.valueType === 'object' ? `${sortBy}.prefLabel` : sortBy
         return {
           ...state,
           sortBy,
           sortDirection,
           results: orderBy(
             state.results,
-            sortBy === 'prefLabel' ? 'prefLabel.prefLabel' : sortBy,
+            sortByPath,
             sortDirection
           )
         }

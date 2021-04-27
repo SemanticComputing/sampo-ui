@@ -68,7 +68,7 @@ class MuiVirtualizedTable extends React.PureComponent {
 
   cellRenderer = ({ cellData, columnIndex }) => {
     const { columns /* classes, rowHeight, onRowClick */ } = this.props
-    const { id, valueType, makeLink, externalLink, sortValues, numberedList, minWidth } = columns[columnIndex]
+    const { id, valueType, makeLink, externalLink, sortValues, numberedList, minWidth, collapsedMaxWords } = columns[columnIndex]
     return (
       <ResultTableCell
         columnId={id}
@@ -80,7 +80,8 @@ class MuiVirtualizedTable extends React.PureComponent {
         sortValues={sortValues}
         minWidth={minWidth}
         container='div'
-        expanded
+        expanded={false}
+        collapsedMaxWords={collapsedMaxWords}
       />
     )
   };
@@ -189,7 +190,7 @@ const rootStyle = {
 }
 
 const tableContainer = {
-  width: 700,
+  width: 1100,
   height: '100%',
   marginLeft: 'auto',
   marginRight: 'auto'

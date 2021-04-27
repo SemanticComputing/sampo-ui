@@ -677,10 +677,14 @@ export default {
           label: 'Type',
           description: ''
         },
-        source: {
-          label: 'Source',
+        note: {
+          label: 'Note',
           description: ''
         }
+        // source: {
+        //   label: 'Source',
+        //   description: ''
+        // }
       }
     },
     manuscripts: {

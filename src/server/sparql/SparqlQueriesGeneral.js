@@ -24,13 +24,11 @@ export const jenaQuery = `
 `
 
 export const fullTextQuery = `
-  SELECT ?id ?prefLabel__id ?prefLabel__prefLabel ?prefLabel__dataProviderUrl 
-  (SAMPLE(?type_) as ?type) 
+  SELECT *
   WHERE {
     <QUERY>
     <RESULT_SET_PROPERTIES>
   }
-  GROUP BY ?id ?prefLabel__id ?prefLabel__prefLabel ?prefLabel__dataProviderUrl
 `
 
 export const facetResultSetQuery = `
