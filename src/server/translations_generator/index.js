@@ -3,15 +3,20 @@ import { /* flatten, */ unflatten } from 'flat'
 import fs from 'fs-extra'
 import { readTranslationsFromGoogleSheets } from '../../../src/client/configs/sampo/GeneralConfig'
 // import localeEN from '../../client/translations/sampo/localeEN'
+import dotenv from 'dotenv'
 
+dotenv.config()
+
+// Start process with an environment variable named GOOGLE_APPLICATION_CREDENTIALS.
+// The value of this env var should be the full path to the service account credential file.
+// https://github.com/googleapis/google-api-nodejs-client#service-account-credentials
 const auth = new google.auth.GoogleAuth({
-  keyFile: 'src/server/translations_generator/credentials.json',
   scopes: ['https://www.googleapis.com/auth/spreadsheets']
 })
 
 const sheets = google.sheets({ version: 'v4', auth })
 
-const spreadsheetId = ''
+const spreadsheetId = process.env.SHEETS_API_SHEET_ID
 
 // const writeToGoogleSheet = async values => {
 //   try {
@@ -73,9 +78,9 @@ const sheetValuesToFlatObject = values => {
 //   values.push([key, value])
 // }
 
-// writeToFile('test.json', unflattenedObject)
 // console.log(values)
 // writeToGoogleSheet(values)
+
 if (readTranslationsFromGoogleSheets) {
   readFromGoogleSheet().then(data => {
     const flatObject = sheetValuesToFlatObject(data)
