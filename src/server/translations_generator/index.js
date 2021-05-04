@@ -20,7 +20,8 @@ const sheets = google.sheets({ version: 'v4', auth })
 
 const spreadsheetId = process.env.SHEETS_API_SHEET_ID
 
-console.log(`spreadsheetId: ${process.env.NODE_ENV}`)
+console.log(`spreadsheetId: ${process.env.SHEETS_API_SHEET_ID}`)
+console.log(`credentials: ${process.env.GOOGLE_APPLICATION_CREDENTIALS}`)
 
 // const writeToGoogleSheet = async values => {
 //   try {
