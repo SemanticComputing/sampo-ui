@@ -5,6 +5,8 @@ import { readTranslationsFromGoogleSheets } from '../../../src/client/configs/sa
 // import localeEN from '../../client/translations/sampo/localeEN'
 import dotenv from 'dotenv'
 
+console.log(`NODE_ENV: ${process.env.NODE_ENV}`)
+
 dotenv.config()
 
 // Start process with an environment variable named GOOGLE_APPLICATION_CREDENTIALS.
@@ -17,6 +19,8 @@ const auth = new google.auth.GoogleAuth({
 const sheets = google.sheets({ version: 'v4', auth })
 
 const spreadsheetId = process.env.SHEETS_API_SHEET_ID
+
+console.log(`spreadsheetId: ${process.env.NODE_ENV}`)
 
 // const writeToGoogleSheet = async values => {
 //   try {
@@ -42,7 +46,7 @@ const readFromGoogleSheet = async () => {
     })
     return result.data.values
   } catch (error) {
-    console.error(error.errors)
+    console.log(error)
   }
 }
 
