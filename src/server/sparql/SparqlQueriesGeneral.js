@@ -23,6 +23,14 @@ export const jenaQuery = `
   }
 `
 
+export const fullTextQuery = `
+  SELECT *
+  WHERE {
+    <QUERY>
+    <RESULT_SET_PROPERTIES>
+  }
+`
+
 export const facetResultSetQuery = `
   SELECT *
   WHERE {

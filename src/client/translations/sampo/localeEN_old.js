@@ -139,7 +139,7 @@ export default {
       inputLabel: 'Etsi nimellä'
     },
     sliderFacet: {
-      invalidStartOrEnd: 'Min value must be smaller than max value. The smallest value can be {min} and the largest value can be {max}.'
+      invalidStartOrEnd: 'Only whole numbers are allowed. Min value must be smaller than max value. The smallest value can be {min} and the largest value can be {max}.'
     }
   },
   leafletMap: {
@@ -665,6 +665,26 @@ export default {
             the information about the event.
           `
         }
+      }
+    },
+    fullTextSearch: {
+      properties: {
+        prefLabel: {
+          label: 'Label',
+          description: ''
+        },
+        type: {
+          label: 'Type',
+          description: ''
+        },
+        note: {
+          label: 'Note',
+          description: ''
+        }
+        // source: {
+        //   label: 'Source',
+        //   description: ''
+        // }
       }
     },
     manuscripts: {

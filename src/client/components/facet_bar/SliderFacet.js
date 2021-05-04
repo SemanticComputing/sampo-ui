@@ -155,6 +155,7 @@ class SliderFacet extends Component {
   }
 
   isValidSelection = ({ start, end, min, max }) => {
+    if (!Number.isInteger(start) || !Number.isInteger(end)) { return false }
     if (start > end) { return false }
     if (start < min || end < min) { return false }
     if (start > max || end > max) { return false }
