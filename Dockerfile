@@ -23,7 +23,7 @@ COPY webpack*.js ./
 COPY babel.config.js ./
 
 # Bundle app source
-COPY src ./src
+COPY --chown=node src ./src
 
 # Run the scripts defined in package.json
 RUN npm install && \ 
