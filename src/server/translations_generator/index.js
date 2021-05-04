@@ -5,9 +5,10 @@ import { readTranslationsFromGoogleSheets } from '../../../src/client/configs/sa
 // import localeEN from '../../client/translations/sampo/localeEN'
 import dotenv from 'dotenv'
 
-console.log(`NODE_ENV: ${process.env.NODE_ENV}`)
-
 dotenv.config()
+
+// console.log(`spreadsheetId: ${process.env.SHEETS_API_SHEET_ID}`)
+// console.log(`credentials: ${process.env.GOOGLE_APPLICATION_CREDENTIALS}`)
 
 // Start process with an environment variable named GOOGLE_APPLICATION_CREDENTIALS.
 // The value of this env var should be the full path to the service account credential file.
@@ -19,9 +20,6 @@ const auth = new google.auth.GoogleAuth({
 const sheets = google.sheets({ version: 'v4', auth })
 
 const spreadsheetId = process.env.SHEETS_API_SHEET_ID
-
-console.log(`spreadsheetId: ${process.env.SHEETS_API_SHEET_ID}`)
-console.log(`credentials: ${process.env.GOOGLE_APPLICATION_CREDENTIALS}`)
 
 // const writeToGoogleSheet = async values => {
 //   try {
