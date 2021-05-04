@@ -1,5 +1,7 @@
 FROM node:14.15.1-alpine
 ARG API_URL
+ARG GOOGLE_APPLICATION_CREDENTIALS
+ARG SHEETS_API_SHEET_ID
 
 # Create app directory
 RUN mkdir /opt/app && chown node:node /opt/app
@@ -24,7 +26,11 @@ COPY babel.config.js ./
 COPY src ./src
 
 # Run the scripts defined in package.json
-RUN npm install && API_URL=$API_URL npm run build
+RUN npm install && \ 
+    API_URL=$API_URL \ 
+    GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS \
+    SHEETS_API_SHEET_ID=$SHEETS_API_SHEET_ID \ 
+    npm run build
 
 EXPOSE 3001
 
