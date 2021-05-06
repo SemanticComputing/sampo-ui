@@ -4,7 +4,7 @@ export const defaultLocale = 'en'
 
 export const showLanguageButton = true
 
-export const readTranslationsFromGoogleSheets = true
+export const readTranslationsFromGoogleSheets = false
 
 export const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZWtrb25lbiIsImEiOiJja2FkbGxiY2owMDZkMnFxcGVqNTZ0dmk2In0.6keLTN8VveJkM5y4_OFmUw' // https://docs.mapbox.com/accounts/overview/tokens/
 
