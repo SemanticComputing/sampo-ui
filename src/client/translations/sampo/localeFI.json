@@ -1,0 +1,1188 @@
+{
+  "languageLabel": "Suomi",
+  "html": {
+    "title": "Sampo-UI – A framework for building user interfaces for semantic portals",
+    "description": ""
+  },
+  "appTitle": {
+    "short": "",
+    "long": "",
+    "subheading": ""
+  },
+  "appDescription": "",
+  "appDescription1": "",
+  "appDescription2": "",
+  "appDescription3": "",
+  "appDescription4": "",
+  "selectPerspective": "",
+  "mainPageImageLicence": "",
+  "backendErrorText": "",
+  "topBar": {
+    "feedback": "",
+    "info": {
+      "info": "",
+      "blog": "",
+      "blogUrl": "",
+      "aboutThePortal": ""
+    },
+    "searchBarPlaceHolder": "",
+    "searchBarPlaceHolderShort": "",
+    "instructions": ""
+  },
+  "facetBar": {
+    "results": "",
+    "activeFilters": "",
+    "removeAllFilters": "",
+    "narrowDownBy": "",
+    "filterOptions": "",
+    "filterByName": "",
+    "filterByBoundingBox": "",
+    "selectionOptions": "",
+    "selectAlsoSubconcepts": "",
+    "doNotSelectSubconcepts": "",
+    "sortingOptions": "",
+    "sortAlphabetically": "",
+    "sortByNumberOfSearchResults": "",
+    "useDisjunction": "",
+    "useConjuction": "",
+    "minYear": "",
+    "maxYear": "",
+    "min": "",
+    "max": "",
+    "facetSearchFieldPlaceholder": "",
+    "applyFacetSelection": "",
+    "pieChart": {
+      "tooltip": ""
+    },
+    "barChart": {
+      "tooltip": "",
+      "language": {
+        "title": "",
+        "xaxisTitle": "",
+        "yaxisTitle": "",
+        "seriesTitle": ""
+      }
+    },
+    "lineChart": {
+      "tooltip": "",
+      "productionTimespan": {
+        "title": "",
+        "xaxisTitle": "",
+        "yaxisTitle": "",
+        "seriesTitle": ""
+      }
+    }
+  },
+  "tabs": {
+    "table": "",
+    "map": "",
+    "production_places": "",
+    "production_places_heatmap": "",
+    "last_known_locations": "",
+    "migrations": "",
+    "network": "",
+    "export": "",
+    "production_dates": "",
+    "event_dates": "",
+    "map_clusters": "",
+    "map_markers": "",
+    "heatmap": "",
+    "statistics": "",
+    "emloLetterNetwork": "",
+    "emloSentReceived": "",
+    "download": "",
+    "recommendations": ""
+  },
+  "table": {
+    "rowsPerPage": "",
+    "of": ""
+  },
+  "lineChart": {
+    "productionCount": "",
+    "transferCount": "",
+    "observationCount": "",
+    "sentCount": "",
+    "receivedCount": "",
+    "allCount": ""
+  },
+  "exportToYasgui": "",
+  "openInLinkedDataBrowser": "",
+  "resultsAsCSV": "",
+  "facets": {
+    "dateFacet": {
+      "invalidDate": "",
+      "toBeforeFrom": "",
+      "minDate": "",
+      "maxDate": "",
+      "cancel": "",
+      "fromLabel": "",
+      "toLabel": ""
+    },
+    "textFacet": {
+      "inputLabel": ""
+    },
+    "sliderFacet": {
+      "invalidStartOrEnd": ""
+    }
+  },
+  "leafletMap": {
+    "basemaps": {
+      "mapbox": {
+        "light-v10": ""
+      },
+      "googleRoadmap": "",
+      "topographicalMapNLS": "",
+      "backgroundMapNLS": ""
+    },
+    "externalLayers": {
+      "arkeologiset_kohteet_alue": "",
+      "arkeologiset_kohteet_piste": "",
+      "fhaLidar": "",
+      "karelianMaps": "",
+      "senateAtlas": "",
+      "kotus:pitajat": "",
+      "kotus:rajat-sms-alueet": "",
+      "kotus:rajat-sms-alueosat": "",
+      "kotus:rajat-lansi-ita": ""
+    },
+    "mapModeButtons": {
+      "markers": "",
+      "heatmap": ""
+    },
+    "wrongZoomLevel": "",
+    "wrongZoomLevelFHA": "",
+    "tooManyResults": ""
+  },
+  "instancePageGeneral": {
+    "introduction": "",
+    "repetition": ""
+  },
+  "deckGlMap": {
+    "arcColouring": "",
+    "showMoreInformation": "",
+    "manuscriptMigrations": {
+      "legendTitle": "",
+      "legendFrom": "",
+      "legendTo": "",
+      "from": "",
+      "to": "",
+      "count": "",
+      "listHeadingSingleInstance": "",
+      "listHeadingMultipleInstances": ""
+    }
+  },
+  "perspectives": {
+    "perspective1": {
+      "label": "",
+      "facetResultsType": "",
+      "shortDescription": "",
+      "longDescription": "",
+      "instancePage": {
+        "label": "",
+        "description": ""
+      },
+      "properties": {
+        "uri": {
+          "label": "",
+          "description": ""
+        },
+        "prefLabel": {
+          "label": "",
+          "description": "",
+          "textFacetInputPlaceholder": ""
+        },
+        "author": {
+          "label": "",
+          "description": ""
+        },
+        "work": {
+          "label": "",
+          "description": ""
+        },
+        "expression": {
+          "label": "",
+          "description": ""
+        },
+        "productionPlace": {
+          "label": "",
+          "description": ""
+        },
+        "productionTimespan": {
+          "label": "",
+          "description": ""
+        },
+        "note": {
+          "label": "",
+          "description": ""
+        },
+        "language": {
+          "label": "",
+          "description": ""
+        },
+        "event": {
+          "label": "",
+          "description": ""
+        },
+        "owner": {
+          "label": "",
+          "description": ""
+        },
+        "collection": {
+          "label": "",
+          "description": ""
+        },
+        "transferOfCustodyPlace": {
+          "label": "",
+          "description": ""
+        },
+        "transferOfCustodyTimespan": {
+          "label": "",
+          "description": ""
+        },
+        "lastKnownLocation": {
+          "label": "",
+          "description": ""
+        },
+        "material": {
+          "label": "",
+          "description": ""
+        },
+        "height": {
+          "label": "",
+          "description": ""
+        },
+        "width": {
+          "label": "",
+          "description": ""
+        },
+        "folios": {
+          "label": "",
+          "description": ""
+        },
+        "lines": {
+          "label": "",
+          "description": ""
+        },
+        "columns": {
+          "label": "",
+          "description": ""
+        },
+        "miniatures": {
+          "label": "",
+          "description": ""
+        },
+        "decoratedInitials": {
+          "label": "",
+          "description": ""
+        },
+        "historiatedInitials": {
+          "label": "",
+          "description": ""
+        },
+        "source": {
+          "label": "",
+          "description": ""
+        }
+      }
+    },
+    "perspective2": {
+      "label": "",
+      "facetResultsType": "",
+      "shortDescription": "",
+      "longDescription": "",
+      "instancePage": {
+        "label": "",
+        "description": ""
+      },
+      "properties": {
+        "uri": {
+          "label": "",
+          "description": ""
+        },
+        "prefLabel": {
+          "label": "",
+          "description": "",
+          "textFacetInputPlaceholder": ""
+        },
+        "author": {
+          "label": "",
+          "description": ""
+        },
+        "language": {
+          "label": "",
+          "description": ""
+        },
+        "expression": {
+          "label": "",
+          "description": ""
+        },
+        "manuscript": {
+          "label": "",
+          "description": ""
+        },
+        "productionTimespan": {
+          "label": "",
+          "description": ""
+        },
+        "collection": {
+          "label": "",
+          "description": ""
+        },
+        "source": {
+          "label": "",
+          "description": ""
+        }
+      }
+    },
+    "perspective3": {
+      "label": "",
+      "facetResultsType": "",
+      "shortDescription": "",
+      "longDescription": "",
+      "instancePage": {
+        "label": "",
+        "description": ""
+      },
+      "properties": {
+        "uri": {
+          "label": "",
+          "description": ""
+        },
+        "type": {
+          "label": "",
+          "description": ""
+        },
+        "language": {
+          "label": "",
+          "description": ""
+        },
+        "manuscript": {
+          "label": "",
+          "description": ""
+        },
+        "eventTimespan": {
+          "label": "",
+          "description": ""
+        },
+        "place": {
+          "label": "",
+          "description": ""
+        },
+        "placeType": {
+          "label": "",
+          "description": ""
+        },
+        "note": {
+          "label": "",
+          "description": ""
+        },
+        "surrender": {
+          "label": "",
+          "description": ""
+        },
+        "receiver": {
+          "label": "",
+          "description": ""
+        },
+        "observedOwner": {
+          "label": "",
+          "description": ""
+        },
+        "source": {
+          "label": "",
+          "description": ""
+        }
+      }
+    },
+    "manuscripts": {
+      "label": "",
+      "facetResultsType": "",
+      "shortDescription": "",
+      "longDescription": "",
+      "instancePage": {
+        "label": "",
+        "description": ""
+      },
+      "properties": {
+        "uri": {
+          "label": "",
+          "description": ""
+        },
+        "prefLabel": {
+          "label": "",
+          "description": ""
+        },
+        "author": {
+          "label": "",
+          "description": ""
+        },
+        "work": {
+          "label": "",
+          "description": ""
+        },
+        "expression": {
+          "label": "",
+          "description": ""
+        },
+        "productionPlace": {
+          "label": "",
+          "description": ""
+        },
+        "productionTimespan": {
+          "label": "",
+          "description": ""
+        },
+        "note": {
+          "label": "",
+          "description": ""
+        },
+        "language": {
+          "label": "",
+          "description": ""
+        },
+        "event": {
+          "label": "",
+          "description": ""
+        },
+        "owner": {
+          "label": "",
+          "description": ""
+        },
+        "collection": {
+          "label": "",
+          "description": ""
+        },
+        "transferOfCustodyPlace": {
+          "label": "",
+          "description": ""
+        },
+        "transferOfCustodyTimespan": {
+          "label": "",
+          "description": ""
+        },
+        "lastKnownLocation": {
+          "label": "",
+          "description": ""
+        },
+        "material": {
+          "label": "",
+          "description": ""
+        },
+        "height": {
+          "label": "",
+          "description": ""
+        },
+        "width": {
+          "label": "",
+          "description": ""
+        },
+        "folios": {
+          "label": "",
+          "description": ""
+        },
+        "lines": {
+          "label": "",
+          "description": ""
+        },
+        "columns": {
+          "label": "",
+          "description": ""
+        },
+        "miniatures": {
+          "label": "",
+          "description": ""
+        },
+        "decoratedInitials": {
+          "label": "",
+          "description": ""
+        },
+        "historiatedInitials": {
+          "label": "",
+          "description": ""
+        },
+        "source": {
+          "label": "",
+          "description": ""
+        }
+      }
+    },
+    "works": {
+      "label": "",
+      "facetResultsType": "",
+      "shortDescription": "",
+      "longDescription": "",
+      "instancePage": {
+        "label": "",
+        "description": ""
+      },
+      "properties": {
+        "uri": {
+          "label": "",
+          "description": ""
+        },
+        "prefLabel": {
+          "label": "",
+          "description": ""
+        },
+        "author": {
+          "label": "",
+          "description": ""
+        },
+        "language": {
+          "label": "",
+          "description": ""
+        },
+        "expression": {
+          "label": "",
+          "description": ""
+        },
+        "manuscript": {
+          "label": "",
+          "description": ""
+        },
+        "productionTimespan": {
+          "label": "",
+          "description": ""
+        },
+        "collection": {
+          "label": "",
+          "description": ""
+        },
+        "source": {
+          "label": "",
+          "description": ""
+        }
+      }
+    },
+    "events": {
+      "label": "",
+      "facetResultsType": "",
+      "shortDescription": "",
+      "longDescription": "",
+      "instancePage": {
+        "label": "",
+        "description": ""
+      },
+      "properties": {
+        "uri": {
+          "label": "",
+          "description": ""
+        },
+        "type": {
+          "label": "",
+          "description": ""
+        },
+        "language": {
+          "label": "",
+          "description": ""
+        },
+        "manuscript": {
+          "label": "",
+          "description": ""
+        },
+        "eventTimespan": {
+          "label": "",
+          "description": ""
+        },
+        "place": {
+          "label": "",
+          "description": ""
+        },
+        "note": {
+          "label": "",
+          "description": ""
+        },
+        "surrender": {
+          "label": "",
+          "description": ""
+        },
+        "receiver": {
+          "label": "",
+          "description": ""
+        },
+        "observedOwner": {
+          "label": "",
+          "description": ""
+        },
+        "source": {
+          "label": "",
+          "description": ""
+        }
+      }
+    },
+    "actors": {
+      "label": "",
+      "facetResultsType": "",
+      "shortDescription": "",
+      "longDescription": "",
+      "instancePage": {
+        "label": "",
+        "description": ""
+      },
+      "properties": {
+        "uri": {
+          "label": "",
+          "description": ""
+        },
+        "prefLabel": {
+          "label": "",
+          "description": ""
+        },
+        "type": {
+          "label": "",
+          "description": ""
+        },
+        "birthDateTimespan": {
+          "label": "",
+          "description": ""
+        },
+        "deathDateTimespan": {
+          "label": "",
+          "description": ""
+        },
+        "place": {
+          "label": "",
+          "description": ""
+        },
+        "work": {
+          "label": "",
+          "description": ""
+        },
+        "manuscript": {
+          "label": "",
+          "description": ""
+        },
+        "role": {
+          "label": "",
+          "description": ""
+        },
+        "source": {
+          "label": "",
+          "description": ""
+        }
+      }
+    },
+    "places": {
+      "label": "",
+      "facetResultsType": "",
+      "shortDescription": "",
+      "longDescription": "",
+      "instancePage": {
+        "label": "",
+        "description": ""
+      },
+      "properties": {
+        "uri": {
+          "label": "",
+          "description": ""
+        },
+        "prefLabel": {
+          "label": "",
+          "description": ""
+        },
+        "placeType": {
+          "label": "",
+          "description": ""
+        },
+        "area": {
+          "label": "",
+          "description": ""
+        },
+        "manuscriptProduced": {
+          "label": "",
+          "description": ""
+        },
+        "manuscriptTransferred": {
+          "label": "",
+          "description": ""
+        },
+        "manuscriptObserved": {
+          "label": "",
+          "description": ""
+        },
+        "actor": {
+          "label": "",
+          "description": ""
+        },
+        "source": {
+          "label": "",
+          "description": ""
+        }
+      }
+    },
+    "collections": {
+      "label": "",
+      "facetResultsType": "",
+      "shortDescription": "",
+      "longDescription": "",
+      "instancePage": {
+        "label": "",
+        "description": ""
+      },
+      "properties": {
+        "uri": {
+          "label": "",
+          "description": ""
+        },
+        "prefLabel": {
+          "label": "",
+          "description": ""
+        },
+        "manuscript": {
+          "label": "",
+          "description": ""
+        },
+        "owner": {
+          "label": "",
+          "description": ""
+        },
+        "place": {
+          "label": "",
+          "description": ""
+        },
+        "source": {
+          "label": "",
+          "description": ""
+        }
+      }
+    },
+    "expressions": {
+      "label": "",
+      "facetResultsType": "",
+      "shortDescription": "",
+      "longDescription": "",
+      "instancePage": {
+        "label": "",
+        "description": ""
+      },
+      "properties": {
+        "uri": {
+          "label": "",
+          "description": ""
+        },
+        "prefLabel": {
+          "label": "",
+          "description": ""
+        },
+        "manuscript": {
+          "label": "",
+          "description": ""
+        },
+        "language": {
+          "label": "",
+          "description": ""
+        },
+        "source": {
+          "label": "",
+          "description": ""
+        }
+      }
+    },
+    "finds": {
+      "label": "",
+      "facetResultsType": "",
+      "shortDescription": "",
+      "longDescription": "",
+      "instancePage": {
+        "label": "",
+        "description": ""
+      },
+      "properties": {
+        "uri": {
+          "label": "",
+          "description": ""
+        },
+        "findName": {
+          "label": "",
+          "description": ""
+        },
+        "specification": {
+          "label": "",
+          "description": ""
+        },
+        "prefLabel": {
+          "label": "",
+          "description": ""
+        },
+        "type": {
+          "label": "",
+          "description": ""
+        },
+        "subCategory": {
+          "label": "",
+          "description": ""
+        },
+        "objectSubCategory": {
+          "label": "",
+          "description": ""
+        },
+        "material": {
+          "label": "",
+          "description": ""
+        },
+        "materialLiteral": {
+          "label": "",
+          "description": ""
+        },
+        "period": {
+          "label": "",
+          "description": ""
+        },
+        "periodObject": {
+          "label": "",
+          "description": ""
+        },
+        "startYear": {
+          "label": "",
+          "description": ""
+        },
+        "endYear": {
+          "label": "",
+          "description": ""
+        },
+        "municipality": {
+          "label": "",
+          "description": ""
+        },
+        "image": {
+          "label": "",
+          "description": ""
+        }
+      }
+    },
+    "emloActors": {
+      "label": "",
+      "facetResultsType": "",
+      "shortDescription": "",
+      "longDescription": "",
+      "instancePage": {
+        "label": "",
+        "description": ""
+      },
+      "properties": {
+        "uri": {
+          "label": "",
+          "description": ""
+        },
+        "prefLabel": {
+          "label": "",
+          "description": ""
+        },
+        "author": {
+          "label": "",
+          "description": ""
+        },
+        "gender": {
+          "label": "",
+          "description": ""
+        },
+        "type": {
+          "label": "",
+          "description": ""
+        },
+        "birthDateTimespan": {
+          "label": "",
+          "description": ""
+        },
+        "deathDateTimespan": {
+          "label": "",
+          "description": ""
+        },
+        "altLabel": {
+          "label": "",
+          "description": ""
+        },
+        "related": {
+          "label": "",
+          "description": ""
+        },
+        "event": {
+          "label": "",
+          "description": ""
+        },
+        "owner": {
+          "label": "",
+          "description": ""
+        },
+        "rel": {
+          "label": "",
+          "description": ""
+        },
+        "cor": {
+          "label": "",
+          "description": ""
+        },
+        "transferOfCustodyTimespan": {
+          "label": "",
+          "description": ""
+        },
+        "knownLocation": {
+          "label": "",
+          "description": ""
+        },
+        "material": {
+          "label": "",
+          "description": ""
+        },
+        "height": {
+          "label": "",
+          "description": ""
+        },
+        "width": {
+          "label": "",
+          "description": ""
+        },
+        "folios": {
+          "label": "",
+          "description": ""
+        },
+        "lines": {
+          "label": "",
+          "description": ""
+        },
+        "columns": {
+          "label": "",
+          "description": ""
+        },
+        "miniatures": {
+          "label": "",
+          "description": ""
+        },
+        "decoratedInitials": {
+          "label": "",
+          "description": ""
+        },
+        "historiatedInitials": {
+          "label": "",
+          "description": ""
+        },
+        "source": {
+          "label": "",
+          "description": ""
+        }
+      }
+    },
+    "emloLetters": {
+      "label": "",
+      "facetResultsType": "",
+      "shortDescription": "",
+      "longDescription": "",
+      "instancePage": {
+        "label": "",
+        "description": ""
+      },
+      "properties": {
+        "uri": {
+          "label": "",
+          "description": ""
+        },
+        "prefLabel": {
+          "label": "",
+          "description": ""
+        },
+        "language": {
+          "label": "",
+          "description": ""
+        },
+        "subject": {
+          "label": "",
+          "description": ""
+        },
+        "datasource": {
+          "label": "",
+          "description": ""
+        },
+        "excipit": {
+          "label": "",
+          "description": ""
+        },
+        "description": {
+          "label": "",
+          "description": ""
+        },
+        "manuscript": {
+          "label": "",
+          "description": ""
+        },
+        "productionTimespan": {
+          "label": "",
+          "description": ""
+        },
+        "collection": {
+          "label": "",
+          "description": ""
+        },
+        "source": {
+          "label": "",
+          "description": ""
+        },
+        "target": {
+          "label": "",
+          "description": ""
+        },
+        "from": {
+          "label": "",
+          "description": ""
+        },
+        "to": {
+          "label": "",
+          "description": ""
+        }
+      }
+    },
+    "emloPlaces": {
+      "label": "",
+      "facetResultsType": "",
+      "shortDescription": "",
+      "longDescription": "",
+      "instancePage": {
+        "label": "",
+        "description": ""
+      },
+      "properties": {
+        "uri": {
+          "label": "",
+          "description": ""
+        },
+        "type": {
+          "label": "",
+          "description": ""
+        },
+        "prefLabel": {
+          "label": "",
+          "description": ""
+        },
+        "country": {
+          "label": "",
+          "description": ""
+        },
+        "broader": {
+          "label": "",
+          "description": ""
+        },
+        "narrower": {
+          "label": "",
+          "description": ""
+        },
+        "place": {
+          "label": "",
+          "description": ""
+        },
+        "placeType": {
+          "label": "",
+          "description": ""
+        },
+        "note": {
+          "label": "",
+          "description": ""
+        },
+        "surrender": {
+          "label": "",
+          "description": ""
+        },
+        "receiver": {
+          "label": "",
+          "description": ""
+        },
+        "observedOwner": {
+          "label": "",
+          "description": ""
+        },
+        "source": {
+          "label": "",
+          "description": ""
+        }
+      }
+    },
+    "hellerau": {
+      "label": "",
+      "facetResultsType": "",
+      "shortDescription": "",
+      "longDescription": "",
+      "properties": {
+        "uri": {
+          "label": "",
+          "description": ""
+        },
+        "prefLabel": {
+          "label": "",
+          "description": ""
+        },
+        "home1930": {
+          "label": "",
+          "description": ""
+        },
+        "home1937": {
+          "label": "",
+          "description": ""
+        }
+      }
+    },
+    "clientFSPlaces": {
+      "label": "",
+      "shortDescription": "",
+      "datasets": {
+        "kotus": {
+          "label": "",
+          "aboutLink": ""
+        },
+        "pnr": {
+          "label": "",
+          "aboutLink": ""
+        },
+        "warsa_karelian_places": {
+          "label": "",
+          "aboutLink": ""
+        },
+        "tgn": {
+          "label": "",
+          "aboutLink": ""
+        }
+      },
+      "facetResultsType": "",
+      "inputPlaceHolder": "",
+      "searchByArea": "",
+      "searchByAreaTitle": "",
+      "searchByAreaCancel": "",
+      "searchByAreaSearch": "",
+      "properties": {
+        "datasetSelector": {
+          "label": "",
+          "description": ""
+        },
+        "prefLabel": {
+          "label": "",
+          "description": ""
+        },
+        "broaderTypeLabel": {
+          "label": "",
+          "description": ""
+        },
+        "broaderAreaLabel": {
+          "label": "",
+          "description": ""
+        },
+        "modifier": {
+          "label": "",
+          "description": ""
+        },
+        "basicElement": {
+          "label": "",
+          "description": ""
+        },
+        "collectionYear": {
+          "label": "",
+          "description": ""
+        },
+        "source": {
+          "label": "",
+          "description": ""
+        }
+      }
+    }
+  },
+  "aboutThePortalPartOne": "",
+  "aboutThePortalPartTwo": "",
+  "instructions": "",
+  "feedback": ""
+}
