@@ -11,13 +11,11 @@
     "Heikki Rantala"
   ],
   "scripts": {
-    "prebuild": "cross-env BABEL_ENV=node babel-node src/server/translations_generator/index.js",
     "build": "npm run build-client && npm run build-server",
     "build-client": "cross-env BABEL_ENV=browser webpack --progress --config webpack.client.prod.js",
     "build-server": "cross-env BABEL_ENV=node babel src/server --out-dir ./dist/server --copy-files",
     "build-storybook": "build-storybook -c .storybook -o docs",
     "client": "cross-env BABEL_ENV=browser webpack serve --config webpack.client.dev.js",
-    "predev": "cross-env BABEL_ENV=node babel-node src/server/translations_generator/index.js",
     "dev": "concurrently --prefix none --kill-others \"npm run server\" \"npm run client\"",
     "server": "cross-env BABEL_ENV=node NODE_ENV=development nodemon -r dotenv/config src/server/index.js --exec babel-node",
     "sitemap": "cross-env BABEL_ENV=node babel-node src/server/sitemap_generator/SitemapGenerator.js",
