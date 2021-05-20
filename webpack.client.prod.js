@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const CopyPlugin = require('copy-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin')
 const common = require('./webpack.client.common.js')
 
 module.exports = merge(common, {
@@ -26,6 +27,9 @@ module.exports = merge(common, {
           to: `${common.output.path}`
         }
       ]
+    }),
+    new CompressionPlugin({
+      test: /\.js(\?.*)?$/i
     })
   ]
 })

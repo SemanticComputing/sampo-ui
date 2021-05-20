@@ -5,6 +5,7 @@ import path from 'path'
 import bodyParser from 'body-parser'
 import axios from 'axios'
 import { has, castArray } from 'lodash'
+import expressStaticGzip from 'express-static-gzip'
 import {
   getResultCount,
   getPaginatedResults,
@@ -45,7 +46,8 @@ let publicPath = null
 if (!isDevelopment) {
   // The root directory from which to serve static assets
   publicPath = path.join(__dirname, './../public/')
-  app.use(express.static(publicPath))
+  // app.use(express.static(publicPath))
+  app.use('/', expressStaticGzip(publicPath))
 }
 
 // React app makes requests to these api urls
