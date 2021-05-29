@@ -145,8 +145,8 @@ class LeafletMap extends React.Component {
       this.drawPointData()
     }
     if (this.props.showExternalLayers &&
-      (this.props.layers.updateID !== prevProps.layers.updateID)) {
-      this.props.layers.layerData.map(layerObj => this.populateOverlay(layerObj))
+      (this.props.leafletMapState.updateID !== prevProps.leafletMapState.updateID)) {
+      this.props.leafletMapState.layerData.map(layerObj => this.populateOverlay(layerObj))
     }
   }
 
@@ -188,15 +188,15 @@ class LeafletMap extends React.Component {
     }
 
     if (this.props.showExternalLayers &&
-      (this.props.layers.updateID !== prevProps.layers.updateID)) {
-      this.props.layers.layerData.map(layerObj => this.populateOverlay(layerObj))
+      (this.props.leafletMapState.updateID !== prevProps.leafletMapState.updateID)) {
+      this.props.leafletMapState.layerData.map(layerObj => this.populateOverlay(layerObj))
     }
 
     if (this.props.showExternalLayers) {
       if (this.props.customMapControl) {
         this.setCustomMapControlVisibility()
       }
-      if (this.props.layers.fetching) {
+      if (this.props.leafletMapState.fetching) {
         if (this.props.customMapControl) {
           document.getElementById('leaflet-control-custom-checkbox-buffer').disabled = true
         }
@@ -210,7 +210,7 @@ class LeafletMap extends React.Component {
         this.leafletMap.keyboard.disable()
         if (this.leafletMap.tap) this.leafletMap.tap.disable()
       }
-      if (!this.props.layers.fetching) {
+      if (!this.props.leafletMapState.fetching) {
         if (this.props.customMapControl) {
           document.getElementById('leaflet-control-custom-checkbox-buffer').disabled = false
         }
@@ -942,7 +942,7 @@ class LeafletMap extends React.Component {
         <div className={this.props.classes[`leafletContainer${this.props.pageType}`]}>
           <div id={this.props.container ? this.props.container : 'map'} className={this.props.classes.mapElement}>
             {(this.props.fetching ||
-            (this.props.showExternalLayers && this.props.layers.fetching)) &&
+            (this.props.showExternalLayers && this.props.leafletMapState.fetching)) &&
               <div className={this.props.classes.spinnerContainer}>
                 <CircularProgress style={{ color: purple[500] }} thickness={5} />
               </div>}
@@ -957,7 +957,7 @@ LeafletMap.propTypes = {
   classes: PropTypes.object.isRequired,
   pageType: PropTypes.string.isRequired,
   results: PropTypes.array,
-  layers: PropTypes.object,
+  leafletMapState: PropTypes.object,
   facetID: PropTypes.string,
   facet: PropTypes.object,
   instance: PropTypes.object,

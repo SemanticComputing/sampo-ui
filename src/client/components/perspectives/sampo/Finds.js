@@ -27,7 +27,7 @@ const Finds = props => {
         path={`${props.rootUrl}/${perspective.id}/faceted-search/table`}
         render={routeProps =>
           <ResultTable
-            data={props.facetResults}
+            data={props.perspectiveState}
             facetUpdateID={props.facetData.facetUpdateID}
             resultClass='finds'
             facetClass='finds'
@@ -89,8 +89,8 @@ const Finds = props => {
             pageType='facetResults'
             resultClass='findsTimeline'
             facetClass='finds'
-            data={props.facetResults.results}
-            dataUpdateID={props.facetResults.resultUpdateID}
+            data={props.perspectiveState.results}
+            dataUpdateID={props.perspectiveState.resultUpdateID}
             facetUpdateID={props.facetData.facetUpdateID}
             fetchResults={props.fetchResults}
           />}
@@ -99,7 +99,7 @@ const Finds = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/export`}
         render={() =>
           <Export
-            data={props.facetResults}
+            data={props.perspectiveState}
             resultClass='finds'
             facetClass='finds'
             pageType='facetResults'

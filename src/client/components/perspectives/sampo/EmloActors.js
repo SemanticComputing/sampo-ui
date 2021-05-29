@@ -27,7 +27,7 @@ const EmloActors = props => {
         path={[`${props.rootUrl}/${perspective.id}/faceted-search/table`, '/iframe.html']}
         render={routeProps =>
           <ResultTable
-            data={props.facetResults}
+            data={props.perspectiveState}
             facetUpdateID={props.facetData.facetUpdateID}
             resultClass='emloActors'
             facetClass='emloActors'
@@ -66,7 +66,7 @@ const EmloActors = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/export`}
         render={() =>
           <Export
-            data={props.facetResults}
+            data={props.perspectiveState}
             resultClass='emloActors'
             facetClass='emloActors'
             pageType='facetResults'

@@ -40,8 +40,8 @@ const Perspective1 = props => {
         path={[`${props.rootUrl}/${perspective.id}/faceted-search/table`, '/iframe.html']}
         render={routeProps =>
           <ResultTable
-            data={props.facetResults}
-            facetUpdateID={props.facetData.facetUpdateID}
+            data={props.perspectiveState}
+            facetUpdateID={props.facetState.facetUpdateID}
             resultClass='perspective1'
             facetClass='perspective1'
             fetchPaginatedResults={props.fetchPaginatedResults}
@@ -61,16 +61,16 @@ const Perspective1 = props => {
             // center={[60.187, 24.821]}
             // zoom={13}
             // locateUser
-            results={props.placesResults.results}
-            layers={props.leafletMapLayers}
+            results={props.placesState.results}
+            leafletMapState={props.leafletMapState}
             pageType='facetResults'
-            facetUpdateID={props.facetData.facetUpdateID}
-            facet={props.facetData.facets.productionPlace}
+            facetUpdateID={props.facetState.facetUpdateID}
+            facet={props.facetState.facets.productionPlace}
             facetID='productionPlace'
             resultClass='placesMsProduced'
             facetClass='perspective1'
             mapMode='cluster'
-            instance={props.placesResults.instanceTableData}
+            instance={props.placesState.instanceTableData}
             createPopUpContent={createPopUpContentMMM}
             popupMaxHeight={320}
             popupMinWidth={280}
@@ -78,7 +78,7 @@ const Perspective1 = props => {
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
             fetchByURI={props.fetchByURI}
-            fetching={props.placesResults.fetching}
+            fetching={props.placesState.fetching}
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
             showError={props.showError}
@@ -86,7 +86,7 @@ const Perspective1 = props => {
             layerControlExpanded={layerControlExpanded}
             // customMapControl
             layerConfigs={layerConfigs}
-            infoHeaderExpanded={props.facetResults.facetedSearchHeaderExpanded}
+            infoHeaderExpanded={props.perspectiveState.facetedSearchHeaderExpanded}
           // activeLayers={[
           // 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_alue',
           // 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_piste',
@@ -99,12 +99,12 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/production_places_heatmap`}
         render={() =>
           <Deck
-            results={props.placesResults.results}
-            facetUpdateID={props.facetData.facetUpdateID}
+            results={props.placesState.results}
+            facetUpdateID={props.facetState.facetUpdateID}
             resultClass='placesMsProduced'
             facetClass='perspective1'
             fetchResults={props.fetchResults}
-            fetching={props.placesResults.fetching}
+            fetching={props.placesState.fetching}
             layerType='heatmapLayer'
             mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
             mapBoxStyle={MAPBOX_STYLE}
@@ -116,17 +116,17 @@ const Perspective1 = props => {
           <LeafletMap
             center={[22.43, 10.37]}
             zoom={2}
-            results={props.placesResults.results}
-            layers={props.leafletMapLayers}
+            results={props.placesState.results}
+            leafletMapState={props.leafletMapState}
             pageType='facetResults'
-            facetUpdateID={props.facetData.facetUpdateID}
-            facet={props.facetData.facets.lastKnownLocation}
+            facetUpdateID={props.facetState.facetUpdateID}
+            facet={props.facetState.facets.lastKnownLocation}
             facetID='lastKnownLocation'
             resultClass='lastKnownLocations'
             facetClass='perspective1'
             mapMode='cluster'
             showMapModeControl={false}
-            instance={props.placesResults.instanceTableData}
+            instance={props.placesState.instanceTableData}
             createPopUpContent={createPopUpContentMMM}
             popupMaxHeight={320}
             popupMinWidth={280}
@@ -134,30 +134,30 @@ const Perspective1 = props => {
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
             fetchByURI={props.fetchByURI}
-            fetching={props.placesResults.fetching}
+            fetching={props.placesState.fetching}
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
             showError={props.showError}
             showExternalLayers
             layerControlExpanded={layerControlExpanded}
             layerConfigs={layerConfigs}
-            infoHeaderExpanded={props.facetResults.facetedSearchHeaderExpanded}
+            infoHeaderExpanded={props.perspectiveState.facetedSearchHeaderExpanded}
           />}
       />
       <Route
         path={`${rootUrl}/${perspective.id}/faceted-search/migrations`}
         render={() =>
           <Deck
-            results={props.placesResults.results}
-            facetUpdateID={props.facetData.facetUpdateID}
-            instanceAnalysisData={props.placesResults.instanceAnalysisData}
-            instanceAnalysisDataUpdateID={props.placesResults.instanceAnalysisDataUpdateID}
+            results={props.placesState.results}
+            facetUpdateID={props.facetState.facetUpdateID}
+            instanceAnalysisData={props.placesState.instanceAnalysisData}
+            instanceAnalysisDataUpdateID={props.placesState.instanceAnalysisDataUpdateID}
             resultClass='placesMsMigrations'
             facetClass='perspective1'
             fetchResults={props.fetchResults}
             fetchInstanceAnalysis={props.fetchInstanceAnalysis}
-            fetching={props.placesResults.fetching}
-            fetchingInstanceAnalysisData={props.placesResults.fetchingInstanceAnalysisData}
+            fetching={props.placesState.fetching}
+            fetchingInstanceAnalysisData={props.placesState.fetchingInstanceAnalysisData}
             layerType='arcLayer'
             getArcWidth={d => d.instanceCountScaled}
             fromText={intl.get('deckGlMap.manuscriptMigrations.from')}
@@ -180,10 +180,10 @@ const Perspective1 = props => {
         render={() =>
           <ApexChart
             pageType='facetResults'
-            rawData={props.facetResults.results}
-            rawDataUpdateID={props.facetResults.resultUpdateID}
-            facetUpdateID={props.facetData.facetUpdateID}
-            fetching={props.facetResults.fetching}
+            rawData={props.perspectiveState.results}
+            rawDataUpdateID={props.perspectiveState.resultUpdateID}
+            facetUpdateID={props.facetState.facetUpdateID}
+            fetching={props.perspectiveState.fetching}
             fetchData={props.fetchResults}
             createChartData={createSingleLineChartData}
             title='Manuscript production by decade'
@@ -202,10 +202,10 @@ const Perspective1 = props => {
         render={() =>
           <ApexChart
             pageType='facetResults'
-            rawData={props.facetResults.results}
-            rawDataUpdateID={props.facetResults.resultUpdateID}
-            facetUpdateID={props.facetData.facetUpdateID}
-            fetching={props.facetResults.fetching}
+            rawData={props.perspectiveState.results}
+            rawDataUpdateID={props.perspectiveState.resultUpdateID}
+            facetUpdateID={props.facetState.facetUpdateID}
+            fetching={props.perspectiveState.fetching}
             fetchData={props.fetchResults}
             createChartData={createMultipleLineChartData}
             title='Manuscript events by decade'
@@ -236,11 +236,11 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/network`}
         render={() =>
           <Network
-            results={props.facetResults.results}
-            facetUpdateID={props.facetData.facetUpdateID}
-            resultUpdateID={props.facetResults.resultUpdateID}
+            results={props.perspectiveState.results}
+            facetUpdateID={props.facetState.facetUpdateID}
+            resultUpdateID={props.perspectiveState.resultUpdateID}
             fetchResults={props.fetchResults}
-            fetching={props.facetResults.fetching}
+            fetching={props.perspectiveState.fetching}
             resultClass='manuscriptFacetResultsNetwork'
             facetClass='perspective1'
             limit={500}
@@ -255,7 +255,7 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/export`}
         render={() =>
           <Export
-            data={props.facetResults}
+            data={props.perspectiveState}
             resultClass='perspective1'
             facetClass='perspective1'
             pageType='facetResults'
@@ -268,28 +268,98 @@ const Perspective1 = props => {
 }
 
 Perspective1.propTypes = {
-  facetResults: PropTypes.object.isRequired,
-  placesResults: PropTypes.object.isRequired,
-  leafletMapLayers: PropTypes.object.isRequired,
-  facetData: PropTypes.object.isRequired,
-  facetDataConstrainSelf: PropTypes.object,
-  fetchResults: PropTypes.func.isRequired,
-  clearGeoJSONLayers: PropTypes.func.isRequired,
-  fetchGeoJSONLayers: PropTypes.func.isRequired,
-  fetchGeoJSONLayersBackend: PropTypes.func.isRequired,
+  /**
+   * Faceted search configs and results of this perspective.
+   */
+  perspectiveState: PropTypes.object.isRequired,
+  /**
+    * Faceted search configs and results of places related to this perspective.
+    */
+  placesState: PropTypes.object.isRequired,
+  /**
+    * Facet configs and values.
+    */
+  facetState: PropTypes.object.isRequired,
+  /**
+    * Facet values where facets constrain themselves, used for statistics.
+    */
+  facetConstrainSelfState: PropTypes.object.isRequired,
+  /**
+    * Leaflet map config and external layers.
+    */
+  leafletMapState: PropTypes.object.isRequired,
+  /**
+    * Redux action for fetching paginated results.
+    */
   fetchPaginatedResults: PropTypes.func.isRequired,
+  /**
+    * Redux action for fetching all results.
+    */
+  fetchResults: PropTypes.func.isRequired,
+  /**
+    * Redux action for fetching facet values for statistics.
+    */
+  fetchFacetConstrainSelf: PropTypes.func.isRequired,
+  /**
+    * Redux action for loading external GeoJSON layers.
+    */
+  fetchGeoJSONLayers: PropTypes.func.isRequired,
+  /**
+    * Redux action for loading external GeoJSON layers via backend.
+    */
+  fetchGeoJSONLayersBackend: PropTypes.func.isRequired,
+  /**
+    * Redux action for clearing external GeoJSON layers.
+    */
+  clearGeoJSONLayers: PropTypes.func.isRequired,
+  /**
+    * Redux action for fetching information about a single entity.
+    */
   fetchByURI: PropTypes.func.isRequired,
+  /**
+    * Redux action for updating the page of paginated results.
+    */
   updatePage: PropTypes.func.isRequired,
+  /**
+    * Redux action for updating the rows per page of paginated results.
+    */
   updateRowsPerPage: PropTypes.func.isRequired,
+  /**
+    * Redux action for sorting the paginated results.
+    */
   sortResults: PropTypes.func.isRequired,
-  routeProps: PropTypes.object.isRequired,
+  /**
+    * Redux action for updating the active selection or config of a facet.
+    */
+  showError: PropTypes.func.isRequired,
+  /**
+    * Redux action for showing an error
+    */
   updateFacetOption: PropTypes.func.isRequired,
+  /**
+    * Routing information from React Router.
+    */
+  routeProps: PropTypes.object.isRequired,
+  /**
+    * Perspective config.
+    */
   perspective: PropTypes.object.isRequired,
+  /**
+    * State of the animation, used by TemporalMap.
+    */
   animationValue: PropTypes.array.isRequired,
+  /**
+    * Redux action for animating TemporalMap.
+    */
   animateMap: PropTypes.func.isRequired,
+  /**
+    * Current screen size.
+    */
   screenSize: PropTypes.string.isRequired,
-  rootUrl: PropTypes.string.isRequired,
-  showError: PropTypes.func.isRequired
+  /**
+    * Root url of the application.
+    */
+  rootUrl: PropTypes.string.isRequired
 }
 
 export default Perspective1

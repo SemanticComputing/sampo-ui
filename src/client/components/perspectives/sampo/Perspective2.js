@@ -22,8 +22,8 @@ const Perspective2 = props => {
         path={`${props.rootUrl}/${perspective.id}/faceted-search/table`}
         render={routeProps =>
           <ResultTable
-            data={props.facetResults}
-            facetUpdateID={props.facetData.facetUpdateID}
+            data={props.perspectiveState}
+            facetUpdateID={props.facetState.facetUpdateID}
             resultClass='perspective2'
             facetClass='perspective2'
             fetchPaginatedResults={props.fetchPaginatedResults}
@@ -38,7 +38,7 @@ const Perspective2 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/export`}
         render={() =>
           <Export
-            data={props.facetResults}
+            data={props.perspectiveState}
             resultClass='perspective2'
             facetClass='perspective2'
             pageType='facetResults'

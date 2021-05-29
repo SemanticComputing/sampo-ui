@@ -27,8 +27,8 @@ const Perspective3 = props => {
         path={`${props.rootUrl}/${perspective.id}/faceted-search/table`}
         render={routeProps =>
           <ResultTable
-            data={props.facetResults}
-            facetUpdateID={props.facetData.facetUpdateID}
+            data={props.perspectiveState}
+            facetUpdateID={props.facetState.facetUpdateID}
             resultClass='perspective3'
             facetClass='perspective3'
             fetchPaginatedResults={props.fetchPaginatedResults}
@@ -45,16 +45,16 @@ const Perspective3 = props => {
           <LeafletMap
             center={[22.43, 10.37]}
             zoom={2}
-            results={props.placesResults.results}
+            results={props.placesState.results}
             layers={props.leafletMapLayers}
             pageType='facetResults'
-            facetUpdateID={props.facetData.facetUpdateID}
-            facet={props.facetData.facets.place}
+            facetUpdateID={props.facetState.facetUpdateID}
+            facet={props.facetState.facets.place}
             facetID='place'
             resultClass='placesEvents'
             facetClass='perspective3'
             mapMode='cluster'
-            instance={props.placesResults.instanceTableData}
+            instance={props.placesState.instanceTableData}
             createPopUpContent={createPopUpContentMMM}
             popupMaxHeight={320}
             popupMinWidth={280}
@@ -62,21 +62,21 @@ const Perspective3 = props => {
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
             fetchByURI={props.fetchByURI}
-            fetching={props.placesResults.fetching}
+            fetching={props.placesState.fetching}
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
             showError={props.showError}
             showExternalLayers
             layerControlExpanded={layerControlExpanded}
             layerConfigs={layerConfigs}
-            infoHeaderExpanded={props.facetResults.facetedSearchHeaderExpanded}
+            infoHeaderExpanded={props.perspectiveState.facetedSearchHeaderExpanded}
           />}
       />
       <Route
         path={`${rootUrl}/${perspective.id}/faceted-search/export`}
         render={() =>
           <Export
-            data={props.facetResults}
+            data={props.perspectiveState}
             resultClass='perspective3'
             facetClass='perspective3'
             pageType='facetResults'
