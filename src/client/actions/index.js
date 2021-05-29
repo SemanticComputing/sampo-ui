@@ -91,14 +91,18 @@ export const fetchInstanceAnalysis = ({
   facetClass,
   uri = null,
   fromID = null,
-  toID = null
+  toID = null,
+  period = null,
+  province = null
 }) => ({
   type: FETCH_INSTANCE_ANALYSIS,
   resultClass,
   facetClass,
   uri,
   fromID,
-  toID
+  toID,
+  period,
+  province
 })
 export const fetchResultCount = ({ resultClass, facetClass }) => ({
   type: FETCH_RESULT_COUNT,

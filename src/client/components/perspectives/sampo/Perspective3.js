@@ -5,9 +5,13 @@ import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
 import ResultTable from '../../facet_results/ResultTable'
 import Export from '../../facet_results/Export'
 import LeafletMap from '../../facet_results/LeafletMap'
+import { layerConfigs, createPopUpContentMMM } from '../../../configs/sampo/Leaflet/LeafletConfig'
 
 const Perspective3 = props => {
-  const { rootUrl, perspective } = props
+  const { rootUrl, perspective, screenSize } = props
+  const layerControlExpanded = screenSize === 'md' ||
+    screenSize === 'lg' ||
+    screenSize === 'xl'
   return (
     <>
       <PerspectiveTabs
@@ -50,17 +54,22 @@ const Perspective3 = props => {
             resultClass='placesEvents'
             facetClass='perspective3'
             mapMode='cluster'
-            showMapModeControl={false}
             instance={props.placesResults.instanceTableData}
+            createPopUpContent={createPopUpContentMMM}
+            popupMaxHeight={320}
+            popupMinWidth={280}
             fetchResults={props.fetchResults}
+            fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
-            fetchGeoJSONLayers={props.fetchGeoJSONLayersBackend}
             fetchByURI={props.fetchByURI}
             fetching={props.placesResults.fetching}
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
-            showExternalLayers
             showError={props.showError}
+            showExternalLayers
+            layerControlExpanded={layerControlExpanded}
+            layerConfigs={layerConfigs}
+            infoHeaderExpanded={props.facetResults.facetedSearchHeaderExpanded}
           />}
       />
       <Route

@@ -43,20 +43,34 @@ a, a:visited, a:hover, a:active {
     transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 } */
 
-.apexcharts-legend-marker {
+.position-right .apexcharts-legend-marker {
     top: 3px !important;
 }
 
 .apexcharts-custom-tooltip {
-    padding: 8px
+    /* padding: 8px; */
+    font-family: "Roboto", "Helvetica", "Arial";
 } 
+
+.leaflet-popup-content p {
+    margin: 0px;
+}
+
+.leaflet-popup-content h3 {
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
 
 .leaflet-control-layers span {
     font-family: "Roboto", "Helvetica", "Arial";
 }
 
+.leaflet-control-custom-checkbox-buffer-container span {
+    margin-left: 3px;
+}
+
 @media screen and (min-width: 1440px) {
-    .leaflet-control-layers span {
+    .leaflet-control-layers {
         font-size: 14px;
     }
     .leaflet-control-layers-selector {
@@ -65,7 +79,38 @@ a, a:visited, a:hover, a:active {
     }
 }
 
+.carousel .control-dots {
+    position: unset;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
 .leaflet-usermarker-small i.pulse {
     top: -12px !important;
     left: -12px !important;
+}
+
+.leaflet-popup-content {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.marker-cluster-grey {
+    background-color: rgba(128, 128, 128, 0.6);
+}
+
+.marker-cluster-small div {
+    background-color: rgba(211, 211, 211, 0.6);
+}
+
+.leaflet-popup-scrolled {
+    border: 0px;
+}
+
+.leaflet-control-zoominfo-info {
+    margin-left: -11px !important;
+    width: 18px !important;
+    height: 18px !important;
+    padding-top: 0px !important;
 }

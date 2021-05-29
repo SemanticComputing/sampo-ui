@@ -94,7 +94,9 @@ export const eventPlacesQuery = `
   (COUNT(DISTINCT ?event) as ?instanceCount)
   WHERE {
     <FILTER>
-    ?event crm:P7_took_place_at ?id .
+    VALUES ?eventType { crm:E10_Transfer_of_Custody crm:E12_Production mmm-schema:ManuscriptActivity }
+    ?event crm:P7_took_place_at ?id ;
+           a ?eventType .
     ?id wgs84:lat ?lat ;
         wgs84:long ?long .
   }

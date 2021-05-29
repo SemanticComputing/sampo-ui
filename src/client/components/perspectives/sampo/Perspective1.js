@@ -9,15 +9,22 @@ import Deck from '../../facet_results/Deck'
 import ApexChart from '../../facet_results/ApexChart'
 import Network from '../../facet_results/Network'
 import Export from '../../facet_results/Export'
-import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../../configs/sampo/GeneralConfig'
+import {
+  MAPBOX_ACCESS_TOKEN,
+  MAPBOX_STYLE
+} from '../../../configs/sampo/GeneralConfig'
 import {
   createSingleLineChartData,
   createMultipleLineChartData
 } from '../../../configs/sampo/ApexCharts/LineChartConfig'
 import { coseLayout, cytoscapeStyle, preprocess } from '../../../configs/sampo/Cytoscape.js/NetworkConfig'
+import { layerConfigs, createPopUpContentMMM } from '../../../configs/sampo/Leaflet/LeafletConfig'
 
 const Perspective1 = props => {
-  const { rootUrl, perspective } = props
+  const { rootUrl, perspective, screenSize } = props
+  const layerControlExpanded = screenSize === 'md' ||
+    screenSize === 'lg' ||
+    screenSize === 'xl'
   return (
     <>
       <PerspectiveTabs
@@ -51,9 +58,9 @@ const Perspective1 = props => {
           <LeafletMap
             center={[22.43, 10.37]}
             zoom={2}
-            // locateUser
             // center={[60.187, 24.821]}
             // zoom={13}
+            // locateUser
             results={props.placesResults.results}
             layers={props.leafletMapLayers}
             pageType='facetResults'
@@ -63,8 +70,10 @@ const Perspective1 = props => {
             resultClass='placesMsProduced'
             facetClass='perspective1'
             mapMode='cluster'
-            showMapModeControl={false}
             instance={props.placesResults.instanceTableData}
+            createPopUpContent={createPopUpContentMMM}
+            popupMaxHeight={320}
+            popupMinWidth={280}
             fetchResults={props.fetchResults}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
@@ -72,138 +81,18 @@ const Perspective1 = props => {
             fetching={props.placesResults.fetching}
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
-            showExternalLayers
-            layerConfigs={[
-              // {
-              //   id: 'arkeologiset_kohteet_alue',
-              //   type: 'GeoJSON',
-              //   minZoom: 13,
-              //   buffer: {
-              //     distance: 200,
-              //     units: 'metres',
-              //     style: feature => {
-              //       if (feature.properties.laji.includes('poistettu kiinteä muinaisjäännös')) {
-              //         return {
-              //           fillOpacity: 0,
-              //           weight: 0
-              //         }
-              //       } else {
-              //         return {
-              //           color: '#6E6E6E',
-              //           dashArray: '3, 5'
-              //         }
-              //       }
-              //     }
-              //   },
-              //   createGeoJSONPointStyle: feature => null, //  this layer includes only GeoJSON Polygons
-              //   createGeoJSONPolygonStyle: feature => {
-              //     // console.log(feature)
-              //     return {
-              //       color: '#dd2c00',
-              //       cursor: 'pointer'
-              //     }
-              //   },
-              //   createPopup: data => {
-              //     let html = ''
-              //     const name = data.kohdenimi
-              //       ? `<b>Kohteen nimi:</b> ${data.kohdenimi}</p>` : ''
-              //     const type = data.laji ? `<b>Kohteen tyyppi:</b> ${data.laji}</p>` : ''
-              //     const municipality = data.kunta ? `<b>Kunta:</b> ${data.kunta}</p>` : ''
-              //     const link = data.mjtunnus
-              //       ? `<a href="https://www.kyppi.fi/to.aspx?id=112.${data.mjtunnus}" target="_blank">Avaa kohde Muinaisjäännösrekisterissä</a></p>` : ''
-              //     html += `
-              //     <div>
-              //       ${name}
-              //       ${type}
-              //       ${municipality}
-              //       ${link}
-              //     </div>
-              //     `
-              //     return html
-              //   }
-              // },
-              // {
-              //   id: 'arkeologiset_kohteet_piste',
-              //   type: 'GeoJSON',
-              //   minZoom: 13,
-              //   buffer: {
-              //     distance: 200,
-              //     units: 'metres',
-              //     style: feature => {
-              //       if (feature.properties.laji.includes('poistettu kiinteä muinaisjäännös')) {
-              //         return {
-              //           fillOpacity: 0,
-              //           weight: 0
-              //         }
-              //       } else {
-              //         return {
-              //           color: '#6E6E6E',
-              //           dashArray: '3, 5'
-              //         }
-              //       }
-              //     }
-              //   },
-              //   createGeoJSONPointStyle: feature => {
-              //     return {
-              //       radius: 8,
-              //       fillColor: '#dd2c00',
-              //       color: '#000',
-              //       weight: 1,
-              //       opacity: 1,
-              //       fillOpacity: 0.8
-              //     }
-              //   },
-              //   createGeoJSONPolygonStyle: feature => null, // this layer includes only GeoJSON points
-              //   createPopup: data => {
-              //     let html = ''
-              //     const name = data.kohdenimi
-              //       ? `<b>Kohteen nimi:</b> ${data.kohdenimi}</p>` : ''
-              //     const type = data.laji ? `<b>Kohteen tyyppi:</b> ${data.laji}</p>` : ''
-              //     const municipality = data.kunta ? `<b>Kunta:</b> ${data.kunta}</p>` : ''
-              //     const link = data.mjtunnus
-              //       ? `<a href="https://www.kyppi.fi/to.aspx?id=112.${data.mjtunnus}" target="_blank">Avaa kohde Muinaisjäännösrekisterissä</a></p>` : ''
-              //     html += `
-              //     <div>
-              //       ${name}
-              //       ${type}
-              //       ${municipality}
-              //       ${link}
-              //     </div>
-              //     `
-              //     return html
-              //   }
-              // },
-              // {
-              //   id: 'fhaLidar',
-              //   type: 'WMS',
-              //   url: `${process.env.API_URL}/fha-wms`,
-              //   layers: 'NBA:lidar',
-              //   version: '1.3.0',
-              //   attribution: 'FHA',
-              //   minZoom: 13,
-              //   maxZoom: 16
-              // },
-              {
-                id: 'karelianMaps',
-                type: 'WMTS',
-                url: 'https:///mapwarper.onki.fi/mosaics/tile/4/{z}/{x}/{y}.png',
-                opacityControl: true,
-                attribution: 'Semantic Computing Research Group'
-              },
-              {
-                id: 'senateAtlas',
-                type: 'WMTS',
-                url: 'https:///mapwarper.onki.fi/mosaics/tile/5/{z}/{x}/{y}.png',
-                opacityControl: true,
-                attribution: 'Semantic Computing Research Group'
-              }
-            ]}
-            // activeLayers={[
-            //   'arkeologiset_kohteet_alue',
-            //   'arkeologiset_kohteet_piste'
-            // ]}
-            layerControlExpanded
             showError={props.showError}
+            showExternalLayers
+            layerControlExpanded={layerControlExpanded}
+            // customMapControl
+            layerConfigs={layerConfigs}
+            infoHeaderExpanded={props.facetResults.facetedSearchHeaderExpanded}
+          // activeLayers={[
+          // 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_alue',
+          // 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_piste',
+          // 'WFS_MV_Kulttuuriymparisto:Arkeologiset_kohteet_alue',
+          // 'WFS_MV_Kulttuuriymparisto:Arkeologiset_kohteet_piste'
+          // ]}
           />}
       />
       <Route
@@ -231,13 +120,16 @@ const Perspective1 = props => {
             layers={props.leafletMapLayers}
             pageType='facetResults'
             facetUpdateID={props.facetData.facetUpdateID}
-            facet={props.facetData.facets.productionPlace}
+            facet={props.facetData.facets.lastKnownLocation}
             facetID='lastKnownLocation'
             resultClass='lastKnownLocations'
             facetClass='perspective1'
             mapMode='cluster'
             showMapModeControl={false}
             instance={props.placesResults.instanceTableData}
+            createPopUpContent={createPopUpContentMMM}
+            popupMaxHeight={320}
+            popupMinWidth={280}
             fetchResults={props.fetchResults}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
@@ -246,6 +138,10 @@ const Perspective1 = props => {
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
             showError={props.showError}
+            showExternalLayers
+            layerControlExpanded={layerControlExpanded}
+            layerConfigs={layerConfigs}
+            infoHeaderExpanded={props.facetResults.facetedSearchHeaderExpanded}
           />}
       />
       <Route

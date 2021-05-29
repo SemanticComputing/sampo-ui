@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import intl from 'react-intl-universal'
 import L from 'leaflet'
-import { has, orderBy, isEqual } from 'lodash'
+import { has, isEqual } from 'lodash'
 import buffer from '@turf/buffer'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { purple } from '@material-ui/core/colors'
@@ -11,7 +11,6 @@ import history from '../../History'
 import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../configs/sampo/GeneralConfig'
 // import { apiUrl } from '../../epics'
 import 'leaflet/dist/leaflet.css' // Official Leaflet styles
-import './LeafletMap.css' // Customizations to Leaflet styles
 
 // Leaflet plugins
 import 'leaflet-fullscreen/dist/fullscreen.png'
@@ -63,6 +62,10 @@ const styles = theme => ({
     },
     position: 'relative'
   },
+  leafletContainermobileMapPage: {
+    height: '100%',
+    position: 'relative'
+  },
   mapElement: {
     width: '100%',
     height: '100%'
@@ -99,7 +102,10 @@ class LeafletMap extends React.Component {
     this.state = {
       activeLayers: props.activeLayers ? props.activeLayers : [],
       prevZoomLevel: null,
-      mapMode: props.mapMode
+      enlargedBounds: null,
+      mapMode: props.mapMode,
+      showBuffer: true,
+      initFinished: false
     }
   }
 
@@ -118,8 +124,9 @@ class LeafletMap extends React.Component {
       this.drawPointData()
     }
     if (this.props.showExternalLayers && !this.props.locateUser) {
-      this.fetchDefaultGeoJSONLayers()
+      this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
     }
+    this.setState({ initFinished: true })
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -170,11 +177,12 @@ class LeafletMap extends React.Component {
     // check if instance have changed
     if ((this.props.instance !== null) && !isEqual(prevProps.instance, this.props.instance)) {
       this.markers[this.props.instance.id]
-        .bindPopup(this.createPopUpContent(this.props.instance), {
-          maxHeight: 300,
-          maxWidth: 400,
-          minWidth: 400
-          // closeButton: false,
+        .bindPopup(this.props.createPopUpContent({
+          data: this.props.instance,
+          resultClass: this.props.resultClass
+        }), {
+          ...(this.props.popupMaxHeight && { maxHeight: this.props.popupMaxHeight }),
+          ...(this.props.popupMinWidth && { minWidth: this.props.popupMinWidth })
         })
         .openPopup()
     }
@@ -184,12 +192,84 @@ class LeafletMap extends React.Component {
       this.props.layers.layerData.map(layerObj => this.populateOverlay(layerObj))
     }
 
+    if (this.props.showExternalLayers) {
+      if (this.props.customMapControl) {
+        this.setCustomMapControlVisibility()
+      }
+      if (this.props.layers.fetching) {
+        if (this.props.customMapControl) {
+          document.getElementById('leaflet-control-custom-checkbox-buffer').disabled = true
+        }
+        this.layerControl._layerControlInputs.forEach(input => { input.disabled = true })
+        this.leafletMap.removeControl(this.zoominfoControl)
+        this.leafletMap.dragging.disable()
+        this.leafletMap.touchZoom.disable()
+        this.leafletMap.doubleClickZoom.disable()
+        this.leafletMap.scrollWheelZoom.disable()
+        this.leafletMap.boxZoom.disable()
+        this.leafletMap.keyboard.disable()
+        if (this.leafletMap.tap) this.leafletMap.tap.disable()
+      }
+      if (!this.props.layers.fetching) {
+        if (this.props.customMapControl) {
+          document.getElementById('leaflet-control-custom-checkbox-buffer').disabled = false
+        }
+
+        // Re-enable layer checkboxes only if zoom level is suitable
+        this.layerControl._layerControlInputs.forEach(input => {
+          const leafletID = input.layerId
+          let minZoom = null
+          for (const layer in this.overlayLayers) {
+            if (this.overlayLayers[layer]._leaflet_id === leafletID) {
+              const layerObj = this.overlayLayers[layer]
+              if (layerObj.options.minZoom) {
+                minZoom = layerObj.options.minZoom
+              }
+            }
+          }
+          if (minZoom === null || this.leafletMap.getZoom() >= minZoom) {
+            input.disabled = false
+          }
+        })
+
+        this.leafletMap.addControl(this.zoominfoControl)
+        this.leafletMap.dragging.enable()
+        this.leafletMap.touchZoom.enable()
+        this.leafletMap.doubleClickZoom.enable()
+        this.leafletMap.scrollWheelZoom.enable()
+        this.leafletMap.boxZoom.enable()
+        this.leafletMap.keyboard.enable()
+        if (this.leafletMap.tap) this.leafletMap.tap.enable()
+      }
+    }
+
     if (has(prevProps, 'facet') && prevProps.facet.filterType !== this.props.facet.filterType) {
       if (this.props.facet.filterType === 'spatialFilter') {
         this.addDrawButtons()
       } else {
         this.removeDrawButtons()
       }
+    }
+
+    if (prevState.showBuffer !== this.state.showBuffer) {
+      this.state.activeLayers.map(layerID => {
+        const leafletOverlayToRemove = this.overlayLayers[intl.get(`leafletMap.externalLayers.${layerID}`)]
+        leafletOverlayToRemove.clearLayers()
+      })
+      this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
+    }
+
+    if (prevProps.infoHeaderExpanded && (prevProps.infoHeaderExpanded !== this.props.infoHeaderExpanded)) {
+      this.leafletMap.invalidateSize()
+    }
+
+    if (this.state.initFinished) {
+      if (this.props.layerControlExpanded) {
+        this.leafletMap.invalidateSize()
+        // this.layerControl.collapse()
+        // this.layerControl.expand()
+      }
+      this.setState({ initFinished: null })
     }
   }
 
@@ -210,6 +290,10 @@ class LeafletMap extends React.Component {
     //   maxZoom: 18
     // })
     // const topographicalMapNLS = L.tileLayer(`${process.env.API_URL}/nls-wmts?z={z}&x={x}&y={y}&layerID=maastokartta`, {
+    //   attribution: 'National Land Survey of Finland',
+    //   maxZoom: 18
+    // })
+    // const airMapNLS = L.tileLayer(`${process.env.API_URL}/nls-wmts?z={z}&x={x}&y={y}&layerID=ortokuva`, {
     //   attribution: 'National Land Survey of Finland',
     //   maxZoom: 18
     // })
@@ -234,14 +318,35 @@ class LeafletMap extends React.Component {
         this.resultMarkerLayer
       ],
       fullscreenControl: true
+    }).whenReady(context => {
+      this.updateEnlargedBounds({ mapInstance: context.target })
     })
+
+    this.zoominfoControl = this.leafletMap.zoominfoControl
+
+    if (this.props.customMapControl) {
+      this.addCustomMapControl()
+      this.setCustomMapControlVisibility()
+    }
+
+    if (this.props.locateUser) {
+      this.leafletMap.on('locationfound', this.onLocationFound)
+      this.leafletMap.on('locationerror', this.onLocationError)
+      this.leafletMap.locate({
+        // watch: true,
+        // setView: true,
+        // maxZoom: 14,
+        enableHighAccuracy: true
+      })
+    }
 
     // initialize layers from external sources
     if (this.props.showExternalLayers) {
       const basemaps = {
         [intl.get(`leafletMap.basemaps.mapbox.${MAPBOX_STYLE}`)]: mapboxBaseLayer
         // [intl.get('leafletMap.basemaps.backgroundMapNLS')]: backgroundMapNLS,
-        // [intl.get('leafletMap.basemaps.topographicalMapNLS')]: topographicalMapNLS
+        // [intl.get('leafletMap.basemaps.topographicalMapNLS')]: topographicalMapNLS,
+        // [intl.get('leafletMap.basemaps.airMapNLS')]: airMapNLS
         // [intl.get('leafletMap.basemaps.googleRoadmap')]: googleRoadmap,
       }
       this.initOverLays(basemaps)
@@ -258,22 +363,36 @@ class LeafletMap extends React.Component {
       this.addDrawButtons()
     }
 
-    if (this.props.showMapModeControl) { this.addMapModeControl() }
     if (this.props.updateMapBounds) {
       this.props.updateMapBounds(this.boundsToValues())
       this.leafletMap.on('moveend', () => {
         this.props.updateMapBounds(this.boundsToValues())
       })
     }
+  }
 
-    if (this.props.locateUser) {
-      this.leafletMap.on('locationfound', this.onLocationFound)
-      this.leafletMap.on('locationerror', this.onLocationError)
-      this.leafletMap.locate({ setView: true, enableHighAccuracy: true })
+  setCustomMapControlVisibility = () => {
+    const { activeLayers } = this.state
+    let hideCustomControl = true
+    activeLayers.map(layerID => {
+      if (layerID === 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_alue' ||
+      layerID === 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_piste' ||
+      layerID === 'WFS_MV_Kulttuuriymparisto:Arkeologiset_kohteet_alue' ||
+      layerID === 'WFS_MV_Kulttuuriymparisto:Arkeologiset_kohteet_piste'
+      ) {
+        hideCustomControl = false
+      }
+    })
+    if (hideCustomControl) {
+      document.getElementById('leaflet-control-custom-container-buffer').style.display = 'none'
+    } else {
+      document.getElementById('leaflet-control-custom-container-buffer').style.display = 'block'
     }
   }
 
   onLocationFound = e => {
+    this.leafletMap.setView(e.latlng, 13)
+    this.updateEnlargedBounds({ mapInstance: this.leafletMap })
     L.userMarker(e.latlng, {
       pulsing: true,
       accuracy: e.accuracy,
@@ -283,26 +402,20 @@ class LeafletMap extends React.Component {
       .bindPopup('You are within ' + e.accuracy + ' meters from this point')
       // .openPopup()
     this.initMapEventListeners()
-    this.fetchDefaultGeoJSONLayers()
+    this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
   }
 
   onLocationError = e => {
+    this.leafletMap.setView(
+      this.props.center,
+      this.props.zoom
+    )
     // this.props.showError({
     //   title: '',
     //   text: e.message
     // })
     this.initMapEventListeners()
-    this.fetchDefaultGeoJSONLayers()
-  }
-
-  fetchDefaultGeoJSONLayers = () => {
-    this.props.clearGeoJSONLayers()
-    if (this.state.activeLayers.length > 0 && this.isSafeToLoadLargeLayers()) {
-      this.props.fetchGeoJSONLayers({
-        layerIDs: this.state.activeLayers,
-        bounds: this.leafletMap.getBounds()
-      })
-    }
+    this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
   }
 
   boundsToValues = () => {
@@ -345,21 +458,19 @@ class LeafletMap extends React.Component {
 
   initMapEventListeners = () => {
     // Fired when an overlay is selected using layer controls
-    this.leafletMap.on('overlayadd', event => {
-      if (event.layer.options.type === 'GeoJSON') {
-        this.props.clearGeoJSONLayers()
+    this.leafletMap.on('layeradd', event => {
+      const layerID = event.layer.options.id
+      if (event.layer.options.type === 'GeoJSON' && !this.state.activeLayers.includes(layerID)) {
+        // console.log(`add: ${layerID}`)
         if (this.isSafeToLoadLargeLayers()) {
-          const layerID = event.layer.options.id
+          const currentLayers = this.state.activeLayers
           // https://www.robinwieruch.de/react-state-array-add-update-remove
           this.setState(state => {
             return {
-              activeLayers: [...state.activeLayers, layerID]
+              activeLayers: [...currentLayers, layerID]
             }
           })
-          this.props.fetchGeoJSONLayers({
-            layerIDs: this.state.activeLayers,
-            bounds: this.leafletMap.getBounds()
-          })
+          this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
         } else {
           this.props.showError({
             title: '',
@@ -368,47 +479,40 @@ class LeafletMap extends React.Component {
         }
       }
     })
-    // Fired when an overlay is selected using layer controls
-    this.leafletMap.on('overlayremove', event => {
+
+    // Fired when a layer is removed from the map
+    this.leafletMap.on('layerremove', event => {
       if (event.layer.options.type === 'GeoJSON') {
-        const layerIDremoved = event.layer.options.id
-        this.clearOverlay(layerIDremoved)
+        const layerIDToRemove = event.layer.options.id
+        // console.log(`remove: ${layerIDToRemove}`)
+        const leafletOverlayToRemove = this.overlayLayers[intl.get(`leafletMap.externalLayers.${layerIDToRemove}`)]
+        leafletOverlayToRemove.clearLayers()
         this.setState(state => {
-          const activeLayers = state.activeLayers.filter(layerID => layerID !== layerIDremoved)
+          const activeLayers = state.activeLayers.filter(layerID => layerID !== layerIDToRemove)
           return { activeLayers }
         })
       }
     })
+
     // Fired when zooming starts
     this.leafletMap.on('zoomstart', () => {
       this.setState({ prevZoomLevel: this.leafletMap.getZoom() })
     })
+
     // Fired when zooming ends
-    this.leafletMap.on('zoomend', () => {
-      if (this.state.activeLayers.length > 0 && this.isSafeToLoadLargeLayersAfterZooming()) {
-        this.props.fetchGeoJSONLayers({
-          layerIDs: this.state.activeLayers,
-          bounds: this.leafletMap.getBounds()
-        })
-      }
+    this.leafletMap.on('zoomend', event => {
+      this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'zoomend' })
     })
+
     // Fired when dragging ends
     this.leafletMap.on('dragend', () => {
-      if (this.state.activeLayers.length > 0 && this.isSafeToLoadLargeLayers()) {
-        this.props.fetchGeoJSONLayers({
-          layerIDs: this.state.activeLayers,
-          bounds: this.leafletMap.getBounds()
-        })
-      }
+      this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'dragend' })
     })
-  }
 
-  isSafeToLoadLargeLayersAfterZooming = () => {
-    return (this.leafletMap.getZoom() === 13 ||
-      (this.leafletMap.getZoom() >= 13 && this.state.prevZoomLevel > this.leafletMap.getZoom()))
+    // Fired when the map is initialized (when its center and zoom are set for the first time).
+    // this.leafletMap.on('load', () => {
+    // })
   }
-
-  isSafeToLoadLargeLayers = () => this.leafletMap.getZoom() >= 13
 
   initOverLays = basemaps => {
     this.overlayLayers = {}
@@ -446,16 +550,63 @@ class LeafletMap extends React.Component {
     })
 
     // Add default active overlays directly to the map
-    this.state.activeLayers.map(overlay =>
-      this.leafletMap.addLayer(this.overlayLayers[intl.get(`leafletMap.externalLayers.${overlay}`)]))
+    this.state.activeLayers.map(overlay => {
+      this.leafletMap.addLayer(this.overlayLayers[intl.get(`leafletMap.externalLayers.${overlay}`)])
+    })
 
     // Add all basemaps and all overlays via the control to the map
-    L.control.layers(basemaps, this.overlayLayers, { collapsed: !this.props.layerControlExpanded }).addTo(this.leafletMap)
+    this.layerControl = L.control.layers(basemaps, this.overlayLayers, { collapsed: false }).addTo(this.leafletMap)
 
     // Create opacity controller if needed
     if (showOpacityController) {
       this.createOpacitySlider(opacityLayers)
     }
+  }
+
+  updateEnlargedBounds = ({ mapInstance }) => {
+    const currentBounds = mapInstance.getBounds()
+    const enlargedBounds = currentBounds.pad(1.5)
+    this.setState({ enlargedBounds })
+  }
+
+  maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers = ({ eventType }) => {
+    if (this.state.activeLayers.length === 0) {
+      return
+    }
+    const currentBounds = this.leafletMap.getBounds()
+
+    // When user triggers zoom or drag event and map is within enlarged bounds, do nothing
+    if (eventType !== 'programmatic' && this.state.enlargedBounds.contains(currentBounds)) {
+      return
+    }
+
+    const safeFunc = eventType === 'zoomend' ? this.isSafeToLoadLargeLayersAfterZooming : this.isSafeToLoadLargeLayers
+    if (this.props.layers.fetching || this.state.activeLayers.length < 0 || !safeFunc()) {
+      return
+    }
+    // console.log('setting new enlarged bounds')
+    const enlargedBounds = currentBounds.pad(1.5)
+    this.setState({ enlargedBounds })
+    // console.log('fetching new GeoJSON layers')
+    // console.log(enlargedBounds.toBBoxString())
+    // L.rectangle(enlargedBounds).addTo(this.leafletMap)
+    this.fetchGeoJSONLayers()
+  }
+
+  fetchGeoJSONLayers = () => {
+    this.props.clearGeoJSONLayers()
+    this.props.fetchGeoJSONLayers({
+      layerIDs: this.state.activeLayers,
+      bounds: this.state.enlargedBounds
+    })
+  }
+
+  isSafeToLoadLargeLayers = () => this.leafletMap.getZoom() >= 13
+
+  isSafeToLoadLargeLayersAfterZooming = () => {
+    const currentZoom = this.leafletMap.getZoom()
+    return (currentZoom === 13 ||
+      (currentZoom >= 13 && this.state.prevZoomLevel > currentZoom))
   }
 
   populateOverlay = layerObj => {
@@ -468,63 +619,86 @@ class LeafletMap extends React.Component {
     leafletOverlay.clearLayers()
 
     // Only the layer that is added last is clickable, so add buffer first
-    if (leafletOverlay.options.buffer) {
+    if (this.state.showBuffer) {
       const { distance, units, style } = leafletOverlay.options.buffer
-      const bufferedGeoJSON = buffer(layerObj.geoJSON, distance, { units })
-      const leafletGeoJSONBufferLayer = L.geoJSON(bufferedGeoJSON, {
-        // style for GeoJSON Polygons
-        style
-      })
-      leafletGeoJSONBufferLayer.addTo(leafletOverlay).addTo(this.leafletMap)
+      try {
+        const bufferedGeoJSON = buffer(layerObj.geoJSON, distance, { units })
+        const leafletGeoJSONBufferLayer = L.geoJSON(bufferedGeoJSON, {
+          // style for GeoJSON Polygons
+          style
+        })
+        leafletGeoJSONBufferLayer.addTo(leafletOverlay).addTo(this.leafletMap)
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     const { createGeoJSONPointStyle, createGeoJSONPolygonStyle, createPopup } = leafletOverlay.options
-    const leafletGeoJSONLayer = L.geoJSON(layerObj.geoJSON, {
-      // style for GeoJSON Points
-      pointToLayer: (feature, latlng) => {
-        return L.circleMarker(latlng, createGeoJSONPointStyle(feature))
-      },
-      // style for GeoJSON Polygons
-      style: createGeoJSONPolygonStyle,
-      // add popups
-      onEachFeature: (feature, layer) => {
-        layer.bindPopup(createPopup(feature.properties))
-      }
-    })
-    leafletGeoJSONLayer.addTo(leafletOverlay).addTo(this.leafletMap)
+    try {
+      const leafletGeoJSONLayer = L.geoJSON(layerObj.geoJSON, {
+        // style for GeoJSON Points
+        ...(createGeoJSONPointStyle &&
+          {
+            pointToLayer: (feature, latlng) => {
+              return L.circleMarker(latlng, createGeoJSONPointStyle(feature))
+            }
+          }),
+        // style for GeoJSON Polygons
+        ...(createGeoJSONPolygonStyle &&
+          {
+            style: createGeoJSONPolygonStyle
+          }),
+        // add popups
+        onEachFeature: (feature, layer) => {
+          layer.bindPopup(createPopup(feature.properties))
+        }
+      })
+      leafletGeoJSONLayer.addTo(leafletOverlay).addTo(this.leafletMap)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
-  clearOverlay = id => {
-    const leafletOverlay = this.overlayLayers[intl.get(`leafletMap.externalLayers.${id}`)]
-    leafletOverlay.clearLayers()
-  }
-
-  addMapModeControl = () => {
+  addCustomMapControl = () => {
     L.Control.Mapmode = L.Control.extend({
       onAdd: map => {
-        const container = L.DomUtil.create('div', 'leaflet-control-layers leaflet-control-layers-expanded')
-        const markersInputContainer = L.DomUtil.create('div', 'leaflet-control-mapmode-input-container', container)
-        const heatmapInputContainer = L.DomUtil.create('div', 'leaflet-control-mapmode-input-container', container)
-        const radioMarkers = L.DomUtil.create('input', 'leaflet-control-mapmode-input', markersInputContainer)
-        const radioHeatmap = L.DomUtil.create('input', 'leaflet-control-mapmode-input', heatmapInputContainer)
-        const markersLabel = L.DomUtil.create('label', 'leaflet-control-mapmode-label', markersInputContainer)
-        const heatmapLabel = L.DomUtil.create('label', 'leaflet-control-mapmode-label', heatmapInputContainer)
-        radioMarkers.id = 'leaflet-control-mapmode-markers'
-        radioHeatmap.id = 'leaflet-control-mapmode-heatmap'
-        radioMarkers.type = 'radio'
-        radioHeatmap.type = 'radio'
-        radioMarkers.checked = this.state.mapMode === 'cluster'
-        radioHeatmap.checked = this.state.mapMode === 'heatmap'
-        radioMarkers.name = 'mapmode'
-        radioHeatmap.name = 'mapmode'
-        radioMarkers.value = 'cluster'
-        radioHeatmap.value = 'heatmap'
-        markersLabel.for = 'leaflet-control-mapmode-markers'
-        markersLabel.textContent = intl.get('leafletMap.mapModeButtons.markers')
-        heatmapLabel.for = 'leaflet-control-mapmode-heatmap'
-        heatmapLabel.textContent = intl.get('leafletMap.mapModeButtons.heatmap')
-        L.DomEvent.on(radioMarkers, 'click', event => this.setState({ mapMode: event.target.value }))
-        L.DomEvent.on(radioHeatmap, 'click', event => this.setState({ mapMode: event.target.value }))
+        const container = L.DomUtil.create('div', 'leaflet-control-layers leaflet-control-layers-expanded leaflet-control')
+        container.id = 'leaflet-control-custom-container-buffer'
+        const checkboxOuterContainer = L.DomUtil.create('label', null, container)
+        const checkboxInnerContainer = L.DomUtil.create('div', 'leaflet-control-custom-checkbox-buffer-container', checkboxOuterContainer)
+
+        const checkbox = L.DomUtil.create('input', 'leaflet-control-layers-selector', checkboxInnerContainer)
+        checkbox.type = 'checkbox'
+        checkbox.id = 'leaflet-control-custom-checkbox-buffer'
+        checkbox.checked = this.state.showBuffer
+        const checkboxLabel = L.DomUtil.create('span', null, checkboxInnerContainer)
+        checkboxLabel.textContent = intl.get('leafletMap.showBufferZones')
+        L.DomEvent.on(checkbox, 'click', event => {
+          this.setState({ showBuffer: event.target.checked })
+        })
+
+        // const markersInputContainer = L.DomUtil.create('div', 'leaflet-control-mapmode-input-container', container)
+        // const heatmapInputContainer = L.DomUtil.create('div', 'leaflet-control-mapmode-input-container', container)
+        // const radioMarkers = L.DomUtil.create('input', 'leaflet-control-mapmode-input', markersInputContainer)
+        // const radioHeatmap = L.DomUtil.create('input', 'leaflet-control-mapmode-input', heatmapInputContainer)
+        // const markersLabel = L.DomUtil.create('label', 'leaflet-control-mapmode-label', markersInputContainer)
+        // const heatmapLabel = L.DomUtil.create('label', 'leaflet-control-mapmode-label', heatmapInputContainer)
+        // radioMarkers.id = 'leaflet-control-mapmode-markers'
+        // radioHeatmap.id = 'leaflet-control-mapmode-heatmap'
+        // radioMarkers.type = 'radio'
+        // radioHeatmap.type = 'radio'
+        // radioMarkers.checked = this.state.mapMode === 'cluster'
+        // radioHeatmap.checked = this.state.mapMode === 'heatmap'
+        // radioMarkers.name = 'mapmode'
+        // radioHeatmap.name = 'mapmode'
+        // radioMarkers.value = 'cluster'
+        // radioHeatmap.value = 'heatmap'
+        // markersLabel.for = 'leaflet-control-mapmode-markers'
+        // markersLabel.textContent = intl.get('leafletMap.mapModeButtons.markers')
+        // heatmapLabel.for = 'leaflet-control-mapmode-heatmap'
+        // heatmapLabel.textContent = intl.get('leafletMap.mapModeButtons.heatmap')
+        // L.DomEvent.on(radioMarkers, 'click', event => this.setState({ mapMode: event.target.value }))
+        // L.DomEvent.on(radioHeatmap, 'click', event => this.setState({ mapMode: event.target.value }))
         return container
       },
       onRemove: map => {
@@ -534,7 +708,7 @@ class LeafletMap extends React.Component {
     L.control.mapmode = opts => {
       return new L.Control.Mapmode(opts)
     }
-    L.control.mapmode({ position: 'topleft' }).addTo(this.leafletMap)
+    L.control.mapmode({ position: 'topright' }).addTo(this.leafletMap)
   }
 
   addDrawButtons = () => {
@@ -724,14 +898,15 @@ class LeafletMap extends React.Component {
           events: result.events ? result.events : null
         })
       }
-      if (this.props.pageType === 'facetResults') {
+      const { pageType } = this.props
+      if (pageType === 'facetResults') {
         marker.on('click', this.markerOnClickFacetResults)
       }
-      if (this.props.pageType === 'instancePage') {
-        marker.bindPopup(this.createPopUpContentFindSampo(result))
-      }
-      if (this.props.pageType === 'clientFSResults') {
-        marker.bindPopup(this.createPopUpContentNameSampo(result))
+      if (pageType === 'instancePage' || pageType === 'clientFSResults') {
+        marker.bindPopup(this.props.createPopUpContent({
+          data: result,
+          resultClass: this.props.resultClass
+        }))
       }
       return marker
     }
@@ -751,164 +926,6 @@ class LeafletMap extends React.Component {
     })
   };
 
-  createPopUpContent = data => {
-    if (Array.isArray(data.prefLabel)) {
-      data.prefLabel = data.prefLabel[0]
-    }
-    const container = document.createElement('div')
-    const h3 = document.createElement('h3')
-    if (has(data.prefLabel, 'dataProviderUrl')) {
-      const link = document.createElement('a')
-      link.addEventListener('click', () => history.push(data.prefLabel.dataProviderUrl))
-      link.textContent = data.prefLabel.prefLabel
-      link.style.cssText = 'cursor: pointer; text-decoration: underline'
-      h3.appendChild(link)
-    } else {
-      h3.textContent = data.prefLabel.prefLabel
-    }
-    container.appendChild(h3)
-    if (this.props.resultClass === 'placesMsProduced') {
-      const p = document.createElement('p')
-      p.textContent = 'Manuscripts produced here:'
-      container.appendChild(p)
-      container.appendChild(this.createInstanceListing(data.related))
-    }
-    if (this.props.resultClass === 'lastKnownLocations') {
-      const p = document.createElement('p')
-      p.textContent = 'Last known location of:'
-      container.appendChild(p)
-      container.appendChild(this.createInstanceListing(data.related))
-    }
-    if (this.props.resultClass === 'placesActors') {
-      const p = document.createElement('p')
-      p.textContent = 'Actors:'
-      container.appendChild(p)
-      container.appendChild(this.createInstanceListing(data.related))
-    }
-    return container
-  }
-
-  createPopUpContentNameSampo = data => {
-    const { perspectiveID } = this.props
-    let popUpTemplate = ''
-    popUpTemplate += `<a href=${data.id} target='_blank'><h3>${data.prefLabel}</h3></a>`
-    if (has(data, 'broaderTypeLabel')) {
-      popUpTemplate += `
-        <p><b>${intl.get(`perspectives.${perspectiveID}.properties.broaderTypeLabel.label`)}</b>: ${data.broaderTypeLabel}</p>`
-    }
-    if (has(data, 'broaderAreaLabel')) {
-      popUpTemplate += `
-        <p><b>${intl.get(`perspectives.${perspectiveID}.properties.broaderAreaLabel.label`)}</b>: ${data.broaderAreaLabel}</p>`
-    }
-    if (has(data, 'modifier')) {
-      popUpTemplate += `
-        <p><b>${intl.get(`perspectives.${perspectiveID}.properties.modifier.label`)}</b>: ${data.modifier}</p>`
-    }
-    if (has(data, 'basicElement')) {
-      popUpTemplate += `
-        <p><b>${intl.get(`perspectives.${perspectiveID}.properties.basicElement.label`)}</b>: ${data.basicElement}</p>`
-    }
-    if (has(data, 'collectionYear')) {
-      popUpTemplate += `
-        <p><b>${intl.get(`perspectives.${perspectiveID}.properties.collectionYear.label`)}</b>: ${data.collectionYear}</p>`
-    }
-    if (has(data, 'source')) {
-      if (data.namesArchiveLink !== '-') {
-        popUpTemplate += `
-        <p><b>${intl.get(`perspectives.${perspectiveID}.properties.source.label`)}</b>: 
-          <a href="${data.namesArchiveLink}" target="_blank">${data.source}</a></p>`
-      } else {
-        popUpTemplate += `
-        <p><b>${intl.get(`perspectives.${perspectiveID}.properties.source.label`)}</b>: ${data.source}</p>`
-      }
-    }
-    return popUpTemplate
-  }
-
-  createPopUpContentFindSampo = data => {
-    const container = document.createElement('div')
-    const heading = document.createElement('h3')
-    const headingLink = document.createElement('a')
-    headingLink.style.cssText = 'cursor: pointer; text-decoration: underline'
-    headingLink.textContent = data.prefLabel.prefLabel
-    headingLink.addEventListener('click', () => history.push(data.dataProviderUrl))
-    heading.appendChild(headingLink)
-    container.appendChild(heading)
-    if (has(data, 'type')) {
-      container.appendChild(this.createPopUpElement({
-        label: intl.get('perspectives.finds.properties.type.label'),
-        value: data.type
-      }))
-    }
-    if (has(data, 'subCategory')) {
-      container.appendChild(this.createPopUpElement({
-        label: intl.get('perspectives.finds.properties.subCategory.label'),
-        value: data.subCategory
-      }))
-    }
-    if (has(data, 'material')) {
-      container.appendChild(this.createPopUpElement({
-        label: intl.get('perspectives.finds.properties.material.label'),
-        value: data.material.prefLabel
-      }))
-    }
-    if (has(data, 'period')) {
-      container.appendChild(this.createPopUpElement({
-        label: intl.get('perspectives.finds.properties.period.label'),
-        value: data.period
-      }))
-    }
-    if (has(data, 'municipality')) {
-      container.appendChild(this.createPopUpElement({
-        label: intl.get('perspectives.finds.properties.municipality.label'),
-        value: data.municipality.prefLabel
-      }))
-    }
-    if (has(data, 'id')) {
-      container.appendChild(this.createPopUpElement({
-        label: intl.get('perspectives.finds.properties.uri.label'),
-        value: data.id
-      }))
-    }
-    return container
-  }
-
-  createPopUpElement = ({ label, value }) => {
-    const p = document.createElement('p')
-    const b = document.createElement('b')
-    const span = document.createElement('span')
-    b.textContent = (`${label}: `)
-    span.textContent = value
-    p.appendChild(b)
-    p.appendChild(span)
-    return p
-  }
-
-  createInstanceListing = instances => {
-    let root
-    if (Array.isArray(instances)) {
-      root = document.createElement('ul')
-      instances = orderBy(instances, 'prefLabel')
-      instances.forEach(i => {
-        const li = document.createElement('li')
-        const link = document.createElement('a')
-        link.addEventListener('click', () => history.push(i.dataProviderUrl))
-        link.textContent = i.prefLabel
-        link.style.cssText = 'cursor: pointer; text-decoration: underline'
-        li.appendChild(link)
-        root.appendChild(li)
-      })
-    } else {
-      root = document.createElement('p')
-      const link = document.createElement('a')
-      link.addEventListener('click', () => history.push(instances.dataProviderUrl))
-      link.textContent = instances.prefLabel
-      link.style.cssText = 'cursor: pointer; text-decoration: underline'
-      root.appendChild(link)
-    }
-    return root
-  }
-
   createOpacitySlider = overlayLayers => {
     L.control.opacity(
       overlayLayers,
@@ -923,12 +940,13 @@ class LeafletMap extends React.Component {
     return (
       <>
         <div className={this.props.classes[`leafletContainer${this.props.pageType}`]}>
-          <div id={this.props.container ? this.props.container : 'map'} className={this.props.classes.mapElement} />
-          {(this.props.fetching ||
+          <div id={this.props.container ? this.props.container : 'map'} className={this.props.classes.mapElement}>
+            {(this.props.fetching ||
             (this.props.showExternalLayers && this.props.layers.fetching)) &&
               <div className={this.props.classes.spinnerContainer}>
                 <CircularProgress style={{ color: purple[500] }} thickness={5} />
               </div>}
+          </div>
         </div>
       </>
     )

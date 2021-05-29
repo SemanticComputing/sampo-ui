@@ -164,7 +164,7 @@ export const backendSearchConfig = {
   placesEvents: {
     perspectiveID: 'perspective3',
     q: eventPlacesQuery,
-    filterTarget: 'manuscript__id',
+    filterTarget: 'event',
     resultMapper: mapPlaces,
     instance: {
       properties: placePropertiesInfoWindow,

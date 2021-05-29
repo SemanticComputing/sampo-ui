@@ -10,9 +10,13 @@ import VirtualizedTable from '../../../facet_results/VirtualizedTable'
 import Pie from '../../../facet_results/Pie.js'
 import CSVButton from '../../../facet_results/CSVButton'
 import Footer from '../Footer'
+import { createPopUpContentNameSampo, layerConfigs } from '../../../../configs/sampo/Leaflet/LeafletConfig'
 
 const ClientFSPerspective = props => {
-  const { rootUrl, perspective } = props
+  const { rootUrl, perspective, screenSize } = props
+  const layerControlExpanded = screenSize === 'md' ||
+    screenSize === 'lg' ||
+    screenSize === 'xl'
   return (
     <>
       <PerspectiveTabs
@@ -44,18 +48,18 @@ const ClientFSPerspective = props => {
             layers={props.leafletMap}
             pageType='clientFSResults'
             mapMode='cluster'
-            facetUpdateID={props.clientFS.facetUpdateID}
-            showMapModeControl={false}
-            fetchGeoJSONLayers={props.fetchGeoJSONLayersBackend}
+            createPopUpContent={createPopUpContentNameSampo}
+            fetchResults={props.fetchResults}
+            fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
-            showError={props.showError}
             fetchByURI={props.fetchByURI}
             fetching={false}
             showInstanceCountInClusters={false}
             updateFacetOption={props.updateFacetOption}
+            showError={props.showError}
             showExternalLayers
-            facetedSearchMode='clientFS'
-            perspectiveID={perspective.id}
+            layerControlExpanded={layerControlExpanded}
+            layerConfigs={layerConfigs}
           />}
       />
       <Route
@@ -72,18 +76,18 @@ const ClientFSPerspective = props => {
                 layers={props.leafletMap}
                 pageType='clientFSResults'
                 mapMode='marker'
-                facetUpdateID={props.clientFS.facetUpdateID}
-                showMapModeControl={false}
-                fetchGeoJSONLayers={props.fetchGeoJSONLayersBackend}
+                createPopUpContent={createPopUpContentNameSampo}
+                fetchResults={props.fetchResults}
+                fetchGeoJSONLayers={props.fetchGeoJSONLayers}
                 clearGeoJSONLayers={props.clearGeoJSONLayers}
-                showError={props.showError}
                 fetchByURI={props.fetchByURI}
                 fetching={false}
                 showInstanceCountInClusters={false}
                 updateFacetOption={props.updateFacetOption}
+                showError={props.showError}
                 showExternalLayers
-                facetedSearchMode='clientFS'
-                perspectiveID={perspective.id}
+                layerControlExpanded={layerControlExpanded}
+                layerConfigs={layerConfigs}
               />
             )
           }

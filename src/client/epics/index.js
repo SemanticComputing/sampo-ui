@@ -156,13 +156,15 @@ const fetchInstanceAnalysisEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_INSTANCE_ANALYSIS),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { resultClass, facetClass, fromID, toID } = action
+    const { resultClass, facetClass, fromID, toID, period, province } = action
     const params = stateToUrl({
       facets: facetClass ? state[`${facetClass}Facets`].facets : null,
       facetClass,
       uri: action.uri ? action.uri : null,
       fromID,
-      toID
+      toID,
+      period,
+      province
     })
     const requestUrl = `${apiUrl}/faceted-search/${resultClass}/all`
     // https://rxjs-dev.firebaseapp.com/api/ajax/ajax
@@ -500,6 +502,7 @@ const fetchGeoJSONLayersEpic = action$ => action$.pipe(
 
 const fetchGeoJSONLayer = async (layerID, bounds) => {
   const baseUrl = 'https://kartta.nba.fi/arcgis/services/WFS/MV_Kulttuuriymparisto/MapServer/WFSServer'
+  // const baseUrl = 'https://kartta.nba.fi/arcgis/services/WFS/MV_KulttuuriymparistoSuojellut/MapServer/WFSServer'
   // const baseUrl = 'http://avaa.tdata.fi/geoserver/kotus/ows'
   // const baseUrl = 'http://avaa.tdata.fi/geoserver/paituli/wfs'
   const boundsStr =
