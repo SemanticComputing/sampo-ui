@@ -45,7 +45,7 @@ const ClientFSPerspective = props => {
             center={[65.184809, 27.314050]}
             zoom={5}
             results={props.clientFSResults}
-            layers={props.leafletMap}
+            leafletMapState={props.leafletMap}
             pageType='clientFSResults'
             mapMode='cluster'
             createPopUpContent={createPopUpContentNameSampo}
@@ -73,7 +73,7 @@ const ClientFSPerspective = props => {
                 center={[65.184809, 27.314050]}
                 zoom={5}
                 results={props.clientFSResults}
-                layers={props.leafletMap}
+                leafletMapState={props.leafletMap}
                 pageType='clientFSResults'
                 mapMode='marker'
                 createPopUpContent={createPopUpContentNameSampo}
