@@ -3,19 +3,13 @@ import {
   FETCH_GEOJSON_LAYERS_BACKEND,
   CLEAR_GEOJSON_LAYERS,
   UPDATE_GEOJSON_LAYERS,
-  UPDATE_MAP_BOUNDS,
   FETCH_GEOJSON_LAYERS_FAILED
 } from '../../actions'
 
 export const INITIAL_STATE = {
   layerData: [],
   updateID: 0,
-  fetching: false,
-  latMin: 0,
-  longMin: 0,
-  latMax: 0,
-  longMax: 0,
-  zoomLevel: 4
+  fetching: false
 }
 
 const leafletMap = (state = INITIAL_STATE, action) => {
@@ -42,15 +36,6 @@ const leafletMap = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         layerData: []
-      }
-    case UPDATE_MAP_BOUNDS:
-      return {
-        ...state,
-        latMin: action.bounds.latMin,
-        longMin: action.bounds.longMin,
-        latMax: action.bounds.latMax,
-        longMax: action.bounds.longMax,
-        zoomLevel: action.bounds.zoom
       }
     default:
       return state

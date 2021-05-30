@@ -13,7 +13,10 @@ import Footer from '../Footer'
 import { createPopUpContentNameSampo, layerConfigs } from '../../../../configs/sampo/Leaflet/LeafletConfig'
 
 const ClientFSPerspective = props => {
-  const { rootUrl, perspective, screenSize } = props
+  const { rootUrl, perspective, screenSize, clientFSState } = props
+  const { maps } = clientFSState
+  const { clientFSMapClusters, clientFSMapMarkers } = maps
+  // console.log(clientFSMapClusters)
   const layerControlExpanded = screenSize === 'md' ||
     screenSize === 'lg' ||
     screenSize === 'xl'
@@ -33,7 +36,7 @@ const ClientFSPerspective = props => {
         render={() =>
           <VirtualizedTable
             list={Immutable.List(props.clientFSResults)}
-            clientFS={props.clientFS}
+            clientFSState={props.clientFSState}
             clientFSSortResults={props.clientFSSortResults}
             perspectiveID={perspective.id}
           />}
@@ -42,10 +45,11 @@ const ClientFSPerspective = props => {
         path={`${rootUrl}/${perspective.id}/federated-search/map_clusters`}
         render={() =>
           <LeafletMap
-            center={[65.184809, 27.314050]}
-            zoom={5}
+            center={clientFSMapClusters.center}
+            zoom={clientFSMapClusters.zoom}
             results={props.clientFSResults}
             leafletMapState={props.leafletMap}
+            resultClass='clientFSMapClusters'
             pageType='clientFSResults'
             mapMode='cluster'
             createPopUpContent={createPopUpContentNameSampo}
@@ -60,20 +64,22 @@ const ClientFSPerspective = props => {
             showExternalLayers
             layerControlExpanded={layerControlExpanded}
             layerConfigs={layerConfigs}
+            updateMapBounds={props.updateMapBounds}
           />}
       />
       <Route
         path={`${rootUrl}/${perspective.id}/federated-search/map_markers`}
         render={() => {
-          if (props.clientFSResults.length > 3000) {
+          if (props.clientFSResults.length > 500) {
             return <ResultInfo message={intl.get('leafletMap.tooManyResults')} />
           } else {
             return (
               <LeafletMap
-                center={[65.184809, 27.314050]}
-                zoom={5}
+                center={clientFSMapMarkers.center}
+                zoom={clientFSMapMarkers.zoom}
                 results={props.clientFSResults}
                 leafletMapState={props.leafletMap}
+                resultClass='clientFSMapMarkers'
                 pageType='clientFSResults'
                 mapMode='marker'
                 createPopUpContent={createPopUpContentNameSampo}
@@ -88,6 +94,7 @@ const ClientFSPerspective = props => {
                 showExternalLayers
                 layerControlExpanded={layerControlExpanded}
                 layerConfigs={layerConfigs}
+                updateMapBounds={props.updateMapBounds}
               />
             )
           }
@@ -117,10 +124,11 @@ ClientFSPerspective.propTypes = {
   routeProps: PropTypes.object.isRequired,
   perspective: PropTypes.object.isRequired,
   screenSize: PropTypes.string.isRequired,
-  clientFS: PropTypes.object.isRequired,
+  clientFSState: PropTypes.object.isRequired,
   clientFSResults: PropTypes.array,
   clientFSSortResults: PropTypes.func.isRequired,
   leafletMap: PropTypes.object.isRequired,
+  updateMapBounds: PropTypes.func.isRequired,
   fetchGeoJSONLayers: PropTypes.func,
   fetchGeoJSONLayersBackend: PropTypes.func.isRequired,
   clearGeoJSONLayers: PropTypes.func.isRequired,

@@ -318,8 +318,9 @@ export const animateMap = value => ({
   type: ANIMATE_MAP,
   value
 })
-export const updateMapBounds = bounds => ({
+export const updateMapBounds = ({ resultClass, bounds }) => ({
   type: UPDATE_MAP_BOUNDS,
+  resultClass,
   bounds
 })
 export const fetchGeoJSONLayers = ({ layerIDs, bounds }) => ({

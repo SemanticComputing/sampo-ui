@@ -161,8 +161,8 @@ class VirtualizedTable extends React.PureComponent {
                   rowGetter={rowGetter}
                   rowCount={this.props.list.size}
                   sort={this._sort}
-                  sortBy={this.props.clientFS.sortBy}
-                  sortDirection={this.props.clientFS.sortDirection.toUpperCase()}
+                  sortBy={this.props.clientFSState.sortBy}
+                  sortDirection={this.props.clientFSState.sortDirection.toUpperCase()}
                   width={width}
                   height={height}
                   headerHeight={50}
@@ -284,7 +284,7 @@ class VirtualizedTable extends React.PureComponent {
 VirtualizedTable.propTypes = {
   classes: PropTypes.object.isRequired,
   list: PropTypes.instanceOf(Immutable.List).isRequired,
-  clientFS: PropTypes.object,
+  clientFSState: PropTypes.object,
   clientFSSortResults: PropTypes.func,
   perspectiveID: PropTypes.string.isRequired
 }

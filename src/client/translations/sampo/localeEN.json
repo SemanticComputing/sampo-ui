@@ -150,7 +150,7 @@
     },
     "wrongZoomLevel": "The map zoom level has to at least 11",
     "wrongZoomLevelFHA": "The map zoom level has to be at least 13 in order to show this layer",
-    "tooManyResults": "More than 3000 results, please use clustered map or heatmap"
+    "tooManyResults": "More than 500 results, please use clustered map or heatmap"
   },
   "instancePageGeneral": {
     "introduction": "<p class=\"MuiTypography-root MuiTypography-body1 MuiTypography-paragraph\"> This landing page provides a human-readable summary of the data points that link to this {entity}. The data included in this summary reflect only those data points used in the MMM Portal. Click the Open in Linked Data Browser on button on the Export tab to view the complete set of classes and properties linked to this record. </p> <p class=\"MuiTypography-root MuiTypography-body1 MuiTypography-paragraph\"> To cite this record, use its url. You can use also use the url to return directly to the record at any time. </p>",

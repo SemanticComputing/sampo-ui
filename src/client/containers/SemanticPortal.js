@@ -269,7 +269,7 @@ const SemanticPortal = props => {
   if (lgScreen) { screenSize = 'lg' }
   if (xlScreen) { screenSize = 'xl' }
   const rootUrlWithLang = `${rootUrl}/${props.options.currentLocale}`
-  const noResults = props.clientFS.results == null
+  const noResults = props.clientFSState.results == null
 
   useEffect(() => {
     document.title = intl.get('html.title')
@@ -539,11 +539,11 @@ const SemanticPortal = props => {
                       facetedSearchMode='clientFS'
                       facetClass='clientFSPlaces'
                       resultClass='clientFSPlaces'
-                      facetData={props.clientFS}
+                      facetData={props.clientFSState}
                       clientFSFacetValues={props.clientFSFacetValues}
-                      fetchingResultCount={props.clientFS.textResultsFetching}
-                      resultCount={noResults ? 0 : props.clientFS.results.length}
-                      clientFS={props.clientFS}
+                      fetchingResultCount={props.clientFSState.textResultsFetching}
+                      resultCount={noResults ? 0 : props.clientFSState.results.length}
+                      clientFSState={props.clientFSState}
                       clientFSToggleDataset={props.clientFSToggleDataset}
                       clientFSFetchResults={props.clientFSFetchResults}
                       clientFSClearResults={props.clientFSClearResults}
@@ -564,10 +564,11 @@ const SemanticPortal = props => {
                         routeProps={routeProps}
                         perspective={perspectiveConfig.find(p => p.id === 'clientFSPlaces')}
                         screenSize={screenSize}
-                        clientFS={props.clientFS}
+                        clientFSState={props.clientFSState}
                         clientFSResults={props.clientFSResults}
                         clientFSSortResults={props.clientFSSortResults}
                         leafletMap={props.leafletMap}
+                        updateMapBounds={props.updateMapBounds}
                         fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
                         fetchGeoJSONLayers={props.fetchGeoJSONLayers}
                         clearGeoJSONLayers={props.clearGeoJSONLayers}
@@ -641,7 +642,7 @@ const mapStateToProps = state => {
     emloActorsFacetsConstrainSelf: state.emloActorsFacetsConstrainSelf,
     leafletMap: state.leafletMap,
     fullTextSearch: state.fullTextSearch,
-    clientFS: state.clientSideFacetedSearch,
+    clientFSState: state.clientSideFacetedSearch,
     clientFSResults,
     clientFSFacetValues,
     animationValue: state.animation.value,

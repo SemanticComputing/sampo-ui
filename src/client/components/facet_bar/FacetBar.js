@@ -309,11 +309,10 @@ class FacetBar extends React.Component {
           />}
         {facetedSearchMode === 'clientFS' &&
           <LeafletMapDialog
-            map={this.props.leafletMap}
+            clientFSState={this.props.clientFSState}
             clientFSFetchResults={this.props.clientFSFetchResults}
             clientFSClearResults={this.props.clientFSClearResults}
             updateMapBounds={this.props.updateMapBounds}
-            fetching={this.props.clientFS.spatialResultsFetching}
             showError={this.props.showError}
             perspectiveID={facetClass}
           />}

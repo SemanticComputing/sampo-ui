@@ -55,7 +55,7 @@ class LeafletMapDialog extends React.Component {
   };
 
   handleSearchByArea = () => {
-    if (this.props.map.zoomLevel > 10) {
+    if (this.props.clientFSState.maps.clientFSBboxSearch.zoom > 10) {
       this.props.clientFSClearResults()
       this.props.clientFSFetchResults({ jenaIndex: 'spatial' })
       this.setState({ open: false })
@@ -68,7 +68,9 @@ class LeafletMapDialog extends React.Component {
   }
 
   render () {
-    const { classes, perspectiveID } = this.props
+    const { classes, clientFSState, perspectiveID } = this.props
+    const { maps, spatialResultsFetching } = clientFSState
+    const { center, zoom } = maps.clientFSBboxSearch
 
     return (
       <Paper className={classes.root}>
@@ -80,7 +82,7 @@ class LeafletMapDialog extends React.Component {
           onClick={this.handleClickOpen}
         >
           {intl.get(`perspectives.${perspectiveID}.searchByArea`)}
-          {this.props.fetching
+          {spatialResultsFetching
             ? <CircularProgress className={classes.rightIcon} color='inherit' size={24} />
             : <CropFreeIcon className={classes.rightIcon} />}
         </Button>
@@ -97,8 +99,9 @@ class LeafletMapDialog extends React.Component {
         >
           <DialogTitle id='dialog-title'>{intl.get(`perspectives.${perspectiveID}.searchByAreaTitle`)}</DialogTitle>
           <LeafletMap
-            center={[65.184809, 27.314050]}
-            zoom={5}
+            center={center}
+            zoom={zoom}
+            resultClass='clientFSBboxSearch'
             pageType='clientFSResults'
             showMapModeControl={false}
             showInstanceCountInClusters={false}
@@ -124,14 +127,11 @@ class LeafletMapDialog extends React.Component {
 
 LeafletMapDialog.propTypes = {
   classes: PropTypes.object.isRequired,
-  strings: PropTypes.object,
-  map: PropTypes.object.isRequired,
-  getGeoJSON: PropTypes.func,
-  updateMapBounds: PropTypes.func,
+  clientFSState: PropTypes.object.isRequired,
   clientFSFetchResults: PropTypes.func.isRequired,
   clientFSClearResults: PropTypes.func.isRequired,
+  updateMapBounds: PropTypes.func,
   showError: PropTypes.func,
-  fetching: PropTypes.bool,
   perspectiveID: PropTypes.string.isRequired
 }
 

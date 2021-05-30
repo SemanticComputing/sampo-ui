@@ -104,8 +104,7 @@ class LeafletMap extends React.Component {
       prevZoomLevel: null,
       enlargedBounds: null,
       mapMode: props.mapMode,
-      showBuffer: true,
-      initFinished: false
+      showBuffer: true
     }
   }
 
@@ -126,7 +125,6 @@ class LeafletMap extends React.Component {
     if (this.props.showExternalLayers && !this.props.locateUser) {
       this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
     }
-    this.setState({ initFinished: true })
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -262,15 +260,6 @@ class LeafletMap extends React.Component {
     if (prevProps.infoHeaderExpanded && (prevProps.infoHeaderExpanded !== this.props.infoHeaderExpanded)) {
       this.leafletMap.invalidateSize()
     }
-
-    if (this.state.initFinished) {
-      if (this.props.layerControlExpanded) {
-        this.leafletMap.invalidateSize()
-        // this.layerControl.collapse()
-        // this.layerControl.expand()
-      }
-      this.setState({ initFinished: null })
-    }
   }
 
   initMap = () => {
@@ -364,11 +353,16 @@ class LeafletMap extends React.Component {
     }
 
     if (this.props.updateMapBounds) {
-      this.props.updateMapBounds(this.boundsToValues())
-      this.leafletMap.on('moveend', () => {
-        this.props.updateMapBounds(this.boundsToValues())
-      })
+      this.updateMapBounds()
+      this.leafletMap.on('moveend', () => this.updateMapBounds())
     }
+  }
+
+  updateMapBounds = () => {
+    this.props.updateMapBounds({
+      resultClass: this.props.resultClass,
+      bounds: this.boundsToObject()
+    })
   }
 
   setCustomMapControlVisibility = () => {
@@ -418,7 +412,7 @@ class LeafletMap extends React.Component {
     this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
   }
 
-  boundsToValues = () => {
+  boundsToObject = () => {
     const bounds = this.leafletMap.getBounds()
     const latMin = bounds._southWest.lat
     const longMin = bounds._southWest.lng
@@ -429,6 +423,7 @@ class LeafletMap extends React.Component {
       longMin: longMin,
       latMax: latMax,
       longMax: longMax,
+      center: this.leafletMap.getCenter(),
       zoom: this.leafletMap.getZoom()
     }
   }
@@ -581,7 +576,7 @@ class LeafletMap extends React.Component {
     }
 
     const safeFunc = eventType === 'zoomend' ? this.isSafeToLoadLargeLayersAfterZooming : this.isSafeToLoadLargeLayers
-    if (this.props.layers.fetching || this.state.activeLayers.length < 0 || !safeFunc()) {
+    if (this.props.leafletMapState.fetching || this.state.activeLayers.length < 0 || !safeFunc()) {
       return
     }
     // console.log('setting new enlarged bounds')

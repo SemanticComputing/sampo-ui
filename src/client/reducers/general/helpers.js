@@ -323,3 +323,21 @@ export const updateKnowledgeGraphMetadata = (state, action) => {
     fetching: false
   }
 }
+
+export const updateMapBounds = (state, action) => {
+  const { resultClass, bounds } = action
+  return {
+    ...state,
+    maps: {
+      ...state.maps,
+      [resultClass]: {
+        latMin: bounds.latMin,
+        longMin: bounds.longMin,
+        latMax: bounds.latMax,
+        longMax: bounds.longMax,
+        center: bounds.center,
+        zoom: bounds.zoom
+      }
+    }
+  }
+}

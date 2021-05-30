@@ -386,13 +386,14 @@ const clientFSFetchResultsEpic = (action$, state$) => action$.pipe(
   debounceTime(500),
   switchMap(([action, state]) => {
     const { jenaIndex } = action
-    const selectedDatasets = pickSelectedDatasets(state.clientSideFacetedSearch.datasets)
+    const { clientSideFacetedSearch } = state
+    const selectedDatasets = pickSelectedDatasets(clientSideFacetedSearch.datasets)
     const dsParams = selectedDatasets.map(ds => `dataset=${ds}`).join('&')
     let requestUrl
     if (action.jenaIndex === 'text') {
       requestUrl = `${apiUrl}/federated-search?q=${action.query}&${dsParams}`
     } else if (action.jenaIndex === 'spatial') {
-      const { latMin, longMin, latMax, longMax } = state.leafletMap
+      const { latMin, longMin, latMax, longMax } = clientSideFacetedSearch.maps.clientFSBboxSearch
       requestUrl = `${apiUrl}/federated-search?latMin=${latMin}&longMin=${longMin}&latMax=${latMax}&longMax=${longMax}&${dsParams}`
     }
     return ajax.getJSON(requestUrl).pipe(
