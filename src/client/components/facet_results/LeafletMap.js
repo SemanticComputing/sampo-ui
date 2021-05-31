@@ -358,9 +358,8 @@ class LeafletMap extends React.Component {
       this.addDrawButtons()
     }
 
-    if (this.props.updateMapBounds) {
+    if (this.props.updateMapBounds && !this.props.locateUser) {
       this.updateMapBounds()
-      this.leafletMap.on('moveend', () => this.updateMapBounds())
     }
   }
 
@@ -415,6 +414,7 @@ class LeafletMap extends React.Component {
       // .openPopup()
     this.initMapEventListeners()
     this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
+    this.updateMapBounds()
   }
 
   onLocationError = e => {
@@ -422,12 +422,13 @@ class LeafletMap extends React.Component {
       this.props.center,
       this.props.zoom
     )
+    this.updateMapBounds()
+    this.initMapEventListeners()
+    this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
     // this.props.showError({
     //   title: '',
     //   text: e.message
     // })
-    this.initMapEventListeners()
-    this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
   }
 
   boundsToObject = () => {
@@ -469,6 +470,7 @@ class LeafletMap extends React.Component {
     return results.map(result => [+result.lat, +result.long])
   }
 
+  // event listeners, only used when this.props.showExternalLayers
   initMapEventListeners = () => {
     // Fired when an overlay is selected using layer controls
     this.leafletMap.on('layeradd', event => {
@@ -509,22 +511,22 @@ class LeafletMap extends React.Component {
 
     // Fired when zooming starts
     this.leafletMap.on('zoomstart', () => {
-      this.setState({ prevZoomLevel: this.leafletMap.getZoom() })
+      if (this.props.showExternalLayers) {
+        this.setState({ prevZoomLevel: this.leafletMap.getZoom() })
+      }
     })
 
     // Fired when zooming ends
     this.leafletMap.on('zoomend', event => {
+      if (this.props.updateMapBounds) { this.updateMapBounds() }
       this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'zoomend' })
     })
 
     // Fired when dragging ends
     this.leafletMap.on('dragend', () => {
+      if (this.props.updateMapBounds) { this.updateMapBounds() }
       this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'dragend' })
     })
-
-    // Fired when the map is initialized (when its center and zoom are set for the first time).
-    // this.leafletMap.on('load', () => {
-    // })
   }
 
   initOverLays = basemaps => {
@@ -589,7 +591,7 @@ class LeafletMap extends React.Component {
     const currentBounds = this.leafletMap.getBounds()
 
     // When user triggers zoom or drag event and map is within enlarged bounds, do nothing
-    if (eventType !== 'programmatic' && this.state.enlargedBounds.contains(currentBounds)) {
+    if (eventType !== 'programmatic' && this.props.leafletMapState.updateID > 0 && this.state.enlargedBounds.contains(currentBounds)) {
       return
     }
 
