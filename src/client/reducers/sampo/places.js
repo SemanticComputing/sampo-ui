@@ -110,15 +110,7 @@ export const INITIAL_STATE = {
 }
 
 const resultClasses = new Set([
-  'places',
-  'placesAll',
-  'placesActors',
-  'placesMsProduced',
-  'lastKnownLocations',
-  'placesMsMigrations',
-  'placesMsMigrationsDialog',
-  'placesEvents',
-  'findsPlaces'
+  'places'
 ])
 
 const places = (state = INITIAL_STATE, action) => {

@@ -43,10 +43,10 @@ const Perspective3 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/map`}
         render={() =>
           <LeafletMap
-            center={[22.43, 10.37]}
-            zoom={2}
-            results={props.placesState.results}
-            layers={props.leafletMapLayers}
+            center={props.perspectiveState.maps.placesEvents.center}
+            zoom={props.perspectiveState.maps.placesEvents.zoom}
+            results={props.perspectiveState.results}
+            leafletMapState={props.leafletMapState}
             pageType='facetResults'
             facetUpdateID={props.facetState.facetUpdateID}
             facet={props.facetState.facets.place}
@@ -54,7 +54,7 @@ const Perspective3 = props => {
             resultClass='placesEvents'
             facetClass='perspective3'
             mapMode='cluster'
-            instance={props.placesState.instanceTableData}
+            instance={props.perspectiveState.instanceTableData}
             createPopUpContent={createPopUpContentMMM}
             popupMaxHeight={320}
             popupMinWidth={280}
@@ -62,9 +62,10 @@ const Perspective3 = props => {
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
             fetchByURI={props.fetchByURI}
-            fetching={props.placesState.fetching}
+            fetching={props.perspectiveState.fetching}
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
+            updateMapBounds={props.updateMapBounds}
             showError={props.showError}
             showExternalLayers
             layerControlExpanded={layerControlExpanded}
@@ -95,10 +96,6 @@ Perspective3.propTypes = {
   perspectiveState: PropTypes.object.isRequired,
   /**
      * Faceted search configs and results of places related to this perspective.
-     */
-  placesState: PropTypes.object.isRequired,
-  /**
-     * Facet configs and values.
      */
   facetState: PropTypes.object.isRequired,
   /**

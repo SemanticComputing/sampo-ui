@@ -20,6 +20,12 @@ export const INITIAL_STATE = {
   instanceAnalysisData: null,
   instanceAnalysisDataUpdateID: 0,
   instanceSparqlQuery: null,
+  maps: {
+    placesEvents: {
+      center: [22.43, 10.37],
+      zoom: 2
+    }
+  },
   properties: [
     {
       id: 'uri',
@@ -123,12 +129,13 @@ export const INITIAL_STATE = {
 }
 
 const resultClasses = new Set([
-  'perspective3'
+  'perspective3',
+  'placesEvents'
 ])
 
 const perspective3 = (state = INITIAL_STATE, action) => {
   if (resultClasses.has(action.resultClass)) {
-    return handleDataFetchingAction(state, action)
+    return handleDataFetchingAction(state, action, INITIAL_STATE)
   } else return state
 }
 

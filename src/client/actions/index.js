@@ -77,14 +77,16 @@ export const fetchResults = ({
   facetClass,
   uri = null,
   limit = null,
-  optimize = null
+  optimize = null,
+  reason = null
 }) => ({
   type: FETCH_RESULTS,
   resultClass,
   facetClass,
   uri,
   limit,
-  optimize
+  optimize,
+  reason
 })
 export const fetchInstanceAnalysis = ({
   resultClass,

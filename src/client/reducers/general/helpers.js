@@ -1,12 +1,22 @@
 import { has, isEmpty } from 'lodash'
 import { UPDATE_FACET_VALUES_CONSTRAIN_SELF } from '../../actions'
 
-export const fetchResults = (state, action) => {
+export const fetchResults = (state, action, initialState) => {
+  const { reason } = action
+  let resetMapBounds = false
+  if (
+    reason &&
+    reason === 'facetUpdate' &&
+    initialState.maps
+  ) {
+    resetMapBounds = true
+  }
   return {
     ...state,
     instance: null,
     instanceTableExternalData: null,
-    fetching: true
+    fetching: true,
+    ...(resetMapBounds && { maps: initialState.maps })
   }
 }
 
@@ -203,7 +213,7 @@ export const updateResultCount = (state, action) => {
   }
 }
 
-export const updateResults = (state, action) => {
+export const updateResults = (state, action, initialState) => {
   return {
     ...state,
     results: action.data,

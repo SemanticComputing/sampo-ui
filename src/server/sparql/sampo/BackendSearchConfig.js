@@ -131,6 +131,12 @@ export const backendSearchConfig = {
       relatedInstances: manuscriptsProducedAt
     }
   },
+  placesMsProducedHeatmap: {
+    perspectiveID: 'perspective1',
+    q: productionPlacesQuery,
+    filterTarget: 'manuscripts',
+    resultMapper: mapPlaces
+  },
   lastKnownLocations: {
     perspectiveID: 'perspective1',
     q: lastKnownLocationsQuery,

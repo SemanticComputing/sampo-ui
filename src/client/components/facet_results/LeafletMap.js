@@ -149,12 +149,18 @@ class LeafletMap extends React.Component {
   }
 
   serverFScomponentDidUpdate = (prevProps, prevState) => {
+    // check if map center or zoom was modified in Redux state
+    if (!this.componentStateEqualsReduxState()) {
+      this.leafletMap.setView(this.props.center, this.props.zoom)
+    }
+
     // check if filters have changed
     if (has(prevProps, 'facetUpdateID') && prevProps.facetUpdateID !== this.props.facetUpdateID) {
       this.props.fetchResults({
         resultClass: this.props.resultClass,
         facetClass: this.props.facetClass,
-        sortBy: null
+        sortBy: null,
+        reason: 'facetUpdate'
       })
     }
 
@@ -359,10 +365,22 @@ class LeafletMap extends React.Component {
   }
 
   updateMapBounds = () => {
-    this.props.updateMapBounds({
-      resultClass: this.props.resultClass,
-      bounds: this.boundsToObject()
-    })
+    if (!this.componentStateEqualsReduxState()) {
+      this.props.updateMapBounds({
+        resultClass: this.props.resultClass,
+        bounds: this.boundsToObject()
+      })
+    }
+  }
+
+  componentStateEqualsReduxState = () => {
+    const currentZoom = this.leafletMap.getZoom()
+    const currentCenter = this.leafletMap.getCenter()
+    return (
+      currentZoom === this.props.zoom &&
+      currentCenter[0] === this.props.center[0] &&
+      currentCenter[1] === this.props.center[1]
+    )
   }
 
   setCustomMapControlVisibility = () => {

@@ -38,12 +38,12 @@ import {
   updateMapBounds
 } from './helpers'
 
-export const handleDataFetchingAction = (state, action) => {
+export const handleDataFetchingAction = (state, action, initialState) => {
   switch (action.type) {
     case FETCH_RESULTS:
     case FETCH_PAGINATED_RESULTS:
     case FETCH_BY_URI:
-      return fetchResults(state, action)
+      return fetchResults(state, action, initialState)
     case FETCH_RESULT_COUNT:
       return fetchResultCount(state)
     case FETCH_INSTANCE_ANALYSIS:

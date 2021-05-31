@@ -56,12 +56,12 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/production_places`}
         render={() =>
           <LeafletMap
-            center={[22.43, 10.37]}
-            zoom={2}
+            center={props.perspectiveState.maps.placesMsProduced.center}
+            zoom={props.perspectiveState.maps.placesMsProduced.zoom}
             // center={[60.187, 24.821]}
             // zoom={13}
             // locateUser
-            results={props.placesState.results}
+            results={props.perspectiveState.results}
             leafletMapState={props.leafletMapState}
             pageType='facetResults'
             facetUpdateID={props.facetState.facetUpdateID}
@@ -70,7 +70,7 @@ const Perspective1 = props => {
             resultClass='placesMsProduced'
             facetClass='perspective1'
             mapMode='cluster'
-            instance={props.placesState.instanceTableData}
+            instance={props.perspectiveState.instanceTableData}
             createPopUpContent={createPopUpContentMMM}
             popupMaxHeight={320}
             popupMinWidth={280}
@@ -78,9 +78,10 @@ const Perspective1 = props => {
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
             fetchByURI={props.fetchByURI}
-            fetching={props.placesState.fetching}
+            fetching={props.perspectiveState.fetching}
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
+            updateMapBounds={props.updateMapBounds}
             showError={props.showError}
             showExternalLayers
             layerControlExpanded={layerControlExpanded}
@@ -99,24 +100,27 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/production_places_heatmap`}
         render={() =>
           <Deck
-            results={props.placesState.results}
+            center={props.perspectiveState.maps.placesMsProducedHeatmap.center}
+            zoom={props.perspectiveState.maps.placesMsProducedHeatmap.zoom}
+            results={props.perspectiveState.results}
             facetUpdateID={props.facetState.facetUpdateID}
-            resultClass='placesMsProduced'
+            resultClass='placesMsProducedHeatmap'
             facetClass='perspective1'
             fetchResults={props.fetchResults}
-            fetching={props.placesState.fetching}
+            fetching={props.perspectiveState.fetching}
             layerType='heatmapLayer'
             mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
             mapBoxStyle={MAPBOX_STYLE}
+            updateMapBounds={props.updateMapBounds}
           />}
       />
       <Route
         path={`${rootUrl}/${perspective.id}/faceted-search/last_known_locations`}
         render={() =>
           <LeafletMap
-            center={[22.43, 10.37]}
-            zoom={2}
-            results={props.placesState.results}
+            center={props.perspectiveState.maps.lastKnownLocations.center}
+            zoom={props.perspectiveState.maps.lastKnownLocations.zoom}
+            results={props.perspectiveState.results}
             leafletMapState={props.leafletMapState}
             pageType='facetResults'
             facetUpdateID={props.facetState.facetUpdateID}
@@ -126,7 +130,7 @@ const Perspective1 = props => {
             facetClass='perspective1'
             mapMode='cluster'
             showMapModeControl={false}
-            instance={props.placesState.instanceTableData}
+            instance={props.perspectiveState.instanceTableData}
             createPopUpContent={createPopUpContentMMM}
             popupMaxHeight={320}
             popupMinWidth={280}
@@ -134,9 +138,10 @@ const Perspective1 = props => {
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
             fetchByURI={props.fetchByURI}
-            fetching={props.placesState.fetching}
+            fetching={props.perspectiveState.fetching}
             showInstanceCountInClusters
             updateFacetOption={props.updateFacetOption}
+            updateMapBounds={props.updateMapBounds}
             showError={props.showError}
             showExternalLayers
             layerControlExpanded={layerControlExpanded}
@@ -150,14 +155,14 @@ const Perspective1 = props => {
           <Deck
             results={props.placesState.results}
             facetUpdateID={props.facetState.facetUpdateID}
-            instanceAnalysisData={props.placesState.instanceAnalysisData}
-            instanceAnalysisDataUpdateID={props.placesState.instanceAnalysisDataUpdateID}
+            instanceAnalysisData={props.perspectiveState.instanceAnalysisData}
+            instanceAnalysisDataUpdateID={props.perspectiveState.instanceAnalysisDataUpdateID}
             resultClass='placesMsMigrations'
             facetClass='perspective1'
             fetchResults={props.fetchResults}
             fetchInstanceAnalysis={props.fetchInstanceAnalysis}
-            fetching={props.placesState.fetching}
-            fetchingInstanceAnalysisData={props.placesState.fetchingInstanceAnalysisData}
+            fetching={props.perspectiveState.fetching}
+            fetchingInstanceAnalysisData={props.perspectiveState.fetchingInstanceAnalysisData}
             layerType='arcLayer'
             getArcWidth={d => d.instanceCountScaled}
             fromText={intl.get('deckGlMap.manuscriptMigrations.from')}
@@ -272,10 +277,6 @@ Perspective1.propTypes = {
    * Faceted search configs and results of this perspective.
    */
   perspectiveState: PropTypes.object.isRequired,
-  /**
-    * Faceted search configs and results of places related to this perspective.
-    */
-  placesState: PropTypes.object.isRequired,
   /**
     * Facet configs and values.
     */

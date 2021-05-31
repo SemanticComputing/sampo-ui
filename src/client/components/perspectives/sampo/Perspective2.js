@@ -58,10 +58,6 @@ Perspective2.propTypes = {
   /**
    * Faceted search configs and results of places related to this perspective.
    */
-  placesState: PropTypes.object.isRequired,
-  /**
-   * Facet configs and values.
-   */
   facetState: PropTypes.object.isRequired,
   /**
    * Facet values where facets constrain themselves, used for statistics.

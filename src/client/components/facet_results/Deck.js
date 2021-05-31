@@ -53,9 +53,9 @@ const styles = theme => ({
 class Deck extends React.Component {
   state = {
     viewport: {
-      longitude: 10.37,
-      latitude: 22.43,
-      zoom: 2,
+      longitude: this.props.center[1],
+      latitude: this.props.center[0],
+      zoom: this.props.zoom,
       pitch: 0,
       bearing: 0,
       width: 100,
@@ -95,6 +95,16 @@ class Deck extends React.Component {
     // }
   }
 
+  componentStateEqualsReduxState = () => {
+    const { viewport } = this.state
+    const { longitude, latitude, zoom } = viewport
+    return (
+      zoom === this.props.zoom &&
+      longitude === this.props.center[1] &&
+      latitude === this.props.center[0]
+    )
+  }
+
   setDialog = info => {
     this.setState({
       dialog: {
@@ -119,8 +129,11 @@ class Deck extends React.Component {
       }
     })
 
-  handleOnViewportChange = viewport =>
-    this.state.mounted && this.setState({ viewport });
+  handleOnViewportChange = viewport => {
+    if (this.state.mounted) {
+      this.setState({ viewport })
+    }
+  }
 
   renderSpinner () {
     if (this.props.fetching || this.props.fetchingInstanceAnalysisData) {
