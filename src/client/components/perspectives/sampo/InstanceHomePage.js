@@ -187,6 +187,7 @@ class InstanceHomePage extends React.Component {
                     resultClass={resultClass}
                     data={instanceTableData}
                     properties={this.getVisibleRows(perspectiveState.properties)}
+                    screenSize={screenSize}
                   />}
               />
               <Route
