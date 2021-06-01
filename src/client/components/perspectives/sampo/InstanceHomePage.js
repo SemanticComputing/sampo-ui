@@ -55,6 +55,11 @@ class InstanceHomePage extends React.Component {
     if (!this.hasTableData() && prevPathname !== currentPathname && currentPathname.endsWith('table')) {
       this.fetchTableData()
     }
+    // handle browser's back button
+    const localID = this.getLocalIDFromURL()
+    if (this.state.localID !== localID) {
+      this.fetchTableData()
+    }
   }
 
   hasTableData = () => {
@@ -64,16 +69,10 @@ class InstanceHomePage extends React.Component {
 
   fetchTableData = () => {
     const { perspectiveConfig } = this.props
+    const localID = this.getLocalIDFromURL()
+    this.setState({ localID })
     let uri = ''
     const base = 'http://ldf.fi/mmm'
-    const locationArr = this.props.routeProps.location.pathname.split('/')
-    let localID = locationArr.pop()
-    perspectiveConfig.instancePageTabs.map(tab => {
-      if (localID === tab.id) {
-        localID = locationArr.pop() // pop again if tab id
-      }
-    })
-    this.setState({ localID: localID })
     const resultClass = perspectiveConfig.id
     switch (resultClass) {
       case 'perspective1':
@@ -125,6 +124,17 @@ class InstanceHomePage extends React.Component {
       variant: null,
       uri: uri
     })
+  }
+
+  getLocalIDFromURL = () => {
+    const locationArr = this.props.routeProps.location.pathname.split('/')
+    let localID = locationArr.pop()
+    this.props.perspectiveConfig.instancePageTabs.map(tab => {
+      if (localID === tab.id) {
+        localID = locationArr.pop() // pop again if tab id
+      }
+    })
+    return localID
   }
 
   getVisibleRows = rows => {
