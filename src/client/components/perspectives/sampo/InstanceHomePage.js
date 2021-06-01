@@ -68,7 +68,7 @@ class InstanceHomePage extends React.Component {
     const base = 'http://ldf.fi/mmm'
     const locationArr = this.props.routeProps.location.pathname.split('/')
     let localID = locationArr.pop()
-    perspectiveConfig.tabs.map(tab => {
+    perspectiveConfig.instancePageTabs.map(tab => {
       if (localID === tab.id) {
         localID = locationArr.pop() // pop again if tab id
       }
