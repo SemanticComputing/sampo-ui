@@ -122,6 +122,9 @@ class LeafletMap extends React.Component {
     if (this.props.mapMode && this.props.pageType === 'clientFSResults') {
       this.drawPointData()
     }
+    if (this.props.showExternalLayers) {
+      this.props.clearGeoJSONLayers()
+    }
     if (this.props.showExternalLayers && !this.props.locateUser) {
       this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
     }
@@ -150,7 +153,7 @@ class LeafletMap extends React.Component {
 
   serverFScomponentDidUpdate = (prevProps, prevState) => {
     // check if map center or zoom was modified in Redux state
-    if (!this.componentStateEqualsReduxState()) {
+    if (!this.locateUser() && !this.componentStateEqualsReduxState()) {
       this.leafletMap.setView(this.props.center, this.props.zoom)
     }
 
@@ -300,9 +303,9 @@ class LeafletMap extends React.Component {
     this.resultMarkerLayer = L.layerGroup()
 
     const container = this.props.container ? this.props.container : 'map'
-
+    const locateUser = this.locateUser()
     this.leafletMap = L.map(container, {
-      ...(!this.props.locateUser && {
+      ...(!locateUser && {
         center: this.props.center,
         zoom: this.props.zoom
       }),
@@ -358,7 +361,7 @@ class LeafletMap extends React.Component {
       this.addDrawButtons()
     }
 
-    if (this.props.updateMapBounds && !this.props.locateUser) {
+    if (this.props.updateMapBounds && !locateUser) {
       this.updateMapBounds()
     }
   }
@@ -373,6 +376,7 @@ class LeafletMap extends React.Component {
   }
 
   componentStateEqualsReduxState = () => {
+    if (this.leafletMap.getZoom() == null) { return true }
     const currentZoom = this.leafletMap.getZoom()
     const currentCenter = this.leafletMap.getCenter()
     return (
@@ -399,6 +403,13 @@ class LeafletMap extends React.Component {
     } else {
       document.getElementById('leaflet-control-custom-container-buffer').style.display = 'block'
     }
+  }
+
+  locateUser = () => {
+    if (this.props.locateUser && this.props.locateUser === true) {
+      return true
+    }
+    return false
   }
 
   onLocationFound = e => {
@@ -570,7 +581,7 @@ class LeafletMap extends React.Component {
     })
 
     // Add all basemaps and all overlays via the control to the map
-    this.layerControl = L.control.layers(basemaps, this.overlayLayers, { collapsed: false }).addTo(this.leafletMap)
+    this.layerControl = L.control.layers(basemaps, this.overlayLayers, { collapsed: !this.props.layerControlExpanded }).addTo(this.leafletMap)
 
     // Create opacity controller if needed
     if (showOpacityController) {
