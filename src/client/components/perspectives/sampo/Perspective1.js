@@ -153,7 +153,9 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/migrations`}
         render={() =>
           <Deck
-            results={props.placesState.results}
+            center={props.perspectiveState.maps.placesMsMigrations.center}
+            zoom={props.perspectiveState.maps.placesMsMigrations.zoom}
+            results={props.perspectiveState.results}
             facetUpdateID={props.facetState.facetUpdateID}
             instanceAnalysisData={props.perspectiveState.instanceAnalysisData}
             instanceAnalysisDataUpdateID={props.perspectiveState.instanceAnalysisDataUpdateID}
