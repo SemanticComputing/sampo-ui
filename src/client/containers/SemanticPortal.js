@@ -442,27 +442,29 @@ const SemanticPortal = props => {
                               >
                                 <Grid item xs={12} className={classes.instancePageContent}>
                                   <InstanceHomePage
-                                    rootUrl={rootUrlWithLang}
-                                    fetchByURI={props.fetchByURI}
+                                    perspectiveState={props[`${perspective.id}`]}
+                                    perspectiveConfig={perspective}
+                                    leafletMapState={props.leafletMap}
+                                    fetchPaginatedResults={props.fetchPaginatedResults}
                                     fetchResults={props.fetchResults}
-                                    resultClass={perspective.id}
-                                    tableData={props[perspective.id].instanceTableData}
-                                    tableExternalData={props[perspective.id].instancePageTableExternalData}
-                                    properties={props[perspective.id].properties}
-                                    results={props[perspective.id].results}
-                                    resultUpdateID={props[perspective.id].resultUpdateID}
-                                    tabs={perspective.instancePageTabs}
-                                    sparqlQuery={props[perspective.id].instanceSparqlQuery}
-                                    isLoading={props[perspective.id].fetching}
-                                    routeProps={routeProps}
-                                    screenSize={screenSize}
+                                    fetchInstanceAnalysis={props.fetchInstanceAnalysis}
                                     fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
                                     fetchGeoJSONLayers={props.fetchGeoJSONLayers}
                                     fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
                                     clearGeoJSONLayers={props.clearGeoJSONLayers}
-                                    leafletMap={props.leafletMap}
-                                    showError={props.showError}
+                                    fetchByURI={props.fetchByURI}
+                                    updatePage={props.updatePage}
+                                    updateRowsPerPage={props.updateRowsPerPage}
+                                    updateFacetOption={props.updateFacetOption}
                                     updateMapBounds={props.updateMapBounds}
+                                    sortResults={props.sortResults}
+                                    showError={props.showError}
+                                    routeProps={routeProps}
+                                    perspective={perspective}
+                                    animationValue={props.animationValue}
+                                    animateMap={props.animateMap}
+                                    screenSize={screenSize}
+                                    rootUrl={rootUrlWithLang}
                                   />
                                 </Grid>
                               </Grid>
@@ -502,26 +504,29 @@ const SemanticPortal = props => {
                         >
                           <Grid item xs={12} className={classes.instancePageContent}>
                             <InstanceHomePage
-                              rootUrl={rootUrlWithLang}
-                              fetchByURI={props.fetchByURI}
+                              perspectiveState={props[`${perspective.id}`]}
+                              perspectiveConfig={perspective}
+                              leafletMapState={props.leafletMap}
+                              fetchPaginatedResults={props.fetchPaginatedResults}
                               fetchResults={props.fetchResults}
-                              resultClass={perspective.id}
-                              tableData={props[perspective.id].instanceTableData}
-                              tableExternalData={props[perspective.id].instancePageTableExternalData}
-                              properties={props[perspective.id].properties}
-                              results={props[perspective.id].results}
-                              resultUpdateID={props[perspective.id].resultUpdateID}
-                              tabs={perspective.instancePageTabs}
-                              sparqlQuery={props[perspective.id].instanceSparqlQuery}
-                              isLoading={props[perspective.id].fetching}
-                              routeProps={routeProps}
-                              screenSize={screenSize}
+                              fetchInstanceAnalysis={props.fetchInstanceAnalysis}
                               fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
                               fetchGeoJSONLayers={props.fetchGeoJSONLayers}
                               fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
                               clearGeoJSONLayers={props.clearGeoJSONLayers}
-                              leafletMap={props.leafletMap}
+                              fetchByURI={props.fetchByURI}
+                              updatePage={props.updatePage}
+                              updateRowsPerPage={props.updateRowsPerPage}
+                              updateFacetOption={props.updateFacetOption}
+                              updateMapBounds={props.updateMapBounds}
+                              sortResults={props.sortResults}
                               showError={props.showError}
+                              routeProps={routeProps}
+                              perspective={perspective}
+                              animationValue={props.animationValue}
+                              animateMap={props.animateMap}
+                              screenSize={screenSize}
+                              rootUrl={rootUrlWithLang}
                             />
                           </Grid>
                         </Grid>
