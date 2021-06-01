@@ -187,6 +187,11 @@ class ResultTable extends React.Component {
       if (isArray) {
         hasExpandableContent = true
       }
+      // if there are multiple images, they can be viewed by clicking the preview image,
+      // not by expanding
+      if (column.valueType === 'image' && Array.isArray(columnData)) {
+        hasExpandableContent = false
+      }
       if (!isArray &&
         columnData !== '-' &&
         column.valueType === 'string' &&
