@@ -15,9 +15,12 @@ import InfoIcon from '@material-ui/icons/InfoOutlined'
 
 const styles = theme => ({
   instanceTable: {
-    // maxWidth: 1000,
-    // width: '100%',
-    // height: '100%',
+    maxWidth: 800,
+    width: '100%',
+    [theme.breakpoints.down('md')]: {
+      tableLayout: 'fixed',
+      overflowWrap: 'break-word'
+    },
     borderTop: '1px solid rgba(224, 224, 224, 1);'
   },
   divider: {
@@ -34,9 +37,9 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  labelCell: {
-    width: 240
-  },
+  // labelCell: {
+  //   maxWidth: 250
+  // },
   tooltip: {
     marginTop: -3
   },
@@ -108,7 +111,7 @@ class InstanceHomePageTable extends React.Component {
   }
 
   render = () => {
-    const { classes, data, resultClass, properties } = this.props
+    const { classes, data, resultClass, properties, screenSize } = this.props
     return (
       <>
         {data &&
@@ -118,9 +121,13 @@ class InstanceHomePageTable extends React.Component {
                 const label = intl.get(`perspectives.${resultClass}.properties.${row.id}.label`)
                 const description = intl.get(`perspectives.${resultClass}.properties.${row.id}.description`)
                 const {
-                  id, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, previewImageHeight,
+                  id, valueType, makeLink, externalLink, sortValues, sortBy, numberedList,
                   linkAsButton, collapsedMaxWords, showSource, sourceExternalLink, renderAsHTML, HTMLParserTask
                 } = row
+                let { previewImageHeight } = row
+                if (screenSize === 'xs' || screenSize === 'sm') {
+                  previewImageHeight = 50
+                }
                 const expanded = this.state.expandedRows.has(row.id)
                 return (
                   <TableRow key={row.id}>
