@@ -217,6 +217,7 @@ export const updateResults = (state, action, initialState) => {
   return {
     ...state,
     results: action.data,
+    resultClass: action.resultClass,
     resultsSparqlQuery: action.sparqlQuery,
     fetching: false,
     resultUpdateID: ++state.resultUpdateID
