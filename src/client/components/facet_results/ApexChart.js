@@ -9,6 +9,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import Typography from '@material-ui/core/Typography'
+import GeneralDialog from '../main_layout/GeneralDialog'
+import InstaceList from '../main_layout/InstanceList'
 
 const styles = theme => ({
   selectContainer: {
@@ -31,12 +33,13 @@ class ApexChart extends React.Component {
     this.state = {
       resultClass: props.resultClass,
       createChartData: props.createChartData,
-      chartType: props.dropdownForChartTypes ? props.chartTypes[0].id : null
+      chartType: props.dropdownForChartTypes ? props.chartTypes[0].id : null,
+      dialogData: null
     }
   }
 
   componentDidMount = () => {
-    if (this.props.rawData && this.props.rawData.length > 0) {
+    if (this.props.rawData && this.props.rawData.length > 0 && !this.props.doNotRenderOnMount) {
       this.renderChart()
     }
     this.props.fetchData({
@@ -70,6 +73,14 @@ class ApexChart extends React.Component {
     if (prevState.chartType !== this.state.chartType) {
       this.renderChart()
     }
+    if (prevProps.screenSize !== this.props.screenSize) {
+      this.renderChart()
+    }
+    if (prevProps.instanceAnalysisDataUpdateID !== this.props.instanceAnalysisDataUpdateID) {
+      this.setState({
+        dialogData: this.props.instanceAnalysisData
+      })
+    }
   }
 
   componentWillUnmount () {
@@ -88,7 +99,7 @@ class ApexChart extends React.Component {
       this.state.createChartData({
         rawData: this.props.rawData,
         title: this.props.title,
-        xaxisTitle: this.props.xaxisTitle || '',
+        xaxisTitle: this.props.xaxisTitle || intl.get(`apexCharts.${this.state.resultClass}Xaxis`),
         yaxisTitle: this.props.yaxisTitle || '',
         seriesTitle: this.props.seriesTitle || '',
         xaxisType: this.props.xaxisType || null,
@@ -96,7 +107,11 @@ class ApexChart extends React.Component {
         xaxisLabels: this.props.xaxisLabels || null,
         stroke: this.props.stroke || null,
         fill: this.props.fill || null,
-        tooltip: this.props.tooltip || null
+        tooltip: this.props.tooltip || null,
+        fetchInstanceAnalysis: this.props.fetchInstanceAnalysis,
+        resultClass: this.props.resultClass,
+        facetClass: this.props.facetClass,
+        screenSize: this.props.screenSize
       })
     )
     this.chart.render()
@@ -113,27 +128,55 @@ class ApexChart extends React.Component {
     })
   }
 
-  render () {
-    const { fetching, pageType, classes, facetResultsType, dropdownForResultClasses, dropdownForChartTypes } = this.props
+  handleDialogOnClose = event => this.setState({ dialogData: null })
+
+  isSmallScreen = () => {
+    const { screenSize } = this.props
+    return screenSize === 'xs' || screenSize === 'sm'
+  }
+
+  getHeightForRootContainer = () => {
+    if (this.isSmallScreen()) {
+      return 'auto'
+    }
     const rootHeightReduction = 136 // tabs + padding
+    return `calc(100% - ${rootHeightReduction}px)`
+  }
+
+  getHeightForChartContainer = () => {
+    const { dropdownForResultClasses, dropdownForChartTypes } = this.props
+    if (this.isSmallScreen()) {
+      return 600
+    }
     let chartHeightReduction = 0
-    let facetResultsTypeCapitalized
     if (dropdownForResultClasses) {
-      facetResultsTypeCapitalized = facetResultsType[0].toUpperCase() + facetResultsType.substring(1).toLowerCase()
       chartHeightReduction += 40 // dropdown height
     }
     if (dropdownForChartTypes) {
       chartHeightReduction += 40 // dropdown height
+    }
+    return `calc(100% - ${chartHeightReduction}px)`
+  }
+
+  render () {
+    const {
+      fetching, pageType, classes, dropdownForResultClasses,
+      dropdownForChartTypes, facetResultsType
+    } = this.props
+    let facetResultsTypeCapitalized = ''
+    if (facetResultsType) {
+      facetResultsTypeCapitalized = facetResultsType[0].toUpperCase() + facetResultsType.substring(1).toLowerCase()
     }
     let rootStyle = {
       width: '100%',
       height: '100%'
     }
     if (pageType === 'facetResults' || pageType === 'instancePage') {
+      const padding = this.isSmallScreen() ? 8 : 32
       rootStyle = {
-        height: `calc(100% - ${rootHeightReduction}px)`,
-        width: 'calc(100% - 64px)',
-        padding: 32,
+        height: this.getHeightForRootContainer(),
+        width: `calc(100% - ${2 * padding}px)`,
+        padding: padding,
         backgroundColor: '#fff',
         borderTop: '1px solid rgba(224, 224, 224, 1)'
       }
@@ -147,13 +190,19 @@ class ApexChart extends React.Component {
     }
     const chartContainerStyle = {
       width: '100%',
-      height: `calc(100% - ${chartHeightReduction}px)`
+      height: this.getHeightForChartContainer()
+    }
+    let dropdownText = intl.get('apexCharts.by') === ''
+      ? intl.get('apexCharts.grouping')
+      : `${facetResultsTypeCapitalized} ${intl.get('apexCharts.by')}`
+    if (this.props.xaxisType === 'numeric') {
+      dropdownText = intl.get('apexCharts.property')
     }
     return (
       <div style={rootStyle}>
         {dropdownForResultClasses &&
           <div className={classes.selectContainer}>
-            <Typography>{facetResultsTypeCapitalized} {intl.get('pieChart.by')}</Typography>
+            <Typography>{dropdownText}</Typography>
             <FormControl className={classes.formControl}>
               <Select
                 id='select-result-class'
@@ -161,14 +210,14 @@ class ApexChart extends React.Component {
                 onChange={this.handleResultClassOnChanhge}
               >
                 {this.props.resultClasses.map(resultClass =>
-                  <MenuItem key={resultClass} value={resultClass}>{intl.get(`pieChart.resultClasses.${resultClass}`)}</MenuItem>
+                  <MenuItem key={resultClass} value={resultClass}>{intl.get(`apexCharts.resultClasses.${resultClass}`)}</MenuItem>
                 )}
               </Select>
             </FormControl>
           </div>}
         {dropdownForChartTypes &&
           <div className={classes.selectContainer}>
-            <Typography>{intl.get('pieChart.chartType')}</Typography>
+            <Typography>{intl.get('apexCharts.chartType')}</Typography>
             <FormControl className={classes.formControl}>
               <Select
                 id='select-chart-type'
@@ -176,7 +225,7 @@ class ApexChart extends React.Component {
                 onChange={this.handleChartTypeOnChanhge}
               >
                 {this.props.chartTypes.map(chartType =>
-                  <MenuItem key={chartType.id} value={chartType.id}>{intl.get(`pieChart.${chartType.id}`)}</MenuItem>
+                  <MenuItem key={chartType.id} value={chartType.id}>{intl.get(`apexCharts.${chartType.id}`)}</MenuItem>
                 )}
               </Select>
             </FormControl>
@@ -189,6 +238,16 @@ class ApexChart extends React.Component {
           <div style={chartContainerStyle}>
             <div ref={this.chartRef} />
           </div>}
+        {this.state.dialogData &&
+          <GeneralDialog open maxWidth='sm' onClose={this.handleDialogOnClose}>
+            <Typography><b>Maakunta:</b> {this.state.dialogData[0].selectedProvinceLabel}</Typography>
+            <Typography><b>Aikakausi:</b> {this.state.dialogData[0].selectedPeriodLabel}</Typography>
+            <InstaceList
+              data={this.state.dialogData}
+              listHeadingSingleInstance={this.props.listHeadingSingleInstance}
+              listHeadingMultipleInstances={this.props.listHeadingMultipleInstances}
+            />
+          </GeneralDialog>}
       </div>
     )
   }

@@ -47,6 +47,13 @@ a, a:visited, a:hover, a:active {
     top: 3px !important;
 }
 
+.position-bottom .apexcharts-legend-marker {
+    top: 5px !important;
+}
+
+.position-bottom .apexcharts-legend-series {
+    width: 100%;
+}
 .apexcharts-custom-tooltip {
     /* padding: 8px; */
     font-family: "Roboto", "Helvetica", "Arial";

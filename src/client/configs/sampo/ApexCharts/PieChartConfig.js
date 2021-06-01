@@ -1,4 +1,4 @@
-export const createApexPieChartData = ({ rawData }) => {
+export const createApexPieChartData = ({ rawData, screenSize }) => {
   const labels = []
   const series = []
   let otherCount = 0
@@ -27,6 +27,16 @@ export const createApexPieChartData = ({ rawData }) => {
     chartColors = pieChartColors
   }
   chartColors = chartColors.slice(0, series.length)
+  if (screenSize === 'xs' || screenSize === 'sm') {
+    apexPieChartOptions.legend = {
+      ...apexPieChartOptions.legend,
+      position: 'bottom',
+      width: '100%',
+      fontSize: 12,
+      horizontalAlign: 'left'
+    }
+    apexPieChartOptions.dataLabels = { enabled: false }
+  }
   const apexChartOptionsWithData = {
     ...apexPieChartOptions,
     colors: chartColors,
