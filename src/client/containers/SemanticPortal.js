@@ -385,6 +385,7 @@ const SemanticPortal = props => {
                               <Grid item xs={12} md={9} className={classes.resultsContainer}>
                                 <FacetedSearchPerspective
                                   perspectiveState={props[`${perspective.id}`]}
+                                  perspectiveConfig={perspective}
                                   facetState={props[`${perspective.id}Facets`]}
                                   facetConstrainSelfState={has(props, `${perspective.id}FacetsConstrainSelf`)
                                     ? props[`${perspective.id}FacetsConstrainSelf`]
