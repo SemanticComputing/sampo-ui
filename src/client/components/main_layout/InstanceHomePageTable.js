@@ -40,6 +40,9 @@ const styles = theme => ({
   labelCell: {
     [theme.breakpoints.down('md')]: {
       paddingRight: 0
+    },
+    [theme.breakpoints.up('md')]: {
+      minWidth: 280
     }
   },
   tooltip: {
