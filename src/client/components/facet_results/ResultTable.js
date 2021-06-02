@@ -17,7 +17,6 @@ import ResultTableHead from './ResultTableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import ResultTablePaginationActions from './ResultTablePaginationActions'
 import history from '../../History'
-import has from 'lodash'
 
 const styles = theme => ({
   tableContainer: {
@@ -177,10 +176,18 @@ class ResultTable extends React.Component {
   }
 
   rowRenderer = row => {
-    const { classes } = this.props
+    const { classes, screenSize } = this.props
     const expanded = this.state.expandedRows.has(row.id)
     let hasExpandableContent = false
     const dataCells = this.props.data.properties.map(column => {
+      const {
+        id, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, minWidth,
+        linkAsButton, collapsedMaxWords, sourceExternalLink, renderAsHTML, HTMLParserTask
+      } = column
+      let { previewImageHeight } = column
+      if (screenSize === 'xs' || screenSize === 'sm') {
+        previewImageHeight = 50
+      }
       if (column.onlyOnInstancePage) { return null }
       const columnData = row[column.id] == null ? '-' : row[column.id]
       const isArray = Array.isArray(columnData)
@@ -202,28 +209,26 @@ class ResultTable extends React.Component {
       }
       return (
         <ResultTableCell
-          key={column.id}
-          columnId={column.id}
+          key={id}
+          columnId={id}
           data={columnData}
-          valueType={column.valueType}
-          makeLink={column.makeLink}
-          externalLink={column.externalLink}
-          sortValues={column.sortValues}
-          sortBy={column.sortBy}
-          numberedList={column.numberedList}
-          minWidth={column.minWidth}
-          previewImageHeight={column.previewImageHeight}
+          valueType={valueType}
+          makeLink={makeLink}
+          externalLink={externalLink}
+          sortValues={sortValues}
+          sortBy={sortBy}
+          numberedList={numberedList}
+          minWidth={minWidth}
+          previewImageHeight={previewImageHeight}
           container='cell'
           expanded={expanded}
-          linkAsButton={has(column, 'linkAsButton')
-            ? column.linkAsButton
-            : null}
-          collapsedMaxWords={has(column, 'collapsedMaxWords')
-            ? column.collapsedMaxWords
-            : null}
-          renderAsHTML={has(column, 'renderAsHTML')
-            ? column.renderAsHTML
-            : null}
+          linkAsButton={linkAsButton}
+          collapsedMaxWords={collapsedMaxWords}
+          showSource={false}
+          sourceExternalLink={sourceExternalLink}
+          renderAsHTML={renderAsHTML}
+          HTMLParserTask={HTMLParserTask}
+          referencedTerm={columnData.referencedTerm}
         />
       )
     })

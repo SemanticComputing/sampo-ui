@@ -15,7 +15,7 @@ import InfoIcon from '@material-ui/icons/InfoOutlined'
 
 const styles = theme => ({
   instanceTable: {
-    maxWidth: 800,
+    maxWidth: 1200,
     width: '100%',
     [theme.breakpoints.down('md')]: {
       tableLayout: 'fixed',
@@ -37,9 +37,11 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  // labelCell: {
-  //   maxWidth: 250
-  // },
+  labelCell: {
+    [theme.breakpoints.down('md')]: {
+      paddingRight: 0
+    }
+  },
   tooltip: {
     marginTop: -3
   },
@@ -47,7 +49,10 @@ const styles = theme => ({
     paddingRight: 0,
     paddingTop: 0,
     paddingBottom: 0,
-    width: 32
+    width: 32,
+    [theme.breakpoints.down('md')]: {
+      paddingLeft: 0
+    }
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -121,7 +126,7 @@ class InstanceHomePageTable extends React.Component {
                 const label = intl.get(`perspectives.${resultClass}.properties.${row.id}.label`)
                 const description = intl.get(`perspectives.${resultClass}.properties.${row.id}.description`)
                 const {
-                  id, valueType, makeLink, externalLink, sortValues, sortBy, numberedList,
+                  id, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, minWidth,
                   linkAsButton, collapsedMaxWords, showSource, sourceExternalLink, renderAsHTML, HTMLParserTask
                 } = row
                 let { previewImageHeight } = row
@@ -157,6 +162,7 @@ class InstanceHomePageTable extends React.Component {
                         </IconButton>}
                     </TableCell>
                     <ResultTableCell
+                      key={id}
                       columnId={id}
                       data={data[id]}
                       valueType={valueType}
@@ -165,9 +171,10 @@ class InstanceHomePageTable extends React.Component {
                       sortValues={sortValues}
                       sortBy={sortBy}
                       numberedList={numberedList}
+                      minWidth={minWidth}
+                      previewImageHeight={previewImageHeight}
                       container='cell'
                       expanded={expanded}
-                      previewImageHeight={previewImageHeight}
                       linkAsButton={linkAsButton}
                       collapsedMaxWords={collapsedMaxWords}
                       showSource={showSource}
