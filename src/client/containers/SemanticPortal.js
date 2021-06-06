@@ -352,6 +352,7 @@ const SemanticPortal = props => {
                               expanded={props[perspective.id].facetedSearchHeaderExpanded}
                               updateExpanded={props.updatePerspectiveHeaderExpanded}
                               descriptionHeight={perspective.perspectiveDescHeight}
+                              screenSize={screenSize}
                             />
                             <Grid
                               container spacing={1} className={props[perspective.id].facetedSearchHeaderExpanded
@@ -380,6 +381,7 @@ const SemanticPortal = props => {
                                   showError={props.showError}
                                   defaultActiveFacets={perspective.defaultActiveFacets}
                                   rootUrl={rootUrlWithLang}
+                                  screenSize={screenSize}
                                 />
                               </Grid>
                               <Grid item xs={12} md={9} className={classes.resultsContainer}>
@@ -435,6 +437,7 @@ const SemanticPortal = props => {
                                 expanded={props[perspective.id].instancePageHeaderExpanded}
                                 updateExpanded={props.updatePerspectiveHeaderExpanded}
                                 descriptionHeight={perspective.perspectiveDescHeight}
+                                screenSize={screenSize}
                               />
                               <Grid
                                 container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
@@ -497,6 +500,7 @@ const SemanticPortal = props => {
                           expanded={props[perspective.id].instancePageHeaderExpanded}
                           updateExpanded={props.updatePerspectiveHeaderExpanded}
                           descriptionHeight={perspective.perspectiveDescHeight}
+                          screenSize={screenSize}
                         />
                         <Grid
                           container spacing={1} className={props[perspective.id].instancePageHeaderExpanded

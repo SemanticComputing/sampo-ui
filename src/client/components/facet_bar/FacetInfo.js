@@ -50,7 +50,8 @@ class FacetInfo extends React.Component {
   handleRemoveAllFiltersOnClick = () => this.props.clearAllFacets({ facetClass: this.props.facetClass })
 
   render () {
-    const { classes, facetClass, resultClass, resultCount, someFacetIsFetching } = this.props
+    const { classes, facetClass, resultClass, resultCount, someFacetIsFetching, screenSize } = this.props
+    const mobileMode = screenSize === 'xs' || screenSize === 'sm'
     const { facets } = this.props.facetData
     const uriFilters = {}
     const spatialFilters = {}
@@ -90,7 +91,7 @@ class FacetInfo extends React.Component {
         {this.props.fetchingResultCount
           ? <CircularProgress style={{ color: purple[500] }} thickness={5} size={26} />
           : <Typography variant='h6'>{intl.get('facetBar.results')}: {resultCount} {intl.get(`perspectives.${resultClass}.facetResultsType`)}</Typography>}
-        <Divider className={classes.facetInfoDivider} />
+        {!mobileMode && <Divider className={classes.facetInfoDivider} />}
         {(activeUriFilters ||
           activeSpatialFilters ||
           activeTextFilters ||
@@ -127,7 +128,7 @@ class FacetInfo extends React.Component {
             </div>
             <Divider className={classes.facetInfoDivider} />
           </>}
-        <Typography variant='h6'>{intl.get('facetBar.narrowDownBy')}:</Typography>
+        {!mobileMode && <Typography variant='h6'>{intl.get('facetBar.narrowDownBy')}:</Typography>}
       </div>
     )
   }

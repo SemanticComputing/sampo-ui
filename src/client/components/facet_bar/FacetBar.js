@@ -17,6 +17,7 @@ import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
 import AccordionDetails from '@material-ui/core/AccordionDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
 
 const styles = theme => ({
@@ -283,6 +284,45 @@ class FacetBar extends React.Component {
     )
   }
 
+  renderFacets = ({ classes, facets, someFacetIsFetching }) => {
+    const { screenSize } = this.props
+    if (screenSize === 'xs' || screenSize === 'sm') {
+      return (
+        <Accordion>
+          <AccordionSummary
+            classes={{
+              root: classes.accordionSummaryRoot,
+              content: classes.accordionSummaryContent
+            }}
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls='panel1a-content'
+            id='panel1a-header'
+          >
+            <Typography variant='h6'>{intl.get('facetBar.filters')}</Typography>
+          </AccordionSummary>
+          <AccordionDetails
+            className={classes.accordionDetails}
+          />
+          {facets && Object.keys(facets).map(facetID => {
+            if (facetID !== 'datasetSelector') {
+              return this.renderFacet(facetID, someFacetIsFetching)
+            }
+          })}
+        </Accordion>
+      )
+    } else {
+      return (
+        <>
+          {facets && Object.keys(facets).map(facetID => {
+            if (facetID !== 'datasetSelector') {
+              return this.renderFacet(facetID, someFacetIsFetching)
+            }
+          })}
+        </>
+      )
+    }
+  }
+
   render () {
     const { classes, facetClass, resultClass, resultCount, facetData, facetedSearchMode } = this.props
     const { facets } = facetData
@@ -332,13 +372,10 @@ class FacetBar extends React.Component {
               fetchFacet={this.props.fetchFacet}
               perspectiveID={facetClass}
               clearAllFacets={this.props.clearAllFacets}
+              screenSize={this.props.screenSize}
             />
           </Paper>}
-        {facets && Object.keys(facets).map(facetID => {
-          if (facetID !== 'datasetSelector') {
-            return this.renderFacet(facetID, someFacetIsFetching)
-          }
-        })}
+        {this.renderFacets({ classes, facets, someFacetIsFetching })}
       </div>
     )
   }
@@ -372,7 +409,8 @@ FacetBar.propTypes = {
   defaultActiveFacets: PropTypes.instanceOf(Set).isRequired,
   leafletMap: PropTypes.object,
   showError: PropTypes.func.isRequired,
-  rootUrl: PropTypes.string.isRequired
+  rootUrl: PropTypes.string.isRequired,
+  screenSize: PropTypes.string.isRequired
 }
 
 export const FacetBarComponent = FacetBar
