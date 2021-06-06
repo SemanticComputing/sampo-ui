@@ -2,7 +2,7 @@
 
 A framework for building user interfaces for semantic portals. 
 
-The following portals use this repository as a base:
+The following research prototype portals use this repository as a base:
 
 1. [NameSampo](https://github.com/SemanticComputing/nimisampo.fi)
 2. [Mapping Manuscript Migrations](https://github.com/mapping-manuscript-migrations/mmm-web-app)
@@ -13,7 +13,7 @@ The following portals use this repository as a base:
 7. [HistorySampo](https://github.com/SemanticComputing/historysampo-web-app) 
 8. [LetterSampo](https://github.com/SemanticComputing/lettersampo-web-app)
 9. [Hellerau](https://github.com/SemanticComputing/hellerau-web-app)
-10. ParliamentSampo (TBA)
+10. [ParliamentSampo](https://github.com/SemanticComputing/parliamentsampo-web-app)
 
 An example deployment generated from this repository is published at [sampo-ui.demo.seco.cs.aalto.fi](https://sampo-ui.demo.seco.cs.aalto.fi). It combines perspectives from the Mapping Manuscript Migrations and NameSampo portals, and can be used for testing and as a starting point for developing new portals. 
 
