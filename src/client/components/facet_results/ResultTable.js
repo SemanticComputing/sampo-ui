@@ -21,6 +21,9 @@ import history from '../../History'
 const styles = theme => ({
   tableContainer: props => ({
     overflow: 'auto',
+    '& td, & th': {
+      fontSize: props.layoutConfig.tableFontSize
+    },
     [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
       height: `calc(100% - ${props.layoutConfig.tabHeight + props.layoutConfig.paginationToolbarHeight + 2}px)`
     },

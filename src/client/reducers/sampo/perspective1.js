@@ -56,7 +56,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 250
+      minWidth: 200
     },
     {
       id: 'author',
@@ -65,7 +65,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 200
+      minWidth: 150
     },
     {
       id: 'work',
@@ -74,7 +74,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 250,
+      minWidth: 200,
       priority: 5
     },
     {
@@ -84,7 +84,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 250,
+      minWidth: 180,
       priority: 5
     },
     {
@@ -96,7 +96,7 @@ export const INITIAL_STATE = {
       numberedList: false,
       showSource: true,
       sourceExternalLink: true,
-      minWidth: 200
+      minWidth: 150
     },
     {
       id: 'productionTimespan',
@@ -107,7 +107,7 @@ export const INITIAL_STATE = {
       numberedList: false,
       showSource: true,
       sourceExternalLink: true,
-      minWidth: 250
+      minWidth: 150
     },
     {
       id: 'lastKnownLocation',
@@ -116,7 +116,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 220
+      minWidth: 160
     },
     {
       id: 'note',
@@ -126,7 +126,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 250,
+      minWidth: 220,
       collapsedMaxWords: 12
     },
     {
@@ -145,7 +145,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 450
+      minWidth: 200
     },
     {
       id: 'owner',
@@ -172,7 +172,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 220
+      minWidth: 200
     },
     {
       id: 'transferOfCustodyTimespan',
@@ -181,7 +181,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
-      minWidth: 210
+      minWidth: 200
     },
     {
       id: 'material',

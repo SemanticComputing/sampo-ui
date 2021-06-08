@@ -45,8 +45,8 @@ const theme = createMuiTheme({
     },
     MuiTableCell: {
       sizeSmall: {
-        paddingTop: 2,
-        paddingBottom: 2
+        paddingTop: 0,
+        paddingBottom: 0
       }
     }
   }

@@ -33,6 +33,7 @@ export const layoutConfig = {
   reducedHeightBreakpoint: 'lg',
   tabHeight: 58,
   paginationToolbarHeight: 37,
+  tableFontSize: '0.8rem',
   topBar: {
     showLanguageButton: true,
     feedbackLink: 'https://link.webropolsurveys.com/',
