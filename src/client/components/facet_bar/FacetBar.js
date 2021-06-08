@@ -30,10 +30,14 @@ const styles = theme => ({
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0
   },
-  accordionSummaryRoot: {
+  accordionSummaryRoot: props => ({
     paddingLeft: theme.spacing(1),
-    cursor: 'default !important'
-  },
+    cursor: 'default !important',
+    minHeight: 38,
+    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
+      minHeight: 48
+    }
+  }),
   accordionSummaryContent: {
     margin: 0
   },
@@ -73,7 +77,7 @@ class FacetBar extends React.Component {
     }
   }
 
-  handleExpandButtonOnClick = facetID => () => {
+  handleExpandButtonOnClick = facetID => event => {
     const activeFacets = this.state.activeFacets
     if (activeFacets.has(facetID)) {
       activeFacets.delete(facetID)
@@ -244,6 +248,7 @@ class FacetBar extends React.Component {
       <Accordion
         key={facetID}
         expanded={isActive}
+        // onClick={this.handleExpandButtonOnClick(facetID)}
       >
         <AccordionSummary
           classes={{
@@ -273,6 +278,7 @@ class FacetBar extends React.Component {
             updateFacetOption={this.props.updateFacetOption}
             facetDescription={description}
             rootUrl={this.props.rootUrl}
+            layoutConfig={this.props.layoutConfig}
           />
         </AccordionSummary>
         <AccordionDetails
@@ -282,6 +288,15 @@ class FacetBar extends React.Component {
         </AccordionDetails>
       </Accordion>
     )
+  }
+
+  getTypographyVariant = () => {
+    const { screenSize } = this.props
+    let variant = 'h6'
+    if (screenSize === 'xs' || screenSize === 'sm' || screenSize === 'md') {
+      variant = 'subtitle2'
+    }
+    return variant
   }
 
   renderFacets = ({ classes, facets, someFacetIsFetching }) => {
@@ -298,7 +313,7 @@ class FacetBar extends React.Component {
             aria-controls='panel1a-content'
             id='panel1a-header'
           >
-            <Typography variant='h6'>{intl.get('facetBar.filters')}</Typography>
+            <Typography variant={this.getTypographyVariant()}>{intl.get('facetBar.filters')}</Typography>
           </AccordionSummary>
           <AccordionDetails
             className={classes.accordionDetails}
@@ -375,7 +390,8 @@ class FacetBar extends React.Component {
               screenSize={this.props.screenSize}
             />
           </Paper>}
-        {this.renderFacets({ classes, facets, someFacetIsFetching })}
+        {(facetedSearchMode === 'serverFS' || facetData.results !== null) &&
+          this.renderFacets({ classes, facets, someFacetIsFetching })}
       </div>
     )
   }

@@ -49,6 +49,15 @@ class FacetInfo extends React.Component {
 
   handleRemoveAllFiltersOnClick = () => this.props.clearAllFacets({ facetClass: this.props.facetClass })
 
+  getTypographyVariant = () => {
+    const { screenSize } = this.props
+    let variant = 'h6'
+    if (screenSize === 'xs' || screenSize === 'sm' || screenSize === 'md') {
+      variant = 'subtitle2'
+    }
+    return variant
+  }
+
   render () {
     const { classes, facetClass, resultClass, resultCount, someFacetIsFetching, screenSize } = this.props
     const mobileMode = screenSize === 'xs' || screenSize === 'sm'
@@ -90,7 +99,7 @@ class FacetInfo extends React.Component {
       <div className={classes.root}>
         {this.props.fetchingResultCount
           ? <CircularProgress style={{ color: purple[500] }} thickness={5} size={26} />
-          : <Typography variant='h6'>{intl.get('facetBar.results')}: {resultCount} {intl.get(`perspectives.${resultClass}.facetResultsType`)}</Typography>}
+          : <Typography variant={this.getTypographyVariant()}>{intl.get('facetBar.results')}: {resultCount} {intl.get(`perspectives.${resultClass}.facetResultsType`)}</Typography>}
         {!mobileMode && <Divider className={classes.facetInfoDivider} />}
         {(activeUriFilters ||
           activeSpatialFilters ||
@@ -100,7 +109,7 @@ class FacetInfo extends React.Component {
         ) &&
           <>
             <div className={classes.headerContainer}>
-              <Typography variant='h6'>{intl.get('facetBar.activeFilters')}</Typography>
+              <Typography variant={this.getTypographyVariant()}>{intl.get('facetBar.activeFilters')}</Typography>
               <Button
                 variant='contained'
                 color='secondary'
@@ -128,7 +137,7 @@ class FacetInfo extends React.Component {
             </div>
             <Divider className={classes.facetInfoDivider} />
           </>}
-        {!mobileMode && <Typography variant='h6'>{intl.get('facetBar.narrowDownBy')}:</Typography>}
+        {!mobileMode && <Typography variant={this.getTypographyVariant()}>{intl.get('facetBar.narrowDownBy')}:</Typography>}
       </div>
     )
   }

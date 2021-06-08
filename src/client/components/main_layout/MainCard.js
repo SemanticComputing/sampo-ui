@@ -21,6 +21,10 @@ const useStyles = makeStyles(theme => ({
       justifyContent: 'center'
     },
     height: 228,
+    [theme.breakpoints.down('sm')]: {
+      height: 170,
+      maxWidth: 300
+    },
     [props.perspective.frontPageElement === 'card']: {
       height: 'inherit',
       maxWidth: 269,
@@ -42,10 +46,7 @@ const useStyles = makeStyles(theme => ({
       backgroundPosition: 'center'
     },
     height: '100%',
-    width: '100%',
-    [theme.breakpoints.down('xs')]: {
-      width: '75%'
-    }
+    width: '100%'
   }),
   cardMedia: {
     height: 100

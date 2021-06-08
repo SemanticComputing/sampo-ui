@@ -1,8 +1,8 @@
+import bannerImage from '../../img/main_page/mmm-banner.jpg'
+
 export const rootUrl = ''
 
 export const defaultLocale = 'en'
-
-export const showLanguageButton = true
 
 export const readTranslationsFromGoogleSheets = false
 
@@ -28,4 +28,38 @@ export const SLIDER_DURATION = {
   doubleSpeed: 300
 }
 
-export const feedbackLink = 'https://link.webropolsurveys.com/'
+export const layoutConfig = {
+  hundredPercentHeightBreakPoint: 'md',
+  reducedHeightBreakpoint: 'lg',
+  tabHeight: 58,
+  paginationToolbarHeight: 37,
+  topBar: {
+    showLanguageButton: true,
+    feedbackLink: 'https://link.webropolsurveys.com/',
+    reducedHeight: 44,
+    defaultHeight: 64,
+    mobileMenuBreakpoint: 1360
+  },
+  mainPage: {
+    bannerBackround: `linear-gradient( rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45) ), url(${bannerImage})`,
+    bannerDefaultHeight: 300,
+    bannerReducedHeight: 220
+  },
+  infoHeader: {
+    default: {
+      height: 49,
+      expandedContentHeight: 160,
+      headingVariant: 'h4',
+      infoIconFontSize: 40
+    },
+    reducedHeight: {
+      height: 40,
+      expandedContentHeight: 100,
+      headingVariant: 'h6',
+      infoIconFontSize: 32
+    }
+  },
+  footer: {
+    height: 64
+  }
+}

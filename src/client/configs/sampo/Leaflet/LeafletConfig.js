@@ -215,6 +215,9 @@ const createArchealogicalSiteColor = feature => {
 }
 
 /*
+  FHA spatial data general documentation:
+    https://www.museovirasto.fi/en/services-and-guidelines/data-systems/kulttuuriympaeristoen-tietojaerjestelmae/kulttuuriympaeristoen-paikkatietoaineistot
+
   FHA WFS services:
     https://kartta.nba.fi/arcgis/rest/services/WFS/MV_KulttuuriymparistoSuojellut/MapServer
     https://kartta.nba.fi/arcgis/rest/services/WFS/MV_Kulttuuriymparisto/MapServer/

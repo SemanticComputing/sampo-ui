@@ -5,6 +5,10 @@ import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
 import ResultTable from '../../facet_results/ResultTable'
 import Export from '../../facet_results/Export'
 import LeafletMap from '../../facet_results/LeafletMap'
+import {
+  MAPBOX_ACCESS_TOKEN,
+  MAPBOX_STYLE
+} from '../../../configs/sampo/GeneralConfig'
 import { layerConfigs, createPopUpContentMMM } from '../../../configs/sampo/Leaflet/LeafletConfig'
 
 const Perspective3 = props => {
@@ -37,12 +41,15 @@ const Perspective3 = props => {
             sortResults={props.sortResults}
             routeProps={routeProps}
             rootUrl={rootUrl}
+            layoutConfig={props.layoutConfig}
           />}
       />
       <Route
         path={`${rootUrl}/${perspective.id}/faceted-search/map`}
         render={() =>
           <LeafletMap
+            mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
+            mapBoxStyle={MAPBOX_STYLE}
             center={props.perspectiveState.maps.placesEvents.center}
             zoom={props.perspectiveState.maps.placesEvents.zoom}
             results={props.perspectiveState.results}
@@ -71,6 +78,7 @@ const Perspective3 = props => {
             layerControlExpanded={layerControlExpanded}
             layerConfigs={layerConfigs}
             infoHeaderExpanded={props.perspectiveState.facetedSearchHeaderExpanded}
+            layoutConfig={props.layoutConfig}
           />}
       />
       <Route
@@ -83,6 +91,7 @@ const Perspective3 = props => {
             pageType='facetResults'
             fetchPaginatedResults={props.fetchPaginatedResults}
             updatePage={props.updatePage}
+            layoutConfig={props.layoutConfig}
           />}
       />
     </>
@@ -177,7 +186,8 @@ Perspective3.propTypes = {
   /**
      * Root url of the application.
      */
-  rootUrl: PropTypes.string.isRequired
+  rootUrl: PropTypes.string.isRequired,
+  layoutConfig: PropTypes.object.isRequired
 }
 
 export default Perspective3

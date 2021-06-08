@@ -21,11 +21,12 @@ const styles = () => ({
     width: '100%',
     height: '100%'
   },
-  content: {
+  content: props => ({
+    padding: 0,
     width: '100%',
-    height: 'calc(100% - 72px)',
+    height: `calc(100% - ${props.layoutConfig.tabHeight}px)`,
     overflow: 'auto'
-  },
+  }),
   spinnerContainer: {
     display: 'flex',
     width: '100%',
@@ -151,7 +152,7 @@ class InstanceHomePage extends React.Component {
   }
 
   render = () => {
-    const { classes, perspectiveState, perspectiveConfig, rootUrl, screenSize } = this.props
+    const { classes, perspectiveState, perspectiveConfig, rootUrl, screenSize, layoutConfig } = this.props
     const { instanceTableData, fetching } = perspectiveState
     const resultClass = perspectiveConfig.id
     const hasTableData = this.hasTableData()
@@ -161,6 +162,7 @@ class InstanceHomePage extends React.Component {
           routeProps={this.props.routeProps}
           tabs={perspectiveConfig.instancePageTabs}
           screenSize={screenSize}
+          layoutConfig={layoutConfig}
         />
         <Paper square className={classes.content}>
           {fetching && !hasTableData &&
@@ -188,6 +190,7 @@ class InstanceHomePage extends React.Component {
                     data={instanceTableData}
                     properties={this.getVisibleRows(perspectiveState.properties)}
                     screenSize={screenSize}
+                    layoutConfig={layoutConfig}
                   />}
               />
               <Route
@@ -206,6 +209,7 @@ class InstanceHomePage extends React.Component {
                     optimize={1.2}
                     style={cytoscapeStyle}
                     layout={coseLayout}
+                    layoutConfig={layoutConfig}
                   />}
               />
               <Route
@@ -224,6 +228,7 @@ class InstanceHomePage extends React.Component {
                     style={cytoscapeStyle}
                     layout={coseLayout}
                     preprocess={preprocess}
+                    layoutConfig={layoutConfig}
                   />}
               />
               <Route
@@ -241,6 +246,7 @@ class InstanceHomePage extends React.Component {
                     xaxisTitle='Year'
                     yaxisTitle='Number of letters'
                     resultClass='emloSentReceived'
+                    layoutConfig={layoutConfig}
                   />}
               />
               <Route
@@ -261,6 +267,7 @@ class InstanceHomePage extends React.Component {
                     clearGeoJSONLayers={this.props.clearGeoJSONLayers}
                     fetchByURI={this.props.fetchByURI}
                     showError={this.props.showError}
+                    layoutConfig={layoutConfig}
                   />}
               />
               <Route
@@ -270,6 +277,7 @@ class InstanceHomePage extends React.Component {
                     sparqlQuery={this.props.sparqlQuery}
                     pageType='instancePage'
                     id={instanceTableData.id}
+                    layoutConfig={layoutConfig}
                   />}
               />
             </>}
@@ -359,7 +367,8 @@ InstanceHomePage.propTypes = {
   /**
     * Root url of the application.
     */
-  rootUrl: PropTypes.string.isRequired
+  rootUrl: PropTypes.string.isRequired,
+  layoutConfig: PropTypes.object.isRequired
 }
 
 export const InstanceHomePageComponent = InstanceHomePage

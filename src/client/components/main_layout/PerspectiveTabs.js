@@ -7,12 +7,19 @@ import { Link } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper'
 import intl from 'react-intl-universal'
 
-const styles = () => ({
+const styles = theme => ({
   root: {
     flexGrow: 1,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0
-  }
+  },
+  tabRoot: {
+    paddingTop: theme.spacing(0.5),
+    paddingBottom: theme.spacing(0.5)
+  },
+  tabLabelIcon: props => ({
+    minHeight: props.layoutConfig.tabHeight
+  })
 })
 
 /**
@@ -65,6 +72,10 @@ class PerspectiveTabs extends React.Component {
         >
           {tabs.map(tab =>
             <Tab
+              classes={{
+                root: classes.tabRoot,
+                labelIcon: classes.tabLabelIcon
+              }}
               key={tab.id}
               icon={tab.icon}
               label={intl.get(`tabs.${tab.id}`)}
@@ -83,7 +94,8 @@ PerspectiveTabs.propTypes = {
   classes: PropTypes.object.isRequired,
   routeProps: PropTypes.object.isRequired,
   tabs: PropTypes.array.isRequired,
-  screenSize: PropTypes.string.isRequired
+  screenSize: PropTypes.string.isRequired,
+  layoutConfig: PropTypes.object.isRequired
 }
 
 export const PerspectiveTabsComponent = PerspectiveTabs

@@ -9,11 +9,14 @@ import ResultInfo from '../../../facet_results/ResultInfo'
 import VirtualizedTable from '../../../facet_results/VirtualizedTable'
 import Pie from '../../../facet_results/Pie.js'
 import CSVButton from '../../../facet_results/CSVButton'
-import Footer from '../Footer'
+import {
+  MAPBOX_ACCESS_TOKEN,
+  MAPBOX_STYLE
+} from '../../../../configs/sampo/GeneralConfig'
 import { createPopUpContentNameSampo, layerConfigs } from '../../../../configs/sampo/Leaflet/LeafletConfig'
 
 const ClientFSPerspective = props => {
-  const { rootUrl, perspective, screenSize, clientFSState } = props
+  const { rootUrl, perspective, screenSize, clientFSState, layoutConfig } = props
   const { maps } = clientFSState
   const { clientFSMapClusters, clientFSMapMarkers } = maps
   // console.log(clientFSMapClusters)
@@ -26,6 +29,7 @@ const ClientFSPerspective = props => {
         routeProps={props.routeProps}
         tabs={perspective.tabs}
         screenSize={props.screenSize}
+        layoutConfig={layoutConfig}
       />
       <Route
         exact path={`${rootUrl}/${perspective.id}/federated-search`}
@@ -39,12 +43,15 @@ const ClientFSPerspective = props => {
             clientFSState={props.clientFSState}
             clientFSSortResults={props.clientFSSortResults}
             perspectiveID={perspective.id}
+            layoutConfig={layoutConfig}
           />}
       />
       <Route
         path={`${rootUrl}/${perspective.id}/federated-search/map_clusters`}
         render={() =>
           <LeafletMap
+            mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
+            mapBoxStyle={MAPBOX_STYLE}
             center={clientFSMapClusters.center}
             zoom={clientFSMapClusters.zoom}
             results={props.clientFSResults}
@@ -65,6 +72,7 @@ const ClientFSPerspective = props => {
             layerControlExpanded={layerControlExpanded}
             layerConfigs={layerConfigs}
             updateMapBounds={props.updateMapBounds}
+            layoutConfig={layoutConfig}
           />}
       />
       <Route
@@ -75,6 +83,8 @@ const ClientFSPerspective = props => {
           } else {
             return (
               <LeafletMap
+                mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
+                mapBoxStyle={MAPBOX_STYLE}
                 center={clientFSMapMarkers.center}
                 zoom={clientFSMapMarkers.zoom}
                 results={props.clientFSResults}
@@ -95,6 +105,7 @@ const ClientFSPerspective = props => {
                 layerControlExpanded={layerControlExpanded}
                 layerConfigs={layerConfigs}
                 updateMapBounds={props.updateMapBounds}
+                layoutConfig={layoutConfig}
               />
             )
           }
@@ -105,17 +116,17 @@ const ClientFSPerspective = props => {
         render={() =>
           <Pie
             data={props.clientFSResults}
-            groupBy={props.clientFS.groupBy}
-            groupByLabel={props.clientFS.groupByLabel}
-            query={props.clientFS.query}
+            groupBy={props.clientFSState.groupBy}
+            groupByLabel={props.clientFSState.groupByLabel}
+            query={props.clientFSState.query}
+            layoutConfig={layoutConfig}
           />}
       />
       <Route
         path={`${rootUrl}/${perspective.id}/federated-search/download`}
         render={() =>
-          <CSVButton results={props.clientFSResults} />}
+          <CSVButton results={props.clientFSResults} layoutConfig={layoutConfig} />}
       />
-      <Footer />
     </>
   )
 }

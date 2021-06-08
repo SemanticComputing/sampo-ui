@@ -5,32 +5,33 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import MainCard from './MainCard'
-import bannerImage from '../../img/main_page/mmm-banner.jpg'
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    marginBottom: theme.spacing(1),
-    [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 72px)',
-      overflow: 'auto'
-    }
-  },
-  banner: {
-    background: `linear-gradient( rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45) ), url(${bannerImage})`,
+  root: props => ({
+    [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
+      overflow: 'auto',
+      height: `calc(100% - ${props.layoutConfig.topBar.reducedHeight + props.layoutConfig.footer.height + theme.spacing(3.5)}px)`
+    },
+    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
+      overflow: 'auto',
+      height: `calc(100% - ${props.layoutConfig.topBar.defaultHeight + props.layoutConfig.footer.height + theme.spacing(3.5)}px)`
+    },
+    marginBottom: theme.spacing(5)
+  }),
+  banner: props => ({
+    background: props.layoutConfig.mainPage.bannerBackround,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    height: 220,
+    height: props.layoutConfig.mainPage.bannerReducedHeight,
     [theme.breakpoints.up('xl')]: {
-      height: 300
+      height: props.layoutConfig.mainPage.bannerDefaultHeight
     },
-    width: '100%',
     boxShadow: '0 -15px 15px 0px #bdbdbd inset',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
-  },
+  }),
   bannerContent: {
     display: 'inline-block',
     color: '#fff'
@@ -44,9 +45,8 @@ const useStyles = makeStyles(theme => ({
     }
   },
   layout: {
-    width: 'auto',
-    marginLeft: theme.spacing(3),
-    marginRight: theme.spacing(3),
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     [theme.breakpoints.up(800 + theme.spacing(6))]: {
       width: 800,
       marginLeft: 'auto',

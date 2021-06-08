@@ -20,12 +20,12 @@ import { purple } from '@material-ui/core/colors'
 */
 
 const styles = theme => ({
-  root: {
+  root: props => ({
     height: 400,
-    [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 72px)'
+    [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
+      height: `calc(100% - ${props.layoutConfig.tabHeight}px)`
     }
-  },
+  }),
   spinner: {
     height: 40,
     width: 40,
@@ -298,7 +298,8 @@ Deck.propTypes = {
   legendTitle: PropTypes.string,
   showMoreText: PropTypes.string,
   listHeadingSingleInstance: PropTypes.string,
-  listHeadingMultipleInstances: PropTypes.string
+  listHeadingMultipleInstances: PropTypes.string,
+  layoutConfig: PropTypes.object.isRequired
 }
 
 export const DeckComponent = Deck

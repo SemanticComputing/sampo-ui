@@ -21,6 +21,18 @@ const theme = createMuiTheme({
         }
       }
     },
+    MuiAccordionSummary: {
+      content: {
+        '&$expanded': {
+          marginTop: 4
+        }
+      },
+      expandIcon: {
+        '&$expanded': {
+          marginTop: -16
+        }
+      }
+    },
     MuiButton: {
       endIcon: {
         marginLeft: 0

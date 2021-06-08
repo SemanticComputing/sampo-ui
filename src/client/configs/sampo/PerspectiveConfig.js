@@ -19,7 +19,6 @@ export const perspectiveConfig = [
   {
     id: 'perspective1',
     frontPageImage: manuscriptsImage,
-    perspectiveDescHeight: 160,
     defaultActiveFacets: new Set([]),
     tabs: [
       {
@@ -89,7 +88,6 @@ export const perspectiveConfig = [
   {
     id: 'perspective2',
     frontPageImage: worksImage,
-    perspectiveDescHeight: 160,
     defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {
@@ -119,7 +117,6 @@ export const perspectiveConfig = [
   {
     id: 'perspective3',
     frontPageImage: eventsImage,
-    perspectiveDescHeight: 160,
     defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {
@@ -157,7 +154,6 @@ export const perspectiveConfig = [
     id: 'finds',
     isHidden: true,
     frontPageImage: null,
-    perspectiveDescHeight: 160,
     defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {
@@ -198,7 +194,7 @@ export const perspectiveConfig = [
     id: 'emloActors',
     isHidden: true,
     frontPageImage: null,
-    perspectiveDescHeight: 160,
+
     defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {
@@ -244,7 +240,6 @@ export const perspectiveConfig = [
     id: 'emloLetters',
     isHidden: true,
     frontPageImage: null,
-    perspectiveDescHeight: 160,
     defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {
@@ -285,7 +280,6 @@ export const perspectiveConfig = [
     id: 'emloPlaces',
     isHidden: true,
     frontPageImage: null,
-    perspectiveDescHeight: 160,
     defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {
@@ -316,7 +310,6 @@ export const perspectiveConfig = [
     id: 'hellerau',
     isHidden: true,
     frontPageImage: null,
-    perspectiveDescHeight: 160,
     defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {

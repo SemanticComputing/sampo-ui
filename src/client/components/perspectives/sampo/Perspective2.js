@@ -13,6 +13,7 @@ const Perspective2 = props => {
         routeProps={props.routeProps}
         tabs={props.perspective.tabs}
         screenSize={props.screenSize}
+        layoutConfig={props.layoutConfig}
       />
       <Route
         exact path={`${rootUrl}/${perspective.id}/faceted-search`}
@@ -32,6 +33,7 @@ const Perspective2 = props => {
             sortResults={props.sortResults}
             routeProps={routeProps}
             rootUrl={rootUrl}
+            layoutConfig={props.layoutConfig}
           />}
       />
       <Route
@@ -44,6 +46,7 @@ const Perspective2 = props => {
             pageType='facetResults'
             fetchPaginatedResults={props.fetchPaginatedResults}
             updatePage={props.updatePage}
+            layoutConfig={props.layoutConfig}
           />}
       />
     </>
@@ -138,7 +141,8 @@ Perspective2.propTypes = {
   /**
    * Root url of the application.
    */
-  rootUrl: PropTypes.string.isRequired
+  rootUrl: PropTypes.string.isRequired,
+  layoutConfig: PropTypes.object.isRequired
 }
 
 export default Perspective2

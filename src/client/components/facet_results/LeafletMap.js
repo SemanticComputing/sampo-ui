@@ -8,7 +8,6 @@ import buffer from '@turf/buffer'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { purple } from '@material-ui/core/colors'
 import history from '../../History'
-import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../configs/sampo/GeneralConfig'
 // import { apiUrl } from '../../epics'
 import 'leaflet/dist/leaflet.css' // Official Leaflet styles
 
@@ -41,27 +40,27 @@ import markerIconOrange from '../../img/markers/marker-icon-orange.png'
 import markerIconYellow from '../../img/markers/marker-icon-yellow.png'
 
 const styles = theme => ({
-  leafletContainerfacetResults: {
+  leafletContainerfacetResults: props => ({
     height: 400,
-    [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 72px)'
+    [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
+      height: `calc(100% - ${props.layoutConfig.tabHeight}px)`
     },
     position: 'relative'
-  },
-  leafletContainerclientFSResults: {
+  }),
+  leafletContainerclientFSResults: props => ({
     height: 400,
-    [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 72px)'
+    [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
+      height: `calc(100% - ${props.layoutConfig.tabHeight}px)`
     },
     position: 'relative'
-  },
-  leafletContainerinstancePage: {
+  }),
+  leafletContainerinstancePage: props => ({
     height: 400,
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
       height: '100%'
     },
     position: 'relative'
-  },
+  }),
   leafletContainermobileMapPage: {
     height: '100%',
     position: 'relative'
@@ -273,7 +272,7 @@ class LeafletMap extends React.Component {
 
   initMap = () => {
     // Base layer(s)
-    const mapboxBaseLayer = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${MAPBOX_STYLE}/tiles/{z}/{x}/{y}?access_token=${MAPBOX_ACCESS_TOKEN}`, {
+    const mapboxBaseLayer = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${this.props.mapBoxStyle}/tiles/{z}/{x}/{y}?access_token=${this.props.mapBoxAccessToken}`, {
       attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       tileSize: 512,
       zoomOffset: -1
@@ -341,7 +340,7 @@ class LeafletMap extends React.Component {
     // initialize layers from external sources
     if (this.props.showExternalLayers) {
       const basemaps = {
-        [intl.get(`leafletMap.basemaps.mapbox.${MAPBOX_STYLE}`)]: mapboxBaseLayer
+        [intl.get(`leafletMap.basemaps.mapbox.${this.props.mapBoxStyle}`)]: mapboxBaseLayer
         // [intl.get('leafletMap.basemaps.backgroundMapNLS')]: backgroundMapNLS,
         // [intl.get('leafletMap.basemaps.topographicalMapNLS')]: topographicalMapNLS,
         // [intl.get('leafletMap.basemaps.airMapNLS')]: airMapNLS
@@ -1015,7 +1014,9 @@ LeafletMap.propTypes = {
   facetedSearchMode: PropTypes.string,
   container: PropTypes.string,
   showError: PropTypes.func,
-  uri: PropTypes.string
+  uri: PropTypes.string,
+  mapBoxStyle: PropTypes.string,
+  mapBoxAccessToken: PropTypes.string
 }
 
 export const LeafletMapComponent = LeafletMap

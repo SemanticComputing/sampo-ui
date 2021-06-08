@@ -1,20 +1,15 @@
-html {
-    height: 100%;
+body {
+    margin: 0;
 }
 
-body {
-    height: 100%;
-    margin: 0;
-    min-width: 300px;
+@media screen and (min-width: 960px) {
+    html, body, #root, #app  {
+        height: 100%;
+    }
 }
 
 fieldset, .opacity-slider {
     outline: 0 !important;
-}
-
-#root, #app {
-    height: 100%;
-    background-color: #bdbdbd;
 }
 
 a, a:visited, a:hover, a:active {

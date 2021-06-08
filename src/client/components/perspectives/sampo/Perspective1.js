@@ -31,6 +31,7 @@ const Perspective1 = props => {
         routeProps={props.routeProps}
         tabs={props.perspective.tabs}
         screenSize={props.screenSize}
+        layoutConfig={props.layoutConfig}
       />
       <Route
         exact path={`${rootUrl}/${perspective.id}/faceted-search`}
@@ -50,12 +51,15 @@ const Perspective1 = props => {
             sortResults={props.sortResults}
             routeProps={routeProps}
             rootUrl={rootUrl}
+            layoutConfig={props.layoutConfig}
           />}
       />
       <Route
         path={`${rootUrl}/${perspective.id}/faceted-search/production_places`}
         render={() =>
           <LeafletMap
+            mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
+            mapBoxStyle={MAPBOX_STYLE}
             center={props.perspectiveState.maps.placesMsProduced.center}
             zoom={props.perspectiveState.maps.placesMsProduced.zoom}
             // center={[60.187, 24.821]}
@@ -88,6 +92,7 @@ const Perspective1 = props => {
             // customMapControl
             layerConfigs={layerConfigs}
             infoHeaderExpanded={props.perspectiveState.facetedSearchHeaderExpanded}
+            layoutConfig={props.layoutConfig}
           // activeLayers={[
           // 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_alue',
           // 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_piste',
@@ -112,12 +117,15 @@ const Perspective1 = props => {
             mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
             mapBoxStyle={MAPBOX_STYLE}
             updateMapBounds={props.updateMapBounds}
+            layoutConfig={props.layoutConfig}
           />}
       />
       <Route
         path={`${rootUrl}/${perspective.id}/faceted-search/last_known_locations`}
         render={() =>
           <LeafletMap
+            mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
+            mapBoxStyle={MAPBOX_STYLE}
             center={props.perspectiveState.maps.lastKnownLocations.center}
             zoom={props.perspectiveState.maps.lastKnownLocations.zoom}
             results={props.perspectiveState.results}
@@ -147,6 +155,7 @@ const Perspective1 = props => {
             layerControlExpanded={layerControlExpanded}
             layerConfigs={layerConfigs}
             infoHeaderExpanded={props.perspectiveState.facetedSearchHeaderExpanded}
+            layoutConfig={props.layoutConfig}
           />}
       />
       <Route
@@ -180,6 +189,7 @@ const Perspective1 = props => {
             showTooltips
             mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
             mapBoxStyle={MAPBOX_STYLE}
+            layoutConfig={props.layoutConfig}
           />}
       />
       <Route
@@ -202,6 +212,7 @@ const Perspective1 = props => {
             stroke={{ width: 2 }}
             resultClass='productionTimespanLineChart'
             facetClass='perspective1'
+            layoutConfig={props.layoutConfig}
           />}
       />
       <Route
@@ -237,6 +248,7 @@ const Perspective1 = props => {
             }}
             resultClass='eventLineChart'
             facetClass='perspective1'
+            layoutConfig={props.layoutConfig}
           />}
       />
       <Route
@@ -256,6 +268,7 @@ const Perspective1 = props => {
             layout={coseLayout}
             preprocess={preprocess}
             pageType='facetResults'
+            layoutConfig={props.layoutConfig}
           />}
       />
       <Route
@@ -268,6 +281,7 @@ const Perspective1 = props => {
             pageType='facetResults'
             fetchPaginatedResults={props.fetchPaginatedResults}
             updatePage={props.updatePage}
+            layoutConfig={props.layoutConfig}
           />}
       />
     </>
@@ -362,7 +376,8 @@ Perspective1.propTypes = {
   /**
     * Root url of the application.
     */
-  rootUrl: PropTypes.string.isRequired
+  rootUrl: PropTypes.string.isRequired,
+  layoutConfig: PropTypes.object.isRequired
 }
 
 export default Perspective1

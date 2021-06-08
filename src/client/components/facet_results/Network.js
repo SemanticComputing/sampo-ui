@@ -130,7 +130,7 @@ class Network extends React.Component {
   }
 
   render = () => {
-    const { fetching, pageType } = this.props
+    const { fetching, pageType, layoutConfig } = this.props
     const rootStyle = {
       width: '100%',
       backgroundColor: '#fff',
@@ -140,7 +140,7 @@ class Network extends React.Component {
       rootStyle.height = 'calc(100% - 1px)'
     }
     if (pageType === 'facetResults') {
-      rootStyle.height = 'calc(100% - 72px)'
+      rootStyle.height = `calc(100% - ${layoutConfig.tabHeight + 1}px)`
     }
     const spinnerContainerStyle = {
       display: 'flex',
@@ -176,7 +176,8 @@ Network.propTypes = {
   layout: PropTypes.object,
   preprocess: PropTypes.func,
   fetching: PropTypes.bool,
-  fitLayout: PropTypes.bool
+  fitLayout: PropTypes.bool,
+  layoutConfig: PropTypes.object.isRequired
 }
 
 export default Network

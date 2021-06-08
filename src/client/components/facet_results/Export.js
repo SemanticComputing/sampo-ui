@@ -8,13 +8,15 @@ import querystring from 'querystring'
 import intl from 'react-intl-universal'
 
 const styles = theme => ({
-  root: {
-    height: 'calc(100% - 72px)',
-    width: '100%',
+  root: props => ({
+    minHeight: 400,
+    [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
+      height: `calc(100% - ${props.layoutConfig.tabHeight}px)`
+    },
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
-  },
+  }),
   link: {
     textDecoration: 'none'
   },

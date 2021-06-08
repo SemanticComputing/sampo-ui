@@ -2,28 +2,22 @@ import React from 'react'
 import Paper from '@material-ui/core/Paper'
 import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import aaltoLogo from '../../../img/logos/Aalto_SCI_EN_13_BLACK_2_cropped.png'
 import hyLogo from '../../../img/logos/university-of-helsinki-logo-transparent-black.png'
 import heldigLogo from '../../../img/logos/heldig-logo-transparent-black.png'
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    position: 'absolute',
-    [theme.breakpoints.down('sm')]: {
-      display: 'none'
-    },
-    bottom: 0,
-    left: 0,
+    display: 'block',
     boxShadow: '0 -20px 20px -20px #333',
-    width: '100%',
     borderRadius: 0
   },
-  layout: {
-    width: 'auto',
-    // height: 115, for two row footer
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
+  layout: props => ({
+    [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
+      height: props.layoutConfig.footer.height
+      // height: 115, for two row footer
+    },
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
     [theme.breakpoints.up(1500 + theme.spacing(6))]: {
@@ -31,7 +25,7 @@ const styles = theme => ({
       marginLeft: 'auto',
       marginRight: 'auto'
     }
-  },
+  }),
   logoContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -49,17 +43,17 @@ const styles = theme => ({
   heldigLogo: {
     height: 33
   }
-})
+}))
 
 /**
  * A component for creating a footer. The logos are imported inside this component.
  */
 const Footer = props => {
-  const { classes } = props
+  const classes = useStyles(props)
   return (
     <Paper className={classes.root}>
-      <Grid container className={classes.layout}>
-        <Grid container spacing={3} item xs={12}>
+      <div className={classes.layout}>
+        <Grid container spacing={3}>
           <Grid item xs className={classes.logoContainer}>
             <a href='https://www.aalto.fi/en/school-of-science' target='_blank' rel='noopener noreferrer'>
               <img className={classes.aaltoLogo} src={aaltoLogo} alt='logo' />
@@ -76,18 +70,13 @@ const Footer = props => {
             </a>
           </Grid>
         </Grid>
-      </Grid>
+      </div>
     </Paper>
   )
 }
 
 Footer.propTypes = {
-  /**
-   * Material-UI styles.
-   */
-  classes: PropTypes.object.isRequired
+  layoutConfig: PropTypes.object.isRequired
 }
 
-export const FooterComponent = Footer
-
-export default withStyles(styles)(Footer)
+export default Footer

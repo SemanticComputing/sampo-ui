@@ -19,31 +19,32 @@ import ResultTablePaginationActions from './ResultTablePaginationActions'
 import history from '../../History'
 
 const styles = theme => ({
-  tableContainer: {
+  tableContainer: props => ({
     overflow: 'auto',
-    width: '100%',
-    height: 'auto',
-    [theme.breakpoints.up('md')]: {
-      height: 'calc(100% - 126px)'
+    [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
+      height: `calc(100% - ${props.layoutConfig.tabHeight + props.layoutConfig.paginationToolbarHeight + 2}px)`
     },
     backgroundColor: theme.palette.background.paper,
     borderTop: '1px solid rgba(224, 224, 224, 1);'
-  },
+  }),
   paginationRoot: {
     display: 'flex',
     backgroundColor: '#fff',
-    borderTop: '1px solid rgba(224, 224, 224, 1);'
+    borderTop: '1px solid rgba(224, 224, 224, 1);',
+    alignItems: 'center'
   },
   paginationCaption: {
     minWidth: 110
   },
-  paginationToolbar: {
-    [theme.breakpoints.down('xs')]: {
+  paginationToolbar: props => ({
+    '& p': { fontSize: '0.75rem' },
+    minHeight: props.layoutConfig.paginationToolbarHeight,
+    [theme.breakpoints.down(480)]: {
       display: 'flex',
       flexWrap: 'wrap',
-      height: 100
+      height: 60
     }
-  },
+  }),
   progressContainer: {
     width: '100%',
     height: 'calc(100% - 72px)',

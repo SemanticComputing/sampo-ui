@@ -12,6 +12,9 @@ import Typography from '@material-ui/core/Typography'
 import GeneralDialog from '../main_layout/GeneralDialog'
 import InstaceList from '../main_layout/InstanceList'
 
+const defaultPadding = 32
+const smallScreenPadding = 8
+
 const styles = theme => ({
   selectContainer: {
     display: 'flex',
@@ -139,7 +142,7 @@ class ApexChart extends React.Component {
     if (this.isSmallScreen()) {
       return 'auto'
     }
-    const rootHeightReduction = 136 // tabs + padding
+    const rootHeightReduction = this.props.layoutConfig.tabHeight + 2 * defaultPadding + 1
     return `calc(100% - ${rootHeightReduction}px)`
   }
 
@@ -172,7 +175,7 @@ class ApexChart extends React.Component {
       height: '100%'
     }
     if (pageType === 'facetResults' || pageType === 'instancePage') {
-      const padding = this.isSmallScreen() ? 8 : 32
+      const padding = this.isSmallScreen() ? smallScreenPadding : defaultPadding
       rootStyle = {
         height: this.getHeightForRootContainer(),
         width: `calc(100% - ${2 * padding}px)`,
@@ -269,7 +272,8 @@ ApexChart.propTypes = {
   uri: PropTypes.string,
   dropdownForResultClasses: PropTypes.bool,
   facetResultsType: PropTypes.string,
-  resultClasses: PropTypes.array
+  resultClasses: PropTypes.array,
+  layoutConfig: PropTypes.object.isRequired
 }
 
 export const ApexChartComponent = ApexChart
