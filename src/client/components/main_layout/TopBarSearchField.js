@@ -16,9 +16,10 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25)
     },
-    marginRight: theme.spacing(3),
-    marginLeft: theme.spacing(2.5),
+    // marginRight: theme.spacing(3),
+    // marginLeft: theme.spacing(2.5),
     width: '100%',
+    maxWidth: 300,
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),
       width: 'auto'

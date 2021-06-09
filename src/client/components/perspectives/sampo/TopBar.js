@@ -218,7 +218,9 @@ const TopBar = props => {
       <AppBar position='static'>
         <Toolbar className={classes.topBarToolbar}>
           <Button component={AdapterLink} to='/'>
-            <Typography className={classes.homeButtonText} variant='h6'>{intl.get('appTitle.short')}</Typography>
+            <Typography className={classes.homeButtonText} variant='h6'>
+              {props.xsScreen ? intl.get('appTitle.mobile') : intl.get('appTitle.short')}
+            </Typography>
           </Button>
           {!clientFSMode &&
             <TopBarSearchField
