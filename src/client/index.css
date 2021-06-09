@@ -1,11 +1,9 @@
-body {
-    margin: 0;
+html, body, #root, #app  {
+    height: 100%;
 }
 
-@media screen and (min-width: 960px) {
-    html, body, #root, #app  {
-        height: 100%;
-    }
+body {
+    margin: 0;
 }
 
 fieldset, .opacity-slider {
