@@ -45,12 +45,6 @@ const useStyles = makeStyles(theme => ({
       display: 'none'
     }
   }),
-  homeButtonText: {
-    whiteSpace: 'nowrap',
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '1rem'
-    }
-  },
   appBarButton: {
     whiteSpace: 'nowrap',
     color: 'white !important',
@@ -69,7 +63,38 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down(props.layoutConfig.topBar.mobileMenuBreakpoint)]: {
       display: 'none'
     }
-  })
+  }),
+  secoLogoImage: props => ({
+    height: 32,
+    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
+      height: 50
+    }
+  }),
+  mainLogo: props => ({
+    height: 23,
+    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
+      height: 40
+    },
+    marginRight: theme.spacing(1)
+  }),
+  mainLogoButtonRoot: {
+    paddingLeft: 0,
+    [theme.breakpoints.down('xs')]: {
+      minWidth: 48
+    }
+  },
+  mainLogoButtonLabel: {
+    justifyContent: 'left'
+  },
+  mainLogoTypography: {
+    whiteSpace: 'nowrap',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '1rem'
+    }
+    // [theme.breakpoints.down('xs')]: {
+    //     display: 'none'
+    // }
+  }
 }))
 
 /**
@@ -217,8 +242,15 @@ const TopBar = props => {
       <Typography />
       <AppBar position='static'>
         <Toolbar className={classes.topBarToolbar}>
-          <Button component={AdapterLink} to='/'>
-            <Typography className={classes.homeButtonText} variant='h6'>
+          <Button
+            component={AdapterLink} to='/'
+            classes={{
+              root: classes.mainLogoButtonRoot,
+              label: classes.mainLogoButtonLabel
+            }}
+          >
+            {/* <img className={classes.mainLogo} src={} /> */}
+            <Typography className={classes.mainLogoTypography} variant='h6'>
               {props.xsScreen ? intl.get('appTitle.mobile') : intl.get('appTitle.short')}
             </Typography>
           </Button>
@@ -262,7 +294,7 @@ const TopBar = props => {
             target='_blank'
             rel='noopener noreferrer'
           >
-            <Button><img src={secoLogo} /></Button>
+            <Button><img className={classes.secoLogoImage} src={secoLogo} /></Button>
           </a>
           <div className={classes.sectionMobile}>
             {props.layoutConfig.topBar.showLanguageButton &&

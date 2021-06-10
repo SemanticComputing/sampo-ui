@@ -22,9 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
   summary: props => ({
     paddingLeft: theme.spacing(1),
-    [theme.breakpoints.down(props.layoutConfig.reducedHeightBreakpoint)]: {
-      minHeight: `${props.layoutConfig.infoHeader.reducedHeight.height}px !important`
-    },
+    minHeight: `${props.layoutConfig.infoHeader.reducedHeight.height}px !important`,
     [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
       minHeight: `${props.layoutConfig.infoHeader.default.height}px !important`
     }
@@ -99,7 +97,7 @@ const InfoHeader = props => {
   const getHeadingVariant = () => {
     const { screenSize } = props
     let variant = props.layoutConfig.infoHeader.default.headingVariant
-    if (screenSize === 'xs' || screenSize === 'sm' || screenSize === 'md') {
+    if (screenSize === 'xs' || screenSize === 'sm' || screenSize === 'md' || screenSize === 'lg') {
       variant = props.layoutConfig.infoHeader.reducedHeight.headingVariant
     }
     return variant

@@ -1,6 +1,6 @@
 import React from 'react'
 import Main from './Main'
-import { perspectiveConfig } from '../../configs/sampo/PerspectiveConfig'
+import { perspectiveConfig } from '../../../configs/sampo/PerspectiveConfig'
 
 export default {
   component: Main,

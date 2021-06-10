@@ -30,7 +30,7 @@ export const SLIDER_DURATION = {
 
 export const layoutConfig = {
   hundredPercentHeightBreakPoint: 'md',
-  reducedHeightBreakpoint: 'lg',
+  reducedHeightBreakpoint: 'xl',
   tabHeight: 58,
   paginationToolbarHeight: 37,
   tableFontSize: '0.8rem',
@@ -43,8 +43,9 @@ export const layoutConfig = {
   },
   mainPage: {
     bannerBackround: `linear-gradient( rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45) ), url(${bannerImage})`,
-    bannerDefaultHeight: 300,
-    bannerReducedHeight: 220
+    bannerMobileHeight: 150,
+    bannerReducedHeight: 220,
+    bannerDefaultHeight: 300
   },
   infoHeader: {
     default: {
@@ -61,6 +62,7 @@ export const layoutConfig = {
     }
   },
   footer: {
-    height: 64
+    reducedHeight: 44,
+    defaultHeight: 64
   }
 }

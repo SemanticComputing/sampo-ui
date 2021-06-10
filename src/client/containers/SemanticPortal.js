@@ -18,12 +18,12 @@ import Grid from '@material-ui/core/Grid'
 import InfoHeader from '../components/main_layout/InfoHeader'
 import TextPage from '../components/main_layout/TextPage'
 import Message from '../components/main_layout/Message'
-import Main from '../components/main_layout/Main'
 import FacetBar from '../components/facet_bar/FacetBar'
 // ** General components end **
 
 // ** Portal specific components and configs **
 import TopBar from '../components/perspectives/sampo/TopBar'
+import Main from '../components/perspectives/sampo/Main'
 import FacetedSearchPerspective from '../components/perspectives/sampo/FacetedSearchPerspective'
 import FullTextSearch from '../components/perspectives/sampo/FullTextSearch'
 import ClientFSPerspective from '../components/perspectives/sampo/client_fs/ClientFSPerspective'
@@ -84,15 +84,13 @@ const useStyles = makeStyles(theme => ({
     }
   },
   mainContainerClientFS: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(3),
+    marginTop: theme.spacing(0.5),
+    marginBottom: theme.spacing(0.5),
     [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
-      height: `calc(100% - ${layoutConfig.topBar.reducedHeight + layoutConfig.footer.height + theme.spacing(0.5)}px)`,
-      marginBottom: theme.spacing(1)
+      height: `calc(100% - ${layoutConfig.topBar.reducedHeight + layoutConfig.footer.reducedHeight + theme.spacing(1)}px)`
     },
     [theme.breakpoints.up(layoutConfig.reducedHeightBreakpoint)]: {
-      height: `calc(100% - ${layoutConfig.topBar.defaultHeight + layoutConfig.footer.height + theme.spacing(0.5)}px)`,
-      marginBottom: theme.spacing(1)
+      height: `calc(100% - ${layoutConfig.topBar.defaultHeight + layoutConfig.footer.defaultHeight + theme.spacing(1)}px)`
     }
   },
   textPageContainer: {

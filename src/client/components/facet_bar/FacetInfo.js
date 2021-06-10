@@ -52,7 +52,7 @@ class FacetInfo extends React.Component {
   getTypographyVariant = () => {
     const { screenSize } = this.props
     let variant = 'h6'
-    if (screenSize === 'xs' || screenSize === 'sm' || screenSize === 'md') {
+    if (screenSize === 'xs' || screenSize === 'sm' || screenSize === 'md' || screenSize === 'lg') {
       variant = 'subtitle2'
     }
     return variant

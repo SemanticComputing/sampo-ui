@@ -10,20 +10,23 @@ const useStyles = makeStyles(theme => ({
   root: props => ({
     [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
       overflow: 'auto',
-      height: `calc(100% - ${props.layoutConfig.topBar.reducedHeight + props.layoutConfig.footer.height + theme.spacing(3.5)}px)`
+      height: `calc(100% - ${props.layoutConfig.topBar.reducedHeight + props.layoutConfig.footer.reducedHeight + theme.spacing(1)}px)`
     },
     [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
       overflow: 'auto',
-      height: `calc(100% - ${props.layoutConfig.topBar.defaultHeight + props.layoutConfig.footer.height + theme.spacing(3.5)}px)`
+      height: `calc(100% - ${props.layoutConfig.topBar.defaultHeight + props.layoutConfig.footer.defaultHeight + theme.spacing(1)}px)`
     },
-    marginBottom: theme.spacing(5)
+    marginBottom: theme.spacing(1)
   }),
   banner: props => ({
     background: props.layoutConfig.mainPage.bannerBackround,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    height: props.layoutConfig.mainPage.bannerReducedHeight,
+    height: props.layoutConfig.mainPage.bannerMobileHeight,
+    [theme.breakpoints.up('md')]: {
+      height: props.layoutConfig.mainPage.bannerReducedHeight
+    },
     [theme.breakpoints.up('xl')]: {
       height: props.layoutConfig.mainPage.bannerDefaultHeight
     },
@@ -36,12 +39,18 @@ const useStyles = makeStyles(theme => ({
     display: 'inline-block',
     color: '#fff'
   },
+  bannerHeading: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
   bannerSubheading: {
     marginTop: theme.spacing(1.5),
-    display: 'flex',
-    '& div': {
-      flexGrow: 1,
-      width: 0
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+      '& div': {
+        flexGrow: 1,
+        width: 0
+      }
     }
   },
   layout: {

@@ -1,7 +1,7 @@
 import React from 'react'
 import MainCard from './MainCard'
-import { perspectiveConfig } from '../../configs/sampo/PerspectiveConfig'
-import Center from '../../../../.storybook/Center'
+import { perspectiveConfig } from '../../../configs/sampo/PerspectiveConfig'
+import Center from '../../../../../.storybook/Center'
 
 export default {
   component: MainCard,
