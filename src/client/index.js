@@ -27,12 +27,16 @@ if (Object.prototype.hasOwnProperty.call(availableLocales, localeFromUrl)) {
 } else {
   // support urls without a locale
   locale = defaultLocale
+  const { pathname, hash } = window.location
   const newPathname = updateLocaleToPathname({
-    pathname: window.location.pathname,
+    pathname,
     locale,
     replaceOld: false
   })
-  history.push({ pathname: newPathname })
+  history.push({
+    pathname: newPathname,
+    hash
+  })
 }
 store.dispatch(loadLocales(locale))
 

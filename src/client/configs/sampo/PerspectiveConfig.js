@@ -20,6 +20,8 @@ export const perspectiveConfig = [
     id: 'perspective1',
     frontPageImage: manuscriptsImage,
     defaultActiveFacets: new Set([]),
+    defaultTab: 'table',
+    defaultInstancePageTab: 'table',
     tabs: [
       {
         id: 'table',

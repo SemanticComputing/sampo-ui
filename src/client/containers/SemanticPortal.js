@@ -396,7 +396,10 @@ const SemanticPortal = props => {
                   <Switch>
                     <Redirect
                       from={`/${perspective.id}/page/:id`}
-                      to={`${rootUrlWithLang}/${perspective.id}/page/:id`}
+                      to={{
+                        pathname: `${rootUrlWithLang}/${perspective.id}/page/:id`,
+                        hash: props.location.hash
+                      }}
                     />
                     <Route
                       path={`${rootUrlWithLang}/${perspective.id}/page/:id`}

@@ -155,6 +155,8 @@ class InstanceHomePage extends React.Component {
     const { classes, perspectiveState, perspectiveConfig, rootUrl, screenSize, layoutConfig } = this.props
     const { instanceTableData, fetching } = perspectiveState
     const resultClass = perspectiveConfig.id
+    const defaultInstancePageTab = perspectiveConfig.defaultInstancePageTab
+      ? perspectiveConfig.defaultInstancePageTab : 'table'
     const hasTableData = this.hasTableData()
     return (
       <div className={classes.root}>
@@ -180,7 +182,13 @@ class InstanceHomePage extends React.Component {
             <>
               <Route
                 exact path={`${rootUrl}/${resultClass}/page/${this.state.localID}`}
-                render={() => <Redirect to={`${rootUrl}/${resultClass}/page/${this.state.localID}/table`} />}
+                render={routeProps =>
+                  <Redirect
+                    to={{
+                      pathname: `${rootUrl}/${resultClass}/page/${this.state.localID}/${defaultInstancePageTab}`,
+                      hash: routeProps.location.hash
+                    }}
+                  />}
               />
               <Route
                 path={[`${rootUrl}/${resultClass}/page/${this.state.localID}/table`, '/iframe.html']} // support also rendering in Storybook
