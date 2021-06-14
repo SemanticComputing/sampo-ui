@@ -173,6 +173,19 @@
     }
   },
   "perspectives": {
+    "fullTextSearch": {
+      "properties": {
+        "prefLabel": {
+          "label": "Label"
+        },
+        "type": {
+          "label": "Type"
+        },
+        "note": {
+          "label": "Note"
+        }
+      }
+    },
     "perspective1": {
       "label": "Perspective 1",
       "facetResultsType": "manuscripts",

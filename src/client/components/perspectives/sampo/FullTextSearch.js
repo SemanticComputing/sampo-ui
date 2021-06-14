@@ -1,34 +1,37 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
+import { makeStyles } from '@material-ui/core/styles'
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
 import ReactVirtualizedTable from '../../facet_results/ReactVirtualizedTable'
 import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay'
 
-const rootStyle = {
-  height: 'calc(100% - 8px)',
-  marginTop: 8,
-  marginLeft: 8,
-  marginRight: 8
-}
+const useStyles = makeStyles(theme => ({
+  root: props => ({
+    marginTop: theme.spacing(0.5),
+    height: `calc(100% - ${props.layoutConfig.tabHeight - 18}px)`
+  })
+}))
 
 /**
  * A component for displaying full text search results.
  */
 const FullTextSearch = props => {
-  const { rootUrl } = props
+  const { rootUrl, layoutConfig, screenSize } = props
+  const classes = useStyles(props)
   const perspectiveUrl = `${rootUrl}/full-text-search`
   return (
-    <div style={rootStyle}>
+    <div className={classes.root}>
       <PerspectiveTabs
         routeProps={props.routeProps}
-        screenSize={props.screenSize}
         tabs={[{
           id: 'table',
           label: 'table',
           icon: <CalendarViewDayIcon />,
           value: 0
         }]}
+        screenSize={screenSize}
+        layoutConfig={layoutConfig}
       />
       <Route
         exact path={perspectiveUrl}
@@ -41,6 +44,7 @@ const FullTextSearch = props => {
             <ReactVirtualizedTable
               fullTextSearch={props.fullTextSearch}
               sortFullTextResults={props.sortFullTextResults}
+              layoutConfig={props.layoutConfig}
             />
           )
         }}

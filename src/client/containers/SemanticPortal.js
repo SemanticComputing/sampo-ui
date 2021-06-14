@@ -294,18 +294,14 @@ const SemanticPortal = props => {
           <Route
             path={`${rootUrlWithLang}/full-text-search`}
             render={routeProps =>
-              <Grid container spacing={1} className={classes.mainContainer}>
-                <Grid item xs={12} className={classes.resultsContainer}>
-                  <FullTextSearch
-                    fullTextSearch={props.fullTextSearch}
-                    sortFullTextResults={props.sortFullTextResults}
-                    routeProps={routeProps}
-                    screenSize={screenSize}
-                    rootUrl={rootUrlWithLang}
-                    layoutConfig={layoutConfig}
-                  />
-                </Grid>
-              </Grid>}
+              <FullTextSearch
+                fullTextSearch={props.fullTextSearch}
+                sortFullTextResults={props.sortFullTextResults}
+                routeProps={routeProps}
+                screenSize={screenSize}
+                rootUrl={rootUrlWithLang}
+                layoutConfig={layoutConfig}
+              />}
           />
           {/* routes for faceted search perspectives */}
           {perspectiveConfig.map(perspective => {
