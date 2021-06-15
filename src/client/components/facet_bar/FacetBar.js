@@ -370,6 +370,7 @@ class FacetBar extends React.Component {
             updateMapBounds={this.props.updateMapBounds}
             showError={this.props.showError}
             perspectiveID={facetClass}
+            layoutConfig={this.props.layoutConfig}
           />}
         {(facetedSearchMode === 'serverFS' || facetData.results !== null) &&
           <Paper className={classes.facetInfoContainer}>

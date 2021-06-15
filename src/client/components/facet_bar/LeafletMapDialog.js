@@ -12,6 +12,10 @@ import CropFreeIcon from '@material-ui/icons/CropFree'
 import LeafletMap from '../facet_results/LeafletMap'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Paper from '@material-ui/core/Paper'
+import {
+  MAPBOX_ACCESS_TOKEN,
+  MAPBOX_STYLE
+} from '../../configs/sampo/GeneralConfig'
 
 const styles = theme => ({
   root: {
@@ -99,6 +103,8 @@ class LeafletMapDialog extends React.Component {
         >
           <DialogTitle id='dialog-title'>{intl.get(`perspectives.${perspectiveID}.searchByAreaTitle`)}</DialogTitle>
           <LeafletMap
+            mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
+            mapBoxStyle={MAPBOX_STYLE}
             center={center}
             zoom={zoom}
             resultClass='clientFSBboxSearch'
@@ -110,6 +116,7 @@ class LeafletMapDialog extends React.Component {
             facetedSearchMode='clientFS'
             updateMapBounds={this.props.updateMapBounds}
             container='mapDialog'
+            layoutConfig={this.props.layoutConfig}
           />
           <DialogActions>
             <Button onClick={this.handleClose} variant='contained' color='primary' autoFocus>
@@ -132,7 +139,8 @@ LeafletMapDialog.propTypes = {
   clientFSClearResults: PropTypes.func.isRequired,
   updateMapBounds: PropTypes.func,
   showError: PropTypes.func,
-  perspectiveID: PropTypes.string.isRequired
+  perspectiveID: PropTypes.string.isRequired,
+  layoutConfig: PropTypes.object.isRequired
 }
 
 export const LeafletMapDialogComponent = LeafletMapDialog
