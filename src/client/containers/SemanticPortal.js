@@ -78,6 +78,7 @@ const useStyles = makeStyles(theme => ({
        needs to be defined also in index.html (for #app and #root elements)
     */
     backgroundColor: '#bdbdbd',
+    overflowX: 'hidden',
     [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
       overflow: 'hidden',
       height: '100%'
@@ -152,8 +153,7 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(0.5),
     paddingRight: theme.spacing(0.5),
     [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
-      minHeight: 'initial',
-      height: `calc(100% - ${theme.spacing(2)}px)`
+      height: '100%'
     }
   },
   resultsContainer: {
@@ -172,13 +172,14 @@ const useStyles = makeStyles(theme => ({
   },
   resultsContainerClientFS: {
     minHeight: 500,
-    [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
-      minHeight: 'initial',
-      height: `calc(100% - ${theme.spacing(2)}px)`
-    },
     paddingBottom: '0px !important',
     paddingRight: theme.spacing(0.5),
-    paddingLeft: theme.spacing(0.5)
+    paddingLeft: theme.spacing(0.5),
+    marginTop: theme.spacing(0.5),
+    [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
+      height: '100%',
+      marginTop: 0
+    }
   },
   instancePageContainer: {
     margin: theme.spacing(0.5),

@@ -18,12 +18,10 @@ import {
 
 const styles = theme => ({
   root: props => ({
-    display: 'flex',
+    height: 500,
     [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
       height: `calc(100% - ${props.layoutConfig.tabHeight}px)`
     },
-    // width: 'calc(100% - 1px)',
-    flexGrow: 1,
     borderTop: '1px solid rgb(224, 224, 224)',
     backgroundColor: theme.palette.background.paper,
     '& a': {
@@ -154,68 +152,67 @@ class VirtualizedTable extends React.PureComponent {
     return (
       <div className={classes.root}>
         {this.props.list.size > 0 &&
-          <div style={{ flex: '1 1 auto' }}>
-            <AutoSizer>
-              {({ height, width }) => (
-                <Table
-                  overscanRowCount={10}
-                  rowHeight={40}
-                  rowGetter={rowGetter}
-                  rowCount={this.props.list.size}
-                  sort={this._sort}
-                  sortBy={this.props.clientFSState.sortBy}
-                  sortDirection={this.props.clientFSState.sortDirection.toUpperCase()}
-                  width={width}
-                  height={height}
-                  headerHeight={50}
-                  noRowsRenderer={this._noRowsRenderer}
-                  style={tableStyles.tableRoot}
-                  rowStyle={calculateRowStyle}
-                >
-                  <Column
-                    label={intl.get(`perspectives.${perspectiveID}.properties.prefLabel.label`)}
-                    cellDataGetter={({ rowData }) => rowData.prefLabel}
-                    dataKey='prefLabel'
-                    headerRenderer={headerRenderer}
-                    cellRenderer={labelRenderer}
-                    width={columnWidth + 70}
-                  />
-                  <Column
-                    label={intl.get(`perspectives.${perspectiveID}.properties.broaderTypeLabel.label`)}
-                    cellDataGetter={({ rowData }) => has(rowData, 'broaderTypeLabel') ? rowData.broaderTypeLabel.toLowerCase() : ''}
-                    dataKey='broaderTypeLabel'
-                    headerRenderer={headerRenderer}
-                    width={columnWidth + 10}
-                  />
-                  {/* <Column
+          <AutoSizer>
+            {({ height, width }) => (
+              <Table
+                overscanRowCount={10}
+                rowHeight={40}
+                rowGetter={rowGetter}
+                rowCount={this.props.list.size}
+                sort={this._sort}
+                sortBy={this.props.clientFSState.sortBy}
+                sortDirection={this.props.clientFSState.sortDirection.toUpperCase()}
+                width={width}
+                height={height}
+                headerHeight={50}
+                noRowsRenderer={this._noRowsRenderer}
+                style={tableStyles.tableRoot}
+                rowStyle={calculateRowStyle}
+              >
+                <Column
+                  label={intl.get(`perspectives.${perspectiveID}.properties.prefLabel.label`)}
+                  cellDataGetter={({ rowData }) => rowData.prefLabel}
+                  dataKey='prefLabel'
+                  headerRenderer={headerRenderer}
+                  cellRenderer={labelRenderer}
+                  width={columnWidth + 70}
+                />
+                <Column
+                  label={intl.get(`perspectives.${perspectiveID}.properties.broaderTypeLabel.label`)}
+                  cellDataGetter={({ rowData }) => has(rowData, 'broaderTypeLabel') ? rowData.broaderTypeLabel.toLowerCase() : ''}
+                  dataKey='broaderTypeLabel'
+                  headerRenderer={headerRenderer}
+                  width={columnWidth + 10}
+                />
+                {/* <Column
                     label="NA type"
                     cellDataGetter={({rowData}) => has(rowData,'typeLabel') ? rowData.typeLabel.toLowerCase() : ''}
                     dataKey="typeLabel"
                     headerRenderer={headerRenderer}
                     width={columnWidth}
                   /> */}
-                  <Column
-                    label={intl.get(`perspectives.${perspectiveID}.properties.broaderAreaLabel.label`)}
-                    cellDataGetter={({ rowData }) => rowData.broaderAreaLabel}
-                    dataKey='broaderAreaLabel'
-                    headerRenderer={headerRenderer}
-                    width={columnWidth}
-                  />
-                  <Column
-                    label={intl.get(`perspectives.${perspectiveID}.properties.modifier.label`)}
-                    cellDataGetter={({ rowData }) => rowData.modifier}
-                    dataKey='modifier'
-                    headerRenderer={headerRenderer}
-                    width={columnWidth + 10}
-                  />
-                  <Column
-                    label={intl.get(`perspectives.${perspectiveID}.properties.basicElement.label`)}
-                    cellDataGetter={({ rowData }) => rowData.basicElement}
-                    dataKey='basicElement'
-                    headerRenderer={headerRenderer}
-                    width={columnWidth}
-                  />
-                  {/*
+                <Column
+                  label={intl.get(`perspectives.${perspectiveID}.properties.broaderAreaLabel.label`)}
+                  cellDataGetter={({ rowData }) => rowData.broaderAreaLabel}
+                  dataKey='broaderAreaLabel'
+                  headerRenderer={headerRenderer}
+                  width={columnWidth}
+                />
+                <Column
+                  label={intl.get(`perspectives.${perspectiveID}.properties.modifier.label`)}
+                  cellDataGetter={({ rowData }) => rowData.modifier}
+                  dataKey='modifier'
+                  headerRenderer={headerRenderer}
+                  width={columnWidth + 10}
+                />
+                <Column
+                  label={intl.get(`perspectives.${perspectiveID}.properties.basicElement.label`)}
+                  cellDataGetter={({ rowData }) => rowData.basicElement}
+                  dataKey='basicElement'
+                  headerRenderer={headerRenderer}
+                  width={columnWidth}
+                />
+                {/*
                   <Column
                     label="Collector"
                     cellDataGetter={({rowData}) => rowData.collector}
@@ -223,25 +220,24 @@ class VirtualizedTable extends React.PureComponent {
                     headerRenderer={headerRenderer}
                     width={columnWidth}
                   /> */}
-                  <Column
-                    label={intl.get(`perspectives.${perspectiveID}.properties.collectionYear.label`)}
-                    cellDataGetter={({ rowData }) => rowData.collectionYear}
-                    dataKey='collectionYear'
-                    headerRenderer={headerRenderer}
-                    width={columnWidth}
-                  />
-                  <Column
-                    label={intl.get(`perspectives.${perspectiveID}.properties.source.label`)}
-                    cellDataGetter={({ rowData }) => rowData.source}
-                    dataKey='source'
-                    headerRenderer={headerRenderer}
-                    cellRenderer={sourceRenderer}
-                    width={columnWidth}
-                  />
-                </Table>
-              )}
-            </AutoSizer>
-          </div>}
+                <Column
+                  label={intl.get(`perspectives.${perspectiveID}.properties.collectionYear.label`)}
+                  cellDataGetter={({ rowData }) => rowData.collectionYear}
+                  dataKey='collectionYear'
+                  headerRenderer={headerRenderer}
+                  width={columnWidth}
+                />
+                <Column
+                  label={intl.get(`perspectives.${perspectiveID}.properties.source.label`)}
+                  cellDataGetter={({ rowData }) => rowData.source}
+                  dataKey='source'
+                  headerRenderer={headerRenderer}
+                  cellRenderer={sourceRenderer}
+                  width={columnWidth}
+                />
+              </Table>
+            )}
+          </AutoSizer>}
       </div>
     )
   }
