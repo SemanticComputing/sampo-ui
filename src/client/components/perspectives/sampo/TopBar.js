@@ -89,11 +89,15 @@ const useStyles = makeStyles(theme => ({
   mainLogoTypography: {
     whiteSpace: 'nowrap',
     [theme.breakpoints.down('sm')]: {
-      fontSize: '1rem'
+      fontSize: '1.25rem',
+      fontWeight: 600
     }
     // [theme.breakpoints.down('xs')]: {
     //     display: 'none'
     // }
+  },
+  mobileMenuButton: {
+    padding: 12
   }
 }))
 
@@ -304,7 +308,11 @@ const TopBar = props => {
                 loadLocales={props.loadLocales}
                 location={props.location}
               />}
-            <IconButton aria-haspopup='true' onClick={handleMobileMenuOpen} color='inherit'>
+            <IconButton
+              aria-label='display more actions' color='inherit'
+              className={classes.mobileMenuButton}
+              onClick={handleMobileMenuOpen}
+            >
               <MoreIcon />
             </IconButton>
           </div>

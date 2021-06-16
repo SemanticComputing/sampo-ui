@@ -53,27 +53,27 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center'
   },
-  logo: props => ({
-    height: 40,
-    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-      height: 40
-    }
-  }),
   aaltoLogo: props => ({
+    width: 143,
     height: 29,
     [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
+      width: 167,
       height: 34
     }
   }),
   hyLogo: props => ({
+    width: 157,
     height: 42,
     [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
+      width: 168,
       height: 45
     }
   }),
   heldigLogo: props => ({
+    width: 118,
     height: 30,
     [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
+      width: 130,
       height: 33
     }
   })

@@ -37,7 +37,8 @@ export const layoutConfig = {
   topBar: {
     showLanguageButton: true,
     feedbackLink: 'https://link.webropolsurveys.com/',
-    reducedHeight: 44,
+    // 48 px is minimun for tab targets: https://web.dev/tap-targets/?utm_source=lighthouse&utm_medium=devtools#how-to-fix-your-tap-targets
+    reducedHeight: 48,
     defaultHeight: 64,
     mobileMenuBreakpoint: 1360
   },
