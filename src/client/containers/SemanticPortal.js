@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, lazy } from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import { has } from 'lodash'
@@ -13,29 +13,6 @@ import moment from 'moment'
 import MomentUtils from '@date-io/moment'
 import 'moment/locale/fi'
 import Grid from '@material-ui/core/Grid'
-
-// ** General components **
-import InfoHeader from '../components/main_layout/InfoHeader'
-import TextPage from '../components/main_layout/TextPage'
-import Message from '../components/main_layout/Message'
-import FacetBar from '../components/facet_bar/FacetBar'
-// ** General components end **
-
-// ** Portal specific components and configs **
-import TopBar from '../components/perspectives/sampo/TopBar'
-import Main from '../components/perspectives/sampo/Main'
-import FacetedSearchPerspective from '../components/perspectives/sampo/FacetedSearchPerspective'
-import FullTextSearch from '../components/perspectives/sampo/FullTextSearch'
-import ClientFSPerspective from '../components/perspectives/sampo/client_fs/ClientFSPerspective'
-import ClientFSMain from '../components/perspectives/sampo/client_fs/ClientFSMain'
-import InstanceHomePage from '../components/perspectives/sampo/InstanceHomePage'
-import Footer from '../components/perspectives/sampo/Footer'
-import KnowledgeGraphMetadataTable from '../components/perspectives/sampo/KnowledgeGraphMetadataTable'
-import { perspectiveConfig } from '../configs/sampo/PerspectiveConfig'
-import { perspectiveConfigOnlyInfoPages } from '../configs/sampo/PerspectiveConfigOnlyInfoPages'
-import { rootUrl, layoutConfig } from '../configs/sampo/GeneralConfig'
-// ** Portal specific components and configs end **
-
 import {
   fetchResultCount,
   fetchPaginatedResults,
@@ -70,6 +47,42 @@ import {
   fetchKnowledgeGraphMetadata
 } from '../actions'
 import { filterResults } from '../selectors'
+import { perspectiveConfig } from '../configs/sampo/PerspectiveConfig'
+import { perspectiveConfigOnlyInfoPages } from '../configs/sampo/PerspectiveConfigOnlyInfoPages'
+import { rootUrl, layoutConfig } from '../configs/sampo/GeneralConfig'
+
+// ** General components **
+// import InfoHeader from '../components/main_layout/InfoHeader'
+// import TextPage from '../components/main_layout/TextPage'
+// import Message from '../components/main_layout/Message'
+// import FacetBar from '../components/facet_bar/FacetBar'
+const InfoHeader = lazy(() => import('../components/main_layout/InfoHeader'))
+const TextPage = lazy(() => import('../components/main_layout/TextPage'))
+const Message = lazy(() => import('../components/main_layout/Message'))
+const FacetBar = lazy(() => import('../components/facet_bar/FacetBar'))
+// ** General components end **
+
+// ** Portal specific components and configs **
+// import TopBar from '../components/perspectives/sampo/TopBar'
+// import FacetedSearchPerspective from '../components/perspectives/sampo/FacetedSearchPerspective'
+// import Main from '../components/perspectives/sampo/Main'
+// import FullTextSearch from '../components/perspectives/sampo/FullTextSearch'
+// import ClientFSPerspective from '../components/perspectives/sampo/client_fs/ClientFSPerspective'
+// import ClientFSMain from '../components/perspectives/sampo/client_fs/ClientFSMain'
+// import InstanceHomePage from '../components/perspectives/sampo/InstanceHomePage'
+// import Footer from '../components/perspectives/sampo/Footer'
+// import KnowledgeGraphMetadataTable from '../components/perspectives/sampo/KnowledgeGraphMetadataTable'
+const portalID = 'sampo'
+const TopBar = lazy(() => import('../components/perspectives/' + portalID + '/TopBar'))
+const Main = lazy(() => import('../components/perspectives/' + portalID + '/Main'))
+const FacetedSearchPerspective = lazy(() => import('../components/perspectives/' + portalID + '/FacetedSearchPerspective'))
+const FullTextSearch = lazy(() => import('../components/perspectives/' + portalID + '/FullTextSearch'))
+const ClientFSPerspective = lazy(() => import('../components/perspectives/' + portalID + '/client_fs/ClientFSPerspective'))
+const ClientFSMain = lazy(() => import('../components/perspectives/' + portalID + '/client_fs/ClientFSMain'))
+const InstanceHomePage = lazy(() => import('../components/perspectives/' + portalID + '/InstanceHomePage'))
+const Footer = lazy(() => import('../components/perspectives/' + portalID + '/Footer'))
+const KnowledgeGraphMetadataTable = lazy(() => import('../components/perspectives/' + portalID + '/KnowledgeGraphMetadataTable'))
+// ** Portal specific components and configs end **
 
 const useStyles = makeStyles(theme => ({
   root: {

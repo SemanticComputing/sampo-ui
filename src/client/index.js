@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import ReduxToastr from 'react-redux-toastr'
@@ -44,7 +44,9 @@ render(
   <Provider store={store}>
     <div id='app'>
       <Router history={history}>
-        <App />
+        <Suspense fallback={<div>Loading...</div>}>
+          <App />
+        </Suspense>
       </Router>
       <ReduxToastr
         timeOut={0}
