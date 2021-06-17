@@ -274,7 +274,7 @@ class LeafletMap extends React.Component {
   initMap = () => {
     // Base layer(s)
     const mapboxBaseLayer = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${this.props.mapBoxStyle}/tiles/{z}/{x}/{y}?access_token=${this.props.mapBoxAccessToken}`, {
-      attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener">Mapbox</a> &copy; <a href="http://osm.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
       tileSize: 512,
       zoomOffset: -1
     })

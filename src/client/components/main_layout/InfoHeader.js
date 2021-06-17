@@ -117,8 +117,8 @@ const InfoHeader = props => {
             content: classes.summaryContent
           }}
           expandIcon={<ExpandMoreIcon />}
-          aria-controls='panel1a-content'
-          id='panel1a-header'
+          aria-controls='infoheader-content'
+          id='infoheader-header'
           IconButtonProps={{ onClick: handleExpandButtonOnClick }}
         >
           <div className={classes.headingContainer}>
@@ -126,7 +126,7 @@ const InfoHeader = props => {
               {props.pageType === 'facetResults' && intl.get(`perspectives.${props.resultClass}.label`)}
               {props.pageType === 'instancePage' && intl.get(`perspectives.${props.resultClass}.instancePage.label`)}
             </Typography>
-            <IconButton className={classes.infoIconButton} onClick={handleExpandButtonOnClick}>
+            <IconButton aria-label='open instructions' className={classes.infoIconButton} onClick={handleExpandButtonOnClick}>
               <InfoIcon className={classes.infoIcon} />
             </IconButton>
           </div>

@@ -374,7 +374,7 @@ class FacetHeader extends React.Component {
           title={facetDescription}
           enterDelay={300}
         >
-          <IconButton>
+          <IconButton aria-label='description'>
             <InfoIcon />
           </IconButton>
         </Tooltip>

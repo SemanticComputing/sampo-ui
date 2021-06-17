@@ -257,8 +257,8 @@ class FacetBar extends React.Component {
           }}
           expandIcon={<ExpandMoreIcon />}
           IconButtonProps={{ onClick: this.handleExpandButtonOnClick(facetID) }}
-          aria-controls='panel1a-content'
-          id='panel1a-header'
+          aria-controls={`${facetID}-content`}
+          id={`${facetID}-header`}
         >
           <FacetHeader
             facetID={facetID}

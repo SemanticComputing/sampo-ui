@@ -74,7 +74,8 @@ class PerspectiveTabs extends React.Component {
             <Tab
               classes={{
                 root: classes.tabRoot,
-                labelIcon: classes.tabLabelIcon
+                labelIcon: classes.tabLabelIcon,
+                wrapper: classes.tabWrapper
               }}
               key={tab.id}
               icon={tab.icon}
