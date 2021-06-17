@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
-import ResultTable from '../../facet_results/ResultTable'
-import Export from '../../facet_results/Export'
+// import ResultTable from '../../facet_results/ResultTable'
+// import Export from '../../facet_results/Export'
+const ResultTable = lazy(() => import('../../facet_results/ResultTable'))
+const Export = lazy(() => import('../../facet_results/Export'))
 
 const Perspective2 = props => {
   const { rootUrl, perspective } = props

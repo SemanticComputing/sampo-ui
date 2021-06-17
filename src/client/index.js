@@ -10,6 +10,8 @@ import { availableLocales } from './epics/index.js'
 import { loadLocales } from './actions'
 import { defaultLocale } from './configs/sampo/GeneralConfig'
 import { updateLocaleToPathname } from './helpers/helpers'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import purple from '@material-ui/core/colors/purple'
 
 import './index.css'
 import 'react-sortable-tree/style.css'
@@ -44,7 +46,20 @@ render(
   <Provider store={store}>
     <div id='app'>
       <Router history={history}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <div style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+            >
+              <CircularProgress style={{ color: purple[500] }} thickness={5} />
+            </div>
+          }
+        >
           <App />
         </Suspense>
       </Router>

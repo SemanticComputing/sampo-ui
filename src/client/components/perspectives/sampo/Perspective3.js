@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
-import ResultTable from '../../facet_results/ResultTable'
-import Export from '../../facet_results/Export'
-import LeafletMap from '../../facet_results/LeafletMap'
+// import ResultTable from '../../facet_results/ResultTable'
+// import Export from '../../facet_results/Export'
+// import LeafletMap from '../../facet_results/LeafletMap'
 import {
   MAPBOX_ACCESS_TOKEN,
   MAPBOX_STYLE
 } from '../../../configs/sampo/GeneralConfig'
 import { layerConfigs, createPopUpContentMMM } from '../../../configs/sampo/Leaflet/LeafletConfig'
+const ResultTable = lazy(() => import('../../facet_results/ResultTable'))
+const LeafletMap = lazy(() => import('../../facet_results/LeafletMap'))
+const Export = lazy(() => import('../../facet_results/Export'))
 
 const Perspective3 = props => {
   const { rootUrl, perspective, screenSize } = props

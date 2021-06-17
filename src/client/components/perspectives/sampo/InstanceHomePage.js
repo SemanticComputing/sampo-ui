@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
@@ -7,14 +7,19 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import purple from '@material-ui/core/colors/purple'
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
 import InstanceHomePageTable from '../../main_layout/InstanceHomePageTable'
-import Network from '../../facet_results/Network'
-import ApexChart from '../../facet_results/ApexChart'
-import Export from '../../facet_results/Export'
-import Recommendations from './Recommendations'
+// import Network from '../../facet_results/Network'
+// import ApexChart from '../../facet_results/ApexChart'
+// import Export from '../../facet_results/Export'
+// import Recommendations from './Recommendations'
 import { coseLayout, cytoscapeStyle, preprocess } from '../../../configs/sampo/Cytoscape.js/NetworkConfig'
 import { createMultipleLineChartData } from '../../../configs/sampo/ApexCharts/LineChartConfig'
 import { Route, Redirect } from 'react-router-dom'
 import { has } from 'lodash'
+// const InstanceHomePageTable = lazy(() => import('../../main_layout/InstanceHomePageTable'))
+const ApexChart = lazy(() => import('../../facet_results/ApexChart'))
+const Network = lazy(() => import('../../facet_results/Network'))
+const Export = lazy(() => import('../../facet_results/Export'))
+const Recommendations = lazy(() => import('./Recommendations'))
 
 const styles = () => ({
   root: {

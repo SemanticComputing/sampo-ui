@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import { Route, Redirect } from 'react-router-dom'
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
-import ResultTable from '../../facet_results/ResultTable'
-import LeafletMap from '../../facet_results/LeafletMap'
-import Deck from '../../facet_results/Deck'
-import ApexChart from '../../facet_results/ApexChart'
-import Network from '../../facet_results/Network'
-import Export from '../../facet_results/Export'
+// import ResultTable from '../../facet_results/ResultTable'
+// import LeafletMap from '../../facet_results/LeafletMap'
+// import Deck from '../../facet_results/Deck'
+// import ApexChart from '../../facet_results/ApexChart'
+// import Network from '../../facet_results/Network'
+// import Export from '../../facet_results/Export'
 import {
   MAPBOX_ACCESS_TOKEN,
   MAPBOX_STYLE
@@ -19,6 +19,12 @@ import {
 } from '../../../configs/sampo/ApexCharts/LineChartConfig'
 import { coseLayout, cytoscapeStyle, preprocess } from '../../../configs/sampo/Cytoscape.js/NetworkConfig'
 import { layerConfigs, createPopUpContentMMM } from '../../../configs/sampo/Leaflet/LeafletConfig'
+const ResultTable = lazy(() => import('../../facet_results/ResultTable'))
+const LeafletMap = lazy(() => import('../../facet_results/LeafletMap'))
+const Deck = lazy(() => import('../../facet_results/Deck'))
+const ApexChart = lazy(() => import('../../facet_results/ApexChart'))
+const Network = lazy(() => import('../../facet_results/Network'))
+const Export = lazy(() => import('../../facet_results/Export'))
 
 const Perspective1 = props => {
   const { rootUrl, perspective, screenSize } = props

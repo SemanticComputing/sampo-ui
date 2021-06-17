@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import PropTypes from 'prop-types'
-import Perspective1 from './Perspective1'
-import Perspective2 from './Perspective2'
-import Perspective3 from './Perspective3'
-import Finds from './Finds'
-import EmloActors from './EmloActors'
-import Hellerau from './Hellerau'
+// import Perspective1 from './Perspective1'
+// import Perspective2 from './Perspective2'
+// import Perspective3 from './Perspective3'
+// import Finds from './Finds'
+// import EmloActors from './EmloActors'
+// import Hellerau from './Hellerau'
+const Perspective1 = lazy(() => import('./Perspective1'))
+const Perspective2 = lazy(() => import('./Perspective2'))
+const Perspective3 = lazy(() => import('./Perspective3'))
+const Finds = lazy(() => import('./Finds'))
+const EmloActors = lazy(() => import('./EmloActors'))
+const Hellerau = lazy(() => import('./Hellerau'))
 
 /**
  * A component for creating a faceted search perspective for a semantic portal.
