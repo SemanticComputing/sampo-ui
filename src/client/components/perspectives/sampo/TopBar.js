@@ -87,6 +87,9 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'left'
   },
   mainLogoTypography: {
+    // set color and background explicitly to keep Google Lighthouse happy
+    color: '#fff',
+    background: theme.palette.primary.main,
     whiteSpace: 'nowrap',
     [theme.breakpoints.down('sm')]: {
       fontSize: '1.25rem',
@@ -298,7 +301,13 @@ const TopBar = props => {
             target='_blank'
             rel='noopener noreferrer'
           >
-            <Button><img className={classes.secoLogoImage} src={secoLogo} /></Button>
+            <Button aria-label='link to Semantic Computing research group homepage'>
+              <img
+                className={classes.secoLogoImage}
+                src={secoLogo}
+                alt='Semantic Computing research group logo'
+              />
+            </Button>
           </a>
           <div className={classes.sectionMobile}>
             {props.layoutConfig.topBar.showLanguageButton &&
