@@ -48,11 +48,12 @@ const ImageGallerySRL = props => {
   })
   return (
     <>
-      <Button onClick={() => openLightbox()}>
+      <Button aria-label='open larger image' onClick={() => openLightbox()}>
         <img
           className={classes.previewImage}
           height={props.previewImageHeight}
           src={images[0].src}
+          alt='preview image'
         />
       </Button>
       <SRLWrapper options={srlOptions} elements={images} />
