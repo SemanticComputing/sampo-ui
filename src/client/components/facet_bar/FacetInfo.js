@@ -24,9 +24,8 @@ const styles = theme => ({
     margin: theme.spacing(1)
   },
   infoText: {
-    [theme.breakpoints.down('xl')]: {
-      fontWeight: 'bold'
-    }
+    fontWeight: 'bold',
+    fontSize: '1rem'
   }
 })
 

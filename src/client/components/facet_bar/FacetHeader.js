@@ -31,10 +31,7 @@ const styles = theme => ({
     width: '100%'
   },
   facetLabel: props => ({
-    fontSize: '0.875rem',
-    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-      fontSize: '1rem'
-    }
+    fontSize: '0.875rem'
   }),
   facetValuesContainerTen: {
     height: 345,
