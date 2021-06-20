@@ -148,6 +148,8 @@ const clientSideFacetedSearch = (state = INITIAL_STATE, action) => {
         fetchingResults: false,
         query: INITIAL_STATE.query,
         facets: INITIAL_STATE.facets,
+        facetUpdateID: ++state.facetUpdateID,
+        lastlyUpdatedFacet: null,
         maps: {
           ...state.maps,
           // reset center and zoom for maps that are used for results:
@@ -188,7 +190,7 @@ const resultClassesForMapBounds = new Set([
 
 const clientFSUpdateFacet = (state, action) => {
   const { facetID, value, latestValues } = action
-  const newSelectionsSet = state.facets[facetID].selectionsSet
+  const newSelectionsSet = new Set(state.facets[facetID].selectionsSet)
   if (newSelectionsSet.has(value)) {
     newSelectionsSet.delete(value)
   } else {
