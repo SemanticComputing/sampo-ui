@@ -342,6 +342,7 @@ class FacetBar extends React.Component {
     const { classes, facetClass, resultClass, resultCount, facetData, facetedSearchMode } = this.props
     const { facets } = facetData
     let someFacetIsFetching = false
+    const hasClientFSResults = facetData.results !== null
     if (facetedSearchMode === 'serverFS') {
       Object.values(facets).forEach(facet => {
         if (facet.isFetching) {
@@ -372,7 +373,7 @@ class FacetBar extends React.Component {
             perspectiveID={facetClass}
             layoutConfig={this.props.layoutConfig}
           />}
-        {(facetedSearchMode === 'serverFS' || facetData.results !== null) &&
+        {(facetedSearchMode === 'serverFS' || hasClientFSResults) &&
           <Paper className={classes.facetInfoContainer}>
             <FacetInfo
               facetedSearchMode={facetedSearchMode}
@@ -391,7 +392,7 @@ class FacetBar extends React.Component {
               screenSize={this.props.screenSize}
             />
           </Paper>}
-        {(facetedSearchMode === 'serverFS' || facetData.results !== null) &&
+        {(facetedSearchMode === 'serverFS' || hasClientFSResults) &&
           this.renderFacets({ classes, facets, someFacetIsFetching })}
       </div>
     )

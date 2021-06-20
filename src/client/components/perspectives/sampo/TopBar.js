@@ -255,6 +255,7 @@ const TopBar = props => {
               root: classes.mainLogoButtonRoot,
               label: classes.mainLogoButtonLabel
             }}
+            onClick={() => clientFSMode ? props.clientFSClearResults() : null}
           >
             {/* <img className={classes.mainLogo} src={} /> */}
             <Typography className={classes.mainLogoTypography} variant='h6'>
