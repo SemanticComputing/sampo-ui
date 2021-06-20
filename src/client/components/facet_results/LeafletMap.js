@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import intl from 'react-intl-universal'
@@ -38,7 +38,8 @@ import markerIconRed from '../../img/markers/marker-icon-red.png'
 import markerIconOrange from '../../img/markers/marker-icon-orange.png'
 import markerIconYellow from '../../img/markers/marker-icon-yellow.png'
 
-const buffer = lazy(() => import('@turf/buffer'))
+// const buffer = lazy(() => import('@turf/buffer'))
+import buffer from '@turf/buffer'
 
 const styles = theme => ({
   leafletContainerfacetResults: props => ({
