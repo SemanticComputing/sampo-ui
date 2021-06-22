@@ -31,6 +31,14 @@ const Perspective1 = props => {
   const layerControlExpanded = screenSize === 'md' ||
     screenSize === 'lg' ||
     screenSize === 'xl'
+  let popupMaxHeight = 320
+  let popupMinWidth = 280
+  let popupMaxWidth = 280
+  if (screenSize === 'xs' || screenSize === 'sm') {
+    popupMaxHeight = 200
+    popupMinWidth = 150
+    popupMaxWidth = 150
+  }
   return (
     <>
       <PerspectiveTabs
@@ -82,8 +90,9 @@ const Perspective1 = props => {
             mapMode='cluster'
             instance={props.perspectiveState.instanceTableData}
             createPopUpContent={createPopUpContentMMM}
-            popupMaxHeight={320}
-            popupMinWidth={280}
+            popupMaxHeight={popupMaxHeight}
+            popupMinWidth={popupMinWidth}
+            popupMaxWidth={popupMaxWidth}
             fetchResults={props.fetchResults}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
@@ -99,12 +108,6 @@ const Perspective1 = props => {
             layerConfigs={layerConfigs}
             infoHeaderExpanded={props.perspectiveState.facetedSearchHeaderExpanded}
             layoutConfig={props.layoutConfig}
-          // activeLayers={[
-          // 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_alue',
-          // 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_piste',
-          // 'WFS_MV_Kulttuuriymparisto:Arkeologiset_kohteet_alue',
-          // 'WFS_MV_Kulttuuriymparisto:Arkeologiset_kohteet_piste'
-          // ]}
           />}
       />
       <Route
@@ -146,8 +149,9 @@ const Perspective1 = props => {
             showMapModeControl={false}
             instance={props.perspectiveState.instanceTableData}
             createPopUpContent={createPopUpContentMMM}
-            popupMaxHeight={320}
-            popupMinWidth={280}
+            popupMaxHeight={popupMaxHeight}
+            popupMinWidth={popupMinWidth}
+            popupMaxWidth={popupMaxWidth}
             fetchResults={props.fetchResults}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             clearGeoJSONLayers={props.clearGeoJSONLayers}

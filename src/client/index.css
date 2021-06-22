@@ -53,7 +53,7 @@ a, a:visited, a:hover, a:active {
 } 
 
 .leaflet-popup-content p {
-    margin: 0px;
+    margin: 0px !important;
 }
 
 .leaflet-popup-content h3 {
@@ -69,6 +69,15 @@ a, a:visited, a:hover, a:active {
     margin-left: 3px;
 }
 
+.leaflet-popup-scrolled {
+    border-top: none !important;
+    border-bottom: none !important;
+}
+
+.leaflet-control-layers-list {
+    max-width: 270px;
+}
+
 @media screen and (min-width: 1440px) {
     .leaflet-control-layers {
         font-size: 14px;
@@ -76,6 +85,10 @@ a, a:visited, a:hover, a:active {
     .leaflet-control-layers-selector {
         transform: scale(1.5);
         margin: 6px;
+    }
+    .leaflet-control-layers-list {
+        /* min-width: 450px; */
+        max-width: 450px;
     }
 }
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import intl from 'react-intl-universal'
 import L from 'leaflet'
-import { has, isEqual } from 'lodash'
+import { has } from 'lodash'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { purple } from '@material-ui/core/colors'
 import history from '../../History'
@@ -105,7 +105,10 @@ class LeafletMap extends React.Component {
       prevZoomLevel: null,
       enlargedBounds: null,
       mapMode: props.mapMode,
-      showBuffer: true
+      showBuffer: true,
+      popupID: null,
+      popupOpen: false,
+      popupBinded: false
     }
   }
 
@@ -182,17 +185,32 @@ class LeafletMap extends React.Component {
       })
     }
 
-    // check if instance have changed
-    if ((this.props.instance !== null) && !isEqual(prevProps.instance, this.props.instance)) {
-      this.markers[this.props.instance.id]
-        .bindPopup(this.props.createPopUpContent({
-          data: this.props.instance,
-          resultClass: this.props.resultClass
-        }), {
-          ...(this.props.popupMaxHeight && { maxHeight: this.props.popupMaxHeight }),
-          ...(this.props.popupMinWidth && { minWidth: this.props.popupMinWidth })
-        })
+    // check if should open a popup
+    if (this.props.instance && this.state.popupOpen && !this.state.popupBinded &&
+      this.props.instance.id === this.state.popupID) {
+      const marker = this.markers[this.props.instance.id]
+      marker
+        .bindPopup(
+          this.props.createPopUpContent({
+            data: this.props.instance,
+            resultClass: this.props.resultClass
+          }),
+          {
+            closeButton: true,
+            ...(this.props.popupMaxHeight && { maxHeight: this.props.popupMaxHeight }),
+            ...(this.props.popupMaxWidth && { maxWidth: this.props.popupMaxWidth }),
+            ...(this.props.popupMinWidth && { minWidth: this.props.popupMinWidth })
+          })
         .openPopup()
+        .on('popupclose', () => {
+          marker.unbindPopup()
+          this.setState({
+            popupID: null,
+            popupOpen: false,
+            popupBinded: false
+          })
+        })
+      this.setState({ popupBinded: true })
     }
 
     if (this.props.showExternalLayers &&
@@ -959,10 +977,15 @@ class LeafletMap extends React.Component {
   }
 
   markerOnClickFacetResults = event => {
+    const { id } = event.target.options
+    this.setState({
+      popupID: id,
+      popupOpen: true
+    })
     this.props.fetchByURI({
       resultClass: this.props.resultClass,
       facetClass: this.props.facetClass,
-      uri: event.target.options.id
+      uri: id
     })
   };
 
