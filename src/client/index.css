@@ -61,6 +61,10 @@ a, a:visited, a:hover, a:active {
     margin-bottom: 5px;
 }
 
+.leaflet-popup-content-image {
+    width: 100%;
+}
+
 .leaflet-control-layers span {
     font-family: "Roboto", "Helvetica", "Arial";
 }
@@ -92,11 +96,17 @@ a, a:visited, a:hover, a:active {
     }
 }
 
-.carousel .control-dots {
-    position: unset;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+@media screen and (max-width: 450px) {
+    .leaflet-bottom .leaflet-control-scale {
+        margin-bottom: 36px;
+    }
+    .leaflet-popup-content h3, .leaflet-popup-content p {
+        font-size: 0.75rem;
+    }
+    .leaflet-popup-content-image {
+        width: auto;
+        max-height: 60px;
+    }
 }
 
 .leaflet-usermarker-small i.pulse {
