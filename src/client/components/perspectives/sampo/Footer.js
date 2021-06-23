@@ -90,17 +90,17 @@ const Footer = props => {
         <Grid className={classes.gridContainer} container spacing={3}>
           <Grid item xs className={classes.gridItem}>
             <a className={classes.link} href='https://www.aalto.fi/en/school-of-science' target='_blank' rel='noopener noreferrer'>
-              <img className={classes.aaltoLogo} src={aaltoLogo} alt='logo' />
+              <img className={classes.aaltoLogo} src={aaltoLogo} alt='Aalto University logo' />
             </a>
           </Grid>
           <Grid item xs className={classes.gridItem}>
             <a className={classes.link} href='https://www.helsinki.fi/en' target='_blank' rel='noopener noreferrer'>
-              <img className={classes.hyLogo} src={hyLogo} alt='logo' />
+              <img className={classes.hyLogo} src={hyLogo} alt='University of Helsinki logo' />
             </a>
           </Grid>
           <Grid item xs className={classes.gridItem}>
             <a className={classes.link} href='https://www.helsinki.fi/en/helsinki-centre-for-digital-humanities' target='_blank' rel='noopener noreferrer'>
-              <img className={classes.heldigLogo} src={heldigLogo} alt='logo' />
+              <img className={classes.heldigLogo} src={heldigLogo} alt='Helsinki Centre for Digital Humanities logo' />
             </a>
           </Grid>
         </Grid>
