@@ -276,6 +276,10 @@ class ResultTable extends React.Component {
           labelRowsPerPage={intl.get('table.rowsPerPage')}
           rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 50, 100]}
           page={page === -1 || resultCount === 0 ? 0 : page}
+          SelectProps={{
+            inputProps: { 'aria-label': 'rows per page' },
+            native: true
+          }}
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleOnChangeRowsPerPage}
           ActionsComponent={ResultTablePaginationActions}

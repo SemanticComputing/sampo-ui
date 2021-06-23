@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
+import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
@@ -16,6 +17,9 @@ const styles = theme => ({
     top: 0,
     backgroundColor: theme.palette.background.paper,
     zIndex: 1
+  },
+  emptyHeaderCol: {
+    borderBottom: '1px solid rgba(224, 224, 224, 1)'
   }
 })
 
@@ -24,12 +28,12 @@ const ResultTableHead = props => {
   return (
     <TableHead>
       <TableRow>
-        <TableCell className={classes.headerCol} key='empty' />
+        <td className={classNames(classes.headerCol, classes.emptyHeaderCol)} key='empty' />
         {columns.map(column => {
           if (column.onlyOnInstancePage) { return null }
           if (column.hideHeader) {
             return (
-              <TableCell className={classes.headerCol} key='empty2' />
+              <td className={classes.headerCol} key='empty2' />
             )
           }
           const label = intl.get(`perspectives.${props.resultClass}.properties.${column.id}.label`)
