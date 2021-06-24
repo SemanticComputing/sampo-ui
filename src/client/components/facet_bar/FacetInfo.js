@@ -103,7 +103,7 @@ class FacetInfo extends React.Component {
       <div className={classes.root}>
         {this.props.fetchingResultCount
           ? <CircularProgress style={{ color: purple[500] }} thickness={5} size={26} />
-          : <Typography className={classes.infoText} variant={this.getTypographyVariant()}>{intl.get('facetBar.results')}: {resultCount} {intl.get(`perspectives.${resultClass}.facetResultsType`)}</Typography>}
+          : <Typography component='h2' className={classes.infoText} variant={this.getTypographyVariant()}>{intl.get('facetBar.results')}: {resultCount} {intl.get(`perspectives.${resultClass}.facetResultsType`)}</Typography>}
         {!mobileMode && <Divider className={classes.facetInfoDivider} />}
         {(activeUriFilters ||
           activeSpatialFilters ||
@@ -113,7 +113,7 @@ class FacetInfo extends React.Component {
         ) &&
           <>
             <div className={classes.headerContainer}>
-              <Typography variant={this.getTypographyVariant()}>{intl.get('facetBar.activeFilters')}</Typography>
+              <Typography component='h2' variant={this.getTypographyVariant()}>{intl.get('facetBar.activeFilters')}</Typography>
               <Button
                 variant='contained'
                 color='secondary'
@@ -141,7 +141,7 @@ class FacetInfo extends React.Component {
             </div>
             <Divider className={classes.facetInfoDivider} />
           </>}
-        {!mobileMode && <Typography className={classes.infoText} variant={this.getTypographyVariant()}>{intl.get('facetBar.narrowDownBy')}:</Typography>}
+        {!mobileMode && <Typography component='h2' className={classes.infoText} variant={this.getTypographyVariant()}>{intl.get('facetBar.narrowDownBy')}:</Typography>}
       </div>
     )
   }

@@ -106,6 +106,7 @@ class TopBarSearchField extends React.Component {
             root: classes.inputRoot,
             input: classes.inputInput
           }}
+          inputProps={{ 'aria-label': 'search' }}
           onChange={this.handleChange}
           onKeyDown={this.handleOnKeyDown}
         />

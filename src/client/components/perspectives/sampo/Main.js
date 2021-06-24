@@ -122,13 +122,13 @@ const Main = props => {
       <div className={classes.banner}>
         <div className={classes.bannerContent}>
           <div className={classes.bannerHeading}>
-            <Typography component='span' variant={headingVariant} align='center'>
+            <Typography component='h1' variant={headingVariant} align='center'>
               {intl.getHTML('appTitle.long')}
             </Typography>
           </div>
           <div className={classes.bannerSubheading}>
             <div>
-              <Typography component='h2' variant={subheadingVariant} align='center'>
+              <Typography component='p' variant={subheadingVariant} align='center'>
                 {intl.getHTML('appTitle.subheading')}
               </Typography>
             </div>
