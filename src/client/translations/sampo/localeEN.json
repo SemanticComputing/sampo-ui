@@ -127,7 +127,7 @@
   "leafletMap": {
     "basemaps": {
       "mapbox": {
-        "light-v10": "Mapbox Light"
+        "light-v10": "Mapbox Light (OpenStreetMap)"
       },
       "googleRoadmap": "Google Maps",
       "topographicalMapNLS": "Topographical map (National Land Survey of Finland)",

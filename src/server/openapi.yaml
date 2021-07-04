@@ -504,6 +504,16 @@ paths:
             application/json:
               schema:
                 type: array     
+  /nls-vectortiles:
+    get:
+      summary: Route for NLS vectortiles API.  
+      responses:
+        '200':
+          description: Styles for vector tiles as JSON
+          content:
+            application/json:
+              schema:
+                type: object
   /void/{perspectiveID}:
     get:
       summary: Retrieve a VoID description

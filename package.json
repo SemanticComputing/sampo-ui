@@ -59,6 +59,7 @@
     "leaflet.markercluster": "^1.4.1",
     "leaflet.zoominfo": "git+https://github.com/SemanticComputing/Leaflet.zoominfo.git",
     "lodash": "^4.17.21",
+    "mapbox-gl-leaflet": "0.0.15",
     "moment": "^2.24.0",
     "moment-range": "^4.0.2",
     "react": "^16.13.0",
