@@ -475,7 +475,7 @@ paths:
                 format: binary     
   /nls-wmts:
     get:
-      summary: Route for password protected WMTS layers. 
+      summary: Route for NLS WMTS API. Only for contract customers. 
       parameters:
         - in: query
           name: layerID
@@ -503,10 +503,41 @@ paths:
           content:
             application/json:
               schema:
-                type: array     
-  /nls-vectortiles:
+                type: array    
+  /nls-wmts-open:
     get:
-      summary: Route for NLS vectortiles API.  
+      summary: Route for NLS WMTS API, free but requires an API key.
+      parameters:
+        - in: query
+          name: layerID
+          schema: 
+            type: string
+          required: true
+        - in: query
+          name: x
+          schema: 
+            type: string
+          required: true
+        - in: query
+          name: y 
+          schema: 
+            type: string
+          required: true
+        - in: query
+          name: z
+          schema: 
+            type: string
+          required: true  
+      responses:
+        '200':
+          description: An array of GeoJSON layers.
+          content:
+            application/json:
+              schema:
+                type: array                    
+  /nls-vectortiles-open:
+    get:
+      summary: Route for NLS vectortiles API, free but requires an API key. 
       responses:
         '200':
           description: Styles for vector tiles as JSON

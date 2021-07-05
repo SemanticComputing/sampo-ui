@@ -29,8 +29,8 @@ import 'leaflet.zoominfo/dist/L.Control.Zoominfo'
 import 'leaflet.zoominfo/dist/L.Control.Zoominfo.css'
 import 'leaflet-usermarker/src/leaflet.usermarker.js'
 import 'leaflet-usermarker/src/leaflet.usermarker.css'
-// import 'leaflet.gridlayer.googlemutant/Leaflet.GoogleMutant.js'
-// import 'mapbox-gl-leaflet/leaflet-mapbox-gl.js'
+// import 'leaflet.gridlayer.googlemutant/Leaflet.GoogleMutant.js' // used for Google Maps basemap
+// import 'mapbox-gl-leaflet/leaflet-mapbox-gl.js' // used for National Land Survey of Finland's vectortiles background map
 
 import markerShadowIcon from '../../img/markers/marker-shadow.png'
 import markerIconViolet from '../../img/markers/marker-icon-violet.png'
@@ -300,30 +300,29 @@ class LeafletMap extends React.Component {
     })
 
     /*
-      Password protected base layers from https://www.maanmittauslaitos.fi/karttakuvapalvelu/tekninen-kuvaus-wmts
+      Base layers from https://www.maanmittauslaitos.fi/karttakuvapalvelu/tekninen-kuvaus-wmts
       Routed via backend.
     */
     // const backgroundMapNLS = L.tileLayer(`${process.env.API_URL}/nls-wmts?z={z}&x={x}&y={y}&layerID=taustakartta`, {
     //   attribution: 'National Land Survey of Finland',
     //   maxZoom: 18
     // })
-    // const topographicalMapNLS = L.tileLayer(`${process.env.API_URL}/nls-wmts?z={z}&x={x}&y={y}&layerID=maastokartta`, {
+    // https://github.com/mapbox/mapbox-gl-leaflet
+    // const nlsVectortilesBackgroundmap = L.mapboxGL({
+    //   accessToken: this.props.mapBoxAccessToken,
+    //   style: `${process.env.API_URL}/nls-vectortiles-open`
+    // })
+    // const topographicalMapNLS = L.tileLayer(`${process.env.API_URL}/nls-wmts-open?z={z}&x={x}&y={y}&layerID=maastokartta`, {
     //   attribution: 'National Land Survey of Finland',
     //   maxZoom: 18
     // })
-    // const airMapNLS = L.tileLayer(`${process.env.API_URL}/nls-wmts?z={z}&x={x}&y={y}&layerID=ortokuva`, {
+    // const airMapNLS = L.tileLayer(`${process.env.API_URL}/nls-wmts-open?z={z}&x={x}&y={y}&layerID=ortokuva`, {
     //   attribution: 'National Land Survey of Finland',
     //   maxZoom: 18
     // })
 
     // const googleRoadmap = L.gridLayer.googleMutant({
     //   type: 'roadmap'
-    // })
-
-    // https://github.com/mapbox/mapbox-gl-leaflet
-    // const nlsVectortilesBackgroundmap = L.mapboxGL({
-    //   accessToken: this.props.mapBoxAccessToken,
-    //   style: `${process.env.API_URL}/nls-vectortiles`
     // })
 
     // layer for markers
@@ -369,7 +368,7 @@ class LeafletMap extends React.Component {
     if (this.props.showExternalLayers) {
       const basemaps = {
         [intl.get(`leafletMap.basemaps.mapbox.${this.props.mapBoxStyle}`)]: mapboxBaseLayer
-        // [intl.get('leafletMap.basemaps.backgroundMapNLS')]: nlsVectortilesBackgroundmap
+        // [intl.get('leafletMap.basemaps.backgroundMapNLS')]: nlsVectortilesBackgroundmap,
         // [intl.get('leafletMap.basemaps.topographicalMapNLS')]: topographicalMapNLS,
         // [intl.get('leafletMap.basemaps.airMapNLS')]: airMapNLS
         // [intl.get('leafletMap.basemaps.googleRoadmap')]: googleRoadmap,

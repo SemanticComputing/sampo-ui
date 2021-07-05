@@ -131,7 +131,8 @@
       },
       "googleRoadmap": "Google Maps",
       "topographicalMapNLS": "Topographical map (National Land Survey of Finland)",
-      "backgroundMapNLS": "Background map (National Land Survey of Finland)"
+      "backgroundMapNLS": "Background map (National Land Survey of Finland)",
+      "airMapNLS": "Aerial map (National Land Survey of Finland)"
     },
     "externalLayers": {
       "WFS_MV_Kulttuuriymparisto:Arkeologiset_kohteet_alue": "Register of Archaeological Sites, areas (Finnish Heritage Agency)",
