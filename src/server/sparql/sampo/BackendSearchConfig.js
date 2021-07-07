@@ -280,7 +280,7 @@ export const backendSearchConfig = {
     baseUrl: 'https://sampo-ui.demo.seco.cs.aalto.fi',
     langPrimary: 'en',
     langSecondary: 'fi',
-    outputDir: './src/server/sitemap_generator/sitemap_output',
+    outputDir: './src/server/sitemap_generator',
     sitemapUrl: 'https://sampo-ui.demo.seco.cs.aalto.fi/sitemap',
     sitemapInstancePageQuery
   }
