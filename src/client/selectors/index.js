@@ -12,6 +12,13 @@ const getSortDirection = state => state.sortDirection
 export const filterResults = createSelector(
   [getResults, getFacets, getLastlyUpdatedFacet, getSortBy, getSortDirection],
   (results, facets, lastlyUpdatedFacet, sortBy, sortDirection) => {
+    if (results == null) {
+      return {
+        clientFSResults: null,
+        clientFSFacetValues: null
+      }
+    }
+
     // Filter results by current facet selections
     Object.values(facets).forEach(facet => {
       const { facetID, filterType } = facet
