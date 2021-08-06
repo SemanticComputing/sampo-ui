@@ -31,7 +31,7 @@ provided below, fork this repository, and start developing from there.
 
 ## Requirements
 
-* [Node.js® &ndash; a JavaScript runtime built on Chrome's V8 JavaScript engine.](https://nodejs.org/en/) (versions 10.15.3 - 14.15.1)
+* [Node.js® &ndash; a JavaScript runtime built on Chrome's V8 JavaScript engine.](https://nodejs.org/en/) (versions 12.22.4 - 14.17.4)
 
 * [Nodemon &ndash; monitor for any changes in your source and automatically restart your server](https://nodemon.io/)
 
