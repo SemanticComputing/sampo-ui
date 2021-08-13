@@ -113,6 +113,7 @@ class ApexChart extends React.Component {
         tooltip: this.props.tooltip || null,
         fetchInstanceAnalysis: this.props.fetchInstanceAnalysis,
         resultClass: this.props.resultClass,
+        facetID: this.props.facetID,
         facetClass: this.props.facetClass,
         screenSize: this.props.screenSize
       })
