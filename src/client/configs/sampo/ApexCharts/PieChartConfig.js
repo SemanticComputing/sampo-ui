@@ -1,4 +1,6 @@
-export const createApexPieChartData = ({ rawData, screenSize }) => {
+import { generateLabelForMissingValue } from '../../../helpers/helpers'
+
+export const createApexPieChartData = ({ rawData, screenSize, facetClass, facetID }) => {
   const labels = []
   const series = []
   let otherCount = 0
@@ -9,6 +11,9 @@ export const createApexPieChartData = ({ rawData, screenSize }) => {
     if (portion < threshold) {
       otherCount += parseInt(item.instanceCount)
     } else {
+      if (item.id === 'http://ldf.fi/MISSING_VALUE') {
+        item.prefLabel = generateLabelForMissingValue({ facetClass, facetID })
+      }
       labels.push(item.prefLabel)
       series.push(parseInt(item.instanceCount))
     }

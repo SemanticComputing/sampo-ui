@@ -1,5 +1,6 @@
 import querystring from 'querystring'
 import { has } from 'lodash'
+import intl from 'react-intl-universal'
 
 export const stateToUrl = ({
   facets,
@@ -151,3 +152,9 @@ export const arrayToObject = ({ array, keyField }) =>
     obj[item[keyField]] = item
     return obj
   }, {})
+
+export const generateLabelForMissingValue = ({ facetClass, facetID }) => {
+  // Check if there is a translated label for missing value, or use defaults
+  return intl.get(`perspectives.${facetClass}.properties.${facetID}.missingValueLabel`) ||
+   intl.get('facetBar.defaultMissingValueLabel') || 'Unknown'
+}

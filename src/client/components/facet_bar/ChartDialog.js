@@ -20,7 +20,8 @@ const useStyles = makeStyles(theme => ({
 const ChartDialog = props => {
   const {
     fetchData, facetID, rawData, rawDataUpdateID, createChartData, facetClass,
-    resultClass, fetching, tooltip, title, xaxisTitle, yaxisTitle, seriesTitle, lineChartConfig
+    resultClass, fetching, tooltip, title, xaxisTitle, yaxisTitle, seriesTitle, lineChartConfig,
+    layoutConfig
   } = props
   let xaxisType = null; let xaxisTickAmount = null; let stroke = null
   if (lineChartConfig) {
@@ -72,6 +73,7 @@ const ChartDialog = props => {
             xaxisType={xaxisType}
             xaxisTickAmount={xaxisTickAmount}
             stroke={stroke}
+            layoutConfig={layoutConfig}
           />
         </div>
       </GeneralDialog>
