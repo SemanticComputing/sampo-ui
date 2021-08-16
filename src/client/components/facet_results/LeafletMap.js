@@ -408,8 +408,8 @@ class LeafletMap extends React.Component {
     const currentCenter = this.leafletMap.getCenter()
     return (
       currentZoom === this.props.zoom &&
-      currentCenter[0] === this.props.center[0] &&
-      currentCenter[1] === this.props.center[1]
+      currentCenter.lat === this.props.center[0] &&
+      currentCenter.lng === this.props.center[1]
     )
   }
 
