@@ -113,7 +113,7 @@
     "sitemap": "^6.3.5",
     "standard": "^14.3.4",
     "style-loader": "^2.0.0",
-    "webpack": "^5.28.0",
+    "webpack": "^5.51.1",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.0.0",
     "webpack-merge": "^5.7.3"
