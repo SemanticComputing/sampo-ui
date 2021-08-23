@@ -26,7 +26,6 @@ module.exports = {
       template: 'src/client/index.html',
       favicon: 'src/client/favicon.ico'
     }),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env.API_URL': JSON.stringify(apiUrl)
     })
