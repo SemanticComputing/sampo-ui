@@ -40,9 +40,17 @@ app.use(function (req, res, next) {
   next()
 })
 
-let publicPath = null
+// Generate API docs from YAML file with Swagger UI
+let swaggerDocument
+try {
+  swaggerDocument = yaml.safeLoad(fs.readFileSync(path.join(__dirname, './openapi.yaml'), 'utf8'))
+} catch (e) {
+  console.log(e)
+}
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 // Express server is used to serve the React app only in production
+let publicPath = null
 if (!isDevelopment) {
   // The root directory from which to serve static assets
   publicPath = path.join(__dirname, './../public/')
@@ -52,16 +60,6 @@ if (!isDevelopment) {
 
 // React app makes requests to these api urls
 const apiPath = '/api/v1'
-
-// Generate API docs from YAML file with Swagger UI
-let swaggerDocument
-try {
-  swaggerDocument = yaml.safeLoad(fs.readFileSync(path.join(__dirname, './openapi.yaml'), 'utf8'))
-} catch (e) {
-  console.log(e)
-}
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 new OpenApiValidator({
   apiSpec: swaggerDocument,
