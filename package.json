@@ -41,7 +41,7 @@
     "cytoscape-panzoom": "^2.5.3",
     "date-fns": "^2.19.0",
     "deck.gl": "^8.4.10",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "express-openapi-validator": "^3.12.7",
     "express-static-gzip": "^2.1.1",
     "flat": "^5.0.2",
@@ -76,7 +76,7 @@
     "reselect": "^4.0.0",
     "rxjs": "^7.2.0",
     "simple-react-lightbox": "^3.6.4",
-    "swagger-ui-express": "^4.1.4",
+    "swagger-ui-express": "^4.1.6",
     "victory": "^0.26.1"
   },
   "devDependencies": {
