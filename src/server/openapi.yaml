@@ -94,7 +94,7 @@ paths:
         name: resultClass
         schema: 
           type: string
-          example: perspective1
+          example: placesMsProduced
         required: true
         description: The class of the results
       requestBody:
@@ -210,12 +210,14 @@ paths:
           name: facetClass
           schema: 
             type: string
+            example: perspective1
           required: true
           description: The class of the facet
         - in: path
           name: id
           schema: 
             type: string
+            example: language
           required: true
           description: The id of the facet
       requestBody:
@@ -227,8 +229,10 @@ paths:
               properties:
                 sortBy:
                  type: string
+                 example: instanceCount
                 sortDirection:
                   type: string 
+                  example: desc
                 constraints:
                     type: array
                     items: 
@@ -273,12 +277,14 @@ paths:
           name: resultClass
           schema: 
             type: string
+            example: perspective1
           required: true
           description: The class of the resource
         - in: path
           name: uri
           schema: 
             type: string
+            example: http://ldf.fi/mmm/manifestation_singleton/bibale_10003
           required: true
           description: The URI of the resource
       requestBody:
@@ -545,14 +551,15 @@ paths:
             application/json:
               schema:
                 type: object
-  /void/{perspectiveID}:
+  /void/{resultClass}:
     get:
       summary: Retrieve a VoID description
       parameters:
         - in: path
-          name: perspectiveID
+          name: resultClass
           schema: 
             type: string
+            example: perspective1KnowledgeGraphMetadata
           required: true
       responses:
         '200':
