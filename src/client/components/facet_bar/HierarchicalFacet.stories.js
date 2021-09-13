@@ -3,7 +3,7 @@ import HierarchicalFacet, { HierarchicalFacetComponent } from './HierarchicalFac
 import Center from '../../../../.storybook/Center'
 import PaperContainer from '../../../../.storybook/PaperContainer'
 import { productionPlace } from './HierarchicalFacet.testData'
-import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
+import '@nosferatu500/react-sortable-tree/style.css' // This only needs to be imported once in your app
 
 export default {
   component: HierarchicalFacetComponent,

@@ -1,5 +1,5 @@
 import { has } from 'lodash'
-import { getTreeFromFlatData } from 'react-sortable-tree'
+import { getTreeFromFlatData } from '@nosferatu500/react-sortable-tree'
 
 export const mapPlaces = sparqlBindings => {
   const results = sparqlBindings.map(b => {

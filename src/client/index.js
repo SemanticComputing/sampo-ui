@@ -14,7 +14,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import purple from '@material-ui/core/colors/purple'
 
 import './index.css'
-import 'react-sortable-tree/style.css'
+import '@nosferatu500/react-sortable-tree/style.css'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
