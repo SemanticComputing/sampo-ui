@@ -1,9 +1,8 @@
 module.exports = function (api) {
   api.cache(true)
-  const isBrowser = process.env.BABEL_ENV === 'browser'
   const presets = []
   const plugins = []
-  if (isBrowser) {
+  if (process.env.BABEL_ENV === 'browser') {
     presets.push([
       // https://babeljs.io/docs/en/babel-preset-env
       '@babel/preset-env',
@@ -21,7 +20,7 @@ module.exports = function (api) {
     plugins.push('@babel/plugin-proposal-class-properties')
     plugins.push('@babel/plugin-transform-runtime')
   }
-  if (!isBrowser) {
+  if (process.env.BABEL_ENV === 'node') {
     presets.push([
       '@babel/preset-env',
       {
@@ -30,6 +29,10 @@ module.exports = function (api) {
         }
       }
     ])
+  }
+  // for JavaScript Standard Style library to support JSX syntax
+  if (process.env.BABEL_ENV === undefined) {
+    presets.push('@babel/preset-react')
   }
 
   return {
