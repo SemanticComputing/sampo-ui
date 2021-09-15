@@ -17,7 +17,6 @@ module.exports = function (api) {
       }
     ])
     presets.push('@babel/preset-react')
-    plugins.push('@babel/plugin-proposal-class-properties')
     plugins.push('@babel/plugin-transform-runtime')
   }
   if (process.env.BABEL_ENV === 'node') {
