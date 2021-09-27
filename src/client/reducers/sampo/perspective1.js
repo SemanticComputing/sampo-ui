@@ -75,6 +75,7 @@ export const INITIAL_STATE = {
       sortValues: true,
       numberedList: false,
       minWidth: 200,
+      collapsedMaxWords: 3,
       priority: 5
     },
     {
@@ -85,6 +86,7 @@ export const INITIAL_STATE = {
       sortValues: true,
       numberedList: false,
       minWidth: 180,
+      collapsedMaxWords: 3,
       priority: 5
     },
     {

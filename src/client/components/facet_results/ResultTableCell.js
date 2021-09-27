@@ -18,7 +18,7 @@ const ResultTableCell = props => {
   }
   switch (valueType) {
     case 'object':
-      cellContent =
+      cellContent = (
         <ObjectListCollapsible
           data={data}
           makeLink={makeLink}
@@ -28,13 +28,15 @@ const ResultTableCell = props => {
           numberedList={numberedList}
           columnId={columnId}
           expanded={expanded}
+          collapsedMaxWords={collapsedMaxWords}
           linkAsButton={linkAsButton}
           showSource={showSource}
           sourceExternalLink={sourceExternalLink}
         />
+      )
       break
     case 'string':
-      cellContent =
+      cellContent = (
         <StringList
           data={data}
           expanded={expanded}
@@ -44,6 +46,7 @@ const ResultTableCell = props => {
           referencedTerm={referencedTerm}
           numberedList={numberedList}
         />
+      )
       break
     case 'image':
       cellContent = data && data !== '-'

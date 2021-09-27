@@ -31,7 +31,7 @@ const styles = () => ({
 const ObjectList = props => {
   const {
     sortValues, sortBy, makeLink, externalLink, linkAsButton, columnId, showSource,
-    sourceExternalLink, numberedList
+    sourceExternalLink, numberedList, collapsedMaxWords
   } = props
   let { data } = props
 
@@ -72,6 +72,8 @@ const ObjectList = props => {
             makeLink={makeLink}
             externalLink={externalLink}
             linkAsButton={linkAsButton}
+            isFirstValue={isFirstValue}
+            collapsedMaxWords={collapsedMaxWords}
           />
           {collapsed && <span> ...</span>}
           {showSource && itemData.source &&

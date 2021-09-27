@@ -290,7 +290,8 @@ class ResultTable extends React.Component {
               <div className={classes.progressContainer}>
                 <CircularProgress style={{ color: purple[500] }} thickness={5} />
               </div>
-            ) : (
+              )
+            : (
               <Table size='small'>
                 <ResultTableHead
                   resultClass={this.props.resultClass}
@@ -304,7 +305,7 @@ class ResultTable extends React.Component {
                   {paginatedResults.map(row => this.rowRenderer(row))}
                 </TableBody>
               </Table>
-            )}
+              )}
         </div>
       </>
     )
