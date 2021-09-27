@@ -14,6 +14,7 @@ The following research prototype portals use this repository as a base:
 8. [LetterSampo](https://github.com/SemanticComputing/lettersampo-web-app)
 9. [Hellerau](https://github.com/SemanticComputing/hellerau-web-app)
 10. [ParliamentSampo](https://github.com/SemanticComputing/parliamentsampo-web-app)
+11. [War veteran interviews](https://github.com/SemanticComputing/veterans-web-app)
 
 An example deployment generated from this repository is published at [sampo-ui.demo.seco.cs.aalto.fi](https://sampo-ui.demo.seco.cs.aalto.fi). It combines perspectives from the Mapping Manuscript Migrations and NameSampo portals, and can be used for testing and as a starting point for developing new portals. 
 
