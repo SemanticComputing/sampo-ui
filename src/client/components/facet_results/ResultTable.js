@@ -203,13 +203,16 @@ class ResultTable extends React.Component {
       if (column.valueType === 'image' && Array.isArray(columnData)) {
         hasExpandableContent = false
       }
-      if (!isArray &&
-        columnData !== '-' &&
-        column.valueType === 'string' &&
-        column.collapsedMaxWords &&
-        columnData.split(' ').length > column.collapsedMaxWords
-      ) {
-        hasExpandableContent = true
+      // check if label should be shortened in ResultTableCell
+      if (!isArray && column.collapsedMaxWords && columnData !== '-') {
+        if (column.valueType === 'string' && columnData.split(' ').length > column.collapsedMaxWords) {
+          hasExpandableContent = true
+          columnData.shortenLabel = !expanded // shorten label only if the cell is not expanded
+        }
+        if (column.valueType === 'object' && columnData.prefLabel.split(' ').length > column.collapsedMaxWords) {
+          hasExpandableContent = true
+          columnData.shortenLabel = !expanded // shorten label only if the cell is not expanded
+        }
       }
       return (
         <ResultTableCell

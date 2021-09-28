@@ -53,7 +53,7 @@ const ObjectList = props => {
     return data
   }
 
-  const renderItem = ({ collapsed, itemData, isFirstValue = false }) => {
+  const renderItem = ({ addThreeDots, itemData, isFirstValue = false }) => {
     if (columnId === 'event') {
       return (
         <>
@@ -61,7 +61,7 @@ const ObjectList = props => {
             data={itemData}
             isFirstValue={isFirstValue}
           />
-          {collapsed && <span> ...</span>}
+          {addThreeDots && <span> ...</span>}
         </>
       )
     } else {
@@ -75,7 +75,7 @@ const ObjectList = props => {
             isFirstValue={isFirstValue}
             collapsedMaxWords={collapsedMaxWords}
           />
-          {collapsed && <span> ...</span>}
+          {addThreeDots && <span> ...</span>}
           {showSource && itemData.source &&
             <ObjectListItemSources
               data={itemData.source}
@@ -111,14 +111,14 @@ const ObjectList = props => {
     data = sortValues ? sortList(data) : data
     return (
       <>
-        {!props.expanded && renderItem({ collapsed: true, itemData: data[0], isFirstValue: true })}
+        {!props.expanded && renderItem({ addThreeDots: true, itemData: data[0], isFirstValue: true })}
         <Collapse in={props.expanded} timeout='auto' unmountOnExit>
           {numberedList ? renderNumberedList(data) : renderBulletedList(data)}
         </Collapse>
       </>
     )
   } else {
-    return renderItem({ collapsed: false, itemData: data, isFirstValue: true })
+    return renderItem({ addThreeDots: data.shortenLabel, itemData: data })
   }
 }
 
