@@ -3,6 +3,7 @@ import React from 'react'
 import * as am5 from '@amcharts/amcharts5'
 import * as am5xy from '@amcharts/amcharts5/xy'
 import am5themesAnimated from '@amcharts/amcharts5/themes/Animated'
+import Paper from '@material-ui/core/Paper'
 
 /**
  * ---------------------------------------
@@ -379,7 +380,7 @@ const allData = {
 
 const stepDuration = 2000
 
-const year = 2002
+let year = 2002
 
 class BarChartRace extends React.Component {
     componentDidMount = () => {
@@ -455,11 +456,11 @@ class BarChartRace extends React.Component {
       this.series.columns.template.setAll({ cornerRadiusBR: 5, cornerRadiusTR: 5 })
 
       // Make each column to be of a different color
-      this.series.columns.template.adapters.add('fill', function (fill, target) {
+      this.series.columns.template.adapters.add('fill', (fill, target) => {
         return chart.get('colors').getIndex(this.series.columns.indexOf(target))
       })
 
-      this.series.columns.template.adapters.add('stroke', function (stroke, target) {
+      this.series.columns.template.adapters.add('stroke', (stroke, target) => {
         return chart.get('colors').getIndex(this.series.columns.indexOf(target))
       })
 
@@ -488,22 +489,22 @@ class BarChartRace extends React.Component {
       }))
 
       // update data with values each 1.5 sec
-      //   const interval = setInterval(function () {
-      //     year++
+      const interval = setInterval(() => {
+        year++
 
-      //     if (year > 2018) {
-      //       clearInterval(interval)
-      //       clearInterval(this.sortInterval)
-      //     }
+        if (year > 2018) {
+          clearInterval(interval)
+          clearInterval(this.sortInterval)
+        }
 
-      //     this.updateData()
-      //   }, stepDuration)
+        this.updateData()
+      }, stepDuration)
 
-      // this.setInitialData()
-      //   setTimeout(function () {
-      //     year++
-      //     this.updateData()
-      //   }, 50)
+      this.setInitialData()
+      setTimeout(() => {
+        year++
+        this.updateData()
+      }, 50)
 
       // Make stuff animate on load
       // https://www.amcharts.com/docs/v5/concepts/animations/
@@ -583,7 +584,7 @@ class BarChartRace extends React.Component {
       })
 
       // go through each axis item
-      am5.array.each(this.yAxis.dataItems, function (dataItem) {
+      am5.array.each(this.yAxis.dataItems, dataItem => {
         // get corresponding series item
         const seriesDataItem = this.getSeriesItem(dataItem.get('category'))
 
@@ -617,7 +618,10 @@ class BarChartRace extends React.Component {
 
     render () {
       return (
-        <div id='chartdiv' style={{ width: '100%', height: '500px' }} />
+        <Paper>
+          <div id='chartdiv' style={{ width: '100%', height: '700px' }} />
+        </Paper>
+
       )
     }
 }
