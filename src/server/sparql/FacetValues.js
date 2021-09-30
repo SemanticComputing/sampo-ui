@@ -209,7 +209,7 @@ const generateSelectedNoHitsBlock = ({
 
 const hasPreviousSelections = (constraints, facetID) => {
   let hasPreviousSelections = false
-  constraints.map(facet => {
+  constraints.forEach(facet => {
     if (facet.facetID === facetID && facet.filterType === 'uriFilter') {
       hasPreviousSelections = true
     }
@@ -219,7 +219,7 @@ const hasPreviousSelections = (constraints, facetID) => {
 
 const hasPreviousSelectionsFromOtherFacets = (constraints, facetID) => {
   let hasPreviousSelectionsFromOtherFacets = false
-  constraints.map(facet => {
+  constraints.forEach(facet => {
     if (facet.facetID !== facetID && facet.filterType === 'uriFilter') {
       const unknownAsOnlySelection = facet.values.length === 1 && facet.values[0] === 'http://ldf.fi/MISSING_VALUE'
       if (!unknownAsOnlySelection) {
@@ -232,7 +232,7 @@ const hasPreviousSelectionsFromOtherFacets = (constraints, facetID) => {
 
 const getUriFilters = (constraints, facetID) => {
   let filters = []
-  constraints.map(facet => {
+  constraints.forEach(facet => {
     if (facet.facetID === facetID && facet.filterType === 'uriFilter') {
       filters = facet.values
     }

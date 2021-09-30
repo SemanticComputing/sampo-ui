@@ -30,9 +30,6 @@ export const runSelectQuery = async ({
       data: q
     })
     if (resultFormat === 'json') {
-      if (resultMapper) {
-
-      }
       const mappedResults = resultMapperConfig
         ? resultMapper({ sparqlBindings: response.data.results.bindings, config: resultMapperConfig })
         : resultMapper(response.data.results.bindings)
