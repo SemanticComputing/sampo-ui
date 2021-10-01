@@ -618,9 +618,7 @@ class BarChartRace extends React.Component {
 
     render () {
       return (
-        <Paper>
-          <div id='chartdiv' style={{ width: '100%', height: '700px' }} />
-        </Paper>
+        <Paper square id='chartdiv' style={{ width: '100%', height: 'calc(100% - 72px)' }} />
 
       )
     }
