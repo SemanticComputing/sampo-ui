@@ -265,7 +265,13 @@ const Perspective1 = props => {
       <Route
         path={`${rootUrl}/${perspective.id}/faceted-search/bar_chart_race`}
         render={() =>
-          <BarChartRace />}
+          <BarChartRace
+            fetchData={props.fetchResults}
+            resultClass='productionsByDecadeAndCountry'
+            facetClass='perspective1'
+            resultUpdateID={props.perspectiveState.resultUpdateID}
+            results={props.perspectiveState.results}
+          />}
       />
       <Route
         path={`${rootUrl}/${perspective.id}/faceted-search/network`}

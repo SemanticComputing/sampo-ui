@@ -380,26 +380,46 @@ const allData = {
 
 const stepDuration = 2000
 
-let year = 2002
+let year = 1100
 
 class BarChartRace extends React.Component {
     componentDidMount = () => {
+      this.props.fetchData({
+        resultClass: this.props.resultClass,
+        facetClass: this.props.facetClass
+      })
+      this.initChart()
+    }
+
+    componentDidUpdate = prevProps => {
+      if (prevProps.resultUpdateID !== this.props.resultUpdateID) {
+        this.playAnimation()
+      }
+    }
+
+    componentWillUnmount () {
+      if (this.chart) {
+        this.chart.dispose()
+      }
+    }
+
+    initChart = () => {
       // Create root element
       // https://www.amcharts.com/docs/v5/getting-started/#Root_element
       const root = am5.Root.new('chartdiv')
 
-      root.numberFormatter.setAll({
-        numberFormat: '#a',
+      // root.numberFormatter.setAll({
+      //   numberFormat: '#a',
 
-        // Group only into M (millions), and B (billions)
-        bigNumberPrefixes: [
-          { number: 1e6, suffix: 'M' },
-          { number: 1e9, suffix: 'B' }
-        ],
+      //   // Group only into M (millions), and B (billions)
+      //   bigNumberPrefixes: [
+      //     { number: 1e6, suffix: 'M' },
+      //     { number: 1e9, suffix: 'B' }
+      //   ],
 
-        // Do not use small number prefixes at all
-        smallNumberPrefixes: []
-      })
+      //   // Do not use small number prefixes at all
+      //   smallNumberPrefixes: []
+      // })
 
       // Set themes
       // https://www.amcharts.com/docs/v5/concepts/themes/
@@ -479,7 +499,7 @@ class BarChartRace extends React.Component {
       })
 
       this.label = chart.plotContainer.children.push(am5.Label.new(root, {
-        text: '2002',
+        text: '10',
         fontSize: '8em',
         opacity: 0.2,
         x: am5.p100,
@@ -488,40 +508,12 @@ class BarChartRace extends React.Component {
         centerX: am5.p100
       }))
 
-      // update data with values each 1.5 sec
-      const interval = setInterval(() => {
-        year++
-
-        if (year > 2018) {
-          clearInterval(interval)
-          clearInterval(this.sortInterval)
-        }
-
-        this.updateData()
-      }, stepDuration)
-
-      this.setInitialData()
-      setTimeout(() => {
-        year++
-        this.updateData()
-      }, 50)
-
-      // Make stuff animate on load
-      // https://www.amcharts.com/docs/v5/concepts/animations/
-      this.series.appear(1000)
-      chart.appear(1000, 100)
-
       this.chart = chart
     }
 
-    componentWillUnmount () {
-      if (this.chart) {
-        this.chart.dispose()
-      }
-    }
-
     setInitialData = () => {
-      const d = allData[year]
+      // const d = allData[year]
+      const d = this.props.results[year]
 
       for (const n in d) {
         this.series.data.push({ network: n, value: d[n] })
@@ -531,13 +523,13 @@ class BarChartRace extends React.Component {
 
     updateData = () => {
       let itemsWithNonZero = 0
-
-      if (allData[year]) {
+      // if (allData[year]) {
+      if (this.props.results[year]) {
         this.label.set('text', year.toString())
 
         am5.array.each(this.series.dataItems, dataItem => {
           const category = dataItem.get('categoryY')
-          const value = allData[year][category]
+          const value = this.props.results[year][category]
 
           if (value > 0) {
             itemsWithNonZero++
@@ -559,6 +551,33 @@ class BarChartRace extends React.Component {
 
         this.yAxis.zoom(0, itemsWithNonZero / this.yAxis.dataItems.length)
       }
+    }
+
+    playAnimation = () => {
+      // update data with values each 1.5 sec
+      const interval = setInterval(() => {
+        // year++
+        year += 10
+
+        if (year > 2018) {
+          clearInterval(interval)
+          clearInterval(this.sortInterval)
+        }
+
+        this.updateData()
+      }, stepDuration)
+
+      this.setInitialData()
+      setTimeout(() => {
+        // year++
+        year += 10
+        this.updateData()
+      }, 50)
+
+      // Make stuff animate on load
+      // https://www.amcharts.com/docs/v5/concepts/animations/
+      this.series.appear(1000)
+      this.chart.appear(1000, 100)
     }
 
     // Get series item by category

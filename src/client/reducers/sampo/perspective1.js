@@ -286,6 +286,7 @@ const resultClasses = new Set([
   'placesMsMigrations',
   'placesMsMigrationsDialog',
   'productionTimespanLineChart',
+  'productionsByDecadeAndCountry',
   'eventLineChart',
   'manuscriptInstancePageNetwork',
   'manuscriptFacetResultsNetwork',

@@ -33,11 +33,11 @@ export const runSelectQuery = async ({
       if (resultMapper) {
 
       }
-      const mappedResults = resultMapperConfig
+      let mappedResults = resultMapperConfig
         ? resultMapper({ sparqlBindings: response.data.results.bindings, config: resultMapperConfig })
         : resultMapper(response.data.results.bindings)
       if (postprocess) {
-        postprocess.func({ data: mappedResults, config: postprocess.config })
+        mappedResults = postprocess.func({ data: mappedResults, config: postprocess.config })
       }
       return {
         data: mappedResults,
