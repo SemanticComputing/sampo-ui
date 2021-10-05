@@ -62,7 +62,8 @@ class HierarchicalFacet extends Component {
     super(props)
     this.state = {
       treeData: this.props.facetedSearchMode === 'clientFS' || this.props.facetedSearchMode === 'storybook'
-        ? this.props.facet.values : [],
+        ? this.props.facet.values
+        : [],
       searchString: '',
       searchFocusIndex: 0,
       searchFoundCount: null,
@@ -84,7 +85,8 @@ class HierarchicalFacet extends Component {
     // console.log(this.props.facetedSearchMode)
     // console.log(this.props)
     this.props.facetedSearchMode === 'clientFS'
-      ? this.clientFScomponentDidUpdate(prevProps) : this.serverFScomponentDidUpdate(prevProps)
+      ? this.clientFScomponentDidUpdate(prevProps)
+      : this.serverFScomponentDidUpdate(prevProps)
   }
 
   clientFScomponentDidUpdate = prevProps => {
@@ -304,72 +306,74 @@ class HierarchicalFacet extends Component {
 
     return (
       <>
-        {isFetching ? (
-          <div className={classes.spinnerContainer}>
-            <CircularProgress style={{ color: purple[500] }} thickness={5} />
-          </div>
-        ) : (
-          <>
-            {searchField && facet.filterType !== 'spatialFilter' &&
-              <div className={classes.facetSearchContainer}>
-                <Input
-                  placeholder={intl.get('facetBar.facetSearchFieldPlaceholder')}
-                  onChange={this.handleSearchFieldOnChange}
-                  value={this.state.searchString}
-                />
-                {searchFoundCount > 0 &&
-                  <>
-                    <IconButton
-                      className={classes.facetSearchIconButton}
-                      aria-label='Previous'
-                      onClick={selectPrevMatch}
-                    >
-                      <NavigateBeforeIcon />
-                    </IconButton>
-                    <IconButton
-                      className={classes.facetSearchIconButton}
-                      aria-label='Next'
-                      onClick={selectNextMatch}
-                    >
-                      <NavigateNextIcon />
-                    </IconButton>
-                    <Typography>
-                      {searchFoundCount > 0 ? searchFocusIndex + 1 : 0} / {searchFoundCount || 0}
-                    </Typography>
-                  </>}
-              </div>}
-            {facet.filterType !== 'spatialFilter' &&
-              <div className={searchField ? classes.treeContainerWithSearchField : classes.treeContainer}>
-                <SortableTree
-                  treeData={this.state.treeData}
-                  onChange={treeData => this.setState({ treeData })}
-                  canDrag={false}
-                  rowHeight={30}
-                  searchMethod={customSearchMethod}
-                  searchQuery={searchString}
-                  searchFocusOffset={searchFocusIndex}
-                  searchFinishCallback={matches => {
-                    this.setState({
-                      searchFoundCount: matches.length,
-                      searchFocusIndex:
+        {isFetching
+          ? (
+            <div className={classes.spinnerContainer}>
+              <CircularProgress style={{ color: purple[500] }} thickness={5} />
+            </div>
+            )
+          : (
+            <>
+              {searchField && facet.filterType !== 'spatialFilter' &&
+                <div className={classes.facetSearchContainer}>
+                  <Input
+                    placeholder={intl.get('facetBar.facetSearchFieldPlaceholder')}
+                    onChange={this.handleSearchFieldOnChange}
+                    value={this.state.searchString}
+                  />
+                  {searchFoundCount > 0 &&
+                    <>
+                      <IconButton
+                        className={classes.facetSearchIconButton}
+                        aria-label='Previous'
+                        onClick={selectPrevMatch}
+                      >
+                        <NavigateBeforeIcon />
+                      </IconButton>
+                      <IconButton
+                        className={classes.facetSearchIconButton}
+                        aria-label='Next'
+                        onClick={selectNextMatch}
+                      >
+                        <NavigateNextIcon />
+                      </IconButton>
+                      <Typography>
+                        {searchFoundCount > 0 ? searchFocusIndex + 1 : 0} / {searchFoundCount || 0}
+                      </Typography>
+                    </>}
+                </div>}
+              {facet.filterType !== 'spatialFilter' &&
+                <div className={searchField ? classes.treeContainerWithSearchField : classes.treeContainer}>
+                  <SortableTree
+                    treeData={this.state.treeData}
+                    onChange={treeData => this.setState({ treeData })}
+                    canDrag={false}
+                    rowHeight={30}
+                    searchMethod={customSearchMethod}
+                    searchQuery={searchString}
+                    searchFocusOffset={searchFocusIndex}
+                    searchFinishCallback={matches => {
+                      this.setState({
+                        searchFoundCount: matches.length,
+                        searchFocusIndex:
                           matches.length > 0 ? searchFocusIndex % matches.length : 0,
-                      matches
-                    })
-                  }}
-                  onlyExpandSearchedNodes
-                  theme={FileExplorerTheme}
-                  generateNodeProps={this.generateNodeProps}
-                  isVirtualized={this.props.facetedSearchMode !== 'storybook'} // virtualization does not work in Storybook
-                />
-              </div>}
-            {facet.filterType === 'spatialFilter' &&
-              <div className={classes.spinnerContainer}>
-                <Typography>
-                  Draw a bounding box on the map to filter by {intl.get(`perspectives.${facetClass}.properties.${facetID}.label`)}.
-                </Typography>
-              </div>}
-          </>
-        )}
+                        matches
+                      })
+                    }}
+                    onlyExpandSearchedNodes
+                    theme={FileExplorerTheme}
+                    generateNodeProps={this.generateNodeProps}
+                    isVirtualized={this.props.facetedSearchMode !== 'storybook'}
+                  />
+                </div>}
+              {facet.filterType === 'spatialFilter' &&
+                <div className={classes.spinnerContainer}>
+                  <Typography>
+                    Draw a bounding box on the map to filter by {intl.get(`perspectives.${facetClass}.properties.${facetID}.label`)}.
+                  </Typography>
+                </div>}
+            </>
+            )}
       </>
     )
   }
