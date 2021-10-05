@@ -380,7 +380,8 @@ const allData = {
 
 const stepDuration = 2000
 
-let year = 1100
+// let year = 1100
+let year = 2002
 
 class BarChartRace extends React.Component {
     componentDidMount = () => {
@@ -408,18 +409,18 @@ class BarChartRace extends React.Component {
       // https://www.amcharts.com/docs/v5/getting-started/#Root_element
       const root = am5.Root.new('chartdiv')
 
-      // root.numberFormatter.setAll({
-      //   numberFormat: '#a',
+      root.numberFormatter.setAll({
+        numberFormat: '#a',
 
-      //   // Group only into M (millions), and B (billions)
-      //   bigNumberPrefixes: [
-      //     { number: 1e6, suffix: 'M' },
-      //     { number: 1e9, suffix: 'B' }
-      //   ],
+        // Group only into M (millions), and B (billions)
+        bigNumberPrefixes: [
+          { number: 1e6, suffix: 'M' },
+          { number: 1e9, suffix: 'B' }
+        ],
 
-      //   // Do not use small number prefixes at all
-      //   smallNumberPrefixes: []
-      // })
+        // Do not use small number prefixes at all
+        smallNumberPrefixes: []
+      })
 
       // Set themes
       // https://www.amcharts.com/docs/v5/concepts/themes/
@@ -499,7 +500,7 @@ class BarChartRace extends React.Component {
       })
 
       this.label = chart.plotContainer.children.push(am5.Label.new(root, {
-        text: '10',
+        text: '2002',
         fontSize: '8em',
         opacity: 0.2,
         x: am5.p100,
@@ -512,8 +513,8 @@ class BarChartRace extends React.Component {
     }
 
     setInitialData = () => {
-      // const d = allData[year]
-      const d = this.props.results[year]
+      const d = allData[year]
+      // const d = this.props.results[year]
 
       for (const n in d) {
         this.series.data.push({ network: n, value: d[n] })
@@ -523,13 +524,13 @@ class BarChartRace extends React.Component {
 
     updateData = () => {
       let itemsWithNonZero = 0
-      // if (allData[year]) {
-      if (this.props.results[year]) {
+      if (allData[year]) {
+      // if (this.props.results[year]) {
         this.label.set('text', year.toString())
 
         am5.array.each(this.series.dataItems, dataItem => {
           const category = dataItem.get('categoryY')
-          const value = this.props.results[year][category]
+          const value = allData[year][category]
 
           if (value > 0) {
             itemsWithNonZero++
@@ -556,8 +557,8 @@ class BarChartRace extends React.Component {
     playAnimation = () => {
       // update data with values each 1.5 sec
       const interval = setInterval(() => {
-        // year++
-        year += 10
+        year++
+        // year += 10
 
         if (year > 2018) {
           clearInterval(interval)
@@ -569,8 +570,8 @@ class BarChartRace extends React.Component {
 
       this.setInitialData()
       setTimeout(() => {
-        // year++
-        year += 10
+        year++
+        // year += 10
         this.updateData()
       }, 50)
 
