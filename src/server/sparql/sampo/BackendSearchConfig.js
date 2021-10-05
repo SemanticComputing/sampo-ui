@@ -13,6 +13,7 @@ import {
   expressionProperties,
   collectionProperties,
   productionsByDecadeQuery,
+  productionsByDecadeAndCountryQuery,
   eventsByDecadeQuery,
   manuscriptInstancePageNetworkLinksQuery,
   manuscriptFacetResultsNetworkLinksQuery,
@@ -60,7 +61,8 @@ import {
   mapPlaces,
   mapLineChart,
   mapMultipleLineChart,
-  linearScale
+  linearScale,
+  toBarChartRaceFormat
 } from '../Mappers'
 
 export const backendSearchConfig = {
@@ -184,6 +186,16 @@ export const backendSearchConfig = {
     resultMapper: mapLineChart,
     resultMapperConfig: {
       fillEmptyValues: false
+    }
+  },
+  productionsByDecadeAndCountry: {
+    perspectiveID: 'perspective1',
+    q: productionsByDecadeAndCountryQuery,
+    filterTarget: 'manuscript',
+    resultMapper: makeObjectList,
+    postprocess: {
+      func: toBarChartRaceFormat,
+      config: null
     }
   },
   eventLineChart: {

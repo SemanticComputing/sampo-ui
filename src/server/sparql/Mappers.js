@@ -242,3 +242,28 @@ const recursiveSortAndSelectChildren = nodes => {
   })
   return nodes
 }
+
+export const toBarChartRaceFormat = ({ data }) => {
+  const object = data.reduce((obj, item) => {
+    if (Array.isArray(item.productionPlaceCountry)) {
+      const countries = item.productionPlaceCountry.reduce((obj, item) => {
+        return {
+          ...obj,
+          [item.id]: parseInt(item.manuscriptCount)
+        }
+      }, {})
+      return {
+        ...obj,
+        [item.id]: countries
+      }
+    } else {
+      return {
+        ...obj,
+        [item.id]: {
+          [item.productionPlaceCountry.id]: parseInt(item.productionPlaceCountry.manuscriptCount)
+        }
+      }
+    }
+  }, {})
+  return object
+}

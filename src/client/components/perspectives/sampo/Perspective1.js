@@ -23,6 +23,7 @@ const ResultTable = lazy(() => import('../../facet_results/ResultTable'))
 const LeafletMap = lazy(() => import('../../facet_results/LeafletMap'))
 const Deck = lazy(() => import('../../facet_results/Deck'))
 const ApexChart = lazy(() => import('../../facet_results/ApexChart'))
+const BarChartRace = lazy(() => import('../../facet_results/BarChartRace'))
 const Network = lazy(() => import('../../facet_results/Network'))
 const Export = lazy(() => import('../../facet_results/Export'))
 
@@ -259,6 +260,17 @@ const Perspective1 = props => {
             resultClass='eventLineChart'
             facetClass='perspective1'
             layoutConfig={props.layoutConfig}
+          />}
+      />
+      <Route
+        path={`${rootUrl}/${perspective.id}/faceted-search/bar_chart_race`}
+        render={() =>
+          <BarChartRace
+            fetchData={props.fetchResults}
+            resultClass='productionsByDecadeAndCountry'
+            facetClass='perspective1'
+            resultUpdateID={props.perspectiveState.resultUpdateID}
+            results={props.perspectiveState.results}
           />}
       />
       <Route

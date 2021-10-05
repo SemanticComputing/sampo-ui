@@ -528,12 +528,26 @@ export const migrationsDialogQuery = `
 
 export const productionsByDecadeQuery = `
   SELECT ?category (COUNT (DISTINCT ?instance) as ?count) WHERE {
-    <FILTER>
+   
     ?instance ^crm:P108_has_produced/crm:P4_has_time-span/mmm-schema:decade ?category .
   }
   GROUP BY ?category
   ORDER BY ?category
 `
+
+export const productionsByDecadeAndCountryQuery = `
+  SELECT ?id ?productionPlaceCountry__id ?productionPlaceCountry__prefLabel (count(?manuscript) as ?productionPlaceCountry__manuscriptCount) WHERE {
+    <FILTER>
+    []  crm:P108_has_produced ?manuscript ;
+        crm:P7_took_place_at/gvp:broaderPreferred* ?productionPlaceCountry__id ; 
+        crm:P4_has_time-span/mmm-schema:decade ?id .
+    ?productionPlaceCountry__id gvp:placeTypePreferred "nations" ;
+                          skos:prefLabel ?productionPlaceCountry__prefLabel .
+  } 
+  GROUP BY ?id ?productionPlaceCountry__id ?productionPlaceCountry__prefLabel
+  # ORDER BY  ?id 
+`
+
 export const eventsByDecadeQuery = `
   SELECT DISTINCT ?category 
   (COUNT(?production) AS ?productionCount) 

@@ -70,7 +70,8 @@ class FacetHeader extends React.Component {
         sortDirection = 'asc' // default sort direction when sorting by prefLabel
       } else {
         sortDirection = this.props.facet.sortDirection === 'asc'
-          ? 'desc' : 'asc'
+          ? 'desc'
+          : 'asc'
       }
     }
     if (buttonID === 'instanceCount') {
@@ -78,7 +79,8 @@ class FacetHeader extends React.Component {
         sortDirection = 'desc' // default sort direction when sorting by instanceCount
       } else {
         sortDirection = this.props.facet.sortDirection === 'asc'
-          ? 'desc' : 'asc'
+          ? 'desc'
+          : 'asc'
       }
     }
     this.props.updateFacetOption({
