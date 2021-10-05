@@ -199,7 +199,7 @@ const trimResult = arr => {
 }
 
 const mapFacetValues = sparqlBindings => {
-  const results = sparqlBindings.forEach(b => {
+  const results = sparqlBindings.map(b => {
     try {
       return {
         id: b.id.value,
@@ -213,6 +213,7 @@ const mapFacetValues = sparqlBindings => {
     } catch (err) {
       console.log(err)
     }
+    return null
   })
   return results
 }
