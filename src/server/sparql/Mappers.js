@@ -250,7 +250,7 @@ export const toBarChartRaceFormat = ({ data }) => {
       const countries = item.productionPlaceCountry.reduce((obj, item) => {
         return {
           ...obj,
-          [item.id]: parseInt(item.manuscriptCount)
+          [item.prefLabel]: parseInt(item.manuscriptCount)
         }
       }, {})
       return {
@@ -261,7 +261,7 @@ export const toBarChartRaceFormat = ({ data }) => {
       return {
         ...obj,
         [item.id]: {
-          [item.productionPlaceCountry.id]: parseInt(item.productionPlaceCountry.manuscriptCount)
+          [item.productionPlaceCountry.prefLabel]: parseInt(item.productionPlaceCountry.manuscriptCount)
         }
       }
     }
