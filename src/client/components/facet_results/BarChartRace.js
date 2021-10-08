@@ -381,7 +381,9 @@ import Paper from '@material-ui/core/Paper'
 const stepDuration = 2000
 
 // let year = 2002
-let year = 1410
+const startYear = -940
+let year = startYear
+const yearIncrement = 20
 
 class BarChartRace extends React.Component {
     componentDidMount = () => {
@@ -395,10 +397,10 @@ class BarChartRace extends React.Component {
     componentDidUpdate = prevProps => {
       if (prevProps.resultUpdateID !== this.props.resultUpdateID) {
         // console.log(this.props.results)
-        this.setInitialData()
-        this.sortCategoryAxis()
-        this.updateData()
-        // this.playAnimation()
+        // this.setInitialData()
+        // this.sortCategoryAxis()
+        // this.updateData()
+        this.playAnimation()
       }
     }
 
@@ -451,9 +453,6 @@ class BarChartRace extends React.Component {
 
       // hide grid
       yRenderer.grid.template.set('visible', false)
-      // yRenderer.labels.template.setAll({
-      //   fontSize: '0.3rem'
-      // })
 
       this.yAxis = chart.yAxes.push(am5xy.CategoryAxis.new(root, {
         maxDeviation: 0,
@@ -464,7 +463,8 @@ class BarChartRace extends React.Component {
       const xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
         maxDeviation: 0,
         min: 0,
-        // strictMinMax: true,
+        strictMinMax: true,
+        extraMax: 0.1,
         renderer: am5xy.AxisRendererX.new(root, {})
       }))
 
@@ -497,7 +497,8 @@ class BarChartRace extends React.Component {
         return am5.Bullet.new(root, {
           locationX: 1,
           sprite: am5.Label.new(root, {
-            text: "{valueXWorking.formatNumber('#.# a')}",
+            // text: "{valueXWorking.formatNumber('#.# a')}",
+            text: "{valueXWorking.formatNumber('#.')}",
             fill: root.interfaceColors.get('alternativeText'),
             centerX: am5.p100,
             centerY: am5.p50,
@@ -507,7 +508,7 @@ class BarChartRace extends React.Component {
       })
 
       this.label = chart.plotContainer.children.push(am5.Label.new(root, {
-        text: '1410',
+        text: startYear,
         fontSize: '8em',
         opacity: 0.2,
         x: am5.p100,
@@ -528,43 +529,81 @@ class BarChartRace extends React.Component {
         this.series.data.push({ category: n, value: d[n] })
         this.yAxis.data.push({ category: n })
       }
-
-      // this.series.appear(1000)
-      // this.chart.appear(1000, 100)
     }
 
     updateData = () => {
+      // console.log(this.props.results['1410'])
+      // console.log(this.series.dataItems)
       let itemsWithNonZero = 0
       // if (allData[year]) {
       if (this.props.results[year]) {
+        // console.log(year)
         this.label.set('text', year.toString())
 
-        am5.array.each(this.series.dataItems, dataItem => {
-          const category = dataItem.get('categoryY')
-          // const value = allData[year][category]
-          const value = this.props.results[year][category]
-          // console.log(this.props.results[year].France)
-
-          // console.log(value)
-
+        for (const [key, value] of Object.entries(this.props.results[year])) {
+          // if (this.props.results[year - 10][key]) {
+          //   value += this.props.results[year - 10][key]
+          // }
+          let dataItem = this.getSeriesItem(key)
+          if (dataItem == null) {
+            this.series.data.push({ category: key, value })
+            this.yAxis.data.push({ category: key })
+            dataItem = this.getSeriesItem(key)
+            // console.log(year)
+            // console.log(key)
+          }
+          // console.log(dataItem)
           if (value > 0) {
             itemsWithNonZero++
           }
-
           dataItem.animate({
             key: 'valueX',
-            to: value,
+            to: dataItem.get('valueX') + value,
             duration: stepDuration,
             easing: am5.ease.linear
           })
           dataItem.animate({
             key: 'valueXWorking',
-            to: value,
+            to: dataItem.get('valueXWorking') + value,
             duration: stepDuration,
             easing: am5.ease.linear
           })
-        })
+          dataItem.set({
+            key: 'valueX',
+            value
+          })
+          dataItem.set({
+            key: 'valueXWorking',
+            value
+          })
+        }
 
+        // am5.array.each(this.series.dataItems, dataItem => {
+        //   const category = dataItem.get('categoryY')
+        //   // const value = allData[year][category]
+        //   const value = this.props.results[year][category]
+
+        //   console.log(value)
+
+        //   if (value > 0) {
+        //     itemsWithNonZero++
+        //   }
+
+        //   dataItem.animate({
+        //     key: 'valueX',
+        //     to: value,
+        //     duration: stepDuration,
+        //     easing: am5.ease.linear
+        //   })
+        //   dataItem.animate({
+        //     key: 'valueXWorking',
+        //     to: value,
+        //     duration: stepDuration,
+        //     easing: am5.ease.linear
+        //   })
+        // })
+
+        // console.log(itemsWithNonZero)
         this.yAxis.zoom(0, itemsWithNonZero / this.yAxis.dataItems.length)
       }
     }
@@ -573,9 +612,9 @@ class BarChartRace extends React.Component {
       // update data with values each 1.5 sec
       const interval = setInterval(() => {
         // year++
-        year += 10
+        year += yearIncrement
 
-        if (year > 2018) {
+        if (year > 1900) {
           clearInterval(interval)
           clearInterval(this.sortInterval)
         }
@@ -584,11 +623,12 @@ class BarChartRace extends React.Component {
       }, stepDuration)
 
       this.setInitialData()
-      setTimeout(() => {
-        // year++
-        year += 10
-        this.updateData()
-      }, 50)
+
+      // setTimeout(() => {
+      //   // year++
+      //   year += yearIncrement
+      //   this.updateData()
+      // }, 50)
 
       // Make stuff animate on load
       // https://www.amcharts.com/docs/v5/concepts/animations/
@@ -604,6 +644,7 @@ class BarChartRace extends React.Component {
           return dataItem
         }
       }
+      return null
     }
 
     sortInterval = setInterval(() => {
