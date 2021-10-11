@@ -400,7 +400,9 @@ class BarChartRace extends React.Component {
         // this.setInitialData()
         // this.sortCategoryAxis()
         // this.updateData()
-        this.playAnimation()
+        if (this.props.results && Object.prototype.hasOwnProperty.call(this.props.results, startYear)) {
+          this.playAnimation()
+        }
       }
     }
 

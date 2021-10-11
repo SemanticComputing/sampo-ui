@@ -195,7 +195,9 @@ export const backendSearchConfig = {
     resultMapper: makeObjectList,
     postprocess: {
       func: toBarChartRaceFormat,
-      config: null
+      config: {
+        step: 10
+      }
     }
   },
   eventLineChart: {

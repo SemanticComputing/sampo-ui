@@ -244,39 +244,66 @@ const recursiveSortAndSelectChildren = nodes => {
   return nodes
 }
 
-export const toBarChartRaceFormat = ({ data }) => {
-  // console.log(data)
-  // const resultObj = {}
-  // data.forEach(item => {
-  //   if (Object.prototype.hasOwnProperty.call(resultObj, item.id)) {
-  //     if (Array.isArray(item.productionPlaceCountry)) {
-  //       item.productionPlaceCountry.forEach(country => {
-  //         console.log(country)
-  //       })
+export const toBarChartRaceFormat = ({ data, config }) => {
+  const { step } = config
+  const firstItem = data[0]
+  const resultObj = {}
+  resultObj[firstItem.id] = dataItemToObject(firstItem.dataItem)
+  let mainIndex = firstItem.id
+
+  for (let i = 1; i < data.length; i++) {
+    const currentID = data[i].id
+    if (parseInt(currentID) === parseInt(mainIndex) + step) {
+      resultObj[currentID] = dataItemToObject(currentID.dataItem)
+      mainIndex = currentID
+    } else {
+      resultObj[parseInt(mainIndex) + step] = null
+    }
+  }
+
+  console.log(resultObj)
+  return {}
+  // const object = data.reduce((obj, item) => {
+  //   if (Array.isArray(item.productionPlaceCountry)) {
+  //     const countries = item.productionPlaceCountry.reduce((obj, item) => {
+  //       return {
+  //         ...obj,
+  //         [item.prefLabel]: parseInt(item.manuscriptCount)
+  //       }
+  //     }, {})
+  //     return {
+  //       ...obj,
+  //       [item.id]: countries
+  //     }
+  //   } else {
+  //     return {
+  //       ...obj,
+  //       [item.id]: {
+  //         [item.productionPlaceCountry.prefLabel]: parseInt(item.productionPlaceCountry.manuscriptCount)
+  //       }
   //     }
   //   }
-  // })
-  // return {}
-  const object = data.reduce((obj, item) => {
-    if (Array.isArray(item.productionPlaceCountry)) {
-      const countries = item.productionPlaceCountry.reduce((obj, item) => {
-        return {
-          ...obj,
-          [item.prefLabel]: parseInt(item.manuscriptCount)
-        }
-      }, {})
-      return {
-        ...obj,
-        [item.id]: countries
-      }
-    } else {
+  // }, {})
+  // return object
+}
+
+const dataItemToObject = dataItem => {
+  if (Array.isArray(dataItem)) {
+    return dataItem.reduce((obj, item) => {
       return {
         ...obj,
         [item.id]: {
-          [item.productionPlaceCountry.prefLabel]: parseInt(item.productionPlaceCountry.manuscriptCount)
+          prefLabel: item.prefLabel,
+          value: parseInt(item.value)
         }
       }
+    }, {})
+  } else {
+    return {
+      [dataItem.id]: {
+        prefLabel: dataItem.prefLabel,
+        value: parseInt(dataItem.value)
+      }
     }
-  }, {})
-  return object
+  }
 }

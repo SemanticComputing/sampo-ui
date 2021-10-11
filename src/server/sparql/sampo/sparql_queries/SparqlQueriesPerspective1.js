@@ -536,21 +536,21 @@ export const productionsByDecadeQuery = `
 `
 
 export const productionsByDecadeAndCountryQuery = `
-  SELECT ?id ?productionPlaceCountry__id ?productionPlaceCountry__prefLabel (count(?manuscript) as ?productionPlaceCountry__manuscriptCount) WHERE {
+  SELECT ?id ?dataItem__id ?dataItem__prefLabel (count(?manuscript) as ?dataItem__value) WHERE {
     <FILTER>
     {
       []  crm:P108_has_produced ?manuscript ;
-          crm:P7_took_place_at/gvp:broaderPreferred* ?productionPlaceCountry__id ; 
+          crm:P7_took_place_at/gvp:broaderPreferred* ?dataItem__id ; 
           crm:P4_has_time-span/mmm-schema:decade ?id .
-      ?productionPlaceCountry__id gvp:placeTypePreferred "nations" ;
-                                  skos:prefLabel ?productionPlaceCountry__prefLabel .
+      ?dataItem__id  gvp:placeTypePreferred "nations" ;
+                      skos:prefLabel ?dataItem__prefLabel .
     
-      FILTER(?id < 1900)
+      # FILTER(?id < 1900)
       # FILTER(?id < -900)
-      # FILTER(?id > 1400 && ?id < 1440)
+      FILTER(?id > 1400 && ?id < 1440)
     }
   } 
-  GROUP BY ?id ?productionPlaceCountry__id ?productionPlaceCountry__prefLabel 
+  GROUP BY ?id ?dataItem__id ?dataItem__prefLabel 
   ORDER BY ?id
 `
 
