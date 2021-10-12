@@ -381,9 +381,9 @@ import Paper from '@material-ui/core/Paper'
 const stepDuration = 2000
 
 // let year = 2002
-const startYear = -940
+const startYear = 1410
 let year = startYear
-const yearIncrement = 20
+const yearIncrement = 10
 
 class BarChartRace extends React.Component {
     componentDidMount = () => {
@@ -397,10 +397,10 @@ class BarChartRace extends React.Component {
     componentDidUpdate = prevProps => {
       if (prevProps.resultUpdateID !== this.props.resultUpdateID) {
         // console.log(this.props.results)
-        // this.setInitialData()
         // this.sortCategoryAxis()
         // this.updateData()
         if (this.props.results && Object.prototype.hasOwnProperty.call(this.props.results, startYear)) {
+          // this.setInitialData()
           this.playAnimation()
         }
       }
@@ -523,60 +523,47 @@ class BarChartRace extends React.Component {
     }
 
     setInitialData = () => {
-      // const d = allData[year]
-      const d = this.props.results[year]
-      // console.log(d)
-
-      for (const n in d) {
-        this.series.data.push({ category: n, value: d[n] })
-        this.yAxis.data.push({ category: n })
+      const step = this.props.results[year]
+      for (const id in step) {
+        const { prefLabel, value } = step[id]
+        this.series.data.push({ category: prefLabel, value })
+        this.yAxis.data.push({ category: prefLabel })
       }
     }
 
     updateData = () => {
       // console.log(this.props.results['1410'])
       // console.log(this.series.dataItems)
-      let itemsWithNonZero = 0
       // if (allData[year]) {
       if (this.props.results[year]) {
         // console.log(year)
         this.label.set('text', year.toString())
-
+        // console.log(this.props.results[year])
         for (const [key, value] of Object.entries(this.props.results[year])) {
           // if (this.props.results[year - 10][key]) {
           //   value += this.props.results[year - 10][key]
           // }
-          let dataItem = this.getSeriesItem(key)
+          // console.log(key)
+          let dataItem = this.getSeriesItem(value.prefLabel)
           if (dataItem == null) {
-            this.series.data.push({ category: key, value })
-            this.yAxis.data.push({ category: key })
-            dataItem = this.getSeriesItem(key)
-            // console.log(year)
+            console.log(key)
+            this.series.data.push({ category: value.prefLabel, value: value.value })
+            this.yAxis.data.push({ category: value.prefLabel })
+            dataItem = this.getSeriesItem(value.prefLabel)
+            console.log(dataItem)
             // console.log(key)
           }
-          // console.log(dataItem)
-          if (value > 0) {
-            itemsWithNonZero++
-          }
           dataItem.animate({
             key: 'valueX',
-            to: dataItem.get('valueX') + value,
+            to: value.value,
             duration: stepDuration,
             easing: am5.ease.linear
           })
           dataItem.animate({
             key: 'valueXWorking',
-            to: dataItem.get('valueXWorking') + value,
+            to: value.value,
             duration: stepDuration,
             easing: am5.ease.linear
-          })
-          dataItem.set({
-            key: 'valueX',
-            value
-          })
-          dataItem.set({
-            key: 'valueXWorking',
-            value
           })
         }
 
@@ -606,7 +593,7 @@ class BarChartRace extends React.Component {
         // })
 
         // console.log(itemsWithNonZero)
-        this.yAxis.zoom(0, itemsWithNonZero / this.yAxis.dataItems.length)
+        this.yAxis.zoom(0, this.yAxis.dataItems.length)
       }
     }
 

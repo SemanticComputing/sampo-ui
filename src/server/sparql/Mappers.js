@@ -1,4 +1,4 @@
-import { has } from 'lodash'
+import { has, cloneDeep } from 'lodash'
 import { getTreeFromFlatData } from '@nosferatu500/react-sortable-tree'
 
 export const mapPlaces = sparqlBindings => {
@@ -246,45 +246,27 @@ const recursiveSortAndSelectChildren = nodes => {
 
 export const toBarChartRaceFormat = ({ data, config }) => {
   const { step } = config
-  const firstItem = data[0]
+  const firstKey = parseInt(data[0].id)
+  const lastKey = parseInt(data[data.length - 1].id)
   const resultObj = {}
-  resultObj[firstItem.id] = dataItemToObject(firstItem.dataItem)
-  let mainIndex = firstItem.id
-
-  for (let i = 1; i < data.length; i++) {
-    const currentID = data[i].id
-    if (parseInt(currentID) === parseInt(mainIndex) + step) {
-      resultObj[currentID] = dataItemToObject(currentID.dataItem)
-      mainIndex = currentID
+  let rawDataIndex = 0
+  let lastNonNullIndex = null
+  for (let i = firstKey; i <= lastKey; i += step) {
+    const dataItemExists = parseInt(data[rawDataIndex].id) === i
+    if (dataItemExists) {
+      const currentDataItem = dataItemToObject(data[rawDataIndex].dataItem)
+      if (i === firstKey) {
+        resultObj[i] = currentDataItem
+      } else {
+        resultObj[i] = mergeDataItems(resultObj[lastNonNullIndex], currentDataItem)
+      }
+      lastNonNullIndex = i
+      rawDataIndex++
     } else {
-      resultObj[parseInt(mainIndex) + step] = null
+      resultObj[i] = null
     }
   }
-
-  console.log(resultObj)
-  return {}
-  // const object = data.reduce((obj, item) => {
-  //   if (Array.isArray(item.productionPlaceCountry)) {
-  //     const countries = item.productionPlaceCountry.reduce((obj, item) => {
-  //       return {
-  //         ...obj,
-  //         [item.prefLabel]: parseInt(item.manuscriptCount)
-  //       }
-  //     }, {})
-  //     return {
-  //       ...obj,
-  //       [item.id]: countries
-  //     }
-  //   } else {
-  //     return {
-  //       ...obj,
-  //       [item.id]: {
-  //         [item.productionPlaceCountry.prefLabel]: parseInt(item.productionPlaceCountry.manuscriptCount)
-  //       }
-  //     }
-  //   }
-  // }, {})
-  // return object
+  return resultObj
 }
 
 const dataItemToObject = dataItem => {
@@ -306,4 +288,18 @@ const dataItemToObject = dataItem => {
       }
     }
   }
+}
+
+const mergeDataItems = (itemA, itemB) => {
+  const merged = cloneDeep(itemA)
+  const keys = Object.keys(itemB)
+  for (let i = 0; i < keys.length; i++) {
+    const itemBkey = keys[i]
+    if (Object.prototype.hasOwnProperty.call(itemA, itemBkey)) {
+      merged[itemBkey].value += itemB[itemBkey].value
+    } else {
+      merged[itemBkey] = itemB[itemBkey]
+    }
+  }
+  return merged
 }

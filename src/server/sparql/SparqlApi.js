@@ -59,7 +59,7 @@ export const runSelectQuery = async ({
       console.log(error.request)
     } else {
     // Something happened in setting up the request that triggered an Error
-      console.log('Error', error.message)
+      console.error(error)
     }
     // console.log(error.config)
     return {

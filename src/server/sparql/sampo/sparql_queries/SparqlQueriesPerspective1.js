@@ -548,6 +548,7 @@ export const productionsByDecadeAndCountryQuery = `
       # FILTER(?id < 1900)
       # FILTER(?id < -900)
       FILTER(?id > 1400 && ?id < 1440)
+      # FILTER(?id != 1420)
     }
   } 
   GROUP BY ?id ?dataItem__id ?dataItem__prefLabel 
