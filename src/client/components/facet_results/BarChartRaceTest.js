@@ -37,8 +37,29 @@ import Paper from '@material-ui/core/Paper'
 // }
 // }
 
-// Data
 const allData = {
+  1000: {
+    'http://ldf.fi/mmm/place/tgn_1000062': 18,
+    'http://ldf.fi/mmm/place/tgn_1000063': 38,
+    'http://ldf.fi/mmm/place/tgn_1000070': 500,
+    'http://ldf.fi/mmm/place/tgn_1000074': 0
+  },
+  1010: {
+    'http://ldf.fi/mmm/place/tgn_1000062': 35,
+    'http://ldf.fi/mmm/place/tgn_1000063': 56,
+    'http://ldf.fi/mmm/place/tgn_1000070': 818,
+    'http://ldf.fi/mmm/place/tgn_1000074': 0
+  },
+  1020: {
+    'http://ldf.fi/mmm/place/tgn_1000062': 59,
+    'http://ldf.fi/mmm/place/tgn_1000063': 71,
+    'http://ldf.fi/mmm/place/tgn_1000070': 1118,
+    'http://ldf.fi/mmm/place/tgn_1000074': 0
+  }
+}
+
+// Data
+const allData2 = {
   2002: {
     Friendster: 0,
     Facebook: 0,
@@ -400,7 +421,7 @@ const allData = {
 
 const stepDuration = 2000
 
-let year = 2002
+let year = 1000
 // let year = 1410
 
 class BarChartRace extends React.Component {
@@ -415,10 +436,10 @@ class BarChartRace extends React.Component {
     componentDidUpdate = prevProps => {
       if (prevProps.resultUpdateID !== this.props.resultUpdateID) {
         // console.log(this.props.results)
-        this.setInitialData()
-        this.sortCategoryAxis()
-        this.updateData()
-        // this.playAnimation()
+        // this.setInitialData()
+        // this.sortCategoryAxis()
+        // this.updateData()
+        this.playAnimation()
       }
     }
 
@@ -471,9 +492,6 @@ class BarChartRace extends React.Component {
 
       // hide grid
       yRenderer.grid.template.set('visible', false)
-      // yRenderer.labels.template.setAll({
-      //   fontSize: '0.3rem'
-      // })
 
       this.yAxis = chart.yAxes.push(am5xy.CategoryAxis.new(root, {
         maxDeviation: 0,
@@ -541,17 +559,12 @@ class BarChartRace extends React.Component {
     }
 
     setInitialData = () => {
+      console.log(year)
       const d = allData[year]
-      // const d = this.props.results[year]
-      // console.log(d)
-
       for (const n in d) {
         this.series.data.push({ category: n, value: d[n] })
         this.yAxis.data.push({ category: n })
       }
-
-      // this.series.appear(1000)
-      // this.chart.appear(1000, 100)
     }
 
     updateData = () => {
@@ -561,7 +574,7 @@ class BarChartRace extends React.Component {
         this.label.set('text', year.toString())
 
         am5.array.each(this.series.dataItems, dataItem => {
-          console.log(dataItem)
+          // console.log(dataItem)
           const category = dataItem.get('categoryY')
           const value = allData[year][category]
           // const value = this.props.results[year][category]
@@ -594,8 +607,8 @@ class BarChartRace extends React.Component {
     playAnimation = () => {
       // update data with values each 1.5 sec
       const interval = setInterval(() => {
-        year++
-        // year += 10
+        // year++
+        year += 10
 
         if (year > 2018) {
           clearInterval(interval)
@@ -606,11 +619,11 @@ class BarChartRace extends React.Component {
       }, stepDuration)
 
       this.setInitialData()
-      setTimeout(() => {
-        year++
-        // year += 10
-        this.updateData()
-      }, 50)
+      // setTimeout(() => {
+      //   year++
+      //   // year += 10
+      //   this.updateData()
+      // }, 50)
 
       // Make stuff animate on load
       // https://www.amcharts.com/docs/v5/concepts/animations/

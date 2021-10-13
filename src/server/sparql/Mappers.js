@@ -266,6 +266,11 @@ export const toBarChartRaceFormat = ({ data, config }) => {
       resultObj[i] = null
     }
   }
+  // const initialItem = cloneDeep(resultObj[lastKey])
+  // for (const key in initialItem) {
+  //   initialItem[key].value = 0
+  // }
+  // resultObj[firstKey - step] = initialItem
   return resultObj
 }
 
@@ -301,5 +306,6 @@ const mergeDataItems = (itemA, itemB) => {
       merged[itemBkey] = itemB[itemBkey]
     }
   }
+  merged['http://ldf.fi/mmm/place/'] = { prefLabel: '0', value: 0 }
   return merged
 }

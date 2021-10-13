@@ -5,386 +5,13 @@ import * as am5xy from '@amcharts/amcharts5/xy'
 import am5themesAnimated from '@amcharts/amcharts5/themes/Animated'
 import Paper from '@material-ui/core/Paper'
 
-/**
- * ---------------------------------------
- * This demo was created using amCharts 5.
- *
- * For more information visit:
- * https://www.amcharts.com/
- *
- * Documentation is available at:
- * https://www.amcharts.com/docs/v5/
- * ---------------------------------------
- */
-
-// Data
-// const allData = {
-//   2002: {
-//     Friendster: 0,
-//     Facebook: 0,
-//     Flickr: 0,
-//     'Google Buzz': 0,
-//     'Google+': 0,
-//     Hi5: 0,
-//     Instagram: 0,
-//     MySpace: 0,
-//     Orkut: 0,
-//     Pinterest: 0,
-//     Reddit: 0,
-//     Snapchat: 0,
-//     TikTok: 0,
-//     Tumblr: 0,
-//     Twitter: 0,
-//     WeChat: 0,
-//     Weibo: 0,
-//     Whatsapp: 0,
-//     YouTube: 0
-//   },
-//   2003: {
-//     Friendster: 4470000,
-//     Facebook: 0,
-//     Flickr: 0,
-//     'Google Buzz': 0,
-//     'Google+': 0,
-//     Hi5: 0,
-//     Instagram: 0,
-//     MySpace: 0,
-//     Orkut: 0,
-//     Pinterest: 0,
-//     Reddit: 0,
-//     Snapchat: 0,
-//     TikTok: 0,
-//     Tumblr: 0,
-//     Twitter: 0,
-//     WeChat: 0,
-//     Weibo: 0,
-//     Whatsapp: 0,
-//     YouTube: 0
-//   },
-//   2004: {
-//     Friendster: 5970054,
-//     Facebook: 0,
-//     Flickr: 3675135,
-//     'Google Buzz': 0,
-//     'Google+': 0,
-//     Hi5: 0,
-//     Instagram: 0,
-//     MySpace: 980036,
-//     Orkut: 4900180,
-//     Pinterest: 0,
-//     Reddit: 0,
-//     Snapchat: 0,
-//     TikTok: 0,
-//     Tumblr: 0,
-//     Twitter: 0,
-//     WeChat: 0,
-//     Weibo: 0,
-//     Whatsapp: 0,
-//     YouTube: 0
-//   },
-//   2005: {
-//     Friendster: 7459742,
-//     Facebook: 0,
-//     Flickr: 7399354,
-//     'Google Buzz': 0,
-//     'Google+': 0,
-//     Hi5: 9731610,
-//     Instagram: 0,
-//     MySpace: 19490059,
-//     Orkut: 9865805,
-//     Pinterest: 0,
-//     Reddit: 0,
-//     Snapchat: 0,
-//     TikTok: 0,
-//     Tumblr: 0,
-//     Twitter: 0,
-//     WeChat: 0,
-//     Weibo: 0,
-//     Whatsapp: 0,
-//     YouTube: 1946322
-//   },
-//   2006: {
-//     Friendster: 8989854,
-//     Facebook: 0,
-//     Flickr: 14949270,
-//     'Google Buzz': 0,
-//     'Google+': 0,
-//     Hi5: 19932360,
-//     Instagram: 0,
-//     MySpace: 54763260,
-//     Orkut: 14966180,
-//     Pinterest: 0,
-//     Reddit: 248309,
-//     Snapchat: 0,
-//     TikTok: 0,
-//     Tumblr: 0,
-//     Twitter: 0,
-//     WeChat: 0,
-//     Weibo: 0,
-//     Whatsapp: 0,
-//     YouTube: 19878248
-//   },
-//   2007: {
-//     Friendster: 24253200,
-//     Facebook: 0,
-//     Flickr: 29299875,
-//     'Google Buzz': 0,
-//     'Google+': 0,
-//     Hi5: 29533250,
-//     Instagram: 0,
-//     MySpace: 69299875,
-//     Orkut: 26916562,
-//     Pinterest: 0,
-//     Reddit: 488331,
-//     Snapchat: 0,
-//     TikTok: 0,
-//     Tumblr: 0,
-//     Twitter: 0,
-//     WeChat: 0,
-//     Weibo: 0,
-//     Whatsapp: 0,
-//     YouTube: 143932250
-//   },
-//   2008: {
-//     Friendster: 51008911,
-//     Facebook: 100000000,
-//     Flickr: 30000000,
-//     'Google Buzz': 0,
-//     'Google+': 0,
-//     Hi5: 55045618,
-//     Instagram: 0,
-//     MySpace: 72408233,
-//     Orkut: 44357628,
-//     Pinterest: 0,
-//     Reddit: 1944940,
-//     Snapchat: 0,
-//     TikTok: 0,
-//     Tumblr: 0,
-//     Twitter: 0,
-//     WeChat: 0,
-//     Weibo: 0,
-//     Whatsapp: 0,
-//     YouTube: 294493950
-//   },
-//   2009: {
-//     Friendster: 28804331,
-//     Facebook: 276000000,
-//     Flickr: 41834525,
-//     'Google Buzz': 0,
-//     'Google+': 0,
-//     Hi5: 57893524,
-//     Instagram: 0,
-//     MySpace: 70133095,
-//     Orkut: 47366905,
-//     Pinterest: 0,
-//     Reddit: 3893524,
-//     Snapchat: 0,
-//     TikTok: 0,
-//     Tumblr: 0,
-//     Twitter: 0,
-//     WeChat: 0,
-//     Weibo: 0,
-//     Whatsapp: 0,
-//     YouTube: 413611440
-//   },
-//   2010: {
-//     Friendster: 0,
-//     Facebook: 517750000,
-//     Flickr: 54708063,
-//     'Google Buzz': 166029650,
-//     'Google+': 0,
-//     Hi5: 59953290,
-//     Instagram: 0,
-//     MySpace: 68046710,
-//     Orkut: 49941613,
-//     Pinterest: 0,
-//     Reddit: 0,
-//     Snapchat: 0,
-//     TikTok: 0,
-//     Tumblr: 0,
-//     Twitter: 43250000,
-//     WeChat: 0,
-//     Weibo: 19532900,
-//     Whatsapp: 0,
-//     YouTube: 480551990
-//   },
-//   2011: {
-//     Friendster: 0,
-//     Facebook: 766000000,
-//     Flickr: 66954600,
-//     'Google Buzz': 170000000,
-//     'Google+': 0,
-//     Hi5: 46610848,
-//     Instagram: 0,
-//     MySpace: 46003536,
-//     Orkut: 47609080,
-//     Pinterest: 0,
-//     Reddit: 0,
-//     Snapchat: 0,
-//     TikTok: 0,
-//     Tumblr: 0,
-//     Twitter: 92750000,
-//     WeChat: 47818400,
-//     Weibo: 48691040,
-//     Whatsapp: 0,
-//     YouTube: 642669824
-//   },
-//   2012: {
-//     Friendster: 0,
-//     Facebook: 979750000,
-//     Flickr: 79664888,
-//     'Google Buzz': 170000000,
-//     'Google+': 107319100,
-//     Hi5: 0,
-//     Instagram: 0,
-//     MySpace: 0,
-//     Orkut: 45067022,
-//     Pinterest: 0,
-//     Reddit: 0,
-//     Snapchat: 0,
-//     TikTok: 0,
-//     Tumblr: 146890156,
-//     Twitter: 160250000,
-//     WeChat: 118123370,
-//     Weibo: 79195730,
-//     Whatsapp: 0,
-//     YouTube: 844638200
-//   },
-//   2013: {
-//     Friendster: 0,
-//     Facebook: 1170500000,
-//     Flickr: 80000000,
-//     'Google Buzz': 170000000,
-//     'Google+': 205654700,
-//     Hi5: 0,
-//     Instagram: 117500000,
-//     MySpace: 0,
-//     Orkut: 0,
-//     Pinterest: 0,
-//     Reddit: 0,
-//     Snapchat: 0,
-//     TikTok: 0,
-//     Tumblr: 293482050,
-//     Twitter: 223675000,
-//     WeChat: 196523760,
-//     Weibo: 118261880,
-//     Whatsapp: 300000000,
-//     YouTube: 1065223075
-//   },
-//   2014: {
-//     Friendster: 0,
-//     Facebook: 1334000000,
-//     Flickr: 0,
-//     'Google Buzz': 170000000,
-//     'Google+': 254859015,
-//     Hi5: 0,
-//     Instagram: 250000000,
-//     MySpace: 0,
-//     Orkut: 0,
-//     Pinterest: 0,
-//     Reddit: 135786956,
-//     Snapchat: 0,
-//     TikTok: 0,
-//     Tumblr: 388721163,
-//     Twitter: 223675000,
-//     WeChat: 444232415,
-//     Weibo: 154890345,
-//     Whatsapp: 498750000,
-//     YouTube: 1249451725
-//   },
-//   2015: {
-//     Friendster: 0,
-//     Facebook: 1516750000,
-//     Flickr: 0,
-//     'Google Buzz': 170000000,
-//     'Google+': 298950015,
-//     Hi5: 0,
-//     Instagram: 400000000,
-//     MySpace: 0,
-//     Orkut: 0,
-//     Pinterest: 0,
-//     Reddit: 163346676,
-//     Snapchat: 0,
-//     TikTok: 0,
-//     Tumblr: 475923363,
-//     Twitter: 304500000,
-//     WeChat: 660843407,
-//     Weibo: 208716685,
-//     Whatsapp: 800000000,
-//     YouTube: 1328133360
-//   },
-//   2016: {
-//     Friendster: 0,
-//     Facebook: 1753500000,
-//     Flickr: 0,
-//     'Google Buzz': 0,
-//     'Google+': 398648000,
-//     Hi5: 0,
-//     Instagram: 550000000,
-//     MySpace: 0,
-//     Orkut: 0,
-//     Pinterest: 143250000,
-//     Reddit: 238972480,
-//     Snapchat: 238648000,
-//     TikTok: 0,
-//     Tumblr: 565796720,
-//     Twitter: 314500000,
-//     WeChat: 847512320,
-//     Weibo: 281026560,
-//     Whatsapp: 1000000000,
-//     YouTube: 1399053600
-//   },
-//   2017: {
-//     Friendster: 0,
-//     Facebook: 2035750000,
-//     Flickr: 0,
-//     'Google Buzz': 0,
-//     'Google+': 495657000,
-//     Hi5: 0,
-//     Instagram: 750000000,
-//     MySpace: 0,
-//     Orkut: 0,
-//     Pinterest: 195000000,
-//     Reddit: 297394200,
-//     Snapchat: 0,
-//     TikTok: 239142500,
-//     Tumblr: 593783960,
-//     Twitter: 328250000,
-//     WeChat: 921742750,
-//     Weibo: 357569030,
-//     Whatsapp: 1333333333,
-//     YouTube: 1495657000
-//   },
-//   2018: {
-//     Friendster: 0,
-//     Facebook: 2255250000,
-//     Flickr: 0,
-//     'Google Buzz': 0,
-//     'Google+': 430000000,
-//     Hi5: 0,
-//     Instagram: 1000000000,
-//     MySpace: 0,
-//     Orkut: 0,
-//     Pinterest: 246500000,
-//     Reddit: 355000000,
-//     Snapchat: 0,
-//     TikTok: 500000000,
-//     Tumblr: 624000000,
-//     Twitter: 329500000,
-//     WeChat: 1000000000,
-//     Weibo: 431000000,
-//     Whatsapp: 1433333333,
-//     YouTube: 1900000000
-//   }
-// }
+// https://www.amcharts.com/docs/v5/
 
 const stepDuration = 2000
-
-// let year = 2002
-const startYear = 1410
+// const startYear = 1400
+const startYear = 1000
 let year = startYear
 const yearIncrement = 10
-
 class BarChartRace extends React.Component {
     componentDidMount = () => {
       this.props.fetchData({
@@ -396,9 +23,6 @@ class BarChartRace extends React.Component {
 
     componentDidUpdate = prevProps => {
       if (prevProps.resultUpdateID !== this.props.resultUpdateID) {
-        // console.log(this.props.results)
-        // this.sortCategoryAxis()
-        // this.updateData()
         if (this.props.results && Object.prototype.hasOwnProperty.call(this.props.results, startYear)) {
           // this.setInitialData()
           this.playAnimation()
@@ -458,6 +82,7 @@ class BarChartRace extends React.Component {
 
       this.yAxis = chart.yAxes.push(am5xy.CategoryAxis.new(root, {
         maxDeviation: 0,
+        extraMax: 0.1,
         categoryField: 'category',
         renderer: yRenderer
       }))
@@ -489,7 +114,6 @@ class BarChartRace extends React.Component {
       this.series.columns.template.adapters.add('fill', (fill, target) => {
         return chart.get('colors').getIndex(this.series.columns.indexOf(target))
       })
-
       this.series.columns.template.adapters.add('stroke', (stroke, target) => {
         return chart.get('colors').getIndex(this.series.columns.indexOf(target))
       })
@@ -525,75 +149,44 @@ class BarChartRace extends React.Component {
     setInitialData = () => {
       const step = this.props.results[year]
       for (const id in step) {
-        const { prefLabel, value } = step[id]
-        this.series.data.push({ category: prefLabel, value })
+        const { prefLabel } = step[id]
+        this.series.data.push({ category: prefLabel, value: 0, id })
         this.yAxis.data.push({ category: prefLabel })
       }
     }
 
     updateData = () => {
-      // console.log(this.props.results['1410'])
-      // console.log(this.series.dataItems)
-      // if (allData[year]) {
+      let itemsWithNonZero = 0
       if (this.props.results[year]) {
-        // console.log(year)
-        this.label.set('text', year.toString())
-        // console.log(this.props.results[year])
         for (const [key, value] of Object.entries(this.props.results[year])) {
-          // if (this.props.results[year - 10][key]) {
-          //   value += this.props.results[year - 10][key]
-          // }
-          // console.log(key)
-          let dataItem = this.getSeriesItem(value.prefLabel)
+          const { prefLabel } = value
+          const dataItem = this.getSeriesItem(prefLabel)
           if (dataItem == null) {
-            console.log(key)
-            this.series.data.push({ category: value.prefLabel, value: value.value })
-            this.yAxis.data.push({ category: value.prefLabel })
-            dataItem = this.getSeriesItem(value.prefLabel)
-            console.log(dataItem)
-            // console.log(key)
+            this.series.data.push({ category: prefLabel, value: value.value, id: key })
+            this.yAxis.data.push({ category: prefLabel })
+          }
+        }
+        this.label.set('text', year.toString())
+        am5.array.each(this.series.dataItems, dataItem => {
+          const { id } = dataItem.dataContext
+          const value = this.props.results[year][id].value
+          if (value > 0) {
+            itemsWithNonZero++
           }
           dataItem.animate({
             key: 'valueX',
-            to: value.value,
+            to: value,
             duration: stepDuration,
             easing: am5.ease.linear
           })
           dataItem.animate({
             key: 'valueXWorking',
-            to: value.value,
+            to: value,
             duration: stepDuration,
             easing: am5.ease.linear
           })
-        }
-
-        // am5.array.each(this.series.dataItems, dataItem => {
-        //   const category = dataItem.get('categoryY')
-        //   // const value = allData[year][category]
-        //   const value = this.props.results[year][category]
-
-        //   console.log(value)
-
-        //   if (value > 0) {
-        //     itemsWithNonZero++
-        //   }
-
-        //   dataItem.animate({
-        //     key: 'valueX',
-        //     to: value,
-        //     duration: stepDuration,
-        //     easing: am5.ease.linear
-        //   })
-        //   dataItem.animate({
-        //     key: 'valueXWorking',
-        //     to: value,
-        //     duration: stepDuration,
-        //     easing: am5.ease.linear
-        //   })
-        // })
-
-        // console.log(itemsWithNonZero)
-        this.yAxis.zoom(0, this.yAxis.dataItems.length)
+        })
+        this.yAxis.zoom(0, itemsWithNonZero / this.yAxis.dataItems.length)
       }
     }
 
@@ -603,9 +196,14 @@ class BarChartRace extends React.Component {
         // year++
         year += yearIncrement
 
-        if (year > 1900) {
+        if (year > 1200) {
+          console.log(year)
           clearInterval(interval)
           clearInterval(this.sortInterval)
+          // sort category axis one more time
+          setTimeout(() => {
+            this.sortCategoryAxis()
+          }, 2000)
         }
 
         this.updateData()
@@ -613,16 +211,10 @@ class BarChartRace extends React.Component {
 
       this.setInitialData()
 
-      // setTimeout(() => {
-      //   // year++
-      //   year += yearIncrement
-      //   this.updateData()
-      // }, 50)
-
       // Make stuff animate on load
       // https://www.amcharts.com/docs/v5/concepts/animations/
-      this.series.appear(1000)
-      this.chart.appear(1000, 100)
+      this.series.appear(2000)
+      this.chart.appear(2000, 100)
     }
 
     // Get series item by category

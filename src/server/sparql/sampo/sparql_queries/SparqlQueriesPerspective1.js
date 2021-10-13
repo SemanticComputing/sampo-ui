@@ -545,9 +545,10 @@ export const productionsByDecadeAndCountryQuery = `
       ?dataItem__id  gvp:placeTypePreferred "nations" ;
                       skos:prefLabel ?dataItem__prefLabel .
     
-      # FILTER(?id < 1900)
+      FILTER(?id < 1900)
+      # FILTER(?id > 990 && ?id < 1100)
       # FILTER(?id < -900)
-      FILTER(?id > 1400 && ?id < 1440)
+      # FILTER(?id > 1400 && ?id < 1440)
       # FILTER(?id != 1420)
     }
   } 
