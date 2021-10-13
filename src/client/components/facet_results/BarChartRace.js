@@ -8,8 +8,7 @@ import Paper from '@material-ui/core/Paper'
 // https://www.amcharts.com/docs/v5/
 
 const stepDuration = 2000
-// const startYear = 1400
-const startYear = 1000
+const startYear = 500
 let year = startYear
 const yearIncrement = 10
 class BarChartRace extends React.Component {
@@ -80,12 +79,18 @@ class BarChartRace extends React.Component {
       // hide grid
       yRenderer.grid.template.set('visible', false)
 
+      // console.log(yRenderer.labels.template)
+
       this.yAxis = chart.yAxes.push(am5xy.CategoryAxis.new(root, {
         maxDeviation: 0,
         extraMax: 0.1,
         categoryField: 'category',
         renderer: yRenderer
       }))
+
+      this.yAxis.get('renderer').labels.template.adapters.add('text', (label, target, key) => {
+        return target.dataItem.dataContext.prefLabel
+      })
 
       const xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
         maxDeviation: 0,
@@ -149,30 +154,30 @@ class BarChartRace extends React.Component {
     setInitialData = () => {
       const step = this.props.results[year]
       for (const id in step) {
-        const { prefLabel } = step[id]
-        this.series.data.push({ category: prefLabel, value: 0, id })
-        this.yAxis.data.push({ category: prefLabel })
+        const { prefLabel, value } = step[id]
+        this.series.data.push({ category: id, value, prefLabel })
+        this.yAxis.data.push({ category: id, prefLabel })
       }
+      this.yAxis.zoomToIndexes(0, 1) // hack to fix initial pan / zoom
     }
 
     updateData = () => {
-      let itemsWithNonZero = 0
+      // let itemsWithNonZero = 0
       if (this.props.results[year]) {
         for (const [key, value] of Object.entries(this.props.results[year])) {
-          const { prefLabel } = value
-          const dataItem = this.getSeriesItem(prefLabel)
+          const dataItem = this.getSeriesItem(key)
           if (dataItem == null) {
-            this.series.data.push({ category: prefLabel, value: value.value, id: key })
-            this.yAxis.data.push({ category: prefLabel })
+            this.series.data.push({ category: key, value: value.value, prefLabel: value.prefLabel })
+            this.yAxis.data.push({ category: key, prefLabel: value.prefLabel })
           }
         }
         this.label.set('text', year.toString())
         am5.array.each(this.series.dataItems, dataItem => {
-          const { id } = dataItem.dataContext
-          const value = this.props.results[year][id].value
-          if (value > 0) {
-            itemsWithNonZero++
-          }
+          const category = dataItem.get('categoryY')
+          const value = this.props.results[year][category].value
+          // if (value > 0) {
+          //   itemsWithNonZero++
+          // }
           dataItem.animate({
             key: 'valueX',
             to: value,
@@ -186,7 +191,8 @@ class BarChartRace extends React.Component {
             easing: am5.ease.linear
           })
         })
-        this.yAxis.zoom(0, itemsWithNonZero / this.yAxis.dataItems.length)
+        this.yAxis.zoomToIndexes(0, 15)
+        // this.yAxis.zoom(0, itemsWithNonZero / this.yAxis.dataItems.length)
       }
     }
 
@@ -196,8 +202,7 @@ class BarChartRace extends React.Component {
         // year++
         year += yearIncrement
 
-        if (year > 1200) {
-          console.log(year)
+        if (year > 1900) {
           clearInterval(interval)
           clearInterval(this.sortInterval)
           // sort category axis one more time

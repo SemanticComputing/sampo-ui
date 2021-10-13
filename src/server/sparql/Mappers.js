@@ -306,6 +306,5 @@ const mergeDataItems = (itemA, itemB) => {
       merged[itemBkey] = itemB[itemBkey]
     }
   }
-  merged['http://ldf.fi/mmm/place/'] = { prefLabel: '0', value: 0 }
   return merged
 }
