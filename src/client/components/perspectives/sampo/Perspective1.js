@@ -264,11 +264,22 @@ const Perspective1 = props => {
           />}
       />
       <Route
-        path={`${rootUrl}/${perspective.id}/faceted-search/bar_chart_race`}
+        path={`${rootUrl}/${perspective.id}/faceted-search/bar_chart_race_ms_productions`}
         render={() =>
           <BarChartRace
             fetchData={props.fetchResults}
             resultClass='productionsByDecadeAndCountry'
+            facetClass='perspective1'
+            resultUpdateID={props.perspectiveState.resultUpdateID}
+            results={props.perspectiveState.results}
+          />}
+      />
+      <Route
+        path={`${rootUrl}/${perspective.id}/faceted-search/bar_chart_race_speeches`}
+        render={() =>
+          <BarChartRace
+            fetchData={props.fetchResults}
+            resultClass='speechesByYearAndParty'
             facetClass='perspective1'
             resultUpdateID={props.perspectiveState.resultUpdateID}
             results={props.perspectiveState.results}

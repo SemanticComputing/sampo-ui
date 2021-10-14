@@ -4,6 +4,7 @@ import { perspective3Config } from './perspective_configs/Perspective3Config'
 import { findsConfig } from './perspective_configs/FindsConfig'
 import { actorsConfig } from './perspective_configs/EmloActorsConfig'
 import { hellerauConfig } from './perspective_configs/HellerauConfig'
+import { speechesConfig } from './perspective_configs/SemparlSpeechesConfig'
 import {
   productionPlacesQuery,
   lastKnownLocationsQuery,
@@ -53,6 +54,7 @@ import {
   emloPeopleRelatedTo
 } from './sparql_queries/SparqlQueriesEmloPlaces'
 import { hellerauMigrationsQuery } from './sparql_queries/SparqlQueriesHellerau'
+import { speechesByYearAndPartyQuery } from './sparql_queries/SparqlQueriesSpeeches'
 import { federatedSearchDatasets } from './sparql_queries/SparqlQueriesFederatedSearch'
 import { fullTextSearchProperties } from './sparql_queries/SparqlQueriesFullText'
 import { sitemapInstancePageQuery } from '../SparqlQueriesGeneral'
@@ -72,6 +74,7 @@ export const backendSearchConfig = {
   finds: findsConfig,
   emloActors: actorsConfig,
   hellerau: hellerauConfig,
+  semparlSpeeches: speechesConfig,
   manuscripts: {
     perspectiveID: 'perspective1', // get rest of the config from 'perspective1'
     instance: {
@@ -197,6 +200,18 @@ export const backendSearchConfig = {
       func: toBarChartRaceFormat,
       config: {
         step: 10
+      }
+    }
+  },
+  speechesByYearAndParty: {
+    perspectiveID: 'semparlSpeeches',
+    q: speechesByYearAndPartyQuery,
+    filterTarget: 'speech',
+    resultMapper: makeObjectList,
+    postprocess: {
+      func: toBarChartRaceFormat,
+      config: {
+        step: 1
       }
     }
   },
