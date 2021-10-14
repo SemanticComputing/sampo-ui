@@ -7,10 +7,10 @@ import Paper from '@material-ui/core/Paper'
 
 // https://www.amcharts.com/docs/v5/
 
-const stepDuration = 2000
-const startYear = 500
+const stepDuration = 1000
+const startYear = 1907
 let year = startYear
-const yearIncrement = 10
+const yearIncrement = 1
 class BarChartRace extends React.Component {
     componentDidMount = () => {
       this.props.fetchData({
@@ -23,7 +23,7 @@ class BarChartRace extends React.Component {
     componentDidUpdate = prevProps => {
       if (prevProps.resultUpdateID !== this.props.resultUpdateID) {
         if (this.props.results && Object.prototype.hasOwnProperty.call(this.props.results, startYear)) {
-          // this.setInitialData()
+          this.setInitialData()
           this.playAnimation()
         }
       }
@@ -39,19 +39,6 @@ class BarChartRace extends React.Component {
       // Create root element
       // https://www.amcharts.com/docs/v5/getting-started/#Root_element
       const root = am5.Root.new('chartdiv')
-
-      // root.numberFormatter.setAll({
-      //   numberFormat: '#a',
-
-      //   // Group only into M (millions), and B (billions)
-      //   bigNumberPrefixes: [
-      //     { number: 1e6, suffix: 'M' },
-      //     { number: 1e9, suffix: 'B' }
-      //   ],
-
-      //   // Do not use small number prefixes at all
-      //   smallNumberPrefixes: []
-      // })
 
       // Set themes
       // https://www.amcharts.com/docs/v5/concepts/themes/
@@ -78,8 +65,6 @@ class BarChartRace extends React.Component {
 
       // hide grid
       yRenderer.grid.template.set('visible', false)
-
-      // console.log(yRenderer.labels.template)
 
       this.yAxis = chart.yAxes.push(am5xy.CategoryAxis.new(root, {
         maxDeviation: 0,
@@ -128,7 +113,6 @@ class BarChartRace extends React.Component {
         return am5.Bullet.new(root, {
           locationX: 1,
           sprite: am5.Label.new(root, {
-            // text: "{valueXWorking.formatNumber('#.# a')}",
             text: "{valueXWorking.formatNumber('#.')}",
             fill: root.interfaceColors.get('alternativeText'),
             centerX: am5.p100,
@@ -158,63 +142,60 @@ class BarChartRace extends React.Component {
         this.series.data.push({ category: id, value, prefLabel })
         this.yAxis.data.push({ category: id, prefLabel })
       }
-      this.yAxis.zoomToIndexes(0, 1) // hack to fix initial pan / zoom
+      setTimeout(() => {
+        this.yAxis.zoomToIndexes(0, this.yAxis.dataItems.length - 1)
+      }, 100)
     }
 
     updateData = () => {
-      // let itemsWithNonZero = 0
-      if (this.props.results[year]) {
-        for (const [key, value] of Object.entries(this.props.results[year])) {
-          const dataItem = this.getSeriesItem(key)
-          if (dataItem == null) {
-            this.series.data.push({ category: key, value: value.value, prefLabel: value.prefLabel })
-            this.yAxis.data.push({ category: key, prefLabel: value.prefLabel })
-          }
+      if (this.props.results[year] == null) { return }
+      for (const [key, value] of Object.entries(this.props.results[year])) {
+        const dataItem = this.getSeriesItem(key)
+        if (dataItem == null) {
+          this.series.data.push({ category: key, value: value.value, prefLabel: value.prefLabel })
+          this.yAxis.data.push({ category: key, prefLabel: value.prefLabel })
         }
-        this.label.set('text', year.toString())
-        am5.array.each(this.series.dataItems, dataItem => {
-          const category = dataItem.get('categoryY')
-          const value = this.props.results[year][category].value
-          // if (value > 0) {
-          //   itemsWithNonZero++
-          // }
-          dataItem.animate({
-            key: 'valueX',
-            to: value,
-            duration: stepDuration,
-            easing: am5.ease.linear
-          })
-          dataItem.animate({
-            key: 'valueXWorking',
-            to: value,
-            duration: stepDuration,
-            easing: am5.ease.linear
-          })
-        })
-        this.yAxis.zoomToIndexes(0, 15)
-        // this.yAxis.zoom(0, itemsWithNonZero / this.yAxis.dataItems.length)
       }
+      this.label.set('text', year.toString())
+      am5.array.each(this.series.dataItems, dataItem => {
+        const category = dataItem.get('categoryY')
+        const value = this.props.results[year][category].value
+        dataItem.animate({
+          key: 'valueX',
+          to: value,
+          duration: stepDuration,
+          easing: am5.ease.linear
+        })
+        dataItem.animate({
+          key: 'valueXWorking',
+          to: value,
+          duration: stepDuration,
+          easing: am5.ease.linear
+        })
+      })
+      const endIndex = this.yAxis.dataItems.length < 10
+        ? this.yAxis.dataItems.length - 1
+        : 10
+      this.yAxis.zoomToIndexes(0, endIndex)
     }
 
     playAnimation = () => {
-      // update data with values each 1.5 sec
-      const interval = setInterval(() => {
-        // year++
-        year += yearIncrement
+      const sortInterval = setInterval(() => {
+        this.sortCategoryAxis()
+      }, 100)
 
-        if (year > 1900) {
+      const interval = setInterval(() => {
+        year += yearIncrement
+        if (year > 2020) {
           clearInterval(interval)
-          clearInterval(this.sortInterval)
+          clearInterval(sortInterval)
           // sort category axis one more time
           setTimeout(() => {
             this.sortCategoryAxis()
           }, 2000)
         }
-
         this.updateData()
       }, stepDuration)
-
-      this.setInitialData()
 
       // Make stuff animate on load
       // https://www.amcharts.com/docs/v5/concepts/animations/
@@ -233,10 +214,6 @@ class BarChartRace extends React.Component {
       return null
     }
 
-    sortInterval = setInterval(() => {
-      this.sortCategoryAxis()
-    }, 100)
-
     // Axis sorting
     sortCategoryAxis = () => {
       // sort by value
@@ -249,8 +226,7 @@ class BarChartRace extends React.Component {
       am5.array.each(this.yAxis.dataItems, dataItem => {
         // get corresponding series item
         const seriesDataItem = this.getSeriesItem(dataItem.get('category'))
-
-        if (seriesDataItem) {
+        if (seriesDataItem !== null) {
           // get index of series data item
           const index = this.series.dataItems.indexOf(seriesDataItem)
           // calculate delta position
@@ -283,7 +259,6 @@ class BarChartRace extends React.Component {
         <Paper square style={{ width: 'calc(100% - 64px)', height: 'calc(100% - 72px)', paddingLeft: 32, paddingRight: 32 }}>
           <div style={{ width: '100%', height: '100%' }} id='chartdiv' />
         </Paper>
-
       )
     }
 }
