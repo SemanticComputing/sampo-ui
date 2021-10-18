@@ -272,6 +272,10 @@ const Perspective1 = props => {
             facetClass='perspective1'
             resultUpdateID={props.perspectiveState.resultUpdateID}
             results={props.perspectiveState.results}
+            stepBegin={1000}
+            stepEnd={1900}
+            stepIncrement={10}
+            stepDuration={1000}
           />}
       />
       <Route
@@ -283,6 +287,10 @@ const Perspective1 = props => {
             facetClass='perspective1'
             resultUpdateID={props.perspectiveState.resultUpdateID}
             results={props.perspectiveState.results}
+            stepBegin={1907}
+            stepEnd={2021}
+            stepIncrement={1}
+            stepDuration={1000}
           />}
       />
       <Route

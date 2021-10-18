@@ -7,10 +7,6 @@ import Paper from '@material-ui/core/Paper'
 
 // https://www.amcharts.com/docs/v5/
 
-const stepDuration = 1000
-const startYear = 1907
-let year = startYear
-const yearIncrement = 1
 class BarChartRace extends React.Component {
     componentDidMount = () => {
       this.props.fetchData({
@@ -22,7 +18,7 @@ class BarChartRace extends React.Component {
 
     componentDidUpdate = prevProps => {
       if (prevProps.resultUpdateID !== this.props.resultUpdateID) {
-        if (this.props.results && Object.prototype.hasOwnProperty.call(this.props.results, startYear)) {
+        if (this.props.results && Object.prototype.hasOwnProperty.call(this.props.results, this.props.stepBegin)) {
           this.setInitialData()
           this.playAnimation()
         }
@@ -85,7 +81,7 @@ class BarChartRace extends React.Component {
         renderer: am5xy.AxisRendererX.new(root, {})
       }))
 
-      xAxis.set('interpolationDuration', stepDuration / 10)
+      xAxis.set('interpolationDuration', this.props.stepDuration / 10)
       xAxis.set('interpolationEasing', am5.ease.linear)
 
       // Add series
@@ -122,8 +118,10 @@ class BarChartRace extends React.Component {
         })
       })
 
+      this.animationStep = this.props.stepBegin
+
       this.label = chart.plotContainer.children.push(am5.Label.new(root, {
-        text: startYear,
+        text: this.animationStep,
         fontSize: '8em',
         opacity: 0.2,
         x: am5.p100,
@@ -136,7 +134,7 @@ class BarChartRace extends React.Component {
     }
 
     setInitialData = () => {
-      const step = this.props.results[year]
+      const step = this.props.results[this.animationStep]
       for (const id in step) {
         const { prefLabel, value } = step[id]
         this.series.data.push({ category: id, value, prefLabel })
@@ -148,28 +146,28 @@ class BarChartRace extends React.Component {
     }
 
     updateData = () => {
-      if (this.props.results[year] == null) { return }
-      for (const [key, value] of Object.entries(this.props.results[year])) {
+      if (this.props.results[this.animationStep] == null) { return }
+      for (const [key, value] of Object.entries(this.props.results[this.animationStep])) {
         const dataItem = this.getSeriesItem(key)
         if (dataItem == null) {
           this.series.data.push({ category: key, value: value.value, prefLabel: value.prefLabel })
           this.yAxis.data.push({ category: key, prefLabel: value.prefLabel })
         }
       }
-      this.label.set('text', year.toString())
+      this.label.set('text', this.animationStep.toString())
       am5.array.each(this.series.dataItems, dataItem => {
         const category = dataItem.get('categoryY')
-        const value = this.props.results[year][category].value
+        const value = this.props.results[this.animationStep][category].value
         dataItem.animate({
           key: 'valueX',
           to: value,
-          duration: stepDuration,
+          duration: this.props.stepDuration,
           easing: am5.ease.linear
         })
         dataItem.animate({
           key: 'valueXWorking',
           to: value,
-          duration: stepDuration,
+          duration: this.props.stepDuration,
           easing: am5.ease.linear
         })
       })
@@ -185,8 +183,8 @@ class BarChartRace extends React.Component {
       }, 100)
 
       const interval = setInterval(() => {
-        year += yearIncrement
-        if (year > 2020) {
+        this.animationStep += this.props.stepIncrement
+        if (this.animationStep > this.props.stepEnd) {
           clearInterval(interval)
           clearInterval(sortInterval)
           // sort category axis one more time
@@ -195,7 +193,7 @@ class BarChartRace extends React.Component {
           }, 2000)
         }
         this.updateData()
-      }, stepDuration)
+      }, this.props.stepDuration)
 
       // Make stuff animate on load
       // https://www.amcharts.com/docs/v5/concepts/animations/
@@ -241,7 +239,7 @@ class BarChartRace extends React.Component {
             dataItem.animate({
               key: 'deltaPosition',
               to: 0,
-              duration: stepDuration / 2,
+              duration: this.props.stepDuration / 2,
               easing: am5.ease.out(am5.ease.cubic)
             })
           }
