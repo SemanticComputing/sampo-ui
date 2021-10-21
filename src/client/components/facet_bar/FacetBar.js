@@ -173,6 +173,7 @@ class FacetBar extends React.Component {
         )
         break
       case 'dateFilter':
+      case 'dateNoTimespanFilter':
         facetComponent = (
           <DateFacet
             facetID={facetID}

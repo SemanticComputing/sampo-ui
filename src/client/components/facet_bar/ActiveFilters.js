@@ -4,7 +4,10 @@ import intl from 'react-intl-universal'
 import ChipsArray from './ChipsArray'
 
 const ActiveFilters = props => {
-  const { uriFilters, textFilters, timespanFilters, integerFilters, facetClass, someFacetIsFetching, fetchingResultCount } = props
+  const {
+    uriFilters, textFilters, timespanFilters, dateNoTimespanFilters, integerFilters,
+    facetClass, someFacetIsFetching, fetchingResultCount
+  } = props
   const facetValues = []
   Object.keys(uriFilters).forEach(activeFacetID => {
     // URI filter may have multiple values
@@ -31,6 +34,14 @@ const ActiveFilters = props => {
       facetLabel: intl.get(`perspectives.${facetClass}.properties.${facetID}.label`),
       filterType: 'timespanFilter',
       value: timespanFilters[facetID]
+    })
+  })
+  Object.keys(dateNoTimespanFilters).forEach(facetID => {
+    facetValues.push({
+      facetID: facetID,
+      facetLabel: intl.get(`perspectives.${facetClass}.properties.${facetID}.label`),
+      filterType: 'dateNoTimespanFilter',
+      value: dateNoTimespanFilters[facetID]
     })
   })
   Object.keys(integerFilters).forEach(facetID => {
