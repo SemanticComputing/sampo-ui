@@ -596,3 +596,16 @@ export const knowledgeGraphMetadataQuery = `
                       dct:modified ?databaseDump__modified .
   }
 `
+
+export const choroplethQuery = `
+  SELECT ?id ?prefLabel ?polygon (count(?death) as ?instanceCount) 
+  WHERE {
+    ?id a <http://www.yso.fi/onto/suo/kunta> ;
+        skos:prefLabel ?prefLabel .
+        # sch:polygon ?polygon 
+    ?death crm-org:P7_took_place_at ?id .
+  }
+  GROUP BY ?id ?prefLabel ?polygon
+  ORDER BY desc(?instanceCount)
+  LIMIT 10
+`
