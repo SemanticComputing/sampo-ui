@@ -180,6 +180,7 @@ export const linearScale = ({ data, config }) => {
       item[`${variable}Scaled`] = (maxAllowed - minAllowed) * (unscaledNum - min) / (max - min) + minAllowed
     }
   })
+  return data
 }
 
 /* Data processing as in:
