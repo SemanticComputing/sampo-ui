@@ -208,13 +208,13 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/choropleth_map`}
         render={() =>
           <Deck
-            center={props.perspectiveState.maps.placesMsMigrations.center}
-            zoom={props.perspectiveState.maps.placesMsMigrations.zoom}
+            center={props.perspectiveState.maps.casualtiesByMunicipality.center}
+            zoom={props.perspectiveState.maps.casualtiesByMunicipality.zoom}
             results={props.perspectiveState.results}
             facetUpdateID={props.facetState.facetUpdateID}
             instanceAnalysisData={props.perspectiveState.instanceAnalysisData}
             instanceAnalysisDataUpdateID={props.perspectiveState.instanceAnalysisDataUpdateID}
-            resultClass='choropleth'
+            resultClass='casualtiesByMunicipality'
             facetClass='perspective1'
             fetchResults={props.fetchResults}
             fetchInstanceAnalysis={props.fetchInstanceAnalysis}

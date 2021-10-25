@@ -199,7 +199,7 @@ class Deck extends React.Component {
         filled: true,
         lineWidthMinPixels: 1,
         getPolygon: d => d.polygon,
-        getFillColor: d => [255, 0, 0, 30],
+        getFillColor: d => [255, 0, 0, d.instanceCountScaled],
         getLineColor: [80, 80, 80],
         getLineWidth: 1
       })
@@ -270,6 +270,21 @@ class Deck extends React.Component {
               viewState={this.state.viewport}
               layers={[layer]}
               getCursor={() => 'initial'}
+              {...(layerType === 'polygonLayer'
+                ? {
+                    getTooltip: ({ object }) => object && {
+                      html: `
+                      <h2>${object.prefLabel}</h2>
+                      <div>${object.instanceCount}</div>
+                    `
+                    // style: {
+                    //   backgroundColor: '#f00',
+                    //   fontSize: '0.8em'
+                    // }
+                    }
+                  }
+                : {})
+              }
             />
             {this.renderSpinner()}
             {layerType === 'arcLayer' && this.props.instanceAnalysisData && this.state.dialog.open &&

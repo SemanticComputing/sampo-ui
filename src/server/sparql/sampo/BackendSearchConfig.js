@@ -170,7 +170,7 @@ export const backendSearchConfig = {
       }
     }
   },
-  choropleth: {
+  casualtiesByMunicipality: {
     perspectiveID: 'warsa',
     q: choroplethQuery,
     resultMapper: makeObjectList,
@@ -179,7 +179,7 @@ export const backendSearchConfig = {
       config: {
         variable: 'instanceCount',
         minAllowed: 0,
-        maxAllowed: 1
+        maxAllowed: 255
       }
     }
   },
