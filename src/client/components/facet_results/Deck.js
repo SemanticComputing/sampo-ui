@@ -197,10 +197,9 @@ class Deck extends React.Component {
         pickable: true,
         stroked: true,
         filled: true,
-        wireframe: false,
         lineWidthMinPixels: 1,
         getPolygon: d => d.polygon,
-        getFillColor: d => [255, 255, 0, 255],
+        getFillColor: d => [255, 0, 0, 30],
         getLineColor: [80, 80, 80],
         getLineWidth: 1
       })
@@ -215,6 +214,7 @@ class Deck extends React.Component {
         (results[0].from && results[0].to) ||
         results[0].polygon
       )
+      // console.log(hasData)
 
       /* It's OK to create a new Layer instance on every render
        https://github.com/uber/deck.gl/blob/master/docs/developer-guide/using-layers.md#should-i-be-creating-new-layers-on-every-render

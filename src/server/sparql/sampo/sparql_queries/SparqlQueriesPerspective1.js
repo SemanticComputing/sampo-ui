@@ -607,5 +607,4 @@ export const choroplethQuery = `
   }
   GROUP BY ?id ?prefLabel ?polygon
   ORDER BY desc(?instanceCount)
-  LIMIT 1
 `

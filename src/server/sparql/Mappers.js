@@ -178,7 +178,7 @@ export const linearScale = ({ data, config }) => {
       const unscaledNum = Number(item[variable])
       // https://stackoverflow.com/a/31687097
       const scaled = (maxAllowed - minAllowed) * (unscaledNum - min) / (max - min) + minAllowed
-      item[`${variable}Scaled`] = scaled.toFixed(2)
+      item[`${variable}Scaled`] = parseFloat(scaled.toFixed(2))
     }
   })
   return data
@@ -313,11 +313,14 @@ export const toPolygonLayerFormat = ({ data, config }) => {
     const deckGlArray = pointArray.map(point => {
       const latLng = point.split(',')
       return [
-        parseFloat(latLng[1]).toFixed(4),
-        parseFloat(latLng[0]).toFixed(4)
+        parseFloat(parseFloat(latLng[0]).toFixed(4)),
+        parseFloat(parseFloat(latLng[1]).toFixed(4))
       ]
     })
     item.polygon = deckGlArray
   })
+  // const example = scaledData[0].polygon[0][0]
+  // console.log(typeof example)
+  // console.log(example)
   return scaledData
 }
