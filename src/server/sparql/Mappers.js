@@ -268,11 +268,6 @@ export const toBarChartRaceFormat = ({ data, config }) => {
       resultObj[i] = null
     }
   }
-  // const initialItem = cloneDeep(resultObj[lastKey])
-  // for (const key in initialItem) {
-  //   initialItem[key].value = 0
-  // }
-  // resultObj[firstKey - step] = initialItem
   return resultObj
 }
 
@@ -309,4 +304,20 @@ const mergeDataItems = (itemA, itemB) => {
     }
   }
   return merged
+}
+
+export const toPolygonLayerFormat = ({ data, config }) => {
+  const scaledData = linearScale({ data, config })
+  scaledData.forEach(item => {
+    const pointArray = item.polygon.split(' ')
+    const deckGlArray = pointArray.map(point => {
+      const latLng = point.split(',')
+      return [
+        parseFloat(latLng[1]).toFixed(4),
+        parseFloat(latLng[0]).toFixed(4)
+      ]
+    })
+    item.polygon = deckGlArray
+  })
+  return scaledData
 }

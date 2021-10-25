@@ -66,7 +66,8 @@ import {
   mapLineChart,
   mapMultipleLineChart,
   linearScale,
-  toBarChartRaceFormat
+  toBarChartRaceFormat,
+  toPolygonLayerFormat
 } from '../Mappers'
 
 export const backendSearchConfig = {
@@ -174,7 +175,7 @@ export const backendSearchConfig = {
     q: choroplethQuery,
     resultMapper: makeObjectList,
     postprocess: {
-      func: linearScale,
+      func: toPolygonLayerFormat,
       config: {
         variable: 'instanceCount',
         minAllowed: 0,

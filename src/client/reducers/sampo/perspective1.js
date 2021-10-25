@@ -291,7 +291,8 @@ const resultClasses = new Set([
   'manuscriptInstancePageNetwork',
   'manuscriptFacetResultsNetwork',
   'perspective1KnowledgeGraphMetadata',
-  'speechesByYearAndParty'
+  'speechesByYearAndParty',
+  'choropleth'
 ])
 
 const perspective1 = (state = INITIAL_STATE, action) => {

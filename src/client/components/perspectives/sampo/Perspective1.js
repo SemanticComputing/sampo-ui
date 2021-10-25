@@ -220,7 +220,7 @@ const Perspective1 = props => {
             fetchInstanceAnalysis={props.fetchInstanceAnalysis}
             fetching={props.perspectiveState.fetching}
             fetchingInstanceAnalysisData={props.perspectiveState.fetchingInstanceAnalysisData}
-            layerType='arcLayer'
+            layerType='polygonLayer'
             mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
             mapBoxStyle={MAPBOX_STYLE}
             layoutConfig={props.layoutConfig}
