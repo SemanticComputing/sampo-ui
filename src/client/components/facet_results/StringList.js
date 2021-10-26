@@ -27,23 +27,33 @@ const styles = theme => ({
   tooltipList: {
     listStylePosition: 'inside',
     paddingLeft: 0
+  },
+  threeDots: {
+    cursor: 'pointer'
   }
 })
 
 const StringList = props => {
   const createFirstValue = (data, isArray) => {
     let firstValue = isArray ? data[0] : data
+    let addThreeDots = false
     if (props.collapsedMaxWords) {
       const wordCount = firstValue.split(' ').length
       if (wordCount > props.collapsedMaxWords) {
         firstValue = firstValue.trim().split(' ').splice(0, props.collapsedMaxWords).join(' ')
-        firstValue = `${firstValue}...`
+        addThreeDots = true
+        // firstValue = `${firstValue}...`
       }
     } else if (isArray) {
-      firstValue = `${firstValue}...`
+      addThreeDots = true
+      // firstValue = `${firstValue}...`
     }
     return (
-      <div className={props.classes.stringContainer}>{firstValue}</div>
+      <>
+        <div className={props.classes.stringContainer}>{firstValue}</div>
+        {addThreeDots &&
+          <span className={props.classes.threeDots} onClick={() => props.onExpandClick(props.rowId)}> ...</span>}
+      </>
     )
   }
 

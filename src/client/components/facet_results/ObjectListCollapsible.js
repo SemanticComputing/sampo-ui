@@ -25,13 +25,16 @@ const styles = () => ({
   dateContainer: {
     width: 180,
     display: 'inline-block'
+  },
+  threeDots: {
+    cursor: 'pointer'
   }
 })
 
-const ObjectList = props => {
+const ObjectListCollapsible = props => {
   const {
     sortValues, sortBy, makeLink, externalLink, linkAsButton, columnId, showSource,
-    sourceExternalLink, numberedList, collapsedMaxWords
+    sourceExternalLink, numberedList, collapsedMaxWords, classes, shortenLabel
   } = props
   let { data } = props
 
@@ -61,7 +64,8 @@ const ObjectList = props => {
             data={itemData}
             isFirstValue={isFirstValue}
           />
-          {addThreeDots && <span> ...</span>}
+          {addThreeDots &&
+            <span className={classes.threeDots} onClick={() => props.onExpandClick(props.rowId)}> ...</span>}
         </>
       )
     } else {
@@ -75,7 +79,8 @@ const ObjectList = props => {
             isFirstValue={isFirstValue}
             collapsedMaxWords={collapsedMaxWords}
           />
-          {addThreeDots && <span> ...</span>}
+          {addThreeDots &&
+            <span className={classes.threeDots} onClick={() => props.onExpandClick(props.rowId)}> ...</span>}
           {showSource && itemData.source &&
             <ObjectListItemSources
               data={itemData.source}
@@ -118,11 +123,11 @@ const ObjectList = props => {
       </>
     )
   } else {
-    return renderItem({ addThreeDots: data.shortenLabel, itemData: data })
+    return renderItem({ addThreeDots: shortenLabel, itemData: data })
   }
 }
 
-ObjectList.propTypes = {
+ObjectListCollapsible.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.string]),
   makeLink: PropTypes.bool.isRequired,
@@ -132,7 +137,8 @@ ObjectList.propTypes = {
   expanded: PropTypes.bool.isRequired,
   columnId: PropTypes.string.isRequired,
   linkAsButton: PropTypes.bool,
-  showSource: PropTypes.bool
+  showSource: PropTypes.bool,
+  shortenLabel: PropTypes.bool.isRequired
 }
 
-export default withStyles(styles)(ObjectList)
+export default withStyles(styles)(ObjectListCollapsible)

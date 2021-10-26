@@ -10,7 +10,8 @@ const ResultTableCell = props => {
   const {
     data, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, minWidth,
     container, columnId, expanded, linkAsButton, collapsedMaxWords, showSource,
-    sourceExternalLink, renderAsHTML, HTMLParserTask, referencedTerm, previewImageHeight
+    sourceExternalLink, renderAsHTML, HTMLParserTask, referencedTerm, previewImageHeight,
+    onExpandClick, rowId, shortenLabel
   } = props
   let cellContent = null
   const cellStyle = {
@@ -26,9 +27,12 @@ const ResultTableCell = props => {
           sortValues={sortValues}
           sortBy={sortBy}
           numberedList={numberedList}
+          rowId={rowId}
           columnId={columnId}
           expanded={expanded}
+          onExpandClick={onExpandClick}
           collapsedMaxWords={collapsedMaxWords}
+          shortenLabel={shortenLabel}
           linkAsButton={linkAsButton}
           showSource={showSource}
           sourceExternalLink={sourceExternalLink}
@@ -40,7 +44,10 @@ const ResultTableCell = props => {
         <StringList
           data={data}
           expanded={expanded}
+          onExpandClick={onExpandClick}
+          rowId={rowId}
           collapsedMaxWords={collapsedMaxWords}
+          shortenLabel={shortenLabel}
           renderAsHTML={renderAsHTML}
           HTMLParserTask={HTMLParserTask}
           referencedTerm={referencedTerm}

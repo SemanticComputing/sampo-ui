@@ -169,7 +169,11 @@ class ResultTable extends React.Component {
     }
   }
 
-  handleExpandRow = rowId => () => {
+  handleExpandRow = rowId => event => this.updateExpanedRows(rowId)
+
+  handleExpandRowFromChildComponent = rowId => this.updateExpanedRows(rowId)
+
+  updateExpanedRows = rowId => {
     const expandedRows = this.state.expandedRows
     if (expandedRows.has(rowId)) {
       expandedRows.delete(rowId)
@@ -203,20 +207,22 @@ class ResultTable extends React.Component {
       if (column.valueType === 'image' && Array.isArray(columnData)) {
         hasExpandableContent = false
       }
+      let shortenLabel = false
       // check if label should be shortened in ResultTableCell
       if (!isArray && column.collapsedMaxWords && columnData !== '-') {
         if (column.valueType === 'string' && columnData.split(' ').length > column.collapsedMaxWords) {
           hasExpandableContent = true
-          columnData.shortenLabel = !expanded // shorten label only if the cell is not expanded
+          shortenLabel = !expanded // shorten label only if the cell is not expanded
         }
         if (column.valueType === 'object' && columnData.prefLabel.split(' ').length > column.collapsedMaxWords) {
           hasExpandableContent = true
-          columnData.shortenLabel = !expanded // shorten label only if the cell is not expanded
+          shortenLabel = !expanded // shorten label only if the cell is not expanded
         }
       }
       return (
         <ResultTableCell
           key={id}
+          rowId={row.id}
           columnId={id}
           data={columnData}
           valueType={valueType}
@@ -229,8 +235,10 @@ class ResultTable extends React.Component {
           previewImageHeight={previewImageHeight}
           container='cell'
           expanded={expanded}
+          onExpandClick={this.handleExpandRowFromChildComponent}
           linkAsButton={linkAsButton}
           collapsedMaxWords={collapsedMaxWords}
+          shortenLabel={shortenLabel}
           showSource={false}
           sourceExternalLink={sourceExternalLink}
           renderAsHTML={renderAsHTML}
