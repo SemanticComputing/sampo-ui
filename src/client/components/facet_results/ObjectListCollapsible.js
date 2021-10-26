@@ -73,6 +73,7 @@ const ObjectListCollapsible = props => {
         <>
           <ObjectListItem
             data={itemData}
+            shortenLabel={shortenLabel}
             makeLink={makeLink}
             externalLink={externalLink}
             linkAsButton={linkAsButton}
@@ -84,6 +85,7 @@ const ObjectListCollapsible = props => {
           {showSource && itemData.source &&
             <ObjectListItemSources
               data={itemData.source}
+              shortenLabel={shortenLabel}
               externalLink={sourceExternalLink}
             />}
         </>

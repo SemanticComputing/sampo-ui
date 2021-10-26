@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import ObjectListItemLink from './ObjectListItemLink'
 
 const ObjectListItem = props => {
-  const { data, makeLink, externalLink, linkAsButton, isFirstValue, collapsedMaxWords } = props
+  const { data, makeLink, externalLink, linkAsButton, isFirstValue, collapsedMaxWords, shortenLabel } = props
   let label = Array.isArray(data.prefLabel) ? data.prefLabel[0] : data.prefLabel
-  if ((isFirstValue || data.shortenLabel) && collapsedMaxWords) {
+  if ((isFirstValue || shortenLabel) && collapsedMaxWords) {
     const wordCount = label.split(' ').length
     if (wordCount > collapsedMaxWords) {
       label = label.trim().split(' ').splice(0, props.collapsedMaxWords).join(' ')
