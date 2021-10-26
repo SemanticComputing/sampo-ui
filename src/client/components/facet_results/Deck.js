@@ -199,7 +199,7 @@ class Deck extends React.Component {
         filled: true,
         lineWidthMinPixels: 1,
         getPolygon: d => d.polygon,
-        getFillColor: d => [255, 0, 0, d.instanceCountScaled],
+        getFillColor: d => d.choroplethColor,
         getLineColor: [80, 80, 80],
         getLineWidth: 1
       })

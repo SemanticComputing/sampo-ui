@@ -177,9 +177,7 @@ export const backendSearchConfig = {
     postprocess: {
       func: toPolygonLayerFormat,
       config: {
-        variable: 'instanceCount',
-        minAllowed: 0,
-        maxAllowed: 255
+        variable: 'death'
       }
     }
   },
