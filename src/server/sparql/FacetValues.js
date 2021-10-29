@@ -123,10 +123,27 @@ export const getFacet = async ({
   q = q.replace(/<FACET_CLASS>/g, backendSearchConfig[facetClass].facetClass)
   q = q.replace('<UNKNOWN_SELECTED>', unknownSelected)
   q = q.replace('<MISSING_PREDICATE>', facetConfig.predicate)
-  const facetLabelPredicate = facetConfig.facetLabelPredicate
-    ? facetConfig.facetLabelPredicate
-    : 'skos:prefLabel'
-  q = q.replace('<FACET_LABEL_PREDICATE>', facetLabelPredicate)
+  if (has(facetConfig, 'labelPattern')) {
+    q = q.replace('<LABELS>', facetConfig.labelPattern)
+  } else {
+    const defaultLabelPattern = `
+     OPTIONAL {
+         ?id <FACET_LABEL_PREDICATE> ?prefLabel_
+         <FACET_LABEL_FILTER>
+       }
+     BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
+    `
+    q = q.replace('<LABELS>', defaultLabelPattern)
+    const facetLabelPredicate = facetConfig.facetLabelPredicate
+      ? facetConfig.facetLabelPredicate
+      : 'skos:prefLabel'
+    q = q.replace('<FACET_LABEL_PREDICATE>', facetLabelPredicate)
+    q = q.replace(/<FACET_LABEL_FILTER>/g,
+      has(facetConfig, 'facetLabelFilter')
+        ? facetConfig.facetLabelFilter
+        : ''
+    )
+  }
   if (facetConfig.type === 'timespan') {
     q = q.replace('<START_PROPERTY>', facetConfig.startProperty)
     q = q.replace('<END_PROPERTY>', facetConfig.endProperty)

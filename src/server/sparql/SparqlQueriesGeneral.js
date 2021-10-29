@@ -70,11 +70,7 @@ export const facetValuesQuery = `
       }
       FILTER(BOUND(?id))
       <FACET_VALUE_FILTER>
-      OPTIONAL {
-        ?id <FACET_LABEL_PREDICATE> ?prefLabel_
-        <FACET_LABEL_FILTER>
-      }
-      BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
+      <LABELS>
     }
     UNION
     {
