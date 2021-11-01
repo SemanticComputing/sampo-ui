@@ -178,6 +178,7 @@ class InstanceHomePageTable extends React.Component {
                       previewImageHeight={previewImageHeight}
                       container='cell'
                       expanded={expanded}
+                      shortenLabel={false}
                       linkAsButton={linkAsButton}
                       collapsedMaxWords={collapsedMaxWords}
                       showSource={showSource}
