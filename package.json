@@ -23,9 +23,6 @@
     "storybook": "start-storybook",
     "test": "jest --watch"
   },
-  "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>/src/client/setupTests.js"
-  },
   "dependencies": {
     "@amcharts/amcharts5": "^5.0.3",
     "@babel/runtime": "^7.15.4",
@@ -94,7 +91,6 @@
     "@babel/preset-react": "^7.14.5",
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
-    "babel-jest": "^27.3.1",
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^3.0.0",
     "compression-webpack-plugin": "^7.1.2",
@@ -103,12 +99,9 @@
     "cross-env": "^7.0.0",
     "css-loader": "^5.0.1",
     "dotenv": "^10.0.0",
-    "enzyme": "^3.7.0",
-    "enzyme-adapter-react-16": "^1.6.0",
     "file-loader": "^6.2.0",
     "googleapis": "^71.0.0",
     "html-webpack-plugin": "^5.3.1",
-    "jest": "^27.3.1",
     "react-test-renderer": "^16.6.1",
     "sass": "^1.43.4",
     "sass-loader": "^10.2.0",
