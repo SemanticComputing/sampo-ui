@@ -70,7 +70,9 @@ class BarChartRace extends React.Component {
       }))
 
       this.yAxis.get('renderer').labels.template.adapters.add('text', (label, target, key) => {
-        return target.dataItem.dataContext.prefLabel
+        if (target.dataItem) {
+          return target.dataItem.dataContext.prefLabel
+        }
       })
 
       const xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
