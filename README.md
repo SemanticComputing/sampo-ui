@@ -15,6 +15,8 @@ The following research prototype portals use this repository as a base:
 9. [Hellerau](https://github.com/SemanticComputing/hellerau-web-app)
 10. [ParliamentSampo](https://github.com/SemanticComputing/parliamentsampo-web-app)
 11. [War veteran interviews](https://github.com/SemanticComputing/veterans-web-app)
+12. [WarSampo analyzer](https://github.com/SemanticComputing/warsa-analyzer-web-app)
+13. [ArtSampo](https://github.com/SemanticComputing/artsampo-web-app)
 
 An example deployment generated from this repository is published at [sampo-ui.demo.seco.cs.aalto.fi](https://sampo-ui.demo.seco.cs.aalto.fi). It combines perspectives from the Mapping Manuscript Migrations and NameSampo portals, and can be used for testing and as a starting point for developing new portals. 
 
@@ -32,7 +34,7 @@ provided below, fork this repository, and start developing from there.
 
 ## Requirements
 
-* [Node.js® &ndash; a JavaScript runtime built on Chrome's V8 JavaScript engine.](https://nodejs.org/en/) (versions 12.22.4 - 14.17.4)
+* [Node.js® &ndash; a JavaScript runtime built on Chrome's V8 JavaScript engine.](https://nodejs.org/en/) (version 16.13.0)
 
 * [Nodemon &ndash; monitor for any changes in your source and automatically restart your server](https://nodemon.io/)
 
