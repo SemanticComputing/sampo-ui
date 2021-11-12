@@ -20,7 +20,7 @@ a, a:visited, a:hover, a:active {
 }
 
 .rstcustom__rowSearchMatch {
-    /*box-shadow: 0 2px 0 #673ab7 ;*/
+    box-shadow: none !important;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
