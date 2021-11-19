@@ -225,7 +225,15 @@ export const getByURI = ({
   } else {
     ({ endpoint, langTag, langTagSecondary } = config)
   }
-  const { properties, relatedInstances, noFilterForRelatedInstances = false } = config.instance
+  const {
+    properties,
+    relatedInstances = '',
+    filterTarget = 'related__id',
+    noFilterForRelatedInstances = false,
+    resultMapper = makeObjectList,
+    resultMapperConfig = null,
+    postprocess = null
+  } = config.instance
   let q = instanceQuery
   q = q.replace('<PROPERTIES>', properties)
   q = q.replace('<RELATED_INSTANCES>', relatedInstances)
@@ -237,7 +245,7 @@ export const getByURI = ({
       resultClass: resultClass,
       facetClass: facetClass,
       constraints: constraints,
-      filterTarget: 'related__id',
+      filterTarget,
       facetID: null
     }))
   }
@@ -252,7 +260,9 @@ export const getByURI = ({
     query: endpoint.prefixes + q,
     endpoint: endpoint.url,
     useAuth: endpoint.useAuth,
-    resultMapper: makeObjectList,
+    resultMapper,
+    resultMapperConfig,
+    postprocess,
     resultFormat
   })
 }
