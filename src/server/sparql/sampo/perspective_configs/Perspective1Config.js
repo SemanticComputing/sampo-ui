@@ -17,6 +17,9 @@ export const perspective1Config = {
   // `,
   paginatedResults: {
     properties: manuscriptPropertiesFacetResults
+    // resultMapper:
+    // resultMapperConfig:
+    // postprocess:
   },
   instance: {
     properties: manuscriptPropertiesInstancePage,
