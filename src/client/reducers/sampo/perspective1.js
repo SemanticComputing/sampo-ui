@@ -133,7 +133,8 @@ export const INITIAL_STATE = {
       sortValues: true,
       numberedList: false,
       minWidth: 220,
-      collapsedMaxWords: 12
+      collapsedMaxWords: 12,
+      expandedOnInstancePage: true
     },
     {
       id: 'language',

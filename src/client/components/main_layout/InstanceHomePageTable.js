@@ -75,9 +75,13 @@ const styles = theme => ({
 class InstanceHomePageTable extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      expandedRows: new Set()
-    }
+    const expandedRows = new Set()
+    props.properties.forEach(prop => {
+      if (prop.expandedOnInstancePage) {
+        expandedRows.add(prop.id)
+      }
+    })
+    this.state = { expandedRows }
   }
 
   componentDidMount = () => {
