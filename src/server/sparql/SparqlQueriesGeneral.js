@@ -72,25 +72,7 @@ export const facetValuesQuery = `
       <FACET_VALUE_FILTER>
       <LABELS>
     }
-    UNION
-    {
-      # 'Unknown' facet value for results with no predicate path
-      {
-        SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) {
-          <FILTER>
-          VALUES ?facetClass { <FACET_CLASS> }
-          ?instance a ?facetClass .
-          FILTER NOT EXISTS {
-            ?instance <MISSING_PREDICATE> [] .
-          }
-        }
-      }
-      FILTER(?instanceCount > 0)
-      BIND(IRI("http://ldf.fi/MISSING_VALUE") AS ?id)
-      # prefLabel for <http://ldf.fi/MISSING_VALUE> is given in client/translations
-      BIND('0' as ?parent)
-      BIND(<UNKNOWN_SELECTED> as ?selected)
-    }
+    <UNKNOWN_VALUES>
   }
   <ORDER_BY>
 `

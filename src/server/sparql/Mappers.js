@@ -28,16 +28,32 @@ export const mapCount = sparqlBindings => {
   return sparqlBindings[0].count.value
 }
 
-export const mapFacet = (sparqlBindings, previousSelections) => {
+export const mapFacet = ({ sparqlBindings, config }) => {
   let results = []
   if (sparqlBindings.length > 0) {
-    results = mapFacetValues(sparqlBindings)
+    results = sparqlBindings.map(b => {
+      try {
+        return {
+          id: b.id.value,
+          prefLabel: b.prefLabel
+            ? b.prefLabel.value
+            : '0', // temporary prefLabel for <http://ldf.fi/MISSING_VALUE> to support sorting
+          selected: b.selected.value,
+          parent: b.parent ? b.parent.value : null,
+          instanceCount: b.instanceCount.value
+        }
+      } catch (err) {
+        console.log(err)
+      }
+      return null
+    })
+    return results
   }
   return results
 }
 
-export const mapHierarchicalFacet = (sparqlBindings, previousSelections) => {
-  const results = mapFacetValues(sparqlBindings)
+export const mapHierarchicalFacet = ({ sparqlBindings, config }) => {
+  const results = mapFacet({ sparqlBindings, config })
   let treeData = getTreeFromFlatData({
     flatData: results,
     getKey: node => node.id, // resolve a node's key
@@ -51,7 +67,7 @@ export const mapHierarchicalFacet = (sparqlBindings, previousSelections) => {
   })
 }
 
-export const mapTimespanFacet = sparqlBindings => {
+export const mapTimespanFacet = ({ sparqlBindings, config }) => {
   const b = sparqlBindings[0]
   return {
     min: b.min.value,
@@ -199,26 +215,6 @@ const trimResult = arr => {
   while (i < j && arr[j][1] === 0) j--
 
   return arr.slice(i, j + 1)
-}
-
-const mapFacetValues = sparqlBindings => {
-  const results = sparqlBindings.map(b => {
-    try {
-      return {
-        id: b.id.value,
-        prefLabel: b.prefLabel
-          ? b.prefLabel.value
-          : '0', // temporary prefLabel for <http://ldf.fi/MISSING_VALUE> to support sorting
-        selected: b.selected.value,
-        parent: b.parent ? b.parent.value : null,
-        instanceCount: b.instanceCount.value
-      }
-    } catch (err) {
-      console.log(err)
-    }
-    return null
-  })
-  return results
 }
 
 const comparator = (a, b) => {

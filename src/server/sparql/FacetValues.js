@@ -99,6 +99,11 @@ export const getFacet = async ({
       })
     }
   }
+  if (facetConfig.hideUnknownValue) {
+    q = q.replace(/<UNKNOWN_VALUES>/g, '')
+  } else {
+    q = q.replace(/<UNKNOWN_VALUES>/g, unknownBlock)
+  }
   q = q.replace('<SELECTED_VALUES>', selectedBlock)
   q = q.replace('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock)
   q = q.replace(/<FACET_VALUE_FILTER>/g, facetConfig.facetValueFilter)
@@ -159,6 +164,7 @@ export const getFacet = async ({
     endpoint: endpoint.url,
     useAuth: endpoint.useAuth,
     resultMapper: mapper,
+    resultMapperConfig: facetConfig,
     resultFormat
   })
   if (facetConfig.type === 'hierarchical') {
@@ -267,3 +273,25 @@ export const generateSelectedFilter = ({
           FILTER(?id ${inverse ? 'NOT' : ''} IN ( ${selections} ))
   `)
 }
+
+const unknownBlock = `
+  UNION
+  {
+    # 'Unknown' facet value for results with no predicate path
+    {
+      SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) {
+        <FILTER>
+        VALUES ?facetClass { <FACET_CLASS> }
+        ?instance a ?facetClass .
+        FILTER NOT EXISTS {
+          ?instance <MISSING_PREDICATE> [] .
+        }
+      }
+    }
+    FILTER(?instanceCount > 0)
+    BIND(IRI("http://ldf.fi/MISSING_VALUE") AS ?id)
+    # prefLabel for <http://ldf.fi/MISSING_VALUE> is given in client/translations
+    BIND('0' as ?parent)
+    BIND(<UNKNOWN_SELECTED> as ?selected)
+  }
+`
