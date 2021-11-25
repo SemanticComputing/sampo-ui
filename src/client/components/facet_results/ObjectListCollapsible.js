@@ -11,7 +11,7 @@ import classNames from 'classnames'
 
 const styles = () => ({
   resultTableList: props => ({
-    maxHeight: props.tableData.paginatedResultsRowContentMaxHeight
+    maxHeight: props.tableData && props.tableData.paginatedResultsRowContentMaxHeight
       ? props.tableData.paginatedResultsRowContentMaxHeight
       : 200,
     overflow: 'auto'
