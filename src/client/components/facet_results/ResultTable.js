@@ -184,8 +184,10 @@ class ResultTable extends React.Component {
   }
 
   rowRenderer = row => {
-    const { classes, screenSize } = this.props
-    const expanded = this.state.expandedRows.has(row.id)
+    const { classes, screenSize, data } = this.props
+    const expanded = data.paginatedResultsAlwaysExpandRows
+      ? true
+      : this.state.expandedRows.has(row.id)
     let hasExpandableContent = false
     const dataCells = this.props.data.properties.map(column => {
       const {
