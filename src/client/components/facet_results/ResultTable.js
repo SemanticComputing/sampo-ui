@@ -189,6 +189,7 @@ class ResultTable extends React.Component {
       ? true
       : this.state.expandedRows.has(row.id)
     let hasExpandableContent = false
+    let renderExpandButton = hasExpandableContent
     const dataCells = this.props.data.properties.map(column => {
       const {
         id, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, minWidth,
@@ -220,6 +221,9 @@ class ResultTable extends React.Component {
           hasExpandableContent = true
           shortenLabel = !expanded // shorten label only if the cell is not expanded
         }
+      }
+      if (data.paginatedResultsAlwaysExpandRows) {
+        renderExpandButton = false
       }
       return (
         <ResultTableCell
@@ -253,7 +257,7 @@ class ResultTable extends React.Component {
     return (
       <TableRow key={row.id}>
         <TableCell className={classes.expandCell}>
-          {hasExpandableContent &&
+          {renderExpandButton &&
             <IconButton
               className={clsx(classes.expand, {
                 [classes.expandOpen]: expanded
