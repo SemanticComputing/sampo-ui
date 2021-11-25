@@ -7,21 +7,18 @@ import { orderBy, has } from 'lodash'
 import ObjectListItem from './ObjectListItem'
 import ObjectListItemSources from './ObjectListItemSources'
 import ObjectListItemEvent from './ObjectListItemEvent'
+import classNames from 'classnames'
 
 const styles = () => ({
-  valueList: {
-    paddingLeft: 20,
-    maxHeight: 200,
+  resultTableList: props => ({
+    maxHeight: props.tableData.paginatedResultsRowContentMaxHeight
+      ? props.tableData.paginatedResultsRowContentMaxHeight
+      : 200,
     overflow: 'auto'
-  },
-  valueListNoBullets: {
-    listStyle: 'none',
-    paddingLeft: 0
-  },
-  numberedList: {
-    maxHeight: 200,
-    overflow: 'auto'
-  },
+  }),
+  valueList: props => ({
+    paddingLeft: 20
+  }),
   dateContainer: {
     width: 180,
     display: 'inline-block'
@@ -103,12 +100,12 @@ const ObjectListCollapsible = props => {
     </>
 
   const renderBulletedList = data =>
-    <ul className={props.classes.valueList}>
+    <ul className={classNames(classes.resultTableList, classes.valueList)}>
       {renderListItems(data)}
     </ul>
 
   const renderNumberedList = data =>
-    <ol className={props.classes.numberedList}>
+    <ol className={classes.resultTableList}>
       {renderListItems(data)}
     </ol>
 

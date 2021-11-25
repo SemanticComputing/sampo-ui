@@ -8,7 +8,7 @@ import ImageGallerySRL from '../main_layout/ImageGallerySRL'
 
 const ResultTableCell = props => {
   const {
-    data, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, minWidth,
+    data, tableData, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, minWidth,
     container, columnId, expanded, linkAsButton, collapsedMaxWords, showSource,
     sourceExternalLink, renderAsHTML, HTMLParserTask, referencedTerm, previewImageHeight,
     onExpandClick, rowId, shortenLabel
@@ -22,6 +22,7 @@ const ResultTableCell = props => {
       cellContent = (
         <ObjectListCollapsible
           data={data}
+          tableData={tableData}
           makeLink={makeLink}
           externalLink={externalLink}
           sortValues={sortValues}
@@ -43,6 +44,7 @@ const ResultTableCell = props => {
       cellContent = (
         <StringList
           data={data}
+          tableData={tableData}
           expanded={expanded}
           onExpandClick={onExpandClick}
           rowId={rowId}

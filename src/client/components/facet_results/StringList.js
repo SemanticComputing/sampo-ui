@@ -3,21 +3,18 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Collapse from '@material-ui/core/Collapse'
 import HTMLParser from '../../helpers/HTMLParser'
+import classNames from 'classnames'
 
 const styles = theme => ({
-  valueList: {
-    paddingLeft: 20,
-    maxHeight: 200,
+  resultTableList: props => ({
+    maxHeight: props.tableData.paginatedResultsRowContentMaxHeight
+      ? props.tableData.paginatedResultsRowContentMaxHeight
+      : 200,
     overflow: 'auto'
-  },
-  valueListNoBullets: {
-    listStyle: 'none',
-    paddingLeft: 0
-  },
-  numberedList: {
-    maxHeight: 200,
-    overflow: 'auto'
-  },
+  }),
+  valueList: props => ({
+    paddingLeft: 20
+  }),
   tooltip: {
     maxWidth: 500
   },
@@ -50,7 +47,7 @@ const StringList = props => {
     }
     return (
       <>
-        <div className={props.classes.stringContainer}>{firstValue}</div>
+        <div>{firstValue}</div>
         {addThreeDots &&
           <span className={props.classes.threeDots} onClick={() => props.onExpandClick(props.rowId)}> ...</span>}
       </>
@@ -61,20 +58,20 @@ const StringList = props => {
     data = data.sort()
     if (props.numberedList) {
       return (
-        <ol className={props.classes.numberedList}>
+        <ol className={classes.resultTableList}>
           {data.map((item, i) => <li key={i}>{item}</li>)}
         </ol>
       )
     } else {
       return (
-        <ul className={props.classes.valueList}>
+        <ul className={classNames(classes.resultTableList, classes.valueList)}>
           {data.map((item, i) => <li key={i}>{item}</li>)}
         </ul>
       )
     }
   }
 
-  const { renderAsHTML } = props
+  const { renderAsHTML, classes } = props
   let { data } = props
   if (data == null || data === '-') {
     return '-'
@@ -89,7 +86,7 @@ const StringList = props => {
       {!props.expanded && createFirstValue(data, isArray)}
       <Collapse in={props.expanded} timeout='auto' unmountOnExit>
         {isArray && createBasicList(data)}
-        {!isArray && <div className={props.classes.stringContainer}>{data}</div>}
+        {!isArray && <div>{data}</div>}
       </Collapse>
     </>
   )

@@ -226,6 +226,7 @@ class ResultTable extends React.Component {
           key={id}
           rowId={row.id}
           columnId={id}
+          tableData={data}
           data={columnData}
           valueType={valueType}
           makeLink={makeLink}

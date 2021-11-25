@@ -468,6 +468,7 @@ const SemanticPortal = props => {
                 </React.Fragment>
               )
             }
+            return null
           })}
           {/* create routes for classes that have only info pages and no faceted search perspective */}
           {perspectiveConfigOnlyInfoPages.map(perspective =>
