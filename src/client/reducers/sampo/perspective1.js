@@ -62,6 +62,7 @@ export const INITIAL_STATE = {
       externalLink: false,
       sortValues: true,
       numberedList: false,
+      // height: 150,
       minWidth: 200
     },
     {

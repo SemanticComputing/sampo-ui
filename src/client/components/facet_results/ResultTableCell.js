@@ -9,12 +9,13 @@ import ImageGallerySRL from '../main_layout/ImageGallerySRL'
 const ResultTableCell = props => {
   const {
     data, tableData, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, minWidth,
-    container, columnId, expanded, linkAsButton, collapsedMaxWords, showSource,
+    height, container, columnId, expanded, linkAsButton, collapsedMaxWords, showSource,
     sourceExternalLink, renderAsHTML, HTMLParserTask, referencedTerm, previewImageHeight,
     onExpandClick, rowId, shortenLabel
   } = props
   let cellContent = null
   const cellStyle = {
+    ...(height && { height }),
     ...(minWidth && { minWidth })
   }
   switch (valueType) {
