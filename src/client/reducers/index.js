@@ -1,60 +1,53 @@
+import portalConfig from '../configs/PortalConfig'
 import { combineReducers } from 'redux'
 import { reducer as toastrReducer } from 'react-redux-toastr'
-// general reducers:
+
+// Import and add general reducers:
 import error from './general/error'
 import options from './general/options'
 import animation from './general/animation'
 import leafletMap from './general/leafletMap'
-// portal spefic reducers:
-import fullTextSearch from './sampo/fullTextSearch'
-import clientSideFacetedSearch from './sampo/clientSideFacetedSearch'
-import perspective1 from './sampo/perspective1' // copy of manuscripts
-import perspective2 from './sampo/perspective2' // copy of works
-import perspective3 from './sampo/perspective3' // copy of events
-import manuscripts from './sampo/manuscripts'
-import works from './sampo/works'
-import events from './sampo/events'
-import actors from './sampo/actors'
-import places from './sampo/places'
-import expressions from './sampo/expressions'
-import collections from './sampo/collections'
-import finds from './sampo/finds'
-import findsFacets from './sampo/findsFacets'
-import findsFacetsConstrainSelf from './sampo/findsFacetsConstrainSelf'
-import perspective1Facets from './sampo/perspective1Facets'
-import perspective1FacetsConstrainSelf from './sampo/perspective1FacetsConstrainSelf'
-import perspective2Facets from './sampo/perspective2Facets'
-import perspective2FacetsConstrainSelf from './sampo/perspective2FacetsConstrainSelf'
-import perspective3Facets from './sampo/perspective3Facets'
-// import perspective3FacetsConstrainSelf from './sampo/perspective3FacetsConstrainSelf'
-
-const reducer = combineReducers({
-  perspective1,
-  perspective2,
-  perspective3,
-  perspective1Facets,
-  perspective1FacetsConstrainSelf,
-  perspective2Facets,
-  perspective2FacetsConstrainSelf,
-  perspective3Facets,
-  // perspective3FacetsConstrainSelf,
-  manuscripts,
-  works,
-  events,
-  actors,
-  expressions,
-  collections,
-  places,
-  finds,
-  findsFacets,
-  findsFacetsConstrainSelf,
+const reducers = {
   leafletMap,
   animation,
   options,
   error,
-  clientSideFacetedSearch,
-  fullTextSearch,
   toastr: toastrReducer
-})
+}
+
+// Import and add portal spefic reducers:
+const { portalID } = portalConfig
+const { perspectiveConfig } = await import(`../configs/${portalID}/PerspectiveConfig`)
+const { perspectiveConfigOnlyInfoPages } = await import(`../configs/${portalID}/PerspectiveConfigOnlyInfoPages`)
+for (const perspective of perspectiveConfig) {
+  if (perspective.searchMode && perspective.searchMode === 'federated-search') {
+    const { default: reducer } = await import(`./${portalID}/clientSideFacetedSearch`)
+    reducers.clientSideFacetedSearch = reducer
+  } else if (perspective.searchMode && perspective.searchMode === 'full-text-search') {
+    const { default: reducer } = await import(`./${portalID}/fullTextSearch`)
+    reducers.fullTextSearch = reducer
+  } else {
+    const perspectiveID = perspective.id
+    const { default: reducer } = await import(`./${portalID}/${perspectiveID}`)
+    const { default: facetReducer } = await import(`./${portalID}/${perspectiveID}Facets`)
+    let facetConstrainselfReducer = null
+    try {
+      const { default: importedFacetConstrainselfReducer } = await import(`./${portalID}/${perspectiveID}FacetsConstrainSelf`)
+      facetConstrainselfReducer = importedFacetConstrainselfReducer
+    } catch (error) { }
+    reducers[perspectiveID] = reducer
+    reducers[`${perspectiveID}Facets`] = facetReducer
+    if (facetConstrainselfReducer) {
+      reducers[`${perspectiveID}FacetsConstrainSelf`] = facetConstrainselfReducer
+    }
+  }
+}
+for (const perspective of perspectiveConfigOnlyInfoPages) {
+  const perspectiveID = perspective.id
+  const { default: reducer } = await import(`./${portalID}/${perspectiveID}`)
+  reducers[perspectiveID] = reducer
+}
+
+const reducer = combineReducers(reducers)
 
 export default reducer

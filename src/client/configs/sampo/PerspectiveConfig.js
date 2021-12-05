@@ -193,6 +193,11 @@ export const perspectiveConfig = [
     ]
   },
   {
+    id: 'fullTextSearch',
+    isHidden: true,
+    searchMode: 'full-text-search'
+  },
+  {
     id: 'clientFSPlaces',
     frontPageImage: placesImage,
     defaultActiveFacets: new Set(['datasetSelector']),
