@@ -1,154 +1,150 @@
-import React from 'react'
-import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay'
-import TripOriginIcon from '@material-ui/icons/TripOrigin'
-import LocationOnIcon from '@material-ui/icons/LocationOn'
-import AddLocationIcon from '@material-ui/icons/AddLocation'
+// import React from 'react'
+// import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay'
+// import TripOriginIcon from '@material-ui/icons/TripOrigin'
+// import LocationOnIcon from '@material-ui/icons/LocationOn'
+// import AddLocationIcon from '@material-ui/icons/AddLocation'
 // import SettingsBrightnessIcon from '@material-ui/icons/SettingsBrightness'
-import StarIcon from '@material-ui/icons/Star'
-import RedoIcon from '@material-ui/icons/Redo'
-import PieChartIcon from '@material-ui/icons/PieChart'
-import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
-import BubbleChartIcon from '@material-ui/icons/BubbleChart'
-import LineChartIcon from '@material-ui/icons/ShowChart'
-import manuscriptsImage from '../../img/main_page/manuscripts-452x262.jpg'
-import worksImage from '../../img/main_page/works-452x262.jpg'
-import eventsImage from '../../img/main_page/events-452x262.jpg'
-import placesImage from '../../img/main_page/places-452x262.jpg'
+// import StarIcon from '@material-ui/icons/Star'
+// import RedoIcon from '@material-ui/icons/Redo'
+// import PieChartIcon from '@material-ui/icons/PieChart'
+// import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
+// import BubbleChartIcon from '@material-ui/icons/BubbleChart'
+// import LineChartIcon from '@material-ui/icons/ShowChart'
 
 export const perspectiveConfig = [
   {
     id: 'perspective1',
-    frontPageImage: manuscriptsImage,
-    defaultActiveFacets: new Set([]),
+    frontPageImage: 'main_page/manuscripts-452x262.jpg',
+    defaultActiveFacets: [],
     defaultTab: 'table',
     defaultInstancePageTab: 'table',
     tabs: [
       {
         id: 'table',
         value: 0,
-        icon: <CalendarViewDayIcon />
+        icon: 'CalendarViewDayIcon'
       },
       {
         id: 'production_places',
         value: 1,
-        icon: <AddLocationIcon />
+        icon: 'AddLocationIcon'
       },
       {
         id: 'production_places_heatmap',
         value: 2,
-        icon: <AddLocationIcon />
+        icon: 'AddLocationIcon'
       },
       {
         id: 'production_dates',
         value: 3,
-        icon: <LineChartIcon />
+        icon: 'LineChartIcon'
       },
       {
         id: 'event_dates',
         value: 4,
-        icon: <LineChartIcon />
+        icon: 'LineChartIcon'
       },
       {
         id: 'last_known_locations',
         value: 5,
-        icon: <LocationOnIcon />
+        icon: 'LocationOnIcon'
       },
       {
         id: 'migrations',
         value: 6,
-        icon: <RedoIcon />
+        icon: 'RedoIcon'
       },
       {
         id: 'network',
         value: 7,
-        icon: <BubbleChartIcon />
+        icon: 'BubbleChartIcon'
       },
       {
         id: 'export',
         value: 8,
-        icon: <CloudDownloadIcon />
+        icon: 'CloudDownloadIcon'
       }
     ],
     instancePageTabs: [
       {
         id: 'table',
         value: 0,
-        icon: <CalendarViewDayIcon />
+        icon: 'CalendarViewDayIcon'
       },
       {
         id: 'network',
         value: 1,
-        icon: <BubbleChartIcon />
+        icon: 'BubbleChartIcon'
       },
       {
         id: 'export',
         value: 2,
-        icon: <CloudDownloadIcon />
+        icon: 'CloudDownloadIcon'
       }
     ]
   },
   {
     id: 'perspective2',
-    frontPageImage: worksImage,
-    defaultActiveFacets: new Set(['prefLabel']),
+    frontPageImage: 'main_page/works-452x262.jpg',
+    defaultActiveFacets: ['prefLabel'],
     tabs: [
       {
         id: 'table',
         value: 0,
-        icon: <CalendarViewDayIcon />
+        icon: 'CalendarViewDayIcon'
       },
       {
         id: 'export',
         value: 1,
-        icon: <CloudDownloadIcon />
+        icon: 'CloudDownloadIcon'
       }
     ],
     instancePageTabs: [
       {
         id: 'table',
         value: 0,
-        icon: <CalendarViewDayIcon />
+        icon: 'CalendarViewDayIcon'
       },
       {
         id: 'export',
         value: 1,
-        icon: <CloudDownloadIcon />
+        icon: 'CloudDownloadIcon'
       }
     ]
   },
   {
     id: 'perspective3',
-    frontPageImage: eventsImage,
+    frontPageImage: 'main_page/events-452x262.jpg',
     defaultActiveFacets: new Set(['prefLabel']),
     tabs: [
       {
         id: 'table',
         value: 0,
-        icon: <CalendarViewDayIcon />
+        icon: 'CalendarViewDayIcon'
       },
       {
         id: 'map',
         value: 1,
-        icon: <AddLocationIcon />
+        icon: 'AddLocationIcon'
       },
 
       {
         id: 'export',
         value: 2,
-        icon: <CloudDownloadIcon />
+        icon: 'CloudDownloadIcon'
       }
     ],
     instancePageTabs: [
       {
         id: 'table',
         value: 0,
-        icon: <CalendarViewDayIcon />
+        icon: 'CalendarViewDayIcon'
       },
 
       {
         id: 'export',
         value: 1,
-        icon: <CloudDownloadIcon />
+        icon: 'CloudDownloadIcon'
       }
     ]
   },
@@ -161,34 +157,34 @@ export const perspectiveConfig = [
       {
         id: 'table',
         value: 0,
-        icon: <CalendarViewDayIcon />
+        icon: 'CalendarViewDayIcon'
       },
       {
         id: 'map',
         value: 1,
-        icon: <AddLocationIcon />
+        icon: 'AddLocationIcon'
       },
       {
         id: 'export',
         value: 2,
-        icon: <CloudDownloadIcon />
+        icon: 'CloudDownloadIcon'
       }
     ],
     instancePageTabs: [
       {
         id: 'table',
         value: 0,
-        icon: <CalendarViewDayIcon />
+        icon: 'CalendarViewDayIcon'
       },
       {
         id: 'recommendations',
         value: 1,
-        icon: <StarIcon />
+        icon: 'StarIcon'
       },
       {
         id: 'export',
         value: 2,
-        icon: <CloudDownloadIcon />
+        icon: 'CloudDownloadIcon'
       }
     ]
   },
@@ -199,40 +195,37 @@ export const perspectiveConfig = [
   },
   {
     id: 'clientFSPlaces',
-    frontPageImage: placesImage,
-    defaultActiveFacets: new Set(['datasetSelector']),
+    frontPageImage: 'main_page/places-452x262.jpg',
+    defaultActiveFacets: ['datasetSelector'],
     searchMode: 'federated-search',
     tabs: [
       {
         id: 'table',
         value: 0,
-        icon: <CalendarViewDayIcon />
+        icon: 'CalendarViewDayIcon'
       },
       {
         id: 'map_clusters',
         value: 1,
-        icon: <TripOriginIcon />
+        icon: 'TripOriginIcon'
       },
       {
         id: 'map_markers',
         value: 2,
-        icon: <LocationOnIcon />
+        icon: 'LocationOnIcon'
       },
-      // {
-      //   id: 'heatmap',
-      //   value: 3,
-      //   icon: <SettingsBrightnessIcon />
-      // },
       {
         id: 'statistics',
         value: 3,
-        icon: <PieChartIcon />
+        icon: 'PieChartIcon'
       },
       {
         id: 'download',
         value: 4,
-        icon: <CloudDownloadIcon />
+        icon: 'CloudDownloadIcon'
       }
     ]
   }
 ]
+
+// console.log(JSON.stringify(perspectiveConfig))

@@ -78,6 +78,11 @@ for (const perspective of perspectiveConfig) {
   const perspectiveID = perspective.id
   const perspectiveComponentID = perspectiveID.charAt(0).toUpperCase() + perspectiveID.slice(1)
   perspectiveComponents[perspectiveID] = (lazy(() => import(`../components/perspectives/${portalID}/${perspectiveComponentID}`)))
+  if (has(perspective, 'frontPageImage') && perspective.frontPageImage !== null) {
+    const { default: image } = await import(`../img/${perspective.frontPageImage}`)
+    perspective.frontPageImage = image
+  }
+  perspective.defaultActiveFacets = new Set(perspective.defaultActiveFacets)
 }
 const barChartConfig = await import(`../configs/${portalID}/ApexCharts/BarChartConfig`)
 const lineChartConfig = await import(`../configs/${portalID}/ApexCharts/LineChartConfig`)

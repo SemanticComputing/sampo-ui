@@ -165,4 +165,6 @@ InfoHeader.propTypes = {
   layoutConfig: PropTypes.object.isRequired
 }
 
+export const InfoHeaderComponent = InfoHeader
+
 export default InfoHeader
