@@ -58,7 +58,9 @@ const {
   rootUrl,
   layoutConfig,
   MAPBOX_ACCESS_TOKEN,
-  MAPBOX_STYLE
+  MAPBOX_STYLE,
+  yasguiBaseUrl,
+  yasguiParams
 } = await import(`../configs/${portalID}/GeneralConfig`)
 // ** Portal configuration end **
 
@@ -416,6 +418,8 @@ const SemanticPortal = props => {
                                 pieChartConfig={pieChartConfig}
                                 leafletConfig={leafletConfig}
                                 networkConfig={networkConfig}
+                                yasguiBaseUrl={yasguiBaseUrl}
+                                yasguiParams={yasguiParams}
                               />
                             </Grid>
                           </Grid>

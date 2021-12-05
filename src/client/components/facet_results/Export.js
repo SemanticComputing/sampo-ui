@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-// import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import Button from '@material-ui/core/Button'
-import { yasguiBaseUrl, yasguiParams } from '../../configs/sampo/GeneralConfig'
 import querystring from 'querystring'
 import intl from 'react-intl-universal'
 
@@ -43,7 +41,7 @@ class Export extends React.Component {
   }
 
   render = () => {
-    const { classes, data, pageType } = this.props
+    const { classes, data, pageType, yasguiBaseUrl, yasguiParams } = this.props
     let yasguiUrl = ''
     const sparqlQuery = pageType === 'facetResults' ? data.paginatedResultsSparqlQuery : this.props.sparqlQuery
     if (sparqlQuery !== null) {

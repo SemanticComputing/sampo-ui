@@ -329,6 +329,8 @@ const Perspective1 = props => {
             fetchPaginatedResults={props.fetchPaginatedResults}
             updatePage={props.updatePage}
             layoutConfig={props.layoutConfig}
+            yasguiBaseUrl={props.yasguiBaseUrl}
+            yasguiParams={props.yasguiParams}
           />}
       />
     </>
