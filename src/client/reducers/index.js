@@ -20,9 +20,6 @@ import expressions from './sampo/expressions'
 import collections from './sampo/collections'
 import finds from './sampo/finds'
 import findsFacets from './sampo/findsFacets'
-import emloActors from './sampo/emloActors'
-import emloActorsFacets from './sampo/emloActorsFacets'
-import emloActorsFacetsConstrainSelf from './sampo/emloActorsFacetsConstrainSelf'
 import findsFacetsConstrainSelf from './sampo/findsFacetsConstrainSelf'
 import perspective1Facets from './sampo/perspective1Facets'
 import perspective1FacetsConstrainSelf from './sampo/perspective1FacetsConstrainSelf'
@@ -51,9 +48,6 @@ const reducer = combineReducers({
   finds,
   findsFacets,
   findsFacetsConstrainSelf,
-  emloActors,
-  emloActorsFacets,
-  emloActorsFacetsConstrainSelf,
   leafletMap,
   animation,
   options,
