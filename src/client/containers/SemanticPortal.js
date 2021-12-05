@@ -59,6 +59,7 @@ const {
   layoutConfig,
   MAPBOX_ACCESS_TOKEN,
   MAPBOX_STYLE,
+  SLIDER_DURATION,
   yasguiBaseUrl,
   yasguiParams
 } = await import(`../configs/${portalID}/GeneralConfig`)
@@ -420,6 +421,7 @@ const SemanticPortal = props => {
                                 networkConfig={networkConfig}
                                 yasguiBaseUrl={yasguiBaseUrl}
                                 yasguiParams={yasguiParams}
+                                sliderDuration={SLIDER_DURATION}
                               />
                             </Grid>
                           </Grid>

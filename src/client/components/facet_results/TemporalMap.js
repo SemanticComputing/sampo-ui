@@ -212,6 +212,7 @@ class TemporalMap extends Component {
             dates={dates}
             animateMap={animateMap}
             initialValue={this.props.animationValue[0]}
+            sliderDuration={this.props.sliderDuration}
           />
           {this._renderTooltip()}
         </ReactMapGL>
