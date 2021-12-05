@@ -11,7 +11,7 @@ export const createApexBarChartData = ({
   let otherCount = 0
   const totalLength = rawData.length
   const threshold = 0.3
-  rawData.map(item => {
+  rawData.forEach(item => {
     const portion = parseInt(item.instanceCount) / totalLength
     if (portion < threshold) {
       otherCount += parseInt(item.instanceCount)

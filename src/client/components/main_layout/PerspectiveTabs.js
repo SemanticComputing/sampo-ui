@@ -43,7 +43,7 @@ class PerspectiveTabs extends React.Component {
   pathnameToValue = pathname => {
     const activeID = pathname.split('/').pop()
     let value = 0
-    this.props.tabs.map(tab => {
+    this.props.tabs.forEach(tab => {
       if (tab.id === activeID) {
         value = tab.value
       }

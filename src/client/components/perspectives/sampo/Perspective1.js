@@ -3,28 +3,11 @@ import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import { Route, Redirect } from 'react-router-dom'
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
-// import ResultTable from '../../facet_results/ResultTable'
-// import LeafletMap from '../../facet_results/LeafletMap'
-// import Deck from '../../facet_results/Deck'
-// import ApexChart from '../../facet_results/ApexChart'
-// import Network from '../../facet_results/Network'
-// import Export from '../../facet_results/Export'
-import {
-  MAPBOX_ACCESS_TOKEN,
-  MAPBOX_STYLE
-} from '../../../configs/sampo/GeneralConfig'
-import {
-  createSingleLineChartData,
-  createMultipleLineChartData
-} from '../../../configs/sampo/ApexCharts/LineChartConfig'
-import { coseLayout, cytoscapeStyle, preprocess } from '../../../configs/sampo/Cytoscape.js/NetworkConfig'
-import { layerConfigs, createPopUpContentMMM } from '../../../configs/sampo/Leaflet/LeafletConfig'
 const ResultTable = lazy(() => import('../../facet_results/ResultTable'))
 const LeafletMap = lazy(() => import('../../facet_results/LeafletMap'))
 const Deck = lazy(() => import('../../facet_results/Deck'))
 const ApexChart = lazy(() => import('../../facet_results/ApexChart'))
 const BarChartRace = lazy(() => import('../../facet_results/BarChartRace'))
-const BarChartRaceTest = lazy(() => import('../../facet_results/BarChartRaceTest'))
 const Network = lazy(() => import('../../facet_results/Network'))
 const Export = lazy(() => import('../../facet_results/Export'))
 
@@ -74,8 +57,8 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/production_places`}
         render={() =>
           <LeafletMap
-            mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
-            mapBoxStyle={MAPBOX_STYLE}
+            mapBoxAccessToken={props.mapBoxAccessToken}
+            mapBoxStyle={props.mapBoxStyle}
             center={props.perspectiveState.maps.placesMsProduced.center}
             zoom={props.perspectiveState.maps.placesMsProduced.zoom}
             // center={[60.187, 24.821]}
@@ -91,7 +74,7 @@ const Perspective1 = props => {
             facetClass='perspective1'
             mapMode='cluster'
             instance={props.perspectiveState.instanceTableData}
-            createPopUpContent={createPopUpContentMMM}
+            createPopUpContent={props.leafletConfig.createPopUpContentMMM}
             popupMaxHeight={popupMaxHeight}
             popupMinWidth={popupMinWidth}
             popupMaxWidth={popupMaxWidth}
@@ -107,7 +90,7 @@ const Perspective1 = props => {
             showExternalLayers
             layerControlExpanded={layerControlExpanded}
             // customMapControl
-            layerConfigs={layerConfigs}
+            layerConfigs={props.leafletConfig.layerConfigs}
             infoHeaderExpanded={props.perspectiveState.facetedSearchHeaderExpanded}
             layoutConfig={props.layoutConfig}
           />}
@@ -125,8 +108,8 @@ const Perspective1 = props => {
             fetchResults={props.fetchResults}
             fetching={props.perspectiveState.fetching}
             layerType='heatmapLayer'
-            mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
-            mapBoxStyle={MAPBOX_STYLE}
+            mapBoxAccessToken={props.mapBoxAccessToken}
+            mapBoxStyle={props.mapBoxStyle}
             updateMapBounds={props.updateMapBounds}
             layoutConfig={props.layoutConfig}
           />}
@@ -135,8 +118,8 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/last_known_locations`}
         render={() =>
           <LeafletMap
-            mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
-            mapBoxStyle={MAPBOX_STYLE}
+            mapBoxAccessToken={props.mapBoxAccessToken}
+            mapBoxStyle={props.mapBoxStyle}
             center={props.perspectiveState.maps.lastKnownLocations.center}
             zoom={props.perspectiveState.maps.lastKnownLocations.zoom}
             results={props.perspectiveState.results}
@@ -150,7 +133,7 @@ const Perspective1 = props => {
             mapMode='cluster'
             showMapModeControl={false}
             instance={props.perspectiveState.instanceTableData}
-            createPopUpContent={createPopUpContentMMM}
+            createPopUpContent={props.leafletConfig.createPopUpContentMMM}
             popupMaxHeight={popupMaxHeight}
             popupMinWidth={popupMinWidth}
             popupMaxWidth={popupMaxWidth}
@@ -165,7 +148,7 @@ const Perspective1 = props => {
             showError={props.showError}
             showExternalLayers
             layerControlExpanded={layerControlExpanded}
-            layerConfigs={layerConfigs}
+            layerConfigs={props.leafletConfig.layerConfigs}
             infoHeaderExpanded={props.perspectiveState.facetedSearchHeaderExpanded}
             layoutConfig={props.layoutConfig}
           />}
@@ -199,8 +182,8 @@ const Perspective1 = props => {
             listHeadingMultipleInstances={intl.get('deckGlMap.manuscriptMigrations.listHeadingMultipleInstances')}
             instanceVariable='manuscript'
             showTooltips
-            mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
-            mapBoxStyle={MAPBOX_STYLE}
+            mapBoxAccessToken={props.mapBoxAccessToken}
+            mapBoxStyle={props.mapBoxStyle}
             layoutConfig={props.layoutConfig}
           />}
       />
@@ -221,8 +204,8 @@ const Perspective1 = props => {
             fetching={props.perspectiveState.fetching}
             fetchingInstanceAnalysisData={props.perspectiveState.fetchingInstanceAnalysisData}
             layerType='polygonLayer'
-            mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
-            mapBoxStyle={MAPBOX_STYLE}
+            mapBoxAccessToken={props.mapBoxAccessToken}
+            mapBoxStyle={props.mapBoxStyle}
             layoutConfig={props.layoutConfig}
           />}
       />
@@ -236,7 +219,7 @@ const Perspective1 = props => {
             facetUpdateID={props.facetState.facetUpdateID}
             fetching={props.perspectiveState.fetching}
             fetchData={props.fetchResults}
-            createChartData={createSingleLineChartData}
+            createChartData={props.lineChartConfig.createSingleLineChartData}
             title='Manuscript production by decade'
             xaxisTitle='Decade'
             xaxisType='category'
@@ -259,7 +242,7 @@ const Perspective1 = props => {
             facetUpdateID={props.facetState.facetUpdateID}
             fetching={props.perspectiveState.fetching}
             fetchData={props.fetchResults}
-            createChartData={createMultipleLineChartData}
+            createChartData={props.lineChartConfig.createMultipleLineChartData}
             title='Manuscript events by decade'
             xaxisTitle='Year'
             xaxisType='category'
@@ -316,17 +299,6 @@ const Perspective1 = props => {
           />}
       />
       <Route
-        path={`${rootUrl}/${perspective.id}/faceted-search/bar_chart_race2`}
-        render={() =>
-          <BarChartRaceTest
-            fetchData={props.fetchResults}
-            resultClass='productionsByDecadeAndCountry'
-            facetClass='perspective1'
-            resultUpdateID={props.perspectiveState.resultUpdateID}
-            results={props.perspectiveState.results}
-          />}
-      />
-      <Route
         path={`${rootUrl}/${perspective.id}/faceted-search/network`}
         render={() =>
           <Network
@@ -339,9 +311,9 @@ const Perspective1 = props => {
             facetClass='perspective1'
             limit={500}
             optimize={1.2}
-            style={cytoscapeStyle}
-            layout={coseLayout}
-            preprocess={preprocess}
+            style={props.networkConfig.cytoscapeStyle}
+            layout={props.networkConfig.coseLayout}
+            preprocess={props.networkConfig.preprocess}
             pageType='facetResults'
             layoutConfig={props.layoutConfig}
           />}
@@ -369,88 +341,88 @@ Perspective1.propTypes = {
    */
   perspectiveState: PropTypes.object.isRequired,
   /**
-    * Facet configs and values.
-    */
+   * Faceted search configs and results of places related to this perspective.
+   */
   facetState: PropTypes.object.isRequired,
   /**
-    * Facet values where facets constrain themselves, used for statistics.
-    */
-  facetConstrainSelfState: PropTypes.object.isRequired,
+   * Facet values where facets constrain themselves, used for statistics.
+   */
+  facetConstrainSelfState: PropTypes.object,
   /**
-    * Leaflet map config and external layers.
-    */
-  leafletMapState: PropTypes.object.isRequired,
+   * Leaflet map config and external layers.
+   */
+  leafletMapState: PropTypes.object,
   /**
-    * Redux action for fetching paginated results.
-    */
+   * Redux action for fetching paginated results.
+   */
   fetchPaginatedResults: PropTypes.func.isRequired,
   /**
-    * Redux action for fetching all results.
-    */
+   * Redux action for fetching all results.
+   */
   fetchResults: PropTypes.func.isRequired,
   /**
-    * Redux action for fetching facet values for statistics.
-    */
-  fetchFacetConstrainSelf: PropTypes.func.isRequired,
+   * Redux action for fetching facet values for statistics.
+   */
+  fetchFacetConstrainSelf: PropTypes.func,
   /**
-    * Redux action for loading external GeoJSON layers.
-    */
-  fetchGeoJSONLayers: PropTypes.func.isRequired,
+   * Redux action for loading external GeoJSON layers.
+   */
+  fetchGeoJSONLayers: PropTypes.func,
   /**
-    * Redux action for loading external GeoJSON layers via backend.
-    */
-  fetchGeoJSONLayersBackend: PropTypes.func.isRequired,
+   * Redux action for loading external GeoJSON layers via backend.
+   */
+  fetchGeoJSONLayersBackend: PropTypes.func,
   /**
-    * Redux action for clearing external GeoJSON layers.
-    */
-  clearGeoJSONLayers: PropTypes.func.isRequired,
+   * Redux action for clearing external GeoJSON layers.
+   */
+  clearGeoJSONLayers: PropTypes.func,
   /**
-    * Redux action for fetching information about a single entity.
-    */
+   * Redux action for fetching information about a single entity.
+   */
   fetchByURI: PropTypes.func.isRequired,
   /**
-    * Redux action for updating the page of paginated results.
-    */
+   * Redux action for updating the page of paginated results.
+   */
   updatePage: PropTypes.func.isRequired,
   /**
-    * Redux action for updating the rows per page of paginated results.
-    */
+   * Redux action for updating the rows per page of paginated results.
+   */
   updateRowsPerPage: PropTypes.func.isRequired,
   /**
-    * Redux action for sorting the paginated results.
-    */
+   * Redux action for sorting the paginated results.
+   */
   sortResults: PropTypes.func.isRequired,
   /**
-    * Redux action for updating the active selection or config of a facet.
-    */
+   * Redux action for updating the active selection or config of a facet.
+   */
   showError: PropTypes.func.isRequired,
   /**
-    * Redux action for showing an error
-    */
+   * Redux action for showing an error
+   */
   updateFacetOption: PropTypes.func.isRequired,
   /**
-    * Routing information from React Router.
-    */
+   * Routing information from React Router.
+   */
   routeProps: PropTypes.object.isRequired,
   /**
-    * Perspective config.
-    */
+   * Perspective config.
+   */
   perspective: PropTypes.object.isRequired,
   /**
-    * State of the animation, used by TemporalMap.
-    */
-  animationValue: PropTypes.array.isRequired,
+   * State of the animation, used by TemporalMap.
+   */
+  animationValue: PropTypes.array,
   /**
-    * Redux action for animating TemporalMap.
-    */
-  animateMap: PropTypes.func.isRequired,
+   * Redux action for animating TemporalMap.
+   */
+  animateMap: PropTypes.func,
   /**
-    * Current screen size.
-    */
+   * Current screen size.
+   */
   screenSize: PropTypes.string.isRequired,
   /**
-    * Root url of the application.
-    */
+   * Root url of the application.
+   */
   rootUrl: PropTypes.string.isRequired,
   layoutConfig: PropTypes.object.isRequired
 }

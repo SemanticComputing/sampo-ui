@@ -249,7 +249,6 @@ class FacetBar extends React.Component {
       <Accordion
         key={facetID}
         expanded={isActive}
-        // onClick={this.handleExpandButtonOnClick(facetID)}
       >
         <AccordionSummary
           classes={{
@@ -281,6 +280,13 @@ class FacetBar extends React.Component {
             facetDescription={description}
             rootUrl={this.props.rootUrl}
             layoutConfig={this.props.layoutConfig}
+            mapBoxAccessToken={this.props.mapBoxAccessToken}
+            mapBoxStyle={this.props.mapBoxStyle}
+            barChartConfig={this.props.barChartConfig}
+            lineChartConfig={this.props.lineChartConfig}
+            pieChartConfig={this.props.pieChartConfig}
+            leafletConfig={this.props.leafletConfig}
+            networkConfig={this.props.networkConfig}
           />
         </AccordionSummary>
         <AccordionDetails
@@ -372,6 +378,9 @@ class FacetBar extends React.Component {
             showError={this.props.showError}
             perspectiveID={facetClass}
             layoutConfig={this.props.layoutConfig}
+            mapBoxAccessToken={this.props.mapBoxAccessToken}
+            mapBoxStyle={this.props.mapBoxStyle}
+            leafletConfig={this.props.leafletConfig}
           />}
         {(facetedSearchMode === 'serverFS' || hasClientFSResults) &&
           <Paper className={classes.facetInfoContainer}>

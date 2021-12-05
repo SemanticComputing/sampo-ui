@@ -47,9 +47,20 @@ import {
   fetchKnowledgeGraphMetadata
 } from '../actions'
 import { filterResults } from '../selectors'
-import { perspectiveConfig } from '../configs/sampo/PerspectiveConfig'
-import { perspectiveConfigOnlyInfoPages } from '../configs/sampo/PerspectiveConfigOnlyInfoPages'
-import { rootUrl, layoutConfig } from '../configs/sampo/GeneralConfig'
+
+// ** Portal configuration **
+import portalConfig from '../configs/PortalConfig'
+const { portalID } = portalConfig
+const { perspectiveConfig } = await import(`../configs/${portalID}/PerspectiveConfig`)
+const { perspectiveConfigOnlyInfoPages } = await import(`../configs/${portalID}/PerspectiveConfigOnlyInfoPages`)
+const instanceHomePageConfig = await import(`../configs/${portalID}/InstanceHomePageConfig`)
+const {
+  rootUrl,
+  layoutConfig,
+  MAPBOX_ACCESS_TOKEN,
+  MAPBOX_STYLE
+} = await import(`../configs/${portalID}/GeneralConfig`)
+// ** Portal configuration end **
 
 // ** General components **
 const InfoHeader = lazy(() => import('../components/main_layout/InfoHeader'))
@@ -58,18 +69,27 @@ const Message = lazy(() => import('../components/main_layout/Message'))
 const FacetBar = lazy(() => import('../components/facet_bar/FacetBar'))
 // ** General components end **
 
-// ** Portal specific components and configs **
-const portalID = 'sampo'
-const TopBar = lazy(() => import('../components/perspectives/' + portalID + '/TopBar'))
-const Main = lazy(() => import('../components/perspectives/' + portalID + '/Main'))
-const FacetedSearchPerspective = lazy(() => import('../components/perspectives/' + portalID + '/FacetedSearchPerspective'))
-const FullTextSearch = lazy(() => import('../components/perspectives/' + portalID + '/FullTextSearch'))
-const ClientFSPerspective = lazy(() => import('../components/perspectives/' + portalID + '/client_fs/ClientFSPerspective'))
-const ClientFSMain = lazy(() => import('../components/perspectives/' + portalID + '/client_fs/ClientFSMain'))
-const InstanceHomePage = lazy(() => import('../components/perspectives/' + portalID + '/InstanceHomePage'))
-const Footer = lazy(() => import('../components/perspectives/' + portalID + '/Footer'))
-const KnowledgeGraphMetadataTable = lazy(() => import('../components/perspectives/' + portalID + '/KnowledgeGraphMetadataTable'))
-// ** Portal specific components and configs end **
+// ** Portal specific components **
+const perspectiveComponents = {}
+for (const perspective of perspectiveConfig) {
+  const perspectiveID = perspective.id
+  const perspectiveComponentID = perspectiveID.charAt(0).toUpperCase() + perspectiveID.slice(1)
+  perspectiveComponents[perspectiveID] = (lazy(() => import(`../components/perspectives/${portalID}/${perspectiveComponentID}`)))
+}
+const barChartConfig = await import(`../configs/${portalID}/ApexCharts/BarChartConfig`)
+const lineChartConfig = await import(`../configs/${portalID}/ApexCharts/LineChartConfig`)
+const pieChartConfig = await import(`../configs/${portalID}/ApexCharts/PieChartConfig`)
+const leafletConfig = await import(`../configs/${portalID}/Leaflet/LeafletConfig`)
+const networkConfig = await import(`../configs/${portalID}/Cytoscape.js/NetworkConfig`)
+const TopBar = lazy(() => import(`../components/perspectives/${portalID}/TopBar`))
+const Main = lazy(() => import(`../components/perspectives/${portalID}/Main`))
+const FullTextSearch = lazy(() => import(`../components/perspectives/${portalID}/FullTextSearch`))
+const ClientFSPerspective = lazy(() => import(`../components/perspectives/${portalID}/client_fs/ClientFSPerspective`))
+const ClientFSMain = lazy(() => import(`../components/perspectives/${portalID}/client_fs/ClientFSMain`))
+const InstanceHomePage = lazy(() => import(`../components/perspectives/${portalID}/InstanceHomePage`))
+const Footer = lazy(() => import(`../components/perspectives/${portalID}/Footer`))
+const KnowledgeGraphMetadataTable = lazy(() => import(`../components/perspectives/${portalID}/KnowledgeGraphMetadataTable`))
+// ** Portal specific components end **
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -308,6 +328,7 @@ const SemanticPortal = props => {
           {/* routes for faceted search perspectives */}
           {perspectiveConfig.map(perspective => {
             if (!has(perspective, 'externalUrl') && perspective.id !== 'placesClientFS') {
+              const PerspectiveComponent = perspectiveComponents[perspective.id]
               return (
                 <React.Fragment key={perspective.id}>
                   <Route
@@ -332,9 +353,7 @@ const SemanticPortal = props => {
                               <FacetBar
                                 facetedSearchMode='serverFS'
                                 facetData={props[`${perspective.id}Facets`]}
-                                facetDataConstrainSelf={has(props, `${perspective.id}FacetsConstrainSelf`)
-                                  ? props[`${perspective.id}FacetsConstrainSelf`]
-                                  : null}
+                                facetDataConstrainSelf={props[`${perspective.id}FacetsConstrainSelf`]}
                                 facetResults={props[`${perspective.id}`]}
                                 facetClass={perspective.id}
                                 resultClass={perspective.id}
@@ -352,16 +371,22 @@ const SemanticPortal = props => {
                                 rootUrl={rootUrlWithLang}
                                 screenSize={screenSize}
                                 layoutConfig={layoutConfig}
+                                mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
+                                mapBoxStyle={MAPBOX_STYLE}
+                                barChartConfig={barChartConfig}
+                                lineChartConfig={lineChartConfig}
+                                pieChartConfig={pieChartConfig}
+                                leafletConfig={leafletConfig}
+                                networkConfig={networkConfig}
                               />
                             </Grid>
                             <Grid item xs={12} md={9} className={classes.resultsContainer}>
-                              <FacetedSearchPerspective
+                              <PerspectiveComponent
+                                portalID={portalID}
+                                perspectiveConfig={perspectiveConfig}
                                 perspectiveState={props[`${perspective.id}`]}
-                                perspectiveConfig={perspective}
                                 facetState={props[`${perspective.id}Facets`]}
-                                facetConstrainSelfState={has(props, `${perspective.id}FacetsConstrainSelf`)
-                                  ? props[`${perspective.id}FacetsConstrainSelf`]
-                                  : null}
+                                facetConstrainSelfState={props[`${perspective.id}FacetsConstrainSelf`]}
                                 leafletMapState={props.leafletMap}
                                 fetchPaginatedResults={props.fetchPaginatedResults}
                                 fetchResults={props.fetchResults}
@@ -384,6 +409,13 @@ const SemanticPortal = props => {
                                 screenSize={screenSize}
                                 rootUrl={rootUrlWithLang}
                                 layoutConfig={layoutConfig}
+                                mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
+                                mapBoxStyle={MAPBOX_STYLE}
+                                barChartConfig={barChartConfig}
+                                lineChartConfig={lineChartConfig}
+                                pieChartConfig={pieChartConfig}
+                                leafletConfig={leafletConfig}
+                                networkConfig={networkConfig}
                               />
                             </Grid>
                           </Grid>
@@ -444,6 +476,14 @@ const SemanticPortal = props => {
                                   screenSize={screenSize}
                                   rootUrl={rootUrlWithLang}
                                   layoutConfig={layoutConfig}
+                                  mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
+                                  mapBoxStyle={MAPBOX_STYLE}
+                                  barChartConfig={barChartConfig}
+                                  lineChartConfig={lineChartConfig}
+                                  pieChartConfig={pieChartConfig}
+                                  leafletConfig={leafletConfig}
+                                  networkConfig={networkConfig}
+                                  instanceHomePageConfig={instanceHomePageConfig}
                                 />
                               </Grid>
                             </Grid>
@@ -509,6 +549,14 @@ const SemanticPortal = props => {
                             screenSize={screenSize}
                             rootUrl={rootUrlWithLang}
                             layoutConfig={layoutConfig}
+                            mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
+                            mapBoxStyle={MAPBOX_STYLE}
+                            barChartConfig={barChartConfig}
+                            lineChartConfig={lineChartConfig}
+                            pieChartConfig={pieChartConfig}
+                            leafletConfig={leafletConfig}
+                            networkConfig={networkConfig}
+                            instanceHomePageConfig={instanceHomePageConfig}
                           />
                         </Grid>
                       </Grid>
@@ -545,6 +593,13 @@ const SemanticPortal = props => {
                       showError={props.showError}
                       rootUrl={rootUrlWithLang}
                       layoutConfig={layoutConfig}
+                      mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
+                      mapBoxStyle={MAPBOX_STYLE}
+                      barChartConfig={barChartConfig}
+                      lineChartConfig={lineChartConfig}
+                      pieChartConfig={pieChartConfig}
+                      leafletConfig={leafletConfig}
+                      networkConfig={networkConfig}
                     />
                   </Grid>
                   <Grid item sm={12} md={8} lg={9} className={classes.resultsContainerClientFS}>
@@ -565,6 +620,13 @@ const SemanticPortal = props => {
                         showError={props.showError}
                         rootUrl={rootUrlWithLang}
                         layoutConfig={layoutConfig}
+                        mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
+                        mapBoxStyle={MAPBOX_STYLE}
+                        barChartConfig={barChartConfig}
+                        lineChartConfig={lineChartConfig}
+                        pieChartConfig={pieChartConfig}
+                        leafletConfig={leafletConfig}
+                        networkConfig={networkConfig}
                       />}
                   </Grid>
                 </Grid>
@@ -573,13 +635,6 @@ const SemanticPortal = props => {
 
           />
           {/* create routes for info buttons */}
-          {/* <Route
-              path={`${rootUrlWithLang}/feedback`}
-              render={() =>
-                <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
-                  <TextPage>{intl.getHTML('feedback')}</TextPage>
-                </div>}
-            /> */}
           <Route
             path={`${rootUrlWithLang}/about`}
             render={() =>

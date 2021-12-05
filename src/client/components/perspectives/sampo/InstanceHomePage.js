@@ -7,19 +7,11 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import purple from '@material-ui/core/colors/purple'
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
 import InstanceHomePageTable from '../../main_layout/InstanceHomePageTable'
-// import Network from '../../facet_results/Network'
-// import ApexChart from '../../facet_results/ApexChart'
-// import Export from '../../facet_results/Export'
-// import Recommendations from './Recommendations'
-import { coseLayout, cytoscapeStyle, preprocess } from '../../../configs/sampo/Cytoscape.js/NetworkConfig'
-import { createMultipleLineChartData } from '../../../configs/sampo/ApexCharts/LineChartConfig'
 import { Route, Redirect } from 'react-router-dom'
 import { has } from 'lodash'
-// const InstanceHomePageTable = lazy(() => import('../../main_layout/InstanceHomePageTable'))
-const ApexChart = lazy(() => import('../../facet_results/ApexChart'))
+// const ApexChart = lazy(() => import('../../facet_results/ApexChart'))
 const Network = lazy(() => import('../../facet_results/Network'))
 const Export = lazy(() => import('../../facet_results/Export'))
-const Recommendations = lazy(() => import('./Recommendations'))
 
 const styles = () => ({
   root: {
@@ -42,7 +34,7 @@ const styles = () => ({
 })
 
 /**
- * A component for generating a landing page for a single entity.
+ * A component for generating a page for a single entity.
  */
 class InstanceHomePage extends React.Component {
   constructor (props) {
@@ -62,10 +54,17 @@ class InstanceHomePage extends React.Component {
       this.fetchTableData()
     }
     // handle browser's back button
-    const localID = this.getLocalIDFromURL()
+    const localID = this.getLocalID()
     if (this.state.localID !== localID) {
       this.fetchTableData()
     }
+  }
+
+  getLocalID = () => {
+    return this.props.instanceHomePageConfig.getLocalIDFromAppLocation({
+      location: this.props.routeProps.location,
+      perspectiveConfig: this.props.perspectiveConfig
+    })
   }
 
   hasTableData = () => {
@@ -74,73 +73,17 @@ class InstanceHomePage extends React.Component {
   }
 
   fetchTableData = () => {
-    const { perspectiveConfig } = this.props
-    const localID = this.getLocalIDFromURL()
-    this.setState({ localID })
-    let uri = ''
-    const base = 'http://ldf.fi/mmm'
+    const { perspectiveConfig, instanceHomePageConfig } = this.props
     const resultClass = perspectiveConfig.id
-    switch (resultClass) {
-      case 'perspective1':
-        uri = `${base}/manifestation_singleton/${localID}`
-        break
-      case 'perspective2':
-        uri = `${base}/work/${localID}`
-        break
-      case 'perspective3':
-        uri = `${base}/event/${localID}`
-        break
-      case 'manuscripts':
-        uri = `${base}/manifestation_singleton/${localID}`
-        break
-      case 'expressions':
-        uri = `${base}/expression/${localID}`
-        break
-      case 'collections':
-        uri = `${base}/collection/${localID}`
-        break
-      case 'works':
-        uri = `${base}/work/${localID}`
-        break
-      case 'events':
-        uri = `${base}/event/${localID}`
-        break
-      case 'actors':
-        uri = `${base}/actor/${localID}`
-        break
-      case 'places':
-        uri = `${base}/place/${localID}`
-        break
-      case 'finds':
-        uri = `http://ldf.fi/findsampo/finds/${localID}`
-        break
-      case 'emloActors':
-        uri = `http://emlo.bodleian.ox.ac.uk/id/${localID}`
-        break
-      case 'emloLetters':
-        uri = `http://emlo.bodleian.ox.ac.uk/id/${localID}`
-        break
-      case 'emloPlaces':
-        uri = `http://emlo.bodleian.ox.ac.uk/id/${localID}`
-        break
-    }
+    const localID = this.getLocalID()
+    this.setState({ localID })
+    const uri = instanceHomePageConfig.createURIfromLocalID({ localID, perspectiveConfig })
     this.props.fetchByURI({
       resultClass,
       facetClass: null,
       variant: null,
-      uri: uri
+      uri
     })
-  }
-
-  getLocalIDFromURL = () => {
-    const locationArr = this.props.routeProps.location.pathname.split('/')
-    let localID = locationArr.pop()
-    this.props.perspectiveConfig.instancePageTabs.forEach(tab => {
-      if (localID === tab.id) {
-        localID = locationArr.pop() // pop again if tab id
-      }
-    })
-    return localID
   }
 
   getVisibleRows = rows => {
@@ -216,71 +159,12 @@ class InstanceHomePage extends React.Component {
                     resultUpdateID={perspectiveState.resultUpdateID}
                     fetchResults={this.props.fetchResults}
                     fetching={fetching}
-                    // fetching
                     resultClass='manuscriptInstancePageNetwork'
                     uri={instanceTableData.id}
                     limit={200}
                     optimize={1.2}
-                    style={cytoscapeStyle}
-                    layout={coseLayout}
-                    layoutConfig={layoutConfig}
-                  />}
-              />
-              <Route
-                path={`${rootUrl}/${resultClass}/page/${this.state.localID}/emloLetterNetwork`}
-                render={() =>
-                  <Network
-                    pageType='instancePage'
-                    results={this.props.results}
-                    resultUpdateID={this.props.resultUpdateID}
-                    fetchResults={this.props.fetchResults}
-                    fetching={fetching}
-                    resultClass='emloLetterNetwork'
-                    uri={instanceTableData.id}
-                    limit={100}
-                    optimize={5.0}
-                    style={cytoscapeStyle}
-                    layout={coseLayout}
-                    preprocess={preprocess}
-                    layoutConfig={layoutConfig}
-                  />}
-              />
-              <Route
-                path={`${rootUrl}/${resultClass}/page/${this.state.localID}/emloSentReceived`}
-                render={() =>
-                  <ApexChart
-                    pageType='instancePage'
-                    rawData={this.props.results}
-                    rawDataUpdateID={this.props.resultUpdateID}
-                    fetching={fetching}
-                    fetchData={this.props.fetchResults}
-                    uri={instanceTableData.id}
-                    createChartData={createMultipleLineChartData}
-                    title='Letters by year'
-                    xaxisTitle='Year'
-                    yaxisTitle='Number of letters'
-                    resultClass='emloSentReceived'
-                    layoutConfig={layoutConfig}
-                  />}
-              />
-              <Route
-                path={`${rootUrl}/${resultClass}/page/${this.state.localID}/recommendations`}
-                render={() =>
-                  <Recommendations
-                    rootUrl={this.props.rootUrl}
-                    routeProps={this.props.routeProps}
-                    results={this.props.results}
-                    resultUpdateID={this.props.resultUpdateID}
-                    isLoading={fetching}
-                    tableData={instanceTableData}
-                    properties={this.props.properties}
-                    leafletMapStateState={this.props.leafletMapStateState}
-                    fetchResults={this.props.fetchResults}
-                    fetchGeoJSONLayers={this.props.fetchGeoJSONLayers}
-                    fetchGeoJSONLayersBackend={this.props.fetchGeoJSONLayersBackend}
-                    clearGeoJSONLayers={this.props.clearGeoJSONLayers}
-                    fetchByURI={this.props.fetchByURI}
-                    showError={this.props.showError}
+                    style={this.props.networkConfig.cytoscapeStyle}
+                    layout={this.props.networkConfig.coseLayout}
                     layoutConfig={layoutConfig}
                   />}
               />

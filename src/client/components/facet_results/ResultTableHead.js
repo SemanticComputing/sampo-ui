@@ -55,7 +55,8 @@ const ResultTableHead = props => {
                       </IconButton>
                     </Tooltip>
                   </TableCell>
-                ) : (
+                  )
+                : (
                   <TableCell
                     className={classes.headerCol}
                     sortDirection={sortBy === column.id ? sortDirection : false}
@@ -82,7 +83,7 @@ const ResultTableHead = props => {
                       </IconButton>
                     </Tooltip>
                   </TableCell>
-                )}
+                  )}
             </React.Fragment>
           )
         })}

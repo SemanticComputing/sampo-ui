@@ -111,7 +111,7 @@ export const createPopUpContentFindSampo = data => {
   if (has(data, 'period')) {
     let periodLabel = ''
     if (Array.isArray(data.period)) {
-      data.period.map((p, index) => {
+      data.period.forEach((p, index) => {
         periodLabel += `${p.prefLabel}`
         if (index !== data.period.length - 1) {
           periodLabel += ', '
@@ -173,11 +173,13 @@ const createInstanceListing = instances => {
 const createArchealogicalSitePopUp = data => {
   let html = ''
   const name = data.kohdenimi
-    ? `<b>Nimi:</b> ${data.kohdenimi}</p>` : ''
+    ? `<b>Nimi:</b> ${data.kohdenimi}</p>`
+    : ''
   const classification = data.laji ? `<h3>${data.laji.charAt(0).toUpperCase() + data.laji.slice(1)}</b></h3>` : ''
   const municipality = data.kunta ? `<b>Kunta:</b> ${data.kunta}</p>` : ''
   const link = data.mjtunnus
-    ? `<a href="https://www.kyppi.fi/to.aspx?id=112.${data.mjtunnus}" target="_blank">Avaa kohde Muinaisjäännösrekisterissä</a></p>` : ''
+    ? `<a href="https://www.kyppi.fi/to.aspx?id=112.${data.mjtunnus}" target="_blank">Avaa kohde Muinaisjäännösrekisterissä</a></p>`
+    : ''
   html += `
     <div>
       ${classification}

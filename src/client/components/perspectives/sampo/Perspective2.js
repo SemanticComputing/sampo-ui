@@ -2,8 +2,6 @@ import React, { lazy } from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
-// import ResultTable from '../../facet_results/ResultTable'
-// import Export from '../../facet_results/Export'
 const ResultTable = lazy(() => import('../../facet_results/ResultTable'))
 const Export = lazy(() => import('../../facet_results/Export'))
 
@@ -56,7 +54,7 @@ const Perspective2 = props => {
 }
 
 Perspective2.propTypes = {
-/**
+  /**
    * Faceted search configs and results of this perspective.
    */
   perspectiveState: PropTypes.object.isRequired,
@@ -67,11 +65,11 @@ Perspective2.propTypes = {
   /**
    * Facet values where facets constrain themselves, used for statistics.
    */
-  facetConstrainSelfState: PropTypes.object.isRequired,
+  facetConstrainSelfState: PropTypes.object,
   /**
    * Leaflet map config and external layers.
    */
-  leafletMapState: PropTypes.object.isRequired,
+  leafletMapState: PropTypes.object,
   /**
    * Redux action for fetching paginated results.
    */
@@ -83,19 +81,19 @@ Perspective2.propTypes = {
   /**
    * Redux action for fetching facet values for statistics.
    */
-  fetchFacetConstrainSelf: PropTypes.func.isRequired,
+  fetchFacetConstrainSelf: PropTypes.func,
   /**
    * Redux action for loading external GeoJSON layers.
    */
-  fetchGeoJSONLayers: PropTypes.func.isRequired,
+  fetchGeoJSONLayers: PropTypes.func,
   /**
    * Redux action for loading external GeoJSON layers via backend.
    */
-  fetchGeoJSONLayersBackend: PropTypes.func.isRequired,
+  fetchGeoJSONLayersBackend: PropTypes.func,
   /**
    * Redux action for clearing external GeoJSON layers.
    */
-  clearGeoJSONLayers: PropTypes.func.isRequired,
+  clearGeoJSONLayers: PropTypes.func,
   /**
    * Redux action for fetching information about a single entity.
    */
@@ -131,11 +129,11 @@ Perspective2.propTypes = {
   /**
    * State of the animation, used by TemporalMap.
    */
-  animationValue: PropTypes.array.isRequired,
+  animationValue: PropTypes.array,
   /**
    * Redux action for animating TemporalMap.
    */
-  animateMap: PropTypes.func.isRequired,
+  animateMap: PropTypes.func,
   /**
    * Current screen size.
    */

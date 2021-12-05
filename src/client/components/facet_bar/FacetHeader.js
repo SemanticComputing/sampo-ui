@@ -12,9 +12,6 @@ import InfoIcon from '@material-ui/icons/InfoOutlined'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import history from '../../History'
 import ChartDialog from './ChartDialog'
-import { createApexPieChartData } from '../../configs/sampo/ApexCharts/PieChartConfig'
-import { createApexBarChartData } from '../../configs/sampo/ApexCharts/BarChartConfig'
-import { createSingleLineChartData } from '../../configs/sampo/ApexCharts/LineChartConfig'
 import PieChartIcon from '@material-ui/icons/PieChart'
 import LineChartIcon from '@material-ui/icons/ShowChart'
 import BarChartIcon from '@material-ui/icons/BarChart'
@@ -294,7 +291,7 @@ class FacetHeader extends React.Component {
             rawDataUpdateID={this.props.facetConstrainSelfUpdateID}
             fetching={this.props.facetConstrainSelf.isFetching}
             fetchData={this.props.fetchFacetConstrainSelf}
-            createChartData={createApexPieChartData}
+            createChartData={this.props.pieChartConfig.createApexPieChartData}
             facetID={this.props.facetID}
             facetClass={this.props.facetClass}
             icon={<PieChartIcon />}
@@ -308,7 +305,7 @@ class FacetHeader extends React.Component {
             rawDataUpdateID={this.props.facetConstrainSelfUpdateID}
             fetching={this.props.facetConstrainSelf.isFetching}
             fetchData={this.props.fetchFacetConstrainSelf}
-            createChartData={createApexBarChartData}
+            createChartData={this.props.barChartConfig.createApexBarChartData}
             facetID={this.props.facetID}
             facetClass={this.props.facetClass}
             icon={<BarChartIcon />}
@@ -325,7 +322,7 @@ class FacetHeader extends React.Component {
             rawDataUpdateID={this.props.facetResults.resultUpdateID}
             fetching={this.props.facetResults.fetching}
             fetchData={this.props.fetchResults}
-            createChartData={createSingleLineChartData}
+            createChartData={this.props.lineChartConfig.createSingleLineChartData}
             resultClass={`${this.props.facetID}LineChart`}
             facetClass={this.props.facetClass}
             icon={<LineChartIcon />}

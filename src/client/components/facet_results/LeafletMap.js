@@ -137,7 +137,8 @@ class LeafletMap extends React.Component {
 
   componentDidUpdate = (prevProps, prevState) => {
     this.props.facetedSearchMode === 'clientFS'
-      ? this.clientFScomponentDidUpdate(prevProps) : this.serverFScomponentDidUpdate(prevProps, prevState)
+      ? this.clientFScomponentDidUpdate(prevProps)
+      : this.serverFScomponentDidUpdate(prevProps, prevState)
   }
 
   componentWillUnmount = () => {
@@ -279,7 +280,7 @@ class LeafletMap extends React.Component {
     }
 
     if (prevState.showBuffer !== this.state.showBuffer) {
-      this.state.activeLayers.map(layerID => {
+      this.state.activeLayers.forEach(layerID => {
         const leafletOverlayToRemove = this.overlayLayers[intl.get(`leafletMap.externalLayers.${layerID}`)]
         leafletOverlayToRemove.clearLayers()
       })
@@ -416,7 +417,7 @@ class LeafletMap extends React.Component {
   setCustomMapControlVisibility = () => {
     const { activeLayers } = this.state
     let hideCustomControl = true
-    activeLayers.map(layerID => {
+    activeLayers.forEach(layerID => {
       if (layerID === 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_alue' ||
       layerID === 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_piste' ||
       layerID === 'WFS_MV_Kulttuuriymparisto:Arkeologiset_kohteet_alue' ||
@@ -583,7 +584,7 @@ class LeafletMap extends React.Component {
     this.overlayLayers = {}
     const opacityLayers = {}
     let showOpacityController = false
-    this.props.layerConfigs.map(config => {
+    this.props.layerConfigs.forEach(config => {
       switch (config.type) {
         case 'GeoJSON':
           this.overlayLayers[intl.get(`leafletMap.externalLayers.${config.id}`)] =
@@ -615,7 +616,7 @@ class LeafletMap extends React.Component {
     })
 
     // Add default active overlays directly to the map
-    this.state.activeLayers.map(overlay => {
+    this.state.activeLayers.forEach(overlay => {
       this.leafletMap.addLayer(this.overlayLayers[intl.get(`leafletMap.externalLayers.${overlay}`)])
     })
 

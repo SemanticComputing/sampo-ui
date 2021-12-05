@@ -9,11 +9,6 @@ import ResultInfo from '../../../facet_results/ResultInfo'
 import VirtualizedTable from '../../../facet_results/VirtualizedTable'
 import Pie from '../../../facet_results/Pie.js'
 import CSVButton from '../../../facet_results/CSVButton'
-import {
-  MAPBOX_ACCESS_TOKEN,
-  MAPBOX_STYLE
-} from '../../../../configs/sampo/GeneralConfig'
-import { createPopUpContentNameSampo, layerConfigs } from '../../../../configs/sampo/Leaflet/LeafletConfig'
 
 const ClientFSPerspective = props => {
   const { rootUrl, perspective, screenSize, clientFSState, layoutConfig } = props
@@ -50,8 +45,8 @@ const ClientFSPerspective = props => {
         path={`${rootUrl}/${perspective.id}/federated-search/map_clusters`}
         render={() =>
           <LeafletMap
-            mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
-            mapBoxStyle={MAPBOX_STYLE}
+            mapBoxAccessToken={props.mapBoxAccessToken}
+            mapBoxStyle={props.mapBoxStyle}
             center={clientFSMapClusters.center}
             zoom={clientFSMapClusters.zoom}
             results={props.clientFSResults}
@@ -59,7 +54,7 @@ const ClientFSPerspective = props => {
             resultClass='clientFSMapClusters'
             pageType='clientFSResults'
             mapMode='cluster'
-            createPopUpContent={createPopUpContentNameSampo}
+            createPopUpContent={props.leafletConfig.createPopUpContentNameSampo}
             fetchResults={props.fetchResults}
             fetchGeoJSONLayers={props.fetchGeoJSONLayers}
             clearGeoJSONLayers={props.clearGeoJSONLayers}
@@ -70,7 +65,7 @@ const ClientFSPerspective = props => {
             showError={props.showError}
             showExternalLayers
             layerControlExpanded={layerControlExpanded}
-            layerConfigs={layerConfigs}
+            layerConfigs={props.leafletConfig.layerConfigs}
             updateMapBounds={props.updateMapBounds}
             layoutConfig={layoutConfig}
           />}
@@ -83,8 +78,8 @@ const ClientFSPerspective = props => {
           } else {
             return (
               <LeafletMap
-                mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
-                mapBoxStyle={MAPBOX_STYLE}
+                mapBoxAccessToken={props.mapBoxAccessToken}
+                mapBoxStyle={props.mapBoxStyle}
                 center={clientFSMapMarkers.center}
                 zoom={clientFSMapMarkers.zoom}
                 results={props.clientFSResults}
@@ -92,7 +87,7 @@ const ClientFSPerspective = props => {
                 resultClass='clientFSMapMarkers'
                 pageType='clientFSResults'
                 mapMode='marker'
-                createPopUpContent={createPopUpContentNameSampo}
+                createPopUpContent={props.leafletConfig.createPopUpContentNameSampo}
                 fetchResults={props.fetchResults}
                 fetchGeoJSONLayers={props.fetchGeoJSONLayers}
                 clearGeoJSONLayers={props.clearGeoJSONLayers}
@@ -103,7 +98,7 @@ const ClientFSPerspective = props => {
                 showError={props.showError}
                 showExternalLayers
                 layerControlExpanded={layerControlExpanded}
-                layerConfigs={layerConfigs}
+                layerConfigs={props.leafletConfig.layerConfigs}
                 updateMapBounds={props.updateMapBounds}
                 layoutConfig={layoutConfig}
               />

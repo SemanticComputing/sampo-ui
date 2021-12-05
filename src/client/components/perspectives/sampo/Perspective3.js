@@ -2,14 +2,6 @@ import React, { lazy } from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
-// import ResultTable from '../../facet_results/ResultTable'
-// import Export from '../../facet_results/Export'
-// import LeafletMap from '../../facet_results/LeafletMap'
-import {
-  MAPBOX_ACCESS_TOKEN,
-  MAPBOX_STYLE
-} from '../../../configs/sampo/GeneralConfig'
-import { layerConfigs, createPopUpContentMMM } from '../../../configs/sampo/Leaflet/LeafletConfig'
 const ResultTable = lazy(() => import('../../facet_results/ResultTable'))
 const LeafletMap = lazy(() => import('../../facet_results/LeafletMap'))
 const Export = lazy(() => import('../../facet_results/Export'))
@@ -52,8 +44,8 @@ const Perspective3 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/map`}
         render={() =>
           <LeafletMap
-            mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
-            mapBoxStyle={MAPBOX_STYLE}
+            mapBoxAccessToken={props.mapBoxAccessToken}
+            mapBoxStyle={props.mapBoxStyle}
             center={props.perspectiveState.maps.placesEvents.center}
             zoom={props.perspectiveState.maps.placesEvents.zoom}
             results={props.perspectiveState.results}
@@ -66,7 +58,7 @@ const Perspective3 = props => {
             facetClass='perspective3'
             mapMode='cluster'
             instance={props.perspectiveState.instanceTableData}
-            createPopUpContent={createPopUpContentMMM}
+            createPopUpContent={props.leafletConfig.createPopUpContentMMM}
             popupMaxHeight={320}
             popupMinWidth={280}
             fetchResults={props.fetchResults}
@@ -80,7 +72,7 @@ const Perspective3 = props => {
             showError={props.showError}
             showExternalLayers
             layerControlExpanded={layerControlExpanded}
-            layerConfigs={layerConfigs}
+            layerConfigs={props.leafletConfig.layerConfigs}
             infoHeaderExpanded={props.perspectiveState.facetedSearchHeaderExpanded}
             layoutConfig={props.layoutConfig}
           />}

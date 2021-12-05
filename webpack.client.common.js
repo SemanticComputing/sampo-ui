@@ -64,5 +64,8 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx']
+  },
+  experiments: {
+    topLevelAwait: true
   }
 }

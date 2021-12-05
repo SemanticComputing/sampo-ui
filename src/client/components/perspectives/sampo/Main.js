@@ -161,6 +161,7 @@ const Main = props => {
                 />
               )
             }
+            return null
           })}
         </Grid>
         <div className={classes.licenceTextContainer}>

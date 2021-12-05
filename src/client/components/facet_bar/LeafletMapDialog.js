@@ -5,17 +5,11 @@ import intl from 'react-intl-universal'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
-// import DialogContent from '@material-ui/core/DialogContent';
-// import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle'
 import CropFreeIcon from '@material-ui/icons/CropFree'
 import LeafletMap from '../facet_results/LeafletMap'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Paper from '@material-ui/core/Paper'
-import {
-  MAPBOX_ACCESS_TOKEN,
-  MAPBOX_STYLE
-} from '../../configs/sampo/GeneralConfig'
 
 const styles = theme => ({
   root: {
@@ -103,8 +97,8 @@ class LeafletMapDialog extends React.Component {
         >
           <DialogTitle id='dialog-title'>{intl.get(`perspectives.${perspectiveID}.searchByAreaTitle`)}</DialogTitle>
           <LeafletMap
-            mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
-            mapBoxStyle={MAPBOX_STYLE}
+            mapBoxAccessToken={this.props.mapBoxAccessToken}
+            mapBoxStyle={this.props.mapBoxStyle}
             center={center}
             zoom={zoom}
             resultClass='clientFSBboxSearch'
