@@ -1,3 +1,15 @@
 export default {
-  portalID: 'sampo'
+  portalID: 'sampo',
+  localeConfig: [
+    {
+      id: 'en',
+      label: 'English',
+      filename: 'localeEN.json'
+    },
+    {
+      id: 'fi',
+      label: 'English',
+      filename: 'localeFI.json'
+    }
+  ]
 }

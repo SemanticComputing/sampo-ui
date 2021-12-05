@@ -8,7 +8,7 @@ import configureStore from './configureStore'
 import App from './components/App'
 import { availableLocales } from './epics/index.js'
 import { loadLocales } from './actions'
-import { defaultLocale } from './configs/sampo/GeneralConfig'
+
 import { updateLocaleToPathname } from './helpers/helpers'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import purple from '@material-ui/core/colors/purple'
@@ -17,6 +17,10 @@ import './index.css'
 import '@nosferatu500/react-sortable-tree/style.css'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
+
+import portalConfig from './configs/PortalConfig'
+const { portalID } = portalConfig
+const { defaultLocale } = await import(`./configs/${portalID}/GeneralConfig`)
 
 const store = configureStore()
 

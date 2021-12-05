@@ -11,8 +11,6 @@ import {
 } from 'rxjs/operators'
 import { combineEpics, ofType } from 'redux-observable'
 import intl from 'react-intl-universal'
-import localeEN from '../translations/sampo/localeEN.json'
-import localeFI from '../translations/sampo/localeFI.json'
 import { stateToUrl, pickSelectedDatasets } from '../helpers/helpers'
 import querystring from 'querystring'
 import {
@@ -53,18 +51,19 @@ import {
   updateKnowledgeGraphMetadata,
   fetchGeoJSONLayersFailed
 } from '../actions'
-import { documentFinderAPIUrl } from '../configs/sampo/GeneralConfig'
+import portalConfig from '../configs/PortalConfig'
+const { portalID, localeConfig } = portalConfig
+const { documentFinderAPIUrl } = await import(`../configs/${portalID}/GeneralConfig`)
+export const availableLocales = {}
+for (const locale of localeConfig) {
+  availableLocales[locale.id] = await import(`../translations/${portalID}/${locale.filename}`)
+}
 
 /*
 * Note that all code inside the 'client' folder runs on the browser, so there is no 'process' object as in Node.js.
 * Instead, the variable 'process.env.API_URL' is defined in 'webpack.client.common.js'.
 */
 const apiUrl = process.env.API_URL
-
-export const availableLocales = {
-  en: localeEN,
-  fi: localeFI
-}
 
 let backendErrorText = null
 
