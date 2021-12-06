@@ -1,16 +1,3 @@
-// import React from 'react'
-// import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay'
-// import TripOriginIcon from '@material-ui/icons/TripOrigin'
-// import LocationOnIcon from '@material-ui/icons/LocationOn'
-// import AddLocationIcon from '@material-ui/icons/AddLocation'
-// import SettingsBrightnessIcon from '@material-ui/icons/SettingsBrightness'
-// import StarIcon from '@material-ui/icons/Star'
-// import RedoIcon from '@material-ui/icons/Redo'
-// import PieChartIcon from '@material-ui/icons/PieChart'
-// import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
-// import BubbleChartIcon from '@material-ui/icons/BubbleChart'
-// import LineChartIcon from '@material-ui/icons/ShowChart'
-
 export const perspectiveConfig = [
   {
     id: 'perspective1',
@@ -22,64 +9,64 @@ export const perspectiveConfig = [
       {
         id: 'table',
         value: 0,
-        icon: 'CalendarViewDayIcon'
+        icon: 'CalendarViewDay'
       },
       {
         id: 'production_places',
         value: 1,
-        icon: 'AddLocationIcon'
+        icon: 'AddLocation'
       },
       {
         id: 'production_places_heatmap',
         value: 2,
-        icon: 'AddLocationIcon'
+        icon: 'AddLocation'
       },
       {
         id: 'production_dates',
         value: 3,
-        icon: 'LineChartIcon'
+        icon: 'ShowChart'
       },
       {
         id: 'event_dates',
         value: 4,
-        icon: 'LineChartIcon'
+        icon: 'ShowChart'
       },
       {
         id: 'last_known_locations',
         value: 5,
-        icon: 'LocationOnIcon'
+        icon: 'LocationOn'
       },
       {
         id: 'migrations',
         value: 6,
-        icon: 'RedoIcon'
+        icon: 'Redo'
       },
       {
         id: 'network',
         value: 7,
-        icon: 'BubbleChartIcon'
+        icon: 'BubbleChart'
       },
       {
         id: 'export',
         value: 8,
-        icon: 'CloudDownloadIcon'
+        icon: 'CloudDownload'
       }
     ],
     instancePageTabs: [
       {
         id: 'table',
         value: 0,
-        icon: 'CalendarViewDayIcon'
+        icon: 'CalendarViewDay'
       },
       {
         id: 'network',
         value: 1,
-        icon: 'BubbleChartIcon'
+        icon: 'BubbleChart'
       },
       {
         id: 'export',
         value: 2,
-        icon: 'CloudDownloadIcon'
+        icon: 'CloudDownload'
       }
     ]
   },
@@ -91,24 +78,24 @@ export const perspectiveConfig = [
       {
         id: 'table',
         value: 0,
-        icon: 'CalendarViewDayIcon'
+        icon: 'CalendarViewDay'
       },
       {
         id: 'export',
         value: 1,
-        icon: 'CloudDownloadIcon'
+        icon: 'CloudDownload'
       }
     ],
     instancePageTabs: [
       {
         id: 'table',
         value: 0,
-        icon: 'CalendarViewDayIcon'
+        icon: 'CalendarViewDay'
       },
       {
         id: 'export',
         value: 1,
-        icon: 'CloudDownloadIcon'
+        icon: 'CloudDownload'
       }
     ]
   },
@@ -120,31 +107,31 @@ export const perspectiveConfig = [
       {
         id: 'table',
         value: 0,
-        icon: 'CalendarViewDayIcon'
+        icon: 'CalendarViewDay'
       },
       {
         id: 'map',
         value: 1,
-        icon: 'AddLocationIcon'
+        icon: 'AddLocation'
       },
 
       {
         id: 'export',
         value: 2,
-        icon: 'CloudDownloadIcon'
+        icon: 'CloudDownload'
       }
     ],
     instancePageTabs: [
       {
         id: 'table',
         value: 0,
-        icon: 'CalendarViewDayIcon'
+        icon: 'CalendarViewDay'
       },
 
       {
         id: 'export',
         value: 1,
-        icon: 'CloudDownloadIcon'
+        icon: 'CloudDownload'
       }
     ]
   },
@@ -157,34 +144,34 @@ export const perspectiveConfig = [
       {
         id: 'table',
         value: 0,
-        icon: 'CalendarViewDayIcon'
+        icon: 'CalendarViewDay'
       },
       {
         id: 'map',
         value: 1,
-        icon: 'AddLocationIcon'
+        icon: 'AddLocation'
       },
       {
         id: 'export',
         value: 2,
-        icon: 'CloudDownloadIcon'
+        icon: 'CloudDownload'
       }
     ],
     instancePageTabs: [
       {
         id: 'table',
         value: 0,
-        icon: 'CalendarViewDayIcon'
+        icon: 'CalendarViewDay'
       },
       {
         id: 'recommendations',
         value: 1,
-        icon: 'StarIcon'
+        icon: 'Star'
       },
       {
         id: 'export',
         value: 2,
-        icon: 'CloudDownloadIcon'
+        icon: 'CloudDownload'
       }
     ]
   },
@@ -202,27 +189,27 @@ export const perspectiveConfig = [
       {
         id: 'table',
         value: 0,
-        icon: 'CalendarViewDayIcon'
+        icon: 'CalendarViewDay'
       },
       {
         id: 'map_clusters',
         value: 1,
-        icon: 'TripOriginIcon'
+        icon: 'TripOrigin'
       },
       {
         id: 'map_markers',
         value: 2,
-        icon: 'LocationOnIcon'
+        icon: 'LocationOn'
       },
       {
         id: 'statistics',
         value: 3,
-        icon: 'PieChartIcon'
+        icon: 'PieChart'
       },
       {
         id: 'download',
         value: 4,
-        icon: 'CloudDownloadIcon'
+        icon: 'CloudDownload'
       }
     ]
   }

@@ -13,6 +13,7 @@ import moment from 'moment'
 import MomentUtils from '@date-io/moment'
 import 'moment/locale/fi'
 import Grid from '@material-ui/core/Grid'
+import MuiIcon from '../components/main_layout/MuiIcon'
 import {
   fetchResultCount,
   fetchPaginatedResults,
@@ -79,8 +80,13 @@ for (const perspective of perspectiveConfig) {
   const perspectiveComponentID = perspectiveID.charAt(0).toUpperCase() + perspectiveID.slice(1)
   perspectiveComponents[perspectiveID] = (lazy(() => import(`../components/perspectives/${portalID}/${perspectiveComponentID}`)))
   if (has(perspective, 'frontPageImage') && perspective.frontPageImage !== null) {
-    const { default: image } = await import(`../img/${perspective.frontPageImage}`)
+    const { default: image } = await import(/* webpackMode: "eager" */ `../img/${perspective.frontPageImage}`)
     perspective.frontPageImage = image
+  }
+  if (has(perspective, 'tabs')) {
+    for (const tab of perspective.tabs) {
+      tab.icon = <MuiIcon iconName={tab.icon} />
+    }
   }
   perspective.defaultActiveFacets = new Set(perspective.defaultActiveFacets)
 }
