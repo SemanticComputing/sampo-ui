@@ -7,6 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import purple from '@material-ui/core/colors/purple'
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
 import InstanceHomePageTable from '../../main_layout/InstanceHomePageTable'
+import { getLocalIDFromAppLocation, createURIfromLocalID } from '../../../helpers/helpers'
 import { Route, Redirect } from 'react-router-dom'
 import { has } from 'lodash'
 // const ApexChart = lazy(() => import('../../facet_results/ApexChart'))
@@ -61,7 +62,7 @@ class InstanceHomePage extends React.Component {
   }
 
   getLocalID = () => {
-    return this.props.instanceHomePageConfig.getLocalIDFromAppLocation({
+    return getLocalIDFromAppLocation({
       location: this.props.routeProps.location,
       perspectiveConfig: this.props.perspectiveConfig
     })
@@ -73,13 +74,13 @@ class InstanceHomePage extends React.Component {
   }
 
   fetchTableData = () => {
-    const { perspectiveConfig, instanceHomePageConfig } = this.props
-    const resultClass = perspectiveConfig.id
+    const { perspectiveConfig } = this.props
+    const { baseURI, URITemplate, id } = perspectiveConfig
     const localID = this.getLocalID()
     this.setState({ localID })
-    const uri = instanceHomePageConfig.createURIfromLocalID({ localID, perspectiveConfig })
+    const uri = createURIfromLocalID({ localID, baseURI, URITemplate })
     this.props.fetchByURI({
-      resultClass,
+      resultClass: id,
       facetClass: null,
       variant: null,
       uri

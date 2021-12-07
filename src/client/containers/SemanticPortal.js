@@ -50,11 +50,10 @@ import {
 import { filterResults } from '../selectors'
 
 // ** Portal configuration **
-import portalConfig from '../configs/PortalConfig'
+import portalConfig from '../configs/PortalConfig.json'
 const { portalID } = portalConfig
-const { perspectiveConfig } = await import(`../configs/${portalID}/PerspectiveConfig`)
-const { perspectiveConfigOnlyInfoPages } = await import(`../configs/${portalID}/PerspectiveConfigOnlyInfoPages`)
-const instanceHomePageConfig = await import(`../configs/${portalID}/InstanceHomePageConfig`)
+const { default: perspectiveConfig } = await import(`../configs/${portalID}/PerspectiveConfig.json`)
+const { default: perspectiveConfigOnlyInfoPages } = await import(`../configs/${portalID}/PerspectiveConfigOnlyInfoPages.json`)
 const {
   rootUrl,
   layoutConfig,
@@ -88,7 +87,21 @@ for (const perspective of perspectiveConfig) {
       tab.icon = <MuiIcon iconName={tab.icon} />
     }
   }
-  perspective.defaultActiveFacets = new Set(perspective.defaultActiveFacets)
+  if (has(perspective, 'instancePageTabs')) {
+    for (const tab of perspective.instancePageTabs) {
+      tab.icon = <MuiIcon iconName={tab.icon} />
+    }
+  }
+  if (has(perspective, 'defaultActiveFacets')) {
+    perspective.defaultActiveFacets = new Set(perspective.defaultActiveFacets)
+  }
+}
+for (const perspective of perspectiveConfigOnlyInfoPages) {
+  if (has(perspective, 'instancePageTabs')) {
+    for (const tab of perspective.instancePageTabs) {
+      tab.icon = <MuiIcon iconName={tab.icon} />
+    }
+  }
 }
 const barChartConfig = await import(`../configs/${portalID}/ApexCharts/BarChartConfig`)
 const lineChartConfig = await import(`../configs/${portalID}/ApexCharts/LineChartConfig`)
@@ -500,7 +513,7 @@ const SemanticPortal = props => {
                                   pieChartConfig={pieChartConfig}
                                   leafletConfig={leafletConfig}
                                   networkConfig={networkConfig}
-                                  instanceHomePageConfig={instanceHomePageConfig}
+                                  portalConfig={portalConfig}
                                 />
                               </Grid>
                             </Grid>
@@ -573,7 +586,7 @@ const SemanticPortal = props => {
                             pieChartConfig={pieChartConfig}
                             leafletConfig={leafletConfig}
                             networkConfig={networkConfig}
-                            instanceHomePageConfig={instanceHomePageConfig}
+                            portalConfig={portalConfig}
                           />
                         </Grid>
                       </Grid>

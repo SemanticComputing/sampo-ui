@@ -1,6 +1,6 @@
 import React from 'react'
 import Main from './Main'
-import { perspectiveConfig } from '../../../configs/sampo/PerspectiveConfig'
+const { default: perspectiveConfig } = await import('../../../configs/sampo/PerspectiveConfig.json')
 
 export default {
   component: Main,

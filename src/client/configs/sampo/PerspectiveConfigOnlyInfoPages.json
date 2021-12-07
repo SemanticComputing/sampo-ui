@@ -1,0 +1,128 @@
+[
+  {
+    "id": "manuscripts",
+    "baseURI": "http://ldf.fi/mmm",
+    "URITemplate": "<BASE_URI>/manifestation_singleton/<LOCAL_ID>",
+    "perspectiveDescHeight": 160,
+    "instancePageTabs": [
+      {
+        "id": "table",
+        "value": 0,
+        "icon": "CalendarViewDay"
+      },
+      {
+        "id": "export",
+        "value": 1,
+        "icon": "CloudDownload"
+      }
+    ]
+  },
+  {
+    "id": "works",
+    "baseURI": "http://ldf.fi/mmm",
+    "URITemplate": "<BASE_URI>/work/<LOCAL_ID>",
+    "perspectiveDescHeight": 160,
+    "instancePageTabs": [
+      {
+        "id": "table",
+        "value": 0,
+        "icon": "CalendarViewDay"
+      },
+      {
+        "id": "export",
+        "value": 1,
+        "icon": "CloudDownload"
+      }
+    ]
+  },
+  {
+    "id": "events",
+    "baseURI": "http://ldf.fi/mmm",
+    "URITemplate": "<BASE_URI>/event/<LOCAL_ID>",
+    "perspectiveDescHeight": 160,
+    "instancePageTabs": [
+      {
+        "id": "table",
+        "value": 0,
+        "icon": "CalendarViewDay"
+      },
+      {
+        "id": "export",
+        "value": 1,
+        "icon": "CloudDownload"
+      }
+    ]
+  },
+  {
+    "id": "actors",
+    "baseURI": "http://ldf.fi/mmm",
+    "URITemplate": "<BASE_URI>/actor/<LOCAL_ID>",
+    "perspectiveDescHeight": 160,
+    "instancePageTabs": [
+      {
+        "id": "table",
+        "value": 0,
+        "icon": "CalendarViewDay"
+      },
+      {
+        "id": "export",
+        "value": 1,
+        "icon": "CloudDownload"
+      }
+    ]
+  },
+  {
+    "id": "places",
+    "baseURI": "http://ldf.fi/mmm",
+    "URITemplate": "<BASE_URI>/place/<LOCAL_ID>",
+    "perspectiveDescHeight": 160,
+    "instancePageTabs": [
+      {
+        "id": "table",
+        "value": 0,
+        "icon": "CalendarViewDay"
+      },
+      {
+        "id": "export",
+        "value": 1,
+        "icon": "CloudDownload"
+      }
+    ]
+  },
+  {
+    "id": "expressions",
+    "baseURI": "http://ldf.fi/mmm",
+    "URITemplate": "<BASE_URI>/expression/<LOCAL_ID>",
+    "perspectiveDescHeight": 160,
+    "instancePageTabs": [
+      {
+        "id": "table",
+        "value": 0,
+        "icon": "CalendarViewDay"
+      },
+      {
+        "id": "export",
+        "value": 1,
+        "icon": "CloudDownload"
+      }
+    ]
+  },
+  {
+    "id": "collections",
+    "baseURI": "http://ldf.fi/mmm",
+    "URITemplate": "<BASE_URI>/collection/<LOCAL_ID>",
+    "perspectiveDescHeight": 160,
+    "instancePageTabs": [
+      {
+        "id": "table",
+        "value": 0,
+        "icon": "CalendarViewDay"
+      },
+      {
+        "id": "export",
+        "value": 1,
+        "icon": "CloudDownload"
+      }
+    ]
+  }
+]

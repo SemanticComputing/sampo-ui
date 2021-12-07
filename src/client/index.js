@@ -18,7 +18,7 @@ import '@nosferatu500/react-sortable-tree/style.css'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import portalConfig from './configs/PortalConfig'
+import portalConfig from './configs/PortalConfig.json'
 const { portalID } = portalConfig
 const { defaultLocale } = await import(`./configs/${portalID}/GeneralConfig`)
 

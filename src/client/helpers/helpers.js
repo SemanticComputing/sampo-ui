@@ -158,3 +158,21 @@ export const generateLabelForMissingValue = ({ facetClass, facetID }) => {
   return intl.get(`perspectives.${facetClass}.properties.${facetID}.missingValueLabel`) ||
    intl.get('facetBar.defaultMissingValueLabel') || 'Unknown'
 }
+
+export const getLocalIDFromAppLocation = ({ location, perspectiveConfig }) => {
+  const locationArr = location.pathname.split('/')
+  let localID = locationArr.pop()
+  perspectiveConfig.instancePageTabs.forEach(tab => {
+    if (localID === tab.id) {
+      localID = locationArr.pop() // pop again if tab id
+    }
+  })
+  return localID
+}
+
+export const createURIfromLocalID = ({ localID, baseURI, URITemplate }) => {
+  let uri = URITemplate
+  uri = uri.replaceAll('<BASE_URI>', baseURI)
+  uri = uri.replaceAll('<LOCAL_ID>', localID)
+  return uri
+}

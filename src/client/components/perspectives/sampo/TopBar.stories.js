@@ -2,7 +2,7 @@ import React from 'react'
 import TopBar from './TopBar'
 import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import { perspectiveConfig } from '../../../configs/sampo/PerspectiveConfig'
+const { default: perspectiveConfig } = await import('../../../configs/sampo/PerspectiveConfig.json')
 
 export default {
   component: TopBar,

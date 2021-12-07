@@ -1,4 +1,4 @@
-import portalConfig from '../configs/PortalConfig'
+import portalConfig from '../configs/PortalConfig.json'
 import { combineReducers } from 'redux'
 import { reducer as toastrReducer } from 'react-redux-toastr'
 
@@ -17,8 +17,8 @@ const reducers = {
 
 // Import and add portal spefic reducers:
 const { portalID } = portalConfig
-const { perspectiveConfig } = await import(`../configs/${portalID}/PerspectiveConfig`)
-const { perspectiveConfigOnlyInfoPages } = await import(`../configs/${portalID}/PerspectiveConfigOnlyInfoPages`)
+const { default: perspectiveConfig } = await import(`../configs/${portalID}/PerspectiveConfig.json`)
+const { default: perspectiveConfigOnlyInfoPages } = await import(`../configs/${portalID}/PerspectiveConfigOnlyInfoPages.json`)
 for (const perspective of perspectiveConfig) {
   if (perspective.searchMode && perspective.searchMode === 'federated-search') {
     const { default: reducer } = await import(`./${portalID}/clientSideFacetedSearch`)

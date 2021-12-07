@@ -1,7 +1,7 @@
 import React from 'react'
 import MainCard from './MainCard'
-import { perspectiveConfig } from '../../../configs/sampo/PerspectiveConfig'
 import Center from '../../../../../.storybook/Center'
+const { default: perspectiveConfig } = await import('../../../configs/sampo/PerspectiveConfig.json')
 
 export default {
   component: MainCard,
