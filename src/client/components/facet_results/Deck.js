@@ -205,7 +205,8 @@ class Deck extends React.Component {
       })
 
     render () {
-      const { classes, mapBoxAccessToken, mapBoxStyle, layerType, fetching, results, showTooltips } = this.props
+      const { classes, layerType, fetching, results, showTooltips, portalConfig } = this.props
+      const { mapboxAccessToken, mapboxStyle } = portalConfig.mapboxConfig
       const { hoverInfo } = this.state
       const showTooltip = showTooltips && hoverInfo && hoverInfo.object
       const hasData = !fetching && results && results.length > 0 &&
@@ -246,9 +247,9 @@ class Deck extends React.Component {
             width='100%'
             height='100%'
             reuseMaps
-            mapStyle={`mapbox://styles/mapbox/${mapBoxStyle}`}
+            mapStyle={`mapbox://styles/mapbox/${mapboxStyle}`}
             preventStyleDiffing
-            mapboxApiAccessToken={mapBoxAccessToken}
+            mapboxApiAccessToken={mapboxAccessToken}
             onViewportChange={this.handleOnViewportChange}
           >
             <div className={classes.navigationContainer}>
@@ -321,8 +322,6 @@ Deck.propTypes = {
   results: PropTypes.array,
   layerType: PropTypes.oneOf(['arcLayer', 'heatmapLayer', 'hexagonLayer', 'polygonLayer']),
   tooltips: PropTypes.bool,
-  mapBoxAccessToken: PropTypes.string.isRequired,
-  mapBoxStyle: PropTypes.string.isRequired,
   facetUpdateID: PropTypes.number,
   fetchResults: PropTypes.func,
   resultClass: PropTypes.string,

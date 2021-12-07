@@ -51,18 +51,16 @@ import { filterResults } from '../selectors'
 
 // ** Portal configuration **
 import portalConfig from '../configs/PortalConfig.json'
-const { portalID } = portalConfig
+const {
+  portalID,
+  rootUrl,
+  layoutConfig
+} = portalConfig
+const { bannerImage, bannerBackround } = layoutConfig.mainPage
+const { default: bannerImageURL } = await import(/* webpackMode: "eager" */ `../img/${bannerImage}`)
+layoutConfig.mainPage.bannerBackround = bannerBackround.replace('<BANNER_IMAGE_URL', bannerImageURL)
 const { default: perspectiveConfig } = await import(`../configs/${portalID}/PerspectiveConfig.json`)
 const { default: perspectiveConfigOnlyInfoPages } = await import(`../configs/${portalID}/PerspectiveConfigOnlyInfoPages.json`)
-const {
-  rootUrl,
-  layoutConfig,
-  MAPBOX_ACCESS_TOKEN,
-  MAPBOX_STYLE,
-  SLIDER_DURATION,
-  yasguiBaseUrl,
-  yasguiParams
-} = await import(`../configs/${portalID}/GeneralConfig`)
 // ** Portal configuration end **
 
 // ** General components **
@@ -165,20 +163,18 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(0.5),
     width: `calc(100% - ${theme.spacing(1)}px)`,
     [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
-      height: `calc(100% - ${
-        layoutConfig.topBar.reducedHeight +
+      height: `calc(100% - ${layoutConfig.topBar.reducedHeight +
         layoutConfig.infoHeader.reducedHeight.height +
         layoutConfig.infoHeader.reducedHeight.expandedContentHeight +
         theme.spacing(3.5)
-      }px)`
+        }px)`
     },
     [theme.breakpoints.up(layoutConfig.reducedHeightBreakpoint)]: {
-      height: `calc(100% - ${
-        layoutConfig.topBar.defaultHeight +
+      height: `calc(100% - ${layoutConfig.topBar.defaultHeight +
         layoutConfig.infoHeader.default.height +
         layoutConfig.infoHeader.default.expandedContentHeight +
         theme.spacing(3.5)
-      }px)`
+        }px)`
     }
   },
   // perspective container is divided into two columns:
@@ -242,20 +238,18 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(0.5),
     width: `calc(100% - ${theme.spacing(1)}px)`,
     [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
-      height: `calc(100% - ${
-        layoutConfig.topBar.reducedHeight +
+      height: `calc(100% - ${layoutConfig.topBar.reducedHeight +
         2 * layoutConfig.infoHeader.reducedHeight.height +
         layoutConfig.infoHeader.reducedHeight.expandedContentHeight +
         theme.spacing(3.5)
-      }px)`
+        }px)`
     },
     [theme.breakpoints.up(layoutConfig.reducedHeightBreakpoint)]: {
-      height: `calc(100% - ${
-        layoutConfig.topBar.defaultHeight +
+      height: `calc(100% - ${layoutConfig.topBar.defaultHeight +
         89 +
         layoutConfig.infoHeader.default.expandedContentHeight +
         theme.spacing(3.5)
-      }px)`
+        }px)`
     }
   },
   instancePageContent: {
@@ -326,7 +320,10 @@ const SemanticPortal = props => {
                   rootUrl={rootUrlWithLang}
                   layoutConfig={layoutConfig}
                 />
-                <Footer layoutConfig={layoutConfig} />
+                <Footer
+                  portalConfig={portalConfig}
+                  layoutConfig={layoutConfig}
+                />
               </>}
           />
           {/* https://stackoverflow.com/a/41024944 */}
@@ -364,12 +361,13 @@ const SemanticPortal = props => {
                       return (
                         <>
                           <InfoHeader
+                            portalConfig={portalConfig}
+                            layoutConfig={layoutConfig}
                             resultClass={perspective.id}
                             pageType='facetResults'
                             expanded={props[perspective.id].facetedSearchHeaderExpanded}
                             updateExpanded={props.updatePerspectiveHeaderExpanded}
                             screenSize={screenSize}
-                            layoutConfig={layoutConfig}
                           />
                           <Grid
                             container spacing={1} className={props[perspective.id].facetedSearchHeaderExpanded
@@ -378,6 +376,8 @@ const SemanticPortal = props => {
                           >
                             <Grid item xs={12} md={3} className={classes.facetBarContainer}>
                               <FacetBar
+                                portalConfig={portalConfig}
+                                layoutConfig={layoutConfig}
                                 facetedSearchMode='serverFS'
                                 facetData={props[`${perspective.id}Facets`]}
                                 facetDataConstrainSelf={props[`${perspective.id}FacetsConstrainSelf`]}
@@ -397,9 +397,6 @@ const SemanticPortal = props => {
                                 defaultActiveFacets={perspective.defaultActiveFacets}
                                 rootUrl={rootUrlWithLang}
                                 screenSize={screenSize}
-                                layoutConfig={layoutConfig}
-                                mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
-                                mapBoxStyle={MAPBOX_STYLE}
                                 barChartConfig={barChartConfig}
                                 lineChartConfig={lineChartConfig}
                                 pieChartConfig={pieChartConfig}
@@ -409,8 +406,9 @@ const SemanticPortal = props => {
                             </Grid>
                             <Grid item xs={12} md={9} className={classes.resultsContainer}>
                               <PerspectiveComponent
-                                portalID={portalID}
-                                perspectiveConfig={perspectiveConfig}
+                                portalConfig={portalConfig}
+                                layoutConfig={layoutConfig}
+                                perspectiveConfig={perspective}
                                 perspectiveState={props[`${perspective.id}`]}
                                 facetState={props[`${perspective.id}Facets`]}
                                 facetConstrainSelfState={props[`${perspective.id}FacetsConstrainSelf`]}
@@ -435,17 +433,11 @@ const SemanticPortal = props => {
                                 animateMap={props.animateMap}
                                 screenSize={screenSize}
                                 rootUrl={rootUrlWithLang}
-                                layoutConfig={layoutConfig}
-                                mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
-                                mapBoxStyle={MAPBOX_STYLE}
                                 barChartConfig={barChartConfig}
                                 lineChartConfig={lineChartConfig}
                                 pieChartConfig={pieChartConfig}
                                 leafletConfig={leafletConfig}
                                 networkConfig={networkConfig}
-                                yasguiBaseUrl={yasguiBaseUrl}
-                                yasguiParams={yasguiParams}
-                                sliderDuration={SLIDER_DURATION}
                               />
                             </Grid>
                           </Grid>
@@ -467,13 +459,14 @@ const SemanticPortal = props => {
                         return (
                           <>
                             <InfoHeader
+                              portalConfig={portalConfig}
+                              layoutConfig={layoutConfig}
                               resultClass={perspective.id}
                               pageType='instancePage'
                               instanceData={props[perspective.id].instanceTableData}
                               expanded={props[perspective.id].instancePageHeaderExpanded}
                               updateExpanded={props.updatePerspectiveHeaderExpanded}
                               screenSize={screenSize}
-                              layoutConfig={layoutConfig}
                             />
                             <Grid
                               container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
@@ -482,8 +475,10 @@ const SemanticPortal = props => {
                             >
                               <Grid item xs={12} className={classes.instancePageContent}>
                                 <InstanceHomePage
-                                  perspectiveState={props[`${perspective.id}`]}
+                                  portalConfig={portalConfig}
+                                  layoutConfig={layoutConfig}
                                   perspectiveConfig={perspective}
+                                  perspectiveState={props[`${perspective.id}`]}
                                   leafletMapState={props.leafletMap}
                                   fetchPaginatedResults={props.fetchPaginatedResults}
                                   fetchResults={props.fetchResults}
@@ -505,15 +500,11 @@ const SemanticPortal = props => {
                                   animateMap={props.animateMap}
                                   screenSize={screenSize}
                                   rootUrl={rootUrlWithLang}
-                                  layoutConfig={layoutConfig}
-                                  mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
-                                  mapBoxStyle={MAPBOX_STYLE}
                                   barChartConfig={barChartConfig}
                                   lineChartConfig={lineChartConfig}
                                   pieChartConfig={pieChartConfig}
                                   leafletConfig={leafletConfig}
                                   networkConfig={networkConfig}
-                                  portalConfig={portalConfig}
                                 />
                               </Grid>
                             </Grid>
@@ -540,13 +531,14 @@ const SemanticPortal = props => {
                   return (
                     <>
                       <InfoHeader
+                        portalConfig={portalConfig}
+                        layoutConfig={layoutConfig}
                         resultClass={perspective.id}
                         pageType='instancePage'
                         instanceData={props[perspective.id].instanceTableData}
                         expanded={props[perspective.id].instancePageHeaderExpanded}
                         updateExpanded={props.updatePerspectiveHeaderExpanded}
                         screenSize={screenSize}
-                        layoutConfig={layoutConfig}
                       />
                       <Grid
                         container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
@@ -555,8 +547,10 @@ const SemanticPortal = props => {
                       >
                         <Grid item xs={12} className={classes.instancePageContent}>
                           <InstanceHomePage
-                            perspectiveState={props[`${perspective.id}`]}
+                            portalConfig={portalConfig}
+                            layoutConfig={layoutConfig}
                             perspectiveConfig={perspective}
+                            perspectiveState={props[`${perspective.id}`]}
                             leafletMapState={props.leafletMap}
                             fetchPaginatedResults={props.fetchPaginatedResults}
                             fetchResults={props.fetchResults}
@@ -578,15 +572,11 @@ const SemanticPortal = props => {
                             animateMap={props.animateMap}
                             screenSize={screenSize}
                             rootUrl={rootUrlWithLang}
-                            layoutConfig={layoutConfig}
-                            mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
-                            mapBoxStyle={MAPBOX_STYLE}
                             barChartConfig={barChartConfig}
                             lineChartConfig={lineChartConfig}
                             pieChartConfig={pieChartConfig}
                             leafletConfig={leafletConfig}
                             networkConfig={networkConfig}
-                            portalConfig={portalConfig}
                           />
                         </Grid>
                       </Grid>
@@ -603,6 +593,8 @@ const SemanticPortal = props => {
                 <Grid container className={classes.mainContainerClientFS}>
                   <Grid item sm={12} md={4} lg={3} className={classes.facetBarContainerClientFS}>
                     <FacetBar
+                      portalConfig={portalConfig}
+                      layoutConfig={layoutConfig}
                       facetedSearchMode='clientFS'
                       facetClass='clientFSPlaces'
                       resultClass='clientFSPlaces'
@@ -622,9 +614,6 @@ const SemanticPortal = props => {
                       screenSize={screenSize}
                       showError={props.showError}
                       rootUrl={rootUrlWithLang}
-                      layoutConfig={layoutConfig}
-                      mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
-                      mapBoxStyle={MAPBOX_STYLE}
                       barChartConfig={barChartConfig}
                       lineChartConfig={lineChartConfig}
                       pieChartConfig={pieChartConfig}
@@ -636,8 +625,10 @@ const SemanticPortal = props => {
                     {noClientFSResults && <ClientFSMain />}
                     {!noClientFSResults &&
                       <ClientFSPerspective
-                        routeProps={routeProps}
+                        portalConfig={portalConfig}
+                        layoutConfig={layoutConfig}
                         perspective={perspectiveConfig.find(p => p.id === 'clientFSPlaces')}
+                        routeProps={routeProps}
                         screenSize={screenSize}
                         clientFSState={props.clientFSState}
                         clientFSResults={props.clientFSResults}
@@ -649,9 +640,6 @@ const SemanticPortal = props => {
                         clearGeoJSONLayers={props.clearGeoJSONLayers}
                         showError={props.showError}
                         rootUrl={rootUrlWithLang}
-                        layoutConfig={layoutConfig}
-                        mapBoxAccessToken={MAPBOX_ACCESS_TOKEN}
-                        mapBoxStyle={MAPBOX_STYLE}
                         barChartConfig={barChartConfig}
                         lineChartConfig={lineChartConfig}
                         pieChartConfig={pieChartConfig}
@@ -660,7 +648,10 @@ const SemanticPortal = props => {
                       />}
                   </Grid>
                 </Grid>
-                <Footer layoutConfig={layoutConfig} />
+                <Footer
+                  portalConfig={portalConfig}
+                  layoutConfig={layoutConfig}
+                />
               </>}
 
           />
@@ -672,6 +663,8 @@ const SemanticPortal = props => {
                 <TextPage>
                   {intl.getHTML('aboutThePortalPartOne')}
                   <KnowledgeGraphMetadataTable
+                    portalConfig={portalConfig}
+                    layoutConfig={layoutConfig}
                     resultClass='perspective1KnowledgeGraphMetadata'
                     fetchKnowledgeGraphMetadata={props.fetchKnowledgeGraphMetadata}
                     knowledgeGraphMetadata={props.perspective1.knowledgeGraphMetadata}

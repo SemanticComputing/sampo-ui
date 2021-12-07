@@ -7,7 +7,7 @@ const LeafletMap = lazy(() => import('../../facet_results/LeafletMap'))
 const Export = lazy(() => import('../../facet_results/Export'))
 
 const Perspective3 = props => {
-  const { rootUrl, perspective, screenSize } = props
+  const { rootUrl, perspective, screenSize, portalConfig } = props
   const layerControlExpanded = screenSize === 'md' ||
     screenSize === 'lg' ||
     screenSize === 'xl'
@@ -27,6 +27,7 @@ const Perspective3 = props => {
         path={`${props.rootUrl}/${perspective.id}/faceted-search/table`}
         render={routeProps =>
           <ResultTable
+            portalConfig={portalConfig}
             data={props.perspectiveState}
             facetUpdateID={props.facetState.facetUpdateID}
             resultClass='perspective3'
@@ -44,8 +45,7 @@ const Perspective3 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/map`}
         render={() =>
           <LeafletMap
-            mapBoxAccessToken={props.mapBoxAccessToken}
-            mapBoxStyle={props.mapBoxStyle}
+            portalConfig={portalConfig}
             center={props.perspectiveState.maps.placesEvents.center}
             zoom={props.perspectiveState.maps.placesEvents.zoom}
             results={props.perspectiveState.results}
@@ -81,6 +81,7 @@ const Perspective3 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/export`}
         render={() =>
           <Export
+            portalConfig={portalConfig}
             data={props.perspectiveState}
             resultClass='perspective3'
             facetClass='perspective3'
@@ -88,8 +89,6 @@ const Perspective3 = props => {
             fetchPaginatedResults={props.fetchPaginatedResults}
             updatePage={props.updatePage}
             layoutConfig={props.layoutConfig}
-            yasguiBaseUrl={props.yasguiBaseUrl}
-            yasguiParams={props.yasguiParams}
           />}
       />
     </>
@@ -98,92 +97,92 @@ const Perspective3 = props => {
 
 Perspective3.propTypes = {
   /**
-   * Faceted search configs and results of this perspective.
-   */
+    * Faceted search configs and results of this perspective.
+    */
   perspectiveState: PropTypes.object.isRequired,
   /**
-     * Faceted search configs and results of places related to this perspective.
-     */
+    * Faceted search configs and results of places related to this perspective.
+    */
   facetState: PropTypes.object.isRequired,
   /**
-     * Facet values where facets constrain themselves, used for statistics.
-     */
-  facetConstrainSelfState: PropTypes.object.isRequired,
+    * Facet values where facets constrain themselves, used for statistics.
+    */
+  facetConstrainSelfState: PropTypes.object,
   /**
-     * Leaflet map config and external layers.
-     */
-  leafletMapState: PropTypes.object.isRequired,
+    * Leaflet map config and external layers.
+    */
+  leafletMapState: PropTypes.object,
   /**
-     * Redux action for fetching paginated results.
-     */
+    * Redux action for fetching paginated results.
+    */
   fetchPaginatedResults: PropTypes.func.isRequired,
   /**
-     * Redux action for fetching all results.
-     */
+    * Redux action for fetching all results.
+    */
   fetchResults: PropTypes.func.isRequired,
   /**
-     * Redux action for fetching facet values for statistics.
-     */
-  fetchFacetConstrainSelf: PropTypes.func.isRequired,
+    * Redux action for fetching facet values for statistics.
+    */
+  fetchFacetConstrainSelf: PropTypes.func,
   /**
-     * Redux action for loading external GeoJSON layers.
-     */
-  fetchGeoJSONLayers: PropTypes.func.isRequired,
+    * Redux action for loading external GeoJSON layers.
+    */
+  fetchGeoJSONLayers: PropTypes.func,
   /**
-     * Redux action for loading external GeoJSON layers via backend.
-     */
-  fetchGeoJSONLayersBackend: PropTypes.func.isRequired,
+    * Redux action for loading external GeoJSON layers via backend.
+    */
+  fetchGeoJSONLayersBackend: PropTypes.func,
   /**
-     * Redux action for clearing external GeoJSON layers.
-     */
-  clearGeoJSONLayers: PropTypes.func.isRequired,
+    * Redux action for clearing external GeoJSON layers.
+    */
+  clearGeoJSONLayers: PropTypes.func,
   /**
-     * Redux action for fetching information about a single entity.
-     */
+    * Redux action for fetching information about a single entity.
+    */
   fetchByURI: PropTypes.func.isRequired,
   /**
-     * Redux action for updating the page of paginated results.
-     */
+    * Redux action for updating the page of paginated results.
+    */
   updatePage: PropTypes.func.isRequired,
   /**
-     * Redux action for updating the rows per page of paginated results.
-     */
+    * Redux action for updating the rows per page of paginated results.
+    */
   updateRowsPerPage: PropTypes.func.isRequired,
   /**
-     * Redux action for sorting the paginated results.
-     */
+    * Redux action for sorting the paginated results.
+    */
   sortResults: PropTypes.func.isRequired,
   /**
-     * Redux action for updating the active selection or config of a facet.
-     */
+    * Redux action for updating the active selection or config of a facet.
+    */
   showError: PropTypes.func.isRequired,
   /**
-     * Redux action for showing an error
-     */
+    * Redux action for showing an error
+    */
   updateFacetOption: PropTypes.func.isRequired,
   /**
-     * Routing information from React Router.
-     */
+    * Routing information from React Router.
+    */
   routeProps: PropTypes.object.isRequired,
   /**
-     * Perspective config.
-     */
+    * Perspective config.
+    */
   perspective: PropTypes.object.isRequired,
   /**
-     * State of the animation, used by TemporalMap.
-     */
-  animationValue: PropTypes.array.isRequired,
+    * State of the animation, used by TemporalMap.
+    */
+  animationValue: PropTypes.array,
   /**
-     * Redux action for animating TemporalMap.
-     */
-  animateMap: PropTypes.func.isRequired,
+    * Redux action for animating TemporalMap.
+    */
+  animateMap: PropTypes.func,
   /**
-     * Current screen size.
-     */
+    * Current screen size.
+    */
   screenSize: PropTypes.string.isRequired,
   /**
-     * Root url of the application.
-     */
+    * Root url of the application.
+    */
   rootUrl: PropTypes.string.isRequired,
   layoutConfig: PropTypes.object.isRequired
 }

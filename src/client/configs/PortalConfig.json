@@ -1,15 +1,82 @@
 {
     "portalID": "sampo",
-    "localeConfig": [
-        {
-            "id": "en",
-            "label": "English",
-            "filename": "localeEN.json"
+    "rootUrl": "",
+    "localeConfig": {
+        "defaultLocale": "en",
+        "readTranslationsFromGoogleSheets": "false",
+        "availableLocales": [
+            {
+                "id": "en",
+                "label": "English",
+                "filename": "localeEN.json"
+            },
+            {
+                "id": "fi",
+                "label": "English",
+                "filename": "localeFI.json"
+            }
+        ]
+    },
+    "layoutConfig": {
+        "hundredPercentHeightBreakPoint": "md",
+        "reducedHeightBreakpoint": "xl",
+        "tabHeight": 58,
+        "paginationToolbarHeight": 37,
+        "topBar": {
+            "showLanguageButton": true,
+            "feedbackLink": "https://link.webropolsurveys.com/...",
+            "reducedHeight": 48,
+            "defaultHeight": 64,
+            "mobileMenuBreakpoint": 1360
         },
-        {
-            "id": "fi",
-            "label": "English",
-            "filename": "localeFI.json"
+        "mainPage": {
+            "bannerImage": "main_page/mmm-banner.jpg",
+            "bannerBackround": "linear-gradient( rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45) ), url(<BANNER_IMAGE_URL)",
+            "bannerMobileHeight": 150,
+            "bannerReducedHeight": 220,
+            "bannerDefaultHeight": 300
+        },
+        "infoHeader": {
+            "default": {
+                "height": 49,
+                "expandedContentHeight": 160,
+                "headingVariant": "h4",
+                "infoIconFontSize": 40
+            },
+            "reducedHeight": {
+                "height": 40,
+                "expandedContentHeight": 100,
+                "headingVariant": "h6",
+                "infoIconFontSize": 32
+            }
+        },
+        "footer": {
+            "reducedHeight": 44,
+            "defaultHeight": 64
         }
-    ]
+    },
+    "mapboxConfig": {
+        "mapboxAccessToken": "pk.eyJ1IjoiZWtrb25lbiIsImEiOiJja2FkbGxiY2owMDZkMnFxcGVqNTZ0dmk2In0.6keLTN8VveJkM5y4_OFmUw",
+        "mapboxStyle": "light-v10"
+    },
+    "yasguiConfig": {
+        "yasguiBaseURL": "https://yasgui.triply.cc",
+        "yasguiParams": {
+            "contentTypeConstruct": "text/turtle",
+            "contentTypeSelect": "application/sparql-results+json",
+            "endpoint": "http://ldf.fi/mmm/sparql",
+            "requestMethod": "POST",
+            "tabTitle": "Exported query"
+        }
+    },
+    "documentFinderConfig": {
+        "apiURL": "https://data.finlex.fi/document-finder-backend"
+    },
+    "temporalMapConfig": {
+        "sliderDuration": {
+            "halfSpeed": 1200,
+            "normalSpeed": 600,
+            "doubleSpeed": 300
+        }
+    }
 }

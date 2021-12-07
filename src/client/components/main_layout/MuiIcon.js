@@ -11,11 +11,12 @@ import {
   BubbleChart,
   ShowChart
 } from '@material-ui/icons'
+import has from 'lodash'
 
 const MuiIcon = props => {
   const MuiIcons = {
     CalendarViewDay: CalendarViewDay,
-    TripOriginIcon: TripOrigin,
+    TripOrigin: TripOrigin,
     LocationOn: LocationOn,
     AddLocation: AddLocation,
     Star: Star,
@@ -25,8 +26,12 @@ const MuiIcon = props => {
     BubbleChart: BubbleChart,
     ShowChart: ShowChart
   }
-  const MuiIconComponent = MuiIcons[props.iconName]
-  return <MuiIconComponent />
+  if (has(MuiIcons, props.iconName)) {
+    const MuiIconComponent = MuiIcons[props.iconName]
+    return <MuiIconComponent />
+  } else {
+    return <div />
+  }
 }
 
 export default MuiIcon

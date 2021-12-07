@@ -101,7 +101,7 @@ class InstanceHomePage extends React.Component {
   }
 
   render = () => {
-    const { classes, perspectiveState, perspectiveConfig, rootUrl, screenSize, layoutConfig } = this.props
+    const { classes, perspectiveState, perspectiveConfig, rootUrl, screenSize, layoutConfig, portalConfig } = this.props
     const { instanceTableData, fetching } = perspectiveState
     const resultClass = perspectiveConfig.id
     const defaultInstancePageTab = perspectiveConfig.defaultInstancePageTab
@@ -144,6 +144,7 @@ class InstanceHomePage extends React.Component {
                 path={[`${rootUrl}/${resultClass}/page/${this.state.localID}/table`, '/iframe.html']} // support also rendering in Storybook
                 render={() =>
                   <InstanceHomePageTable
+                    portalConfig={portalConfig}
                     resultClass={resultClass}
                     data={instanceTableData}
                     properties={this.getVisibleRows(perspectiveState.properties)}
@@ -155,6 +156,7 @@ class InstanceHomePage extends React.Component {
                 path={`${rootUrl}/${resultClass}/page/${this.state.localID}/network`}
                 render={() =>
                   <Network
+                    portalConfig={portalConfig}
                     pageType='instancePage'
                     results={perspectiveState.results}
                     resultUpdateID={perspectiveState.resultUpdateID}
@@ -173,7 +175,8 @@ class InstanceHomePage extends React.Component {
                 path={`${rootUrl}/${resultClass}/page/${this.state.localID}/export`}
                 render={() =>
                   <Export
-                    sparqlQuery={this.props.sparqlQuery}
+                    portalConfig={portalConfig}
+                    data={perspectiveState}
                     pageType='instancePage'
                     id={instanceTableData.id}
                     layoutConfig={layoutConfig}

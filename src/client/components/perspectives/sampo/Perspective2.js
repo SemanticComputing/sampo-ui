@@ -6,7 +6,7 @@ const ResultTable = lazy(() => import('../../facet_results/ResultTable'))
 const Export = lazy(() => import('../../facet_results/Export'))
 
 const Perspective2 = props => {
-  const { rootUrl, perspective } = props
+  const { rootUrl, perspective, portalConfig } = props
   return (
     <>
       <PerspectiveTabs
@@ -23,6 +23,7 @@ const Perspective2 = props => {
         path={`${props.rootUrl}/${perspective.id}/faceted-search/table`}
         render={routeProps =>
           <ResultTable
+            portalConfig={portalConfig}
             data={props.perspectiveState}
             facetUpdateID={props.facetState.facetUpdateID}
             resultClass='perspective2'
@@ -40,6 +41,7 @@ const Perspective2 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/export`}
         render={() =>
           <Export
+            portalConfig={portalConfig}
             data={props.perspectiveState}
             resultClass='perspective2'
             facetClass='perspective2'

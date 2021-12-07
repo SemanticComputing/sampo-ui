@@ -19,8 +19,7 @@ import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import portalConfig from './configs/PortalConfig.json'
-const { portalID } = portalConfig
-const { defaultLocale } = await import(`./configs/${portalID}/GeneralConfig`)
+const { defaultLocale } = portalConfig
 
 const store = configureStore()
 

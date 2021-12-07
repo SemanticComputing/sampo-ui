@@ -11,7 +11,7 @@ import Pie from '../../../facet_results/Pie.js'
 import CSVButton from '../../../facet_results/CSVButton'
 
 const ClientFSPerspective = props => {
-  const { rootUrl, perspective, screenSize, clientFSState, layoutConfig } = props
+  const { rootUrl, perspective, screenSize, clientFSState, layoutConfig, portalConfig } = props
   const { maps } = clientFSState
   const { clientFSMapClusters, clientFSMapMarkers } = maps
   // console.log(clientFSMapClusters)
@@ -34,6 +34,7 @@ const ClientFSPerspective = props => {
         path={`${rootUrl}/${perspective.id}/federated-search/table`}
         render={() =>
           <VirtualizedTable
+            portalConfig={portalConfig}
             list={Immutable.List(props.clientFSResults)}
             clientFSState={props.clientFSState}
             clientFSSortResults={props.clientFSSortResults}
@@ -45,8 +46,7 @@ const ClientFSPerspective = props => {
         path={`${rootUrl}/${perspective.id}/federated-search/map_clusters`}
         render={() =>
           <LeafletMap
-            mapBoxAccessToken={props.mapBoxAccessToken}
-            mapBoxStyle={props.mapBoxStyle}
+            portalConfig={portalConfig}
             center={clientFSMapClusters.center}
             zoom={clientFSMapClusters.zoom}
             results={props.clientFSResults}
@@ -78,8 +78,7 @@ const ClientFSPerspective = props => {
           } else {
             return (
               <LeafletMap
-                mapBoxAccessToken={props.mapBoxAccessToken}
-                mapBoxStyle={props.mapBoxStyle}
+                portalConfig={portalConfig}
                 center={clientFSMapMarkers.center}
                 zoom={clientFSMapMarkers.zoom}
                 results={props.clientFSResults}
@@ -110,6 +109,7 @@ const ClientFSPerspective = props => {
         path={`${rootUrl}/${perspective.id}/federated-search/statistics`}
         render={() =>
           <Pie
+            portalConfig={portalConfig}
             data={props.clientFSResults}
             groupBy={props.clientFSState.groupBy}
             groupByLabel={props.clientFSState.groupByLabel}
@@ -120,7 +120,11 @@ const ClientFSPerspective = props => {
       <Route
         path={`${rootUrl}/${perspective.id}/federated-search/download`}
         render={() =>
-          <CSVButton results={props.clientFSResults} layoutConfig={layoutConfig} />}
+          <CSVButton
+            results={props.clientFSResults}
+            layoutConfig={layoutConfig}
+            portalConfig={portalConfig}
+          />}
       />
     </>
   )

@@ -41,11 +41,12 @@ class Export extends React.Component {
   }
 
   render = () => {
-    const { classes, data, pageType, yasguiBaseUrl, yasguiParams } = this.props
+    const { classes, data, pageType, portalConfig } = this.props
+    const { yasguiBaseURL, yasguiParams } = portalConfig.yasguiConfig
     let yasguiUrl = ''
-    const sparqlQuery = pageType === 'facetResults' ? data.paginatedResultsSparqlQuery : this.props.sparqlQuery
+    const sparqlQuery = pageType === 'facetResults' ? data.paginatedResultsSparqlQuery : data.instanceSparqlQuery
     if (sparqlQuery !== null) {
-      yasguiUrl = `${yasguiBaseUrl}/#query=${encodeURIComponent(sparqlQuery)}&${querystring.stringify(yasguiParams)}`
+      yasguiUrl = `${yasguiBaseURL}/#query=${encodeURIComponent(sparqlQuery)}&${querystring.stringify(yasguiParams)}`
     }
     return (
       <div className={classes.root}>

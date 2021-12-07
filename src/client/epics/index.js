@@ -52,10 +52,10 @@ import {
   fetchGeoJSONLayersFailed
 } from '../actions'
 import portalConfig from '../configs/PortalConfig.json'
-const { portalID, localeConfig } = portalConfig
-const { documentFinderAPIUrl } = await import(`../configs/${portalID}/GeneralConfig`)
+const { portalID, localeConfig, documentFinderConfig } = portalConfig
+const { documentFinderAPIUrl } = documentFinderConfig
 export const availableLocales = {}
-for (const locale of localeConfig) {
+for (const locale of localeConfig.availableLocales) {
   availableLocales[locale.id] = await import(`../translations/${portalID}/${locale.filename}`)
 }
 

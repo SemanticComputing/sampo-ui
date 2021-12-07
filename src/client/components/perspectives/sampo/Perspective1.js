@@ -12,7 +12,7 @@ const Network = lazy(() => import('../../facet_results/Network'))
 const Export = lazy(() => import('../../facet_results/Export'))
 
 const Perspective1 = props => {
-  const { rootUrl, perspective, screenSize } = props
+  const { rootUrl, perspective, screenSize, portalConfig } = props
   const layerControlExpanded = screenSize === 'md' ||
     screenSize === 'lg' ||
     screenSize === 'xl'
@@ -40,6 +40,7 @@ const Perspective1 = props => {
         path={[`${props.rootUrl}/${perspective.id}/faceted-search/table`, '/iframe.html']}
         render={routeProps =>
           <ResultTable
+            portalConfig={portalConfig}
             data={props.perspectiveState}
             facetUpdateID={props.facetState.facetUpdateID}
             resultClass='perspective1'
@@ -57,8 +58,7 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/production_places`}
         render={() =>
           <LeafletMap
-            mapBoxAccessToken={props.mapBoxAccessToken}
-            mapBoxStyle={props.mapBoxStyle}
+            portalConfig={portalConfig}
             center={props.perspectiveState.maps.placesMsProduced.center}
             zoom={props.perspectiveState.maps.placesMsProduced.zoom}
             // center={[60.187, 24.821]}
@@ -99,6 +99,7 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/production_places_heatmap`}
         render={() =>
           <Deck
+            portalConfig={portalConfig}
             center={props.perspectiveState.maps.placesMsProducedHeatmap.center}
             zoom={props.perspectiveState.maps.placesMsProducedHeatmap.zoom}
             results={props.perspectiveState.results}
@@ -108,8 +109,6 @@ const Perspective1 = props => {
             fetchResults={props.fetchResults}
             fetching={props.perspectiveState.fetching}
             layerType='heatmapLayer'
-            mapBoxAccessToken={props.mapBoxAccessToken}
-            mapBoxStyle={props.mapBoxStyle}
             updateMapBounds={props.updateMapBounds}
             layoutConfig={props.layoutConfig}
           />}
@@ -118,8 +117,7 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/last_known_locations`}
         render={() =>
           <LeafletMap
-            mapBoxAccessToken={props.mapBoxAccessToken}
-            mapBoxStyle={props.mapBoxStyle}
+            portalConfig={portalConfig}
             center={props.perspectiveState.maps.lastKnownLocations.center}
             zoom={props.perspectiveState.maps.lastKnownLocations.zoom}
             results={props.perspectiveState.results}
@@ -157,6 +155,7 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/migrations`}
         render={() =>
           <Deck
+            portalConfig={portalConfig}
             center={props.perspectiveState.maps.placesMsMigrations.center}
             zoom={props.perspectiveState.maps.placesMsMigrations.zoom}
             results={props.perspectiveState.results}
@@ -182,8 +181,6 @@ const Perspective1 = props => {
             listHeadingMultipleInstances={intl.get('deckGlMap.manuscriptMigrations.listHeadingMultipleInstances')}
             instanceVariable='manuscript'
             showTooltips
-            mapBoxAccessToken={props.mapBoxAccessToken}
-            mapBoxStyle={props.mapBoxStyle}
             layoutConfig={props.layoutConfig}
           />}
       />
@@ -191,6 +188,7 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/choropleth_map`}
         render={() =>
           <Deck
+            portalConfig={portalConfig}
             center={props.perspectiveState.maps.casualtiesByMunicipality.center}
             zoom={props.perspectiveState.maps.casualtiesByMunicipality.zoom}
             results={props.perspectiveState.results}
@@ -205,7 +203,6 @@ const Perspective1 = props => {
             fetchingInstanceAnalysisData={props.perspectiveState.fetchingInstanceAnalysisData}
             layerType='polygonLayer'
             mapBoxAccessToken={props.mapBoxAccessToken}
-            mapBoxStyle={props.mapBoxStyle}
             layoutConfig={props.layoutConfig}
           />}
       />
@@ -213,6 +210,7 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/production_dates`}
         render={() =>
           <ApexChart
+            portalConfig={portalConfig}
             pageType='facetResults'
             rawData={props.perspectiveState.results}
             rawDataUpdateID={props.perspectiveState.resultUpdateID}
@@ -236,6 +234,7 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/event_dates`}
         render={() =>
           <ApexChart
+            portalConfig={portalConfig}
             pageType='facetResults'
             rawData={props.perspectiveState.results}
             rawDataUpdateID={props.perspectiveState.resultUpdateID}
@@ -272,6 +271,7 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/bar_chart_race_ms_productions`}
         render={() =>
           <BarChartRace
+            portalConfig={portalConfig}
             fetchData={props.fetchResults}
             resultClass='productionsByDecadeAndCountry'
             facetClass='perspective1'
@@ -287,6 +287,7 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/bar_chart_race_speeches`}
         render={() =>
           <BarChartRace
+            portalConfig={portalConfig}
             fetchData={props.fetchResults}
             resultClass='speechesByYearAndParty'
             facetClass='perspective1'
@@ -302,6 +303,7 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/network`}
         render={() =>
           <Network
+            portalConfig={portalConfig}
             results={props.perspectiveState.results}
             facetUpdateID={props.facetState.facetUpdateID}
             resultUpdateID={props.perspectiveState.resultUpdateID}
@@ -322,6 +324,7 @@ const Perspective1 = props => {
         path={`${rootUrl}/${perspective.id}/faceted-search/export`}
         render={() =>
           <Export
+            portalConfig={portalConfig}
             data={props.perspectiveState}
             resultClass='perspective1'
             facetClass='perspective1'
@@ -329,8 +332,6 @@ const Perspective1 = props => {
             fetchPaginatedResults={props.fetchPaginatedResults}
             updatePage={props.updatePage}
             layoutConfig={props.layoutConfig}
-            yasguiBaseUrl={props.yasguiBaseUrl}
-            yasguiParams={props.yasguiParams}
           />}
       />
     </>
