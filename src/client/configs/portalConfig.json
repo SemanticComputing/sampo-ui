@@ -1,6 +1,20 @@
 {
     "portalID": "sampo",
     "rootUrl": "",
+    "perspectives": {
+        "searchPerspectives": [
+            "perspective1",
+            "clientFSPlaces"
+        ],
+        "onlyInstancePages": [
+            "manuscripts",
+            "collections",
+            "works",
+            "expressions",
+            "actors",
+            "places"
+        ]
+    },
     "localeConfig": {
         "defaultLocale": "en",
         "readTranslationsFromGoogleSheets": "false",
@@ -22,6 +36,7 @@
         "reducedHeightBreakpoint": "xl",
         "tabHeight": 58,
         "paginationToolbarHeight": 37,
+        "tableFontSize": "0.8rem",
         "topBar": {
             "showLanguageButton": true,
             "feedbackLink": "https://link.webropolsurveys.com/...",

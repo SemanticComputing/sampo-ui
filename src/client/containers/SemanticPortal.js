@@ -50,17 +50,16 @@ import {
 import { filterResults } from '../selectors'
 
 // ** Portal configuration **
-import portalConfig from '../configs/PortalConfig.json'
+import portalConfig from '../configs/portalConfig.json'
 const {
   portalID,
   rootUrl,
+  perspectives,
   layoutConfig
 } = portalConfig
 const { bannerImage, bannerBackround } = layoutConfig.mainPage
 const { default: bannerImageURL } = await import(/* webpackMode: "eager" */ `../img/${bannerImage}`)
 layoutConfig.mainPage.bannerBackround = bannerBackround.replace('<BANNER_IMAGE_URL', bannerImageURL)
-const { default: perspectiveConfig } = await import(`../configs/${portalID}/PerspectiveConfig.json`)
-const { default: perspectiveConfigOnlyInfoPages } = await import(`../configs/${portalID}/PerspectiveConfigOnlyInfoPages.json`)
 // ** Portal configuration end **
 
 // ** General components **
@@ -71,6 +70,16 @@ const FacetBar = lazy(() => import('../components/facet_bar/FacetBar'))
 // ** General components end **
 
 // ** Portal specific components **
+const perspectiveConfig = []
+const perspectiveConfigOnlyInfoPages = []
+for (const perspectiveID of perspectives.searchPerspectives) {
+  const { default: perspective } = await import(`../configs/${portalID}/perspective_configs/search_perspectives/${perspectiveID}.json`)
+  perspectiveConfig.push(perspective)
+}
+for (const perspectiveID of perspectives.onlyInstancePages) {
+  const { default: perspective } = await import(`../configs/${portalID}/perspective_configs/only_instance_pages/${perspectiveID}.json`)
+  perspectiveConfigOnlyInfoPages.push(perspective)
+}
 const perspectiveComponents = {}
 for (const perspective of perspectiveConfig) {
   const perspectiveID = perspective.id

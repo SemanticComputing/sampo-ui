@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import InstanceHomePage, { InstanceHomePageComponent } from './InstanceHomePage'
 import { data, sparqlQuery } from './InstanceHomePage.testData.js'
-const { default: perspectiveConfig } = await import('../../../configs/sampo/PerspectiveConfig.json')
+const { default: perspective } = await import('../../../configs/sampo/perspective_configs/search_perspectives/perspective1.json')
 
 export default {
   component: InstanceHomePageComponent,
@@ -11,7 +11,6 @@ export default {
 }
 
 export const basic = () => {
-  const perspective = perspectiveConfig[0]
   const facetResults = useSelector(state => state.perspective1)
   const location = useLocation()
   const routeProps = { location }
