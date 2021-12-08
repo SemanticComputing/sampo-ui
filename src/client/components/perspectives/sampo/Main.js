@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import MainCard from './MainCard'
+import has from 'lodash'
 
 const useStyles = makeStyles(theme => ({
   root: props => ({
@@ -151,7 +152,8 @@ const Main = props => {
           justify={screenSize === 'xs' || screenSize === 'sm' ? 'center' : 'flex-start'}
         >
           {perspectives.map(perspective => {
-            if (!perspective.isHidden) {
+            const hideCard = (has(perspective.hideCardOnFrontPage) && perspective.hideCardOnFrontPage)
+            if (!hideCard) {
               return (
                 <MainCard
                   key={perspective.id}

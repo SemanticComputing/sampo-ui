@@ -1,14 +1,15 @@
 import portalConfig from '../configs/portalConfig.json'
 import { combineReducers } from 'redux'
 import { reducer as toastrReducer } from 'react-redux-toastr'
-import { handleDataFetchingAction } from './general/results'
-import { handleFacetAction } from './general/facets'
-import { handleFacetConstrainSelfAction } from './general/facetsConstrainSelf'
+import { createResultsReducer } from './general/results'
+import { createFacetsReducer } from './general/facets'
+import { createFacetsConstrainSelfReducer } from './general/facetsConstrainSelf'
+import { createFullTextSearchReducer } from './general/fullTextSearch'
 import error from './general/error'
 import options from './general/options'
 import animation from './general/animation'
 import leafletMap from './general/leafletMap'
-import { resultsInitialState, facetsInitialState } from './general/initialStates'
+import { resultsInitialState, facetsInitialState, fullTextSearchInitialState } from './general/initialStates'
 
 const reducers = {
   leafletMap,
@@ -16,33 +17,6 @@ const reducers = {
   options,
   error,
   toastr: toastrReducer
-}
-
-const createResultsReducer = (initialState, resultClasses) => {
-  const reducerFunc = (state = initialState, action) => {
-    if (resultClasses.has(action.resultClass)) {
-      return handleDataFetchingAction(state, action, initialState)
-    } else return state
-  }
-  return reducerFunc
-}
-
-const createFacetsReducer = (initialState, facetClass) => {
-  const reducerFunc = (state = initialState, action) => {
-    if (action.facetClass === facetClass) {
-      return handleFacetAction(state, action, initialState)
-    } else return state
-  }
-  return reducerFunc
-}
-
-const createFacetsConstrainSelfReducer = (initialState, facetClass) => {
-  const reducerFunc = (state = initialState, action) => {
-    if (action.facetClass === facetClass) {
-      return handleFacetConstrainSelfAction(state, action, initialState)
-    } else return state
-  }
-  return reducerFunc
 }
 
 // Create portal spefic reducers based on configs:
@@ -58,13 +32,19 @@ for (const perspectiveID of perspectives.onlyInstancePages) {
   perspectiveConfigOnlyInfoPages.push(perspective)
 }
 for (const perspective of perspectiveConfig) {
+  const perspectiveID = perspective.id
   if (perspective.searchMode && perspective.searchMode === 'federated-search') {
-    const { default: reducer } = await import(`./${portalID}/clientSideFacetedSearch`)
+    const { default: reducer } = await import('./general/clientSideFacetedSearch')
     reducers.clientSideFacetedSearch = reducer
   } else if (perspective.searchMode && perspective.searchMode === 'full-text-search') {
-    const { default: reducer } = await import(`./${portalID}/fullTextSearch`)
-    reducers.fullTextSearch = reducer
-  } else {
+    const { properties } = perspective
+    const fullTextSearchInitialStateFull = {
+      ...fullTextSearchInitialState,
+      properties
+    }
+    const fullTextSearchReducer = createFullTextSearchReducer(fullTextSearchInitialStateFull, perspectiveID)
+    reducers[perspectiveID] = fullTextSearchReducer
+  } else if (perspective.searchMode && perspective.searchMode === 'faceted-search') {
     const { paginatedResultsConfig, resultClasses, properties, facets, maps } = perspective
     const resultsInitialStateFull = {
       ...resultsInitialState,
@@ -76,7 +56,6 @@ for (const perspective of perspectiveConfig) {
       ...facetsInitialState,
       facets
     }
-    const perspectiveID = perspective.id
     const resultsReducer = createResultsReducer(resultsInitialStateFull, new Set(resultClasses))
     const facetsReducer = createFacetsReducer(facetsInitialStateFull, perspectiveID)
     const facetsConstrainSelfReducer = createFacetsConstrainSelfReducer(facetsInitialStateFull, perspectiveID)
@@ -85,10 +64,16 @@ for (const perspective of perspectiveConfig) {
     reducers[`${perspectiveID}FacetsConstrainSelf`] = facetsConstrainSelfReducer
   }
 }
+
 for (const perspective of perspectiveConfigOnlyInfoPages) {
   const perspectiveID = perspective.id
-  const { default: reducer } = await import(`./${portalID}/${perspectiveID}`)
-  reducers[perspectiveID] = reducer
+  const { resultClasses, properties } = perspective
+  const resultsInitialStateFull = {
+    ...resultsInitialState,
+    properties
+  }
+  const resultsReducer = createResultsReducer(resultsInitialStateFull, new Set(resultClasses))
+  reducers[perspectiveID] = resultsReducer
 }
 
 const combinedReducers = combineReducers(reducers)

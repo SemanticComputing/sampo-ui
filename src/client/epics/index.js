@@ -236,7 +236,7 @@ const fullTextSearchEpic = (action$, state$) => action$.pipe(
     const requestUrl = `${apiUrl}/full-text-search?q=${action.query}`
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResults({
-        resultClass: 'fullText',
+        resultClass: 'fullTextSearch',
         data: response.data,
         sparqlQuery: response.sparqlQuery,
         query: action.query,
@@ -244,7 +244,7 @@ const fullTextSearchEpic = (action$, state$) => action$.pipe(
       })),
       catchError(error => of({
         type: FETCH_RESULTS_FAILED,
-        resultClass: 'fullText',
+        resultClass: 'fullTextSearch',
         error: error,
         message: {
           text: backendErrorText,
@@ -298,7 +298,7 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
     const { facetClass, facetID, constrainSelf } = action
     const facets = state[`${facetClass}Facets`].facets
     const facet = facets[facetID]
-    const { sortBy, sortDirection = false } = facet
+    const { sortBy = null, sortDirection = null } = facet
     const params = stateToUrl({
       facets,
       sortBy,

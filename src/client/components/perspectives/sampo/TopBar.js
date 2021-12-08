@@ -197,7 +197,7 @@ const TopBar = props => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {perspectives.map(perspective => perspective.isHidden ? null : renderMobileMenuItem(perspective))}
+      {perspectives.map(perspective => perspective.hideTopPerspectiveButton ? null : renderMobileMenuItem(perspective))}
       <Divider />
       {renderMobileMenuItem({
         id: 'feedback',
@@ -271,7 +271,7 @@ const TopBar = props => {
             />}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {perspectives.map((perspective, index) => perspective.isHidden ? null : renderDesktopTopMenuItem(perspective, index))}
+            {perspectives.map((perspective, index) => perspective.hideTopPerspectiveButton ? null : renderDesktopTopMenuItem(perspective, index))}
             <div className={classes.appBarDivider} />
             {renderDesktopTopMenuItem({
               id: 'feedback',

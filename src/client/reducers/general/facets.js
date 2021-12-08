@@ -35,3 +35,12 @@ export const handleFacetAction = (state, action, initialState) => {
       return state
   }
 }
+
+export const createFacetsReducer = (initialState, facetClass) => {
+  const reducerFunc = (state = initialState, action) => {
+    if (action.facetClass === facetClass) {
+      return handleFacetAction(state, action, initialState)
+    } else return state
+  }
+  return reducerFunc
+}

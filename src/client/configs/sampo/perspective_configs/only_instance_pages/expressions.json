@@ -1,18 +1,67 @@
 {
-    "id": "expressions",
-    "baseURI": "http://ldf.fi/mmm",
-    "URITemplate": "<BASE_URI>/expression/<LOCAL_ID>",
-    "perspectiveDescHeight": 160,
-    "instancePageTabs": [
-      {
-        "id": "table",
-        "value": 0,
-        "icon": "CalendarViewDay"
-      },
-      {
-        "id": "export",
-        "value": 1,
-        "icon": "CloudDownload"
-      }
-    ]
-  }
+  "id": "expressions",
+  "baseURI": "http://ldf.fi/mmm",
+  "URITemplate": "<BASE_URI>/expression/<LOCAL_ID>",
+  "resultClasses": [
+    "expressions"
+  ],
+  "instancePageTabs": [
+    {
+      "id": "table",
+      "value": 0,
+      "icon": "CalendarViewDay"
+    },
+    {
+      "id": "export",
+      "value": 1,
+      "icon": "CloudDownload"
+    }
+  ],
+  "properties": [
+    {
+      "id": "uri",
+      "valueType": "object",
+      "makeLink": true,
+      "externalLink": true,
+      "sortValues": true,
+      "numberedList": false,
+      "onlyOnInstancePage": true
+    },
+    {
+      "id": "prefLabel",
+      "valueType": "object",
+      "makeLink": true,
+      "externalLink": false,
+      "sortValues": true,
+      "numberedList": false,
+      "minWidth": 250
+    },
+    {
+      "id": "manuscript",
+      "valueType": "object",
+      "makeLink": true,
+      "externalLink": false,
+      "sortValues": true,
+      "numberedList": false,
+      "minWidth": 200
+    },
+    {
+      "id": "language",
+      "valueType": "object",
+      "makeLink": false,
+      "externalLink": false,
+      "sortValues": true,
+      "numberedList": false,
+      "minWidth": 150
+    },
+    {
+      "id": "source",
+      "valueType": "object",
+      "makeLink": true,
+      "externalLink": true,
+      "sortValues": true,
+      "numberedList": false,
+      "minWidth": 200
+    }
+  ]
+}

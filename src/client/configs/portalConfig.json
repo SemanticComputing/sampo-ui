@@ -4,13 +4,17 @@
     "perspectives": {
         "searchPerspectives": [
             "perspective1",
-            "clientFSPlaces"
+            "perspective2",
+            "perspective3",
+            "clientFSPlaces",
+            "fullTextSearch"
         ],
         "onlyInstancePages": [
             "manuscripts",
             "collections",
             "works",
             "expressions",
+            "events",
             "actors",
             "places"
         ]

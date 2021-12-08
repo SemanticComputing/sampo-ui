@@ -1,0 +1,36 @@
+{
+    "id": "fullTextSearch",
+    "hideCardOnFrontPage": true,
+    "hideTopPerspectiveButton": true,
+    "searchMode": "full-text-search",
+    "properties": [
+        {
+            "id": "prefLabel",
+            "valueType": "object",
+            "makeLink": true,
+            "externalLink": false,
+            "sortValues": false,
+            "numberedList": false,
+            "minWidth": 400
+        },
+        {
+            "id": "type",
+            "valueType": "object",
+            "makeLink": false,
+            "externalLink": false,
+            "sortValues": false,
+            "numberedList": false,
+            "minWidth": 300
+        },
+        {
+            "id": "note",
+            "valueType": "string",
+            "makeLink": false,
+            "externalLink": false,
+            "sortValues": false,
+            "numberedList": false,
+            "minWidth": 400,
+            "collapsedMaxWords": 4
+        }
+    ]
+}

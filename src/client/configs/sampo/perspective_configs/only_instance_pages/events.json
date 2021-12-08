@@ -1,9 +1,9 @@
 {
-  "id": "actors",
+  "id": "events",
   "baseURI": "http://ldf.fi/mmm",
-  "URITemplate": "<BASE_URI>/actor/<LOCAL_ID>",
+  "URITemplate": "<BASE_URI>/event/<LOCAL_ID>",
   "resultClasses": [
-    "actors"
+    "events"
   ],
   "instancePageTabs": [
     {
@@ -28,40 +28,31 @@
       "onlyOnInstancePage": true
     },
     {
-      "id": "prefLabel",
+      "id": "type",
       "valueType": "object",
       "makeLink": true,
       "externalLink": false,
-      "sortValues": true,
+      "sortValues": false,
       "numberedList": false,
-      "minWidth": 150
+      "minWidth": 200
     },
     {
-      "id": "type",
+      "id": "manuscript",
       "valueType": "object",
-      "makeLink": false,
+      "makeLink": true,
       "externalLink": false,
       "sortValues": false,
       "numberedList": false,
-      "minWidth": 150
+      "minWidth": 200
     },
     {
-      "id": "birthDateTimespan",
+      "id": "eventTimespan",
       "valueType": "object",
       "makeLink": false,
       "externalLink": false,
       "sortValues": true,
       "numberedList": false,
-      "minWidth": 220
-    },
-    {
-      "id": "deathDateTimespan",
-      "valueType": "object",
-      "makeLink": false,
-      "externalLink": false,
-      "sortValues": true,
-      "numberedList": false,
-      "minWidth": 220
+      "minWidth": 200
     },
     {
       "id": "place",
@@ -70,36 +61,51 @@
       "externalLink": false,
       "sortValues": true,
       "numberedList": false,
-      "minWidth": 200
-    },
-    {
-      "id": "work",
-      "valueType": "object",
-      "makeLink": true,
-      "externalLink": false,
-      "sortValues": true,
-      "numberedList": false,
       "minWidth": 250
     },
     {
-      "id": "manuscript",
+      "id": "surrender",
       "valueType": "object",
       "makeLink": true,
       "externalLink": false,
       "sortValues": true,
       "numberedList": false,
       "minWidth": 250,
-      "disableSort": true
+      "onlyOnInstancePage": true,
+      "onlyForClass": "http://erlangen-crm.org/current/E10_Transfer_of_Custody"
     },
     {
-      "id": "role",
+      "id": "receiver",
+      "valueType": "object",
+      "makeLink": true,
+      "externalLink": false,
+      "sortValues": true,
+      "numberedList": false,
+      "minWidth": 250,
+      "onlyOnInstancePage": true,
+      "onlyForClass": "http://erlangen-crm.org/current/E10_Transfer_of_Custody"
+    },
+    {
+      "id": "observedOwner",
+      "valueType": "object",
+      "makeLink": true,
+      "externalLink": false,
+      "sortValues": true,
+      "numberedList": false,
+      "minWidth": 250,
+      "onlyOnInstancePage": true,
+      "onlyForClass": "http://erlangen-crm.org/current/E7_Activity"
+    },
+    {
+      "id": "note",
       "valueType": "string",
       "makeLink": false,
       "externalLink": false,
       "sortValues": true,
       "numberedList": false,
       "minWidth": 250,
-      "disableSort": true
+      "collapsedMaxWords": 12,
+      "onlyOnInstancePage": true
     },
     {
       "id": "source",
@@ -107,7 +113,8 @@
       "makeLink": true,
       "externalLink": true,
       "sortValues": true,
-      "numberedList": false
+      "numberedList": false,
+      "minWidth": 200
     }
   ]
 }

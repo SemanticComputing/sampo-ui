@@ -22,3 +22,10 @@ export const facetsInitialState = {
   facetUpdateID: 0,
   updatedFilter: null
 }
+
+export const fullTextSearchInitialState = {
+  query: '',
+  results: [],
+  sortBy: null,
+  sortDirection: null
+}

@@ -9,7 +9,7 @@ import {
   CLIENT_FS_SORT_RESULTS,
   UPDATE_MAP_BOUNDS
 } from '../../actions'
-import { handleDataFetchingAction } from '../general/results'
+import { handleDataFetchingAction } from './results'
 
 export const INITIAL_STATE = {
   query: '',

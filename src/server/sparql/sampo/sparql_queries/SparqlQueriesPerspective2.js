@@ -28,9 +28,8 @@ export const workProperties = `
     }
     UNION
     {
-      ?id mmm-schema:data_provider_url ?source__id .
-      BIND(?source__id AS ?source__prefLabel)
-      BIND(?source__id AS ?source__dataProviderUrl)
+      ?id dct:source ?source__id .
+      ?source__id skos:prefLabel ?source__prefLabel .
     }
     UNION
     {

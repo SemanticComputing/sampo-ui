@@ -3,8 +3,21 @@
     "baseURI": "http://ldf.fi/mmm",
     "URITemplate": "<BASE_URI>/work/<LOCAL_ID>",
     "frontPageImage": "main_page/works-452x262.jpg",
+    "searchMode": "faceted-search",
     "defaultActiveFacets": [
         "prefLabel"
+    ],
+    "defaultTab": "table",
+    "defaultInstancePageTab": "table",
+    "paginatedResultsConfig": {
+        "paginatedResultsAlwaysExpandRows": true,
+        "paginatedResultsRowContentMaxHeight": 190,
+        "pagesize": 10,
+        "sortBy": null,
+        "sortDirection": null
+    },
+    "resultClasses": [
+        "perspective2"
     ],
     "tabs": [
         {
@@ -29,5 +42,134 @@
             "value": 1,
             "icon": "CloudDownload"
         }
-    ]
+    ],
+    "properties": [
+        {
+            "id": "uri",
+            "valueType": "object",
+            "makeLink": true,
+            "externalLink": true,
+            "sortValues": true,
+            "numberedList": false,
+            "onlyOnInstancePage": true
+        },
+        {
+            "id": "prefLabel",
+            "valueType": "object",
+            "makeLink": true,
+            "externalLink": false,
+            "sortValues": true,
+            "numberedList": false,
+            "minWidth": 250
+        },
+        {
+            "id": "author",
+            "valueType": "object",
+            "makeLink": true,
+            "externalLink": false,
+            "sortValues": true,
+            "numberedList": false,
+            "minWidth": 250
+        },
+        {
+            "id": "language",
+            "valueType": "object",
+            "makeLink": true,
+            "externalLink": true,
+            "sortValues": true,
+            "numberedList": false,
+            "minWidth": 150
+        },
+        {
+            "id": "expression",
+            "valueType": "object",
+            "makeLink": true,
+            "externalLink": false,
+            "sortValues": true,
+            "numberedList": false,
+            "minWidth": 150,
+            "onlyOnInstancePage": true
+        },
+        {
+            "id": "manuscript",
+            "valueType": "object",
+            "makeLink": true,
+            "externalLink": false,
+            "sortValues": true,
+            "numberedList": false,
+            "minWidth": 250
+        },
+        {
+            "id": "productionTimespan",
+            "valueType": "object",
+            "makeLink": false,
+            "externalLink": false,
+            "sortValues": true,
+            "numberedList": false,
+            "minWidth": 250
+        },
+        {
+            "id": "collection",
+            "valueType": "object",
+            "makeLink": true,
+            "externalLink": false,
+            "sortValues": true,
+            "numberedList": false,
+            "minWidth": 200
+        },
+        {
+            "id": "source",
+            "valueType": "object",
+            "makeLink": true,
+            "externalLink": true,
+            "sortValues": true,
+            "numberedList": false,
+            "minWidth": 200
+        }
+    ],
+    "facets": {
+        "prefLabel": {
+            "containerClass": "one",
+            "filterType": "textFilter"
+        },
+        "author": {
+            "sortBy": "instanceCount",
+            "sortDirection": "desc",
+            "sortButton": true,
+            "searchField": true,
+            "containerClass": "ten",
+            "filterType": "uriFilter"
+        },
+        "language": {
+            "sortBy": "instanceCount",
+            "sortDirection": "desc",
+            "sortButton": true,
+            "barChartButton": true,
+            "pieChartButton": true,
+            "searchField": true,
+            "containerClass": "ten",
+            "filterType": "uriFilter"
+        },
+        "productionTimespan": {
+            "containerClass": "four",
+            "filterType": "timespanFilter",
+            "min": null,
+            "max": null
+        },
+        "collection": {
+            "sortBy": "instanceCount",
+            "sortDirection": "desc",
+            "sortButton": true,
+            "searchField": true,
+            "containerClass": "ten",
+            "filterType": "uriFilter"
+        },
+        "source": {
+            "sortBy": "instanceCount",
+            "sortDirection": "desc",
+            "pieChartButton": true,
+            "containerClass": "three",
+            "filterType": "uriFilter"
+        }
+    }
 }
