@@ -3,11 +3,7 @@
     "rootUrl": "",
     "perspectives": {
         "searchPerspectives": [
-            "perspective1",
-            "perspective2",
-            "perspective3",
-            "clientFSPlaces",
-            "fullTextSearch"
+            "perspective1"     
         ],
         "onlyInstancePages": [
             "manuscripts",

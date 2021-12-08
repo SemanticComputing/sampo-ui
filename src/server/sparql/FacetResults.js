@@ -22,22 +22,24 @@ export const getPaginatedResults = ({
 }) => {
   let q = facetResultSetQuery
   const config = backendSearchConfig[resultClass]
-  let endpoint
-  let defaultConstraint = null
-  let langTag = null
-  let langTagSecondary = null
-  if (has(config, 'perspectiveID')) {
-    ({ endpoint, defaultConstraint, langTag, langTagSecondary } = backendSearchConfig[config.perspectiveID])
-  } else {
-    ({ endpoint, defaultConstraint, langTag, langTagSecondary } = config)
-  }
   const {
-    properties,
+    endpoint,
+    defaultConstraint = null,
+    langTag = null,
+    langTagSecondary = null
+  } = config
+  // if (has(config, 'perspectiveID')) {
+  //   ({ endpoint, defaultConstraint, langTag, langTagSecondary } = backendSearchConfig[config.perspectiveID])
+  // } else {
+  //   ({ endpoint, defaultConstraint, langTag, langTagSecondary } = config)
+  // }
+  const {
+    propertiesQueryBlock,
     filterTarget = 'id',
     resultMapper = makeObjectList,
     resultMapperConfig = null,
     postprocess = null
-  } = config.paginatedResults
+  } = config.paginatedResultsConfig
   if (constraints == null && defaultConstraint == null) {
     q = q.replace('<FILTER>', '# no filters')
   } else {
@@ -74,7 +76,7 @@ export const getPaginatedResults = ({
   }
   q = q.replace(/<FACET_CLASS>/g, config.facetClass)
   q = q.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`)
-  q = q.replace('<RESULT_SET_PROPERTIES>', properties)
+  q = q.replace('<RESULT_SET_PROPERTIES>', propertiesQueryBlock)
   if (langTag) {
     q = q.replace(/<LANG>/g, langTag)
   }
@@ -177,13 +179,15 @@ export const getResultCount = ({
 }) => {
   let q = countQuery
   const config = backendSearchConfig[resultClass]
-  let endpoint
-  let defaultConstraint = null
-  if (has(config, 'perspectiveID')) {
-    ({ endpoint, defaultConstraint } = backendSearchConfig[config.perspectiveID])
-  } else {
-    ({ endpoint, defaultConstraint } = config)
-  }
+  const {
+    endpoint,
+    defaultConstraint = null
+  } = config
+  // if (has(config, 'perspectiveID')) {
+  //   ({ endpoint, defaultConstraint } = backendSearchConfig[config.perspectiveID])
+  // } else {
+  //   ({ endpoint, defaultConstraint } = config)
+  // }
   if (constraints == null && defaultConstraint == null) {
     q = q.replace('<FILTER>', '# no filters')
   } else {

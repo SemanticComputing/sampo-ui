@@ -1,18 +1,29 @@
 {
     "id": "perspective1",
+    "endpoint": {
+        "url": "http://ldf.fi/mmm/sparql'",
+        "useAuth": false,
+        "prefixes": "SparqlQueriesPrefixes.js"
+    },
     "baseURI": "http://ldf.fi/mmm",
     "URITemplate": "<BASE_URI>/manifestation_singleton/<LOCAL_ID>",
+    "facetClass": "frbroo:F4_Manifestation_Singleton",
     "frontPageImage": "main_page/manuscripts-452x262.jpg",
     "searchMode": "faceted-search",
     "defaultActiveFacets": [],
     "defaultTab": "table",
     "defaultInstancePageTab": "table",
+    "includeInSitemap": true,
     "paginatedResultsConfig": {
+        "propertiesQueryBlock": "manuscriptPropertiesFacetResults",
         "paginatedResultsAlwaysExpandRows": true,
         "paginatedResultsRowContentMaxHeight": 190,
         "pagesize": 10,
         "sortBy": null,
         "sortDirection": null
+    },
+    "instancePageCongig": {
+        "propertiesQueryBlock": "manuscriptPropertiesInstancePage"
     },
     "resultClasses": [
         "perspective1",
@@ -387,12 +398,16 @@
             "filterType": "textFilter"
         },
         "productionPlace": {
+            "predicate": "^crm:P108_has_produced/crm:P7_took_place_at",
+            "sortByPredicate": "^crm:P108_has_produced/crm:P7_took_place_at/skos:prefLabel",
+            "facetValueFilter": "?id dct:source <http://vocab.getty.edu/tgn/>",
+            "facetType": "hierarchical",
+            "parentProperty": "gvp:broaderPreferred",
             "spatialFilterButton": true,
             "spatialFilterTab": "production_places",
             "searchField": true,
             "containerClass": "ten",
             "filterType": "uriFilter",
-            "type": "hierarchical",
             "selectAlsoSubconceptsButton": true,
             "selectAlsoSubconcepts": true
         },

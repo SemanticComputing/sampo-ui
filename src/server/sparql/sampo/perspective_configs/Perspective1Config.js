@@ -15,8 +15,8 @@ export const perspective1Config = {
   // defaultConstraint: `
   //   <SUBJECT> dct:source mmm-schema:Bibale .
   // `,
-  paginatedResults: {
-    properties: manuscriptPropertiesFacetResults
+  paginatedResultsConfig: {
+    propertiesQueryBlock: manuscriptPropertiesFacetResults
     // resultMapper:
     // resultMapperConfig:
     // postprocess:

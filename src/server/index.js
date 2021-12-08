@@ -6,6 +6,7 @@ import bodyParser from 'body-parser'
 import axios from 'axios'
 import { has, castArray } from 'lodash'
 import expressStaticGzip from 'express-static-gzip'
+// import { createBackendSearchConfig } from './sparql/Utils'
 import {
   getResultCount,
   getPaginatedResults,
@@ -20,6 +21,7 @@ import swaggerUi from 'swagger-ui-express'
 import * as OpenApiValidator from 'express-openapi-validator'
 import yaml from 'js-yaml'
 import querystring from 'querystring'
+
 const DEFAULT_PORT = 3001
 const app = express()
 app.set('port', process.env.PORT || DEFAULT_PORT)
@@ -71,6 +73,7 @@ app.use(validator)
 app.post(`${apiPath}/faceted-search/:resultClass/paginated`, async (req, res, next) => {
   const { params, body } = req
   try {
+    // const backendSearchConfig = await createBackendSearchConfig()
     const data = await getPaginatedResults({
       backendSearchConfig,
       resultClass: params.resultClass,
@@ -146,6 +149,7 @@ app.get(`${apiPath}/faceted-search/:resultClass/all`, async (req, res, next) => 
 app.post(`${apiPath}/faceted-search/:resultClass/count`, async (req, res, next) => {
   const { params, body } = req
   try {
+    // const backendSearchConfig = await createBackendSearchConfig()
     const data = await getResultCount({
       backendSearchConfig,
       resultClass: params.resultClass,
