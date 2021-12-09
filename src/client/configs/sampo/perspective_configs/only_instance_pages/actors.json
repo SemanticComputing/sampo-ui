@@ -1,10 +1,20 @@
 {
   "id": "actors",
+  "endpoint": {
+    "url": "http://ldf.fi/mmm/sparql",
+    "useAuth": false,
+    "prefixesFile": "SparqlQueriesPrefixes.js"
+  },
+  "sparqlQueriesFile": "SparqlQueriesActors.js",
   "baseURI": "http://ldf.fi/mmm",
   "URITemplate": "<BASE_URI>/actor/<LOCAL_ID>",
-  "resultClasses": [
-    "actors"
-  ],
+  "resultClasses": {
+    "actors": {
+        "instancePageConfig": {
+            "propertiesQueryBlock": "actorProperties"
+        }
+    }
+},
   "instancePageTabs": [
     {
       "id": "table",

@@ -277,8 +277,8 @@ export const fetchFacetFailed = (state, action) => {
 }
 
 export const updateFacetValues = (state, action) => {
-  if (state.facets[action.id].type === 'timespan' ||
-    state.facets[action.id].type === 'integer') {
+  if (state.facets[action.id].facetType === 'timespan' ||
+    state.facets[action.id].facetType === 'integer') {
     return {
       ...state,
       // with normal facets the 'facetUpdateID' is handled with the 'updateFacetFilter' function

@@ -21,25 +21,23 @@ export const getPaginatedResults = ({
   resultFormat
 }) => {
   let q = facetResultSetQuery
-  const config = backendSearchConfig[resultClass]
+  const perspectiveConfig = backendSearchConfig[resultClass]
   const {
     endpoint,
+    facets,
+    facetClass,
     defaultConstraint = null,
     langTag = null,
     langTagSecondary = null
-  } = config
-  // if (has(config, 'perspectiveID')) {
-  //   ({ endpoint, defaultConstraint, langTag, langTagSecondary } = backendSearchConfig[config.perspectiveID])
-  // } else {
-  //   ({ endpoint, defaultConstraint, langTag, langTagSecondary } = config)
-  // }
+  } = perspectiveConfig
+  const resultClassConfig = perspectiveConfig.resultClasses[resultClass]
   const {
     propertiesQueryBlock,
     filterTarget = 'id',
     resultMapper = makeObjectList,
     resultMapperConfig = null,
     postprocess = null
-  } = config.paginatedResultsConfig
+  } = resultClassConfig.paginatedResultsConfig
   if (constraints == null && defaultConstraint == null) {
     q = q.replace('<FILTER>', '# no filters')
   } else {
@@ -60,21 +58,21 @@ export const getPaginatedResults = ({
     let sortByPredicate
     if (sortBy.endsWith('Timespan')) {
       sortByPredicate = sortDirection === 'asc'
-        ? config.facets[sortBy].sortByAscPredicate
-        : config.facets[sortBy].sortByDescPredicate
+        ? facets[sortBy].sortByAscPredicate
+        : facets[sortBy].sortByDescPredicate
     } else {
-      sortByPredicate = config.facets[sortBy].labelPath
+      sortByPredicate = facets[sortBy].sortByPredicate
     }
     let sortByPattern
-    if (has(config.facets[sortBy], 'orderByPattern')) {
-      sortByPattern = config.facets[sortBy].orderByPattern
+    if (has(facets[sortBy], 'sortByPattern')) {
+      sortByPattern = facets[sortBy].sortByPattern
     } else {
       sortByPattern = `OPTIONAL { ?id ${sortByPredicate} ?orderBy }`
     }
     q = q.replace('<ORDER_BY_TRIPLE>', sortByPattern)
     q = q = q.replace('<ORDER_BY>', `ORDER BY (!BOUND(?orderBy)) ${sortDirection}(?orderBy)`)
   }
-  q = q.replace(/<FACET_CLASS>/g, config.facetClass)
+  q = q.replace(/<FACET_CLASS>/g, facetClass)
   q = q.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`)
   q = q.replace('<RESULT_SET_PROPERTIES>', propertiesQueryBlock)
   if (langTag) {
@@ -178,16 +176,11 @@ export const getResultCount = ({
   resultFormat
 }) => {
   let q = countQuery
-  const config = backendSearchConfig[resultClass]
+  const perspectiveConfig = backendSearchConfig[resultClass]
   const {
     endpoint,
     defaultConstraint = null
-  } = config
-  // if (has(config, 'perspectiveID')) {
-  //   ({ endpoint, defaultConstraint } = backendSearchConfig[config.perspectiveID])
-  // } else {
-  //   ({ endpoint, defaultConstraint } = config)
-  // }
+  } = perspectiveConfig
   if (constraints == null && defaultConstraint == null) {
     q = q.replace('<FILTER>', '# no filters')
   } else {
@@ -201,7 +194,7 @@ export const getResultCount = ({
       filterTripleFirst: true
     }))
   }
-  q = q.replace(/<FACET_CLASS>/g, config.facetClass)
+  q = q.replace(/<FACET_CLASS>/g, perspectiveConfig.facetClass)
   // console.log(endpoint.prefixes + q)
   return runSelectQuery({
     query: endpoint.prefixes + q,
@@ -220,26 +213,24 @@ export const getByURI = ({
   uri,
   resultFormat
 }) => {
-  const config = backendSearchConfig[resultClass]
-  let endpoint
-  let langTag = null
-  let langTagSecondary = null
-  if (has(config, 'perspectiveID')) {
-    ({ endpoint, langTag, langTagSecondary } = backendSearchConfig[config.perspectiveID])
-  } else {
-    ({ endpoint, langTag, langTagSecondary } = config)
-  }
+  const perspectiveConfig = backendSearchConfig[resultClass]
   const {
-    properties,
-    relatedInstances = '',
+    endpoint,
+    langTag = null,
+    langTagSecondary = null
+  } = perspectiveConfig
+  const resultClassConfig = perspectiveConfig.resultClasses[resultClass]
+  const {
+    propertiesQueryBlock,
     filterTarget = 'related__id',
+    relatedInstances = '',
     noFilterForRelatedInstances = false,
     resultMapper = makeObjectList,
     resultMapperConfig = null,
     postprocess = null
-  } = config.instance
+  } = resultClassConfig.instancePageConfig
   let q = instanceQuery
-  q = q.replace('<PROPERTIES>', properties)
+  q = q.replace('<PROPERTIES>', propertiesQueryBlock)
   q = q.replace('<RELATED_INSTANCES>', relatedInstances)
   if (constraints == null || noFilterForRelatedInstances) {
     q = q.replace('<FILTER>', '# no filters')

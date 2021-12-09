@@ -1,23 +1,34 @@
 {
     "id": "perspective3",
+    "endpoint": {
+        "url": "http://ldf.fi/mmm/sparql",
+        "useAuth": false,
+        "prefixesFile": "SparqlQueriesPrefixes.js"
+    },
+    "sparqlQueriesFile": "SparqlQueriesPerspective3.js",
     "baseURI": "http://ldf.fi/mmm",
     "URITemplate": "<BASE_URI>/event/<LOCAL_ID>",
+    "facetClass": "crm:E10_Transfer_of_Custody crm:E12_Production mmm-schema:ManuscriptActivity",
     "frontPageImage": "main_page/events-452x262.jpg",
     "searchMode": "faceted-search",
     "defaultActiveFacets": [],
     "defaultTab": "table",
     "defaultInstancePageTab": "table",
-    "paginatedResultsConfig": {
-        "paginatedResultsAlwaysExpandRows": true,
-        "paginatedResultsRowContentMaxHeight": 190,
-        "pagesize": 10,
-        "sortBy": null,
-        "sortDirection": null
+    "resultClasses": {
+        "perspective3": {
+            "paginatedResultsConfig": {
+                "propertiesQueryBlock": "eventProperties",
+                "paginatedResultsAlwaysExpandRows": true,
+                "paginatedResultsRowContentMaxHeight": 190,
+                "pagesize": 10,
+                "sortBy": null,
+                "sortDirection": null
+            },
+            "instancePageConfig": {
+                "propertiesQueryBlock": "eventProperties"
+            }
+        }
     },
-    "resultClasses": [
-        "perspective3",
-        "placesEvents"
-    ],
     "maps": {
         "placesEvents": {
             "center": [
@@ -158,45 +169,71 @@
     ],
     "facets": {
         "type": {
-            "sortBy": "prefLabel",
-            "sortDirection": "asc",
             "containerClass": "three",
+            "facetType": "list",
+            "facetValueFilter": "FILTER(?id NOT IN ( <http://ldf.fi/mmm/schema/PlaceNationality> ))",
             "filterType": "uriFilter",
+            "predicate": "a",
+            "sortBy": "prefLabel",
+            "sortByPredicate": "a/(skos:prefLabel|rdfs:label)",
+            "sortDirection": "asc",
             "uriFilter": null
         },
         "manuscript": {
             "containerClass": "one",
-            "filterType": "textFilter"
+            "facetType": "text",
+            "filterType": "textFilter",
+            "sortByPredicate": "(crm:P30_transferred_custody_of |crm:P108_has_produced |mmm-schema:observed_manuscript )/skos:prefLabel",
+            "textQueryPredicate": "(crm:P30_transferred_custody_of |crm:P108_has_produced |mmm-schema:observed_manuscript)",
+            "textQueryProperty": "skos:prefLabel"
         },
         "eventTimespan": {
             "containerClass": "four",
+            "endProperty": "crm:P82b_end_of_the_end",
+            "facetType": "timespan",
             "filterType": "timespanFilter",
+            "max": null,
             "min": null,
-            "max": null
+            "predicate": "crm:P4_has_time-span",
+            "sortByAscPredicate": "crm:P4_has_time-span/crm:P82a_begin_of_the_begin",
+            "sortByDescPredicate": "crm:P4_has_time-span/crm:P82b_end_of_the_end",
+            "startProperty": "crm:P82a_begin_of_the_begin"
         },
         "place": {
-            "searchField": true,
             "containerClass": "ten",
+            "facetType": "hierarchical",
+            "facetValueFilter": "?id dct:source <http://vocab.getty.edu/tgn/> .",
             "filterType": "uriFilter",
-            "type": "hierarchical",
+            "parentProperty": "gvp:broaderPreferred",
+            "predicate": "crm:P7_took_place_at",
+            "searchField": true,
+            "selectAlsoSubconcepts": true,
             "selectAlsoSubconceptsButton": true,
-            "selectAlsoSubconcepts": true
+            "sortByPredicate": "crm:P7_took_place_at/skos:prefLabel",
+            "type": "hierarchical"
         },
         "placeType": {
-            "sortBy": "instanceCount",
-            "sortDirection": "desc",
-            "sortButton": true,
-            "pieChartButton": true,
-            "searchField": true,
             "containerClass": "ten",
-            "filterType": "uriFilter"
+            "facetType": "list",
+            "filterType": "uriFilter",
+            "literal": true,
+            "pieChartButton": true,
+            "predicate": "crm:P7_took_place_at/gvp:placeTypePreferred",
+            "searchField": true,
+            "sortButton": true,
+            "sortBy": "instanceCount",
+            "sortByPredicate": "crm:P7_took_place_at/gvp:placeTypePreferred",
+            "sortDirection": "desc"
         },
         "source": {
-            "sortBy": "instanceCount",
-            "sortDirection": "desc",
-            "pieChartButton": true,
             "containerClass": "three",
-            "filterType": "uriFilter"
+            "facetType": "list",
+            "filterType": "uriFilter",
+            "pieChartButton": true,
+            "predicate": "dct:source",
+            "sortBy": "instanceCount",
+            "sortByPredicate": "dct:source/skos:prefLabel",
+            "sortDirection": "desc"
         }
     }
 }

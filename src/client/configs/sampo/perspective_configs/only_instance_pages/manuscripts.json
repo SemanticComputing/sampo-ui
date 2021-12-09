@@ -1,10 +1,20 @@
 {
     "id": "manuscripts",
+    "endpoint": {
+        "url": "http://ldf.fi/mmm/sparql",
+        "useAuth": false,
+        "prefixesFile": "SparqlQueriesPrefixes.js"
+    },
+    "sparqlQueriesFile": "SparqlQueriesPerspective1.js",
     "baseURI": "http://ldf.fi/mmm",
     "URITemplate": "<BASE_URI>/manifestation_singleton/<LOCAL_ID>",
-    "resultClasses": [
-        "manuscripts"
-    ],
+    "resultClasses": {
+        "manuscripts": {
+            "instancePageConfig": {
+                "propertiesQueryBlock": "manuscriptPropertiesInstancePage"
+            }
+        }
+    },
     "instancePageTabs": [
         {
             "id": "table",

@@ -1,10 +1,20 @@
 {
   "id": "works",
+  "endpoint": {
+    "url": "http://ldf.fi/mmm/sparql",
+    "useAuth": false,
+    "prefixesFile": "SparqlQueriesPrefixes.js"
+  },
+  "sparqlQueriesFile": "SparqlQueriesPerspective2.js",
   "baseURI": "http://ldf.fi/mmm",
   "URITemplate": "<BASE_URI>/work/<LOCAL_ID>",
-  "resultClasses": [
-    "works"
-  ],
+  "resultClasses": {
+    "works": {
+      "instancePageConfig": {
+        "propertiesQueryBlock": "workProperties"
+      }
+    }
+  },
   "instancePageTabs": [
     {
       "id": "table",

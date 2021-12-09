@@ -1,10 +1,20 @@
 {
   "id": "events",
+  "endpoint": {
+    "url": "http://ldf.fi/mmm/sparql",
+    "useAuth": false,
+    "prefixesFile": "SparqlQueriesPrefixes.js"
+  },
+  "sparqlQueriesFile": "SparqlQueriesPerspective3.js",
   "baseURI": "http://ldf.fi/mmm",
   "URITemplate": "<BASE_URI>/event/<LOCAL_ID>",
-  "resultClasses": [
-    "events"
-  ],
+  "resultClasses": {
+    "events": {
+      "instancePageConfig": {
+        "propertiesQueryBlock": "eventProperties"
+      }
+    }
+  },
   "instancePageTabs": [
     {
       "id": "table",

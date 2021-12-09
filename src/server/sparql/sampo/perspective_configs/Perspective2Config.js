@@ -52,14 +52,6 @@ export const perspective2Config = {
       predicate: '^frbroo:R19_created_a_realisation_of/frbroo:R17_created/crm:P72_has_language',
       type: 'list'
     },
-    material: {
-      id: 'material',
-      facetValueFilter: '',
-      label: 'Language',
-      labelPath: '^mmm-schema:manuscript_work/crm:P45_consists_of/skos:prefLabel',
-      predicate: '^mmm-schema:manuscript_work/crm:P45_consists_of',
-      type: 'list'
-    },
     collection: {
       id: 'collection',
       facetValueFilter: '',

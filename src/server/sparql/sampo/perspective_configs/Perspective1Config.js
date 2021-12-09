@@ -89,7 +89,6 @@ export const perspective1Config = {
       parentProperty: 'gvp:broaderPreferred',
       type: 'hierarchical'
     },
-
     transferOfCustodyTimespan: {
       id: 'transferOfCustodyTimespan',
       facetValueFilter: '',

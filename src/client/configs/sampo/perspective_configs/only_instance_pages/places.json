@@ -1,10 +1,20 @@
 {
   "id": "places",
+  "endpoint": {
+    "url": "http://ldf.fi/mmm/sparql",
+    "useAuth": false,
+    "prefixesFile": "SparqlQueriesPrefixes.js"
+  },
+  "sparqlQueriesFile": "SparqlQueriesPlaces.js",
   "baseURI": "http://ldf.fi/mmm",
   "URITemplate": "<BASE_URI>/place/<LOCAL_ID>",
-  "resultClasses": [
-    "places"
-  ],
+  "resultClasses": {
+    "places": {
+      "instancePageConfig": {
+        "propertiesQueryBlock": "placePropertiesInstancePage"
+      }
+    }
+  },
   "instancePageTabs": [
     {
       "id": "table",

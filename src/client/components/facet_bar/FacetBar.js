@@ -19,6 +19,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
+import { has } from 'lodash'
 
 const styles = theme => ({
   root: {
@@ -328,6 +329,7 @@ class FacetBar extends React.Component {
           />
           {facets && Object.keys(facets).map(facetID => {
             if (facetID === 'datasetSelector') { return null }
+            if (!has(facets[facetID], 'filterType')) { return null }
             return this.renderFacet(facetID, someFacetIsFetching)
           })}
         </Accordion>
@@ -337,6 +339,7 @@ class FacetBar extends React.Component {
         <>
           {facets && Object.keys(facets).map(facetID => {
             if (facetID === 'datasetSelector') { return null }
+            if (!has(facets[facetID], 'filterType')) { return null }
             return this.renderFacet(facetID, someFacetIsFetching)
           })}
         </>

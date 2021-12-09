@@ -3,7 +3,9 @@
     "rootUrl": "",
     "perspectives": {
         "searchPerspectives": [
-            "perspective1"     
+            "perspective1",
+            "perspective2",
+            "perspective3"
         ],
         "onlyInstancePages": [
             "manuscripts",

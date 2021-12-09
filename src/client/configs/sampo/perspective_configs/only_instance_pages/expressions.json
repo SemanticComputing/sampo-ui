@@ -1,10 +1,20 @@
 {
   "id": "expressions",
+  "endpoint": {
+    "url": "http://ldf.fi/mmm/sparql",
+    "useAuth": false,
+    "prefixesFile": "SparqlQueriesPrefixes.js"
+  },
+  "sparqlQueriesFile": "SparqlQueriesPerspective1.js",
   "baseURI": "http://ldf.fi/mmm",
   "URITemplate": "<BASE_URI>/expression/<LOCAL_ID>",
-  "resultClasses": [
-    "expressions"
-  ],
+  "resultClasses": {
+    "expressions": {
+      "instancePageConfig": {
+        "propertiesQueryBlock": "expressionProperties"
+      }
+    }
+  },
   "instancePageTabs": [
     {
       "id": "table",

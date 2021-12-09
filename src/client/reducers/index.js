@@ -45,18 +45,20 @@ for (const perspective of perspectiveConfig) {
     const fullTextSearchReducer = createFullTextSearchReducer(fullTextSearchInitialStateFull, perspectiveID)
     reducers[perspectiveID] = fullTextSearchReducer
   } else if (perspective.searchMode && perspective.searchMode === 'faceted-search') {
-    const { paginatedResultsConfig, resultClasses, properties, facets, maps } = perspective
+    const { resultClasses, properties, facets, maps } = perspective
+    const { paginatedResultsConfig } = resultClasses[perspectiveID]
     const resultsInitialStateFull = {
       ...resultsInitialState,
       ...paginatedResultsConfig,
       maps,
       properties
     }
+    Object.keys(facets).forEach(key => { facets[key].isFetching = false })
     const facetsInitialStateFull = {
       ...facetsInitialState,
       facets
     }
-    const resultsReducer = createResultsReducer(resultsInitialStateFull, new Set(resultClasses))
+    const resultsReducer = createResultsReducer(resultsInitialStateFull, new Set(Object.keys(resultClasses)))
     const facetsReducer = createFacetsReducer(facetsInitialStateFull, perspectiveID)
     const facetsConstrainSelfReducer = createFacetsConstrainSelfReducer(facetsInitialStateFull, perspectiveID)
     reducers[perspectiveID] = resultsReducer
@@ -72,7 +74,7 @@ for (const perspective of perspectiveConfigOnlyInfoPages) {
     ...resultsInitialState,
     properties
   }
-  const resultsReducer = createResultsReducer(resultsInitialStateFull, new Set(resultClasses))
+  const resultsReducer = createResultsReducer(resultsInitialStateFull, new Set(Object.keys(resultClasses)))
   reducers[perspectiveID] = resultsReducer
 }
 
