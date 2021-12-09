@@ -17,6 +17,7 @@
     "client": "cross-env BABEL_ENV=browser webpack serve --config webpack.client.dev.js",
     "dev": "concurrently --prefix none --kill-others \"npm run server\" \"npm run client\"",
     "server": "cross-env BABEL_ENV=node NODE_ENV=development nodemon -r dotenv/config src/server/index.js --exec babel-node",
+    "utils": "cross-env BABEL_ENV=node NODE_ENV=development nodemon -r dotenv/config src/server/sparql/Utils.js --exec babel-node",
     "sitemap": "cross-env BABEL_ENV=node babel-node src/server/sitemap_generator/SitemapGenerator.js",
     "translate": "cross-env BABEL_ENV=node babel-node src/server/translations_generator/index.js"
   },

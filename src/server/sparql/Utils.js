@@ -1,5 +1,6 @@
 import { readFile } from 'fs/promises'
 import { has } from 'lodash'
+import { backendSearchConfig } from '../sparql/sampo/BackendSearchConfig'
 
 export const createBackendSearchConfig = async () => {
   const portalConfigJSON = await readFile('src/client/configs/portalConfig.json')
@@ -116,3 +117,41 @@ export const mergeFacetConfigs = (oldFacets, mergedFacets) => {
   }
   console.log(JSON.stringify(mergedFacets))
 }
+
+const mergeResultClasses = async () => {
+  const portalConfigJSON = await readFile('src/client/configs/portalConfig.json')
+  const portalConfig = JSON.parse(portalConfigJSON)
+  const { portalID } = portalConfig
+  const newPerspectiveConfigs = {}
+  for (const newResultClass in backendSearchConfig) {
+    const resultClassConfig = backendSearchConfig[newResultClass]
+    if (has(resultClassConfig, 'perspectiveID')) {
+      const { perspectiveID } = resultClassConfig
+      const perspectiveConfigJSON = await readFile(`src/client/configs/${portalID}/perspective_configs/search_perspectives/${perspectiveID}.json`)
+      if (!has(newPerspectiveConfigs, perspectiveID)) {
+        newPerspectiveConfigs[perspectiveID] = JSON.parse(perspectiveConfigJSON)
+      }
+    }
+  }
+  for (const newResultClass in backendSearchConfig) {
+    const resultClassConfig = backendSearchConfig[newResultClass]
+    if (has(resultClassConfig, 'perspectiveID')) {
+      const { perspectiveID } = resultClassConfig
+      const { filterTarget, resultMapper, resultMapperConfig } = resultClassConfig
+      let resultMapperName = null
+      if (resultMapper) {
+        resultMapperName = resultMapper.name
+      }
+      newPerspectiveConfigs[perspectiveID].resultClasses[newResultClass] = {
+        ...(filterTarget && { filterTarget }),
+        ...(resultMapperName && { resultMapper: resultMapperName }),
+        ...(resultMapperConfig && { resultMapperConfig })
+      }
+    }
+  }
+  // const { q } = backendSearchConfig.eventLineChart
+  // console.log(newPerspectiveConfigs.perspective1.resultClasses)
+}
+// const varToString = varObj => Object.keys(varObj)[0]
+
+mergeResultClasses()

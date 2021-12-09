@@ -28,15 +28,6 @@
             "instancePageConfig": {
                 "propertiesQueryBlock": "manuscriptPropertiesInstancePage"
             }
-        },
-        "placesMsProduced": {
-            "query": "productionPlacesQuery",
-            "filterTarget": "manuscripts",
-            "resultMapper": "mapPlaces",
-            "instance": {
-                "properties": "placePropertiesInfoWindow",
-                "relatedInstances": "manuscriptsProducedAt"
-            }
         }
     },
     "maps": {
