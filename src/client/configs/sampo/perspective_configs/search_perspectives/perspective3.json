@@ -170,6 +170,7 @@
     "facets": {
         "type": {
             "containerClass": "three",
+            "facetLabelPredicate": "skos:prefLabel|rdfs:label",
             "facetType": "list",
             "facetValueFilter": "FILTER(?id NOT IN ( <http://ldf.fi/mmm/schema/PlaceNationality> ))",
             "filterType": "uriFilter",

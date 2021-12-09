@@ -1,4 +1,3 @@
-import { perspective3Config } from './sampo/perspective_configs/Perspective3Config'
 import { runSelectQuery } from './SparqlApi'
 import { has } from 'lodash'
 import {
@@ -27,82 +26,6 @@ export const getFacet = async ({
   constrainSelf
 }) => {
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
-
-  const oldFacets = perspective3Config.facets
-  const mergedFacets = backendSearchConfig[facetClass].facets
-
-  for (const facetID in oldFacets) {
-    const oldFacet = oldFacets[facetID]
-    // strip new lines
-    if (oldFacet.facetValueFilter && oldFacet.facetValueFilter !== '') {
-      oldFacet.facetValueFilter = oldFacet.facetValueFilter.replace(/\s+/g, ' ').trim()
-    }
-    if (oldFacet.predicate && oldFacet.predicate !== '') {
-      oldFacet.predicate = oldFacet.predicate.replace(/\s+/g, ' ').trim()
-    }
-    if (oldFacet.labelPath && oldFacet.labelPath !== '') {
-      oldFacet.labelPath = oldFacet.labelPath.replace(/\s+/g, ' ').trim()
-    }
-    if (oldFacet.textQueryPredicate && oldFacet.textQueryPredicate !== '') {
-      oldFacet.textQueryPredicate = oldFacet.textQueryPredicate.replace(/\s+/g, ' ').trim()
-    }
-
-    if (oldFacet.type === 'text') {
-      mergedFacets[facetID].facetType = 'text'
-      mergedFacets[facetID].textQueryProperty = oldFacet.textQueryProperty
-      if (oldFacet.textQueryPredicate && oldFacet.textQueryPredicate !== '') {
-        mergedFacets[facetID].textQueryPredicate = oldFacet.textQueryPredicate
-      } else {
-        delete mergedFacets[facetID].textQueryPredicate
-      }
-      mergedFacets[facetID].sortByPredicate = oldFacet.labelPath
-    }
-    if (oldFacet.type === 'list') {
-      if (oldFacet.facetValueFilter && oldFacet.facetValueFilter !== '') {
-        mergedFacets[facetID].facetValueFilter = oldFacet.facetValueFilter
-      }
-      if (has(oldFacet, 'literal')) {
-        mergedFacets[facetID].literal = oldFacet.literal
-      }
-      mergedFacets[facetID].facetType = 'list'
-      mergedFacets[facetID].predicate = oldFacet.predicate
-      mergedFacets[facetID].sortByPredicate = oldFacet.labelPath
-    }
-
-    if (oldFacet.type === 'hierarchical') {
-      if (oldFacet.facetValueFilter && oldFacet.facetValueFilter !== '') {
-        mergedFacets[facetID].facetValueFilter = oldFacet.facetValueFilter
-      }
-      mergedFacets[facetID].facetType = 'hierarchical'
-      mergedFacets[facetID].predicate = oldFacet.predicate
-      mergedFacets[facetID].sortByPredicate = oldFacet.labelPath
-      mergedFacets[facetID].parentProperty = oldFacet.parentProperty
-    }
-
-    if (oldFacet.type === 'timespan') {
-      mergedFacets[facetID].facetType = 'timespan'
-      mergedFacets[facetID].sortByAscPredicate = oldFacet.sortByAscPredicate
-      mergedFacets[facetID].sortByDescPredicate = oldFacet.sortByDescPredicate
-      mergedFacets[facetID].predicate = oldFacet.predicate
-      mergedFacets[facetID].startProperty = oldFacet.startProperty
-      mergedFacets[facetID].endProperty = oldFacet.endProperty
-    }
-  }
-
-  for (const facetID in mergedFacets) {
-    const unorderedFacet = mergedFacets[facetID]
-    const orderedFacet = Object.keys(unorderedFacet).sort().reduce(
-      (obj, key) => {
-        obj[key] = unorderedFacet[key]
-        return obj
-      },
-      {}
-    )
-    mergedFacets[facetID] = orderedFacet
-  }
-
-  // console.log(JSON.stringify(mergedFacets))
-
   const { endpoint, defaultConstraint = null, langTag = null } = backendSearchConfig[facetClass]
   // choose query template and result mapper:
   let q = ''

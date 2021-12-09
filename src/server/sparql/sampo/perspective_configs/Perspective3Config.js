@@ -18,10 +18,6 @@ export const perspective3Config = {
     relatedInstances: ''
   },
   facets: {
-    prefLabel: {
-      id: 'prefLabel',
-      labelPath: 'skos:prefLabel'
-    },
     type: {
       predicate: 'a',
       facetValueFilter: `
