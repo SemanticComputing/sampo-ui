@@ -1,4 +1,4 @@
-import { backendSearchConfig } from './sparql/sampo/BackendSearchConfig'
+// import { backendSearchConfig } from './sparql/sampo/BackendSearchConfig'
 import fs from 'fs'
 import express from 'express'
 import path from 'path'
@@ -6,7 +6,7 @@ import bodyParser from 'body-parser'
 import axios from 'axios'
 import { has, castArray } from 'lodash'
 import expressStaticGzip from 'express-static-gzip'
-// import { createBackendSearchConfig } from './sparql/Utils'
+import { createBackendSearchConfig } from './sparql/Utils'
 import {
   getResultCount,
   getPaginatedResults,
@@ -73,7 +73,7 @@ app.use(validator)
 app.post(`${apiPath}/faceted-search/:resultClass/paginated`, async (req, res, next) => {
   const { params, body } = req
   try {
-    // const backendSearchConfig = await createBackendSearchConfig()
+    const backendSearchConfig = await createBackendSearchConfig()
     const data = await getPaginatedResults({
       backendSearchConfig,
       resultClass: params.resultClass,
@@ -95,6 +95,7 @@ app.post(`${apiPath}/faceted-search/:resultClass/all`, async (req, res, next) =>
   const { params, body } = req
   const resultFormat = 'json'
   try {
+    const backendSearchConfig = await createBackendSearchConfig()
     const data = await getAllResults({
       backendSearchConfig,
       resultClass: params.resultClass,
@@ -124,6 +125,7 @@ app.post(`${apiPath}/faceted-search/:resultClass/all`, async (req, res, next) =>
 // GET endpoint for supporting CSV button
 app.get(`${apiPath}/faceted-search/:resultClass/all`, async (req, res, next) => {
   try {
+    const backendSearchConfig = await createBackendSearchConfig()
     const resultFormat = req.query.resultFormat == null ? 'json' : req.query.resultFormat
     const data = await getAllResults({
       backendSearchConfig,
@@ -149,7 +151,7 @@ app.get(`${apiPath}/faceted-search/:resultClass/all`, async (req, res, next) => 
 app.post(`${apiPath}/faceted-search/:resultClass/count`, async (req, res, next) => {
   const { params, body } = req
   try {
-    // const backendSearchConfig = await createBackendSearchConfig()
+    const backendSearchConfig = await createBackendSearchConfig()
     const data = await getResultCount({
       backendSearchConfig,
       resultClass: params.resultClass,
@@ -165,6 +167,7 @@ app.post(`${apiPath}/faceted-search/:resultClass/count`, async (req, res, next) 
 app.post(`${apiPath}/:resultClass/page/:uri`, async (req, res, next) => {
   const { params, body } = req
   try {
+    const backendSearchConfig = await createBackendSearchConfig()
     const data = await getByURI({
       backendSearchConfig,
       resultClass: params.resultClass,
@@ -182,6 +185,7 @@ app.post(`${apiPath}/:resultClass/page/:uri`, async (req, res, next) => {
 app.post(`${apiPath}/faceted-search/:facetClass/facet/:id`, async (req, res, next) => {
   const { params, body } = req
   try {
+    const backendSearchConfig = await createBackendSearchConfig()
     const data = await getFacet({
       backendSearchConfig,
       facetClass: params.facetClass,
@@ -200,6 +204,7 @@ app.post(`${apiPath}/faceted-search/:facetClass/facet/:id`, async (req, res, nex
 
 app.get(`${apiPath}/full-text-search`, async (req, res, next) => {
   try {
+    const backendSearchConfig = await createBackendSearchConfig()
     const data = await queryJenaIndex({
       backendSearchConfig,
       queryTerm: req.query.q,
@@ -228,6 +233,7 @@ app.get(`${apiPath}/federated-search`, async (req, res, next) => {
     longMax = req.query.longMax
   }
   try {
+    const backendSearchConfig = await createBackendSearchConfig()
     const data = await getFederatedResults({
       federatedSearchDatasets: backendSearchConfig.federatedSearch.datasets,
       queryTerm,
@@ -358,6 +364,7 @@ app.get(`${apiPath}/wfs`, async (req, res, next) => {
 app.get(`${apiPath}/void/:resultClass`, async (req, res, next) => {
   const { params } = req
   try {
+    const backendSearchConfig = await createBackendSearchConfig()
     const data = await getAllResults({
       backendSearchConfig,
       resultClass: params.resultClass,

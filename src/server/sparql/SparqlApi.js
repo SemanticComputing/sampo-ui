@@ -22,11 +22,6 @@ export const runSelectQuery = async ({
     headers.Authorization = `Basic ${process.env.SPARQL_ENDPOINT_BASIC_AUTH}`
   }
   const q = querystring.stringify({ query })
-  // console.log('sparqling')
-  // console.log(resultFormat)
-  // console.log(q)
-  // console.log(endpoint)
-  // console.log(resultMapper)
   try {
     const response = await axios({
       method: 'post',
@@ -35,7 +30,6 @@ export const runSelectQuery = async ({
       data: q
     })
     if (resultFormat === 'json') {
-      // console.log(response)
       let mappedResults = resultMapperConfig
         ? resultMapper({ sparqlBindings: response.data.results.bindings, config: resultMapperConfig })
         : resultMapper(response.data.results.bindings)
