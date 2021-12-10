@@ -1,7 +1,7 @@
 import { has } from 'lodash'
 import { runSelectQuery } from './SparqlApi'
 import { fullTextQuery } from './SparqlQueriesGeneral'
-import { makeObjectList } from './SparqlObjectMapper'
+import { makeObjectList } from './Mappers'
 
 export const queryJenaIndex = async ({
   backendSearchConfig,

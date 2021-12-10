@@ -1,6 +1,6 @@
 import { readFile } from 'fs/promises'
 import { has } from 'lodash'
-import { backendSearchConfig } from '../sparql/sampo/BackendSearchConfig'
+// import { backendSearchConfig } from '../sparql/sampo/BackendSearchConfig'
 
 export const createBackendSearchConfig = async () => {
   const portalConfigJSON = await readFile('src/client/configs/portalConfig.json')
@@ -156,14 +156,14 @@ export const mergeFacetConfigs = (oldFacets, mergedFacets) => {
   console.log(JSON.stringify(mergedFacets))
 }
 
-export const mergeResultClasses = async () => {
+export const mergeResultClasses = async oldBackendSearchConfig => {
   const portalConfigJSON = await readFile('src/client/configs/portalConfig.json')
   const portalConfig = JSON.parse(portalConfigJSON)
   const { portalID } = portalConfig
   const newPerspectiveConfigs = {}
   // build initial config object
-  for (const newResultClass in backendSearchConfig) {
-    const resultClassConfig = backendSearchConfig[newResultClass]
+  for (const newResultClass in oldBackendSearchConfig) {
+    const resultClassConfig = oldBackendSearchConfig[newResultClass]
     if (has(resultClassConfig, 'perspectiveID')) {
       const { perspectiveID } = resultClassConfig
       if (!has(newPerspectiveConfigs, perspectiveID)) {
@@ -173,8 +173,8 @@ export const mergeResultClasses = async () => {
     }
   }
   // merge result classes
-  for (const newResultClass in backendSearchConfig) {
-    const resultClassConfig = backendSearchConfig[newResultClass]
+  for (const newResultClass in oldBackendSearchConfig) {
+    const resultClassConfig = oldBackendSearchConfig[newResultClass]
     if (has(resultClassConfig, 'perspectiveID')) {
       const { perspectiveID } = resultClassConfig
       const { q, nodes, filterTarget, resultMapper, resultMapperConfig, instance, properties, useNetworkAPI } = resultClassConfig

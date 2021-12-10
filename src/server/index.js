@@ -1,4 +1,3 @@
-// import { backendSearchConfig } from './sparql/sampo/BackendSearchConfig'
 import fs from 'fs'
 import express from 'express'
 import path from 'path'

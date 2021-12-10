@@ -1,8 +1,7 @@
 import { has } from 'lodash'
 import { runSelectQuery } from './SparqlApi'
 import { runNetworkQuery } from './NetworkApi'
-import { makeObjectList } from './SparqlObjectMapper'
-import { mapCount } from './Mappers'
+import { makeObjectList, mapCount } from './Mappers'
 import { generateConstraintsBlock } from './Filters'
 import {
   countQuery,
