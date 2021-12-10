@@ -48,6 +48,7 @@ class Network extends React.Component {
 
   componentDidMount = () => {
     this.props.fetchResults({
+      perspectiveID: this.props.perspectiveConfig.id,
       resultClass: this.props.resultClass,
       facetClass: this.props.facetClass,
       uri: this.props.uri,

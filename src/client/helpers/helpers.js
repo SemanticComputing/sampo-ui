@@ -3,6 +3,7 @@ import { has } from 'lodash'
 import intl from 'react-intl-universal'
 
 export const stateToUrl = ({
+  perspectiveID = null,
   facets,
   facetClass = null,
   page = null,
@@ -19,6 +20,7 @@ export const stateToUrl = ({
   toID = null
 }) => {
   const params = {}
+  if (perspectiveID !== null) { params.perspectiveID = perspectiveID }
   if (facetClass !== null) { params.facetClass = facetClass }
   if (page !== null) { params.page = page }
   if (pagesize !== null) { params.pagesize = parseInt(pagesize) }

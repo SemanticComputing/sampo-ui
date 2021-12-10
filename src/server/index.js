@@ -98,6 +98,7 @@ app.post(`${apiPath}/faceted-search/:resultClass/all`, async (req, res, next) =>
     const backendSearchConfig = await createBackendSearchConfig()
     const data = await getAllResults({
       backendSearchConfig,
+      perspectiveID: body.perspectiveID,
       resultClass: params.resultClass,
       facetClass: body.facetClass,
       uri: body.uri,
@@ -129,6 +130,7 @@ app.get(`${apiPath}/faceted-search/:resultClass/all`, async (req, res, next) => 
     const resultFormat = req.query.resultFormat == null ? 'json' : req.query.resultFormat
     const data = await getAllResults({
       backendSearchConfig,
+      perspectiveID: req.body.perspectiveID,
       resultClass: req.params.resultClass,
       facetClass: req.query.facetClass || null,
       constraints: req.query.constraints == null ? null : req.query.constraints,
@@ -170,6 +172,7 @@ app.post(`${apiPath}/:resultClass/page/:uri`, async (req, res, next) => {
     const backendSearchConfig = await createBackendSearchConfig()
     const data = await getByURI({
       backendSearchConfig,
+      perspectiveID: body.perspectiveID,
       resultClass: params.resultClass,
       uri: params.uri,
       facetClass: body.facetClass,

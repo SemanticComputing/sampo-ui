@@ -24,8 +24,16 @@
                 "sortBy": null,
                 "sortDirection": null
             },
-            "instancePageConfig": {
+            "instanceConfig": {
                 "propertiesQueryBlock": "eventProperties"
+            }
+        },
+        "placesEvents": {
+            "sparqlQuery": "eventPlacesQuery",
+            "filterTarget": "event",
+            "resultMapper": "mapPlaces",
+            "instanceConfig": {
+                "propertiesQueryBlock": "placePropertiesInfoWindow"
             }
         }
     },

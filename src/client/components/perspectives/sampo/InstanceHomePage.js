@@ -80,6 +80,7 @@ class InstanceHomePage extends React.Component {
     this.setState({ localID })
     const uri = createURIfromLocalID({ localID, baseURI, URITemplate })
     this.props.fetchByURI({
+      perspectiveID: id,
       resultClass: id,
       facetClass: null,
       variant: null,
@@ -145,6 +146,7 @@ class InstanceHomePage extends React.Component {
                 render={() =>
                   <InstanceHomePageTable
                     portalConfig={portalConfig}
+                    perspectiveConfig={perspectiveConfig}
                     resultClass={resultClass}
                     data={instanceTableData}
                     properties={this.getVisibleRows(perspectiveState.properties)}
@@ -157,6 +159,7 @@ class InstanceHomePage extends React.Component {
                 render={() =>
                   <Network
                     portalConfig={portalConfig}
+                    perspectiveConfig={perspectiveConfig}
                     pageType='instancePage'
                     results={perspectiveState.results}
                     resultUpdateID={perspectiveState.resultUpdateID}
@@ -176,6 +179,7 @@ class InstanceHomePage extends React.Component {
                 render={() =>
                   <Export
                     portalConfig={portalConfig}
+                    perspectiveConfig={perspectiveConfig}
                     data={perspectiveState}
                     pageType='instancePage'
                     id={instanceTableData.id}

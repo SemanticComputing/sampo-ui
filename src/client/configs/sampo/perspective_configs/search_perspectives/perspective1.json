@@ -25,9 +25,95 @@
                 "sortBy": null,
                 "sortDirection": null
             },
-            "instancePageConfig": {
+            "instanceConfig": {
                 "propertiesQueryBlock": "manuscriptPropertiesInstancePage"
             }
+        },
+        "placesMsProduced": {
+            "sparqlQuery": "productionPlacesQuery",
+            "filterTarget": "manuscripts",
+            "resultMapper": "mapPlaces",
+            "instanceConfig": {
+                "propertiesQueryBlock": "placePropertiesInfoWindow",
+                "relatedInstances": "manuscriptsProducedAt"
+            }
+        },
+        "placesMsProducedHeatmap": {
+            "sparqlQuery": "productionPlacesQuery",
+            "filterTarget": "manuscripts",
+            "resultMapper": "mapPlaces"
+        },
+        "lastKnownLocations": {
+            "sparqlQuery": "lastKnownLocationsQuery",
+            "filterTarget": "manuscripts",
+            "resultMapper": "mapPlaces",
+            "instanceConfig": {
+                "propertiesQueryBlock": "placePropertiesInfoWindow",
+                "relatedInstances": "lastKnownLocationsAt"
+            }
+        },
+        "placesMsMigrations": {
+            "sparqlQuery": "migrationsQuery",
+            "filterTarget": "manuscript",
+            "resultMapper": "makeObjectList",
+            "postprocess": {
+                "func": "linearScale",
+                "config": {
+                    "variable": "instanceCount",
+                    "minAllowed": 3,
+                    "maxAllowed": 30
+                }
+            }
+        },
+        "placesMsMigrationsDialog": {
+            "sparqlQuery": "migrationsDialogQuery",
+            "filterTarget": "id",
+            "resultMapper": "makeObjectList"
+        },
+        "productionTimespanLineChart": {
+            "sparqlQuery": "productionsByDecadeQuery",
+            "filterTarget": "instanceConfig",
+            "resultMapper": "mapLineChart",
+            "resultMapperConfig": {
+                "fillEmptyValues": false
+            }
+        },
+        "productionsByDecadeAndCountry": {
+            "sparqlQuery": "productionsByDecadeAndCountryQuery",
+            "filterTarget": "manuscript",
+            "resultMapper": "makeObjectList",
+            "postprocess": {
+                "func": "toBarChartRaceFormat",
+                "config": {
+                    "step": 10
+                }   
+            }
+        },
+        "eventLineChart": {
+            "sparqlQuery": "eventsByDecadeQuery",
+            "filterTarget": "manuscript",
+            "resultMapper": "mapMultipleLineChart",
+            "resultMapperConfig": {
+                "fillEmptyValues": false
+            }
+        },
+        "manuscriptInstancePageNetwork": {
+            "sparqlQuery": "manuscriptInstancePageNetworkLinksQuery",
+            "sparqlQueryNodes": "manuscriptNetworkNodesQuery",
+            "useNetworkAPI": true
+        },
+        "manuscriptFacetResultsNetwork": {
+            "sparqlQuery": "manuscriptFacetResultsNetworkLinksQuery",
+            "sparqlQueryNodes": "manuscriptNetworkNodesQuery",
+            "filterTarget": "manuscript",
+            "useNetworkAPI": true
+        },
+        "perspective1KnowledgeGraphMetadata": {
+            "sparqlQuery": "knowledgeGraphMetadataQuery",
+            "resultMapper": "makeObjectList"
+        },
+        "jenaText": {
+            "propertiesQueryBlock": "fullTextSearchProperties"
         }
     },
     "maps": {

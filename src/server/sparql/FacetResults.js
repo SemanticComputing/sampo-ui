@@ -95,6 +95,7 @@ export const getPaginatedResults = ({
 
 export const getAllResults = ({
   backendSearchConfig,
+  perspectiveID = null,
   resultClass,
   facetClass,
   uri,
@@ -105,18 +106,28 @@ export const getAllResults = ({
   fromID = null,
   toID = null
 }) => {
-  const config = backendSearchConfig[resultClass]
-  let endpoint
-  let defaultConstraint = null
-  let langTag = null
-  let langTagSecondary = null
-  if (has(config, 'perspectiveID')) {
-    ({ endpoint, defaultConstraint, langTag, langTagSecondary } = backendSearchConfig[config.perspectiveID])
+  let perspectiveConfig
+  if (perspectiveID) {
+    perspectiveConfig = backendSearchConfig[perspectiveID]
   } else {
-    ({ endpoint, defaultConstraint, langTag, langTagSecondary } = config)
+    perspectiveConfig = backendSearchConfig[facetClass]
   }
-  const { filterTarget, resultMapper, resultMapperConfig, postprocess = null } = config
-  let { q } = config
+  const {
+    endpoint,
+    defaultConstraint = null,
+    langTag = null,
+    langTagSecondary = null
+  } = perspectiveConfig
+  const resultClassConfig = perspectiveConfig.resultClasses[resultClass]
+  const {
+    sparqlQuery,
+    sparqlQueryNodes = null,
+    filterTarget = 'id',
+    resultMapper = makeObjectList,
+    resultMapperConfig = null,
+    postprocess = null
+  } = resultClassConfig
+  let q = sparqlQuery
   if (constraints == null && defaultConstraint == null) {
     q = q.replace(/<FILTER>/g, '# no filters')
   } else {
@@ -129,7 +140,7 @@ export const getAllResults = ({
       facetID: null
     }))
   }
-  q = q.replace(/<FACET_CLASS>/g, backendSearchConfig[config.perspectiveID].facetClass)
+  q = q.replace(/<FACET_CLASS>/g, perspectiveConfig.facetClass)
   if (langTag) {
     q = q.replace(/<LANG>/g, langTag)
   }
@@ -142,13 +153,13 @@ export const getAllResults = ({
   if (toID) {
     q = q.replace(/<TO_ID>/g, `<${toID}>`)
   }
-  if (has(config, 'useNetworkAPI') && config.useNetworkAPI) {
+  if (resultClassConfig.useNetworkAPI) {
     return runNetworkQuery({
       endpoint: endpoint.url,
       prefixes: endpoint.prefixes,
       id: uri,
       links: q,
-      nodes: config.nodes,
+      nodes: sparqlQueryNodes,
       optimize,
       limit
     })
@@ -207,13 +218,19 @@ export const getResultCount = ({
 
 export const getByURI = ({
   backendSearchConfig,
+  perspectiveID = null,
   resultClass,
   facetClass,
   constraints,
   uri,
   resultFormat
 }) => {
-  const perspectiveConfig = backendSearchConfig[resultClass]
+  let perspectiveConfig
+  if (perspectiveID) {
+    perspectiveConfig = backendSearchConfig[perspectiveID]
+  } else {
+    perspectiveConfig = backendSearchConfig[facetClass]
+  }
   const {
     endpoint,
     langTag = null,
@@ -228,7 +245,7 @@ export const getByURI = ({
     resultMapper = makeObjectList,
     resultMapperConfig = null,
     postprocess = null
-  } = resultClassConfig.instancePageConfig
+  } = resultClassConfig.instanceConfig
   let q = instanceQuery
   q = q.replace('<PROPERTIES>', propertiesQueryBlock)
   q = q.replace('<RELATED_INSTANCES>', relatedInstances)

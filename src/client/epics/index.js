@@ -115,8 +115,9 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_RESULTS),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { resultClass, facetClass, limit, optimize } = action
+    const { perspectiveID, resultClass, facetClass, limit, optimize } = action
     const params = stateToUrl({
+      perspectiveID,
       facets: facetClass ? state[`${facetClass}Facets`].facets : null,
       facetClass,
       uri: action.uri ? action.uri : null,
@@ -259,8 +260,9 @@ const fetchByURIEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_BY_URI),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { resultClass, facetClass, uri } = action
+    const { perspectiveID, resultClass, facetClass, uri } = action
     const params = stateToUrl({
+      perspectiveID,
       facets: facetClass == null ? null : state[`${facetClass}Facets`].facets,
       facetClass
     })

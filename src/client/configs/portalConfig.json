@@ -5,7 +5,9 @@
         "searchPerspectives": [
             "perspective1",
             "perspective2",
-            "perspective3"
+            "perspective3",
+            "fullTextSearch",
+            "federatedSearch"
         ],
         "onlyInstancePages": [
             "manuscripts",
@@ -32,6 +34,14 @@
                 "filename": "localeFI.json"
             }
         ]
+    },
+    "sitemapConfig": {
+        "baseUrl": "https://sampo-ui.demo.seco.cs.aalto.fi",
+        "langPrimary": "en",
+        "langSecondary": "fi",
+        "outputDir": "./src/server/sitemap_generator",
+        "sitemapUrl": "https://sampo-ui.demo.seco.cs.aalto.fi/sitemap",
+        "sitemapInstancePageQuery": "sitemapInstancePageQuery"
     },
     "layoutConfig": {
         "hundredPercentHeightBreakPoint": "md",

@@ -10,7 +10,7 @@
     "URITemplate": "<BASE_URI>/manifestation_singleton/<LOCAL_ID>",
     "resultClasses": {
         "manuscripts": {
-            "instancePageConfig": {
+            "instanceConfig": {
                 "propertiesQueryBlock": "manuscriptPropertiesInstancePage"
             }
         }

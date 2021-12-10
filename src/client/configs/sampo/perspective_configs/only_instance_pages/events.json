@@ -10,7 +10,7 @@
   "URITemplate": "<BASE_URI>/event/<LOCAL_ID>",
   "resultClasses": {
     "events": {
-      "instancePageConfig": {
+      "instanceConfig": {
         "propertiesQueryBlock": "eventProperties"
       }
     }

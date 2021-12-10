@@ -10,7 +10,7 @@
   "URITemplate": "<BASE_URI>/work/<LOCAL_ID>",
   "resultClasses": {
     "works": {
-      "instancePageConfig": {
+      "instanceConfig": {
         "propertiesQueryBlock": "workProperties"
       }
     }

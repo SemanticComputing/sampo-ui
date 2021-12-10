@@ -1,4 +1,4 @@
-export const federatedSearchDatasets = {
+export const federatedSearchSparqlQueries = {
   warsa_karelian_places: {
     endpoint: 'http://ldf.fi/warsa/sparql',
     resultQuery: `

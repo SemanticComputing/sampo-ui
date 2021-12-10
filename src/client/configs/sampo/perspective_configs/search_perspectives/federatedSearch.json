@@ -1,10 +1,12 @@
 {
-    "id": "clientFSPlaces",
+    "id": "federatedSearch",
+    "sparqlQueriesFile": "SparqlQueriesFederatedSearch.js",
+    "sparqlQueries": "federatedSearchSparqlQueries",
     "frontPageImage": "main_page/places-452x262.jpg",
+    "searchMode": "federated-search",
     "defaultActiveFacets": [
         "datasetSelector"
     ],
-    "searchMode": "federated-search",
     "tabs": [
         {
             "id": "table",

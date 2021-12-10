@@ -10,7 +10,7 @@
   "URITemplate": "<BASE_URI>/actor/<LOCAL_ID>",
   "resultClasses": {
     "actors": {
-        "instancePageConfig": {
+        "instanceConfig": {
             "propertiesQueryBlock": "actorProperties"
         }
     }

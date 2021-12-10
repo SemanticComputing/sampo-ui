@@ -10,7 +10,7 @@
   "URITemplate": "<BASE_URI>/expression/<LOCAL_ID>",
   "resultClasses": {
     "expressions": {
-      "instancePageConfig": {
+      "instanceConfig": {
         "propertiesQueryBlock": "expressionProperties"
       }
     }

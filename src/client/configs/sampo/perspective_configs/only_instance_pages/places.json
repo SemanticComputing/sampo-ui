@@ -10,7 +10,7 @@
   "URITemplate": "<BASE_URI>/place/<LOCAL_ID>",
   "resultClasses": {
     "places": {
-      "instancePageConfig": {
+      "instanceConfig": {
         "propertiesQueryBlock": "placePropertiesInstancePage"
       }
     }

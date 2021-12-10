@@ -5,6 +5,7 @@ import { backendSearchConfig } from '../sparql/sampo/BackendSearchConfig'
 export const createBackendSearchConfig = async () => {
   const portalConfigJSON = await readFile('src/client/configs/portalConfig.json')
   const portalConfig = JSON.parse(portalConfigJSON)
+  const resultMappers = await import('./Mappers')
   const { portalID } = portalConfig
   const backendSearchConfig = {}
   for (const perspectiveID of portalConfig.perspectives.searchPerspectives) {
@@ -12,32 +13,64 @@ export const createBackendSearchConfig = async () => {
     const perspectiveConfig = JSON.parse(perspectiveConfigJSON)
     const { sparqlQueriesFile } = perspectiveConfig
     const sparqlQueries = await import(`../sparql/${portalID}/sparql_queries/${sparqlQueriesFile}`)
-    const { paginatedResultsConfig, instancePageConfig } = perspectiveConfig.resultClasses[perspectiveID]
-    const paginatedResultsPropertiesQueryBlockID = paginatedResultsConfig.propertiesQueryBlock
-    const instancePagePropertiesQueryBlockID = instancePageConfig.propertiesQueryBlock
-    const paginatedResultsPropertiesQueryBlock = sparqlQueries[paginatedResultsPropertiesQueryBlockID]
-    const instancePagePropertiesQueryBlock = sparqlQueries[instancePagePropertiesQueryBlockID]
-    paginatedResultsConfig.propertiesQueryBlock = paginatedResultsPropertiesQueryBlock
-    instancePageConfig.propertiesQueryBlock = instancePagePropertiesQueryBlock
-    const { prefixesFile } = perspectiveConfig.endpoint
-    const { prefixes } = await import(`../sparql/${portalID}/sparql_queries/${prefixesFile}`)
-    perspectiveConfig.endpoint.prefixes = prefixes
+    if (perspectiveConfig.searchMode === 'faceted-search') {
+      // handle default resultClass which is same as perspectiveID
+      const { paginatedResultsConfig, instanceConfig } = perspectiveConfig.resultClasses[perspectiveID]
+      const paginatedResultsPropertiesQueryBlockID = paginatedResultsConfig.propertiesQueryBlock
+      const instancePagePropertiesQueryBlockID = instanceConfig.propertiesQueryBlock
+      const paginatedResultsPropertiesQueryBlock = sparqlQueries[paginatedResultsPropertiesQueryBlockID]
+      const instancePagePropertiesQueryBlock = sparqlQueries[instancePagePropertiesQueryBlockID]
+      paginatedResultsConfig.propertiesQueryBlock = paginatedResultsPropertiesQueryBlock
+      instanceConfig.propertiesQueryBlock = instancePagePropertiesQueryBlock
+      const { prefixesFile } = perspectiveConfig.endpoint
+      const { prefixes } = await import(`../sparql/${portalID}/sparql_queries/${prefixesFile}`)
+      perspectiveConfig.endpoint.prefixes = prefixes
+      // handle other resultClasses
+      for (const resultClass in perspectiveConfig.resultClasses) {
+        if (resultClass === perspectiveID) { continue }
+        const resultClassConfig = perspectiveConfig.resultClasses[resultClass]
+        if (resultClassConfig.sparqlQuery) {
+          resultClassConfig.sparqlQuery = sparqlQueries[resultClassConfig.sparqlQuery]
+        }
+        if (resultClassConfig.sparqlQueryNodes) {
+          resultClassConfig.sparqlQueryNodes = sparqlQueries[resultClassConfig.sparqlQueryNodes]
+        }
+        if (resultClassConfig.instanceConfig) {
+          const { instanceConfig } = resultClassConfig
+          if (instanceConfig.propertiesQueryBlock) {
+            instanceConfig.propertiesQueryBlock = sparqlQueries[instanceConfig.propertiesQueryBlock]
+          }
+          if (instanceConfig.relatedInstances) {
+            instanceConfig.relatedInstances = sparqlQueries[instanceConfig.relatedInstances]
+          }
+        }
+        if (resultClassConfig.resultMapper) {
+          resultClassConfig.resultMapper = resultMappers[resultClassConfig.resultMapper]
+        }
+        if (resultClassConfig.postprocess) {
+          resultClassConfig.postprocess.func = resultMappers[resultClassConfig.postprocess.func]
+        }
+      }
+    }
     backendSearchConfig[perspectiveID] = perspectiveConfig
   }
+  // console.log(backendSearchConfig.perspective1.resultClasses.placesMsMigrations.postprocess.func)
+  // console.log(backendSearchConfig.perspective1.resultClasses.placesMsMigrations.resultMapper)
   for (const perspectiveID of portalConfig.perspectives.onlyInstancePages) {
     const perspectiveConfigJSON = await readFile(`src/client/configs/${portalID}/perspective_configs/only_instance_pages/${perspectiveID}.json`)
     const perspectiveConfig = JSON.parse(perspectiveConfigJSON)
     const { sparqlQueriesFile } = perspectiveConfig
     const sparqlQueries = await import(`../sparql/${portalID}/sparql_queries/${sparqlQueriesFile}`)
-    const { instancePageConfig } = perspectiveConfig.resultClasses[perspectiveID]
-    const instancePagePropertiesQueryBlockID = instancePageConfig.propertiesQueryBlock
+    const { instanceConfig } = perspectiveConfig.resultClasses[perspectiveID]
+    const instancePagePropertiesQueryBlockID = instanceConfig.propertiesQueryBlock
     const instancePagePropertiesQueryBlock = sparqlQueries[instancePagePropertiesQueryBlockID]
-    instancePageConfig.propertiesQueryBlock = instancePagePropertiesQueryBlock
+    instanceConfig.propertiesQueryBlock = instancePagePropertiesQueryBlock
     const { prefixesFile } = perspectiveConfig.endpoint
     const { prefixes } = await import(`../sparql/${portalID}/sparql_queries/${prefixesFile}`)
     perspectiveConfig.endpoint.prefixes = prefixes
     backendSearchConfig[perspectiveID] = perspectiveConfig
   }
+  // console.log(Object.keys(backendSearchConfig))
   return backendSearchConfig
 }
 
@@ -118,40 +151,61 @@ export const mergeFacetConfigs = (oldFacets, mergedFacets) => {
   console.log(JSON.stringify(mergedFacets))
 }
 
-const mergeResultClasses = async () => {
+export const mergeResultClasses = async () => {
   const portalConfigJSON = await readFile('src/client/configs/portalConfig.json')
   const portalConfig = JSON.parse(portalConfigJSON)
   const { portalID } = portalConfig
   const newPerspectiveConfigs = {}
+  // build initial config object
   for (const newResultClass in backendSearchConfig) {
     const resultClassConfig = backendSearchConfig[newResultClass]
     if (has(resultClassConfig, 'perspectiveID')) {
       const { perspectiveID } = resultClassConfig
-      const perspectiveConfigJSON = await readFile(`src/client/configs/${portalID}/perspective_configs/search_perspectives/${perspectiveID}.json`)
       if (!has(newPerspectiveConfigs, perspectiveID)) {
+        const perspectiveConfigJSON = await readFile(`src/client/configs/${portalID}/perspective_configs/search_perspectives/${perspectiveID}.json`)
         newPerspectiveConfigs[perspectiveID] = JSON.parse(perspectiveConfigJSON)
       }
     }
   }
+  // merge result classes
   for (const newResultClass in backendSearchConfig) {
     const resultClassConfig = backendSearchConfig[newResultClass]
     if (has(resultClassConfig, 'perspectiveID')) {
       const { perspectiveID } = resultClassConfig
-      const { filterTarget, resultMapper, resultMapperConfig } = resultClassConfig
+      const { q, nodes, filterTarget, resultMapper, resultMapperConfig, instance, properties, useNetworkAPI } = resultClassConfig
+      let { postprocess } = resultClassConfig
       let resultMapperName = null
       if (resultMapper) {
         resultMapperName = resultMapper.name
       }
+      if (postprocess) {
+        postprocess = {
+          func: postprocess.func.name,
+          config: {
+            ...postprocess.config
+          }
+        }
+      }
       newPerspectiveConfigs[perspectiveID].resultClasses[newResultClass] = {
+        ...(q && { sparqlQuery: q }),
+        ...(nodes && { sparqlQueryNodes: nodes }),
         ...(filterTarget && { filterTarget }),
         ...(resultMapperName && { resultMapper: resultMapperName }),
-        ...(resultMapperConfig && { resultMapperConfig })
+        ...(resultMapperConfig && { resultMapperConfig }),
+        ...(postprocess && { postprocess }),
+        ...(instance && { instance }),
+        ...(properties && { propertiesQueryBlock: properties }), // for jena text only
+        ...(useNetworkAPI && { useNetworkAPI }) // for federated search only
       }
+    } else {
+      console.log(`no perspectiveID for: ${newResultClass}`)
     }
   }
-  // const { q } = backendSearchConfig.eventLineChart
-  // console.log(newPerspectiveConfigs.perspective1.resultClasses)
+  // for (const perspectiveID in newPerspectiveConfigs) {
+  //   console.log(perspectiveID)
+  //   console.log(JSON.stringify(newPerspectiveConfigs[perspectiveID]))
+  // }
 }
-// const varToString = varObj => Object.keys(varObj)[0]
 
-mergeResultClasses()
+// mergeResultClasses()
+createBackendSearchConfig()
