@@ -360,7 +360,7 @@ const SemanticPortal = props => {
           />
           {/* routes for faceted search perspectives */}
           {perspectiveConfig.map(perspective => {
-            if (!has(perspective, 'externalUrl') && perspective.id !== 'placesClientFS') {
+            if (!has(perspective, 'externalUrl') && perspective.searchMode === 'faceted-search') {
               const PerspectiveComponent = perspectiveComponents[perspective.id]
               return (
                 <React.Fragment key={perspective.id}>
@@ -596,7 +596,7 @@ const SemanticPortal = props => {
             </Switch>
           )}
           <Route
-            path={`${rootUrlWithLang}/clientFSPlaces/federated-search`}
+            path={`${rootUrlWithLang}/perspective4/federated-search`}
             render={routeProps =>
               <>
                 <Grid container className={classes.mainContainerClientFS}>
@@ -605,8 +605,8 @@ const SemanticPortal = props => {
                       portalConfig={portalConfig}
                       layoutConfig={layoutConfig}
                       facetedSearchMode='clientFS'
-                      facetClass='clientFSPlaces'
-                      resultClass='clientFSPlaces'
+                      facetClass='perspective4'
+                      resultClass='perspective4'
                       facetData={props.clientFSState}
                       clientFSFacetValues={props.clientFSFacetValues}
                       fetchingResultCount={props.clientFSState.textResultsFetching}
@@ -617,7 +617,7 @@ const SemanticPortal = props => {
                       clientFSClearResults={props.clientFSClearResults}
                       clientFSUpdateQuery={props.clientFSUpdateQuery}
                       clientFSUpdateFacet={props.clientFSUpdateFacet}
-                      defaultActiveFacets={perspectiveConfig.find(p => p.id === 'clientFSPlaces').defaultActiveFacets}
+                      defaultActiveFacets={perspectiveConfig.find(p => p.id === 'perspective4').defaultActiveFacets}
                       leafletMap={props.leafletMap}
                       updateMapBounds={props.updateMapBounds}
                       screenSize={screenSize}
@@ -636,7 +636,7 @@ const SemanticPortal = props => {
                       <ClientFSPerspective
                         portalConfig={portalConfig}
                         layoutConfig={layoutConfig}
-                        perspective={perspectiveConfig.find(p => p.id === 'clientFSPlaces')}
+                        perspective={perspectiveConfig.find(p => p.id === 'perspective4')}
                         routeProps={routeProps}
                         screenSize={screenSize}
                         clientFSState={props.clientFSState}
@@ -700,8 +700,8 @@ const mapStateToProps = state => {
   perspectiveConfig.forEach(perspective => {
     const { id, searchMode } = perspective
     if (searchMode && searchMode === 'federated-search') {
-      const { clientFSResults, clientFSFacetValues } = filterResults(state.clientSideFacetedSearch)
-      stateToProps.clientFSState = state.clientSideFacetedSearch
+      const { clientFSResults, clientFSFacetValues } = filterResults(state[id])
+      stateToProps.clientFSState = state[id]
       stateToProps.clientFSResults = clientFSResults
       stateToProps.clientFSFacetValues = clientFSFacetValues
     } else {

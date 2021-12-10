@@ -50,7 +50,11 @@ class SearchField extends React.Component {
     if (event.key === 'Enter' && this.hasDatasets() && this.hasValidQuery()) {
       this.props.clearResults()
       this.props.updateQuery(this.state.value)
-      this.props.fetchResults({ jenaIndex: 'text', query: this.state.value })
+      this.props.fetchResults({
+        perspectiveID: this.props.perspectiveID,
+        jenaIndex: 'text',
+        query: this.state.value
+      })
     }
   };
 
@@ -58,7 +62,11 @@ class SearchField extends React.Component {
     if (this.hasDatasets() && this.hasValidQuery()) {
       this.props.clearResults()
       this.props.updateQuery(this.state.value)
-      this.props.fetchResults({ jenaIndex: 'text', query: this.state.value })
+      this.props.fetchResults({
+        perspectiveID: this.props.perspectiveID,
+        jenaIndex: 'text',
+        query: this.state.value
+      })
     }
   };
 

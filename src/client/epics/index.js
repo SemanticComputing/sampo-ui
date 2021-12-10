@@ -386,16 +386,16 @@ const clientFSFetchResultsEpic = (action$, state$) => action$.pipe(
   withLatestFrom(state$),
   debounceTime(500),
   switchMap(([action, state]) => {
-    const { jenaIndex } = action
-    const { clientSideFacetedSearch } = state
-    const selectedDatasets = pickSelectedDatasets(clientSideFacetedSearch.datasets)
+    const { perspectiveID, jenaIndex } = action
+    const federatedSearchState = state[perspectiveID]
+    const selectedDatasets = pickSelectedDatasets(federatedSearchState.datasets)
     const dsParams = selectedDatasets.map(ds => `dataset=${ds}`).join('&')
     let requestUrl
     if (action.jenaIndex === 'text') {
-      requestUrl = `${apiUrl}/federated-search?q=${action.query}&${dsParams}`
+      requestUrl = `${apiUrl}/federated-search?q=${action.query}&${dsParams}&perspectiveID=${perspectiveID}`
     } else if (action.jenaIndex === 'spatial') {
-      const { latMin, longMin, latMax, longMax } = clientSideFacetedSearch.maps.clientFSBboxSearch
-      requestUrl = `${apiUrl}/federated-search?latMin=${latMin}&longMin=${longMin}&latMax=${latMax}&longMax=${longMax}&${dsParams}`
+      const { latMin, longMin, latMax, longMax } = federatedSearchState.maps.clientFSBboxSearch
+      requestUrl = `${apiUrl}/federated-search?latMin=${latMin}&longMin=${longMin}&latMax=${latMax}&longMax=${longMax}&${dsParams}&perspectiveID=${perspectiveID}`
     }
     return ajax.getJSON(requestUrl).pipe(
       map(response => clientFSUpdateResults({

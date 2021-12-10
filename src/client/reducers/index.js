@@ -4,12 +4,18 @@ import { reducer as toastrReducer } from 'react-redux-toastr'
 import { createResultsReducer } from './general/results'
 import { createFacetsReducer } from './general/facets'
 import { createFacetsConstrainSelfReducer } from './general/facetsConstrainSelf'
+import { createFederatedSearchReducer } from './general/clientSideFacetedSearch'
 import { createFullTextSearchReducer } from './general/fullTextSearch'
 import error from './general/error'
 import options from './general/options'
 import animation from './general/animation'
 import leafletMap from './general/leafletMap'
-import { resultsInitialState, facetsInitialState, fullTextSearchInitialState } from './general/initialStates'
+import {
+  resultsInitialState,
+  facetsInitialState,
+  fullTextSearchInitialState,
+  federatedSearchInitialState
+} from './general/initialStates'
 
 const reducers = {
   leafletMap,
@@ -34,8 +40,21 @@ for (const perspectiveID of perspectives.onlyInstancePages) {
 for (const perspective of perspectiveConfig) {
   const perspectiveID = perspective.id
   if (perspective.searchMode && perspective.searchMode === 'federated-search') {
-    const { default: reducer } = await import('./general/clientSideFacetedSearch')
-    reducers.clientSideFacetedSearch = reducer
+    const { datasets, resultClasses, feredatedResultsConfig, maps, facets } = perspective
+    for (const facet in facets) {
+      facets[facet].selectionsSet = new Set()
+      facets[facet].isFetching = false
+    }
+    const federatedSearchInitialStateFull = {
+      ...federatedSearchInitialState,
+      ...feredatedResultsConfig,
+      datasets,
+      maps,
+      facets
+    }
+    // const { default: reducer } = await import('./general/clientSideFacetedSearch')
+    const federatedSearchReducer = createFederatedSearchReducer(federatedSearchInitialStateFull, new Set(Object.keys(resultClasses)))
+    reducers[perspective.id] = federatedSearchReducer
   } else if (perspective.searchMode && perspective.searchMode === 'full-text-search') {
     const { properties } = perspective
     const fullTextSearchInitialStateFull = {

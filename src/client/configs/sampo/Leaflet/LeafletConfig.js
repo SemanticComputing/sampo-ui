@@ -40,7 +40,7 @@ export const createPopUpContentMMM = ({ data, resultClass }) => {
 }
 
 export const createPopUpContentNameSampo = ({ data }) => {
-  const perspectiveID = 'clientFSPlaces'
+  const perspectiveID = 'perspective4'
   let popUpTemplate = ''
   popUpTemplate += `<a href=${data.id} target='_blank'><h3>${data.prefLabel}</h3></a>`
   if (has(data, 'broaderTypeLabel')) {

@@ -1,0 +1,136 @@
+{
+    "id": "perspective4",
+    "sparqlQueriesFile": "SparqlQueriesPerspective4.js",
+    "sparqlQueries": "federatedSearchSparqlQueries",
+    "frontPageImage": "main_page/places-452x262.jpg",
+    "searchMode": "federated-search",
+    "defaultActiveFacets": [
+        "datasetSelector"
+    ],
+    "feredatedResultsConfig": {
+        "sortBy": "broaderAreaLabel",
+        "sortDirection": "asc",
+        "groupBy": "broaderTypeLabel",
+        "groupByLabel": "Paikanlaji"
+    },
+    "resultClasses": {
+        "clientFSBboxSearch": {},
+        "clientFSMapClusters": {},
+        "clientFSMapMarkers": {}
+    },
+    "datasets": {
+        "kotus": {
+            "endpoint": "http://ldf.fi/kotus-names-archive/sparql",
+            "selected": true
+        },
+        "pnr": {
+            "endpoint": "http://ldf.fi/pnr-keyword-index/sparql",
+            "selected": true
+        },
+        "warsa_karelian_places": {
+            "endpoint": "http://ldf.fi/warsa/sparql",
+            "selected": false
+        },
+        "tgn": {
+            "endpoint": "http://vocab.getty.edu/sparql.json",
+            "selected": false
+        }
+    },
+    "maps": {
+        "clientFSBboxSearch": {
+            "center": [
+                65.184809,
+                27.31405
+            ],
+            "zoom": 5
+        },
+        "clientFSMapClusters": {
+            "center": [
+                65.184809,
+                27.31405
+            ],
+            "zoom": 5
+        },
+        "clientFSMapMarkers": {
+            "center": [
+                65.184809,
+                27.31405
+            ],
+            "zoom": 5
+        }
+    },
+    "facets": {
+        "datasetSelector": {
+            "filterType": "datasetSelector"
+        },
+        "prefLabel": {
+            "filterType": "clientFSLiteral",
+            "searchField": true,
+            "containerClass": "ten",
+            "facetType": "list"
+        },
+        "broaderTypeLabel": {
+            "filterType": "clientFSLiteral",
+            "searchField": true,
+            "containerClass": "ten",
+            "facetType": "list"
+        },
+        "broaderAreaLabel": {
+            "filterType": "clientFSLiteral",
+            "searchField": true,
+            "containerClass": "ten",
+            "facetType": "list"
+        },
+        "modifier": {
+            "filterType": "clientFSLiteral",
+            "searchField": true,
+            "containerClass": "ten",
+            "facetType": "list"
+        },
+        "basicElement": {
+            "filterType": "clientFSLiteral",
+            "searchField": true,
+            "containerClass": "ten",
+            "facetType": "list"
+        },
+        "collectionYear": {
+            "filterType": "clientFSLiteral",
+            "searchField": true,
+            "containerClass": "ten",
+            "facetType": "list"
+        },
+        "source": {
+            "filterType": "clientFSLiteral",
+            "searchField": false,
+            "containerClass": "three",
+            "facetType": "list"
+        }
+    },
+    "tabs": [
+        {
+            "id": "table",
+            "value": 0,
+            "icon": "CalendarViewDay"
+        },
+        {
+            "id": "map_clusters",
+            "value": 1,
+            "icon": "TripOrigin"
+        },
+        {
+            "id": "map_markers",
+            "value": 2,
+            "icon": "LocationOn"
+        },
+        {
+            "id": "statistics",
+            "value": 3,
+            "icon": "PieChart"
+        },
+        {
+            "id": "download",
+            "value": 4,
+            "icon": "CloudDownload"
+        }
+    ]
+}

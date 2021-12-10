@@ -29,3 +29,12 @@ export const fullTextSearchInitialState = {
   sortBy: null,
   sortDirection: null
 }
+
+export const federatedSearchInitialState = {
+  query: '',
+  results: null,
+  lastlyUpdatedFacet: null,
+  facetUpdateID: 0,
+  textResultsFetching: false,
+  spatialResultsFetching: false
+}

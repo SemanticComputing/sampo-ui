@@ -1,6 +1,6 @@
 {
     "id": "fullTextSearch",
-    "sparqlQueriesFile": "SparqlQueriesFederatedSearch.js",
+    "sparqlQueriesFile": "SparqlQueriesFullTextSearch.js",
     "propertiesQueryBlock": "fullTextSearchProperties",
     "hideCardOnFrontPage": true,
     "hideTopPerspectiveButton": true,

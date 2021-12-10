@@ -55,7 +55,10 @@ class LeafletMapDialog extends React.Component {
   handleSearchByArea = () => {
     if (this.props.clientFSState.maps.clientFSBboxSearch.zoom > 10) {
       this.props.clientFSClearResults()
-      this.props.clientFSFetchResults({ jenaIndex: 'spatial' })
+      this.props.clientFSFetchResults({
+        perspectiveID: this.props.perspectiveID,
+        jenaIndex: 'spatial'
+      })
       this.setState({ open: false })
     } else {
       this.props.showError({
@@ -66,7 +69,7 @@ class LeafletMapDialog extends React.Component {
   }
 
   render () {
-    const { classes, clientFSState, perspectiveID } = this.props
+    const { classes, clientFSState, perspectiveID, portalConfig } = this.props
     const { maps, spatialResultsFetching } = clientFSState
     const { center, zoom } = maps.clientFSBboxSearch
 
@@ -97,8 +100,7 @@ class LeafletMapDialog extends React.Component {
         >
           <DialogTitle id='dialog-title'>{intl.get(`perspectives.${perspectiveID}.searchByAreaTitle`)}</DialogTitle>
           <LeafletMap
-            mapBoxAccessToken={this.props.mapBoxAccessToken}
-            mapBoxStyle={this.props.mapBoxStyle}
+            portalConfig={portalConfig}
             center={center}
             zoom={zoom}
             resultClass='clientFSBboxSearch'

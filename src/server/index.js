@@ -221,6 +221,7 @@ app.get(`${apiPath}/full-text-search`, async (req, res, next) => {
 })
 
 app.get(`${apiPath}/federated-search`, async (req, res, next) => {
+  const perspectiveID = req.query.perspectiveID
   let queryTerm = ''
   let latMin = 0
   let longMin = 0
@@ -237,8 +238,10 @@ app.get(`${apiPath}/federated-search`, async (req, res, next) => {
   }
   try {
     const backendSearchConfig = await createBackendSearchConfig()
+    // console.log(backendSearchConfig[perspectiveID])
     const data = await getFederatedResults({
-      federatedSearchDatasets: backendSearchConfig.federatedSearch.datasets,
+      perspectiveID,
+      federatedSearchDatasets: backendSearchConfig[perspectiveID].datasets,
       queryTerm,
       latMin,
       longMin,

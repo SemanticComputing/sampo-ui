@@ -1,6 +1,5 @@
 export const federatedSearchSparqlQueries = {
   warsa_karelian_places: {
-    endpoint: 'http://ldf.fi/warsa/sparql',
     resultQuery: `
         PREFIX text: <http://jena.apache.org/text#>
         PREFIX spatial: <http://jena.apache.org/spatial#>
@@ -35,7 +34,6 @@ export const federatedSearchSparqlQueries = {
         `
   },
   pnr: {
-    endpoint: 'http://ldf.fi/pnr-keyword-index/sparql',
     resultQuery: `
         PREFIX text: <http://jena.apache.org/text#>
         PREFIX spatial: <http://jena.apache.org/spatial#>
@@ -74,7 +72,6 @@ export const federatedSearchSparqlQueries = {
     // https://confluence.ontotext.com/display/OWLIMv54/OWLIM-SE+Full-text+Search
     // http://vocab.getty.edu/queries#Combination_Full-Text_and_Exact_String_Match
     // http://vocab.getty.edu/doc/#TGN_Place_Types
-    endpoint: 'http://vocab.getty.edu/sparql.json',
     resultQuery: `
         SELECT ?id (COALESCE(?labelEn,?labelGVP) AS ?prefLabel) ?broaderTypeLabel
           ?broaderAreaLabel ?source ?lat ?long ?markerColor
@@ -112,7 +109,6 @@ export const federatedSearchSparqlQueries = {
         `
   },
   kotus: {
-    endpoint: 'http://ldf.fi/kotus-names-archive/sparql',
     resultQuery: `
         PREFIX text: <http://jena.apache.org/text#>
         PREFIX spatial: <http://jena.apache.org/spatial#>

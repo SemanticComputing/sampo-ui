@@ -6,8 +6,8 @@
             "perspective1",
             "perspective2",
             "perspective3",
-            "fullTextSearch",
-            "federatedSearch"
+            "perspective4",
+            "fullTextSearch"
         ],
         "onlyInstancePages": [
             "manuscripts",

@@ -52,6 +52,11 @@ export const createBackendSearchConfig = async () => {
         }
       }
     }
+    if (perspectiveConfig.searchMode === 'federated-search') {
+      for (const dataset in perspectiveConfig.datasets) {
+        perspectiveConfig.datasets[dataset].resultQuery = sparqlQueries.federatedSearchSparqlQueries[dataset].resultQuery
+      }
+    }
     backendSearchConfig[perspectiveID] = perspectiveConfig
   }
   // console.log(backendSearchConfig.perspective1.resultClasses.placesMsMigrations.postprocess.func)

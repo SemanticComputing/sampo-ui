@@ -122,7 +122,7 @@ const TopBar = props => {
   const AdapterNavLink = React.forwardRef((props, ref) => <NavLink innerRef={ref} {...props} />)
 
   const renderMobileMenuItem = perspective => {
-    const searchMode = perspective.id.startsWith('clientFS') ? 'federated-search' : 'faceted-search'
+    const { searchMode } = perspective
     if (has(perspective, 'externalUrl')) {
       return (
         <a
@@ -154,7 +154,7 @@ const TopBar = props => {
   }
 
   const renderDesktopTopMenuItem = perspective => {
-    const searchMode = perspective.id.startsWith('clientFS') ? 'federated-search' : 'faceted-search'
+    const { searchMode } = perspective
     if (has(perspective, 'externalUrl')) {
       return (
         <a

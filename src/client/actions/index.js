@@ -359,8 +359,9 @@ export const clientFSToggleDataset = dataset => ({
   dataset
 })
 
-export const clientFSFetchResults = ({ jenaIndex, query }) => ({
+export const clientFSFetchResults = ({ perspectiveID, jenaIndex, query }) => ({
   type: CLIENT_FS_FETCH_RESULTS,
+  perspectiveID,
   jenaIndex,
   query
 })
