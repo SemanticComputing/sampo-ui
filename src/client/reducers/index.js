@@ -4,7 +4,7 @@ import { reducer as toastrReducer } from 'react-redux-toastr'
 import { createResultsReducer } from './general/results'
 import { createFacetsReducer } from './general/facets'
 import { createFacetsConstrainSelfReducer } from './general/facetsConstrainSelf'
-import { createFederatedSearchReducer } from './general/clientSideFacetedSearch'
+import { createFederatedSearchReducer } from './general/federatedSearch'
 import { createFullTextSearchReducer } from './general/fullTextSearch'
 import error from './general/error'
 import options from './general/options'
@@ -52,7 +52,6 @@ for (const perspective of perspectiveConfig) {
       maps,
       facets
     }
-    // const { default: reducer } = await import('./general/clientSideFacetedSearch')
     const federatedSearchReducer = createFederatedSearchReducer(federatedSearchInitialStateFull, new Set(Object.keys(resultClasses)))
     reducers[perspective.id] = federatedSearchReducer
   } else if (perspective.searchMode && perspective.searchMode === 'full-text-search') {
