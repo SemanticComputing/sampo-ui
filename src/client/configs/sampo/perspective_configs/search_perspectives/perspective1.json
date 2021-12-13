@@ -18,6 +18,10 @@
     "resultClasses": {
         "perspective1": {
             "paginatedResultsConfig": {
+                "component": "ResultTable",
+                "tabID": 0,
+                "tabPath": "table",
+                "tabIcon": "CalendarViewDay",
                 "propertiesQueryBlock": "manuscriptPropertiesFacetResults",
                 "paginatedResultsAlwaysExpandRows": true,
                 "paginatedResultsRowContentMaxHeight": 190,

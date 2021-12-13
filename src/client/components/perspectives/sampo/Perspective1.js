@@ -1,29 +1,61 @@
 import React, { lazy } from 'react'
 import PropTypes from 'prop-types'
-import intl from 'react-intl-universal'
+// import intl from 'react-intl-universal'
 import { Route, Redirect } from 'react-router-dom'
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
 const ResultTable = lazy(() => import('../../facet_results/ResultTable'))
-const LeafletMap = lazy(() => import('../../facet_results/LeafletMap'))
-const Deck = lazy(() => import('../../facet_results/Deck'))
-const ApexChart = lazy(() => import('../../facet_results/ApexChart'))
-const BarChartRace = lazy(() => import('../../facet_results/BarChartRace'))
-const Network = lazy(() => import('../../facet_results/Network'))
-const Export = lazy(() => import('../../facet_results/Export'))
+// const LeafletMap = lazy(() => import('../../facet_results/LeafletMap'))
+// const Deck = lazy(() => import('../../facet_results/Deck'))
+// const ApexChart = lazy(() => import('../../facet_results/ApexChart'))
+// const BarChartRace = lazy(() => import('../../facet_results/BarChartRace'))
+// const Network = lazy(() => import('../../facet_results/Network'))
+// const Export = lazy(() => import('../../facet_results/Export'))
 
 const Perspective1 = props => {
-  const { rootUrl, perspective, screenSize, portalConfig } = props
-  const layerControlExpanded = screenSize === 'md' ||
-    screenSize === 'lg' ||
-    screenSize === 'xl'
-  let popupMaxHeight = 320
-  let popupMinWidth = 280
-  let popupMaxWidth = 280
-  if (screenSize === 'xs' || screenSize === 'sm') {
-    popupMaxHeight = 200
-    popupMinWidth = 150
-    popupMaxWidth = 150
+  const { rootUrl, perspective, /* screenSize, */ portalConfig } = props
+  const { searchMode } = perspective
+  const perspectiveID = perspective.id
+  console.log(perspective)
+  // const layerControlExpanded = screenSize === 'md' ||
+  //   screenSize === 'lg' ||
+  //   screenSize === 'xl'
+  // let popupMaxHeight = 320
+  // let popupMinWidth = 280
+  // let popupMaxWidth = 280
+  // if (screenSize === 'xs' || screenSize === 'sm') {
+  //   popupMaxHeight = 200
+  //   popupMinWidth = 150
+  //   popupMaxWidth = 150
+  // }
+  const defaultResultClassConfig = perspective.resultClasses[perspectiveID].paginatedResultsConfig
+
+  const createRouteForTab = (resultClass, resultClassConfig) => {
+    const { tabPath } = resultClassConfig
+    const facetClass = resultClassConfig.facetClass ? resultClassConfig.facetClass : resultClass
+    const Component = ResultTable
+    return (
+      <Route
+        path={[`${rootUrl}/${perspectiveID}/${searchMode}/${tabPath}`, '/iframe.html']}
+        key={resultClass}
+        render={routeProps =>
+          <Component
+            portalConfig={portalConfig}
+            data={props.perspectiveState}
+            facetUpdateID={props.facetState.facetUpdateID}
+            resultClass={resultClass}
+            facetClass={facetClass}
+            fetchPaginatedResults={props.fetchPaginatedResults}
+            updatePage={props.updatePage}
+            updateRowsPerPage={props.updateRowsPerPage}
+            sortResults={props.sortResults}
+            routeProps={routeProps}
+            rootUrl={rootUrl}
+            layoutConfig={props.layoutConfig}
+          />}
+      />
+    )
   }
+
   return (
     <>
       <PerspectiveTabs
@@ -36,25 +68,8 @@ const Perspective1 = props => {
         exact path={`${rootUrl}/${perspective.id}/faceted-search`}
         render={() => <Redirect to={`${rootUrl}/${perspective.id}/faceted-search/table`} />}
       />
-      <Route
-        path={[`${props.rootUrl}/${perspective.id}/faceted-search/table`, '/iframe.html']}
-        render={routeProps =>
-          <ResultTable
-            portalConfig={portalConfig}
-            data={props.perspectiveState}
-            facetUpdateID={props.facetState.facetUpdateID}
-            resultClass='perspective1'
-            facetClass='perspective1'
-            fetchPaginatedResults={props.fetchPaginatedResults}
-            updatePage={props.updatePage}
-            updateRowsPerPage={props.updateRowsPerPage}
-            sortResults={props.sortResults}
-            routeProps={routeProps}
-            rootUrl={rootUrl}
-            layoutConfig={props.layoutConfig}
-          />}
-      />
-      <Route
+      {createRouteForTab(perspectiveID, defaultResultClassConfig)}
+      {/* <Route
         path={`${rootUrl}/${perspective.id}/faceted-search/production_places`}
         render={() =>
           <LeafletMap
@@ -333,7 +348,7 @@ const Perspective1 = props => {
             updatePage={props.updatePage}
             layoutConfig={props.layoutConfig}
           />}
-      />
+      /> */}
     </>
   )
 }
