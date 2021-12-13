@@ -18,8 +18,8 @@
     "resultClasses": {
         "perspective1": {
             "paginatedResultsConfig": {
-                "component": "ResultTable",
                 "tabID": 0,
+                "component": "ResultTable",
                 "tabPath": "table",
                 "tabIcon": "CalendarViewDay",
                 "propertiesQueryBlock": "manuscriptPropertiesFacetResults",
@@ -34,9 +34,15 @@
             }
         },
         "placesMsProduced": {
+            "tabID": 1,
+            "component": "LeafletMap",
+            "tabPath": "production_places",
+            "tabIcon": "AddLocation",
             "sparqlQuery": "productionPlacesQuery",
+            "facetClass": "perspective1",
             "filterTarget": "manuscripts",
             "resultMapper": "mapPlaces",
+            "facetID": "productionPlace",
             "instanceConfig": {
                 "propertiesQueryBlock": "placePropertiesInfoWindow",
                 "relatedInstances": "manuscriptsProducedAt"
