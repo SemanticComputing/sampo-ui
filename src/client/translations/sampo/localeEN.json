@@ -165,7 +165,7 @@
   "deckGlMap": {
     "arcColouring": "Arc colouring:",
     "showMoreInformation": "Click to show more information.",
-    "manuscriptMigrations": {
+    "placesMsMigrations": {
       "legendTitle": "Arc colouring",
       "legendFrom": "Manuscript production place",
       "legendTo": "Last known location",

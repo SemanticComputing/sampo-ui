@@ -49,23 +49,44 @@
             }
         },
         "placesMsProducedHeatmap": {
+            "tabID": 2,
+            "component": "Deck",
+            "tabPath": "production_places_heatmap",
+            "tabIcon": "AddLocation",
             "sparqlQuery": "productionPlacesQuery",
-            "filterTarget": "manuscripts",
-            "resultMapper": "mapPlaces"
-        },
-        "lastKnownLocations": {
-            "sparqlQuery": "lastKnownLocationsQuery",
+            "facetClass": "perspective1",
             "filterTarget": "manuscripts",
             "resultMapper": "mapPlaces",
+            "layerType": "heatmapLayer"
+        },
+        "lastKnownLocations": {
+            "tabID": 5,
+            "component": "LeafletMap",
+            "tabPath": "last_known_locations",
+            "tabIcon": "LocationOn",
+            "sparqlQuery": "lastKnownLocationsQuery",
+            "facetClass": "perspective1",
+            "filterTarget": "manuscripts",
+            "resultMapper": "mapPlaces",
+            "facetID": "lastKnownLocation",
             "instanceConfig": {
                 "propertiesQueryBlock": "placePropertiesInfoWindow",
                 "relatedInstances": "lastKnownLocationsAt"
             }
         },
         "placesMsMigrations": {
+            "tabID": 6,
+            "component": "Deck",
+            "tabPath": "migrations",
+            "tabIcon": "Redo",
             "sparqlQuery": "migrationsQuery",
+            "facetClass": "perspective1",
             "filterTarget": "manuscript",
             "resultMapper": "makeObjectList",
+            "layerType": "arcLayer",
+            "arcWidthVariable": "instanceCountScaled",
+            "instanceVariable": "manuscript",
+            "showTooltips": true,
             "postprocess": {
                 "func": "linearScale",
                 "config": {
@@ -81,7 +102,12 @@
             "resultMapper": "makeObjectList"
         },
         "productionTimespanLineChart": {
+            "tabID": 1,
+            "component": "LeafletMap",
+            "tabPath": "production_places",
+            "tabIcon": "AddLocation",
             "sparqlQuery": "productionsByDecadeQuery",
+            "facetClass": "perspective1",
             "filterTarget": "instanceConfig",
             "resultMapper": "mapLineChart",
             "resultMapperConfig": {
@@ -89,7 +115,12 @@
             }
         },
         "productionsByDecadeAndCountry": {
+            "tabID": 1,
+            "component": "LeafletMap",
+            "tabPath": "production_places",
+            "tabIcon": "AddLocation",
             "sparqlQuery": "productionsByDecadeAndCountryQuery",
+            "facetClass": "perspective1",
             "filterTarget": "manuscript",
             "resultMapper": "makeObjectList",
             "postprocess": {
@@ -100,7 +131,12 @@
             }
         },
         "eventLineChart": {
+            "tabID": 1,
+            "component": "LeafletMap",
+            "tabPath": "production_places",
+            "tabIcon": "AddLocation",
             "sparqlQuery": "eventsByDecadeQuery",
+            "facetClass": "perspective1",
             "filterTarget": "manuscript",
             "resultMapper": "mapMultipleLineChart",
             "resultMapperConfig": {
@@ -113,7 +149,12 @@
             "useNetworkAPI": true
         },
         "manuscriptFacetResultsNetwork": {
+            "tabID": 1,
+            "component": "LeafletMap",
+            "tabPath": "production_places",
+            "tabIcon": "AddLocation",
             "sparqlQuery": "manuscriptFacetResultsNetworkLinksQuery",
+            "facetClass": "perspective1",
             "sparqlQueryNodes": "manuscriptNetworkNodesQuery",
             "filterTarget": "manuscript",
             "useNetworkAPI": true

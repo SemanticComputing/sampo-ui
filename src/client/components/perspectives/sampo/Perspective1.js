@@ -1,12 +1,12 @@
 import React, { lazy } from 'react'
 import PropTypes from 'prop-types'
-// import intl from 'react-intl-universal'
+import intl from 'react-intl-universal'
 import { Route, Redirect } from 'react-router-dom'
 import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
 import { has } from 'lodash'
 const ResultTable = lazy(() => import('../../facet_results/ResultTable'))
 const LeafletMap = lazy(() => import('../../facet_results/LeafletMap'))
-// const Deck = lazy(() => import('../../facet_results/Deck'))
+const Deck = lazy(() => import('../../facet_results/Deck'))
 // const ApexChart = lazy(() => import('../../facet_results/ApexChart'))
 // const BarChartRace = lazy(() => import('../../facet_results/BarChartRace'))
 // const Network = lazy(() => import('../../facet_results/Network'))
@@ -43,6 +43,7 @@ const Perspective1 = props => {
     const { component, tabPath } = resultClassConfig
     const path = [`${rootUrl}/${perspectiveID}/${searchMode}/${tabPath}`, '/iframe.html']
     const facetClass = resultClassConfig.facetClass ? resultClassConfig.facetClass : resultClass
+    const resultClassMap = maps[resultClass]
     let routeComponent
     switch (component) {
       case 'ResultTable':
@@ -69,8 +70,7 @@ const Perspective1 = props => {
         )
         break
       case 'LeafletMap': {
-        const resultClassMap = maps[resultClass]
-        const { facetID, mapMode = 'cluster', customMapControl = false } = resultClassConfig
+        const { facetID = null, mapMode = 'cluster', customMapControl = false } = resultClassConfig
         routeComponent = (
           <Route
             path={path}
@@ -114,10 +114,58 @@ const Perspective1 = props => {
         )
         break
       }
-      // case 'Deck':
-      //   routeComponent = (
-
-      //   )
+      case 'Deck': {
+        const { layerType, showTooltips = false } = resultClassConfig
+        const { instanceAnalysisData, instanceAnalysisDataUpdateID } = perspectiveState
+        let deckProps = {
+          portalConfig,
+          center: resultClassMap.center,
+          zoom: resultClassMap.zoom,
+          results: perspectiveState.results,
+          facetUpdateID: facetState.facetUpdateID,
+          resultClass,
+          facetClass,
+          fetchResults: props.fetchResults,
+          fetching: perspectiveState.fetching,
+          fetchInstanceAnalysis: props.fetchInstanceAnalysis,
+          fetchingInstanceAnalysisData: perspectiveState.fetchingInstanceAnalysisData,
+          layerType,
+          updateMapBounds: props.updateMapBounds,
+          showTooltips,
+          layoutConfig: props.layoutConfig
+        }
+        if (instanceAnalysisData) {
+          deckProps = {
+            ...deckProps,
+            instanceAnalysisData,
+            instanceAnalysisDataUpdateID
+          }
+        }
+        if (layerType === 'arcLayer') {
+          const { arcWidthVariable, instanceVariable } = resultClassConfig
+          deckProps = {
+            ...deckProps,
+            getArcWidth: d => d[arcWidthVariable],
+            fromText: intl.get(`deckGlMap.${resultClass}.from`),
+            toText: intl.get(`deckGlMap.${resultClass}.to`),
+            countText: intl.get(`deckGlMap.${resultClass}.count`),
+            legendTitle: intl.get(`deckGlMap.${resultClass}.legendTitle`),
+            legendFromText: intl.get(`deckGlMap.${resultClass}.legendFrom`),
+            legendToText: intl.get(`deckGlMap.${resultClass}.legendTo`),
+            showMoreText: intl.get('deckGlMap.showMoreInformation'),
+            listHeadingSingleInstance: intl.get(`deckGlMap.${resultClass}.listHeadingSingleInstance`),
+            listHeadingMultipleInstances: intl.get(`deckGlMap.${resultClass}.listHeadingMultipleInstances`),
+            instanceVariable
+          }
+        }
+        routeComponent = (
+          <Route
+            path={path}
+            key={resultClass}
+            render={() => <Deck {...deckProps} />}
+          />
+        )
+      }
       // case 'ApexChart':
       //   routeComponent = (
 
@@ -147,136 +195,7 @@ const Perspective1 = props => {
         render={() => <Redirect to={`${rootUrl}/${perspective.id}/faceted-search/table`} />}
       />
       {Object.keys(perspective.resultClasses).map(resultClass => createRouteForResultClass(resultClass))}
-      {/* <Route
-        path={`${rootUrl}/${perspective.id}/faceted-search/production_places`}
-        render={() =>
-          <LeafletMap
-            portalConfig={portalConfig}
-            center={props.perspectiveState.maps.placesMsProduced.center}
-            zoom={props.perspectiveState.maps.placesMsProduced.zoom}
-            // center={[60.187, 24.821]}
-            // zoom={13}
-            // locateUser
-            results={props.perspectiveState.results}
-            leafletMapState={props.leafletMapState}
-            pageType='facetResults'
-            facetUpdateID={props.facetState.facetUpdateID}
-            facet={props.facetState.facets.productionPlace}
-            facetID='productionPlace'
-            resultClass='placesMsProduced'
-            facetClass='perspective1'
-            mapMode='cluster'
-            instance={props.perspectiveState.instanceTableData}
-            createPopUpContent={props.leafletConfig.createPopUpContentMMM}
-            popupMaxHeight={popupMaxHeight}
-            popupMinWidth={popupMinWidth}
-            popupMaxWidth={popupMaxWidth}
-            fetchResults={props.fetchResults}
-            fetchGeoJSONLayers={props.fetchGeoJSONLayers}
-            clearGeoJSONLayers={props.clearGeoJSONLayers}
-            fetchByURI={props.fetchByURI}
-            fetching={props.perspectiveState.fetching}
-            showInstanceCountInClusters
-            updateFacetOption={props.updateFacetOption}
-            updateMapBounds={props.updateMapBounds}
-            showError={props.showError}
-            showExternalLayers
-            layerControlExpanded={layerControlExpanded}
-            // customMapControl
-            layerConfigs={props.leafletConfig.layerConfigs}
-            infoHeaderExpanded={props.perspectiveState.facetedSearchHeaderExpanded}
-            layoutConfig={props.layoutConfig}
-          />}
-      />
-      <Route
-        path={`${rootUrl}/${perspective.id}/faceted-search/production_places_heatmap`}
-        render={() =>
-          <Deck
-            portalConfig={portalConfig}
-            center={props.perspectiveState.maps.placesMsProducedHeatmap.center}
-            zoom={props.perspectiveState.maps.placesMsProducedHeatmap.zoom}
-            results={props.perspectiveState.results}
-            facetUpdateID={props.facetState.facetUpdateID}
-            resultClass='placesMsProducedHeatmap'
-            facetClass='perspective1'
-            fetchResults={props.fetchResults}
-            fetching={props.perspectiveState.fetching}
-            layerType='heatmapLayer'
-            updateMapBounds={props.updateMapBounds}
-            layoutConfig={props.layoutConfig}
-          />}
-      />
-      <Route
-        path={`${rootUrl}/${perspective.id}/faceted-search/last_known_locations`}
-        render={() =>
-          <LeafletMap
-            portalConfig={portalConfig}
-            center={props.perspectiveState.maps.lastKnownLocations.center}
-            zoom={props.perspectiveState.maps.lastKnownLocations.zoom}
-            results={props.perspectiveState.results}
-            leafletMapState={props.leafletMapState}
-            pageType='facetResults'
-            facetUpdateID={props.facetState.facetUpdateID}
-            facet={props.facetState.facets.lastKnownLocation}
-            facetID='lastKnownLocation'
-            resultClass='lastKnownLocations'
-            facetClass='perspective1'
-            mapMode='cluster'
-            showMapModeControl={false}
-            instance={props.perspectiveState.instanceTableData}
-            createPopUpContent={props.leafletConfig.createPopUpContentMMM}
-            popupMaxHeight={popupMaxHeight}
-            popupMinWidth={popupMinWidth}
-            popupMaxWidth={popupMaxWidth}
-            fetchResults={props.fetchResults}
-            fetchGeoJSONLayers={props.fetchGeoJSONLayers}
-            clearGeoJSONLayers={props.clearGeoJSONLayers}
-            fetchByURI={props.fetchByURI}
-            fetching={props.perspectiveState.fetching}
-            showInstanceCountInClusters
-            updateFacetOption={props.updateFacetOption}
-            updateMapBounds={props.updateMapBounds}
-            showError={props.showError}
-            showExternalLayers
-            layerControlExpanded={layerControlExpanded}
-            layerConfigs={props.leafletConfig.layerConfigs}
-            infoHeaderExpanded={props.perspectiveState.facetedSearchHeaderExpanded}
-            layoutConfig={props.layoutConfig}
-          />}
-      />
-      <Route
-        path={`${rootUrl}/${perspective.id}/faceted-search/migrations`}
-        render={() =>
-          <Deck
-            portalConfig={portalConfig}
-            center={props.perspectiveState.maps.placesMsMigrations.center}
-            zoom={props.perspectiveState.maps.placesMsMigrations.zoom}
-            results={props.perspectiveState.results}
-            facetUpdateID={props.facetState.facetUpdateID}
-            instanceAnalysisData={props.perspectiveState.instanceAnalysisData}
-            instanceAnalysisDataUpdateID={props.perspectiveState.instanceAnalysisDataUpdateID}
-            resultClass='placesMsMigrations'
-            facetClass='perspective1'
-            fetchResults={props.fetchResults}
-            fetchInstanceAnalysis={props.fetchInstanceAnalysis}
-            fetching={props.perspectiveState.fetching}
-            fetchingInstanceAnalysisData={props.perspectiveState.fetchingInstanceAnalysisData}
-            layerType='arcLayer'
-            getArcWidth={d => d.instanceCountScaled}
-            fromText={intl.get('deckGlMap.manuscriptMigrations.from')}
-            toText={intl.get('deckGlMap.manuscriptMigrations.to')}
-            countText={intl.get('deckGlMap.manuscriptMigrations.count')}
-            legendTitle={intl.get('deckGlMap.manuscriptMigrations.legendTitle')}
-            legendFromText={intl.get('deckGlMap.manuscriptMigrations.legendFrom')}
-            legendToText={intl.get('deckGlMap.manuscriptMigrations.legendTo')}
-            showMoreText={intl.get('deckGlMap.showMoreInformation')}
-            listHeadingSingleInstance={intl.get('deckGlMap.manuscriptMigrations.listHeadingSingleInstance')}
-            listHeadingMultipleInstances={intl.get('deckGlMap.manuscriptMigrations.listHeadingMultipleInstances')}
-            instanceVariable='manuscript'
-            showTooltips
-            layoutConfig={props.layoutConfig}
-          />}
-      />
+      {/*
       <Route
         path={`${rootUrl}/${perspective.id}/faceted-search/choropleth_map`}
         render={() =>
