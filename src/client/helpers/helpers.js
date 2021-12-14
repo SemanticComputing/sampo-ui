@@ -1,6 +1,6 @@
 import React from 'react'
 import querystring from 'querystring'
-import { has } from 'lodash'
+import { has, sortBy } from 'lodash'
 import intl from 'react-intl-universal'
 import MuiIcon from '../components/main_layout/MuiIcon'
 
@@ -199,10 +199,25 @@ export const createPerspectiveConfig = async ({ portalID, searchPerspectives }) 
       const { default: image } = await import(/* webpackMode: "eager" */ `../img/${perspective.frontPageImage}`)
       perspective.frontPageImage = image
     }
-    if (has(perspective, 'tabs')) {
-      for (const tab of perspective.tabs) {
-        tab.icon = <MuiIcon iconName={tab.icon} />
-      }
+    if (has(perspective, 'resultClasses')) {
+      const tabs = []
+      // console.log(perspective)
+      Object.keys(perspective.resultClasses).forEach(resultClass => {
+        let resultClassConfig = perspective.resultClasses[resultClass]
+        if (has(resultClassConfig, 'paginatedResultsConfig')) {
+          resultClassConfig = resultClassConfig.paginatedResultsConfig
+        }
+        if (has(resultClassConfig, 'tabID') && has(resultClassConfig, 'tabPath')) {
+          const { tabID, tabPath, tabIcon } = resultClassConfig
+          tabs.push({
+            id: tabPath,
+            value: tabID,
+            icon: <MuiIcon iconName={tabIcon} />
+          })
+        }
+        sortBy(tabs, 'value')
+      })
+      perspective.tabs = tabs
     }
     if (has(perspective, 'instancePageTabs')) {
       for (const tab of perspective.instancePageTabs) {

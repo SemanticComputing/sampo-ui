@@ -8,9 +8,9 @@ const ResultTable = lazy(() => import('./ResultTable'))
 const LeafletMap = lazy(() => import('./LeafletMap'))
 const Deck = lazy(() => import('./Deck'))
 const ApexCharts = lazy(() => import('./ApexCharts'))
+const Network = lazy(() => import('./Network'))
 // const BarChartRace = lazy(() => import('../../facet_results/BarChartRace'))
-// const Network = lazy(() => import('../../facet_results/Network'))
-// const Export = lazy(() => import('../../facet_results/Export'))
+const Export = lazy(() => import('./Export'))
 
 const FacetResults = props => {
   const {
@@ -53,6 +53,7 @@ const FacetResults = props => {
             render={routeProps =>
               <ResultTable
                 portalConfig={portalConfig}
+                perspectiveConfig={perspective}
                 data={perspectiveState}
                 facetUpdateID={facetState.facetUpdateID}
                 resultClass={resultClass}
@@ -78,6 +79,7 @@ const FacetResults = props => {
             render={() =>
               <LeafletMap
                 portalConfig={portalConfig}
+                perspectiveConfig={perspective}
                 center={resultClassMap.center}
                 zoom={resultClassMap.zoom}
                 results={perspectiveState.results}
@@ -120,6 +122,7 @@ const FacetResults = props => {
         const resultClassMap = maps[resultClass]
         let deckProps = {
           portalConfig,
+          perspectiveConfig: perspective,
           center: resultClassMap.center,
           zoom: resultClassMap.zoom,
           results: perspectiveState.results,
@@ -183,6 +186,7 @@ const FacetResults = props => {
         } = resultClassConfig
         const apexProps = {
           portalConfig,
+          perspectiveConfig: perspective,
           pageType,
           resultClass,
           facetClass,
@@ -212,14 +216,65 @@ const FacetResults = props => {
         )
         break
       }
-      // case 'Network':
-      //   routeComponent = (
-
-      //   )
-      // case 'BarChartRace':
-      //   routeComponent = (
-
-      //   )
+      case 'Network': {
+        const { networkConfig } = props
+        const {
+          pageType = 'facetResults',
+          limit,
+          optimize,
+          style,
+          layout,
+          preprocess
+        } = resultClassConfig
+        const networkProps = {
+          portalConfig,
+          perspectiveConfig: perspective,
+          pageType,
+          resultClass,
+          facetClass,
+          results: perspectiveState.results,
+          resultUpdateID: perspectiveState.resultUpdateID,
+          facetUpdateID: facetState.facetUpdateID,
+          fetching: perspectiveState.fetching,
+          fetchResults: props.fetchResults,
+          layoutConfig: props.layoutConfig,
+          limit,
+          optimize,
+          style: networkConfig[style],
+          layout: networkConfig[layout],
+          preprocess: networkConfig[preprocess]
+        }
+        routeComponent = (
+          <Route
+            path={path}
+            key={resultClass}
+            render={() =>
+              <Network {...networkProps} />}
+          />
+        )
+        break
+      }
+      case 'Export': {
+        const exportResultClass = resultClassConfig.resultClass
+        routeComponent = (
+          <Route
+            path={path}
+            key={resultClass}
+            render={routeProps =>
+              <Export
+                portalConfig={portalConfig}
+                data={perspectiveState}
+                resultClass={exportResultClass}
+                facetClass={facetClass}
+                pageType='facetResults'
+                fetchPaginatedResults={props.fetchPaginatedResults}
+                updatePage={props.updatePage}
+                layoutConfig={props.layoutConfig}
+              />}
+          />
+        )
+        break
+      }
     }
     return routeComponent
   }
@@ -228,7 +283,7 @@ const FacetResults = props => {
     <>
       <PerspectiveTabs
         routeProps={props.routeProps}
-        tabs={props.perspective.tabs}
+        tabs={perspective.tabs}
         screenSize={props.screenSize}
         layoutConfig={props.layoutConfig}
       />
@@ -257,44 +312,6 @@ const FacetResults = props => {
             fetchingInstanceAnalysisData={props.perspectiveState.fetchingInstanceAnalysisData}
             layerType='polygonLayer'
             mapBoxAccessToken={props.mapBoxAccessToken}
-            layoutConfig={props.layoutConfig}
-          />}
-      />
-
-      <Route
-        path={`${rootUrl}/${perspective.id}/faceted-search/event_dates`}
-        render={() =>
-          <ApexChart
-            portalConfig={portalConfig}
-            pageType='facetResults'
-            rawData={props.perspectiveState.results}
-            rawDataUpdateID={props.perspectiveState.resultUpdateID}
-            facetUpdateID={props.facetState.facetUpdateID}
-            fetching={props.perspectiveState.fetching}
-            fetchData={props.fetchResults}
-            createChartData={props.lineChartConfig.createMultipleLineChartData}
-            title='Manuscript events by decade'
-            xaxisTitle='Year'
-            xaxisType='category'
-            xaxisTickAmount={30}
-            yaxisTitle='Count'
-            seriesTitle='Count'
-            stroke={{
-              curve: 'straight',
-              width: 2
-            }}
-            fill={{
-              type: 'gradient',
-              gradient: {
-                shadeIntensity: 1,
-                inverseColors: false,
-                opacityFrom: 0.6,
-                opacityTo: 0.05,
-                stops: [20, 60, 100, 100]
-              }
-            }}
-            resultClass='eventLineChart'
-            facetClass='perspective1'
             layoutConfig={props.layoutConfig}
           />}
       />
@@ -330,41 +347,7 @@ const FacetResults = props => {
             stepDuration={1000}
           />}
       />
-      <Route
-        path={`${rootUrl}/${perspective.id}/faceted-search/network`}
-        render={() =>
-          <Network
-            portalConfig={portalConfig}
-            results={props.perspectiveState.results}
-            facetUpdateID={props.facetState.facetUpdateID}
-            resultUpdateID={props.perspectiveState.resultUpdateID}
-            fetchResults={props.fetchResults}
-            fetching={props.perspectiveState.fetching}
-            resultClass='manuscriptFacetResultsNetwork'
-            facetClass='perspective1'
-            limit={500}
-            optimize={1.2}
-            style={props.networkConfig.cytoscapeStyle}
-            layout={props.networkConfig.coseLayout}
-            preprocess={props.networkConfig.preprocess}
-            pageType='facetResults'
-            layoutConfig={props.layoutConfig}
-          />}
-      />
-      <Route
-        path={`${rootUrl}/${perspective.id}/faceted-search/export`}
-        render={() =>
-          <Export
-            portalConfig={portalConfig}
-            data={props.perspectiveState}
-            resultClass='perspective1'
-            facetClass='perspective1'
-            pageType='facetResults'
-            fetchPaginatedResults={props.fetchPaginatedResults}
-            updatePage={props.updatePage}
-            layoutConfig={props.layoutConfig}
-          />}
-      /> */}
+       */}
     </>
   )
 }
