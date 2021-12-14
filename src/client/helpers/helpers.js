@@ -1,6 +1,8 @@
+import React from 'react'
 import querystring from 'querystring'
 import { has } from 'lodash'
 import intl from 'react-intl-universal'
+import MuiIcon from '../components/main_layout/MuiIcon'
 
 export const stateToUrl = ({
   perspectiveID = null,
@@ -177,4 +179,55 @@ export const createURIfromLocalID = ({ localID, baseURI, URITemplate }) => {
   uri = uri.replaceAll('<BASE_URI>', baseURI)
   uri = uri.replaceAll('<LOCAL_ID>', localID)
   return uri
+}
+
+export const processPortalConfig = async portalConfig => {
+  const { layoutConfig } = portalConfig
+  const { bannerImage, bannerBackround } = layoutConfig.mainPage
+  const { default: bannerImageURL } = await import(/* webpackMode: "eager" */ `../img/${bannerImage}`)
+  layoutConfig.mainPage.bannerBackround = bannerBackround.replace('<BANNER_IMAGE_URL', bannerImageURL)
+}
+
+export const createPerspectiveConfig = async ({ portalID, searchPerspectives }) => {
+  const perspectiveConfig = []
+  for (const perspectiveID of searchPerspectives) {
+    const { default: perspective } = await import(`../configs/${portalID}/perspective_configs/search_perspectives/${perspectiveID}.json`)
+    perspectiveConfig.push(perspective)
+  }
+  for (const perspective of perspectiveConfig) {
+    if (has(perspective, 'frontPageImage') && perspective.frontPageImage !== null) {
+      const { default: image } = await import(/* webpackMode: "eager" */ `../img/${perspective.frontPageImage}`)
+      perspective.frontPageImage = image
+    }
+    if (has(perspective, 'tabs')) {
+      for (const tab of perspective.tabs) {
+        tab.icon = <MuiIcon iconName={tab.icon} />
+      }
+    }
+    if (has(perspective, 'instancePageTabs')) {
+      for (const tab of perspective.instancePageTabs) {
+        tab.icon = <MuiIcon iconName={tab.icon} />
+      }
+    }
+    if (has(perspective, 'defaultActiveFacets')) {
+      perspective.defaultActiveFacets = new Set(perspective.defaultActiveFacets)
+    }
+  }
+  return perspectiveConfig
+}
+
+export const createPerspectiveConfigOnlyInfoPages = async ({ portalID, onlyInstancePagePerspectives }) => {
+  const perspectiveConfigOnlyInfoPages = []
+  for (const perspectiveID of onlyInstancePagePerspectives) {
+    const { default: perspective } = await import(`../configs/${portalID}/perspective_configs/only_instance_pages/${perspectiveID}.json`)
+    perspectiveConfigOnlyInfoPages.push(perspective)
+  }
+  for (const perspective of perspectiveConfigOnlyInfoPages) {
+    if (has(perspective, 'instancePageTabs')) {
+      for (const tab of perspective.instancePageTabs) {
+        tab.icon = <MuiIcon iconName={tab.icon} />
+      }
+    }
+  }
+  return perspectiveConfigOnlyInfoPages
 }

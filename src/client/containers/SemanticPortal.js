@@ -13,7 +13,6 @@ import moment from 'moment'
 import MomentUtils from '@date-io/moment'
 import 'moment/locale/fi'
 import Grid from '@material-ui/core/Grid'
-import MuiIcon from '../components/main_layout/MuiIcon'
 import {
   fetchResultCount,
   fetchPaginatedResults,
@@ -48,68 +47,41 @@ import {
   fetchKnowledgeGraphMetadata
 } from '../actions'
 import { filterResults } from '../selectors'
+import {
+  processPortalConfig,
+  createPerspectiveConfig,
+  createPerspectiveConfigOnlyInfoPages
+}
+  from '../helpers/helpers'
 
-// ** Portal configuration **
+// ** Generate portal configuration based on JSON configs **
 import portalConfig from '../configs/portalConfig.json'
+await processPortalConfig(portalConfig)
 const {
   portalID,
   rootUrl,
   perspectives,
   layoutConfig
 } = portalConfig
-const { bannerImage, bannerBackround } = layoutConfig.mainPage
-const { default: bannerImageURL } = await import(/* webpackMode: "eager" */ `../img/${bannerImage}`)
-layoutConfig.mainPage.bannerBackround = bannerBackround.replace('<BANNER_IMAGE_URL', bannerImageURL)
-// ** Portal configuration end **
+const perspectiveConfig = await createPerspectiveConfig({
+  portalID,
+  searchPerspectives: perspectives.searchPerspectives
+})
+const perspectiveConfigOnlyInfoPages = await createPerspectiveConfigOnlyInfoPages({
+  portalID,
+  onlyInstancePagePerspectives: perspectives.onlyInstancePages
+})
+// ** portal configuration end **
 
-// ** General components **
+// ** Import general components **
 const InfoHeader = lazy(() => import('../components/main_layout/InfoHeader'))
 const TextPage = lazy(() => import('../components/main_layout/TextPage'))
 const Message = lazy(() => import('../components/main_layout/Message'))
 const FacetBar = lazy(() => import('../components/facet_bar/FacetBar'))
+const FacetResults = lazy(() => import('../components/facet_results/FacetResults'))
 // ** General components end **
 
-// ** Portal specific components **
-const perspectiveConfig = []
-const perspectiveConfigOnlyInfoPages = []
-for (const perspectiveID of perspectives.searchPerspectives) {
-  const { default: perspective } = await import(`../configs/${portalID}/perspective_configs/search_perspectives/${perspectiveID}.json`)
-  perspectiveConfig.push(perspective)
-}
-for (const perspectiveID of perspectives.onlyInstancePages) {
-  const { default: perspective } = await import(`../configs/${portalID}/perspective_configs/only_instance_pages/${perspectiveID}.json`)
-  perspectiveConfigOnlyInfoPages.push(perspective)
-}
-const perspectiveComponents = {}
-for (const perspective of perspectiveConfig) {
-  const perspectiveID = perspective.id
-  const perspectiveComponentID = perspectiveID.charAt(0).toUpperCase() + perspectiveID.slice(1)
-  perspectiveComponents[perspectiveID] = (lazy(() => import(`../components/perspectives/${portalID}/${perspectiveComponentID}`)))
-  if (has(perspective, 'frontPageImage') && perspective.frontPageImage !== null) {
-    const { default: image } = await import(/* webpackMode: "eager" */ `../img/${perspective.frontPageImage}`)
-    perspective.frontPageImage = image
-  }
-  if (has(perspective, 'tabs')) {
-    for (const tab of perspective.tabs) {
-      tab.icon = <MuiIcon iconName={tab.icon} />
-    }
-  }
-  if (has(perspective, 'instancePageTabs')) {
-    for (const tab of perspective.instancePageTabs) {
-      tab.icon = <MuiIcon iconName={tab.icon} />
-    }
-  }
-  if (has(perspective, 'defaultActiveFacets')) {
-    perspective.defaultActiveFacets = new Set(perspective.defaultActiveFacets)
-  }
-}
-for (const perspective of perspectiveConfigOnlyInfoPages) {
-  if (has(perspective, 'instancePageTabs')) {
-    for (const tab of perspective.instancePageTabs) {
-      tab.icon = <MuiIcon iconName={tab.icon} />
-    }
-  }
-}
+// ** Import portal specific components **
 const apexChartsConfig = await import(`../configs/${portalID}/ApexCharts/ApexChartsConfig`)
 const leafletConfig = await import(`../configs/${portalID}/Leaflet/LeafletConfig`)
 const networkConfig = await import(`../configs/${portalID}/Cytoscape.js/NetworkConfig`)
@@ -359,7 +331,6 @@ const SemanticPortal = props => {
           {/* routes for faceted search perspectives */}
           {perspectiveConfig.map(perspective => {
             if (!has(perspective, 'externalUrl') && perspective.searchMode === 'faceted-search') {
-              const PerspectiveComponent = perspectiveComponents[perspective.id]
               return (
                 <React.Fragment key={perspective.id}>
                   <Route
@@ -410,7 +381,7 @@ const SemanticPortal = props => {
                               />
                             </Grid>
                             <Grid item xs={12} md={9} className={classes.resultsContainer}>
-                              <PerspectiveComponent
+                              <FacetResults
                                 portalConfig={portalConfig}
                                 layoutConfig={layoutConfig}
                                 perspectiveConfig={perspective}

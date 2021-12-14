@@ -126,8 +126,7 @@
         },
         "productionsByDecadeAndCountry": {
             "tabID": 1,
-            "component": "BarChartRace",
-            "tabPath": "production_places",
+            "tabPath": "",
             "tabIcon": "AddLocation",
             "sparqlQuery": "productionsByDecadeAndCountryQuery",
             "facetClass": "perspective1",
@@ -142,8 +141,7 @@
         },
         "eventLineChart": {
             "tabID": 1,
-            "component": "ApexCharts",
-            "tabPath": "production_places",
+            "tabPath": "",
             "tabIcon": "AddLocation",
             "sparqlQuery": "eventsByDecadeQuery",
             "facetClass": "perspective1",
@@ -160,8 +158,7 @@
         },
         "manuscriptFacetResultsNetwork": {
             "tabID": 1,
-            "component": "Network",
-            "tabPath": "production_places",
+            "tabPath": "",
             "tabIcon": "AddLocation",
             "sparqlQuery": "manuscriptFacetResultsNetworkLinksQuery",
             "facetClass": "perspective1",

@@ -2,17 +2,17 @@ import React, { lazy } from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import { Route, Redirect } from 'react-router-dom'
-import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
+import PerspectiveTabs from '../main_layout/PerspectiveTabs'
 import { has } from 'lodash'
-const ResultTable = lazy(() => import('../../facet_results/ResultTable'))
-const LeafletMap = lazy(() => import('../../facet_results/LeafletMap'))
-const Deck = lazy(() => import('../../facet_results/Deck'))
-const ApexCharts = lazy(() => import('../../facet_results/ApexCharts'))
+const ResultTable = lazy(() => import('./ResultTable'))
+const LeafletMap = lazy(() => import('./LeafletMap'))
+const Deck = lazy(() => import('./Deck'))
+const ApexCharts = lazy(() => import('./ApexCharts'))
 // const BarChartRace = lazy(() => import('../../facet_results/BarChartRace'))
 // const Network = lazy(() => import('../../facet_results/Network'))
 // const Export = lazy(() => import('../../facet_results/Export'))
 
-const Perspective1 = props => {
+const FacetResults = props => {
   const {
     rootUrl, perspective, perspectiveState, facetState, screenSize, portalConfig,
     layoutConfig
@@ -369,7 +369,7 @@ const Perspective1 = props => {
   )
 }
 
-Perspective1.propTypes = {
+FacetResults.propTypes = {
   /**
    * Faceted search configs and results of this perspective.
    */
@@ -461,4 +461,4 @@ Perspective1.propTypes = {
   layoutConfig: PropTypes.object.isRequired
 }
 
-export default Perspective1
+export default FacetResults
