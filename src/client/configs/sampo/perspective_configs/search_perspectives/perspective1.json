@@ -102,21 +102,31 @@
             "resultMapper": "makeObjectList"
         },
         "productionTimespanLineChart": {
-            "tabID": 1,
-            "component": "LeafletMap",
-            "tabPath": "production_places",
-            "tabIcon": "AddLocation",
+            "tabID": 3,
+            "component": "ApexCharts",
+            "tabPath": "production_dates",
+            "tabIcon": "ShowChart",
             "sparqlQuery": "productionsByDecadeQuery",
             "facetClass": "perspective1",
-            "filterTarget": "instanceConfig",
+            "filterTarget": "instance",
             "resultMapper": "mapLineChart",
             "resultMapperConfig": {
                 "fillEmptyValues": false
+            },
+            "createChartData": "createSingleLineChartData",
+            "title": "Manuscript production by decade",
+            "xaxisTitle": "Decade",
+            "xaxisType": "category",
+            "xaxisTickAmount": 30,
+            "yaxisTitle": "Manuscript count",
+            "seriesTitle": "Manuscript count",
+            "stroke": {
+                "width": 2
             }
         },
         "productionsByDecadeAndCountry": {
             "tabID": 1,
-            "component": "LeafletMap",
+            "component": "BarChartRace",
             "tabPath": "production_places",
             "tabIcon": "AddLocation",
             "sparqlQuery": "productionsByDecadeAndCountryQuery",
@@ -127,12 +137,12 @@
                 "func": "toBarChartRaceFormat",
                 "config": {
                     "step": 10
-                }   
+                }
             }
         },
         "eventLineChart": {
             "tabID": 1,
-            "component": "LeafletMap",
+            "component": "ApexCharts",
             "tabPath": "production_places",
             "tabIcon": "AddLocation",
             "sparqlQuery": "eventsByDecadeQuery",
@@ -150,7 +160,7 @@
         },
         "manuscriptFacetResultsNetwork": {
             "tabID": 1,
-            "component": "LeafletMap",
+            "component": "Network",
             "tabPath": "production_places",
             "tabIcon": "AddLocation",
             "sparqlQuery": "manuscriptFacetResultsNetworkLinksQuery",

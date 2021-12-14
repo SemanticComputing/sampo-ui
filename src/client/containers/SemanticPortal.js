@@ -110,9 +110,7 @@ for (const perspective of perspectiveConfigOnlyInfoPages) {
     }
   }
 }
-const barChartConfig = await import(`../configs/${portalID}/ApexCharts/BarChartConfig`)
-const lineChartConfig = await import(`../configs/${portalID}/ApexCharts/LineChartConfig`)
-const pieChartConfig = await import(`../configs/${portalID}/ApexCharts/PieChartConfig`)
+const apexChartsConfig = await import(`../configs/${portalID}/ApexCharts/ApexChartsConfig`)
 const leafletConfig = await import(`../configs/${portalID}/Leaflet/LeafletConfig`)
 const networkConfig = await import(`../configs/${portalID}/Cytoscape.js/NetworkConfig`)
 const TopBar = lazy(() => import(`../components/perspectives/${portalID}/TopBar`))
@@ -406,9 +404,7 @@ const SemanticPortal = props => {
                                 defaultActiveFacets={perspective.defaultActiveFacets}
                                 rootUrl={rootUrlWithLang}
                                 screenSize={screenSize}
-                                barChartConfig={barChartConfig}
-                                lineChartConfig={lineChartConfig}
-                                pieChartConfig={pieChartConfig}
+                                apexChartsConfig={apexChartsConfig}
                                 leafletConfig={leafletConfig}
                                 networkConfig={networkConfig}
                               />
@@ -442,9 +438,7 @@ const SemanticPortal = props => {
                                 animateMap={props.animateMap}
                                 screenSize={screenSize}
                                 rootUrl={rootUrlWithLang}
-                                barChartConfig={barChartConfig}
-                                lineChartConfig={lineChartConfig}
-                                pieChartConfig={pieChartConfig}
+                                apexChartsConfig={apexChartsConfig}
                                 leafletConfig={leafletConfig}
                                 networkConfig={networkConfig}
                               />
@@ -509,9 +503,7 @@ const SemanticPortal = props => {
                                   animateMap={props.animateMap}
                                   screenSize={screenSize}
                                   rootUrl={rootUrlWithLang}
-                                  barChartConfig={barChartConfig}
-                                  lineChartConfig={lineChartConfig}
-                                  pieChartConfig={pieChartConfig}
+                                  apexChartsConfig={apexChartsConfig}
                                   leafletConfig={leafletConfig}
                                   networkConfig={networkConfig}
                                 />
@@ -581,9 +573,7 @@ const SemanticPortal = props => {
                             animateMap={props.animateMap}
                             screenSize={screenSize}
                             rootUrl={rootUrlWithLang}
-                            barChartConfig={barChartConfig}
-                            lineChartConfig={lineChartConfig}
-                            pieChartConfig={pieChartConfig}
+                            apexChartsConfig={apexChartsConfig}
                             leafletConfig={leafletConfig}
                             networkConfig={networkConfig}
                           />
@@ -623,9 +613,7 @@ const SemanticPortal = props => {
                       screenSize={screenSize}
                       showError={props.showError}
                       rootUrl={rootUrlWithLang}
-                      barChartConfig={barChartConfig}
-                      lineChartConfig={lineChartConfig}
-                      pieChartConfig={pieChartConfig}
+                      apexChartsConfig={apexChartsConfig}
                       leafletConfig={leafletConfig}
                       networkConfig={networkConfig}
                     />
@@ -649,9 +637,7 @@ const SemanticPortal = props => {
                         clearGeoJSONLayers={props.clearGeoJSONLayers}
                         showError={props.showError}
                         rootUrl={rootUrlWithLang}
-                        barChartConfig={barChartConfig}
-                        lineChartConfig={lineChartConfig}
-                        pieChartConfig={pieChartConfig}
+                        apexChartsConfig={apexChartsConfig}
                         leafletConfig={leafletConfig}
                         networkConfig={networkConfig}
                       />}

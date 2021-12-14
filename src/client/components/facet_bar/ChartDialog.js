@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import GeneralDialog from '../main_layout/GeneralDialog'
-import ApexChart from '../facet_results/ApexChart'
+import ApexCharts from '../facet_results/ApexCharts'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
@@ -56,7 +56,7 @@ const ChartDialog = props => {
         dialogTitle={props.dialogTitle}
       >
         <div className={classes.chartContainer}>
-          <ApexChart
+          <ApexCharts
             pageType='dialog'
             facetID={facetID}
             resultClass={resultClass}

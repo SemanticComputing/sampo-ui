@@ -283,9 +283,7 @@ class FacetBar extends React.Component {
             layoutConfig={this.props.layoutConfig}
             mapBoxAccessToken={this.props.mapBoxAccessToken}
             mapBoxStyle={this.props.mapBoxStyle}
-            barChartConfig={this.props.barChartConfig}
-            lineChartConfig={this.props.lineChartConfig}
-            pieChartConfig={this.props.pieChartConfig}
+            apexChartsConfig={this.props.apexChartsConfig}
             leafletConfig={this.props.leafletConfig}
             networkConfig={this.props.networkConfig}
           />

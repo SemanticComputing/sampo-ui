@@ -7,7 +7,7 @@ import { has } from 'lodash'
 const ResultTable = lazy(() => import('../../facet_results/ResultTable'))
 const LeafletMap = lazy(() => import('../../facet_results/LeafletMap'))
 const Deck = lazy(() => import('../../facet_results/Deck'))
-// const ApexChart = lazy(() => import('../../facet_results/ApexChart'))
+const ApexCharts = lazy(() => import('../../facet_results/ApexCharts'))
 // const BarChartRace = lazy(() => import('../../facet_results/BarChartRace'))
 // const Network = lazy(() => import('../../facet_results/Network'))
 // const Export = lazy(() => import('../../facet_results/Export'))
@@ -43,7 +43,6 @@ const Perspective1 = props => {
     const { component, tabPath } = resultClassConfig
     const path = [`${rootUrl}/${perspectiveID}/${searchMode}/${tabPath}`, '/iframe.html']
     const facetClass = resultClassConfig.facetClass ? resultClassConfig.facetClass : resultClass
-    const resultClassMap = maps[resultClass]
     let routeComponent
     switch (component) {
       case 'ResultTable':
@@ -70,7 +69,8 @@ const Perspective1 = props => {
         )
         break
       case 'LeafletMap': {
-        const { facetID = null, mapMode = 'cluster', customMapControl = false } = resultClassConfig
+        const { facetID = null, mapMode = 'cluster', pageType = 'facetResults', customMapControl = false } = resultClassConfig
+        const resultClassMap = maps[resultClass]
         routeComponent = (
           <Route
             path={path}
@@ -82,7 +82,7 @@ const Perspective1 = props => {
                 zoom={resultClassMap.zoom}
                 results={perspectiveState.results}
                 leafletMapState={props.leafletMapState}
-                pageType='facetResults'
+                pageType={pageType}
                 facetUpdateID={facetState.facetUpdateID}
                 facet={facetState.facets[facetID]}
                 facetID={facetID}
@@ -117,6 +117,7 @@ const Perspective1 = props => {
       case 'Deck': {
         const { layerType, showTooltips = false } = resultClassConfig
         const { instanceAnalysisData, instanceAnalysisDataUpdateID } = perspectiveState
+        const resultClassMap = maps[resultClass]
         let deckProps = {
           portalConfig,
           center: resultClassMap.center,
@@ -165,11 +166,52 @@ const Perspective1 = props => {
             render={() => <Deck {...deckProps} />}
           />
         )
+        break
       }
-      // case 'ApexChart':
-      //   routeComponent = (
-
-      //   )
+      case 'ApexCharts': {
+        const {
+          pageType = 'facetResults',
+          title,
+          xAxisTitle,
+          xaxisType,
+          xaxisTickAmount,
+          yaxisTitle,
+          seriesTitle,
+          stroke,
+          fill,
+          createChartData
+        } = resultClassConfig
+        const apexProps = {
+          portalConfig,
+          pageType,
+          resultClass,
+          facetClass,
+          rawData: perspectiveState.results,
+          rawDataUpdateID: perspectiveState.resultUpdateID,
+          facetUpdateID: facetState.facetUpdateID,
+          fetching: perspectiveState.fetching,
+          fetchData: props.fetchResults,
+          createChartData: props.apexChartsConfig[createChartData],
+          title,
+          xAxisTitle,
+          xaxisType,
+          xaxisTickAmount,
+          yaxisTitle,
+          seriesTitle,
+          stroke,
+          fill,
+          layoutConfig: props.layoutConfig
+        }
+        routeComponent = (
+          <Route
+            path={path}
+            key={resultClass}
+            render={() =>
+              <ApexCharts {...apexProps} />}
+          />
+        )
+        break
+      }
       // case 'Network':
       //   routeComponent = (
 
@@ -218,30 +260,7 @@ const Perspective1 = props => {
             layoutConfig={props.layoutConfig}
           />}
       />
-      <Route
-        path={`${rootUrl}/${perspective.id}/faceted-search/production_dates`}
-        render={() =>
-          <ApexChart
-            portalConfig={portalConfig}
-            pageType='facetResults'
-            rawData={props.perspectiveState.results}
-            rawDataUpdateID={props.perspectiveState.resultUpdateID}
-            facetUpdateID={props.facetState.facetUpdateID}
-            fetching={props.perspectiveState.fetching}
-            fetchData={props.fetchResults}
-            createChartData={props.lineChartConfig.createSingleLineChartData}
-            title='Manuscript production by decade'
-            xaxisTitle='Decade'
-            xaxisType='category'
-            xaxisTickAmount={30}
-            yaxisTitle='Manuscript count'
-            seriesTitle='Manuscript count'
-            stroke={{ width: 2 }}
-            resultClass='productionTimespanLineChart'
-            facetClass='perspective1'
-            layoutConfig={props.layoutConfig}
-          />}
-      />
+
       <Route
         path={`${rootUrl}/${perspective.id}/faceted-search/event_dates`}
         render={() =>

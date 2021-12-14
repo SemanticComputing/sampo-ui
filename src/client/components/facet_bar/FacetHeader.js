@@ -291,7 +291,7 @@ class FacetHeader extends React.Component {
             rawDataUpdateID={this.props.facetConstrainSelfUpdateID}
             fetching={this.props.facetConstrainSelf.isFetching}
             fetchData={this.props.fetchFacetConstrainSelf}
-            createChartData={this.props.pieChartConfig.createApexPieChartData}
+            createChartData={this.props.apexChartsConfig.createApexPieChartData}
             facetID={this.props.facetID}
             facetClass={this.props.facetClass}
             icon={<PieChartIcon />}
@@ -305,7 +305,7 @@ class FacetHeader extends React.Component {
             rawDataUpdateID={this.props.facetConstrainSelfUpdateID}
             fetching={this.props.facetConstrainSelf.isFetching}
             fetchData={this.props.fetchFacetConstrainSelf}
-            createChartData={this.props.barChartConfig.createApexBarChartData}
+            createChartData={this.props.apexChartsConfig.createApexBarChartData}
             facetID={this.props.facetID}
             facetClass={this.props.facetClass}
             icon={<BarChartIcon />}
@@ -322,7 +322,7 @@ class FacetHeader extends React.Component {
             rawDataUpdateID={this.props.facetResults.resultUpdateID}
             fetching={this.props.facetResults.fetching}
             fetchData={this.props.fetchResults}
-            createChartData={this.props.lineChartConfig.createSingleLineChartData}
+            createChartData={this.props.apexChartsConfig.createSingleLineChartData}
             resultClass={`${this.props.facetID}LineChart`}
             facetClass={this.props.facetClass}
             icon={<LineChartIcon />}
