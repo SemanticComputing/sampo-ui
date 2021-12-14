@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
-import ReactVirtualizedTable from '../../facet_results/ReactVirtualizedTable'
+import PerspectiveTabs from './PerspectiveTabs'
+import ReactVirtualizedTable from '../facet_results/ReactVirtualizedTable'
 import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay'
 
 const useStyles = makeStyles(theme => ({

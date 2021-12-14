@@ -5,14 +5,14 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import purple from '@material-ui/core/colors/purple'
-import PerspectiveTabs from '../../main_layout/PerspectiveTabs'
-import InstanceHomePageTable from '../../main_layout/InstanceHomePageTable'
-import { getLocalIDFromAppLocation, createURIfromLocalID } from '../../../helpers/helpers'
+import PerspectiveTabs from './PerspectiveTabs'
+import InstanceHomePageTable from './InstanceHomePageTable'
+import { getLocalIDFromAppLocation, createURIfromLocalID } from '../../helpers/helpers'
 import { Route, Redirect } from 'react-router-dom'
 import { has } from 'lodash'
 // const ApexChart = lazy(() => import('../../facet_results/ApexChart'))
-const Network = lazy(() => import('../../facet_results/Network'))
-const Export = lazy(() => import('../../facet_results/Export'))
+const Network = lazy(() => import('../facet_results/Network'))
+const Export = lazy(() => import('../facet_results/Export'))
 
 const styles = () => ({
   root: {

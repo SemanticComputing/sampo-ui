@@ -11,12 +11,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import Button from '@material-ui/core/Button'
 import { Link, NavLink } from 'react-router-dom'
-import TopBarSearchField from '../../main_layout/TopBarSearchField'
-import TopBarInfoButton from '../../main_layout/TopBarInfoButton'
-import TopBarLanguageButton from '../../main_layout/TopBarLanguageButton'
+import TopBarSearchField from './TopBarSearchField'
+import TopBarInfoButton from './TopBarInfoButton'
+import TopBarLanguageButton from './TopBarLanguageButton'
 import Divider from '@material-ui/core/Divider'
 import { has } from 'lodash'
-import secoLogo from '../../../img/logos/seco-logo-48x50.png'
+import secoLogo from '../../img/logos/seco-logo-48x50.png'
 
 const useStyles = makeStyles(theme => ({
   grow: {

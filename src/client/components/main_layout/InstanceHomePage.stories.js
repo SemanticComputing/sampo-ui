@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import InstanceHomePage, { InstanceHomePageComponent } from './InstanceHomePage'
 import { data, sparqlQuery } from './InstanceHomePage.testData.js'
-const { default: perspective } = await import('../../../configs/sampo/perspective_configs/search_perspectives/perspective1.json')
+const { default: perspective } = await import('../../configs/sampo/perspective_configs/search_perspectives/perspective1.json')
 
 export default {
   component: InstanceHomePageComponent,

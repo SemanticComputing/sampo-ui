@@ -71,26 +71,26 @@ const perspectiveConfigOnlyInfoPages = await createPerspectiveConfigOnlyInfoPage
   portalID,
   onlyInstancePagePerspectives: perspectives.onlyInstancePages
 })
+const apexChartsConfig = await import(`../configs/${portalID}/ApexCharts/ApexChartsConfig`)
+const leafletConfig = await import(`../configs/${portalID}/Leaflet/LeafletConfig`)
+const networkConfig = await import(`../configs/${portalID}/Cytoscape.js/NetworkConfig`)
 // ** portal configuration end **
 
 // ** Import general components **
+const TopBar = lazy(() => import('../components/main_layout/TopBar'))
 const InfoHeader = lazy(() => import('../components/main_layout/InfoHeader'))
 const TextPage = lazy(() => import('../components/main_layout/TextPage'))
 const Message = lazy(() => import('../components/main_layout/Message'))
+const InstanceHomePage = lazy(() => import('../components/main_layout/InstanceHomePage'))
+const FullTextSearch = lazy(() => import('../components/main_layout/FullTextSearch'))
 const FacetBar = lazy(() => import('../components/facet_bar/FacetBar'))
 const FacetResults = lazy(() => import('../components/facet_results/FacetResults'))
 // ** General components end **
 
 // ** Import portal specific components **
-const apexChartsConfig = await import(`../configs/${portalID}/ApexCharts/ApexChartsConfig`)
-const leafletConfig = await import(`../configs/${portalID}/Leaflet/LeafletConfig`)
-const networkConfig = await import(`../configs/${portalID}/Cytoscape.js/NetworkConfig`)
-const TopBar = lazy(() => import(`../components/perspectives/${portalID}/TopBar`))
 const Main = lazy(() => import(`../components/perspectives/${portalID}/Main`))
-const FullTextSearch = lazy(() => import(`../components/perspectives/${portalID}/FullTextSearch`))
 const ClientFSPerspective = lazy(() => import(`../components/perspectives/${portalID}/client_fs/ClientFSPerspective`))
 const ClientFSMain = lazy(() => import(`../components/perspectives/${portalID}/client_fs/ClientFSMain`))
-const InstanceHomePage = lazy(() => import(`../components/perspectives/${portalID}/InstanceHomePage`))
 const Footer = lazy(() => import(`../components/perspectives/${portalID}/Footer`))
 const KnowledgeGraphMetadataTable = lazy(() => import(`../components/perspectives/${portalID}/KnowledgeGraphMetadataTable`))
 // ** Portal specific components end **
