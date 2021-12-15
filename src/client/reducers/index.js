@@ -40,7 +40,7 @@ for (const perspectiveID of perspectives.onlyInstancePages) {
 for (const perspective of perspectiveConfig) {
   const perspectiveID = perspective.id
   if (perspective.searchMode && perspective.searchMode === 'federated-search') {
-    const { datasets, resultClasses, feredatedResultsConfig, maps, facets } = perspective
+    const { datasets, feredatedResultsConfig, maps, facets } = perspective
     for (const facet in facets) {
       facets[facet].selectionsSet = new Set()
       facets[facet].isFetching = false
@@ -52,7 +52,7 @@ for (const perspective of perspectiveConfig) {
       maps,
       facets
     }
-    const federatedSearchReducer = createFederatedSearchReducer(federatedSearchInitialStateFull, new Set(Object.keys(resultClasses)))
+    const federatedSearchReducer = createFederatedSearchReducer(federatedSearchInitialStateFull, new Set(Object.keys(maps)))
     reducers[perspective.id] = federatedSearchReducer
   } else if (perspective.searchMode && perspective.searchMode === 'full-text-search') {
     const { properties } = perspective

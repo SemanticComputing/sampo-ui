@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 import intl from 'react-intl-universal'
-import bgImage from '../../../../img/main_page/bg2.jpg'
+import bgImage from '../../../img/main_page/bg2.jpg'
 
 const styles = theme => ({
   paper: {
@@ -37,7 +37,7 @@ const styles = theme => ({
 
 })
 
-const ClientFSMain = props => {
+const MainClientFS = props => {
   const { classes } = props
   return (
     <Paper className={classes.paper}>
@@ -64,8 +64,8 @@ const ClientFSMain = props => {
   )
 }
 
-ClientFSMain.propTypes = {
+MainClientFS.propTypes = {
   classes: PropTypes.object
 }
 
-export default withStyles(styles)(ClientFSMain)
+export default withStyles(styles)(MainClientFS)

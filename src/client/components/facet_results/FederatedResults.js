@@ -3,18 +3,19 @@ import PropTypes from 'prop-types'
 import Immutable from 'immutable'
 import intl from 'react-intl-universal'
 import { Route, Redirect } from 'react-router-dom'
-import PerspectiveTabs from '../../../main_layout/PerspectiveTabs'
-import LeafletMap from '../../../facet_results/LeafletMap'
-import ResultInfo from '../../../facet_results/ResultInfo'
-import VirtualizedTable from '../../../facet_results/VirtualizedTable'
-import Pie from '../../../facet_results/Pie.js'
-import CSVButton from '../../../facet_results/CSVButton'
+import PerspectiveTabs from '../main_layout/PerspectiveTabs'
+import LeafletMap from './LeafletMap'
+import ResultInfo from './ResultInfo'
+import VirtualizedTable from './VirtualizedTable'
+import Pie from './Pie.js'
+import CSVButton from './CSVButton'
 
-const ClientFSPerspective = props => {
+const FederatedResults = props => {
   const { rootUrl, perspective, screenSize, clientFSState, layoutConfig, portalConfig } = props
+  const { searchMode } = perspective
+  const perspectiveID = perspective.id
   const { maps } = clientFSState
-  const { clientFSMapClusters, clientFSMapMarkers } = maps
-  // console.log(clientFSMapClusters)
+  const { mapClusters, mapMarkers } = maps
   const layerControlExpanded = screenSize === 'md' ||
     screenSize === 'lg' ||
     screenSize === 'xl'
@@ -27,31 +28,31 @@ const ClientFSPerspective = props => {
         layoutConfig={layoutConfig}
       />
       <Route
-        exact path={`${rootUrl}/${perspective.id}/federated-search`}
-        render={() => <Redirect to={`${rootUrl}/${perspective.id}/federated-search/table`} />}
+        exact path={`${rootUrl}/${perspectiveID}/${searchMode}`}
+        render={() => <Redirect to={`${rootUrl}/${perspectiveID}/${searchMode}/table`} />}
       />
       <Route
-        path={`${rootUrl}/${perspective.id}/federated-search/table`}
+        path={`${rootUrl}/${perspectiveID}/${searchMode}/table`}
         render={() =>
           <VirtualizedTable
             portalConfig={portalConfig}
             list={Immutable.List(props.clientFSResults)}
             clientFSState={props.clientFSState}
             clientFSSortResults={props.clientFSSortResults}
-            perspectiveID={perspective.id}
+            perspectiveID={perspectiveID}
             layoutConfig={layoutConfig}
           />}
       />
       <Route
-        path={`${rootUrl}/${perspective.id}/federated-search/map_clusters`}
+        path={`${rootUrl}/${perspectiveID}/${searchMode}/map_clusters`}
         render={() =>
           <LeafletMap
             portalConfig={portalConfig}
-            center={clientFSMapClusters.center}
-            zoom={clientFSMapClusters.zoom}
+            center={mapClusters.center}
+            zoom={mapClusters.zoom}
             results={props.clientFSResults}
             leafletMapState={props.leafletMap}
-            resultClass='clientFSMapClusters'
+            resultClass='mapClusters'
             pageType='clientFSResults'
             mapMode='cluster'
             createPopUpContent={props.leafletConfig.createPopUpContentNameSampo}
@@ -71,7 +72,7 @@ const ClientFSPerspective = props => {
           />}
       />
       <Route
-        path={`${rootUrl}/${perspective.id}/federated-search/map_markers`}
+        path={`${rootUrl}/${perspectiveID}/${searchMode}/map_markers`}
         render={() => {
           if (props.clientFSResults.length > 500) {
             return <ResultInfo message={intl.get('leafletMap.tooManyResults')} />
@@ -79,11 +80,11 @@ const ClientFSPerspective = props => {
             return (
               <LeafletMap
                 portalConfig={portalConfig}
-                center={clientFSMapMarkers.center}
-                zoom={clientFSMapMarkers.zoom}
+                center={mapMarkers.center}
+                zoom={mapMarkers.zoom}
                 results={props.clientFSResults}
                 leafletMapState={props.leafletMap}
-                resultClass='clientFSMapMarkers'
+                resultClass='mapMarkers'
                 pageType='clientFSResults'
                 mapMode='marker'
                 createPopUpContent={props.leafletConfig.createPopUpContentNameSampo}
@@ -106,7 +107,7 @@ const ClientFSPerspective = props => {
         }}
       />
       <Route
-        path={`${rootUrl}/${perspective.id}/federated-search/statistics`}
+        path={`${rootUrl}/${perspectiveID}/${searchMode}/statistics`}
         render={() =>
           <Pie
             portalConfig={portalConfig}
@@ -118,7 +119,7 @@ const ClientFSPerspective = props => {
           />}
       />
       <Route
-        path={`${rootUrl}/${perspective.id}/federated-search/download`}
+        path={`${rootUrl}/${perspectiveID}/${searchMode}/download`}
         render={() =>
           <CSVButton
             results={props.clientFSResults}
@@ -130,7 +131,7 @@ const ClientFSPerspective = props => {
   )
 }
 
-ClientFSPerspective.propTypes = {
+FederatedResults.propTypes = {
   routeProps: PropTypes.object.isRequired,
   perspective: PropTypes.object.isRequired,
   screenSize: PropTypes.string.isRequired,
@@ -146,4 +147,4 @@ ClientFSPerspective.propTypes = {
   rootUrl: PropTypes.string.isRequired
 }
 
-export default ClientFSPerspective
+export default FederatedResults

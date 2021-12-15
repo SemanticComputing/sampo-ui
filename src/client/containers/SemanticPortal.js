@@ -85,12 +85,12 @@ const InstanceHomePage = lazy(() => import('../components/main_layout/InstanceHo
 const FullTextSearch = lazy(() => import('../components/main_layout/FullTextSearch'))
 const FacetBar = lazy(() => import('../components/facet_bar/FacetBar'))
 const FacetResults = lazy(() => import('../components/facet_results/FacetResults'))
+const FederatedResults = lazy(() => import('../components/facet_results/FederatedResults'))
 // ** General components end **
 
 // ** Import portal specific components **
 const Main = lazy(() => import(`../components/perspectives/${portalID}/Main`))
-const ClientFSPerspective = lazy(() => import(`../components/perspectives/${portalID}/client_fs/ClientFSPerspective`))
-const ClientFSMain = lazy(() => import(`../components/perspectives/${portalID}/client_fs/ClientFSMain`))
+const MainClientFS = lazy(() => import(`../components/perspectives/${portalID}/MainClientFS`))
 const Footer = lazy(() => import(`../components/perspectives/${portalID}/Footer`))
 const KnowledgeGraphMetadataTable = lazy(() => import(`../components/perspectives/${portalID}/KnowledgeGraphMetadataTable`))
 // ** Portal specific components end **
@@ -590,9 +590,9 @@ const SemanticPortal = props => {
                     />
                   </Grid>
                   <Grid item sm={12} md={8} lg={9} className={classes.resultsContainerClientFS}>
-                    {noClientFSResults && <ClientFSMain />}
+                    {noClientFSResults && <MainClientFS />}
                     {!noClientFSResults &&
-                      <ClientFSPerspective
+                      <FederatedResults
                         portalConfig={portalConfig}
                         layoutConfig={layoutConfig}
                         perspective={perspectiveConfig.find(p => p.id === 'perspective4')}

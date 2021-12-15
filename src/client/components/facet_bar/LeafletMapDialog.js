@@ -53,7 +53,7 @@ class LeafletMapDialog extends React.Component {
   };
 
   handleSearchByArea = () => {
-    if (this.props.clientFSState.maps.clientFSBboxSearch.zoom > 10) {
+    if (this.props.clientFSState.maps.boundingboxSearch.zoom > 10) {
       this.props.clientFSClearResults()
       this.props.clientFSFetchResults({
         perspectiveID: this.props.perspectiveID,
@@ -71,7 +71,7 @@ class LeafletMapDialog extends React.Component {
   render () {
     const { classes, clientFSState, perspectiveID, portalConfig } = this.props
     const { maps, spatialResultsFetching } = clientFSState
-    const { center, zoom } = maps.clientFSBboxSearch
+    const { center, zoom } = maps.boundingboxSearch
 
     return (
       <Paper className={classes.root}>
@@ -103,7 +103,7 @@ class LeafletMapDialog extends React.Component {
             portalConfig={portalConfig}
             center={center}
             zoom={zoom}
-            resultClass='clientFSBboxSearch'
+            resultClass='boundingboxSearch'
             pageType='clientFSResults'
             showMapModeControl={false}
             showInstanceCountInClusters={false}

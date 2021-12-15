@@ -14,9 +14,32 @@
         "groupByLabel": "Paikanlaji"
     },
     "resultClasses": {
-        "clientFSBboxSearch": {},
-        "clientFSMapClusters": {},
-        "clientFSMapMarkers": {}
+        "table": {
+            "tabID": 0,
+            "tabPath": "table",
+            "tabIcon": "CalendarViewDay"
+        },
+        "mapClusters": {
+            "tabID": 1,
+            "tabPath": "map_clusters",
+            "tabIcon": "TripOrigin"
+        },
+        "mapMarkers": {
+            "tabID": 2,
+            "tabPath": "map_markers",
+            "tabIcon": "LocationOn"
+        },
+        "statistics": {
+            "tabID": 3,
+            "tabPath": "statistics",
+            "tabIcon": "PieChart"
+        },
+        "download": {
+            "tabID": 4,
+            "tabPath": "download",
+            "tabIcon": "CloudDownload"
+        },
+        "boundingboxSearch": {}
     },
     "datasets": {
         "kotus": {
@@ -37,21 +60,21 @@
         }
     },
     "maps": {
-        "clientFSBboxSearch": {
+        "boundingboxSearch": {
             "center": [
                 65.184809,
                 27.31405
             ],
             "zoom": 5
         },
-        "clientFSMapClusters": {
+        "mapClusters": {
             "center": [
                 65.184809,
                 27.31405
             ],
             "zoom": 5
         },
-        "clientFSMapMarkers": {
+        "mapMarkers": {
             "center": [
                 65.184809,
                 27.31405
@@ -105,32 +128,5 @@
             "containerClass": "three",
             "facetType": "list"
         }
-    },
-    "tabs": [
-        {
-            "id": "table",
-            "value": 0,
-            "icon": "CalendarViewDay"
-        },
-        {
-            "id": "map_clusters",
-            "value": 1,
-            "icon": "TripOrigin"
-        },
-        {
-            "id": "map_markers",
-            "value": 2,
-            "icon": "LocationOn"
-        },
-        {
-            "id": "statistics",
-            "value": 3,
-            "icon": "PieChart"
-        },
-        {
-            "id": "download",
-            "value": 4,
-            "icon": "CloudDownload"
-        }
-    ]
+    }
 }
