@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
@@ -6,13 +6,10 @@ import Typography from '@material-ui/core/Typography'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import purple from '@material-ui/core/colors/purple'
 import PerspectiveTabs from './PerspectiveTabs'
-import InstanceHomePageTable from './InstanceHomePageTable'
+import ResultClassRoute from '../facet_results/ResultClassRoute'
 import { getLocalIDFromAppLocation, createURIfromLocalID } from '../../helpers/helpers'
 import { Route, Redirect } from 'react-router-dom'
 import { has } from 'lodash'
-// const ApexChart = lazy(() => import('../../facet_results/ApexChart'))
-const Network = lazy(() => import('../facet_results/Network'))
-const Export = lazy(() => import('../facet_results/Export'))
 
 const styles = () => ({
   root: {
@@ -102,12 +99,17 @@ class InstanceHomePage extends React.Component {
   }
 
   render = () => {
-    const { classes, perspectiveState, perspectiveConfig, rootUrl, screenSize, layoutConfig, portalConfig } = this.props
-    const { instanceTableData, fetching } = perspectiveState
+    const { classes, perspectiveState, perspectiveConfig, rootUrl, screenSize, layoutConfig } = this.props
+    const { fetching } = perspectiveState
     const resultClass = perspectiveConfig.id
+    // const perspectiveID = perspectiveConfig.id
     const defaultInstancePageTab = perspectiveConfig.defaultInstancePageTab
       ? perspectiveConfig.defaultInstancePageTab
       : 'table'
+    let instancePageResultClasses = null
+    if (has(perspectiveConfig.resultClasses[resultClass].instanceConfig, 'instancePageResultClasses')) {
+      instancePageResultClasses = perspectiveConfig.resultClasses[resultClass].instanceConfig.instancePageResultClasses
+    }
     const hasTableData = this.hasTableData()
     return (
       <div className={classes.root}>
@@ -141,51 +143,27 @@ class InstanceHomePage extends React.Component {
                     }}
                   />}
               />
-              <Route
-                path={[`${rootUrl}/${resultClass}/page/${this.state.localID}/table`, '/iframe.html']} // support also rendering in Storybook
-                render={() =>
-                  <InstanceHomePageTable
-                    portalConfig={portalConfig}
-                    perspectiveConfig={perspectiveConfig}
-                    resultClass={resultClass}
-                    data={instanceTableData}
-                    properties={this.getVisibleRows(perspectiveState.properties)}
-                    screenSize={screenSize}
-                    layoutConfig={layoutConfig}
-                  />}
-              />
-              <Route
-                path={`${rootUrl}/${resultClass}/page/${this.state.localID}/network`}
-                render={() =>
-                  <Network
-                    portalConfig={portalConfig}
-                    perspectiveConfig={perspectiveConfig}
-                    pageType='instancePage'
-                    results={perspectiveState.results}
-                    resultUpdateID={perspectiveState.resultUpdateID}
-                    fetchResults={this.props.fetchResults}
-                    fetching={fetching}
-                    resultClass='manuscriptInstancePageNetwork'
-                    uri={instanceTableData.id}
-                    limit={200}
-                    optimize={1.2}
-                    style={this.props.networkConfig.cytoscapeStyle}
-                    layout={this.props.networkConfig.coseLayout}
-                    layoutConfig={layoutConfig}
-                  />}
-              />
-              <Route
-                path={`${rootUrl}/${resultClass}/page/${this.state.localID}/export`}
-                render={() =>
-                  <Export
-                    portalConfig={portalConfig}
-                    perspectiveConfig={perspectiveConfig}
-                    data={perspectiveState}
-                    pageType='instancePage'
-                    id={instanceTableData.id}
-                    layoutConfig={layoutConfig}
-                  />}
-              />
+              {instancePageResultClasses && Object.keys(instancePageResultClasses).map(instancePageResultClass => {
+                let resultClassConfig = instancePageResultClasses[instancePageResultClass]
+                if (has(resultClassConfig, 'paginatedResultsConfig')) {
+                  resultClassConfig = resultClassConfig.paginatedResultsConfig
+                }
+                if (!has(resultClassConfig, 'component')) {
+                  return null
+                }
+                const { tabPath } = resultClassConfig
+                const path = `${rootUrl}/${resultClass}/page/${this.state.localID}/${tabPath}`
+                return (
+                  <ResultClassRoute
+                    key={instancePageResultClass}
+                    path={path}
+                    defaultResultClass={resultClass}
+                    resultClass={instancePageResultClass}
+                    resultClassConfig={resultClassConfig}
+                    {...this.props}
+                  />
+                )
+              })}
             </>}
         </Paper>
       </div>

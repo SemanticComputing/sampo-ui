@@ -81,7 +81,7 @@ const TopBar = lazy(() => import('../components/main_layout/TopBar'))
 const InfoHeader = lazy(() => import('../components/main_layout/InfoHeader'))
 const TextPage = lazy(() => import('../components/main_layout/TextPage'))
 const Message = lazy(() => import('../components/main_layout/Message'))
-const InstanceHomePage = lazy(() => import('../components/main_layout/InstanceHomePage'))
+const InstancePage = lazy(() => import('../components/main_layout/InstancePage'))
 const FullTextSearch = lazy(() => import('../components/main_layout/FullTextSearch'))
 const FacetBar = lazy(() => import('../components/facet_bar/FacetBar'))
 const FacetResults = lazy(() => import('../components/facet_results/FacetResults'))
@@ -448,7 +448,7 @@ const SemanticPortal = props => {
                                 : classes.instancePageContainer}
                             >
                               <Grid item xs={12} className={classes.instancePageContent}>
-                                <InstanceHomePage
+                                <InstancePage
                                   portalConfig={portalConfig}
                                   layoutConfig={layoutConfig}
                                   perspectiveConfig={perspective}
@@ -518,7 +518,7 @@ const SemanticPortal = props => {
                           : classes.instancePageContainer}
                       >
                         <Grid item xs={12} className={classes.instancePageContent}>
-                          <InstanceHomePage
+                          <InstancePage
                             portalConfig={portalConfig}
                             layoutConfig={layoutConfig}
                             perspectiveConfig={perspective}

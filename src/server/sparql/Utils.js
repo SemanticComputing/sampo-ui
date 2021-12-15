@@ -19,6 +19,7 @@ export const createBackendSearchConfig = async () => {
       perspectiveConfig.endpoint.prefixes = prefixes
     }
     if (perspectiveConfig.searchMode === 'faceted-search') {
+      let hasInstancePageResultClasses = false
       // handle default resultClass which is same as perspectiveID
       const { paginatedResultsConfig, instanceConfig } = perspectiveConfig.resultClasses[perspectiveID]
       const paginatedResultsPropertiesQueryBlockID = paginatedResultsConfig.propertiesQueryBlock
@@ -27,6 +28,18 @@ export const createBackendSearchConfig = async () => {
       const instancePagePropertiesQueryBlock = sparqlQueries[instancePagePropertiesQueryBlockID]
       paginatedResultsConfig.propertiesQueryBlock = paginatedResultsPropertiesQueryBlock
       instanceConfig.propertiesQueryBlock = instancePagePropertiesQueryBlock
+      if (has(instanceConfig, 'instancePageResultClasses')) {
+        for (const instancePageResultClass in instanceConfig.instancePageResultClasses) {
+          const instancePageResultClassConfig = instanceConfig.instancePageResultClasses[instancePageResultClass]
+          if (instancePageResultClassConfig.sparqlQuery) {
+            instancePageResultClassConfig.sparqlQuery = sparqlQueries[instancePageResultClassConfig.sparqlQuery]
+          }
+          if (instancePageResultClassConfig.sparqlQueryNodes) {
+            instancePageResultClassConfig.sparqlQueryNodes = sparqlQueries[instancePageResultClassConfig.sparqlQueryNodes]
+          }
+        }
+        hasInstancePageResultClasses = true
+      }
       // handle other resultClasses
       for (const resultClass in perspectiveConfig.resultClasses) {
         if (resultClass === perspectiveID) { continue }
@@ -51,6 +64,13 @@ export const createBackendSearchConfig = async () => {
         }
         if (resultClassConfig.postprocess) {
           resultClassConfig.postprocess.func = resultMappers[resultClassConfig.postprocess.func]
+        }
+      }
+      // merge facet results and instance page result classes
+      if (hasInstancePageResultClasses) {
+        perspectiveConfig.resultClasses = {
+          ...perspectiveConfig.resultClasses,
+          ...perspectiveConfig.resultClasses[perspectiveID].instanceConfig.instancePageResultClasses
         }
       }
     }

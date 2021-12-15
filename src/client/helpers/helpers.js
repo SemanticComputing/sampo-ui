@@ -166,6 +166,9 @@ export const generateLabelForMissingValue = ({ facetClass, facetID }) => {
 export const getLocalIDFromAppLocation = ({ location, perspectiveConfig }) => {
   const locationArr = location.pathname.split('/')
   let localID = locationArr.pop()
+  if (localID === perspectiveConfig.defaultInstancePageTab) {
+    localID = locationArr.pop() // pop again if tab id
+  }
   perspectiveConfig.instancePageTabs.forEach(tab => {
     if (localID === tab.id) {
       localID = locationArr.pop() // pop again if tab id
@@ -201,10 +204,24 @@ export const createPerspectiveConfig = async ({ portalID, searchPerspectives }) 
     }
     if (has(perspective, 'resultClasses')) {
       const tabs = []
-      // console.log(perspective)
+      const instancePageTabs = []
       Object.keys(perspective.resultClasses).forEach(resultClass => {
         let resultClassConfig = perspective.resultClasses[resultClass]
-        if (has(resultClassConfig, 'paginatedResultsConfig')) {
+        // handle the default resultClass of this perspective
+        if (resultClass === perspective.id) {
+          // instance pages
+          if (has(resultClassConfig.instanceConfig, 'instancePageResultClasses')) {
+            for (const instancePageResultClassID in resultClassConfig.instanceConfig.instancePageResultClasses) {
+              const instancePageResultClassConfig = resultClassConfig.instanceConfig.instancePageResultClasses[instancePageResultClassID]
+              const { tabID, tabPath, tabIcon } = instancePageResultClassConfig
+              instancePageTabs.push({
+                id: tabPath,
+                value: tabID,
+                icon: <MuiIcon iconName={tabIcon} />
+              })
+            }
+          }
+          // paginated results
           resultClassConfig = resultClassConfig.paginatedResultsConfig
         }
         if (has(resultClassConfig, 'tabID') && has(resultClassConfig, 'tabPath')) {
@@ -218,11 +235,7 @@ export const createPerspectiveConfig = async ({ portalID, searchPerspectives }) 
         sortBy(tabs, 'value')
       })
       perspective.tabs = tabs
-    }
-    if (has(perspective, 'instancePageTabs')) {
-      for (const tab of perspective.instancePageTabs) {
-        tab.icon = <MuiIcon iconName={tab.icon} />
-      }
+      perspective.instancePageTabs = instancePageTabs
     }
     if (has(perspective, 'defaultActiveFacets')) {
       perspective.defaultActiveFacets = new Set(perspective.defaultActiveFacets)

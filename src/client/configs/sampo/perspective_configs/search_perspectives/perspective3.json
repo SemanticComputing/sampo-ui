@@ -29,7 +29,22 @@
                 "sortDirection": null
             },
             "instanceConfig": {
-                "propertiesQueryBlock": "eventProperties"
+                "propertiesQueryBlock": "eventProperties",
+                "instancePageResultClasses": {
+                    "instancePageTable": {
+                        "tabID": 0,
+                        "component": "InstancePageTable",
+                        "tabPath": "table",
+                        "tabIcon": "CalendarViewDay"
+                    },
+                    "instancePageExport": {
+                        "tabID": 1,
+                        "component": "Export",
+                        "tabPath": "export",
+                        "tabIcon": "CloudDownload",
+                        "pageType": "instancePage"
+                    }
+                }
             }
         },
         "placesEvents": {
@@ -55,35 +70,6 @@
             "zoom": 2
         }
     },
-    "tabs": [
-        {
-            "id": "table",
-            "value": 0,
-            "icon": "CalendarViewDay"
-        },
-        {
-            "id": "map",
-            "value": 1,
-            "icon": "AddLocation"
-        },
-        {
-            "id": "export",
-            "value": 2,
-            "icon": "CloudDownload"
-        }
-    ],
-    "instancePageTabs": [
-        {
-            "id": "table",
-            "value": 0,
-            "icon": "CalendarViewDay"
-        },
-        {
-            "id": "export",
-            "value": 1,
-            "icon": "CloudDownload"
-        }
-    ],
     "properties": [
         {
             "id": "uri",

@@ -72,7 +72,7 @@ const styles = theme => ({
 /**
  * A component for generating a table based on data about an entity.
  */
-class InstanceHomePageTable extends React.Component {
+class InstancePageTable extends React.Component {
   constructor (props) {
     super(props)
     const expandedRows = new Set()
@@ -202,13 +202,13 @@ class InstanceHomePageTable extends React.Component {
   }
 }
 
-InstanceHomePageTable.propTypes = {
+InstancePageTable.propTypes = {
   classes: PropTypes.object.isRequired,
   resultClass: PropTypes.string.isRequired,
   data: PropTypes.object,
   properties: PropTypes.array.isRequired
 }
 
-export const InstanceHomePageTableComponent = InstanceHomePageTable
+export const InstanceHomePageTableComponent = InstancePageTable
 
-export default withStyles(styles)(InstanceHomePageTable)
+export default withStyles(styles)(InstancePageTable)

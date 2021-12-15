@@ -63,7 +63,7 @@ class Export extends React.Component {
         {this.props.pageType === 'instancePage' &&
           <a
             className={classes.link}
-            href={this.props.id}
+            href={this.props.data.instanceTableData.id}
             target='_blank'
             rel='noopener noreferrer'
           >
@@ -84,8 +84,7 @@ Export.propTypes = {
   facetClass: PropTypes.string,
   fetchPaginatedResults: PropTypes.func,
   updatePage: PropTypes.func,
-  sparqlQuery: PropTypes.string,
-  id: PropTypes.string
+  sparqlQuery: PropTypes.string
 }
 
 export default withStyles(styles)(Export)

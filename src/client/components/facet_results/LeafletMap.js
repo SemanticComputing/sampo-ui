@@ -387,7 +387,6 @@ class LeafletMap extends React.Component {
     L.control.scale().addTo(this.leafletMap)
 
     // create layer for bounding boxes
-    console.log(this.props.facet)
     if (has(this.props, 'facet') && this.props.facet.filterType === 'spatialFilter'
     ) {
       this.addDrawButtons()
