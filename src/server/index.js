@@ -210,7 +210,7 @@ app.get(`${apiPath}/full-text-search`, async (req, res, next) => {
     const data = await queryJenaIndex({
       backendSearchConfig,
       queryTerm: req.query.q,
-      resultClass: 'jenaText',
+      resultClass: 'fullTextSearch',
       resultFormat: 'json'
     })
     res.json(data)

@@ -1,5 +1,10 @@
 {
     "id": "fullTextSearch",
+    "endpoint": {
+        "url": "https://ldf.fi/mmm/sparql",
+        "useAuth": false,
+        "prefixesFile": "SparqlQueriesPrefixes.js"
+    },
     "sparqlQueriesFile": "SparqlQueriesFullTextSearch.js",
     "propertiesQueryBlock": "fullTextSearchProperties",
     "hideCardOnFrontPage": true,

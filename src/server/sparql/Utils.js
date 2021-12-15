@@ -13,6 +13,11 @@ export const createBackendSearchConfig = async () => {
     const perspectiveConfig = JSON.parse(perspectiveConfigJSON)
     const { sparqlQueriesFile } = perspectiveConfig
     const sparqlQueries = await import(`../sparql/${portalID}/sparql_queries/${sparqlQueriesFile}`)
+    if (has(perspectiveConfig, 'endpoint')) {
+      const { prefixesFile } = perspectiveConfig.endpoint
+      const { prefixes } = await import(`../sparql/${portalID}/sparql_queries/${prefixesFile}`)
+      perspectiveConfig.endpoint.prefixes = prefixes
+    }
     if (perspectiveConfig.searchMode === 'faceted-search') {
       // handle default resultClass which is same as perspectiveID
       const { paginatedResultsConfig, instanceConfig } = perspectiveConfig.resultClasses[perspectiveID]
@@ -22,9 +27,6 @@ export const createBackendSearchConfig = async () => {
       const instancePagePropertiesQueryBlock = sparqlQueries[instancePagePropertiesQueryBlockID]
       paginatedResultsConfig.propertiesQueryBlock = paginatedResultsPropertiesQueryBlock
       instanceConfig.propertiesQueryBlock = instancePagePropertiesQueryBlock
-      const { prefixesFile } = perspectiveConfig.endpoint
-      const { prefixes } = await import(`../sparql/${portalID}/sparql_queries/${prefixesFile}`)
-      perspectiveConfig.endpoint.prefixes = prefixes
       // handle other resultClasses
       for (const resultClass in perspectiveConfig.resultClasses) {
         if (resultClass === perspectiveID) { continue }
@@ -56,6 +58,11 @@ export const createBackendSearchConfig = async () => {
       for (const dataset in perspectiveConfig.datasets) {
         perspectiveConfig.datasets[dataset].resultQuery = sparqlQueries.federatedSearchSparqlQueries[dataset].resultQuery
       }
+    }
+    if (perspectiveConfig.searchMode === 'full-text-search') {
+      const queryBlockID = perspectiveConfig.propertiesQueryBlock
+      const queryBlock = sparqlQueries[queryBlockID]
+      perspectiveConfig.propertiesQueryBlock = queryBlock
     }
     backendSearchConfig[perspectiveID] = perspectiveConfig
   }

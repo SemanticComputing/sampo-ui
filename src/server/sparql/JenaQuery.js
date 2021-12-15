@@ -1,4 +1,3 @@
-import { has } from 'lodash'
 import { runSelectQuery } from './SparqlApi'
 import { fullTextQuery } from './SparqlQueriesGeneral'
 import { makeObjectList } from './Mappers'
@@ -10,16 +9,10 @@ export const queryJenaIndex = async ({
   resultFormat
 }) => {
   let q = fullTextQuery
-  const config = backendSearchConfig[resultClass]
-  let endpoint
-  if (has(config, 'endpoint')) {
-    endpoint = config.endpoint
-  } else {
-    endpoint = backendSearchConfig[config.perspectiveID].endpoint
-  }
-  const { properties } = config
+  const perspectiveConfig = backendSearchConfig[resultClass]
+  const { endpoint, propertiesQueryBlock } = perspectiveConfig
   q = q.replace('<QUERY>', `(?id ?score) text:query ('${queryTerm.toLowerCase()}' 2000) .`)
-  q = q.replace('<RESULT_SET_PROPERTIES>', properties)
+  q = q.replace('<RESULT_SET_PROPERTIES>', propertiesQueryBlock)
   const results = await runSelectQuery({
     query: endpoint.prefixes + q,
     endpoint: endpoint.url,
