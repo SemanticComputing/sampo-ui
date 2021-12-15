@@ -20,19 +20,19 @@
     },
     "datasets": {
         "kotus": {
-            "endpoint": "http://ldf.fi/kotus-names-archive/sparql",
+            "endpoint": "https://ldf.fi/kotus-names-archive/sparql",
             "selected": true
         },
         "pnr": {
-            "endpoint": "http://ldf.fi/pnr-keyword-index/sparql",
+            "endpoint": "https://ldf.fi/pnr-keyword-index/sparql",
             "selected": true
         },
         "warsa_karelian_places": {
-            "endpoint": "http://ldf.fi/warsa/sparql",
+            "endpoint": "https://ldf.fi/warsa/sparql",
             "selected": false
         },
         "tgn": {
-            "endpoint": "http://vocab.getty.edu/sparql.json",
+            "endpoint": "https://vocab.getty.edu/sparql.json",
             "selected": false
         }
     },

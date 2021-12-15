@@ -810,7 +810,7 @@ class LeafletMap extends React.Component {
       }
     })
 
-    if (this.props.facet.spatialFilter !== null) {
+    if (has(this.props.facet, 'spatialFilter') && this.props.facet.spatialFilter !== null) {
       this.drawnItems.addLayer(this.props.facet.spatialFilter)
       this.leafletMap.addControl(this.drawControlEditOnly)
     } else {

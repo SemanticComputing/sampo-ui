@@ -237,7 +237,7 @@ const generateUriFilter = ({
   useConjuction
 }) => {
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
-  const includeChildren = facetConfig.type === 'hierarchical' && selectAlsoSubconcepts
+  const includeChildren = facetConfig.facetType === 'hierarchical' && selectAlsoSubconcepts
   const { literal, predicate, parentProperty } = facetConfig
   const { modifiedValues, indexOfUnknown } = handleUnknownValue(values)
   let s

@@ -174,7 +174,7 @@ class FacetHeader extends React.Component {
       spatialFilterButton,
       sortBy,
       filterType,
-      type,
+      facetType,
       barChartButton = false,
       pieChartButton = false,
       lineChartButton = false,
@@ -242,7 +242,7 @@ class FacetHeader extends React.Component {
           {intl.get('facetBar.selectionOptions')}
         </ListSubheader>
       )
-      if (type === 'hierarchical' && selectAlsoSubconceptsButton) {
+      if (facetType === 'hierarchical' && selectAlsoSubconceptsButton) {
         menuButtons.push(
           <MenuItem
             key='selectAlsoSubconcepts'
