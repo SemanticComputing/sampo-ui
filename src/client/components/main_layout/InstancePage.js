@@ -34,7 +34,7 @@ const styles = () => ({
 /**
  * A component for generating a page for a single entity.
  */
-class InstanceHomePage extends React.Component {
+class InstancePage extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -102,7 +102,6 @@ class InstanceHomePage extends React.Component {
     const { classes, perspectiveState, perspectiveConfig, rootUrl, screenSize, layoutConfig } = this.props
     const { fetching } = perspectiveState
     const resultClass = perspectiveConfig.id
-    // const perspectiveID = perspectiveConfig.id
     const defaultInstancePageTab = perspectiveConfig.defaultInstancePageTab
       ? perspectiveConfig.defaultInstancePageTab
       : 'table'
@@ -171,7 +170,7 @@ class InstanceHomePage extends React.Component {
   }
 }
 
-InstanceHomePage.propTypes = {
+InstancePage.propTypes = {
   /**
    * Faceted search configs and results of this perspective.
    */
@@ -255,6 +254,6 @@ InstanceHomePage.propTypes = {
   layoutConfig: PropTypes.object.isRequired
 }
 
-export const InstanceHomePageComponent = InstanceHomePage
+export const InstanceHomePageComponent = InstancePage
 
-export default withStyles(styles)(InstanceHomePage)
+export default withStyles(styles)(InstancePage)
