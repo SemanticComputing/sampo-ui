@@ -74,7 +74,8 @@
             "facetID": "productionPlace",
             "instanceConfig": {
                 "propertiesQueryBlock": "placePropertiesInfoWindow",
-                "relatedInstances": "manuscriptsProducedAt"
+                "relatedInstances": "manuscriptsProducedAt",
+                "createPopUpContent": "createPopUpContentMMM"
             }
         },
         "placesMsProducedHeatmap": {

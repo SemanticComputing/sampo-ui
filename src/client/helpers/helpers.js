@@ -232,10 +232,9 @@ export const createPerspectiveConfig = async ({ portalID, searchPerspectives }) 
             icon: <MuiIcon iconName={tabIcon} />
           })
         }
-        sortBy(tabs, 'value')
       })
-      perspective.tabs = tabs
-      perspective.instancePageTabs = instancePageTabs
+      perspective.tabs = sortBy(tabs, 'value')
+      perspective.instancePageTabs = sortBy(instancePageTabs, 'value')
     }
     if (has(perspective, 'defaultActiveFacets')) {
       perspective.defaultActiveFacets = new Set(perspective.defaultActiveFacets)

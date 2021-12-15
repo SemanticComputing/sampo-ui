@@ -95,6 +95,10 @@ const ResultClassRoute = props => {
         showInstanceCountInClusters = true
       } = resultClassConfig
       const resultClassMap = maps[resultClass]
+      let createPopUpContent = props.leafletConfig.createPopUpContentDefault
+      if (resultClassConfig.instanceConfig && resultClassConfig.instanceConfig.createPopUpContent) {
+        createPopUpContent = props.leafletConfig[resultClassConfig.instanceConfig.createPopUpContent]
+      }
       let leafletProps = {
         portalConfig,
         perspectiveConfig: perspective,
@@ -107,7 +111,7 @@ const ResultClassRoute = props => {
         facetClass,
         mapMode,
         instance: perspectiveState.instanceTableData,
-        createPopUpContent: props.leafletConfig.createPopUpContentMMM,
+        createPopUpContent,
         popupMaxHeight,
         popupMinWidth,
         popupMaxWidth,
