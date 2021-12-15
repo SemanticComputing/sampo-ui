@@ -23,7 +23,7 @@
                 "tabPath": "table",
                 "tabIcon": "CalendarViewDay",
                 "propertiesQueryBlock": "manuscriptPropertiesFacetResults",
-                "paginatedResultsAlwaysExpandRows": true,
+                "paginatedResultsAlwaysExpandRows": false,
                 "paginatedResultsRowContentMaxHeight": 190,
                 "pagesize": 10,
                 "sortBy": null,

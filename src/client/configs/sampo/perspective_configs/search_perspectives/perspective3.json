@@ -17,8 +17,12 @@
     "resultClasses": {
         "perspective3": {
             "paginatedResultsConfig": {
+                "tabID": 0,
+                "component": "ResultTable",
+                "tabPath": "table",
+                "tabIcon": "CalendarViewDay",
                 "propertiesQueryBlock": "eventProperties",
-                "paginatedResultsAlwaysExpandRows": true,
+                "paginatedResultsAlwaysExpandRows": false,
                 "paginatedResultsRowContentMaxHeight": 190,
                 "pagesize": 10,
                 "sortBy": null,
@@ -29,7 +33,12 @@
             }
         },
         "placesEvents": {
+            "tabID": 1,
+            "component": "LeafletMap",
+            "tabPath": "map",
+            "tabIcon": "AddLocation",
             "sparqlQuery": "eventPlacesQuery",
+            "facetClass": "perspective3",
             "filterTarget": "event",
             "resultMapper": "mapPlaces",
             "instanceConfig": {

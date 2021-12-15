@@ -70,48 +70,61 @@ const FacetResults = props => {
         )
         break
       case 'LeafletMap': {
-        const { facetID = null, mapMode = 'cluster', pageType = 'facetResults', customMapControl = false } = resultClassConfig
+        const {
+          facetID = null,
+          mapMode = 'cluster',
+          pageType = 'facetResults',
+          showExternalLayers = false,
+          customMapControl = false,
+          showInstanceCountInClusters = true
+        } = resultClassConfig
         const resultClassMap = maps[resultClass]
+        let leafletProps = {
+          portalConfig,
+          perspectiveConfig: perspective,
+          center: resultClassMap.center,
+          zoom: resultClassMap.zoom,
+          results: perspectiveState.results,
+          leafletMapState: props.leafletMapState,
+          pageType,
+          resultClass,
+          facetClass,
+          mapMode,
+          instance: perspectiveState.instanceTableData,
+          createPopUpContent: props.leafletConfig.createPopUpContentMMM,
+          popupMaxHeight,
+          popupMinWidth,
+          popupMaxWidth,
+          fetchResults: props.fetchResults,
+          fetchGeoJSONLayers: props.fetchGeoJSONLayers,
+          clearGeoJSONLayers: props.clearGeoJSONLayers,
+          fetchByURI: props.fetchByURI,
+          fetching: perspectiveState.fetching,
+          showInstanceCountInClusters,
+          updateMapBounds: props.updateMapBounds,
+          showError: props.showError,
+          showExternalLayers,
+          layerControlExpanded,
+          customMapControl,
+          layerConfigs: props.leafletConfig.layerConfigs,
+          infoHeaderExpanded: perspectiveState.facetedSearchHeaderExpanded,
+          layoutConfig: props.layoutConfig
+        }
+        if (facetID) {
+          leafletProps = {
+            ...leafletProps,
+            facetUpdateID: facetState.facetUpdateID,
+            facet: facetState.facets[facetID],
+            facetID,
+            updateFacetOption: props.updateFacetOption
+          }
+        }
         routeComponent = (
           <Route
             path={path}
             key={resultClass}
             render={() =>
-              <LeafletMap
-                portalConfig={portalConfig}
-                perspectiveConfig={perspective}
-                center={resultClassMap.center}
-                zoom={resultClassMap.zoom}
-                results={perspectiveState.results}
-                leafletMapState={props.leafletMapState}
-                pageType={pageType}
-                facetUpdateID={facetState.facetUpdateID}
-                facet={facetState.facets[facetID]}
-                facetID={facetID}
-                resultClass={resultClass}
-                facetClass={facetClass}
-                mapMode={mapMode}
-                instance={perspectiveState.instanceTableData}
-                createPopUpContent={props.leafletConfig.createPopUpContentMMM}
-                popupMaxHeight={popupMaxHeight}
-                popupMinWidth={popupMinWidth}
-                popupMaxWidth={popupMaxWidth}
-                fetchResults={props.fetchResults}
-                fetchGeoJSONLayers={props.fetchGeoJSONLayers}
-                clearGeoJSONLayers={props.clearGeoJSONLayers}
-                fetchByURI={props.fetchByURI}
-                fetching={perspectiveState.fetching}
-                showInstanceCountInClusters
-                updateFacetOption={props.updateFacetOption}
-                updateMapBounds={props.updateMapBounds}
-                showError={props.showError}
-                showExternalLayers
-                layerControlExpanded={layerControlExpanded}
-                customMapControl={customMapControl}
-                layerConfigs={props.leafletConfig.layerConfigs}
-                infoHeaderExpanded={perspectiveState.facetedSearchHeaderExpanded}
-                layoutConfig={props.layoutConfig}
-              />}
+              <LeafletMap {...leafletProps} />}
           />
         )
         break
