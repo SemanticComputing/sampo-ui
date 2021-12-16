@@ -95,7 +95,7 @@ const generateTextFilter = ({
 }) => {
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
   let filterStr = ''
-  if (facetConfig.textQueryPredicate === '') {
+  if (!has(facetConfig, 'textQueryPredicate')) {
     filterStr = `?${filterTarget} text:query (${facetConfig.textQueryProperty} '${queryString}') .`
   } else {
     filterStr = `
@@ -237,7 +237,7 @@ const generateUriFilter = ({
   useConjuction
 }) => {
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
-  const includeChildren = facetConfig.type === 'hierarchical' && selectAlsoSubconcepts
+  const includeChildren = facetConfig.facetType === 'hierarchical' && selectAlsoSubconcepts
   const { literal, predicate, parentProperty } = facetConfig
   const { modifiedValues, indexOfUnknown } = handleUnknownValue(values)
   let s

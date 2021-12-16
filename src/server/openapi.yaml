@@ -351,6 +351,11 @@ paths:
         endpoints for client-side faceted search.
       parameters:
         - in: query
+          name: perspectiveID
+          schema: 
+            type: string
+          required: true  
+        - in: query
           name: dataset
           schema:
             type: array

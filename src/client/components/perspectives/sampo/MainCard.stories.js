@@ -1,7 +1,7 @@
 import React from 'react'
 import MainCard from './MainCard'
-import { perspectiveConfig } from '../../../configs/sampo/PerspectiveConfig'
 import Center from '../../../../../.storybook/Center'
+const { default: perspective } = await import('../../../configs/sampo/perspective_configs/search_perspectives/perspective1.json')
 
 export default {
   component: MainCard,
@@ -10,7 +10,6 @@ export default {
 }
 
 export const basic = () => {
-  const perspective = perspectiveConfig[0]
   return (
     <div style={{ width: 404, height: 228 }}>
       <MainCard

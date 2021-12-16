@@ -69,9 +69,9 @@ class TopBarSearchField extends React.Component {
 
   handleOnKeyDown = (event) => {
     if (event.key === 'Enter' && this.hasValidQuery()) {
-      this.props.clearResults({ resultClass: 'fullText' })
+      this.props.clearResults({ resultClass: 'fullTextSearch' })
       this.props.fetchFullTextResults({
-        resultClass: 'fullText',
+        resultClass: 'fullTextSearch',
         query: this.state.value
       })
       history.push({ pathname: `${this.props.rootUrl}/full-text-search/table` })
@@ -80,9 +80,9 @@ class TopBarSearchField extends React.Component {
 
   handleClick = () => {
     if (this.hasValidQuery()) {
-      this.props.clearResults({ resultClass: 'fullText' })
+      this.props.clearResults({ resultClass: 'fullTextSearch' })
       this.props.fetchFullTextResults({
-        resultClass: 'fullText',
+        resultClass: 'fullTextSearch',
         query: this.state.value
       })
     }

@@ -11,8 +11,6 @@ import {
 } from 'rxjs/operators'
 import { combineEpics, ofType } from 'redux-observable'
 import intl from 'react-intl-universal'
-import localeEN from '../translations/sampo/localeEN.json'
-import localeFI from '../translations/sampo/localeFI.json'
 import { stateToUrl, pickSelectedDatasets } from '../helpers/helpers'
 import querystring from 'querystring'
 import {
@@ -53,18 +51,19 @@ import {
   updateKnowledgeGraphMetadata,
   fetchGeoJSONLayersFailed
 } from '../actions'
-import { documentFinderAPIUrl } from '../configs/sampo/GeneralConfig'
+import portalConfig from '../../configs/portalConfig.json'
+const { portalID, localeConfig, documentFinderConfig } = portalConfig
+const { documentFinderAPIUrl } = documentFinderConfig
+export const availableLocales = {}
+for (const locale of localeConfig.availableLocales) {
+  availableLocales[locale.id] = await import(`../translations/${portalID}/${locale.filename}`)
+}
 
 /*
 * Note that all code inside the 'client' folder runs on the browser, so there is no 'process' object as in Node.js.
 * Instead, the variable 'process.env.API_URL' is defined in 'webpack.client.common.js'.
 */
 const apiUrl = process.env.API_URL
-
-export const availableLocales = {
-  en: localeEN,
-  fi: localeFI
-}
 
 let backendErrorText = null
 
@@ -116,8 +115,9 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_RESULTS),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { resultClass, facetClass, limit, optimize } = action
+    const { perspectiveID, resultClass, facetClass, limit, optimize } = action
     const params = stateToUrl({
+      perspectiveID,
       facets: facetClass ? state[`${facetClass}Facets`].facets : null,
       facetClass,
       uri: action.uri ? action.uri : null,
@@ -237,7 +237,7 @@ const fullTextSearchEpic = (action$, state$) => action$.pipe(
     const requestUrl = `${apiUrl}/full-text-search?q=${action.query}`
     return ajax.getJSON(requestUrl).pipe(
       map(response => updateResults({
-        resultClass: 'fullText',
+        resultClass: 'fullTextSearch',
         data: response.data,
         sparqlQuery: response.sparqlQuery,
         query: action.query,
@@ -245,7 +245,7 @@ const fullTextSearchEpic = (action$, state$) => action$.pipe(
       })),
       catchError(error => of({
         type: FETCH_RESULTS_FAILED,
-        resultClass: 'fullText',
+        resultClass: 'fullTextSearch',
         error: error,
         message: {
           text: backendErrorText,
@@ -260,8 +260,9 @@ const fetchByURIEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_BY_URI),
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
-    const { resultClass, facetClass, uri } = action
+    const { perspectiveID, resultClass, facetClass, uri } = action
     const params = stateToUrl({
+      perspectiveID,
       facets: facetClass == null ? null : state[`${facetClass}Facets`].facets,
       facetClass
     })
@@ -299,7 +300,7 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
     const { facetClass, facetID, constrainSelf } = action
     const facets = state[`${facetClass}Facets`].facets
     const facet = facets[facetID]
-    const { sortBy, sortDirection = false } = facet
+    const { sortBy = null, sortDirection = null } = facet
     const params = stateToUrl({
       facets,
       sortBy,
@@ -385,16 +386,16 @@ const clientFSFetchResultsEpic = (action$, state$) => action$.pipe(
   withLatestFrom(state$),
   debounceTime(500),
   switchMap(([action, state]) => {
-    const { jenaIndex } = action
-    const { clientSideFacetedSearch } = state
-    const selectedDatasets = pickSelectedDatasets(clientSideFacetedSearch.datasets)
+    const { perspectiveID, jenaIndex } = action
+    const federatedSearchState = state[perspectiveID]
+    const selectedDatasets = pickSelectedDatasets(federatedSearchState.datasets)
     const dsParams = selectedDatasets.map(ds => `dataset=${ds}`).join('&')
     let requestUrl
     if (action.jenaIndex === 'text') {
-      requestUrl = `${apiUrl}/federated-search?q=${action.query}&${dsParams}`
+      requestUrl = `${apiUrl}/federated-search?q=${action.query}&${dsParams}&perspectiveID=${perspectiveID}`
     } else if (action.jenaIndex === 'spatial') {
-      const { latMin, longMin, latMax, longMax } = clientSideFacetedSearch.maps.clientFSBboxSearch
-      requestUrl = `${apiUrl}/federated-search?latMin=${latMin}&longMin=${longMin}&latMax=${latMax}&longMax=${longMax}&${dsParams}`
+      const { latMin, longMin, latMax, longMax } = federatedSearchState.maps.boundingboxSearch
+      requestUrl = `${apiUrl}/federated-search?latMin=${latMin}&longMin=${longMin}&latMax=${latMax}&longMax=${longMax}&${dsParams}&perspectiveID=${perspectiveID}`
     }
     return ajax.getJSON(requestUrl).pipe(
       map(response => clientFSUpdateResults({

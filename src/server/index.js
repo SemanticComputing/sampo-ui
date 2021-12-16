@@ -1,4 +1,3 @@
-import { backendSearchConfig } from './sparql/sampo/BackendSearchConfig'
 import fs from 'fs'
 import express from 'express'
 import path from 'path'
@@ -6,6 +5,7 @@ import bodyParser from 'body-parser'
 import axios from 'axios'
 import { has, castArray } from 'lodash'
 import expressStaticGzip from 'express-static-gzip'
+import { createBackendSearchConfig } from './sparql/Utils'
 import {
   getResultCount,
   getPaginatedResults,
@@ -20,6 +20,7 @@ import swaggerUi from 'swagger-ui-express'
 import * as OpenApiValidator from 'express-openapi-validator'
 import yaml from 'js-yaml'
 import querystring from 'querystring'
+
 const DEFAULT_PORT = 3001
 const app = express()
 app.set('port', process.env.PORT || DEFAULT_PORT)
@@ -71,6 +72,7 @@ app.use(validator)
 app.post(`${apiPath}/faceted-search/:resultClass/paginated`, async (req, res, next) => {
   const { params, body } = req
   try {
+    const backendSearchConfig = await createBackendSearchConfig()
     const data = await getPaginatedResults({
       backendSearchConfig,
       resultClass: params.resultClass,
@@ -92,8 +94,10 @@ app.post(`${apiPath}/faceted-search/:resultClass/all`, async (req, res, next) =>
   const { params, body } = req
   const resultFormat = 'json'
   try {
+    const backendSearchConfig = await createBackendSearchConfig()
     const data = await getAllResults({
       backendSearchConfig,
+      perspectiveID: body.perspectiveID,
       resultClass: params.resultClass,
       facetClass: body.facetClass,
       uri: body.uri,
@@ -121,9 +125,11 @@ app.post(`${apiPath}/faceted-search/:resultClass/all`, async (req, res, next) =>
 // GET endpoint for supporting CSV button
 app.get(`${apiPath}/faceted-search/:resultClass/all`, async (req, res, next) => {
   try {
+    const backendSearchConfig = await createBackendSearchConfig()
     const resultFormat = req.query.resultFormat == null ? 'json' : req.query.resultFormat
     const data = await getAllResults({
       backendSearchConfig,
+      perspectiveID: req.body.perspectiveID,
       resultClass: req.params.resultClass,
       facetClass: req.query.facetClass || null,
       constraints: req.query.constraints == null ? null : req.query.constraints,
@@ -146,6 +152,7 @@ app.get(`${apiPath}/faceted-search/:resultClass/all`, async (req, res, next) => 
 app.post(`${apiPath}/faceted-search/:resultClass/count`, async (req, res, next) => {
   const { params, body } = req
   try {
+    const backendSearchConfig = await createBackendSearchConfig()
     const data = await getResultCount({
       backendSearchConfig,
       resultClass: params.resultClass,
@@ -161,8 +168,10 @@ app.post(`${apiPath}/faceted-search/:resultClass/count`, async (req, res, next) 
 app.post(`${apiPath}/:resultClass/page/:uri`, async (req, res, next) => {
   const { params, body } = req
   try {
+    const backendSearchConfig = await createBackendSearchConfig()
     const data = await getByURI({
       backendSearchConfig,
+      perspectiveID: body.perspectiveID,
       resultClass: params.resultClass,
       uri: params.uri,
       facetClass: body.facetClass,
@@ -178,6 +187,7 @@ app.post(`${apiPath}/:resultClass/page/:uri`, async (req, res, next) => {
 app.post(`${apiPath}/faceted-search/:facetClass/facet/:id`, async (req, res, next) => {
   const { params, body } = req
   try {
+    const backendSearchConfig = await createBackendSearchConfig()
     const data = await getFacet({
       backendSearchConfig,
       facetClass: params.facetClass,
@@ -196,10 +206,11 @@ app.post(`${apiPath}/faceted-search/:facetClass/facet/:id`, async (req, res, nex
 
 app.get(`${apiPath}/full-text-search`, async (req, res, next) => {
   try {
+    const backendSearchConfig = await createBackendSearchConfig()
     const data = await queryJenaIndex({
       backendSearchConfig,
       queryTerm: req.query.q,
-      resultClass: 'jenaText',
+      resultClass: 'fullTextSearch',
       resultFormat: 'json'
     })
     res.json(data)
@@ -209,6 +220,7 @@ app.get(`${apiPath}/full-text-search`, async (req, res, next) => {
 })
 
 app.get(`${apiPath}/federated-search`, async (req, res, next) => {
+  const perspectiveID = req.query.perspectiveID
   let queryTerm = ''
   let latMin = 0
   let longMin = 0
@@ -224,8 +236,11 @@ app.get(`${apiPath}/federated-search`, async (req, res, next) => {
     longMax = req.query.longMax
   }
   try {
+    const backendSearchConfig = await createBackendSearchConfig()
+    // console.log(backendSearchConfig[perspectiveID])
     const data = await getFederatedResults({
-      federatedSearchDatasets: backendSearchConfig.federatedSearch.datasets,
+      perspectiveID,
+      federatedSearchDatasets: backendSearchConfig[perspectiveID].datasets,
       queryTerm,
       latMin,
       longMin,
@@ -354,6 +369,7 @@ app.get(`${apiPath}/wfs`, async (req, res, next) => {
 app.get(`${apiPath}/void/:resultClass`, async (req, res, next) => {
   const { params } = req
   try {
+    const backendSearchConfig = await createBackendSearchConfig()
     const data = await getAllResults({
       backendSearchConfig,
       resultClass: params.resultClass,

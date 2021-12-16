@@ -1,8 +1,11 @@
+import React from 'react'
 import querystring from 'querystring'
-import { has } from 'lodash'
+import { has, sortBy } from 'lodash'
 import intl from 'react-intl-universal'
+import MuiIcon from '../components/main_layout/MuiIcon'
 
 export const stateToUrl = ({
+  perspectiveID = null,
   facets,
   facetClass = null,
   page = null,
@@ -19,6 +22,7 @@ export const stateToUrl = ({
   toID = null
 }) => {
   const params = {}
+  if (perspectiveID !== null) { params.perspectiveID = perspectiveID }
   if (facetClass !== null) { params.facetClass = facetClass }
   if (page !== null) { params.page = page }
   if (pagesize !== null) { params.pagesize = parseInt(pagesize) }
@@ -157,4 +161,115 @@ export const generateLabelForMissingValue = ({ facetClass, facetID }) => {
   // Check if there is a translated label for missing value, or use defaults
   return intl.get(`perspectives.${facetClass}.properties.${facetID}.missingValueLabel`) ||
    intl.get('facetBar.defaultMissingValueLabel') || 'Unknown'
+}
+
+export const getLocalIDFromAppLocation = ({ location, perspectiveConfig }) => {
+  const locationArr = location.pathname.split('/')
+  let localID = locationArr.pop()
+  const defaultTab = perspectiveConfig.defaultTab || 'table'
+  const defaultInstancePageTab = perspectiveConfig.defaultInstancePageTab || 'table'
+  if (localID === defaultTab || localID === defaultInstancePageTab) {
+    localID = locationArr.pop() // pop again if tab id
+  }
+  perspectiveConfig.instancePageTabs.forEach(tab => {
+    if (localID === tab.id) {
+      localID = locationArr.pop() // pop again if tab id
+    }
+  })
+  return localID
+}
+
+export const createURIfromLocalID = ({ localID, baseURI, URITemplate }) => {
+  let uri = URITemplate
+  uri = uri.replaceAll('<BASE_URI>', baseURI)
+  uri = uri.replaceAll('<LOCAL_ID>', localID)
+  return uri
+}
+
+export const processPortalConfig = async portalConfig => {
+  const { layoutConfig, mapboxConfig } = portalConfig
+  const { bannerImage, bannerBackround } = layoutConfig.mainPage
+  const { default: bannerImageURL } = await import(/* webpackMode: "eager" */ `../img/${bannerImage}`)
+  const mapboxAccessToken = process.env.MAPBOX_ACCESS_TOKEN
+  if (mapboxConfig && mapboxAccessToken) {
+    mapboxConfig.mapboxAccessToken = mapboxAccessToken
+  }
+  layoutConfig.mainPage.bannerBackround = bannerBackround.replace('<BANNER_IMAGE_URL', bannerImageURL)
+}
+
+export const createPerspectiveConfig = async ({ portalID, searchPerspectives }) => {
+  const perspectiveConfig = []
+  for (const perspectiveID of searchPerspectives) {
+    const { default: perspective } = await import(`../../configs/${portalID}/search_perspectives/${perspectiveID}.json`)
+    perspectiveConfig.push(perspective)
+  }
+  for (const perspective of perspectiveConfig) {
+    if (has(perspective, 'frontPageImage') && perspective.frontPageImage !== null) {
+      const { default: image } = await import(/* webpackMode: "eager" */ `../img/${perspective.frontPageImage}`)
+      perspective.frontPageImage = image
+    }
+    if (has(perspective, 'resultClasses')) {
+      const tabs = []
+      const instancePageTabs = []
+      Object.keys(perspective.resultClasses).forEach(resultClass => {
+        let resultClassConfig = perspective.resultClasses[resultClass]
+        // handle the default resultClass of this perspective
+        if (resultClass === perspective.id) {
+          // instance pages
+          if (has(resultClassConfig.instanceConfig, 'instancePageResultClasses')) {
+            for (const instancePageResultClassID in resultClassConfig.instanceConfig.instancePageResultClasses) {
+              const instancePageResultClassConfig = resultClassConfig.instanceConfig.instancePageResultClasses[instancePageResultClassID]
+              const { tabID, tabPath, tabIcon } = instancePageResultClassConfig
+              instancePageTabs.push({
+                id: tabPath,
+                value: tabID,
+                icon: <MuiIcon iconName={tabIcon} />
+              })
+            }
+          }
+          // paginated results
+          resultClassConfig = resultClassConfig.paginatedResultsConfig
+        }
+        if (has(resultClassConfig, 'tabID') && has(resultClassConfig, 'tabPath')) {
+          const { tabID, tabPath, tabIcon } = resultClassConfig
+          tabs.push({
+            id: tabPath,
+            value: tabID,
+            icon: <MuiIcon iconName={tabIcon} />
+          })
+        }
+      })
+      perspective.tabs = sortBy(tabs, 'value')
+      perspective.instancePageTabs = sortBy(instancePageTabs, 'value')
+    }
+    if (has(perspective, 'defaultActiveFacets')) {
+      perspective.defaultActiveFacets = new Set(perspective.defaultActiveFacets)
+    }
+  }
+  return perspectiveConfig
+}
+
+export const createPerspectiveConfigOnlyInfoPages = async ({ portalID, onlyInstancePagePerspectives }) => {
+  const perspectiveConfigOnlyInfoPages = []
+  for (const perspectiveID of onlyInstancePagePerspectives) {
+    const { default: perspective } = await import(`../../configs/${portalID}/only_instance_pages/${perspectiveID}.json`)
+    perspectiveConfigOnlyInfoPages.push(perspective)
+  }
+  for (const perspective of perspectiveConfigOnlyInfoPages) {
+    const instancePageTabs = []
+    const defaultResultClassConfig = perspective.resultClasses[perspective.id]
+    if (has(defaultResultClassConfig.instanceConfig, 'instancePageResultClasses')) {
+      for (const instancePageResultClassID in defaultResultClassConfig.instanceConfig.instancePageResultClasses) {
+        const instancePageResultClassConfig = defaultResultClassConfig.instanceConfig.instancePageResultClasses[instancePageResultClassID]
+        const { tabID, tabPath, tabIcon } = instancePageResultClassConfig
+        instancePageTabs.push({
+          id: tabPath,
+          value: tabID,
+          icon: <MuiIcon iconName={tabIcon} />
+        })
+      }
+    }
+    perspective.instancePageTabs = sortBy(instancePageTabs, 'value')
+  }
+  return perspectiveConfigOnlyInfoPages
 }

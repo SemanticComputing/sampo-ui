@@ -137,7 +137,8 @@ class LeafletMap extends React.Component {
 
   componentDidUpdate = (prevProps, prevState) => {
     this.props.facetedSearchMode === 'clientFS'
-      ? this.clientFScomponentDidUpdate(prevProps) : this.serverFScomponentDidUpdate(prevProps, prevState)
+      ? this.clientFScomponentDidUpdate(prevProps)
+      : this.serverFScomponentDidUpdate(prevProps, prevState)
   }
 
   componentWillUnmount = () => {
@@ -279,7 +280,7 @@ class LeafletMap extends React.Component {
     }
 
     if (prevState.showBuffer !== this.state.showBuffer) {
-      this.state.activeLayers.map(layerID => {
+      this.state.activeLayers.forEach(layerID => {
         const leafletOverlayToRemove = this.overlayLayers[intl.get(`leafletMap.externalLayers.${layerID}`)]
         leafletOverlayToRemove.clearLayers()
       })
@@ -292,8 +293,11 @@ class LeafletMap extends React.Component {
   }
 
   initMap = () => {
+    const { mapboxConfig } = this.props.portalConfig
+    const { mapboxAccessToken, mapboxStyle } = mapboxConfig
+
     // Base layer(s)
-    const mapboxBaseLayer = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${this.props.mapBoxStyle}/tiles/{z}/{x}/{y}?access_token=${this.props.mapBoxAccessToken}`, {
+    const mapboxBaseLayer = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${mapboxStyle}/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`, {
       attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener">Mapbox</a> &copy; <a href="http://osm.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
       tileSize: 512,
       zoomOffset: -1
@@ -367,7 +371,7 @@ class LeafletMap extends React.Component {
     // initialize layers from external sources
     if (this.props.showExternalLayers) {
       const basemaps = {
-        [intl.get(`leafletMap.basemaps.mapbox.${this.props.mapBoxStyle}`)]: mapboxBaseLayer
+        [intl.get(`leafletMap.basemaps.mapbox.${mapboxStyle}`)]: mapboxBaseLayer
         // [intl.get('leafletMap.basemaps.backgroundMapNLS')]: nlsVectortilesBackgroundmap,
         // [intl.get('leafletMap.basemaps.topographicalMapNLS')]: topographicalMapNLS,
         // [intl.get('leafletMap.basemaps.airMapNLS')]: airMapNLS
@@ -383,7 +387,8 @@ class LeafletMap extends React.Component {
     L.control.scale().addTo(this.leafletMap)
 
     // create layer for bounding boxes
-    if (has(this.props, 'facet') && this.props.facet.filterType === 'spatialFilter') {
+    if (has(this.props, 'facet') && this.props.facet.filterType === 'spatialFilter'
+    ) {
       this.addDrawButtons()
     }
 
@@ -416,7 +421,7 @@ class LeafletMap extends React.Component {
   setCustomMapControlVisibility = () => {
     const { activeLayers } = this.state
     let hideCustomControl = true
-    activeLayers.map(layerID => {
+    activeLayers.forEach(layerID => {
       if (layerID === 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_alue' ||
       layerID === 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_piste' ||
       layerID === 'WFS_MV_Kulttuuriymparisto:Arkeologiset_kohteet_alue' ||
@@ -583,7 +588,7 @@ class LeafletMap extends React.Component {
     this.overlayLayers = {}
     const opacityLayers = {}
     let showOpacityController = false
-    this.props.layerConfigs.map(config => {
+    this.props.layerConfigs.forEach(config => {
       switch (config.type) {
         case 'GeoJSON':
           this.overlayLayers[intl.get(`leafletMap.externalLayers.${config.id}`)] =
@@ -615,7 +620,7 @@ class LeafletMap extends React.Component {
     })
 
     // Add default active overlays directly to the map
-    this.state.activeLayers.map(overlay => {
+    this.state.activeLayers.forEach(overlay => {
       this.leafletMap.addLayer(this.overlayLayers[intl.get(`leafletMap.externalLayers.${overlay}`)])
     })
 
@@ -806,7 +811,7 @@ class LeafletMap extends React.Component {
       }
     })
 
-    if (this.props.facet.spatialFilter !== null) {
+    if (has(this.props.facet, 'spatialFilter') && this.props.facet.spatialFilter !== null) {
       this.drawnItems.addLayer(this.props.facet.spatialFilter)
       this.leafletMap.addControl(this.drawControlEditOnly)
     } else {
@@ -1046,9 +1051,7 @@ LeafletMap.propTypes = {
   facetedSearchMode: PropTypes.string,
   container: PropTypes.string,
   showError: PropTypes.func,
-  uri: PropTypes.string,
-  mapBoxStyle: PropTypes.string,
-  mapBoxAccessToken: PropTypes.string
+  uri: PropTypes.string
 }
 
 export const LeafletMapComponent = LeafletMap

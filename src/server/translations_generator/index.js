@@ -1,11 +1,13 @@
 import { google } from 'googleapis'
 import { /* flatten, */ unflatten } from 'flat'
 import fs from 'fs-extra'
-import { readTranslationsFromGoogleSheets } from '../../../src/client/configs/sampo/GeneralConfig'
+import { portalConfig } from '../../../src/client/configs/PortalConfig.json'
 // import localeEN from '../../client/translations/sampo/localeEN'
 import dotenv from 'dotenv'
 
 dotenv.config()
+
+const { readTranslationsFromGoogleSheets } = portalConfig
 
 // console.log(`spreadsheetId: ${process.env.SHEETS_API_SHEET_ID}`)
 // console.log(`credentials: ${process.env.GOOGLE_APPLICATION_CREDENTIALS}`)

@@ -17,6 +17,7 @@
     "client": "cross-env BABEL_ENV=browser webpack serve --config webpack.client.dev.js",
     "dev": "concurrently --prefix none --kill-others \"npm run server\" \"npm run client\"",
     "server": "cross-env BABEL_ENV=node NODE_ENV=development nodemon -r dotenv/config src/server/index.js --exec babel-node",
+    "utils": "cross-env BABEL_ENV=node NODE_ENV=development nodemon -r dotenv/config src/server/sparql/Utils.js --exec babel-node",
     "sitemap": "cross-env BABEL_ENV=node babel-node src/server/sitemap_generator/SitemapGenerator.js",
     "translate": "cross-env BABEL_ENV=node babel-node src/server/translations_generator/index.js"
   },
@@ -31,7 +32,7 @@
     "@shakacode/recompose": "^0.30.3",
     "@turf/buffer": "^6.3.0",
     "apexcharts": "^3.26.0",
-    "axios": "^0.21.4",
+    "axios": "^0.24.0",
     "buffer": "^6.0.3",
     "core-js": "^3.19.1",
     "cytoscape": "^3.12.1",
@@ -105,16 +106,13 @@
     "sitemap": "^6.3.5",
     "standard": "^16.0.4",
     "style-loader": "^2.0.0",
-    "webpack": "^5.51.1",
+    "webpack": "^5.64.4",
     "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^4.0.0",
+    "webpack-dev-server": "^4.6.0",
     "webpack-merge": "^5.7.3"
   },
   "standard": {
-    "parser": "@babel/eslint-parser",
-    "env": {
-      "jest": true
-    }
+    "parser": "@babel/eslint-parser"
   },
   "optionalDependencies": {
     "fsevents": "^2.3.2"

@@ -213,7 +213,8 @@ const ReactVirtualizedTable = props => {
           <div style={progressContainerStyle}>
             <CircularProgress style={{ color: purple[500] }} thickness={5} />
           </div>
-        ) : (
+          )
+        : (
           <div style={tableContainer}>
             <VirtualizedTable
               rowCount={results.length}
@@ -225,7 +226,7 @@ const ReactVirtualizedTable = props => {
               sortFullTextResults={props.sortFullTextResults}
             />
           </div>
-        )}
+          )}
     </Paper>
   )
 }

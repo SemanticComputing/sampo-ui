@@ -79,3 +79,12 @@ export const handleDataFetchingAction = (state, action, initialState) => {
       return state
   }
 }
+
+export const createResultsReducer = (initialState, resultClasses) => {
+  const reducerFunc = (state = initialState, action) => {
+    if (resultClasses.has(action.resultClass)) {
+      return handleDataFetchingAction(state, action, initialState)
+    } else return state
+  }
+  return reducerFunc
+}

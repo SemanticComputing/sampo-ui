@@ -27,3 +27,12 @@ export const handleFacetConstrainSelfAction = (state, action, initialState) => {
       return state
   }
 }
+
+export const createFacetsConstrainSelfReducer = (initialState, facetClass) => {
+  const reducerFunc = (state = initialState, action) => {
+    if (action.facetClass === facetClass) {
+      return handleFacetConstrainSelfAction(state, action, initialState)
+    } else return state
+  }
+  return reducerFunc
+}

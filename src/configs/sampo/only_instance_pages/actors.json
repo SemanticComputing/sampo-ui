@@ -1,0 +1,138 @@
+{
+  "id": "actors",
+  "endpoint": {
+    "url": "http://ldf.fi/mmm/sparql",
+    "useAuth": false,
+    "prefixesFile": "SparqlQueriesPrefixes.js"
+  },
+  "sparqlQueriesFile": "SparqlQueriesActors.js",
+  "baseURI": "http://ldf.fi/mmm",
+  "URITemplate": "<BASE_URI>/actor/<LOCAL_ID>",
+  "resultClasses": {
+    "actors": {
+        "instanceConfig": {
+            "propertiesQueryBlock": "actorProperties",
+            "instancePageResultClasses": {
+              "instancePageTable": {
+                "tabID": 0,
+                "component": "InstancePageTable",
+                "tabPath": "table",
+                "tabIcon": "CalendarViewDay"
+              },
+              "instancePageExport": {
+                "tabID": 1,
+                "component": "Export",
+                "tabPath": "export",
+                "tabIcon": "CloudDownload",
+                "pageType": "instancePage"
+              }
+            }
+        }
+    }
+},
+  "instancePageTabs": [
+    {
+      "id": "table",
+      "value": 0,
+      "icon": "CalendarViewDay"
+    },
+    {
+      "id": "export",
+      "value": 1,
+      "icon": "CloudDownload"
+    }
+  ],
+  "properties": [
+    {
+      "id": "uri",
+      "valueType": "object",
+      "makeLink": true,
+      "externalLink": true,
+      "sortValues": true,
+      "numberedList": false,
+      "onlyOnInstancePage": true
+    },
+    {
+      "id": "prefLabel",
+      "valueType": "object",
+      "makeLink": true,
+      "externalLink": false,
+      "sortValues": true,
+      "numberedList": false,
+      "minWidth": 150
+    },
+    {
+      "id": "type",
+      "valueType": "object",
+      "makeLink": false,
+      "externalLink": false,
+      "sortValues": false,
+      "numberedList": false,
+      "minWidth": 150
+    },
+    {
+      "id": "birthDateTimespan",
+      "valueType": "object",
+      "makeLink": false,
+      "externalLink": false,
+      "sortValues": true,
+      "numberedList": false,
+      "minWidth": 220
+    },
+    {
+      "id": "deathDateTimespan",
+      "valueType": "object",
+      "makeLink": false,
+      "externalLink": false,
+      "sortValues": true,
+      "numberedList": false,
+      "minWidth": 220
+    },
+    {
+      "id": "place",
+      "valueType": "object",
+      "makeLink": true,
+      "externalLink": false,
+      "sortValues": true,
+      "numberedList": false,
+      "minWidth": 200
+    },
+    {
+      "id": "work",
+      "valueType": "object",
+      "makeLink": true,
+      "externalLink": false,
+      "sortValues": true,
+      "numberedList": false,
+      "minWidth": 250
+    },
+    {
+      "id": "manuscript",
+      "valueType": "object",
+      "makeLink": true,
+      "externalLink": false,
+      "sortValues": true,
+      "numberedList": false,
+      "minWidth": 250,
+      "disableSort": true
+    },
+    {
+      "id": "role",
+      "valueType": "string",
+      "makeLink": false,
+      "externalLink": false,
+      "sortValues": true,
+      "numberedList": false,
+      "minWidth": 250,
+      "disableSort": true
+    },
+    {
+      "id": "source",
+      "valueType": "object",
+      "makeLink": true,
+      "externalLink": true,
+      "sortValues": true,
+      "numberedList": false
+    }
+  ]
+}

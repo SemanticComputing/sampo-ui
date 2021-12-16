@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import InputAdornment from '@material-ui/core/InputAdornment'
+import { has } from 'lodash'
 
 const styles = theme => ({
   root: {
@@ -42,8 +43,9 @@ class RangeFacet extends Component {
     super(props)
     let min = ''
     let max = ''
-    const { integerFilter } = props.facet
-    if (integerFilter !== null) {
+    const { facet } = props
+    if (has(facet, 'integerFilter') && facet.integerFilter !== null) {
+      const { integerFilter } = facet
       min = integerFilter.start
       max = integerFilter.end
     }
@@ -51,10 +53,11 @@ class RangeFacet extends Component {
   }
 
   componentDidMount = () => {
-    const { integerFilter } = this.props.facet
     let min = ''
     let max = ''
-    if (integerFilter !== null) {
+    const { facet } = this.props
+    if (has(facet, 'integerFilter') && facet.integerFilter !== null) {
+      const { integerFilter } = facet
       min = integerFilter.start
       max = integerFilter.end
     }

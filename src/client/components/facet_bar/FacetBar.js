@@ -19,6 +19,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
+import { has } from 'lodash'
 
 const styles = theme => ({
   root: {
@@ -249,7 +250,6 @@ class FacetBar extends React.Component {
       <Accordion
         key={facetID}
         expanded={isActive}
-        // onClick={this.handleExpandButtonOnClick(facetID)}
       >
         <AccordionSummary
           classes={{
@@ -281,6 +281,11 @@ class FacetBar extends React.Component {
             facetDescription={description}
             rootUrl={this.props.rootUrl}
             layoutConfig={this.props.layoutConfig}
+            mapBoxAccessToken={this.props.mapBoxAccessToken}
+            mapBoxStyle={this.props.mapBoxStyle}
+            apexChartsConfig={this.props.apexChartsConfig}
+            leafletConfig={this.props.leafletConfig}
+            networkConfig={this.props.networkConfig}
           />
         </AccordionSummary>
         <AccordionDetails
@@ -322,6 +327,7 @@ class FacetBar extends React.Component {
           />
           {facets && Object.keys(facets).map(facetID => {
             if (facetID === 'datasetSelector') { return null }
+            if (!has(facets[facetID], 'filterType')) { return null }
             return this.renderFacet(facetID, someFacetIsFetching)
           })}
         </Accordion>
@@ -331,6 +337,7 @@ class FacetBar extends React.Component {
         <>
           {facets && Object.keys(facets).map(facetID => {
             if (facetID === 'datasetSelector') { return null }
+            if (!has(facets[facetID], 'filterType')) { return null }
             return this.renderFacet(facetID, someFacetIsFetching)
           })}
         </>
@@ -365,6 +372,7 @@ class FacetBar extends React.Component {
           />}
         {facetedSearchMode === 'clientFS' &&
           <LeafletMapDialog
+            portalConfig={this.props.portalConfig}
             clientFSState={this.props.clientFSState}
             clientFSFetchResults={this.props.clientFSFetchResults}
             clientFSClearResults={this.props.clientFSClearResults}
@@ -372,6 +380,7 @@ class FacetBar extends React.Component {
             showError={this.props.showError}
             perspectiveID={facetClass}
             layoutConfig={this.props.layoutConfig}
+            leafletConfig={this.props.leafletConfig}
           />}
         {(facetedSearchMode === 'serverFS' || hasClientFSResults) &&
           <Paper className={classes.facetInfoContainer}>
