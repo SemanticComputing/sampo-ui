@@ -1,4 +1,5 @@
 const path = require('path')
+const dotenv = require('dotenv').config()
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const webpack = require('webpack')
@@ -27,7 +28,8 @@ module.exports = {
       favicon: 'src/client/favicon.ico'
     }),
     new webpack.DefinePlugin({
-      'process.env.API_URL': JSON.stringify(apiUrl)
+      'process.env.API_URL': JSON.stringify(apiUrl),
+      'process.env': JSON.stringify(dotenv.parsed)
     })
   ],
   output: {

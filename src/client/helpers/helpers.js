@@ -187,9 +187,13 @@ export const createURIfromLocalID = ({ localID, baseURI, URITemplate }) => {
 }
 
 export const processPortalConfig = async portalConfig => {
-  const { layoutConfig } = portalConfig
+  const { layoutConfig, mapboxConfig } = portalConfig
   const { bannerImage, bannerBackround } = layoutConfig.mainPage
   const { default: bannerImageURL } = await import(/* webpackMode: "eager" */ `../img/${bannerImage}`)
+  const mapboxAccessToken = process.env.MAPBOX_ACCESS_TOKEN
+  if (mapboxConfig && mapboxAccessToken) {
+    mapboxConfig.mapboxAccessToken = mapboxAccessToken
+  }
   layoutConfig.mainPage.bannerBackround = bannerBackround.replace('<BANNER_IMAGE_URL', bannerImageURL)
 }
 

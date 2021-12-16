@@ -83,7 +83,6 @@
         }
     },
     "mapboxConfig": {
-        "mapboxAccessToken": "pk.eyJ1IjoiZWtrb25lbiIsImEiOiJja2FkbGxiY2owMDZkMnFxcGVqNTZ0dmk2In0.6keLTN8VveJkM5y4_OFmUw",
         "mapboxStyle": "light-v10"
     },
     "yasguiConfig": {
