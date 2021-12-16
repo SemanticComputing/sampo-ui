@@ -51,8 +51,10 @@ import {
   processPortalConfig,
   createPerspectiveConfig,
   createPerspectiveConfigOnlyInfoPages
-}
-  from '../helpers/helpers'
+} from '../helpers/helpers'
+import * as apexChartsConfig from '../library_configs/ApexCharts/ApexChartsConfig'
+import * as leafletConfig from '../library_configs/Leaflet/LeafletConfig'
+import * as networkConfig from '../library_configs/Cytoscape.js/NetworkConfig'
 
 // ** Generate portal configuration based on JSON configs **
 import portalConfig from '../../configs/portalConfig.json'
@@ -71,9 +73,7 @@ const perspectiveConfigOnlyInfoPages = await createPerspectiveConfigOnlyInfoPage
   portalID,
   onlyInstancePagePerspectives: perspectives.onlyInstancePages
 })
-const apexChartsConfig = await import(`../library_configs/${portalID}/ApexCharts/ApexChartsConfig`)
-const leafletConfig = await import(`../library_configs/${portalID}/Leaflet/LeafletConfig`)
-const networkConfig = await import(`../library_configs/${portalID}/Cytoscape.js/NetworkConfig`)
+
 // ** portal configuration end **
 
 // ** Import general components **

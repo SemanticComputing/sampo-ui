@@ -1,6 +1,6 @@
 
 import intl from 'react-intl-universal'
-import { generateLabelForMissingValue } from '../../../helpers/helpers'
+import { generateLabelForMissingValue } from '../../helpers/helpers'
 
 export const createSingleLineChartData = ({
   rawData,

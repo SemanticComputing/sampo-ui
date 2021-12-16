@@ -1,5 +1,5 @@
 import { has, orderBy } from 'lodash'
-import history from '../../../History'
+import history from '../../History'
 import intl from 'react-intl-universal'
 
 export const createPopUpContentDefault = ({ data, resultClass }) => {
@@ -95,7 +95,7 @@ export const createPopUpContentNameSampo = ({ data }) => {
   return popUpTemplate
 }
 
-export const createPopUpContentFindSampo = data => {
+export const createPopUpContentFindSampo = ({ data }) => {
   const container = document.createElement('div')
 
   if (has(data, 'image')) {
@@ -104,8 +104,8 @@ export const createPopUpContentFindSampo = data => {
       image = image[0]
     }
     const imageElement = document.createElement('img')
+    imageElement.className = 'leaflet-popup-content-image'
     imageElement.setAttribute('src', image.url)
-    imageElement.style.cssText = 'width: 100%'
     container.appendChild(imageElement)
   }
   const heading = document.createElement('h3')
@@ -116,13 +116,13 @@ export const createPopUpContentFindSampo = data => {
   heading.appendChild(headingLink)
   container.appendChild(heading)
   if (has(data, 'objectType')) {
-    container.appendChild(this.createPopUpElement({
+    container.appendChild(createPopUpElement({
       label: intl.get('perspectives.finds.properties.objectType.label'),
       value: data.objectType.prefLabel
     }))
   }
   if (has(data, 'material')) {
-    container.appendChild(this.createPopUpElement({
+    container.appendChild(createPopUpElement({
       label: intl.get('perspectives.finds.properties.material.label'),
       value: data.material.prefLabel
     }))
@@ -228,21 +228,24 @@ const bufferStyle = feature => {
 }
 
 const createArchealogicalSiteColor = feature => {
-  let color = '#dd2c00'
-  if (feature.properties.laji.includes('poistettu kiinteä muinaisjäännös')) {
-    color = '#000000'
-  }
-  return color
+  const entry = fhaLegend.find(el => el.key === feature.properties.laji.trim())
+  return entry.color
 }
 
-/*
-  FHA spatial data general documentation:
-    https://www.museovirasto.fi/en/services-and-guidelines/data-systems/kulttuuriympaeristoen-tietojaerjestelmae/kulttuuriympaeristoen-paikkatietoaineistot
+export const fhaLegend = [
+  { key: 'kiinteä muinaisjäännös', color: '#f00501' },
+  { key: 'luonnonmuodostuma', color: '#00cafb' },
+  { key: 'löytöpaikka', color: '#ffb202' },
+  { key: 'mahdollinen muinaisjäännös', color: '#fc01e2' },
+  { key: 'muu kohde', color: '#ffffff' },
+  { key: 'muu kulttuuriperintökohde', color: '#b57b3b' },
+  { key: 'poistettu kiinteä muinaisjäännös (ei rauhoitettu)', color: '#8b928b' }
+]
 
+/*
   FHA WFS services:
     https://kartta.nba.fi/arcgis/rest/services/WFS/MV_KulttuuriymparistoSuojellut/MapServer
     https://kartta.nba.fi/arcgis/rest/services/WFS/MV_Kulttuuriymparisto/MapServer/
-
   MV_Kulttuuriymparisto service documentation:
     https://www.paikkatietohakemisto.fi/geonetwork/srv/fin/catalog.search#/metadata/83787bc0-5a11-4429-a79d-22b37360a408
     https://www.museovirasto.fi/uploads/Tietotuotemaarittely_kulttuuriymparisto_kaikki.pdf
@@ -290,16 +293,16 @@ export const layerConfigs = [
     },
     createPopup: createArchealogicalSitePopUp
   },
-  // {
-  //   id: 'fhaLidar',
-  //   type: 'WMS',
-  //   url: `${process.env.API_URL}/fha-wms`,
-  //   layers: 'NBA:lidar',
-  //   version: '1.3.0',
-  //   attribution: 'Museovirasto',
-  //   minZoom: 13,
-  //   maxZoom: 18
-  // },
+  {
+    id: 'fhaLidar',
+    type: 'WMS',
+    url: `${process.env.API_URL}/fha-wms`,
+    layers: 'NBA:lidar',
+    version: '1.3.0',
+    attribution: 'Museovirasto',
+    minZoom: 13,
+    maxZoom: 18
+  },
   {
     id: 'karelianMaps',
     type: 'WMTS',

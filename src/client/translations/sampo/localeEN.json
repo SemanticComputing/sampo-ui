@@ -190,8 +190,8 @@
         }
       }
     },
-    "perspective1": {
-      "label": "Perspective 1",
+    "perspective2": {
+      "label": "Perspective 2",
       "facetResultsType": "manuscripts",
       "shortDescription": "Perspective1 description",
       "longDescription": "<p class=\"MuiTypography-root MuiTypography-body1 MuiTypography-paragraph\"> Use this perspective to access data related to physical manuscript objects. If two or more source datasets include the same manuscript and this has been verified, the information from the source datasets has been merged into one manuscript. See <a href=\"/instructions\">instructions</a> for using the filters. The result view can be selected using the tabs: </p> <ul class=\"MuiTypography-root MuiTypography-body1\"> <li> <strong>TABLE</STRONG> view includes all manuscripts in the MMM data. One table row is equivalent to one manuscript. </li> <li> <strong>PRODUCTION PLACES</STRONG> view visualizes the connection between manuscripts and the places where they were produced. </li> <li> <strong>MIGRATIONS</strong> view visualizes the migration of a manuscript from place of production to its most recently observed location. </li> <li> <strong>EXPORT</strong> the SPARQL query used to generate the result table view into YASGUI query editor. </li> </ul>",
@@ -303,8 +303,8 @@
         }
       }
     },
-    "perspective2": {
-      "label": "Perspective 2",
+    "perspective1": {
+      "label": "Perspective 1",
       "facetResultsType": "works",
       "shortDescription": "Perspective 2 description",
       "longDescription": "<p class=\"MuiTypography-root MuiTypography-body1 MuiTypography-paragraph\"> Use this perspective to access data related to Works. The MMM data model follows the <a href='https://www.ifla.org/publications/node/11240' target='_blank' rel='noopener noreferrer'>FRBRoo</a> definition of a work, which refers to “distinct concepts or combinations of concepts identified in artistic and intellectual expressions.” Works contain title and author information. If two or more source datasets include the same Work and this has been verified, the information from the source datasets has been merged into one Work. See <a href=\"/instructions\">instructions</a> for using the filters. The result view can be selected using the tabs: </p> <ul class=\"MuiTypography-root MuiTypography-body1\"> <li> <strong>TABLE</STRONG> view gives you a list of specific works, and the manuscripts and manuscript collections in which they can be found. </li> <li> <strong>EXPORT</strong> the SPARQL query used to generate the result table view into YASGUI query editor. </li> </ul>",
