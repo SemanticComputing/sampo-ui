@@ -166,7 +166,9 @@ export const generateLabelForMissingValue = ({ facetClass, facetID }) => {
 export const getLocalIDFromAppLocation = ({ location, perspectiveConfig }) => {
   const locationArr = location.pathname.split('/')
   let localID = locationArr.pop()
-  if (localID === perspectiveConfig.defaultInstancePageTab) {
+  const defaultTab = perspectiveConfig.defaultTab || 'table'
+  const defaultInstancePageTab = perspectiveConfig.defaultInstancePageTab || 'table'
+  if (localID === defaultTab || localID === defaultInstancePageTab) {
     localID = locationArr.pop() // pop again if tab id
   }
   perspectiveConfig.instancePageTabs.forEach(tab => {
@@ -250,11 +252,20 @@ export const createPerspectiveConfigOnlyInfoPages = async ({ portalID, onlyInsta
     perspectiveConfigOnlyInfoPages.push(perspective)
   }
   for (const perspective of perspectiveConfigOnlyInfoPages) {
-    if (has(perspective, 'instancePageTabs')) {
-      for (const tab of perspective.instancePageTabs) {
-        tab.icon = <MuiIcon iconName={tab.icon} />
+    const instancePageTabs = []
+    const defaultResultClassConfig = perspective.resultClasses[perspective.id]
+    if (has(defaultResultClassConfig.instanceConfig, 'instancePageResultClasses')) {
+      for (const instancePageResultClassID in defaultResultClassConfig.instanceConfig.instancePageResultClasses) {
+        const instancePageResultClassConfig = defaultResultClassConfig.instanceConfig.instancePageResultClasses[instancePageResultClassID]
+        const { tabID, tabPath, tabIcon } = instancePageResultClassConfig
+        instancePageTabs.push({
+          id: tabPath,
+          value: tabID,
+          icon: <MuiIcon iconName={tabIcon} />
+        })
       }
     }
+    perspective.instancePageTabs = sortBy(instancePageTabs, 'value')
   }
   return perspectiveConfigOnlyInfoPages
 }

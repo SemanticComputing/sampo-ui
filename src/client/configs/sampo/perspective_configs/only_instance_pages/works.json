@@ -11,7 +11,22 @@
   "resultClasses": {
     "works": {
       "instanceConfig": {
-        "propertiesQueryBlock": "workProperties"
+        "propertiesQueryBlock": "workProperties",
+        "instancePageResultClasses": {
+          "instancePageTable": {
+            "tabID": 0,
+            "component": "InstancePageTable",
+            "tabPath": "table",
+            "tabIcon": "CalendarViewDay"
+          },
+          "instancePageExport": {
+            "tabID": 1,
+            "component": "Export",
+            "tabPath": "export",
+            "tabIcon": "CloudDownload",
+            "pageType": "instancePage"
+          }
+        }
       }
     }
   },

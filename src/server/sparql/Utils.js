@@ -86,8 +86,6 @@ export const createBackendSearchConfig = async () => {
     }
     backendSearchConfig[perspectiveID] = perspectiveConfig
   }
-  // console.log(backendSearchConfig.perspective1.resultClasses.placesMsMigrations.postprocess.func)
-  // console.log(backendSearchConfig.perspective1.resultClasses.placesMsMigrations.resultMapper)
   for (const perspectiveID of portalConfig.perspectives.onlyInstancePages) {
     const perspectiveConfigJSON = await readFile(`src/client/configs/${portalID}/perspective_configs/only_instance_pages/${perspectiveID}.json`)
     const perspectiveConfig = JSON.parse(perspectiveConfigJSON)
@@ -97,6 +95,25 @@ export const createBackendSearchConfig = async () => {
     const instancePagePropertiesQueryBlockID = instanceConfig.propertiesQueryBlock
     const instancePagePropertiesQueryBlock = sparqlQueries[instancePagePropertiesQueryBlockID]
     instanceConfig.propertiesQueryBlock = instancePagePropertiesQueryBlock
+    let hasInstancePageResultClasses = false
+    if (has(instanceConfig, 'instancePageResultClasses')) {
+      for (const instancePageResultClass in instanceConfig.instancePageResultClasses) {
+        const instancePageResultClassConfig = instanceConfig.instancePageResultClasses[instancePageResultClass]
+        if (instancePageResultClassConfig.sparqlQuery) {
+          instancePageResultClassConfig.sparqlQuery = sparqlQueries[instancePageResultClassConfig.sparqlQuery]
+        }
+        if (instancePageResultClassConfig.sparqlQueryNodes) {
+          instancePageResultClassConfig.sparqlQueryNodes = sparqlQueries[instancePageResultClassConfig.sparqlQueryNodes]
+        }
+      }
+      hasInstancePageResultClasses = true
+    }
+    if (hasInstancePageResultClasses) {
+      perspectiveConfig.resultClasses = {
+        ...perspectiveConfig.resultClasses,
+        ...perspectiveConfig.resultClasses[perspectiveID].instanceConfig.instancePageResultClasses
+      }
+    }
     const { prefixesFile } = perspectiveConfig.endpoint
     const { prefixes } = await import(`../sparql/${portalID}/sparql_queries/${prefixesFile}`)
     perspectiveConfig.endpoint.prefixes = prefixes
