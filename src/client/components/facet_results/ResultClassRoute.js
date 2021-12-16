@@ -213,7 +213,9 @@ const ResultClassRoute = props => {
         seriesTitle,
         stroke,
         fill,
-        createChartData
+        createChartData,
+        doNotRenderOnMount = false,
+        dropdownForResultClasses = false
       } = resultClassConfig
       const apexProps = {
         portalConfig,
@@ -235,7 +237,14 @@ const ResultClassRoute = props => {
         seriesTitle,
         stroke,
         fill,
-        layoutConfig: props.layoutConfig
+        layoutConfig: props.layoutConfig,
+        doNotRenderOnMount,
+        dropdownForResultClasses
+      }
+      if (dropdownForResultClasses && has(resultClassConfig, 'resultClasses')) {
+        apexProps.resultClass = resultClassConfig.resultClasses[0]
+        apexProps.resultClasses = resultClassConfig.resultClasses
+        apexProps.dropdownForResultClasses = true
       }
       routeComponent = (
         <Route

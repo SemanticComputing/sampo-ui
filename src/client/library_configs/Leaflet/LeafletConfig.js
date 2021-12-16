@@ -14,6 +14,12 @@ export const createPopUpContentDefault = ({ data, resultClass }) => {
     link.textContent = data.prefLabel.prefLabel
     link.style.cssText = 'cursor: pointer; text-decoration: underline'
     h3.appendChild(link)
+  } else if (has(data, 'dataProviderUrl')) {
+    const link = document.createElement('a')
+    link.addEventListener('click', () => history.push(data.dataProviderUrl))
+    link.textContent = data.prefLabel.prefLabel
+    link.style.cssText = 'cursor: pointer; text-decoration: underline'
+    h3.appendChild(link)
   } else {
     h3.textContent = data.prefLabel.prefLabel
   }
