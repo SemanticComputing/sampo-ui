@@ -1,4 +1,4 @@
-import portalConfig from '../configs/portalConfig.json'
+import portalConfig from '../../configs/portalConfig.json'
 import { combineReducers } from 'redux'
 import { reducer as toastrReducer } from 'react-redux-toastr'
 import { createResultsReducer } from './general/results'
@@ -30,11 +30,11 @@ const { portalID, perspectives } = portalConfig
 const perspectiveConfig = []
 const perspectiveConfigOnlyInfoPages = []
 for (const perspectiveID of perspectives.searchPerspectives) {
-  const { default: perspective } = await import(`../configs/${portalID}/perspective_configs/search_perspectives/${perspectiveID}.json`)
+  const { default: perspective } = await import(`../../configs/${portalID}/search_perspectives/${perspectiveID}.json`)
   perspectiveConfig.push(perspective)
 }
 for (const perspectiveID of perspectives.onlyInstancePages) {
-  const { default: perspective } = await import(`../configs/${portalID}/perspective_configs/only_instance_pages/${perspectiveID}.json`)
+  const { default: perspective } = await import(`../../configs/${portalID}/only_instance_pages/${perspectiveID}.json`)
   perspectiveConfigOnlyInfoPages.push(perspective)
 }
 for (const perspective of perspectiveConfig) {

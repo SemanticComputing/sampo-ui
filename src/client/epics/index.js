@@ -51,7 +51,7 @@ import {
   updateKnowledgeGraphMetadata,
   fetchGeoJSONLayersFailed
 } from '../actions'
-import portalConfig from '../configs/portalConfig.json'
+import portalConfig from '../../configs/portalConfig.json'
 const { portalID, localeConfig, documentFinderConfig } = portalConfig
 const { documentFinderAPIUrl } = documentFinderConfig
 export const availableLocales = {}

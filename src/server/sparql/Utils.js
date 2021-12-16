@@ -3,13 +3,13 @@ import { has } from 'lodash'
 // import { backendSearchConfig } from '../sparql/sampo/BackendSearchConfig'
 
 export const createBackendSearchConfig = async () => {
-  const portalConfigJSON = await readFile('src/client/configs/portalConfig.json')
+  const portalConfigJSON = await readFile('src/configs/portalConfig.json')
   const portalConfig = JSON.parse(portalConfigJSON)
   const resultMappers = await import('./Mappers')
   const { portalID } = portalConfig
   const backendSearchConfig = {}
   for (const perspectiveID of portalConfig.perspectives.searchPerspectives) {
-    const perspectiveConfigJSON = await readFile(`src/client/configs/${portalID}/perspective_configs/search_perspectives/${perspectiveID}.json`)
+    const perspectiveConfigJSON = await readFile(`src/configs/${portalID}/search_perspectives/${perspectiveID}.json`)
     const perspectiveConfig = JSON.parse(perspectiveConfigJSON)
     const { sparqlQueriesFile } = perspectiveConfig
     const sparqlQueries = await import(`../sparql/${portalID}/sparql_queries/${sparqlQueriesFile}`)
@@ -87,7 +87,7 @@ export const createBackendSearchConfig = async () => {
     backendSearchConfig[perspectiveID] = perspectiveConfig
   }
   for (const perspectiveID of portalConfig.perspectives.onlyInstancePages) {
-    const perspectiveConfigJSON = await readFile(`src/client/configs/${portalID}/perspective_configs/only_instance_pages/${perspectiveID}.json`)
+    const perspectiveConfigJSON = await readFile(`src/configs/${portalID}/only_instance_pages/${perspectiveID}.json`)
     const perspectiveConfig = JSON.parse(perspectiveConfigJSON)
     const { sparqlQueriesFile } = perspectiveConfig
     const sparqlQueries = await import(`../sparql/${portalID}/sparql_queries/${sparqlQueriesFile}`)
@@ -201,7 +201,7 @@ export const mergeFacetConfigs = (oldFacets, mergedFacets) => {
 }
 
 export const mergeResultClasses = async oldBackendSearchConfig => {
-  const portalConfigJSON = await readFile('src/client/configs/portalConfig.json')
+  const portalConfigJSON = await readFile('src/configs/portalConfig.json')
   const portalConfig = JSON.parse(portalConfigJSON)
   const { portalID } = portalConfig
   const newPerspectiveConfigs = {}
@@ -211,7 +211,7 @@ export const mergeResultClasses = async oldBackendSearchConfig => {
     if (has(resultClassConfig, 'perspectiveID')) {
       const { perspectiveID } = resultClassConfig
       if (!has(newPerspectiveConfigs, perspectiveID)) {
-        const perspectiveConfigJSON = await readFile(`src/client/configs/${portalID}/perspective_configs/search_perspectives/${perspectiveID}.json`)
+        const perspectiveConfigJSON = await readFile(`src/configs/${portalID}/search_perspectives/${perspectiveID}.json`)
         newPerspectiveConfigs[perspectiveID] = JSON.parse(perspectiveConfigJSON)
       }
     }
