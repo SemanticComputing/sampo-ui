@@ -1,5 +1,6 @@
 FROM node:16.13.0-alpine
 ARG API_URL
+ARG MAPBOX_ACCESS_TOKEN
 
 # Based on https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
 
@@ -18,9 +19,9 @@ COPY babel.config.js ./
 # Bundle app source
 COPY src ./src
 
-# Run the scripts defined in package.json
+# Run the scripts defined in package.json using build arguments
 RUN npm install && \ 
-API_URL=$API_URL npm run build
+API_URL=$API_URL MAPBOX_ACCESS_TOKEN=$MAPBOX_ACCESS_TOKEN npm run build
 
 EXPOSE 3001
 

@@ -1,11 +1,12 @@
 const path = require('path')
-const dotenv = require('dotenv').config()
+require('dotenv').config()
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const webpack = require('webpack')
 
 const outputDirectory = 'dist/public'
 const apiUrl = typeof process.env.API_URL !== 'undefined' ? process.env.API_URL : 'http://localhost:3001/api/v1'
+const mapboxAccessToken = typeof process.env.MAPBOX_ACCESS_TOKEN !== 'undefined' ? process.env.MAPBOX_ACCESS_TOKEN : 'MAPBOX_ACCESS_TOKEN missing'
 
 module.exports = {
   entry: {
@@ -29,7 +30,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.API_URL': JSON.stringify(apiUrl),
-      'process.env': JSON.stringify(dotenv.parsed)
+      'process.env.MAPBOX_ACCESS_TOKEN': JSON.stringify(mapboxAccessToken)
     })
   ],
   output: {
