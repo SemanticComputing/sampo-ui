@@ -10,38 +10,26 @@
   "URITemplate": "<BASE_URI>/actor/<LOCAL_ID>",
   "resultClasses": {
     "actors": {
-        "instanceConfig": {
-            "propertiesQueryBlock": "actorProperties",
-            "instancePageResultClasses": {
-              "instancePageTable": {
-                "tabID": 0,
-                "component": "InstancePageTable",
-                "tabPath": "table",
-                "tabIcon": "CalendarViewDay"
-              },
-              "instancePageExport": {
-                "tabID": 1,
-                "component": "Export",
-                "tabPath": "export",
-                "tabIcon": "CloudDownload",
-                "pageType": "instancePage"
-              }
-            }
+      "instanceConfig": {
+        "propertiesQueryBlock": "actorProperties",
+        "instancePageResultClasses": {
+          "instancePageTable": {
+            "tabID": 0,
+            "component": "InstancePageTable",
+            "tabPath": "table",
+            "tabIcon": "CalendarViewDay"
+          },
+          "instancePageExport": {
+            "tabID": 1,
+            "component": "Export",
+            "tabPath": "export",
+            "tabIcon": "CloudDownload",
+            "pageType": "instancePage"
+          }
         }
+      }
     }
-},
-  "instancePageTabs": [
-    {
-      "id": "table",
-      "value": 0,
-      "icon": "CalendarViewDay"
-    },
-    {
-      "id": "export",
-      "value": 1,
-      "icon": "CloudDownload"
-    }
-  ],
+  },
   "properties": [
     {
       "id": "uri",

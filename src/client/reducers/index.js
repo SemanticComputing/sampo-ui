@@ -1,5 +1,6 @@
 import portalConfig from '../../configs/portalConfig.json'
 import { combineReducers } from 'redux'
+import { has } from 'lodash'
 import { reducer as toastrReducer } from 'react-redux-toastr'
 import { createResultsReducer } from './general/results'
 import { createFacetsReducer } from './general/facets'
@@ -82,6 +83,14 @@ for (const perspective of perspectiveConfig) {
     reducers[perspectiveID] = resultsReducer
     reducers[`${perspectiveID}Facets`] = facetsReducer
     reducers[`${perspectiveID}FacetsConstrainSelf`] = facetsConstrainSelfReducer
+  } else if (perspective.searchMode && perspective.searchMode === 'dummy-internal' && has(perspective, 'resultClasses')) {
+    const { resultClasses, maps = null } = perspective
+    const resultsInitialStateFull = {
+      ...resultsInitialState,
+      maps
+    }
+    const resultsReducer = createResultsReducer(resultsInitialStateFull, new Set(Object.keys(resultClasses)))
+    reducers[perspectiveID] = resultsReducer
   }
 }
 

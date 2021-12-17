@@ -1,6 +1,13 @@
 import { readFile } from 'fs/promises'
 import { has } from 'lodash'
-// import { backendSearchConfig } from '../sparql/sampo/BackendSearchConfig'
+// import { backendSearchConfig as oldBackendSearchConfig } from './findsampo/BackendSearchConfig'
+// import { findsPerspectiveConfig } from './findsampo/perspective_configs/FindsPerspectiveConfig'
+// import { typesPerspectiveConfig } from './perspective_configs/TypesPerspectiveConfig'
+// import { periodsPerspectiveConfig } from './perspective_configs/PeriodsPerspectiveConfig'
+// import { coinsPerspectiveConfig } from './perspective_configs/CoinsPerspectiveConfig'
+
+// import { INITIAL_STATE } from '../../client/reducers/findsampo/findsFacets'
+// import { INITIAL_STATE } from '../../client/reducers/findsampo/finds'
 
 export const createBackendSearchConfig = async () => {
   const portalConfigJSON = await readFile('src/configs/portalConfig.json')
@@ -11,6 +18,7 @@ export const createBackendSearchConfig = async () => {
   for (const perspectiveID of portalConfig.perspectives.searchPerspectives) {
     const perspectiveConfigJSON = await readFile(`src/configs/${portalID}/search_perspectives/${perspectiveID}.json`)
     const perspectiveConfig = JSON.parse(perspectiveConfigJSON)
+    if (!has(perspectiveConfig, 'sparqlQueriesFile')) { continue } // skip dummy perspectives
     const { sparqlQueriesFile } = perspectiveConfig
     const sparqlQueries = await import(`../sparql/${portalID}/sparql_queries/${sparqlQueriesFile}`)
     if (has(perspectiveConfig, 'endpoint')) {
@@ -123,69 +131,113 @@ export const createBackendSearchConfig = async () => {
   return backendSearchConfig
 }
 
-export const mergeFacetConfigs = (oldFacets, mergedFacets) => {
-  for (const facetID in oldFacets) {
-    if (!has(mergedFacets, facetID)) {
-      console.log(facetID + ' missing from new facets')
+export const mergeFacetConfigs = (clientFacets, serverFacets) => {
+  const mergedFacets = {}
+  for (const clientFacetID in clientFacets) {
+    if (!has(serverFacets, clientFacetID)) {
+      console.log(clientFacetID + ' missing from serverFacets')
       continue
     }
-    const oldFacet = oldFacets[facetID]
+    const clientFacet = clientFacets[clientFacetID]
+    const serverFacet = serverFacets[clientFacetID]
     // strip new lines
-    if (oldFacet.facetValueFilter && oldFacet.facetValueFilter !== '') {
-      oldFacet.facetValueFilter = oldFacet.facetValueFilter.replace(/\s+/g, ' ').trim()
+    if (serverFacet.facetValueFilter && serverFacet.facetValueFilter !== '') {
+      serverFacet.facetValueFilter = serverFacet.facetValueFilter.replace(/\s+/g, ' ').trim()
     }
-    if (oldFacet.predicate && oldFacet.predicate !== '') {
-      oldFacet.predicate = oldFacet.predicate.replace(/\s+/g, ' ').trim()
+    if (serverFacet.facetLabelFilter && serverFacet.facetLabelFilter !== '') {
+      serverFacet.facetLabelFilter = serverFacet.facetLabelFilter.replace(/\s+/g, ' ').trim()
     }
-    if (oldFacet.labelPath && oldFacet.labelPath !== '') {
-      oldFacet.labelPath = oldFacet.labelPath.replace(/\s+/g, ' ').trim()
+    if (serverFacet.predicate && serverFacet.predicate !== '') {
+      serverFacet.predicate = serverFacet.predicate.replace(/\s+/g, ' ').trim()
     }
-    if (oldFacet.textQueryPredicate && oldFacet.textQueryPredicate !== '') {
-      oldFacet.textQueryPredicate = oldFacet.textQueryPredicate.replace(/\s+/g, ' ').trim()
+    if (serverFacet.labelPath && serverFacet.labelPath !== '') {
+      serverFacet.labelPath = serverFacet.labelPath.replace(/\s+/g, ' ').trim()
     }
-
-    if (oldFacet.type === 'text') {
-      mergedFacets[facetID].facetType = 'text'
-      mergedFacets[facetID].textQueryProperty = oldFacet.textQueryProperty
-      if (oldFacet.textQueryPredicate && oldFacet.textQueryPredicate !== '') {
-        mergedFacets[facetID].textQueryPredicate = oldFacet.textQueryPredicate
-      } else {
-        delete mergedFacets[facetID].textQueryPredicate
-      }
-      mergedFacets[facetID].sortByPredicate = oldFacet.labelPath
-    }
-    if (oldFacet.type === 'list') {
-      if (oldFacet.facetValueFilter && oldFacet.facetValueFilter !== '') {
-        mergedFacets[facetID].facetValueFilter = oldFacet.facetValueFilter
-      }
-      if (has(oldFacet, 'literal')) {
-        mergedFacets[facetID].literal = oldFacet.literal
-      }
-      mergedFacets[facetID].facetType = 'list'
-      mergedFacets[facetID].predicate = oldFacet.predicate
-      mergedFacets[facetID].sortByPredicate = oldFacet.labelPath
+    if (serverFacet.textQueryPredicate && serverFacet.textQueryPredicate !== '') {
+      serverFacet.textQueryPredicate = serverFacet.textQueryPredicate.replace(/\s+/g, ' ').trim()
     }
 
-    if (oldFacet.type === 'hierarchical') {
-      if (oldFacet.facetValueFilter && oldFacet.facetValueFilter !== '') {
-        mergedFacets[facetID].facetValueFilter = oldFacet.facetValueFilter
-      }
-      mergedFacets[facetID].facetType = 'hierarchical'
-      mergedFacets[facetID].predicate = oldFacet.predicate
-      mergedFacets[facetID].sortByPredicate = oldFacet.labelPath
-      mergedFacets[facetID].parentProperty = oldFacet.parentProperty
+    // start building new facet config object
+    const mergedFacet = {
+      containerClass: clientFacet.containerClass,
+      filterType: clientFacet.filterType
+    }
+    if (clientFacet.searchField) {
+      mergedFacet.searchField = clientFacet.searchField
+    }
+    if (clientFacet.sortButton) {
+      mergedFacet.sortButton = clientFacet.sortButton
+    }
+    if (clientFacet.spatialFilterButton) {
+      mergedFacet.spatialFilterButton = clientFacet.spatialFilterButton
+    }
+    if (clientFacet.pieChartButton) {
+      mergedFacet.pieChartButton = clientFacet.pieChartButton
+    }
+    if (clientFacet.lineChartButton) {
+      mergedFacet.lineChartButton = clientFacet.lineChartButton
     }
 
-    if (oldFacet.type === 'timespan') {
-      mergedFacets[facetID].facetType = 'timespan'
-      mergedFacets[facetID].sortByAscPredicate = oldFacet.sortByAscPredicate
-      mergedFacets[facetID].sortByDescPredicate = oldFacet.sortByDescPredicate
-      mergedFacets[facetID].predicate = oldFacet.predicate
-      mergedFacets[facetID].startProperty = oldFacet.startProperty
-      mergedFacets[facetID].endProperty = oldFacet.endProperty
+    // labelPath --> sortByPredicate
+    if (serverFacet.labelPath) {
+      mergedFacet.sortByPredicate = serverFacet.labelPath
     }
+
+    if (serverFacet.type === 'text') {
+      mergedFacet.facetType = 'text'
+      if (serverFacet.textQueryPredicate && serverFacet.textQueryPredicate !== '') {
+        mergedFacet.textQueryPredicate = serverFacet.textQueryPredicate
+      }
+      if (serverFacet.textQueryProperty && serverFacet.textQueryProperty !== '') {
+        mergedFacet.textQueryProperty = serverFacet.textQueryProperty
+      }
+    }
+
+    if (serverFacet.type === 'list') {
+      if (serverFacet.facetValueFilter && serverFacet.facetValueFilter !== '') {
+        mergedFacet.facetValueFilter = serverFacet.facetValueFilter
+      }
+      if (has(serverFacet, 'literal')) {
+        mergedFacet.literal = serverFacet.literal
+      }
+      mergedFacet.facetType = 'list'
+      mergedFacet.predicate = serverFacet.predicate
+      mergedFacet.sortBy = clientFacet.sortBy
+      mergedFacet.sortDirection = clientFacet.sortDirection
+    }
+
+    if (serverFacet.type === 'hierarchical') {
+      if (serverFacet.facetValueFilter && serverFacet.facetValueFilter !== '') {
+        mergedFacet.facetValueFilter = serverFacet.facetValueFilter
+      }
+      mergedFacet.facetType = 'hierarchical'
+      mergedFacet.predicate = serverFacet.predicate
+      mergedFacet.parentProperty = serverFacet.parentProperty
+    }
+
+    if (serverFacet.type === 'timespan') {
+      mergedFacet.facetType = 'timespan'
+      if (serverFacet.sortByAscPredicate) {
+        mergedFacet.sortByAscPredicate = serverFacet.sortByAscPredicate
+      }
+      if (serverFacet.sortByDescPredicate) {
+        mergedFacet.sortByDescPredicate = serverFacet.sortByDescPredicate
+      }
+      mergedFacet.predicate = serverFacet.predicate
+      mergedFacet.startProperty = serverFacet.startProperty
+      mergedFacet.endProperty = serverFacet.endProperty
+      mergedFacet.max = clientFacet.max
+      mergedFacet.min = clientFacet.min
+    }
+
+    if (serverFacet.type === 'integer') {
+      mergedFacet.predicate = serverFacet.predicate
+      mergedFacet.typecasting = serverFacet.typecasting
+      mergedFacet.facetType = 'integer'
+    }
+
+    mergedFacets[clientFacetID] = mergedFacet
   }
-
   for (const facetID in mergedFacets) {
     const unorderedFacet = mergedFacets[facetID]
     const orderedFacet = Object.keys(unorderedFacet).sort().reduce(
@@ -197,31 +249,38 @@ export const mergeFacetConfigs = (oldFacets, mergedFacets) => {
     )
     mergedFacets[facetID] = orderedFacet
   }
-  console.log(JSON.stringify(mergedFacets))
+  // console.log(mergedFacets)
+  // console.log(JSON.stringify(mergedFacets))
 }
 
-export const mergeResultClasses = async oldBackendSearchConfig => {
-  const portalConfigJSON = await readFile('src/configs/portalConfig.json')
-  const portalConfig = JSON.parse(portalConfigJSON)
-  const { portalID } = portalConfig
-  const newPerspectiveConfigs = {}
-  // build initial config object
-  for (const newResultClass in oldBackendSearchConfig) {
-    const resultClassConfig = oldBackendSearchConfig[newResultClass]
+export const createExtraResultClassesForJSONConfig = async oldBackendSearchConfig => {
+  // const portalConfigJSON = await readFile('src/configs/portalConfig.json')
+  // const portalConfig = JSON.parse(portalConfigJSON)
+  // const { portalID } = portalConfig
+  // const newPerspectiveConfigs = {}
+  // // build initial config object
+  // for (const newResultClass in oldBackendSearchConfig) {
+  //   const resultClassConfig = oldBackendSearchConfig[newResultClass]
+  //   if (has(resultClassConfig, 'perspectiveID')) {
+  //     const { perspectiveID } = resultClassConfig
+  //     if (!has(newPerspectiveConfigs, perspectiveID)) {
+  //       const perspectiveConfigJSON = await readFile(`src/configs/${portalID}/search_perspectives/${perspectiveID}.json`)
+  //       newPerspectiveConfigs[perspectiveID] = JSON.parse(perspectiveConfigJSON)
+  //     }
+  //   }
+  // }
+
+  // create resultClass configs
+  const resultClasses = {}
+  for (const resultClass in oldBackendSearchConfig) {
+    const resultClassConfig = oldBackendSearchConfig[resultClass]
     if (has(resultClassConfig, 'perspectiveID')) {
-      const { perspectiveID } = resultClassConfig
-      if (!has(newPerspectiveConfigs, perspectiveID)) {
-        const perspectiveConfigJSON = await readFile(`src/configs/${portalID}/search_perspectives/${perspectiveID}.json`)
-        newPerspectiveConfigs[perspectiveID] = JSON.parse(perspectiveConfigJSON)
-      }
-    }
-  }
-  // merge result classes
-  for (const newResultClass in oldBackendSearchConfig) {
-    const resultClassConfig = oldBackendSearchConfig[newResultClass]
-    if (has(resultClassConfig, 'perspectiveID')) {
-      const { perspectiveID } = resultClassConfig
+      // console.log(resultClass)
+      // const { perspectiveID } = resultClassConfig
       const { q, nodes, filterTarget, resultMapper, resultMapperConfig, instance, properties, useNetworkAPI } = resultClassConfig
+      if (instance && instance.relatedInstances === '') {
+        delete instance.relatedInstances
+      }
       let { postprocess } = resultClassConfig
       let resultMapperName = null
       if (resultMapper) {
@@ -235,7 +294,7 @@ export const mergeResultClasses = async oldBackendSearchConfig => {
           }
         }
       }
-      newPerspectiveConfigs[perspectiveID].resultClasses[newResultClass] = {
+      resultClasses[resultClass] = {
         ...(q && { sparqlQuery: q }),
         ...(nodes && { sparqlQueryNodes: nodes }),
         ...(filterTarget && { filterTarget }),
@@ -247,14 +306,15 @@ export const mergeResultClasses = async oldBackendSearchConfig => {
         ...(useNetworkAPI && { useNetworkAPI }) // for federated search only
       }
     } else {
-      console.log(`no perspectiveID for: ${newResultClass}`)
+      console.log(`no perspectiveID for: ${resultClass}`)
     }
   }
-  // for (const perspectiveID in newPerspectiveConfigs) {
-  //   console.log(perspectiveID)
-  //   console.log(JSON.stringify(newPerspectiveConfigs[perspectiveID]))
-  // }
+  console.log(JSON.stringify(resultClasses))
 }
 
-// mergeResultClasses()
-createBackendSearchConfig()
+// createExtraResultClassesForJSONConfig(oldBackendSearchConfig)
+// mergeFacetConfigs(INITIAL_STATE.facets, findsPerspectiveConfig.facets)
+// console.log(JSON.stringify(INITIAL_STATE.properties))
+// "tabID": 0,
+// "tabPath": "",
+// "tabIcon": "",

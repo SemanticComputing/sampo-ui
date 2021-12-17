@@ -4,11 +4,13 @@ import { Route } from 'react-router-dom'
 import { has } from 'lodash'
 const ResultTable = lazy(() => import('./ResultTable'))
 const InstancePageTable = lazy(() => import('../main_layout/InstancePageTable'))
+const ReactVirtualizedList = lazy(() => import('./ReactVirtualizedList'))
 const LeafletMap = lazy(() => import('./LeafletMap'))
 const Deck = lazy(() => import('./Deck'))
 const ApexCharts = lazy(() => import('./ApexCharts'))
 const Network = lazy(() => import('./Network'))
 // const BarChartRace = lazy(() => import('../../facet_results/BarChartRace'))
+const ExportCSV = lazy(() => import('./ExportCSV'))
 const Export = lazy(() => import('./Export'))
 
 const getVisibleRows = perspectiveState => {
@@ -62,6 +64,22 @@ const ResultClassRoute = props => {
               sortResults={props.sortResults}
               routeProps={routeProps}
               rootUrl={rootUrl}
+              layoutConfig={layoutConfig}
+            />}
+        />
+      )
+      break
+    case 'ReactVirtualizedList':
+      routeComponent = (
+        <Route
+          path={path}
+          render={routeProps =>
+            <ReactVirtualizedList
+              resultClass={resultClass}
+              facetClass={facetClass}
+              fetchResults={props.fetchResults}
+              perspectiveState={perspectiveState}
+              facetUpdateID={facetState.facetUpdateID}
               layoutConfig={layoutConfig}
             />}
         />
@@ -316,6 +334,22 @@ const ResultClassRoute = props => {
               fetchPaginatedResults={props.fetchPaginatedResults}
               updatePage={props.updatePage}
               layoutConfig={props.layoutConfig}
+            />}
+        />
+      )
+      break
+    }
+    case 'ExportCSV': {
+      routeComponent = (
+        <Route
+          path={path}
+          render={routeProps =>
+            <ExportCSV
+              resultClass={resultClass}
+              facetClass={facetClass}
+              facetUpdateID={facetState.facetUpdateID}
+              facets={facetState.facets}
+              layoutConfig={layoutConfig}
             />}
         />
       )
