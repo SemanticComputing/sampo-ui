@@ -253,7 +253,8 @@ const ResultClassRoute = props => {
         fill,
         createChartData,
         doNotRenderOnMount = false,
-        dropdownForResultClasses = false
+        dropdownForResultClasses = false,
+        dropdownForChartTypes = false
       } = resultClassConfig
       const apexProps = {
         portalConfig,
@@ -283,6 +284,17 @@ const ResultClassRoute = props => {
         apexProps.resultClass = resultClassConfig.resultClasses[0]
         apexProps.resultClasses = resultClassConfig.resultClasses
         apexProps.dropdownForResultClasses = true
+      }
+      if (dropdownForChartTypes && has(resultClassConfig, 'chartTypes')) {
+        const { chartTypes } = resultClassConfig
+        const newChartTypes = chartTypes.map(chartType => {
+          return {
+            id: chartType.id,
+            createChartData: props.apexChartsConfig[chartType.createChartData]
+          }
+        })
+        apexProps.chartTypes = newChartTypes
+        apexProps.dropdownForChartTypes = true
       }
       routeComponent = (
         <Route
