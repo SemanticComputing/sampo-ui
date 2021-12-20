@@ -33,8 +33,41 @@ class TopBarInfoButton extends React.Component {
     this.setState({ anchorEl: null })
   };
 
-  render () {
+  renderInfoItem = item => {
     const { classes } = this.props
+    let jsx
+    if (item.externalLink) {
+      jsx = (
+        <a
+          className={classes.link}
+          key={item.id}
+          href={intl.get(`topBar.info.${item.translatedUrl}`)}
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <MenuItem onClick={this.handleInfoMenuClose}>
+            {intl.get(`topBar.info.${item.translatedText}`)}
+          </MenuItem>
+        </a>
+      )
+    } else {
+      jsx = (
+        <MenuItem
+          key={item.id}
+          component={this.AdapterLink}
+          to={`${this.props.rootUrl}${item.internalLink}`}
+          onClick={this.handleInfoMenuClose}
+        >
+          {intl.get(`topBar.info.${item.translatedText}`)}
+        </MenuItem>
+      )
+    }
+    return jsx
+  }
+
+  render () {
+    const { classes, layoutConfig } = this.props
+    const { infoDropdown } = layoutConfig.topBar
     return (
       <>
         <Button
@@ -60,25 +93,7 @@ class TopBarInfoButton extends React.Component {
           open={Boolean(this.state.anchorEl)}
           onClose={this.handleInfoMenuClose}
         >
-          <MenuItem
-            key={0}
-            component={this.AdapterLink}
-            to={`${this.props.rootUrl}/about`}
-            onClick={this.handleInfoMenuClose}
-          >
-            {intl.get('topBar.info.aboutThePortal')}
-          </MenuItem>
-          <a
-            className={classes.link}
-            key={1}
-            href={intl.get('topBar.info.blogUrl')}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <MenuItem onClick={this.handleInfoMenuClose}>
-              {intl.get('topBar.info.blog')}
-            </MenuItem>
-          </a>
+          {infoDropdown.map(item => this.renderInfoItem(item))}
         </Menu>
       </>
     )

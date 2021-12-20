@@ -39,12 +39,7 @@ export const createBackendSearchConfig = async () => {
       if (has(instanceConfig, 'instancePageResultClasses')) {
         for (const instancePageResultClass in instanceConfig.instancePageResultClasses) {
           const instancePageResultClassConfig = instanceConfig.instancePageResultClasses[instancePageResultClass]
-          if (instancePageResultClassConfig.sparqlQuery) {
-            instancePageResultClassConfig.sparqlQuery = sparqlQueries[instancePageResultClassConfig.sparqlQuery]
-          }
-          if (instancePageResultClassConfig.sparqlQueryNodes) {
-            instancePageResultClassConfig.sparqlQueryNodes = sparqlQueries[instancePageResultClassConfig.sparqlQueryNodes]
-          }
+          processResultClassConfig(instancePageResultClassConfig, sparqlQueries, resultMappers)
         }
         hasInstancePageResultClasses = true
       }
@@ -52,27 +47,7 @@ export const createBackendSearchConfig = async () => {
       for (const resultClass in perspectiveConfig.resultClasses) {
         if (resultClass === perspectiveID) { continue }
         const resultClassConfig = perspectiveConfig.resultClasses[resultClass]
-        if (resultClassConfig.sparqlQuery) {
-          resultClassConfig.sparqlQuery = sparqlQueries[resultClassConfig.sparqlQuery]
-        }
-        if (resultClassConfig.sparqlQueryNodes) {
-          resultClassConfig.sparqlQueryNodes = sparqlQueries[resultClassConfig.sparqlQueryNodes]
-        }
-        if (resultClassConfig.instanceConfig) {
-          const { instanceConfig } = resultClassConfig
-          if (instanceConfig.propertiesQueryBlock) {
-            instanceConfig.propertiesQueryBlock = sparqlQueries[instanceConfig.propertiesQueryBlock]
-          }
-          if (instanceConfig.relatedInstances) {
-            instanceConfig.relatedInstances = sparqlQueries[instanceConfig.relatedInstances]
-          }
-        }
-        if (resultClassConfig.resultMapper) {
-          resultClassConfig.resultMapper = resultMappers[resultClassConfig.resultMapper]
-        }
-        if (resultClassConfig.postprocess) {
-          resultClassConfig.postprocess.func = resultMappers[resultClassConfig.postprocess.func]
-        }
+        processResultClassConfig(resultClassConfig, sparqlQueries, resultMappers)
       }
       // merge facet results and instance page result classes
       if (hasInstancePageResultClasses) {
@@ -129,6 +104,30 @@ export const createBackendSearchConfig = async () => {
   }
   // console.log(Object.keys(backendSearchConfig))
   return backendSearchConfig
+}
+
+const processResultClassConfig = (resultClassConfig, sparqlQueries, resultMappers) => {
+  if (resultClassConfig.sparqlQuery) {
+    resultClassConfig.sparqlQuery = sparqlQueries[resultClassConfig.sparqlQuery]
+  }
+  if (resultClassConfig.sparqlQueryNodes) {
+    resultClassConfig.sparqlQueryNodes = sparqlQueries[resultClassConfig.sparqlQueryNodes]
+  }
+  if (resultClassConfig.instanceConfig) {
+    const { instanceConfig } = resultClassConfig
+    if (instanceConfig.propertiesQueryBlock) {
+      instanceConfig.propertiesQueryBlock = sparqlQueries[instanceConfig.propertiesQueryBlock]
+    }
+    if (instanceConfig.relatedInstances) {
+      instanceConfig.relatedInstances = sparqlQueries[instanceConfig.relatedInstances]
+    }
+  }
+  if (resultClassConfig.resultMapper) {
+    resultClassConfig.resultMapper = resultMappers[resultClassConfig.resultMapper]
+  }
+  if (resultClassConfig.postprocess) {
+    resultClassConfig.postprocess.func = resultMappers[resultClassConfig.postprocess.func]
+  }
 }
 
 export const mergeFacetConfigs = (clientFacets, serverFacets) => {

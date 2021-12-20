@@ -65,7 +65,8 @@ for (const perspective of perspectiveConfig) {
     reducers[perspectiveID] = fullTextSearchReducer
   } else if (perspective.searchMode && perspective.searchMode === 'faceted-search') {
     const { resultClasses, properties, facets, maps } = perspective
-    const { paginatedResultsConfig } = resultClasses[perspectiveID]
+    const { paginatedResultsConfig, instanceConfig } = resultClasses[perspectiveID]
+    const { instancePageResultClasses } = instanceConfig
     const resultsInitialStateFull = {
       ...resultsInitialState,
       ...paginatedResultsConfig,
@@ -77,7 +78,9 @@ for (const perspective of perspectiveConfig) {
       ...facetsInitialState,
       facets
     }
-    const resultsReducer = createResultsReducer(resultsInitialStateFull, new Set(Object.keys(resultClasses)))
+    const resultsReducer = createResultsReducer(
+      resultsInitialStateFull,
+      new Set(Object.keys({ ...resultClasses, ...instancePageResultClasses })))
     const facetsReducer = createFacetsReducer(facetsInitialStateFull, perspectiveID)
     const facetsConstrainSelfReducer = createFacetsConstrainSelfReducer(facetsInitialStateFull, perspectiveID)
     reducers[perspectiveID] = resultsReducer

@@ -117,6 +117,7 @@ class LeafletMap extends React.Component {
     if (this.props.mapMode &&
       (this.props.pageType === 'facetResults' || this.props.pageType === 'instancePage')) {
       this.props.fetchResults({
+        perspectiveID: this.props.perspectiveConfig.id,
         resultClass: this.props.resultClass,
         facetClass: this.props.facetClass,
         sortBy: null,
@@ -166,6 +167,7 @@ class LeafletMap extends React.Component {
     // check if filters have changed
     if (has(prevProps, 'facetUpdateID') && prevProps.facetUpdateID !== this.props.facetUpdateID) {
       this.props.fetchResults({
+        perspectiveID: this.props.perspectiveConfig.id,
         resultClass: this.props.resultClass,
         facetClass: this.props.facetClass,
         sortBy: null,
@@ -181,6 +183,7 @@ class LeafletMap extends React.Component {
     // check if map mode has changed
     if (prevState.mapMode !== this.state.mapMode) {
       this.props.fetchResults({
+        perspectiveID: this.props.perspectiveConfig.id,
         resultClass: this.props.resultClass,
         facetClass: this.props.facetClass,
         sortBy: null

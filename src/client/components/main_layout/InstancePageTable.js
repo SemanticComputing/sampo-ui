@@ -87,7 +87,8 @@ class InstancePageTable extends React.Component {
   componentDidMount = () => {
     if (this.props.fetchResultsWhenMounted) {
       this.props.fetchResults({
-        resultClass: this.props.resultClassVariant,
+        perspectiveID: this.props.perspectiveConfig.id,
+        resultClass: this.props.resultClass,
         facetClass: this.props.facetClass,
         uri: this.props.uri
       })
@@ -123,15 +124,16 @@ class InstancePageTable extends React.Component {
   }
 
   render = () => {
-    const { classes, data, resultClass, properties, screenSize } = this.props
+    const { classes, data, properties, screenSize, perspectiveConfig } = this.props
+    const perspectiveID = perspectiveConfig.id
     return (
       <>
         {data &&
           <Table className={classes.instanceTable} size='small'>
             <TableBody>
               {properties.map(row => {
-                const label = intl.get(`perspectives.${resultClass}.properties.${row.id}.label`)
-                const description = intl.get(`perspectives.${resultClass}.properties.${row.id}.description`)
+                const label = intl.get(`perspectives.${perspectiveID}.properties.${row.id}.label`)
+                const description = intl.get(`perspectives.${perspectiveID}.properties.${row.id}.description`)
                 const {
                   id, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, minWidth,
                   linkAsButton, collapsedMaxWords, showSource, sourceExternalLink, renderAsHTML, HTMLParserTask

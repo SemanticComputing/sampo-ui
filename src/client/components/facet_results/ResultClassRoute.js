@@ -86,19 +86,36 @@ const ResultClassRoute = props => {
       )
       break
     case 'InstancePageTable': {
+      const properties = resultClassConfig.properties
+        ? resultClassConfig.properties
+        : getVisibleRows(perspectiveState)
+      let instanceTableProps = {
+        portalConfig,
+        perspectiveConfig: perspective,
+        layoutConfig,
+        resultClass,
+        fetchResults: props.fetchResults,
+        properties,
+        screenSize
+      }
+      if (resultClassConfig.fetchResultsWhenMounted) {
+        instanceTableProps = {
+          ...instanceTableProps,
+          fetchResultsWhenMounted: true,
+          data: perspectiveState.results ? perspectiveState.results[0] : null,
+          uri: perspectiveState.instanceTableData.id,
+          resultUpdateID: perspectiveState.resultUpdateID
+        }
+      } else {
+        instanceTableProps = {
+          ...instanceTableProps,
+          data: perspectiveState.instanceTableData
+        }
+      }
       routeComponent = (
         <Route
           path={path}
-          render={routeProps =>
-            <InstancePageTable
-              portalConfig={portalConfig}
-              perspectiveConfig={perspective}
-              resultClass={props.defaultResultClass}
-              data={perspectiveState.instanceTableData}
-              properties={getVisibleRows(perspectiveState)}
-              screenSize={screenSize}
-              layoutConfig={layoutConfig}
-            />}
+          render={routeProps => <InstancePageTable {...instanceTableProps} />}
         />
       )
       break
@@ -156,6 +173,9 @@ const ResultClassRoute = props => {
           facetID,
           updateFacetOption: props.updateFacetOption
         }
+      }
+      if (pageType === 'instancePage') {
+        leafletProps.uri = perspectiveState.instanceTableData.id
       }
       routeComponent = (
         <Route

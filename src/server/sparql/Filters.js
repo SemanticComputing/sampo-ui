@@ -95,11 +95,17 @@ const generateTextFilter = ({
 }) => {
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
   let filterStr = ''
+  let queryObject
+  if (facetConfig.textQueryProperty) {
+    queryObject = `(${facetConfig.textQueryProperty} '${queryString}')`
+  } else {
+    queryObject = `'${queryString}'`
+  }
   if (!has(facetConfig, 'textQueryPredicate')) {
-    filterStr = `?${filterTarget} text:query (${facetConfig.textQueryProperty} '${queryString}') .`
+    filterStr = `?${filterTarget} text:query ${queryObject} .`
   } else {
     filterStr = `
-      ?textQueryTarget text:query (${facetConfig.textQueryProperty} '${queryString}') .
+      ?textQueryTarget text:query ${queryObject} .
       ?${filterTarget} ${facetConfig.textQueryPredicate} ?textQueryTarget .
 
     `

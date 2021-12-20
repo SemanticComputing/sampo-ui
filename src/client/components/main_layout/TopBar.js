@@ -86,19 +86,21 @@ const useStyles = makeStyles(theme => ({
   mainLogoButtonLabel: {
     justifyContent: 'left'
   },
-  mainLogoTypography: {
+  mainLogoTypography: props => ({
     // set color and background explicitly to keep Google Lighthouse happy
     color: '#fff',
     background: theme.palette.primary.main,
     whiteSpace: 'nowrap',
+    textTransform: props.layoutConfig.topBar.logoTextTransform,
     [theme.breakpoints.down('sm')]: {
-      fontSize: '1.25rem',
-      fontWeight: 600
-    }
-    // [theme.breakpoints.down('xs')]: {
-    //     display: 'none'
-    // }
-  },
+      fontSize: '1.5rem'
+    },
+    ...(props.layoutConfig.topBar.hideLogoTextOnMobile && {
+      [theme.breakpoints.down('xs')]: {
+        display: 'none'
+      }
+    })
+  }),
   mobileMenuButton: {
     padding: 12
   }
@@ -111,7 +113,8 @@ const useStyles = makeStyles(theme => ({
 const TopBar = props => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
-  const { perspectives, currentLocale, availableLocales, rootUrl } = props
+  const { perspectives, currentLocale, availableLocales, rootUrl, layoutConfig } = props
+  const { topBar } = layoutConfig
   const classes = useStyles(props)
   const handleMobileMenuOpen = event => setMobileMoreAnchorEl(event.currentTarget)
   const handleMobileMenuClose = () => setMobileMoreAnchorEl(null)
@@ -121,8 +124,19 @@ const TopBar = props => {
   const AdapterLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />)
   const AdapterNavLink = React.forwardRef((props, ref) => <NavLink innerRef={ref} {...props} />)
 
+  const getInternalLink = perspective => {
+    const searchMode = has(perspective, 'searchMode') ? perspective.searchMode : 'faceted-search'
+    let link = null
+    if (searchMode === 'dummy-internal') {
+      link = `${props.rootUrl}${perspective.internalLink}`
+    }
+    if (searchMode !== 'dummy-internal') {
+      link = `${props.rootUrl}/${perspective.id}/${searchMode}`
+    }
+    return link
+  }
+
   const renderMobileMenuItem = perspective => {
-    const { searchMode } = perspective
     if (has(perspective, 'externalUrl')) {
       return (
         <a
@@ -144,7 +158,7 @@ const TopBar = props => {
         <MenuItem
           key={perspective.id}
           component={AdapterLink}
-          to={`${props.rootUrl}/${perspective.id}/${searchMode}`}
+          to={getInternalLink(perspective)}
           onClick={handleMobileMenuClose}
         >
           {intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
@@ -154,7 +168,6 @@ const TopBar = props => {
   }
 
   const renderDesktopTopMenuItem = perspective => {
-    const { searchMode } = perspective
     if (has(perspective, 'externalUrl')) {
       return (
         <a
@@ -179,7 +192,7 @@ const TopBar = props => {
           key={perspective.id}
           className={classes.appBarButton}
           component={AdapterNavLink}
-          to={`${props.rootUrl}/${perspective.id}/${searchMode}`}
+          to={getInternalLink(perspective)}
           isActive={(match, location) => location.pathname.startsWith(`${props.rootUrl}/${perspective.id}`)}
           activeClassName={classes.appBarButtonActive}
         >
@@ -189,58 +202,73 @@ const TopBar = props => {
     }
   }
 
-  const renderMobileMenu = perspectives =>
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      {perspectives.map(perspective => perspective.hideTopPerspectiveButton ? null : renderMobileMenuItem(perspective))}
-      <Divider />
-      {renderMobileMenuItem({
-        id: 'feedback',
-        externalUrl: props.layoutConfig.topBar.feedbackLink,
-        label: intl.get('topBar.feedback')
-      })}
-      {/* <MenuItem
-        key='feedback'
-        component={AdapterLink}
-        to={`${props.rootUrl}/feedback`}
-        onClick={handleMobileMenuClose}
-      >
-        {intl.get('topBar.feedback').toUpperCase()}
-      </MenuItem> */}
-      <MenuItem
-        key={0}
-        component={AdapterLink}
-        to={`${props.rootUrl}/about`}
-        onClick={handleMobileMenuClose}
-      >
-        {intl.get('topBar.info.aboutThePortal').toUpperCase()}
-      </MenuItem>
-      <a
-        className={classes.link}
-        key={1}
-        href={intl.get('topBar.info.blogUrl')}
-        target='_blank'
-        rel='noopener noreferrer'
-        onClick={handleMobileMenuClose}
-      >
-        <MenuItem>
-          {intl.get('topBar.info.blog').toUpperCase()}
+  const renderInfoItem = item => {
+    let jsx
+    if (item.externalLink) {
+      jsx = (
+        <a
+          className={classes.link}
+          key={item.id}
+          href={intl.get(`topBar.info.${item.translatedUrl}`)}
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <MenuItem onClick={handleMobileMenuClose}>
+            {intl.get(`topBar.info.${item.translatedText}`).toUpperCase()}
+          </MenuItem>
+        </a>
+      )
+    } else {
+      jsx = (
+        <MenuItem
+          key={item.id}
+          component={AdapterLink}
+          to={`${props.rootUrl}${item.internalLink}`}
+          onClick={handleMobileMenuClose}
+        >
+          {intl.get(`topBar.info.${item.translatedText}`).toUpperCase()}
         </MenuItem>
-      </a>
-      <MenuItem
-        key='info'
-        component={AdapterLink}
-        to={`${props.rootUrl}/instructions`}
-        onClick={handleMobileMenuClose}
+      )
+    }
+    return jsx
+  }
+
+  const renderMobileMenu = perspectives => {
+    const { infoDropdown } = props.layoutConfig.topBar
+    return (
+      <Menu
+        anchorEl={mobileMoreAnchorEl}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={isMobileMenuOpen}
+        onClose={handleMobileMenuClose}
       >
-        {intl.get('topBar.instructions').toUpperCase()}
-      </MenuItem>
-    </Menu>
+        {perspectives.map(perspective => perspective.hideTopPerspectiveButton ? null : renderMobileMenuItem(perspective))}
+        <Divider />
+        {renderMobileMenuItem({
+          id: 'feedback',
+          externalUrl: props.layoutConfig.topBar.feedbackLink,
+          label: intl.get('topBar.feedback')
+        })}
+        {infoDropdown.map(item => renderInfoItem(item))}
+        {topBar.externalInstructions && renderMobileMenuItem({
+          id: 'instructions',
+          externalUrl: intl.get('topBar.instructionsUrl'),
+          label: intl.get('topBar.instructions')
+        })}
+        {!topBar.externalInstructions &&
+          <Button
+            className={classes.appBarButton}
+            component={AdapterNavLink}
+            to={`${props.rootUrl}/instructions`}
+            isActive={(match, location) => location.pathname.startsWith(`${props.rootUrl}/instructions`)}
+            activeClassName={classes.appBarButtonActive}
+          >
+            {intl.get('topBar.instructions')}
+          </Button>}
+      </Menu>
+    )
+  }
 
   return (
     <div className={classes.root}>
@@ -257,8 +285,13 @@ const TopBar = props => {
             }}
             onClick={() => clientFSMode ? props.clientFSClearResults() : null}
           >
-            {/* <img className={classes.mainLogo} src={} /> */}
-            <Typography className={classes.mainLogoTypography} variant='h6'>
+            {topBar.logoImage &&
+              <img
+                className={classes.mainLogo}
+                src={topBar.logoImage}
+                alt={`${intl.get('appTitle.short')} logo`}
+              />}
+            <Typography className={classes.mainLogoTypography} variant='h5'>
               {props.xsScreen ? intl.get('appTitle.mobile') : intl.get('appTitle.short')}
             </Typography>
           </Button>
@@ -278,16 +311,22 @@ const TopBar = props => {
               externalUrl: props.layoutConfig.topBar.feedbackLink,
               label: intl.get('topBar.feedback')
             })}
-            <TopBarInfoButton rootUrl={props.rootUrl} />
-            <Button
-              className={classes.appBarButton}
-              component={AdapterNavLink}
-              to={`${props.rootUrl}/instructions`}
-              isActive={(match, location) => location.pathname.startsWith(`${props.rootUrl}/instructions`)}
-              activeClassName={classes.appBarButtonActive}
-            >
-              {intl.get('topBar.instructions')}
-            </Button>
+            <TopBarInfoButton rootUrl={props.rootUrl} layoutConfig={layoutConfig} />
+            {topBar.externalInstructions && renderDesktopTopMenuItem({
+              id: 'instructions',
+              externalUrl: intl.get('topBar.instructionsUrl'),
+              label: intl.get('topBar.instructions')
+            })}
+            {!topBar.externalInstructions &&
+              <Button
+                className={classes.appBarButton}
+                component={AdapterNavLink}
+                to={`${props.rootUrl}/instructions`}
+                isActive={(match, location) => location.pathname.startsWith(`${props.rootUrl}/instructions`)}
+                activeClassName={classes.appBarButtonActive}
+              >
+                {intl.get('topBar.instructions')}
+              </Button>}
             {props.layoutConfig.topBar.showLanguageButton &&
               <TopBarLanguageButton
                 currentLocale={currentLocale}
