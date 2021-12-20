@@ -582,21 +582,6 @@ export const eventsByDecadeQuery = `
   ORDER BY ?category
 `
 
-export const knowledgeGraphMetadataQuery = `
-  SELECT * 
-  WHERE {
-    ?id a sd:Dataset ;
-        dct:title ?title ;
-        dct:publisher ?publisher ;
-        dct:rightsHolder ?rightsHolder ;
-        dct:modified ?modified ;
-        dct:source ?databaseDump__id .
-    ?databaseDump__id skos:prefLabel ?databaseDump__prefLabel ;
-                      mmm-schema:data_provider_url ?databaseDump__dataProviderUrl ;
-                      dct:modified ?databaseDump__modified .
-  }
-`
-
 export const choroplethQuery = `
   SELECT ?id ?prefLabel ?polygon (count(?death) as ?instanceCount) 
   WHERE {

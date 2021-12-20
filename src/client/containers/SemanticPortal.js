@@ -86,13 +86,13 @@ const FullTextSearch = lazy(() => import('../components/main_layout/FullTextSear
 const FacetBar = lazy(() => import('../components/facet_bar/FacetBar'))
 const FacetResults = lazy(() => import('../components/facet_results/FacetResults'))
 const FederatedResults = lazy(() => import('../components/facet_results/FederatedResults'))
+const KnowledgeGraphMetadataTable = lazy(() => import('../components/main_layout/KnowledgeGraphMetadataTable'))
 // ** General components end **
 
 // ** Import portal specific components **
 const Main = lazy(() => import(`../components/perspectives/${portalID}/Main`))
 const MainClientFS = lazy(() => import(`../components/perspectives/${portalID}/MainClientFS`))
 const Footer = lazy(() => import(`../components/perspectives/${portalID}/Footer`))
-const KnowledgeGraphMetadataTable = lazy(() => import(`../components/perspectives/${portalID}/KnowledgeGraphMetadataTable`))
 // ** Portal specific components end **
 
 const useStyles = makeStyles(theme => ({
@@ -631,6 +631,7 @@ const SemanticPortal = props => {
                   <KnowledgeGraphMetadataTable
                     portalConfig={portalConfig}
                     layoutConfig={layoutConfig}
+                    perspectiveID='perspective1'
                     resultClass='perspective1KnowledgeGraphMetadata'
                     fetchKnowledgeGraphMetadata={props.fetchKnowledgeGraphMetadata}
                     knowledgeGraphMetadata={props.perspective1.knowledgeGraphMetadata}

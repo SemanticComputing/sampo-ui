@@ -66,7 +66,8 @@
             "infoDropdown": [
                 {
                     "id": "about",
-                    "translatedText": "aboutThePortal"
+                    "translatedText": "aboutThePortal",
+                    "internalLink": "/about"
                 },
                 {
                     "id": "blog",

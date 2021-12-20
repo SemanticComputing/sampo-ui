@@ -230,10 +230,6 @@
             "resultClass": "perspective2",
             "facetClass": "perspective2"
         },
-        "perspective2KnowledgeGraphMetadata": {
-            "sparqlQuery": "knowledgeGraphMetadataQuery",
-            "resultMapper": "makeObjectList"
-        },
         "jenaText": {
             "propertiesQueryBlock": "fullTextSearchProperties"
         }
