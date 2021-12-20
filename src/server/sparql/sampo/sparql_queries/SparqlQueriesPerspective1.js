@@ -1,4 +1,4 @@
-const perspectiveID = 'perspective2'
+const perspectiveID = 'perspective1'
 
 export const workProperties = `
     {

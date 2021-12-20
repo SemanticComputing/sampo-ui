@@ -49,7 +49,7 @@
                 "main": "#212121"
             },
             "secondary": {
-                "main": "##EB1806"
+                "main": "#EB1806"
             }
         },
         "hundredPercentHeightBreakPoint": "md",
