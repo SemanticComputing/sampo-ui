@@ -556,10 +556,16 @@ paths:
             application/json:
               schema:
                 type: object
-  /void/{resultClass}:
+  /void/{perspectiveID}/{resultClass}:
     get:
       summary: Retrieve a VoID description
       parameters:
+        - in: path
+          name: perspectiveID
+          schema: 
+            type: string
+            example: perspective1
+          required: true
         - in: path
           name: resultClass
           schema: 

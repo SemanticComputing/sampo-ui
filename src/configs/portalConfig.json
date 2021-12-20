@@ -44,6 +44,14 @@
         "sitemapInstancePageQuery": "sitemapInstancePageQuery"
     },
     "layoutConfig": {
+        "colorPalette": {
+            "primary": {
+                "main": "#212121"
+            },
+            "secondary": {
+                "main": "##EB1806"
+            }
+        },
         "hundredPercentHeightBreakPoint": "md",
         "reducedHeightBreakpoint": "xl",
         "tabHeight": 58,
