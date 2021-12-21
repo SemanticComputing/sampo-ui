@@ -38,6 +38,7 @@ import {
   updatePerspectiveHeaderExpanded,
   loadLocales,
   animateMap,
+  updateVideoPlayerTime,
   clientFSToggleDataset,
   clientFSFetchResults,
   clientFSSortResults,
@@ -86,13 +87,13 @@ const FullTextSearch = lazy(() => import('../components/main_layout/FullTextSear
 const FacetBar = lazy(() => import('../components/facet_bar/FacetBar'))
 const FacetResults = lazy(() => import('../components/facet_results/FacetResults'))
 const FederatedResults = lazy(() => import('../components/facet_results/FederatedResults'))
+const KnowledgeGraphMetadataTable = lazy(() => import('../components/main_layout/KnowledgeGraphMetadataTable'))
 // ** General components end **
 
 // ** Import portal specific components **
 const Main = lazy(() => import(`../components/perspectives/${portalID}/Main`))
 const MainClientFS = lazy(() => import(`../components/perspectives/${portalID}/MainClientFS`))
 const Footer = lazy(() => import(`../components/perspectives/${portalID}/Footer`))
-const KnowledgeGraphMetadataTable = lazy(() => import(`../components/perspectives/${portalID}/KnowledgeGraphMetadataTable`))
 // ** Portal specific components end **
 
 const useStyles = makeStyles(theme => ({
@@ -472,6 +473,8 @@ const SemanticPortal = props => {
                                   perspective={perspective}
                                   animationValue={props.animationValue}
                                   animateMap={props.animateMap}
+                                  videoPlayerState={props.videoPlayer}
+                                  updateVideoPlayerTime={props.updateVideoPlayerTime}
                                   screenSize={screenSize}
                                   rootUrl={rootUrlWithLang}
                                   apexChartsConfig={apexChartsConfig}
@@ -542,6 +545,8 @@ const SemanticPortal = props => {
                             perspective={perspective}
                             animationValue={props.animationValue}
                             animateMap={props.animateMap}
+                            videoPlayerState={props.videoPlayer}
+                            updateVideoPlayerTime={props.updateVideoPlayerTime}
                             screenSize={screenSize}
                             rootUrl={rootUrlWithLang}
                             apexChartsConfig={apexChartsConfig}
@@ -631,6 +636,7 @@ const SemanticPortal = props => {
                   <KnowledgeGraphMetadataTable
                     portalConfig={portalConfig}
                     layoutConfig={layoutConfig}
+                    perspectiveID='perspective1'
                     resultClass='perspective1KnowledgeGraphMetadata'
                     fetchKnowledgeGraphMetadata={props.fetchKnowledgeGraphMetadata}
                     knowledgeGraphMetadata={props.perspective1.knowledgeGraphMetadata}
@@ -676,6 +682,7 @@ const mapStateToProps = state => {
   stateToProps.leafletMap = state.leafletMap
   stateToProps.fullTextSearch = state.fullTextSearch
   stateToProps.animationValue = state.animation.value
+  stateToProps.videoPlayer = state.videoPlayer
   stateToProps.options = state.options
   stateToProps.error = state.error
   return stateToProps
@@ -706,6 +713,7 @@ const mapDispatchToProps = ({
   updatePerspectiveHeaderExpanded,
   loadLocales,
   animateMap,
+  updateVideoPlayerTime,
   clientFSToggleDataset,
   clientFSFetchResults,
   clientFSClearResults,

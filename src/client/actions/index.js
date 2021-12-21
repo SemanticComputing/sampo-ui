@@ -387,8 +387,9 @@ export const clientFSSortResults = options => ({
   type: CLIENT_FS_SORT_RESULTS,
   options
 })
-export const fetchKnowledgeGraphMetadata = ({ resultClass }) => ({
+export const fetchKnowledgeGraphMetadata = ({ perspectiveID, resultClass }) => ({
   type: FETCH_KNOWLEDGE_GRAPH_METADATA,
+  perspectiveID,
   resultClass
 })
 export const fetchKnowledgeGraphMetadataFailded = (resultClass, error, message) => ({

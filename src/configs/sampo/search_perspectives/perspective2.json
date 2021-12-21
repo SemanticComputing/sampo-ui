@@ -68,7 +68,7 @@
             "tabPath": "production_places",
             "tabIcon": "AddLocation",
             "sparqlQuery": "productionPlacesQuery",
-            "facetClass": "perspective1",
+            "facetClass": "perspective2",
             "filterTarget": "manuscripts",
             "resultMapper": "mapPlaces",
             "facetID": "productionPlace",
@@ -85,7 +85,7 @@
             "tabPath": "production_places_heatmap",
             "tabIcon": "AddLocation",
             "sparqlQuery": "productionPlacesQuery",
-            "facetClass": "perspective1",
+            "facetClass": "perspective2",
             "filterTarget": "manuscripts",
             "resultMapper": "mapPlaces",
             "layerType": "heatmapLayer"
@@ -96,7 +96,7 @@
             "tabPath": "last_known_locations",
             "tabIcon": "LocationOn",
             "sparqlQuery": "lastKnownLocationsQuery",
-            "facetClass": "perspective1",
+            "facetClass": "perspective2",
             "filterTarget": "manuscripts",
             "resultMapper": "mapPlaces",
             "facetID": "lastKnownLocation",
@@ -111,7 +111,7 @@
             "tabPath": "migrations",
             "tabIcon": "Redo",
             "sparqlQuery": "migrationsQuery",
-            "facetClass": "perspective1",
+            "facetClass": "perspective2",
             "filterTarget": "manuscript",
             "resultMapper": "makeObjectList",
             "layerType": "arcLayer",
@@ -138,7 +138,7 @@
             "tabPath": "production_dates",
             "tabIcon": "ShowChart",
             "sparqlQuery": "productionsByDecadeQuery",
-            "facetClass": "perspective1",
+            "facetClass": "perspective2",
             "filterTarget": "instance",
             "resultMapper": "mapLineChart",
             "resultMapperConfig": {
@@ -157,7 +157,7 @@
         },
         "productionsByDecadeAndCountry": {
             "sparqlQuery": "productionsByDecadeAndCountryQuery",
-            "facetClass": "perspective1",
+            "facetClass": "perspective2",
             "filterTarget": "manuscript",
             "resultMapper": "makeObjectList",
             "postprocess": {
@@ -173,7 +173,7 @@
             "tabPath": "event_dates",
             "tabIcon": "AddLocation",
             "sparqlQuery": "eventsByDecadeQuery",
-            "facetClass": "perspective1",
+            "facetClass": "perspective2",
             "filterTarget": "manuscript",
             "resultMapper": "mapMultipleLineChart",
             "resultMapperConfig": {
@@ -212,7 +212,7 @@
             "tabPath": "network",
             "tabIcon": "BubbleChart",
             "sparqlQuery": "manuscriptFacetResultsNetworkLinksQuery",
-            "facetClass": "perspective1",
+            "facetClass": "perspective2",
             "sparqlQueryNodes": "manuscriptNetworkNodesQuery",
             "filterTarget": "manuscript",
             "useNetworkAPI": true,
@@ -227,12 +227,8 @@
             "component": "Export",
             "tabPath": "export",
             "tabIcon": "CloudDownload",
-            "resultClass": "perspective1",
-            "facetClass": "perspective1"
-        },
-        "perspective1KnowledgeGraphMetadata": {
-            "sparqlQuery": "knowledgeGraphMetadataQuery",
-            "resultMapper": "makeObjectList"
+            "resultClass": "perspective2",
+            "facetClass": "perspective2"
         },
         "jenaText": {
             "propertiesQueryBlock": "fullTextSearchProperties"

@@ -366,12 +366,13 @@ app.get(`${apiPath}/wfs`, async (req, res, next) => {
   }
 })
 
-app.get(`${apiPath}/void/:resultClass`, async (req, res, next) => {
+app.get(`${apiPath}/void/:perspectiveID/:resultClass`, async (req, res, next) => {
   const { params } = req
   try {
     const backendSearchConfig = await createBackendSearchConfig()
     const data = await getAllResults({
       backendSearchConfig,
+      perspectiveID: params.perspectiveID,
       resultClass: params.resultClass,
       resultFormat: 'json'
     })

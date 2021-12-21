@@ -52,8 +52,12 @@
             "component": "Export",
             "tabPath": "export",
             "tabIcon": "CloudDownload",
-            "resultClass": "perspective2",
-            "facetClass": "perspective2"
+            "resultClass": "perspective1",
+            "facetClass": "perspective1"
+        },
+        "perspective1KnowledgeGraphMetadata": {
+            "sparqlQuery": "knowledgeGraphMetadataQuery",
+            "resultMapper": "makeObjectList"
         }
     },
     "properties": [

@@ -44,6 +44,14 @@
         "sitemapInstancePageQuery": "sitemapInstancePageQuery"
     },
     "layoutConfig": {
+        "colorPalette": {
+            "primary": {
+                "main": "#212121"
+            },
+            "secondary": {
+                "main": "#EB1806"
+            }
+        },
         "hundredPercentHeightBreakPoint": "md",
         "reducedHeightBreakpoint": "xl",
         "tabHeight": 58,
@@ -52,9 +60,22 @@
         "topBar": {
             "showLanguageButton": true,
             "feedbackLink": "https://link.webropolsurveys.com/...",
-            "reducedHeight": 48,
+            "reducedHeight": 44,
             "defaultHeight": 64,
-            "mobileMenuBreakpoint": 1360
+            "mobileMenuBreakpoint": 1360,
+            "infoDropdown": [
+                {
+                    "id": "about",
+                    "translatedText": "aboutThePortal",
+                    "internalLink": "/about"
+                },
+                {
+                    "id": "blog",
+                    "externalLink": true,
+                    "translatedUrl": "blogUrl",
+                    "translatedText": "blog"
+                }
+            ]
         },
         "mainPage": {
             "bannerImage": "main_page/mmm-banner.jpg",

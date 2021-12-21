@@ -159,6 +159,7 @@ class InstancePage extends React.Component {
                     defaultResultClass={resultClass}
                     resultClass={instancePageResultClass}
                     resultClassConfig={resultClassConfig}
+                    localID={this.state.localID}
                     {...this.props}
                   />
                 )

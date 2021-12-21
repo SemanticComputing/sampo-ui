@@ -531,7 +531,7 @@ const fetchKnowledgeGraphMetadataEpic = (action$, state$) => action$.pipe(
   ofType(FETCH_KNOWLEDGE_GRAPH_METADATA),
   withLatestFrom(state$),
   mergeMap(([action]) => {
-    const requestUrl = `${apiUrl}/void/${action.resultClass}`
+    const requestUrl = `${apiUrl}/void/${action.perspectiveID}/${action.resultClass}`
     return ajax({
       url: requestUrl,
       method: 'GET'

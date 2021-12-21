@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import Grow from '@material-ui/core/Grow'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { Link } from 'react-router-dom'
@@ -38,6 +39,12 @@ class PerspectiveTabs extends React.Component {
     if (newPath !== oldPath) {
       this.setState({ value: this.pathnameToValue(newPath) })
     }
+
+    // Fix tabs indicator not showing on first load
+    // https://stackoverflow.com/a/61205108
+    const evt = document.createEvent('UIEvents')
+    evt.initUIEvent('resize', true, false, window, 0)
+    window.dispatchEvent(evt)
   }
 
   pathnameToValue = pathname => {
@@ -62,30 +69,34 @@ class PerspectiveTabs extends React.Component {
     const scrollButtons = tabs.length > 3 ? 'auto' : 'on'
     return (
       <Paper className={classes.root}>
-        <Tabs
-          value={this.state.value}
-          onChange={this.handleChange}
-          indicatorColor='secondary'
-          textColor='secondary'
-          variant={variant}
-          scrollButtons={scrollButtons}
-        >
-          {tabs.map(tab =>
-            <Tab
-              classes={{
-                root: classes.tabRoot,
-                labelIcon: classes.tabLabelIcon,
-                wrapper: classes.tabWrapper
-              }}
-              key={tab.id}
-              icon={tab.icon}
-              label={intl.get(`tabs.${tab.id}`)}
-              component={Link}
-              to={tab.id}
-              wrapped
-            />
-          )}
-        </Tabs>
+        <Grow in>
+          <Tabs
+            value={this.state.value}
+            onChange={this.handleChange}
+            indicatorColor='secondary'
+            textColor='secondary'
+            variant={variant}
+            scrollButtons={scrollButtons}
+          >
+            {tabs.map(tab =>
+              <Tab
+                classes={{
+                  root: classes.tabRoot,
+                  labelIcon: classes.tabLabelIcon,
+                  wrapper: classes.tabWrapper
+                }}
+                key={tab.id}
+                icon={tab.icon}
+                label={intl.get(`tabs.${tab.id}`)}
+                component={Link}
+                to={tab.id}
+                wrapped
+              />
+            )}
+          </Tabs>
+
+        </Grow>
+
       </Paper>
     )
   }

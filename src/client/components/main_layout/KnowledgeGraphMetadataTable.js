@@ -24,8 +24,11 @@ const KnowledgeGraphMetadataTable = props => {
 
   useEffect(() => {
     if (props.fetchKnowledgeGraphMetadata) {
-      const { resultClass } = props
-      props.fetchKnowledgeGraphMetadata({ resultClass })
+      const { perspectiveID, resultClass } = props
+      props.fetchKnowledgeGraphMetadata({
+        perspectiveID,
+        resultClass
+      })
     }
   }, [])
 

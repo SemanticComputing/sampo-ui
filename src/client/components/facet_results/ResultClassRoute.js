@@ -9,6 +9,8 @@ const LeafletMap = lazy(() => import('./LeafletMap'))
 const Deck = lazy(() => import('./Deck'))
 const ApexCharts = lazy(() => import('./ApexCharts'))
 const Network = lazy(() => import('./Network'))
+const VideoPage = lazy(() => import('../main_layout/VideoPage'))
+const WordCloud = lazy(() => import('../main_layout/WordCloud'))
 // const BarChartRace = lazy(() => import('../../facet_results/BarChartRace'))
 const ExportCSV = lazy(() => import('./ExportCSV'))
 const Export = lazy(() => import('./Export'))
@@ -86,19 +88,36 @@ const ResultClassRoute = props => {
       )
       break
     case 'InstancePageTable': {
+      const properties = resultClassConfig.properties
+        ? resultClassConfig.properties
+        : getVisibleRows(perspectiveState)
+      let instanceTableProps = {
+        portalConfig,
+        perspectiveConfig: perspective,
+        layoutConfig,
+        resultClass,
+        fetchResults: props.fetchResults,
+        properties,
+        screenSize
+      }
+      if (resultClassConfig.fetchResultsWhenMounted) {
+        instanceTableProps = {
+          ...instanceTableProps,
+          fetchResultsWhenMounted: true,
+          data: perspectiveState.results ? perspectiveState.results[0] : null,
+          uri: perspectiveState.instanceTableData.id,
+          resultUpdateID: perspectiveState.resultUpdateID
+        }
+      } else {
+        instanceTableProps = {
+          ...instanceTableProps,
+          data: perspectiveState.instanceTableData
+        }
+      }
       routeComponent = (
         <Route
           path={path}
-          render={routeProps =>
-            <InstancePageTable
-              portalConfig={portalConfig}
-              perspectiveConfig={perspective}
-              resultClass={props.defaultResultClass}
-              data={perspectiveState.instanceTableData}
-              properties={getVisibleRows(perspectiveState)}
-              screenSize={screenSize}
-              layoutConfig={layoutConfig}
-            />}
+          render={routeProps => <InstancePageTable {...instanceTableProps} />}
         />
       )
       break
@@ -156,6 +175,9 @@ const ResultClassRoute = props => {
           facetID,
           updateFacetOption: props.updateFacetOption
         }
+      }
+      if (pageType === 'instancePage') {
+        leafletProps.uri = perspectiveState.instanceTableData.id
       }
       routeComponent = (
         <Route
@@ -233,7 +255,8 @@ const ResultClassRoute = props => {
         fill,
         createChartData,
         doNotRenderOnMount = false,
-        dropdownForResultClasses = false
+        dropdownForResultClasses = false,
+        dropdownForChartTypes = false
       } = resultClassConfig
       const apexProps = {
         portalConfig,
@@ -263,6 +286,17 @@ const ResultClassRoute = props => {
         apexProps.resultClass = resultClassConfig.resultClasses[0]
         apexProps.resultClasses = resultClassConfig.resultClasses
         apexProps.dropdownForResultClasses = true
+      }
+      if (dropdownForChartTypes && has(resultClassConfig, 'chartTypes')) {
+        const { chartTypes } = resultClassConfig
+        const newChartTypes = chartTypes.map(chartType => {
+          return {
+            id: chartType.id,
+            createChartData: props.apexChartsConfig[chartType.createChartData]
+          }
+        })
+        apexProps.chartTypes = newChartTypes
+        apexProps.dropdownForChartTypes = true
       }
       routeComponent = (
         <Route
@@ -314,6 +348,42 @@ const ResultClassRoute = props => {
           path={path}
           render={() =>
             <Network {...networkProps} />}
+        />
+      )
+      break
+    }
+    case 'VideoPage': {
+      const videoPageProps = {
+        portalConfig,
+        perspectiveConfig: perspective,
+        layoutConfig,
+        screenSize,
+        resultClass,
+        perspectiveState,
+        properties: getVisibleRows(perspectiveState),
+        localID: props.localID,
+        routeProps: props.routeProps,
+        videoPlayerState: props.videoPlayerState,
+        updateVideoPlayerTime: props.updateVideoPlayerTime
+      }
+      routeComponent = (
+        <Route
+          path={path}
+          render={() =>
+            <VideoPage {...videoPageProps} />}
+        />
+      )
+      break
+    }
+    case 'WordCloud': {
+      const wordCloudProps = {
+        data: perspectiveState.instanceTableData[resultClassConfig.wordCloudProperty]
+      }
+      routeComponent = (
+        <Route
+          path={path}
+          render={() =>
+            <WordCloud {...wordCloudProps} />}
         />
       )
       break
