@@ -10,6 +10,7 @@ import { createFullTextSearchReducer } from './general/fullTextSearch'
 import error from './general/error'
 import options from './general/options'
 import animation from './general/animation'
+import videoPlayer from './general/videoPlayer'
 import leafletMap from './general/leafletMap'
 import {
   resultsInitialState,
@@ -21,6 +22,7 @@ import {
 const reducers = {
   leafletMap,
   animation,
+  videoPlayer,
   options,
   error,
   toastr: toastrReducer
@@ -65,7 +67,11 @@ for (const perspective of perspectiveConfig) {
     reducers[perspectiveID] = fullTextSearchReducer
   } else if (perspective.searchMode && perspective.searchMode === 'faceted-search') {
     const { resultClasses, properties, facets, maps } = perspective
-    const { paginatedResultsConfig } = resultClasses[perspectiveID]
+    const { paginatedResultsConfig, instanceConfig } = resultClasses[perspectiveID]
+    let instancePageResultClasses = {}
+    if (instanceConfig && instanceConfig.instancePageResultClasses) {
+      instancePageResultClasses = instanceConfig.instancePageResultClasses
+    }
     const resultsInitialStateFull = {
       ...resultsInitialState,
       ...paginatedResultsConfig,
@@ -77,7 +83,9 @@ for (const perspective of perspectiveConfig) {
       ...facetsInitialState,
       facets
     }
-    const resultsReducer = createResultsReducer(resultsInitialStateFull, new Set(Object.keys(resultClasses)))
+    const resultsReducer = createResultsReducer(
+      resultsInitialStateFull,
+      new Set(Object.keys({ ...resultClasses, ...instancePageResultClasses })))
     const facetsReducer = createFacetsReducer(facetsInitialStateFull, perspectiveID)
     const facetsConstrainSelfReducer = createFacetsConstrainSelfReducer(facetsInitialStateFull, perspectiveID)
     reducers[perspectiveID] = resultsReducer
