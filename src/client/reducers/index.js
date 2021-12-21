@@ -10,6 +10,7 @@ import { createFullTextSearchReducer } from './general/fullTextSearch'
 import error from './general/error'
 import options from './general/options'
 import animation from './general/animation'
+import videoPlayer from './general/videoPlayer'
 import leafletMap from './general/leafletMap'
 import {
   resultsInitialState,
@@ -21,6 +22,7 @@ import {
 const reducers = {
   leafletMap,
   animation,
+  videoPlayer,
   options,
   error,
   toastr: toastrReducer

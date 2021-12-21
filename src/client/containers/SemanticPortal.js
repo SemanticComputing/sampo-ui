@@ -38,6 +38,7 @@ import {
   updatePerspectiveHeaderExpanded,
   loadLocales,
   animateMap,
+  updateVideoPlayerTime,
   clientFSToggleDataset,
   clientFSFetchResults,
   clientFSSortResults,
@@ -472,6 +473,8 @@ const SemanticPortal = props => {
                                   perspective={perspective}
                                   animationValue={props.animationValue}
                                   animateMap={props.animateMap}
+                                  videoPlayerState={props.videoPlayer}
+                                  updateVideoPlayerTime={props.updateVideoPlayerTime}
                                   screenSize={screenSize}
                                   rootUrl={rootUrlWithLang}
                                   apexChartsConfig={apexChartsConfig}
@@ -542,6 +545,8 @@ const SemanticPortal = props => {
                             perspective={perspective}
                             animationValue={props.animationValue}
                             animateMap={props.animateMap}
+                            videoPlayerState={props.videoPlayer}
+                            updateVideoPlayerTime={props.updateVideoPlayerTime}
                             screenSize={screenSize}
                             rootUrl={rootUrlWithLang}
                             apexChartsConfig={apexChartsConfig}
@@ -677,6 +682,7 @@ const mapStateToProps = state => {
   stateToProps.leafletMap = state.leafletMap
   stateToProps.fullTextSearch = state.fullTextSearch
   stateToProps.animationValue = state.animation.value
+  stateToProps.videoPlayer = state.videoPlayer
   stateToProps.options = state.options
   stateToProps.error = state.error
   return stateToProps
@@ -707,6 +713,7 @@ const mapDispatchToProps = ({
   updatePerspectiveHeaderExpanded,
   loadLocales,
   animateMap,
+  updateVideoPlayerTime,
   clientFSToggleDataset,
   clientFSFetchResults,
   clientFSClearResults,

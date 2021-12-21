@@ -1,12 +1,14 @@
 import { readFile } from 'fs/promises'
 import { has } from 'lodash'
-// import { backendSearchConfig as oldBackendSearchConfig } from './findsampo/BackendSearchConfig'
-// import { findsPerspectiveConfig } from './findsampo/perspective_configs/FindsPerspectiveConfig'
+
+// import { backendSearchConfig as oldBackendSearchConfig } from './veterans/BackendSearchConfig'
+
+// import { videosConfig } from './veterans/perspective_configs/VideosConfig'
 // import { typesPerspectiveConfig } from './perspective_configs/TypesPerspectiveConfig'
 // import { periodsPerspectiveConfig } from './perspective_configs/PeriodsPerspectiveConfig'
 // import { coinsPerspectiveConfig } from './perspective_configs/CoinsPerspectiveConfig'
 
-// import { INITIAL_STATE } from '../../client/reducers/findsampo/findsFacets'
+// import { INITIAL_STATE } from '../../client/reducers/veterans/videosFacets'
 // import { INITIAL_STATE } from '../../client/reducers/findsampo/finds'
 
 export const createBackendSearchConfig = async () => {
@@ -36,6 +38,9 @@ export const createBackendSearchConfig = async () => {
       const instancePagePropertiesQueryBlock = sparqlQueries[instancePagePropertiesQueryBlockID]
       paginatedResultsConfig.propertiesQueryBlock = paginatedResultsPropertiesQueryBlock
       instanceConfig.propertiesQueryBlock = instancePagePropertiesQueryBlock
+      if (instanceConfig.postprocess) {
+        instanceConfig.postprocess.func = resultMappers[instanceConfig.postprocess.func]
+      }
       if (has(instanceConfig, 'instancePageResultClasses')) {
         for (const instancePageResultClass in instanceConfig.instancePageResultClasses) {
           const instancePageResultClassConfig = instanceConfig.instancePageResultClasses[instancePageResultClass]
@@ -78,6 +83,10 @@ export const createBackendSearchConfig = async () => {
     const instancePagePropertiesQueryBlockID = instanceConfig.propertiesQueryBlock
     const instancePagePropertiesQueryBlock = sparqlQueries[instancePagePropertiesQueryBlockID]
     instanceConfig.propertiesQueryBlock = instancePagePropertiesQueryBlock
+    console.log(instanceConfig)
+    if (instanceConfig.postprocess) {
+      instanceConfig.postprocess.func = resultMappers[instanceConfig.postprocess.func]
+    }
     let hasInstancePageResultClasses = false
     if (has(instanceConfig, 'instancePageResultClasses')) {
       for (const instancePageResultClass in instanceConfig.instancePageResultClasses) {
@@ -196,6 +205,9 @@ export const mergeFacetConfigs = (clientFacets, serverFacets) => {
       if (serverFacet.facetValueFilter && serverFacet.facetValueFilter !== '') {
         mergedFacet.facetValueFilter = serverFacet.facetValueFilter
       }
+      if (serverFacet.facetLabelFilter && serverFacet.facetLabelFilter !== '') {
+        mergedFacet.facetLabelFilter = serverFacet.facetLabelFilter
+      }
       if (has(serverFacet, 'literal')) {
         mergedFacet.literal = serverFacet.literal
       }
@@ -208,6 +220,9 @@ export const mergeFacetConfigs = (clientFacets, serverFacets) => {
     if (serverFacet.type === 'hierarchical') {
       if (serverFacet.facetValueFilter && serverFacet.facetValueFilter !== '') {
         mergedFacet.facetValueFilter = serverFacet.facetValueFilter
+      }
+      if (serverFacet.facetLabelFilter && serverFacet.facetLabelFilter !== '') {
+        mergedFacet.facetLabelFilter = serverFacet.facetLabelFilter
       }
       mergedFacet.facetType = 'hierarchical'
       mergedFacet.predicate = serverFacet.predicate
@@ -249,7 +264,7 @@ export const mergeFacetConfigs = (clientFacets, serverFacets) => {
     mergedFacets[facetID] = orderedFacet
   }
   // console.log(mergedFacets)
-  // console.log(JSON.stringify(mergedFacets))
+  console.log(JSON.stringify(mergedFacets))
 }
 
 export const createExtraResultClassesForJSONConfig = async oldBackendSearchConfig => {
@@ -312,8 +327,11 @@ export const createExtraResultClassesForJSONConfig = async oldBackendSearchConfi
 }
 
 // createExtraResultClassesForJSONConfig(oldBackendSearchConfig)
-// mergeFacetConfigs(INITIAL_STATE.facets, findsPerspectiveConfig.facets)
+
+// mergeFacetConfigs(INITIAL_STATE.facets, videosConfig.facets)
+
 // console.log(JSON.stringify(INITIAL_STATE.properties))
+
 // "tabID": 0,
 // "tabPath": "",
 // "tabIcon": "",

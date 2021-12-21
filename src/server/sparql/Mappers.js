@@ -358,6 +358,29 @@ const getChoroplethMapColor = ({ value, clusters }) => {
   return heatmapColor
 }
 
+export const createPaddedTimeCodes = ({ data, config }) => {
+  data.forEach(item => {
+    let target = item[config.target]
+    if (!Array.isArray(target)) {
+      target = [target]
+    }
+    target.forEach(targetItem => {
+      const { hours, minutes, seconds } = targetItem
+      if (hours == null || minutes == null || seconds == null) {
+        // console.log(targetItem)
+      } else {
+        const paddedTimecode = createPaddedTimeCode({ hours, minutes, seconds })
+        targetItem[config.timeCodeProperty] = paddedTimecode
+      }
+    })
+  })
+  return data
+}
+
+const createPaddedTimeCode = ({ hours, minutes, seconds }) => {
+  return `${hours}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`
+}
+
 // const NS_PER_SEC = 1e9
 // const MS_PER_NS = 1e-6
 
