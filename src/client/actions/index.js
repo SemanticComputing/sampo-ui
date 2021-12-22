@@ -48,6 +48,7 @@ export const LOAD_LOCALES = 'LOAD_LOCALES'
 export const LOAD_LOCALES_FAILED = 'LOAD_LOCALES_FAILED'
 export const UPDATE_LOCALE = 'UPDATE_LOCALE'
 export const ANIMATE_MAP = 'ANIMATE_MAP'
+export const UPDATE_VIDEO_PLAYER_TIME = 'UPDATE_VIDEO_PLAYER_TIME'
 export const CLIENT_FS_UPDATE_QUERY = 'CLIENT_FS_UPDATE_QUERY'
 export const CLIENT_FS_TOGGLE_DATASET = 'CLIENT_FS_TOGGLE_DATASET'
 export const CLIENT_FS_FETCH_RESULTS = 'CLIENT_FS_FETCH_RESULTS'
@@ -321,6 +322,10 @@ export const updateLocale = ({ language }) => ({
 })
 export const animateMap = value => ({
   type: ANIMATE_MAP,
+  value
+})
+export const updateVideoPlayerTime = value => ({
+  type: UPDATE_VIDEO_PLAYER_TIME,
   value
 })
 export const updateMapBounds = ({ resultClass, bounds }) => ({
