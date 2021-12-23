@@ -246,7 +246,7 @@ const ResultClassRoute = props => {
       const {
         pageType = 'facetResults',
         title,
-        xAxisTitle,
+        xaxisTitle,
         xaxisType,
         xaxisTickAmount,
         yaxisTitle,
@@ -271,7 +271,7 @@ const ResultClassRoute = props => {
         fetchData: props.fetchResults,
         createChartData: props.apexChartsConfig[createChartData],
         title,
-        xAxisTitle,
+        xaxisTitle,
         xaxisType,
         xaxisTickAmount,
         yaxisTitle,
