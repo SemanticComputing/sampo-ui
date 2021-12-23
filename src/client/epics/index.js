@@ -56,7 +56,14 @@ const { portalID, localeConfig, documentFinderConfig } = portalConfig
 const { documentFinderAPIUrl } = documentFinderConfig
 export const availableLocales = {}
 for (const locale of localeConfig.availableLocales) {
-  availableLocales[locale.id] = await import(`../translations/${portalID}/${locale.filename}`)
+  let localeObj
+  if (locale.format && locale.format === 'js') {
+    const localeModule = await import(`../translations/${portalID}/${locale.filename}`)
+    localeObj = localeModule.default
+  } else {
+    localeObj = await import(`../translations/${portalID}/${locale.filename}`)
+  }
+  availableLocales[locale.id] = localeObj
 }
 
 /*
