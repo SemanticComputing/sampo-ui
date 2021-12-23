@@ -14,7 +14,7 @@ The following research prototype portals use this repository as a base:
 8. [LetterSampo](https://github.com/SemanticComputing/lettersampo-web-app)
 9. [Hellerau](https://github.com/SemanticComputing/hellerau-web-app)
 10. [ParliamentSampo](https://github.com/SemanticComputing/parliamentsampo-web-app)
-11. [War veteran interviews](https://github.com/SemanticComputing/veterans-web-app)
+11. [WarMemoirSampo](https://github.com/SemanticComputing/veterans-web-app)
 12. [WarSampo analyzer](https://github.com/SemanticComputing/warsa-analyzer-web-app)
 13. [ArtSampo](https://github.com/SemanticComputing/artsampo-web-app)
 
@@ -83,56 +83,6 @@ docker run -d -p 3006:3001 --name sampo-web-app sampo-web-app-image
  ### Coding style
 
 The [JavaScript style guide, linter, and formatter](https://standardjs.com) module (named "standard" in package.json) is installed by default as development dependency. Do not install or create any additional style definitions or configurations. Instead, install an appropriate [plugin](https://standardjs.com/index.html#are-there-text-editor-plugins) for your text editor. If there are no plugins  available for your favorite editor, it is highly recommended to switch into a supported editor. 
-
-### Configuration and folder structure
-
-The Sampo-UI framework consists of a client and a backend. This repository includes an example  of a user interface with four faceted search perspectives. The perspectives are connected to five existing
-SPARQL endpoints using backend configurations. In order to connect to new SPARQL endpoints, the client and the backend need to be configured and modified accordingly.
-
-The general idea of Sampo-UI is that the focus of the client and its configurations is on displaying data. The business logic of fetching the data using various search paradigms is placed on the backend (folder named "server"). To reduce the trouble of passing all configurations and SPARQL queries from the client to the backend, the client and the backend are configured separately. 
-
-It is recommended that you create the files that are specific to your portal in subfolders, 
-to separate them from the core files of Sampo-UI. You can just copy the five folders named "sampo" and rename them with the name of your portal to get a starting base for your React components, reducers, and configuration files. As can be seen from the example configurations and SPARQL queries, the variable names used in the SPARQL queries need to match with the variable names in the reducers of the client. The reducers are used to receive the data from the backend. 
-
-The figure below shows the locations different configuration folders and files.   
-
-``` 
-src
- ┣ client
- ┃ ┣ components
- ┃ ┃ ┣ perspectives
- ┃ ┃ ┃ ┗ YOUR_PORTAL
- ┃ ┃ ┃ ┃ ┣ FacetedSearchPerspective.js  <-- import all perspectives here
- ┃ ┃ ┃ ┃ ┣ Perspective1.js
- ┃ ┃ ┃ ┃ ┣ ...
- ┃ ┣ configs
- ┃ ┃ ┗ YOUR_PORTAL
- ┃ ┃ ┃ ┣ GeneralConfig.js 
- ┃ ┃ ┃ ┣ PerspectiveConfig.js 
- ┃ ┃ ┃ ┗ PerspectiveConfigOnlyInfoPages.js
- ┃ ┣ containers
- ┃ ┃ ┗ SemanticPortal.js <-- import FacetedSearchPerspective component and root reducer here
- ┃ ┣ reducers
- ┃ ┃ ┗ YOUR_PORTAL   <-- add reducers for all your perspectives
- ┃ ┃ ┃ ┣ fullTextSearch.js
- ┃ ┃ ┃ ┣ perspective1.js
- ┃ ┃ ┃ ┣ perspective1Facets.js
- ┃ ┃ ┃ ┣ ...
- ┃ ┃ ┣ index.js   <-- combine your reducers here
- ┃ ┣ translations
- ┃ ┃ ┗ YOUR_PORTAL
- ┃ ┃ ┃ ┣ localeEN.js  <-- add translations for all components
- ┃ ┃ ┃ ┣ ...
- ┗ server
- ┃ ┣ sparql
- ┃ ┃ ┣ YOUR_PORTAL
- ┃ ┃ ┃ ┣ perspective_configs
- ┃ ┃ ┃ ┃ ┗ ... <-- add SPARQL endpoint and facet configs for each perspective 
- ┃ ┃ ┃ ┣ sparql_queries
- ┃ ┃ ┃ ┃ ┗ ...  <-- SPARQL queries
- ┃ ┃ ┃ ┗ BackendSearchConfig.js <-- import and combine your backend configs into this file  
- ┃ ┗ index.js <-- import the backend config file here
-```
 
 ## Documentation
 
