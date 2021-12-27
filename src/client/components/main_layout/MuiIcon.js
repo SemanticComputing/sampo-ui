@@ -14,7 +14,8 @@ import {
   FormatAlignJustify,
   ClearAll,
   OndemandVideo,
-  KeyboardVoice
+  KeyboardVoice,
+  Autorenew
 } from '@material-ui/icons'
 import has from 'lodash'
 
@@ -34,7 +35,8 @@ const MuiIcon = props => {
     FormatAlignJustify: FormatAlignJustify,
     ClearAll: ClearAll,
     OndemandVideo: OndemandVideo,
-    KeyboardVoice: KeyboardVoice
+    KeyboardVoice: KeyboardVoice,
+    Autorenew: Autorenew
   }
   if (has(MuiIcons, props.iconName)) {
     const MuiIconComponent = MuiIcons[props.iconName]

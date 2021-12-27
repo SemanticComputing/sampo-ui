@@ -46,6 +46,7 @@ class ApexChart extends React.Component {
       this.renderChart()
     }
     this.props.fetchData({
+      perspectiveID: this.props.perspectiveConfig.id,
       resultClass: this.state.resultClass,
       facetClass: this.props.facetClass,
       facetID: this.props.facetID,
@@ -61,6 +62,7 @@ class ApexChart extends React.Component {
     // check if filters have changed
     if (this.props.pageType === 'facetResults' && prevProps.facetUpdateID !== this.props.facetUpdateID) {
       this.props.fetchData({
+        perspectiveID: this.props.perspectiveConfig.id,
         resultClass: this.state.resultClass,
         facetClass: this.props.facetClass,
         facetID: this.props.facetID
@@ -68,6 +70,7 @@ class ApexChart extends React.Component {
     }
     if (prevState.resultClass !== this.state.resultClass) {
       this.props.fetchData({
+        perspectiveID: this.props.perspectiveConfig.id,
         resultClass: this.state.resultClass,
         facetClass: this.props.facetClass,
         facetID: this.props.facetID

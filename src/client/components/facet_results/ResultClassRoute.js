@@ -319,7 +319,8 @@ const ResultClassRoute = props => {
         limit,
         optimize,
         style,
-        layout,
+        fitLayout = false,
+        layout = null,
         preprocess
       } = resultClassConfig
       let networkProps = {
@@ -336,8 +337,11 @@ const ResultClassRoute = props => {
         limit,
         optimize,
         style: networkConfig[style],
-        layout: networkConfig[layout],
+        fitLayout,
         preprocess: networkConfig[preprocess]
+      }
+      if (layout) {
+        networkProps.layout = networkConfig[layout]
       }
       if (pageType === 'facetResults') {
         networkProps = {
