@@ -266,7 +266,6 @@ const ResultClassRoute = props => {
         facetClass,
         rawData: perspectiveState.results,
         rawDataUpdateID: perspectiveState.resultUpdateID,
-        facetUpdateID: facetState.facetUpdateID,
         fetching: perspectiveState.fetching,
         fetchData: props.fetchResults,
         createChartData: props.apexChartsConfig[createChartData],
@@ -281,6 +280,12 @@ const ResultClassRoute = props => {
         layoutConfig: props.layoutConfig,
         doNotRenderOnMount,
         dropdownForResultClasses
+      }
+      if (pageType === 'facetResults') {
+        apexProps.facetUpdateID = facetState.facetUpdateID
+      }
+      if (pageType === 'instancePage') {
+        apexProps.uri = perspectiveState.instanceTableData.id
       }
       if (dropdownForResultClasses && has(resultClassConfig, 'resultClasses')) {
         apexProps.resultClass = resultClassConfig.resultClasses[0]
