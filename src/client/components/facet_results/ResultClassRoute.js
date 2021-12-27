@@ -167,13 +167,15 @@ const ResultClassRoute = props => {
         infoHeaderExpanded: perspectiveState.facetedSearchHeaderExpanded,
         layoutConfig: props.layoutConfig
       }
-      if (facetID) {
-        leafletProps = {
-          ...leafletProps,
-          facetUpdateID: facetState.facetUpdateID,
-          facet: facetState.facets[facetID],
-          facetID,
-          updateFacetOption: props.updateFacetOption
+      if (pageType === 'facetResults') {
+        leafletProps.facetUpdateID = facetState.facetUpdateID
+        if (facetID) {
+          leafletProps = {
+            ...leafletProps,
+            facet: facetState.facets[facetID],
+            facetID,
+            updateFacetOption: props.updateFacetOption
+          }
         }
       }
       if (pageType === 'instancePage') {
