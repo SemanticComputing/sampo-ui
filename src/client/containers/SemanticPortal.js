@@ -641,7 +641,9 @@ const SemanticPortal = props => {
                       perspectiveID={knowledgeGraphMetadataSource}
                       resultClass='knowledgeGraphMetadata'
                       fetchKnowledgeGraphMetadata={props.fetchKnowledgeGraphMetadata}
-                      knowledgeGraphMetadata={props[knowledgeGraphMetadataSource].knowledgeGraphMetadata}
+                      knowledgeGraphMetadata={props[knowledgeGraphMetadataSource]
+                        ? props[knowledgeGraphMetadataSource].knowledgeGraphMetadata
+                        : null}
                     />
                     {intl.getHTML('aboutThePortalPartTwo')}
                   </TextPage>
