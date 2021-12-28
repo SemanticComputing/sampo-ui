@@ -20,12 +20,12 @@ export const filterResults = createSelector(
     }
 
     // Filter results by current facet selections
-    Object.values(facets).forEach(facet => {
-      const { facetID, filterType } = facet
-      if (filterType === 'clientFSLiteral' && facet.selectionsSet.size !== 0) {
-        results = results.filter(result => facet.selectionsSet.has(result[facetID]))
+    for (const [facetID, facet] of Object.entries(facets)) {
+      const { filterType, selectionsSet } = facet
+      if (filterType === 'clientFSLiteral' && selectionsSet.size !== 0) {
+        results = results.filter(result => selectionsSet.has(result[facetID]))
       }
-    })
+    }
     results = orderBy(results, sortBy, sortDirection)
 
     // Calculate values for all facets
@@ -48,8 +48,8 @@ export const filterResults = createSelector(
     }
     // Then handle all the remainder facets
     for (const result of results) {
-      Object.values(facets).forEach(facet => {
-        const { facetID, filterType, selectionsSet } = facet
+      for (const [facetID, facet] of Object.entries(facets)) {
+        const { filterType, selectionsSet } = facet
         if (facetID !== skipFacetID && filterType === 'clientFSLiteral' && has(result, facetID)) {
           const literalValue = result[facetID]
           if (!has(facetValues[facetID], literalValue)) {
@@ -64,7 +64,7 @@ export const filterResults = createSelector(
             facetValues[facetID][literalValue].instanceCount += 1
           }
         }
-      })
+      }
     }
     for (const facetID in facetValues) {
       facetValues[facetID] = orderBy(facetValues[facetID], 'prefLabel')

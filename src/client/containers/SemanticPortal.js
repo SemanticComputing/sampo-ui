@@ -669,8 +669,9 @@ const mapStateToProps = state => {
   perspectiveConfig.forEach(perspective => {
     const { id, searchMode } = perspective
     if (searchMode && searchMode === 'federated-search') {
-      const { clientFSResults, clientFSFacetValues } = filterResults(state[id])
-      stateToProps.clientFSState = state[id]
+      const perspectiveState = state[id]
+      const { clientFSResults, clientFSFacetValues } = filterResults(perspectiveState)
+      stateToProps.clientFSState = perspectiveState
       stateToProps.clientFSResults = clientFSResults
       stateToProps.clientFSFacetValues = clientFSFacetValues
     } else {
