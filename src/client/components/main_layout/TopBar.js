@@ -238,7 +238,8 @@ const TopBar = props => {
   }
 
   const renderMobileMenu = perspectives => {
-    const { infoDropdown } = props.layoutConfig.topBar
+    const { topBar } = props.layoutConfig
+    const { infoDropdown } = topBar
     return (
       <Menu
         anchorEl={mobileMoreAnchorEl}
@@ -261,15 +262,14 @@ const TopBar = props => {
           label: intl.get('topBar.instructions')
         })}
         {!topBar.externalInstructions &&
-          <Button
-            className={classes.appBarButton}
-            component={AdapterNavLink}
+          <MenuItem
+            key='instructions'
+            component={AdapterLink}
             to={`${props.rootUrl}/instructions`}
-            isActive={(match, location) => location.pathname.startsWith(`${props.rootUrl}/instructions`)}
-            activeClassName={classes.appBarButtonActive}
+            onClick={handleMobileMenuClose}
           >
-            {intl.get('topBar.instructions')}
-          </Button>}
+            {intl.get('topBar.instructions').toUpperCase()}
+          </MenuItem>}
       </Menu>
     )
   }
