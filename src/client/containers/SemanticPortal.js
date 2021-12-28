@@ -65,7 +65,7 @@ const {
   rootUrl,
   perspectives,
   layoutConfig,
-  knowledgeGraphMetadataSource
+  knowledgeGraphMetadataConfig
 } = portalConfig
 const perspectiveConfig = await createPerspectiveConfig({
   portalID,
@@ -635,16 +635,17 @@ const SemanticPortal = props => {
                 <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
                   <TextPage>
                     {intl.getHTML('aboutThePortalPartOne')}
-                    <KnowledgeGraphMetadataTable
-                      portalConfig={portalConfig}
-                      layoutConfig={layoutConfig}
-                      perspectiveID={knowledgeGraphMetadataSource}
-                      resultClass='knowledgeGraphMetadata'
-                      fetchKnowledgeGraphMetadata={props.fetchKnowledgeGraphMetadata}
-                      knowledgeGraphMetadata={props[knowledgeGraphMetadataSource]
-                        ? props[knowledgeGraphMetadataSource].knowledgeGraphMetadata
-                        : null}
-                    />
+                    {knowledgeGraphMetadataConfig.showTable &&
+                      <KnowledgeGraphMetadataTable
+                        portalConfig={portalConfig}
+                        layoutConfig={layoutConfig}
+                        perspectiveID={knowledgeGraphMetadataConfig.perspective}
+                        resultClass='knowledgeGraphMetadata'
+                        fetchKnowledgeGraphMetadata={props.fetchKnowledgeGraphMetadata}
+                        knowledgeGraphMetadata={props[knowledgeGraphMetadataConfig.perspective]
+                          ? props[knowledgeGraphMetadataConfig.perspective].knowledgeGraphMetadata
+                          : null}
+                      />}
                     {intl.getHTML('aboutThePortalPartTwo')}
                   </TextPage>
                 </div>}

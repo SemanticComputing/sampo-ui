@@ -19,7 +19,6 @@
             "places"
         ]
     },
-    "knowledgeGraphMetadataSource": "perspective1",
     "localeConfig": {
         "defaultLocale": "en",
         "readTranslationsFromGoogleSheets": "false",
@@ -43,6 +42,10 @@
         "outputDir": "./src/server/sitemap_generator",
         "sitemapUrl": "https://sampo-ui.demo.seco.cs.aalto.fi/sitemap",
         "sitemapInstancePageQuery": "sitemapInstancePageQuery"
+    },
+    "knowledgeGraphMetadataConfig": {
+        "showTable": false,
+        "perspective": "perspective1" 
     },
     "layoutConfig": {
         "colorPalette": {
