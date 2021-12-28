@@ -64,7 +64,8 @@ const {
   portalID,
   rootUrl,
   perspectives,
-  layoutConfig
+  layoutConfig,
+  knowledgeGraphMetadataSource
 } = portalConfig
 const perspectiveConfig = await createPerspectiveConfig({
   portalID,
@@ -627,31 +628,33 @@ const SemanticPortal = props => {
 
           />
           {/* create routes for info buttons */}
-          <Route
-            path={`${rootUrlWithLang}/about`}
-            render={() =>
-              <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
-                <TextPage>
-                  {intl.getHTML('aboutThePortalPartOne')}
-                  <KnowledgeGraphMetadataTable
-                    portalConfig={portalConfig}
-                    layoutConfig={layoutConfig}
-                    perspectiveID='perspective1'
-                    resultClass='perspective1KnowledgeGraphMetadata'
-                    fetchKnowledgeGraphMetadata={props.fetchKnowledgeGraphMetadata}
-                    knowledgeGraphMetadata={props.perspective1.knowledgeGraphMetadata}
-                  />
-                  {intl.getHTML('aboutThePortalPartTwo')}
-                </TextPage>
-              </div>}
-          />
-          <Route
-            path={`${rootUrlWithLang}/instructions`}
-            render={() =>
-              <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
-                <TextPage>{intl.getHTML('instructions')}</TextPage>
-              </div>}
-          />
+          {!layoutConfig.topBar.externalAboutPage &&
+            <Route
+              path={`${rootUrlWithLang}/about`}
+              render={() =>
+                <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
+                  <TextPage>
+                    {intl.getHTML('aboutThePortalPartOne')}
+                    <KnowledgeGraphMetadataTable
+                      portalConfig={portalConfig}
+                      layoutConfig={layoutConfig}
+                      perspectiveID={knowledgeGraphMetadataSource}
+                      resultClass='knowledgeGraphMetadata'
+                      fetchKnowledgeGraphMetadata={props.fetchKnowledgeGraphMetadata}
+                      knowledgeGraphMetadata={props[knowledgeGraphMetadataSource].knowledgeGraphMetadata}
+                    />
+                    {intl.getHTML('aboutThePortalPartTwo')}
+                  </TextPage>
+                </div>}
+            />}
+          {!layoutConfig.topBar.externalInstructions &&
+            <Route
+              path={`${rootUrlWithLang}/instructions`}
+              render={() =>
+                <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
+                  <TextPage>{intl.getHTML('instructions')}</TextPage>
+                </div>}
+            />}
         </>
       </div>
     </MuiPickersUtilsProvider>

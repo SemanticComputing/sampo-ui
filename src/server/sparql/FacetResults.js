@@ -118,6 +118,13 @@ export const getAllResults = ({
     langTagSecondary = null
   } = perspectiveConfig
   const resultClassConfig = perspectiveConfig.resultClasses[resultClass]
+  if (resultClassConfig === undefined) {
+    console.log(`Error: result class "${resultClass}" not defined for perspective "${perspectiveID}"`)
+    return Promise.resolve({
+      data: null,
+      sparqlQuery: ''
+    })
+  }
   const {
     sparqlQuery,
     sparqlQueryNodes = null,

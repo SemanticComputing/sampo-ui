@@ -19,6 +19,7 @@
             "places"
         ]
     },
+    "knowledgeGraphMetadataSource": "perspective1",
     "localeConfig": {
         "defaultLocale": "en",
         "readTranslationsFromGoogleSheets": "false",
@@ -60,6 +61,8 @@
         "topBar": {
             "showLanguageButton": true,
             "feedbackLink": "https://link.webropolsurveys.com/...",
+            "externalInstructions": false,
+            "externalAboutPage": false,
             "reducedHeight": 44,
             "defaultHeight": 64,
             "mobileMenuBreakpoint": 1360,

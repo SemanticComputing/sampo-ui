@@ -55,7 +55,7 @@
             "resultClass": "perspective1",
             "facetClass": "perspective1"
         },
-        "perspective1KnowledgeGraphMetadata": {
+        "knowledgeGraphMetadata": {
             "sparqlQuery": "knowledgeGraphMetadataQuery",
             "resultMapper": "makeObjectList"
         }
