@@ -131,6 +131,8 @@ export const getAllResults = ({
   const {
     sparqlQuery,
     sparqlQueryNodes = null,
+    property = null,
+    rdfType = null,
     filterTarget = 'id',
     resultMapper = makeObjectList,
     resultMapperConfig = null,
@@ -161,6 +163,12 @@ export const getAllResults = ({
   }
   if (toID) {
     q = q.replace(/<TO_ID>/g, `<${toID}>`)
+  }
+  if (property) {
+    q = q.replace(/<PROPERTY>/g, property)
+  }
+  if (rdfType) {
+    q = q.replace(/<RDF_TYPE>/g, rdfType)
   }
   if (resultClassConfig.useNetworkAPI) {
     return runNetworkQuery({

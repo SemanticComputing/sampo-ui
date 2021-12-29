@@ -3,14 +3,8 @@ import { has } from 'lodash'
 
 // import { backendSearchConfig as oldBackendSearchConfig } from './veterans/BackendSearchConfig'
 
-// import { videosConfig } from './veterans/perspective_configs/VideosConfig'
-// import { clipsConfig } from './veterans/perspective_configs/ClipsConfig'
-// import { entitiesConfig } from './veterans/perspective_configs/EntitiesConfig'
-// import { coinsPerspectiveConfig } from './perspective_configs/CoinsPerspectiveConfig'
-
-// import { INITIAL_STATE } from '../../client/reducers/veterans/videosFacets'
-// import { INITIAL_STATE } from '../../client/reducers/veterans/clipsFacets'
-// import { INITIAL_STATE } from '../../client/reducers/veterans/entitiesFacets'
+// import { battlesPerspectiveConfig as oldPerspectiveConfig } from './sotasurmat/perspective_configs/BattlesPerspectiveConfig'
+// import { INITIAL_STATE } from '../../client/reducers/sotasurmat/battlesFacets'
 
 export const createBackendSearchConfig = async () => {
   const portalConfigJSON = await readFile('src/configs/portalConfig.json')
@@ -161,6 +155,9 @@ export const mergeFacetConfigs = (clientFacets, serverFacets) => {
     if (serverFacet.labelPath && serverFacet.labelPath !== '') {
       serverFacet.labelPath = serverFacet.labelPath.replace(/\s+/g, ' ').trim()
     }
+    if (serverFacet.orderByPattern && serverFacet.orderByPattern !== '') {
+      serverFacet.orderByPattern = serverFacet.orderByPattern.replace(/\s+/g, ' ').trim()
+    }
     if (serverFacet.textQueryPredicate && serverFacet.textQueryPredicate !== '') {
       serverFacet.textQueryPredicate = serverFacet.textQueryPredicate.replace(/\s+/g, ' ').trim()
     }
@@ -189,6 +186,9 @@ export const mergeFacetConfigs = (clientFacets, serverFacets) => {
     // labelPath --> sortByPredicate
     if (serverFacet.labelPath) {
       mergedFacet.sortByPredicate = serverFacet.labelPath
+    }
+    if (serverFacet.orderByPattern) {
+      mergedFacet.sortByPattern = serverFacet.orderByPattern
     }
 
     if (serverFacet.type === 'text') {
@@ -327,11 +327,4 @@ export const createExtraResultClassesForJSONConfig = async oldBackendSearchConfi
 }
 
 // createExtraResultClassesForJSONConfig(oldBackendSearchConfig)
-
-// mergeFacetConfigs(INITIAL_STATE.facets, entitiesConfig.facets)
-
-// console.log(JSON.stringify(INITIAL_STATE.properties))
-
-// "tabID": 0,
-// "tabPath": "",
-// "tabIcon": "",
+// mergeFacetConfigs(INITIAL_STATE.facets, oldPerspectiveConfig.facets)
