@@ -118,7 +118,7 @@ const TopBar = props => {
   const classes = useStyles(props)
   const handleMobileMenuOpen = event => setMobileMoreAnchorEl(event.currentTarget)
   const handleMobileMenuClose = () => setMobileMoreAnchorEl(null)
-  const clientFSMode = props.location.pathname.indexOf('clientFS') !== -1
+  const federatedSearchMode = props.location.pathname.indexOf('federated-search') !== -1
   let showSearchField = true
   if (has(layoutConfig.topBar, 'showSearchField')) {
     showSearchField = layoutConfig.topBar.showSearchField
@@ -287,7 +287,7 @@ const TopBar = props => {
               root: classes.mainLogoButtonRoot,
               label: classes.mainLogoButtonLabel
             }}
-            onClick={() => clientFSMode ? props.clientFSClearResults() : null}
+            onClick={() => federatedSearchMode ? props.clientFSClearResults() : null}
           >
             {topBar.logoImage &&
               <img
