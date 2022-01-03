@@ -44,34 +44,32 @@ store.dispatch(loadLocales(locale))
 
 render(
   <Provider store={store}>
-    <div id='app'>
-      <Router history={history}>
-        <Suspense
-          fallback={
-            <div style={{
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-            >
-              <CircularProgress style={{ color: purple[500] }} thickness={5} />
-            </div>
+    <Router history={history}>
+      <Suspense
+        fallback={
+          <div style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          >
+            <CircularProgress style={{ color: purple[500] }} thickness={5} />
+          </div>
           }
-        >
-          <App />
-        </Suspense>
-      </Router>
-      <ReduxToastr
-        timeOut={0}
-        newestOnTop={false}
-        preventDuplicates
-        position='top-center'
-        transitionIn='fadeIn'
-        transitionOut='fadeOut'
-      />
-    </div>
+      >
+        <App />
+      </Suspense>
+    </Router>
+    <ReduxToastr
+      timeOut={0}
+      newestOnTop={false}
+      preventDuplicates
+      position='top-center'
+      transitionIn='fadeIn'
+      transitionOut='fadeOut'
+    />
   </Provider>,
   document.getElementById('root')
 )

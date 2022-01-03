@@ -45,7 +45,7 @@ const styles = theme => ({
     [theme.breakpoints.down(480)]: {
       display: 'flex',
       flexWrap: 'wrap',
-      height: 60
+      marginTop: theme.spacing(0.5)
     }
   }),
   progressContainer: {
