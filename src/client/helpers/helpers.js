@@ -205,6 +205,10 @@ export const processPortalConfig = async portalConfig => {
     const { default: image } = await import(/* webpackMode: "eager" */ `../img/${layoutConfig.topBar.logoImage}`)
     layoutConfig.topBar.logoImage = image
   }
+  if (layoutConfig.topBar.logoImageSecondary) {
+    const { default: image } = await import(/* webpackMode: "eager" */ `../img/${layoutConfig.topBar.logoImageSecondary}`)
+    layoutConfig.topBar.logoImageSecondary = image
+  }
 }
 
 export const createPerspectiveConfig = async ({ portalID, searchPerspectives }) => {

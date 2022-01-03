@@ -71,9 +71,9 @@ const useStyles = makeStyles(theme => ({
     }
   }),
   mainLogo: props => ({
-    height: 23,
+    height: props.layoutConfig.topBar.logoImageReducedHeight || 23,
     [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-      height: 40
+      height: props.layoutConfig.topBar.logoImageHeight || 40
     },
     marginRight: theme.spacing(1)
   }),
@@ -100,6 +100,15 @@ const useStyles = makeStyles(theme => ({
         display: 'none'
       }
     })
+  }),
+  logoSecondary: props => ({
+    height: 26,
+    [theme.breakpoints.up('sm')]: {
+      height: 32
+    },
+    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
+      height: 52
+    }
   }),
   mobileMenuButton: {
     padding: 12
@@ -295,10 +304,21 @@ const TopBar = props => {
                 src={topBar.logoImage}
                 alt={`${intl.get('appTitle.short')} logo`}
               />}
-            <Typography className={classes.mainLogoTypography} variant='h5'>
-              {props.xsScreen ? intl.get('appTitle.mobile') : intl.get('appTitle.short')}
-            </Typography>
+            {!topBar.hideLogoText &&
+              <Typography className={classes.mainLogoTypography} variant='h5'>
+                {props.xsScreen ? intl.get('appTitle.mobile') : intl.get('appTitle.short')}
+              </Typography>}
           </Button>
+          {topBar.logoImageSecondary &&
+            <a
+              href={topBar.logoImageSecondaryLink}
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <Button>
+                <img className={classes.logoSecondary} src={topBar.logoImageSecondary} alt='logoSecondary' />
+              </Button>
+            </a>}
           {showSearchField &&
             <TopBarSearchField
               fetchFullTextResults={props.fetchFullTextResults}

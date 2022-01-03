@@ -2,7 +2,7 @@ import React, { lazy } from 'react'
 import intl from 'react-intl-universal'
 import { Route } from 'react-router-dom'
 import { has } from 'lodash'
-import LineChartSotasurmat from '../perspectives/sotasurmat/LineChartSotasurmat'
+// import LineChartSotasurmat from '../perspectives/sotasurmat/LineChartSotasurmat'
 const ResultTable = lazy(() => import('./ResultTable'))
 const InstancePageTable = lazy(() => import('../main_layout/InstancePageTable'))
 const ReactVirtualizedList = lazy(() => import('./ReactVirtualizedList'))
@@ -316,24 +316,24 @@ const ResultClassRoute = props => {
       )
       break
     }
-    case 'LineChartSotasurmat': {
-      const lineChartProps = {
-        data: perspectiveState,
-        facetUpdateID: facetState.facetUpdateID,
-        fetchResults: props.fetchResults,
-        updatePage: props.updatePage,
-        routeProps: props.routeProps,
-        resultCount: perspectiveState.resultCount
-      }
-      routeComponent = (
-        <Route
-          path={path}
-          render={() =>
-            <LineChartSotasurmat {...lineChartProps} />}
-        />
-      )
-      break
-    }
+    // case 'LineChartSotasurmat': {
+    //   const lineChartProps = {
+    //     data: perspectiveState,
+    //     facetUpdateID: facetState.facetUpdateID,
+    //     fetchResults: props.fetchResults,
+    //     updatePage: props.updatePage,
+    //     routeProps: props.routeProps,
+    //     resultCount: perspectiveState.resultCount
+    //   }
+    //   routeComponent = (
+    //     <Route
+    //       path={path}
+    //       render={() =>
+    //         <LineChartSotasurmat {...lineChartProps} />}
+    //     />
+    //   )
+    //   break
+    // }
     case 'Network': {
       const { networkConfig } = props
       const {
