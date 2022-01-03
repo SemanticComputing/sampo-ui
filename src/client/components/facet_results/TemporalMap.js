@@ -138,14 +138,14 @@ class TemporalMap extends Component {
           {intl.get('perspectives.battles.temporalMap.municipality')}: {hoveredObject.greaterPlace}
         </Typography>
         <Typography>
-          {intl.get('perspectives.battles.properties.startDate.label')}: {moment(hoveredObject.startDate).format('DD.MM.YYYY')}
+          {intl.get('perspectives.battles.temporalMap.startDate')}: {moment(hoveredObject.startDate).format('DD.MM.YYYY')}
         </Typography>
         <Typography>
-          {intl.get('perspectives.battles.properties.endDate.label')}: {moment(hoveredObject.endDate).format('DD.MM.YYYY')}
+          {intl.get('perspectives.battles.temporalMap.endDate')}: {moment(hoveredObject.endDate).format('DD.MM.YYYY')}
         </Typography>
         {has(hoveredObject, 'units') &&
           <Typography>
-            {intl.get('perspectives.battles.properties.units.description')}: {hoveredObject.units}
+            {intl.get('perspectives.battles.temporalMap.units')}: {hoveredObject.units}
           </Typography>}
       </Paper>
     )
@@ -182,7 +182,8 @@ class TemporalMap extends Component {
 
   render () {
     const { viewport, memory, dates } = this.state
-    const { classes, animateMap, mapBoxStyle, mapboxApiAccessToken } = this.props
+    const { classes, animateMap, portalConfig } = this.props
+    const { mapboxAccessToken, mapboxStyle } = portalConfig.mapboxConfig
     return (
       <div id='temporal-map-root' ref={this.mapElementRef} className={classes.root}>
         <ReactMapGL
@@ -190,9 +191,9 @@ class TemporalMap extends Component {
           width='100%'
           height='100%'
           reuseMaps
-          mapStyle={`mapbox://styles/mapbox/${mapBoxStyle}`}
+          mapStyle={`mapbox://styles/mapbox/${mapboxStyle}`}
           preventStyleDiffing
-          mapboxApiAccessToken={mapboxApiAccessToken}
+          mapboxApiAccessToken={mapboxAccessToken}
           onViewportChange={this.handleOnViewportChange}
         >
           <div className={classes.navigationContainer}>
@@ -212,7 +213,7 @@ class TemporalMap extends Component {
             dates={dates}
             animateMap={animateMap}
             initialValue={this.props.animationValue[0]}
-            sliderDuration={this.props.sliderDuration}
+            sliderDuration={portalConfig.temporalMapConfig.sliderDuration}
           />
           {this._renderTooltip()}
         </ReactMapGL>
@@ -229,7 +230,7 @@ TemporalMap.propTypes = {
   /**
    * Faceted search results.
    */
-  results: PropTypes.array.isRequired,
+  results: PropTypes.array,
   /**
    * Result class for fetching the results.
    */

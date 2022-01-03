@@ -2,6 +2,7 @@ import React, { lazy } from 'react'
 import intl from 'react-intl-universal'
 import { Route } from 'react-router-dom'
 import { has } from 'lodash'
+import LineChartSotasurmat from '../perspectives/sotasurmat/LineChartSotasurmat'
 const ResultTable = lazy(() => import('./ResultTable'))
 const InstancePageTable = lazy(() => import('../main_layout/InstancePageTable'))
 const ReactVirtualizedList = lazy(() => import('./ReactVirtualizedList'))
@@ -11,6 +12,7 @@ const ApexCharts = lazy(() => import('./ApexCharts'))
 const Network = lazy(() => import('./Network'))
 const VideoPage = lazy(() => import('../main_layout/VideoPage'))
 const WordCloud = lazy(() => import('../main_layout/WordCloud'))
+const TemporalMap = lazy(() => import('./TemporalMap'))
 // const BarChartRace = lazy(() => import('../../facet_results/BarChartRace'))
 const ExportCSV = lazy(() => import('./ExportCSV'))
 const Export = lazy(() => import('./Export'))
@@ -314,6 +316,24 @@ const ResultClassRoute = props => {
       )
       break
     }
+    case 'LineChartSotasurmat': {
+      const lineChartProps = {
+        data: perspectiveState,
+        facetUpdateID: facetState.facetUpdateID,
+        fetchResults: props.fetchResults,
+        updatePage: props.updatePage,
+        routeProps: props.routeProps,
+        resultCount: perspectiveState.resultCount
+      }
+      routeComponent = (
+        <Route
+          path={path}
+          render={() =>
+            <LineChartSotasurmat {...lineChartProps} />}
+        />
+      )
+      break
+    }
     case 'Network': {
       const { networkConfig } = props
       const {
@@ -382,6 +402,29 @@ const ResultClassRoute = props => {
           path={path}
           render={() =>
             <VideoPage {...videoPageProps} />}
+        />
+      )
+      break
+    }
+    case 'TemporalMap': {
+      const temporalMapProps = {
+        portalConfig,
+        perspectiveConfig: perspective,
+        layoutConfig,
+        screenSize,
+        resultClass,
+        facetClass,
+        results: perspectiveState.results,
+        fetchResults: props.fetchResults,
+        animationValue: props.animationValue,
+        animateMap: props.animateMap,
+        facetUpdateID: facetState.facetUpdateID
+      }
+      routeComponent = (
+        <Route
+          path={path}
+          render={() =>
+            <TemporalMap {...temporalMapProps} />}
         />
       )
       break
