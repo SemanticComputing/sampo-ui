@@ -12,18 +12,25 @@ const pieChartColors = ['#a12a3c', '#0f00b5', '#81c7a4', '#ffdea6', '#ff0033', '
 const defaultSliceVisibilityThreshold = 0.01
 
 export const createSingleLineChartData = ({
-  rawData,
-  title,
-  xaxisTitle,
-  xaxisType,
-  xaxisTickAmount,
-  xaxisLabels,
-  yaxisTitle,
-  seriesTitle,
-  stroke,
-  fill,
-  tooltip
+  resultClass,
+  facetClass,
+  perspectiveState,
+  results,
+  resultClassConfig,
+  screenSize
 }) => {
+  const {
+    xaxisType,
+    xaxisTickAmount,
+    xaxisLabels,
+    title,
+    seriesTitle,
+    xaxisTitle,
+    yaxisTitle,
+    stroke,
+    fill,
+    tooltip
+  } = resultClassConfig
   const apexChartOptionsWithData = {
     chart: {
       type: 'line',
@@ -34,7 +41,7 @@ export const createSingleLineChartData = ({
     series: [
       {
         name: seriesTitle,
-        data: rawData.seriesData
+        data: results.seriesData
       }
     ],
     title: {
@@ -44,7 +51,7 @@ export const createSingleLineChartData = ({
       ...(xaxisType) && { type: xaxisType }, // default is 'category'
       ...(xaxisTickAmount) && { tickAmount: xaxisTickAmount },
       ...(xaxisLabels) && { labels: xaxisLabels },
-      categories: rawData.categoriesData,
+      categories: results.categoriesData,
       title: {
         text: xaxisTitle
       }
@@ -62,23 +69,29 @@ export const createSingleLineChartData = ({
 }
 
 export const createMultipleLineChartData = ({
-  rawData,
-  title,
-  xaxisTitle,
-  xaxisType,
-  xaxisTickAmount,
-  xaxisLabels,
-  yaxisTitle,
-  seriesTitle,
-  stroke,
-  fill,
-  tooltip
+  resultClass,
+  facetClass,
+  perspectiveState,
+  results,
+  resultClassConfig,
+  screenSize
 }) => {
+  const {
+    xaxisType,
+    xaxisTickAmount,
+    xaxisLabels,
+    title,
+    xaxisTitle,
+    yaxisTitle,
+    stroke,
+    fill,
+    tooltip
+  } = resultClassConfig
   const series = []
-  for (const lineID in rawData) {
+  for (const lineID in results) {
     series.push({
       name: intl.get(`lineChart.${lineID}`),
-      data: rawData[lineID]
+      data: results[lineID]
     })
   }
   const apexChartOptionsWithData = {

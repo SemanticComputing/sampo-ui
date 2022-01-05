@@ -84,7 +84,7 @@ export const mapFacet = ({ sparqlBindings, config }) => {
             : '0', // temporary prefLabel for <http://ldf.fi/MISSING_VALUE> to support sorting
           selected: b.selected.value,
           parent: b.parent ? b.parent.value : null,
-          instanceCount: b.instanceCount.value
+          instanceCount: parseInt(b.instanceCount.value)
         }
       } catch (err) {
         console.log(err)

@@ -176,7 +176,7 @@ class LeafletMap extends React.Component {
     }
 
     // check if results data have changed
-    if (prevProps.results !== this.props.results) {
+    if (this.props.results !== null && (prevProps.results !== this.props.results)) {
       this.drawPointData()
     }
 
