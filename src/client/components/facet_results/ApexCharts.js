@@ -33,16 +33,25 @@ class ApexChart extends React.Component {
   constructor (props) {
     super(props)
     this.chartRef = React.createRef()
+    const { resultClassConfig, apexChartsConfig } = this.props
+    let resultClass = this.props.resultClass
+    if (resultClassConfig.dropdownForResultClasses) {
+      resultClass = resultClassConfig.defaultResultClass
+    }
     this.state = {
-      resultClass: props.resultClass,
-      createChartData: props.createChartData,
-      chartType: props.dropdownForChartTypes ? props.chartTypes[0].id : null,
+      resultClass,
+      createChartData: resultClassConfig.createChartData
+        ? apexChartsConfig[resultClassConfig.createChartData]
+        : apexChartsConfig[resultClassConfig.chartTypes[0].createChartData],
+      chartType: resultClassConfig.dropdownForChartTypes ? resultClassConfig.chartTypes[0].id : null,
       dialogData: null
     }
   }
 
   componentDidMount = () => {
-    if (this.props.rawData && this.props.rawData.length > 0 && !this.props.doNotRenderOnMount) {
+    const { results } = this.props
+    const { doNotRenderOnMount } = this.props.resultClassConfig
+    if (results && results.length > 0 && !doNotRenderOnMount) {
       this.renderChart()
     }
     this.props.fetchData({
@@ -55,12 +64,11 @@ class ApexChart extends React.Component {
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    // Render the chart again if the raw data has changed
-    if (prevProps.rawDataUpdateID !== this.props.rawDataUpdateID) {
+    if (prevProps.resultUpdateID !== this.props.resultUpdateID) {
       this.renderChart()
     }
-    // check if filters have changed
-    if (this.props.pageType === 'facetResults' && prevProps.facetUpdateID !== this.props.facetUpdateID) {
+    const { pageType = 'facetResults' } = this.props
+    if (pageType === 'facetResults' && prevProps.facetUpdateID !== this.props.facetUpdateID) {
       this.props.fetchData({
         perspectiveID: this.props.perspectiveConfig.id,
         resultClass: this.state.resultClass,
@@ -102,24 +110,7 @@ class ApexChart extends React.Component {
     }
     this.chart = new ApexCharts(
       this.chartRef.current,
-      this.state.createChartData({
-        rawData: this.props.rawData,
-        title: this.props.title,
-        xaxisTitle: this.props.xaxisTitle || intl.get(`apexCharts.${this.state.resultClass}Xaxis`),
-        yaxisTitle: this.props.yaxisTitle || '',
-        seriesTitle: this.props.seriesTitle || '',
-        xaxisType: this.props.xaxisType || null,
-        xaxisTickAmount: this.props.xaxisTickAmount || null,
-        xaxisLabels: this.props.xaxisLabels || null,
-        stroke: this.props.stroke || null,
-        fill: this.props.fill || null,
-        tooltip: this.props.tooltip || null,
-        fetchInstanceAnalysis: this.props.fetchInstanceAnalysis,
-        resultClass: this.props.resultClass,
-        facetID: this.props.facetID,
-        facetClass: this.props.facetClass,
-        screenSize: this.props.screenSize
-      })
+      this.state.createChartData({ ...this.props })
     )
     this.chart.render()
   }
@@ -128,10 +119,10 @@ class ApexChart extends React.Component {
 
   handleChartTypeOnChanhge = event => {
     const chartType = event.target.value
-    const chartTypeObj = this.props.chartTypes.find(chartTypeObj => chartTypeObj.id === chartType)
+    const chartTypeObj = this.props.resultClassConfig.chartTypes.find(chartTypeObj => chartTypeObj.id === chartType)
     this.setState({
       chartType,
-      createChartData: chartTypeObj.createChartData
+      createChartData: this.props.apexChartsConfig[chartTypeObj.createChartData]
     })
   }
 
@@ -146,12 +137,12 @@ class ApexChart extends React.Component {
     if (this.isSmallScreen()) {
       return 'auto'
     }
-    const rootHeightReduction = this.props.layoutConfig.tabHeight + 2 * defaultPadding + 1
+    const rootHeightReduction = this.props.portalConfig.layoutConfig.tabHeight + 2 * defaultPadding + 1
     return `calc(100% - ${rootHeightReduction}px)`
   }
 
   getHeightForChartContainer = () => {
-    const { dropdownForResultClasses, dropdownForChartTypes } = this.props
+    const { dropdownForResultClasses, dropdownForChartTypes } = this.props.resultClassConfig
     if (this.isSmallScreen()) {
       return 600
     }
@@ -166,14 +157,8 @@ class ApexChart extends React.Component {
   }
 
   render () {
-    const {
-      fetching, pageType, classes, dropdownForResultClasses,
-      dropdownForChartTypes, facetResultsType
-    } = this.props
-    let facetResultsTypeCapitalized = ''
-    if (facetResultsType) {
-      facetResultsTypeCapitalized = facetResultsType[0].toUpperCase() + facetResultsType.substring(1).toLowerCase()
-    }
+    const { classes, fetching, resultClassConfig } = this.props
+    const { pageType = 'facetResults', dropdownForResultClasses, resultClasses, dropdownForChartTypes, chartTypes } = resultClassConfig
     let rootStyle = {
       width: '100%',
       height: '100%'
@@ -199,9 +184,7 @@ class ApexChart extends React.Component {
       width: '100%',
       height: this.getHeightForChartContainer()
     }
-    let dropdownText = intl.get('apexCharts.by') === ''
-      ? intl.get('apexCharts.grouping')
-      : `${facetResultsTypeCapitalized} ${intl.get('apexCharts.by')}`
+    let dropdownText = intl.get('apexCharts.grouping')
     if (this.props.xaxisType === 'numeric') {
       dropdownText = intl.get('apexCharts.property')
     }
@@ -216,7 +199,7 @@ class ApexChart extends React.Component {
                 value={this.state.resultClass}
                 onChange={this.handleResultClassOnChanhge}
               >
-                {this.props.resultClasses.map(resultClass =>
+                {Object.keys(resultClasses).map(resultClass =>
                   <MenuItem key={resultClass} value={resultClass}>{intl.get(`apexCharts.resultClasses.${resultClass}`)}</MenuItem>
                 )}
               </Select>
@@ -231,7 +214,7 @@ class ApexChart extends React.Component {
                 value={this.state.chartType}
                 onChange={this.handleChartTypeOnChanhge}
               >
-                {this.props.chartTypes.map(chartType =>
+                {chartTypes.map(chartType =>
                   <MenuItem key={chartType.id} value={chartType.id}>{intl.get(`apexCharts.${chartType.id}`)}</MenuItem>
                 )}
               </Select>
@@ -261,23 +244,9 @@ class ApexChart extends React.Component {
 }
 
 ApexChart.propTypes = {
-  pageType: PropTypes.string.isRequired,
-  createChartData: PropTypes.func,
-  rawData: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.object
-  ]),
-  rawDataUpdateID: PropTypes.number,
   fetchData: PropTypes.func.isRequired,
-  fetching: PropTypes.bool.isRequired,
   resultClass: PropTypes.string,
-  facetClass: PropTypes.string,
-  facetID: PropTypes.string,
-  uri: PropTypes.string,
-  dropdownForResultClasses: PropTypes.bool,
-  facetResultsType: PropTypes.string,
-  resultClasses: PropTypes.array,
-  layoutConfig: PropTypes.object.isRequired
+  facetClass: PropTypes.string
 }
 
 export const ApexChartComponent = ApexChart

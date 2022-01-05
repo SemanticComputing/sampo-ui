@@ -49,10 +49,24 @@ export const createBackendSearchConfig = async () => {
         }
       }
       // handle other resultClasses
+      let extraResultClasses = {}
       for (const resultClass in perspectiveConfig.resultClasses) {
         if (resultClass === perspectiveID) { continue }
         const resultClassConfig = perspectiveConfig.resultClasses[resultClass]
         processResultClassConfig(resultClassConfig, sparqlQueries, resultMappers)
+        if (resultClassConfig.resultClasses) {
+          for (const extraResultClass in resultClassConfig.resultClasses) {
+            processResultClassConfig(resultClassConfig.resultClasses[extraResultClass], sparqlQueries, resultMappers)
+          }
+          extraResultClasses = {
+            ...extraResultClasses,
+            ...resultClassConfig.resultClasses
+          }
+        }
+      }
+      perspectiveConfig.resultClasses = {
+        ...perspectiveConfig.resultClasses,
+        ...extraResultClasses
       }
       // merge facet results and instance page result classes
       if (hasInstancePageResultClasses) {

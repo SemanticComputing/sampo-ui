@@ -2,6 +2,15 @@
 import intl from 'react-intl-universal'
 import { generateLabelForMissingValue } from '../../helpers/helpers'
 
+// list of colors generated with http://phrogz.net/css/distinct-colors.html
+const pieChartColors = ['#a12a3c', '#0f00b5', '#81c7a4', '#ffdea6', '#ff0033', '#424cff', '#1b6935', '#ff9d00', '#5c3c43',
+  '#5f74b8', '#18b532', '#3b3226', '#fa216d', '#153ca1', '#00ff09', '#703a00', '#b31772', '#a4c9fc', '#273623',
+  '#f57200', '#360e2c', '#001c3d', '#ccffa6', '#a18068', '#ba79b6', '#004e75', '#547500', '#c2774c', '#f321fa', '#1793b3',
+  '#929c65', '#b53218', '#563c5c', '#1ac2c4', '#c4c734', '#4c150a', '#912eb3', '#2a5252', '#524b00', '#bf7d7c', '#24005e',
+  '#20f2ba', '#b5882f']
+
+const defaultSliceVisibilityThreshold = 0.01
+
 export const createSingleLineChartData = ({
   rawData,
   title,
@@ -106,26 +115,37 @@ export const createMultipleLineChartData = ({
   return apexChartOptionsWithData
 }
 
-export const createApexPieChartData = ({ rawData, screenSize, facetClass, facetID }) => {
+export const createApexPieChartData = ({
+  resultClass,
+  facetClass,
+  perspectiveState,
+  results,
+  resultClassConfig,
+  screenSize
+}) => {
   const labels = []
   const series = []
   let otherCount = 0
-  const totalLength = rawData.length
-  const threshold = 0.15
-  rawData.forEach(item => {
-    const portion = parseInt(item.instanceCount) / totalLength
-    if (portion < threshold) {
-      otherCount += parseInt(item.instanceCount)
+  const arraySum = results.reduce((sum, current) => sum + current.instanceCount, 0)
+  let actualResultClassConfig = resultClassConfig
+  if (resultClassConfig.dropdownForResultClasses) {
+    actualResultClassConfig = resultClassConfig.resultClasses[perspectiveState.resultClass]
+  }
+  const { sliceVisibilityThreshold = defaultSliceVisibilityThreshold, propertyID } = actualResultClassConfig
+  results.forEach(item => {
+    const sliceFraction = item.instanceCount / arraySum
+    if (sliceFraction <= sliceVisibilityThreshold) {
+      otherCount += item.instanceCount
     } else {
-      if (item.id === 'http://ldf.fi/MISSING_VALUE') {
-        item.prefLabel = generateLabelForMissingValue({ facetClass, facetID })
+      if (item.id === 'http://ldf.fi/MISSING_VALUE' || item.category === 'http://ldf.fi/MISSING_VALUE') {
+        item.prefLabel = generateLabelForMissingValue({ perspective: facetClass, property: propertyID })
       }
       labels.push(item.prefLabel)
-      series.push(parseInt(item.instanceCount))
+      series.push(item.instanceCount)
     }
   })
   if (otherCount !== 0) {
-    labels.push('Other')
+    labels.push(intl.get('apexCharts.other') || 'Other')
     series.push(otherCount)
   }
   let chartColors = []
@@ -156,13 +176,6 @@ export const createApexPieChartData = ({ rawData, screenSize, facetClass, facetI
   }
   return apexChartOptionsWithData
 }
-
-// list of colors generated with http://phrogz.net/css/distinct-colors.html
-const pieChartColors = ['#a12a3c', '#0f00b5', '#81c7a4', '#ffdea6', '#ff0033', '#424cff', '#1b6935', '#ff9d00', '#5c3c43',
-  '#5f74b8', '#18b532', '#3b3226', '#fa216d', '#153ca1', '#00ff09', '#703a00', '#b31772', '#a4c9fc', '#273623',
-  '#f57200', '#360e2c', '#001c3d', '#ccffa6', '#a18068', '#ba79b6', '#004e75', '#547500', '#c2774c', '#f321fa', '#1793b3',
-  '#929c65', '#b53218', '#563c5c', '#1ac2c4', '#c4c734', '#4c150a', '#912eb3', '#2a5252', '#524b00', '#bf7d7c', '#24005e',
-  '#20f2ba', '#b5882f']
 
 const apexPieChartOptions = {
   // see https://apexcharts.com/docs --> Options
@@ -214,30 +227,45 @@ const apexPieChartOptions = {
 }
 
 export const createApexBarChartData = ({
-  rawData,
-  title,
-  xaxisTitle,
-  yaxisTitle,
-  seriesTitle
+  resultClass,
+  facetClass,
+  perspectiveState,
+  results,
+  resultClassConfig,
+  screenSize
 }) => {
+  const {
+    title,
+    seriesTitle,
+    xaxisTitle,
+    yaxisTitle
+  } = resultClassConfig
   const categories = []
   const colors = []
   const data = []
   let otherCount = 0
-  const totalLength = rawData.length
-  const threshold = 0.3
-  rawData.forEach(item => {
-    const portion = parseInt(item.instanceCount) / totalLength
-    if (portion < threshold) {
-      otherCount += parseInt(item.instanceCount)
+  const arraySum = results.reduce((sum, current) => sum + current.instanceCount, 0)
+  let actualResultClassConfig = resultClassConfig
+  if (resultClassConfig.dropdownForResultClasses) {
+    actualResultClassConfig = resultClassConfig.resultClasses[perspectiveState.resultClass]
+  }
+  const { sliceVisibilityThreshold = defaultSliceVisibilityThreshold, propertyID } = actualResultClassConfig
+
+  results.forEach(item => {
+    const sliceFraction = item.instanceCount / arraySum
+    if (sliceFraction <= sliceVisibilityThreshold) {
+      otherCount += item.instanceCount
     } else {
+      if (item.id === 'http://ldf.fi/MISSING_VALUE' || item.category === 'http://ldf.fi/MISSING_VALUE') {
+        item.prefLabel = generateLabelForMissingValue({ perspective: facetClass, property: propertyID })
+      }
       categories.push(item.prefLabel)
       colors.push('#000000')
-      data.push(parseInt(item.instanceCount))
+      data.push(item.instanceCount)
     }
   })
   if (otherCount !== 0) {
-    categories.push('Other')
+    categories.push(intl.get('apexCharts.other') || 'Other')
     colors.push('#000000')
     data.push(otherCount)
   }

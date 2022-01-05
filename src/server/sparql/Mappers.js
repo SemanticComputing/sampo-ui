@@ -35,6 +35,39 @@ export const mapCoordinates = sparqlBindings => {
   return results
 }
 
+export const mapBirthYearCount = sparqlBindings => {
+  // console.log(sparqlBindings);
+  const results = sparqlBindings.map(b => {
+    return {
+      counted: b.counted.value,
+      count: b.count.value
+    }
+  })
+  return results
+}
+
+export const mapAgeCount = sparqlBindings => {
+  // console.log(sparqlBindings);
+  const results = sparqlBindings.map(b => {
+    return {
+      counted: b.counted.value,
+      count: b.count.value
+    }
+  })
+  return results
+}
+
+export const mapCountGroups = sparqlBindings => {
+  // console.log(sparqlBindings);
+  const results = sparqlBindings.map(b => {
+    return {
+      counted: b.counted.value,
+      count: b.count.value
+    }
+  })
+  return results
+}
+
 export const mapCount = sparqlBindings => {
   return sparqlBindings[0].count.value
 }
@@ -190,7 +223,7 @@ export const mapPieChart = sparqlBindings => {
     return {
       category: b.category.value,
       prefLabel: b.prefLabel.value,
-      instanceCount: b.instanceCount.value
+      instanceCount: parseInt(b.instanceCount.value)
     }
   })
   return results
