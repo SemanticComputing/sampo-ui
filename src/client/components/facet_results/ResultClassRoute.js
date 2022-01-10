@@ -247,11 +247,13 @@ const ResultClassRoute = props => {
       break
     }
     case 'ApexCharts': {
+      const { pageType = 'facetResults' } = resultClassConfig
       const apexProps = {
         portalConfig,
         perspectiveConfig: perspective,
         resultClassConfig,
         apexChartsConfig: props.apexChartsConfig,
+        pageType,
         screenSize,
         resultClass,
         facetClass,
@@ -260,7 +262,7 @@ const ResultClassRoute = props => {
         fetching: perspectiveState.fetching,
         resultUpdateID: perspectiveState.resultUpdateID,
         instanceAnalysisDataUpdateID: perspectiveState.instanceAnalysisDataUpdateID,
-        facetUpdateID: facetState.facetUpdateID,
+        facetUpdateID: facetState ? facetState.facetUpdateID : null,
         fetchData: props.fetchResults
       }
       routeComponent = (

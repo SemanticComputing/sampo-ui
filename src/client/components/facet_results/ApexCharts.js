@@ -59,7 +59,9 @@ class ApexChart extends React.Component {
       resultClass: this.state.resultClass,
       facetClass: this.props.facetClass,
       facetID: this.props.facetID,
-      uri: this.props.uri
+      uri: this.props.perspectiveState.instanceTableData
+        ? this.props.perspectiveState.instanceTableData.id
+        : null
     })
   }
 

@@ -178,7 +178,8 @@ export const getAllResults = ({
       links: q,
       nodes: sparqlQueryNodes,
       optimize,
-      limit
+      limit,
+      queryType: resultClassConfig.queryType
     })
   } else {
     if (uri !== null) {
