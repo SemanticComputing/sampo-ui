@@ -296,10 +296,10 @@ const ResultClassRoute = props => {
         pageType = 'facetResults',
         limit,
         optimize,
-        style,
         fitLayout = false,
+        style = null,
         layout = null,
-        preprocess
+        preprocess = null
       } = resultClassConfig
       let networkProps = {
         portalConfig,
@@ -314,12 +314,10 @@ const ResultClassRoute = props => {
         layoutConfig: props.layoutConfig,
         limit,
         optimize,
-        style: networkConfig[style],
         fitLayout,
-        preprocess: networkConfig[preprocess]
-      }
-      if (layout) {
-        networkProps.layout = networkConfig[layout]
+        ...(style && { style }),
+        ...(layout && { layout }),
+        ...(preprocess && { preprocess: networkConfig[preprocess] })
       }
       if (pageType === 'facetResults') {
         networkProps = {
