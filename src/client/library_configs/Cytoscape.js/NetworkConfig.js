@@ -230,3 +230,22 @@ export const preprocessFamilytree = elements => {
     edge.data.weight = constrainValue({ value: edge.data.weight, maxValue: maxEdgeWidth })
   })
 }
+
+export const preprocessParliamentSampoPeopleNetwork = elements => {
+  preprocessPagerank(elements)
+
+  // nodes
+  const arr = elements.nodes.map(ele => ele.data.distance)
+
+  // node size
+  let res = (new ColorScaler('26px', '12px')).fitTransform(arr)
+  elements.nodes.forEach((ele, i) => { ele.data.size = res[i] })
+
+  //  label size
+  res = (new ValueScaler(12, 8)).fitTransform(arr)
+  elements.nodes.forEach((ele, i) => { ele.data.font_size = res[i] })
+
+  // node color
+  // res = (new ColorScaler('rgb(255, 0, 0)', 'rgb(0, 0, 255)')).fitTransform(arr)
+  // elements.nodes.forEach((ele, i) => { ele.data.color = res[i] })
+}
