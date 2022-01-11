@@ -114,11 +114,16 @@ for (const perspective of perspectiveConfig) {
 for (const perspective of perspectiveConfigOnlyInfoPages) {
   const perspectiveID = perspective.id
   const { resultClasses, properties } = perspective
+  const { instanceConfig } = resultClasses[perspectiveID]
+  let instancePageResultClasses = {}
+  if (instanceConfig && instanceConfig.instancePageResultClasses) {
+    instancePageResultClasses = instanceConfig.instancePageResultClasses
+  }
   const resultsInitialStateFull = {
     ...resultsInitialState,
     properties
   }
-  const resultsReducer = createResultsReducer(resultsInitialStateFull, new Set(Object.keys(resultClasses)))
+  const resultsReducer = createResultsReducer(resultsInitialStateFull, new Set(Object.keys({ ...resultClasses, ...instancePageResultClasses })))
   reducers[perspectiveID] = resultsReducer
 }
 
