@@ -33,13 +33,15 @@ class ApexChart extends React.Component {
   constructor (props) {
     super(props)
     this.chartRef = React.createRef()
-    const { resultClassConfig, apexChartsConfig } = this.props
-    let resultClass = this.props.resultClass
+    const { apexChartsConfig } = this.props
+    let { resultClass, resultClassConfig } = this.props
     if (resultClassConfig.dropdownForResultClasses) {
       resultClass = resultClassConfig.defaultResultClass
+      resultClassConfig = resultClassConfig.resultClasses[resultClass]
     }
     this.state = {
       resultClass,
+      resultClassConfig,
       createChartData: resultClassConfig.createChartData
         ? apexChartsConfig[resultClassConfig.createChartData]
         : apexChartsConfig[resultClassConfig.chartTypes[0].createChartData],
@@ -111,19 +113,41 @@ class ApexChart extends React.Component {
       if (this.chart !== undefined) {
         this.chart.destroy()
       }
+      let chartTypeObj = null
+      const { resultClassConfig, chartType } = this.state
+      if (resultClassConfig.dropdownForChartTypes) {
+        chartTypeObj = resultClassConfig.chartTypes.find(chartTypeObj => chartTypeObj.id === chartType)
+      }
       this.chart = new ApexCharts(
         this.chartRef.current,
-        this.state.createChartData({ ...this.props })
+        this.state.createChartData({
+          ...this.props,
+          resultClassConfig: this.state.resultClassConfig,
+          chartTypeObj
+        })
       )
       this.chart.render()
     }
   }
 
-  handleResultClassOnChanhge = event => this.setState({ resultClass: event.target.value })
+  handleResultClassOnChange = event => {
+    const { apexChartsConfig } = this.props
+    const newResultClass = event.target.value
+    const resultClassConfig = this.props.resultClassConfig.resultClasses[newResultClass]
+    this.setState({
+      resultClass: newResultClass,
+      resultClassConfig,
+      createChartData: resultClassConfig.createChartData
+        ? apexChartsConfig[resultClassConfig.createChartData]
+        : apexChartsConfig[resultClassConfig.chartTypes[0].createChartData],
+      chartType: resultClassConfig.dropdownForChartTypes ? resultClassConfig.chartTypes[0].id : null
+    })
+  }
 
-  handleChartTypeOnChanhge = event => {
+  handleChartTypeOnChange = event => {
+    const { resultClassConfig } = this.state
     const chartType = event.target.value
-    const chartTypeObj = this.props.resultClassConfig.chartTypes.find(chartTypeObj => chartTypeObj.id === chartType)
+    const chartTypeObj = resultClassConfig.chartTypes.find(chartTypeObj => chartTypeObj.id === chartType)
     this.setState({
       chartType,
       createChartData: this.props.apexChartsConfig[chartTypeObj.createChartData]
@@ -161,8 +185,11 @@ class ApexChart extends React.Component {
   }
 
   render () {
+    // static configs from props
     const { classes, fetching, resultClassConfig } = this.props
-    const { pageType = 'facetResults', dropdownForResultClasses, resultClasses, dropdownForChartTypes, chartTypes } = resultClassConfig
+    const { pageType = 'facetResults', dropdownForResultClasses, resultClasses } = resultClassConfig
+    // dynamic configs from state
+    const { dropdownForChartTypes, chartTypes } = this.state.resultClassConfig
     let rootStyle = {
       width: '100%',
       height: '100%'
@@ -201,7 +228,7 @@ class ApexChart extends React.Component {
               <Select
                 id='select-result-class'
                 value={this.state.resultClass}
-                onChange={this.handleResultClassOnChanhge}
+                onChange={this.handleResultClassOnChange}
               >
                 {Object.keys(resultClasses).map(resultClass =>
                   <MenuItem key={resultClass} value={resultClass}>{intl.get(`apexCharts.resultClasses.${resultClass}`)}</MenuItem>
@@ -216,7 +243,7 @@ class ApexChart extends React.Component {
               <Select
                 id='select-chart-type'
                 value={this.state.chartType}
-                onChange={this.handleChartTypeOnChanhge}
+                onChange={this.handleChartTypeOnChange}
               >
                 {chartTypes.map(chartType =>
                   <MenuItem key={chartType.id} value={chartType.id}>{intl.get(`apexCharts.${chartType.id}`)}</MenuItem>

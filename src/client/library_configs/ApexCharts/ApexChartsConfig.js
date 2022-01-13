@@ -140,11 +140,7 @@ export const createApexPieChartData = ({
   const series = []
   let otherCount = 0
   const arraySum = results.reduce((sum, current) => sum + current.instanceCount, 0)
-  let actualResultClassConfig = resultClassConfig
-  if (resultClassConfig.dropdownForResultClasses) {
-    actualResultClassConfig = resultClassConfig.resultClasses[perspectiveState.resultClass]
-  }
-  const { sliceVisibilityThreshold = defaultSliceVisibilityThreshold, propertyID } = actualResultClassConfig
+  const { sliceVisibilityThreshold = defaultSliceVisibilityThreshold, propertyID } = resultClassConfig
   results.forEach(item => {
     const sliceFraction = item.instanceCount / arraySum
     if (sliceFraction <= sliceVisibilityThreshold) {
@@ -244,6 +240,7 @@ export const createApexBarChartData = ({
   facetClass,
   perspectiveState,
   results,
+  chartTypeObj,
   resultClassConfig,
   screenSize
 }) => {
@@ -258,12 +255,11 @@ export const createApexBarChartData = ({
   const data = []
   let otherCount = 0
   const arraySum = results.reduce((sum, current) => sum + current.instanceCount, 0)
-  let actualResultClassConfig = resultClassConfig
-  if (resultClassConfig.dropdownForResultClasses) {
-    actualResultClassConfig = resultClassConfig.resultClasses[perspectiveState.resultClass]
+  const { sliceVisibilityThreshold = defaultSliceVisibilityThreshold, propertyID } = resultClassConfig
+  if (chartTypeObj && chartTypeObj.sortByLocaleCompare) {
+    const prop = chartTypeObj.sortByLocaleCompare
+    results.sort((a, b) => a[prop].localeCompare(b[prop]))
   }
-  const { sliceVisibilityThreshold = defaultSliceVisibilityThreshold, propertyID } = actualResultClassConfig
-
   results.forEach(item => {
     const sliceFraction = item.instanceCount / arraySum
     if (sliceFraction <= sliceVisibilityThreshold) {
