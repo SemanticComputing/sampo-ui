@@ -123,7 +123,8 @@ class ApexChart extends React.Component {
         this.state.createChartData({
           ...this.props,
           resultClassConfig: this.state.resultClassConfig,
-          chartTypeObj
+          chartTypeObj,
+          fetchInstanceAnalysis: this.props.fetchInstanceAnalysis
         })
       )
       this.chart.render()
