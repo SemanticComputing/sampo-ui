@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import { withStyles } from '@material-ui/core/styles'
-import { fade } from '@material-ui/core/styles/colorManipulator'
+import { alpha } from '@material-ui/core/styles/colorManipulator'
 import SearchIcon from '@material-ui/icons/Search'
 import InputBase from '@material-ui/core/InputBase'
 // import CircularProgress from '@material-ui/core/CircularProgress';
@@ -12,9 +12,9 @@ const styles = theme => ({
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
+      backgroundColor: alpha(theme.palette.common.white, 0.25)
     },
     // marginRight: theme.spacing(3),
     // marginLeft: theme.spacing(2.5),
