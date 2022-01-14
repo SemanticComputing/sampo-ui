@@ -150,13 +150,13 @@ class ResultTable extends React.Component {
     )
   }
 
-  handleChangePage = (event, page) => {
+  handlePageChange = (event, page) => {
     if (event != null && !this.props.data.fetching) {
       this.props.updatePage(this.props.resultClass, page)
     }
   }
 
-  handleOnChangeRowsPerPage = event => {
+  handleRowsPerPageChange = event => {
     const rowsPerPage = event.target.value
     if (rowsPerPage !== this.props.data.pagesize) {
       this.props.updateRowsPerPage(this.props.resultClass, rowsPerPage)
@@ -299,8 +299,8 @@ class ResultTable extends React.Component {
             inputProps: { 'aria-label': 'rows per page' },
             native: true
           }}
-          onChangePage={this.handleChangePage}
-          onChangeRowsPerPage={this.handleOnChangeRowsPerPage}
+          onPageChange={this.handlePageChange}
+          onRowsPerPageChange={this.handleRowsPerPageChange}
           ActionsComponent={ResultTablePaginationActions}
         />
         <div className={classes.tableContainer}>
