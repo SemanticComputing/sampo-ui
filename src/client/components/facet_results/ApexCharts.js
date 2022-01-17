@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import ApexCharts from 'apexcharts'
-import purple from '@material-ui/core/colors/purple'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
-import Typography from '@material-ui/core/Typography'
+import CircularProgress from '@mui/material/CircularProgress'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import Typography from '@mui/material/Typography'
 import GeneralDialog from '../main_layout/GeneralDialog'
 import InstaceList from '../main_layout/InstanceList'
+import { purple } from '@mui/material/colors';
 
 const defaultPadding = 32
 const smallScreenPadding = 8

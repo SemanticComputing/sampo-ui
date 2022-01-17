@@ -4,10 +4,10 @@ import history from '../../History'
 import cytoscape from 'cytoscape'
 import panzoom from 'cytoscape-panzoom'
 import 'cytoscape-panzoom/cytoscape.js-panzoom.css'
-import purple from '@material-ui/core/colors/purple'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import CircularProgress from '@mui/material/CircularProgress'
 import { library, dom } from '@fortawesome/fontawesome-svg-core'
 import { faMinus, faPlus, faExpand } from '@fortawesome/free-solid-svg-icons'
+import { purple } from '@mui/material/colors';
 
 const zoomControlOptions = {
   zoomFactor: 0.05, // zoom factor per zoom tick

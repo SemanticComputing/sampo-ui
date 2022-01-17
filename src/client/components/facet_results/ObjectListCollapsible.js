@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Collapse from '@material-ui/core/Collapse'
+import withStyles from '@mui/styles/withStyles';
+import Collapse from '@mui/material/Collapse'
 import { ISOStringToDate } from './Dates'
 import { orderBy, has } from 'lodash'
 import ObjectListItem from './ObjectListItem'

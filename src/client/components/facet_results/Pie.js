@@ -8,9 +8,9 @@ import {
 } from 'victory'
 import PieTooltip from './PieTooltip'
 import _ from 'lodash'
-import { withStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
+import withStyles from '@mui/styles/withStyles';
+import Grid from '@mui/material/Grid'
+import Paper from '@mui/material/Paper'
 import ResultInfo from './ResultInfo'
 
 const styles = theme => ({

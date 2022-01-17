@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Chip from '@material-ui/core/Chip'
-import Tooltip from '@material-ui/core/Tooltip'
+import withStyles from '@mui/styles/withStyles';
+import Chip from '@mui/material/Chip'
+import Tooltip from '@mui/material/Tooltip'
 import { ISOStringToYear } from './FacetHelpers'
 
 const styles = theme => ({

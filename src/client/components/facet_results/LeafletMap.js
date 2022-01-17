@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import intl from 'react-intl-universal'
 import L from 'leaflet'
 import { has } from 'lodash'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import { purple } from '@material-ui/core/colors'
+import CircularProgress from '@mui/material/CircularProgress'
+import { purple } from '@mui/material/colors'
 import history from '../../History'
 // import { apiUrl } from '../../epics'
 import 'leaflet/dist/leaflet.css' // Official Leaflet styles

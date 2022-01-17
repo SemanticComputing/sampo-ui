@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from '@material-ui/core/Button'
-import MenuItem from '@material-ui/core/MenuItem'
-import Menu from '@material-ui/core/Menu'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import { withStyles } from '@material-ui/core/styles'
+import Button from '@mui/material/Button'
+import MenuItem from '@mui/material/MenuItem'
+import Menu from '@mui/material/Menu'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import withStyles from '@mui/styles/withStyles'
 import { Link } from 'react-router-dom'
 import history from '../../History'
 import { updateLocaleToPathname } from '../../helpers/helpers'
@@ -57,7 +57,6 @@ class TopBarLanguageButton extends React.Component {
         </Button>
         <Menu
           anchorEl={this.state.anchorEl}
-          getContentAnchorEl={null}
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'center'

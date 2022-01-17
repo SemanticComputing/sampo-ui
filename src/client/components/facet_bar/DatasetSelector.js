@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import intl from 'react-intl-universal'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormControl from '@material-ui/core/FormControl'
-// import FormLabel from '@material-ui/core/FormLabel';
-import FormGroup from '@material-ui/core/FormGroup'
-import Checkbox from '@material-ui/core/Checkbox'
-import InfoIcon from '@material-ui/icons/Info'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormControl from '@mui/material/FormControl'
+// import FormLabel from '@mui/material/FormLabel';
+import FormGroup from '@mui/material/FormGroup'
+import Checkbox from '@mui/material/Checkbox'
+import InfoIcon from '@mui/icons-material/Info'
 
 const styles = theme => ({
   root: {
@@ -20,7 +20,7 @@ const styles = theme => ({
   },
   formControlLabelRoot: {
     width: '100%',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       marginBottom: theme.spacing(1)
     }
   },

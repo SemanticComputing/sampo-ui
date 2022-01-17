@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Grow from '@material-ui/core/Grow'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
+import withStyles from '@mui/styles/withStyles';
+import Grow from '@mui/material/Grow'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
 import { Link } from 'react-router-dom'
-import Paper from '@material-ui/core/Paper'
+import Paper from '@mui/material/Paper'
 import intl from 'react-intl-universal'
 
 const styles = theme => ({

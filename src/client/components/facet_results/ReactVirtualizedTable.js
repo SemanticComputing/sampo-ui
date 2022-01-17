@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
-import { withStyles } from '@material-ui/core/styles'
-import TableCell from '@material-ui/core/TableCell'
-import TableSortLabel from '@material-ui/core/TableSortLabel'
-import Tooltip from '@material-ui/core/Tooltip'
+import withStyles from '@mui/styles/withStyles';
+import TableCell from '@mui/material/TableCell'
+import TableSortLabel from '@mui/material/TableSortLabel'
+import Tooltip from '@mui/material/Tooltip'
 import ResultTableCell from './ResultTableCell'
-import Paper from '@material-ui/core/Paper'
+import Paper from '@mui/material/Paper'
 import { AutoSizer, Column, Table } from 'react-virtualized'
 import intl from 'react-intl-universal'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import purple from '@material-ui/core/colors/purple'
+import CircularProgress from '@mui/material/CircularProgress'
+import { purple } from '@mui/material/colors';
 
 const styles = theme => ({
   flexContainer: {

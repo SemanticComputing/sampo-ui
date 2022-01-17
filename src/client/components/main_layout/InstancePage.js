@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import purple from '@material-ui/core/colors/purple'
+import withStyles from '@mui/styles/withStyles';
+import Paper from '@mui/material/Paper'
+import Typography from '@mui/material/Typography'
+import CircularProgress from '@mui/material/CircularProgress'
 import PerspectiveTabs from './PerspectiveTabs'
 import ResultClassRoute from '../facet_results/ResultClassRoute'
 import { getLocalIDFromAppLocation, createURIfromLocalID } from '../../helpers/helpers'
 import { Route, Redirect } from 'react-router-dom'
 import { has } from 'lodash'
+import { purple } from '@mui/material/colors';
 
 const styles = () => ({
   root: {

@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import { withStyles } from '@material-ui/core/styles'
-import { alpha } from '@material-ui/core/styles/colorManipulator'
-import SearchIcon from '@material-ui/icons/Search'
-import InputBase from '@material-ui/core/InputBase'
-// import CircularProgress from '@material-ui/core/CircularProgress';
+import { alpha } from '@mui/material/styles';
+import withStyles from '@mui/styles/withStyles';
+import SearchIcon from '@mui/icons-material/Search'
+import InputBase from '@mui/material/InputBase'
+// import CircularProgress from '@mui/material/CircularProgress';
 import history from '../../History'
 
 const styles = theme => ({

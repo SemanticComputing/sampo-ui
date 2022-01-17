@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactWordcloud from 'react-wordcloud'
-import { makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
+import makeStyles from '@mui/styles/makeStyles';
+import Paper from '@mui/material/Paper'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/animations/scale.css'
 
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   wordCloudInnerContainer: props => ({
     width: '100%',
     height: '100%',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       minHeight: 400,
       overflow: 'auto'
     },

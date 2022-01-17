@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import { has } from 'lodash'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import ActiveFilters from './ActiveFilters'
-import Button from '@material-ui/core/Button'
-import DeleteIcon from '@material-ui/icons/Delete'
-import Divider from '@material-ui/core/Divider'
-import Typography from '@material-ui/core/Typography'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import purple from '@material-ui/core/colors/purple'
+import Button from '@mui/material/Button'
+import DeleteIcon from '@mui/icons-material/Delete'
+import Divider from '@mui/material/Divider'
+import Typography from '@mui/material/Typography'
+import CircularProgress from '@mui/material/CircularProgress'
+import { purple } from '@mui/material/colors';
 
 const styles = theme => ({
   facetInfoDivider: {

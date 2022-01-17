@@ -1,7 +1,11 @@
 import React from 'react'
-import { MuiThemeProvider, createTheme } from '@material-ui/core/styles'
+import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/styles'
+import AdapterMoment from '@mui/lab/AdapterDateFns'
+import LocalizationProvider from '@mui/lab/LocalizationProvider'
+// import 'moment/locale/fi'
 import SemanticPortal from '../containers/SemanticPortal'
 import portalConfig from '../../configs/portalConfig.json'
+
 const { colorPalette } = portalConfig.layoutConfig
 
 const theme = createTheme({
@@ -13,7 +17,7 @@ const theme = createTheme({
       main: colorPalette.secondary.main
     }
   },
-  overrides: {
+  components: {
     MuiTooltip: {
       tooltip: {
         fontSize: '1 rem'
@@ -59,9 +63,13 @@ const theme = createTheme({
 })
 
 const App = () => (
-  <MuiThemeProvider theme={theme}>
-    <SemanticPortal />
-  </MuiThemeProvider>
+  <LocalizationProvider dateAdapter={AdapterMoment}>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <SemanticPortal />
+      </ThemeProvider>
+    </StyledEngineProvider>
+  </LocalizationProvider>
 )
 
 export default App

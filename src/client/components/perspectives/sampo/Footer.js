@@ -1,8 +1,8 @@
 import React from 'react'
-import Paper from '@material-ui/core/Paper'
+import Paper from '@mui/material/Paper'
 import PropTypes from 'prop-types'
-import Grid from '@material-ui/core/Grid'
-import { makeStyles } from '@material-ui/core/styles'
+import Grid from '@mui/material/Grid'
+import makeStyles from '@mui/styles/makeStyles';
 import aaltoLogo from '../../../img/logos/Aalto_SCI_EN_13_BLACK_2_cropped.png'
 import hyLogo from '../../../img/logos/university-of-helsinki-logo-transparent-black.png'
 import heldigLogo from '../../../img/logos/heldig-logo-transparent-black.png'
@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
       paddingTop: '0px !important',
       paddingBottom: '0px !important'
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       paddingTop: '12px !important',
       paddingBottom: '12px !important'
     }

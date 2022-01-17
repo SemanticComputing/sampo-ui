@@ -1,5 +1,5 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 
 const styles = theme => ({
   // https://www.w3schools.com/howto/howto_css_responsive_iframes.asp

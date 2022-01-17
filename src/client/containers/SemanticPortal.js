@@ -7,11 +7,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import { withRouter, Route, Redirect, Switch } from 'react-router-dom'
 import classNames from 'classnames'
 import { compose } from '@shakacode/recompose'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { MuiPickersUtilsProvider } from '@material-ui/pickers'
-import moment from 'moment'
-import MomentUtils from '@date-io/moment'
-import 'moment/locale/fi'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import Grid from '@material-ui/core/Grid'
 import {
   fetchResultCount,
@@ -245,12 +242,13 @@ const useStyles = makeStyles(theme => ({
  */
 const SemanticPortal = props => {
   const { error } = props
+  const theme = useTheme()
   const classes = useStyles(props)
-  const xsScreen = useMediaQuery(theme => theme.breakpoints.down('xs'))
-  const smScreen = useMediaQuery(theme => theme.breakpoints.between('sm', 'md'))
-  const mdScreen = useMediaQuery(theme => theme.breakpoints.between('md', 'lg'))
-  const lgScreen = useMediaQuery(theme => theme.breakpoints.between('lg', 'xl'))
-  const xlScreen = useMediaQuery(theme => theme.breakpoints.up('xl'))
+  const xsScreen = useMediaQuery(theme.breakpoints.down('xs'))
+  const smScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'))
+  const mdScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'))
+  const lgScreen = useMediaQuery(theme.breakpoints.between('lg', 'xl'))
+  const xlScreen = useMediaQuery(theme.breakpoints.up('xl'))
   let screenSize = ''
   if (xsScreen) { screenSize = 'xs' }
   if (smScreen) { screenSize = 'sm' }
@@ -267,73 +265,167 @@ const SemanticPortal = props => {
   }, [props.options.currentLocale])
 
   return (
-    <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} locale={props.options.currentLocale}>
-      <div className={classes.root}>
-        <Message error={error} />
-        <>
-          <TopBar
-            rootUrl={rootUrlWithLang}
-            search={props.fullTextSearch}
-            fetchFullTextResults={props.fetchFullTextResults}
-            clearResults={props.clearResults}
-            clientFSClearResults={props.clientFSClearResults}
-            perspectives={perspectiveConfig}
-            currentLocale={props.options.currentLocale}
-            availableLocales={props.options.availableLocales}
-            loadLocales={props.loadLocales}
-            xsScreen={xsScreen}
-            location={props.location}
-            layoutConfig={layoutConfig}
-          />
-          <Route exact path={`${rootUrl}/`}>
-            <Redirect to={rootUrlWithLang} />
-          </Route>
-          <Route
-            exact path={`${rootUrlWithLang}/`}
-            render={() =>
-              <>
-                <Main
-                  perspectives={perspectiveConfig}
-                  screenSize={screenSize}
-                  rootUrl={rootUrlWithLang}
-                  layoutConfig={layoutConfig}
-                />
-                <Footer
-                  portalConfig={portalConfig}
-                  layoutConfig={layoutConfig}
-                />
-              </>}
-          />
-          {/* https://stackoverflow.com/a/41024944 */}
-          <Route
-            path={`${rootUrlWithLang}/`} render={({ location }) => {
-              if (typeof window.ga === 'function') {
-                window.ga('set', 'page', location.pathname + location.search)
-                window.ga('send', 'pageview')
-              }
-              return null
-            }}
-          />
-          {/* route for full text search results */}
-          <Route
-            path={`${rootUrlWithLang}/full-text-search`}
-            render={routeProps =>
-              <FullTextSearch
-                fullTextSearch={props.fullTextSearch}
-                sortFullTextResults={props.sortFullTextResults}
-                routeProps={routeProps}
+    <div className={classes.root}>
+      <Message error={error} />
+      <>
+        <TopBar
+          rootUrl={rootUrlWithLang}
+          search={props.fullTextSearch}
+          fetchFullTextResults={props.fetchFullTextResults}
+          clearResults={props.clearResults}
+          clientFSClearResults={props.clientFSClearResults}
+          perspectives={perspectiveConfig}
+          currentLocale={props.options.currentLocale}
+          availableLocales={props.options.availableLocales}
+          loadLocales={props.loadLocales}
+          xsScreen={xsScreen}
+          location={props.location}
+          layoutConfig={layoutConfig}
+        />
+        <Route exact path={`${rootUrl}/`}>
+          <Redirect to={rootUrlWithLang} />
+        </Route>
+        <Route
+          exact path={`${rootUrlWithLang}/`}
+          render={() =>
+            <>
+              <Main
+                perspectives={perspectiveConfig}
                 screenSize={screenSize}
                 rootUrl={rootUrlWithLang}
                 layoutConfig={layoutConfig}
-              />}
-          />
-          {/* routes for faceted search perspectives */}
-          {perspectiveConfig.map(perspective => {
-            if (!has(perspective, 'externalUrl') && perspective.searchMode === 'faceted-search') {
-              return (
-                <React.Fragment key={perspective.id}>
+              />
+              <Footer
+                portalConfig={portalConfig}
+                layoutConfig={layoutConfig}
+              />
+            </>}
+        />
+        {/* https://stackoverflow.com/a/41024944 */}
+        <Route
+          path={`${rootUrlWithLang}/`} render={({ location }) => {
+            if (typeof window.ga === 'function') {
+              window.ga('set', 'page', location.pathname + location.search)
+              window.ga('send', 'pageview')
+            }
+            return null
+          }}
+        />
+        {/* route for full text search results */}
+        <Route
+          path={`${rootUrlWithLang}/full-text-search`}
+          render={routeProps =>
+            <FullTextSearch
+              fullTextSearch={props.fullTextSearch}
+              sortFullTextResults={props.sortFullTextResults}
+              routeProps={routeProps}
+              screenSize={screenSize}
+              rootUrl={rootUrlWithLang}
+              layoutConfig={layoutConfig}
+            />}
+        />
+        {/* routes for faceted search perspectives */}
+        {perspectiveConfig.map(perspective => {
+          if (!has(perspective, 'externalUrl') && perspective.searchMode === 'faceted-search') {
+            return (
+              <React.Fragment key={perspective.id}>
+                <Route
+                  path={`${rootUrlWithLang}/${perspective.id}/faceted-search`}
+                  render={routeProps => {
+                    return (
+                      <>
+                        <InfoHeader
+                          portalConfig={portalConfig}
+                          layoutConfig={layoutConfig}
+                          resultClass={perspective.id}
+                          pageType='facetResults'
+                          expanded={props[perspective.id].facetedSearchHeaderExpanded}
+                          updateExpanded={props.updatePerspectiveHeaderExpanded}
+                          screenSize={screenSize}
+                        />
+                        <Grid
+                          container spacing={1} className={props[perspective.id].facetedSearchHeaderExpanded
+                            ? classes.perspectiveContainerHeaderExpanded
+                            : classes.perspectiveContainer}
+                        >
+                          <Grid item xs={12} md={3} className={classes.facetBarContainer}>
+                            <FacetBar
+                              portalConfig={portalConfig}
+                              perspectiveConfig={perspective}
+                              layoutConfig={layoutConfig}
+                              facetedSearchMode='serverFS'
+                              facetData={props[`${perspective.id}Facets`]}
+                              facetDataConstrainSelf={props[`${perspective.id}FacetsConstrainSelf`]}
+                              perspectiveState={props[perspective.id]}
+                              facetClass={perspective.id}
+                              resultClass={perspective.id}
+                              fetchingResultCount={props[perspective.id].fetchingResultCount}
+                              resultCount={props[perspective.id].resultCount}
+                              fetchFacet={props.fetchFacet}
+                              fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
+                              fetchResults={props.fetchResults}
+                              clearFacet={props.clearFacet}
+                              clearAllFacets={props.clearAllFacets}
+                              fetchResultCount={props.fetchResultCount}
+                              updateFacetOption={props.updateFacetOption}
+                              showError={props.showError}
+                              defaultActiveFacets={perspective.defaultActiveFacets}
+                              rootUrl={rootUrlWithLang}
+                              screenSize={screenSize}
+                              apexChartsConfig={apexChartsConfig}
+                              leafletConfig={leafletConfig}
+                              networkConfig={networkConfig}
+                            />
+                          </Grid>
+                          <Grid item xs={12} md={9} className={classes.resultsContainer}>
+                            <FacetResults
+                              portalConfig={portalConfig}
+                              layoutConfig={layoutConfig}
+                              perspectiveConfig={perspective}
+                              perspectiveState={props[`${perspective.id}`]}
+                              facetState={props[`${perspective.id}Facets`]}
+                              facetConstrainSelfState={props[`${perspective.id}FacetsConstrainSelf`]}
+                              leafletMapState={props.leafletMap}
+                              fetchPaginatedResults={props.fetchPaginatedResults}
+                              fetchResults={props.fetchResults}
+                              fetchInstanceAnalysis={props.fetchInstanceAnalysis}
+                              fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
+                              fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+                              fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
+                              clearGeoJSONLayers={props.clearGeoJSONLayers}
+                              fetchByURI={props.fetchByURI}
+                              updatePage={props.updatePage}
+                              updateRowsPerPage={props.updateRowsPerPage}
+                              updateFacetOption={props.updateFacetOption}
+                              updateMapBounds={props.updateMapBounds}
+                              sortResults={props.sortResults}
+                              showError={props.showError}
+                              routeProps={routeProps}
+                              perspective={perspective}
+                              animationValue={props.animationValue}
+                              animateMap={props.animateMap}
+                              screenSize={screenSize}
+                              rootUrl={rootUrlWithLang}
+                              apexChartsConfig={apexChartsConfig}
+                              leafletConfig={leafletConfig}
+                              networkConfig={networkConfig}
+                            />
+                          </Grid>
+                        </Grid>
+                      </>
+                    )
+                  }}
+                />
+                <Switch>
+                  <Redirect
+                    from={`/${perspective.id}/page/:id`}
+                    to={{
+                      pathname: `${rootUrlWithLang}/${perspective.id}/page/:id`,
+                      hash: props.location.hash
+                    }}
+                  />
                   <Route
-                    path={`${rootUrlWithLang}/${perspective.id}/faceted-search`}
+                    path={`${rootUrlWithLang}/${perspective.id}/page/:id`}
                     render={routeProps => {
                       return (
                         <>
@@ -341,53 +433,23 @@ const SemanticPortal = props => {
                             portalConfig={portalConfig}
                             layoutConfig={layoutConfig}
                             resultClass={perspective.id}
-                            pageType='facetResults'
-                            expanded={props[perspective.id].facetedSearchHeaderExpanded}
+                            pageType='instancePage'
+                            instanceData={props[perspective.id].instanceTableData}
+                            expanded={props[perspective.id].instancePageHeaderExpanded}
                             updateExpanded={props.updatePerspectiveHeaderExpanded}
                             screenSize={screenSize}
                           />
                           <Grid
-                            container spacing={1} className={props[perspective.id].facetedSearchHeaderExpanded
-                              ? classes.perspectiveContainerHeaderExpanded
-                              : classes.perspectiveContainer}
+                            container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
+                              ? classes.instancePageContainerHeaderExpanded
+                              : classes.instancePageContainer}
                           >
-                            <Grid item xs={12} md={3} className={classes.facetBarContainer}>
-                              <FacetBar
-                                portalConfig={portalConfig}
-                                perspectiveConfig={perspective}
-                                layoutConfig={layoutConfig}
-                                facetedSearchMode='serverFS'
-                                facetData={props[`${perspective.id}Facets`]}
-                                facetDataConstrainSelf={props[`${perspective.id}FacetsConstrainSelf`]}
-                                perspectiveState={props[perspective.id]}
-                                facetClass={perspective.id}
-                                resultClass={perspective.id}
-                                fetchingResultCount={props[perspective.id].fetchingResultCount}
-                                resultCount={props[perspective.id].resultCount}
-                                fetchFacet={props.fetchFacet}
-                                fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
-                                fetchResults={props.fetchResults}
-                                clearFacet={props.clearFacet}
-                                clearAllFacets={props.clearAllFacets}
-                                fetchResultCount={props.fetchResultCount}
-                                updateFacetOption={props.updateFacetOption}
-                                showError={props.showError}
-                                defaultActiveFacets={perspective.defaultActiveFacets}
-                                rootUrl={rootUrlWithLang}
-                                screenSize={screenSize}
-                                apexChartsConfig={apexChartsConfig}
-                                leafletConfig={leafletConfig}
-                                networkConfig={networkConfig}
-                              />
-                            </Grid>
-                            <Grid item xs={12} md={9} className={classes.resultsContainer}>
-                              <FacetResults
+                            <Grid item xs={12} className={classes.instancePageContent}>
+                              <InstancePage
                                 portalConfig={portalConfig}
                                 layoutConfig={layoutConfig}
                                 perspectiveConfig={perspective}
                                 perspectiveState={props[`${perspective.id}`]}
-                                facetState={props[`${perspective.id}Facets`]}
-                                facetConstrainSelfState={props[`${perspective.id}FacetsConstrainSelf`]}
                                 leafletMapState={props.leafletMap}
                                 fetchPaginatedResults={props.fetchPaginatedResults}
                                 fetchResults={props.fetchResults}
@@ -407,6 +469,8 @@ const SemanticPortal = props => {
                                 perspective={perspective}
                                 animationValue={props.animationValue}
                                 animateMap={props.animateMap}
+                                videoPlayerState={props.videoPlayer}
+                                updateVideoPlayerTime={props.updateVideoPlayerTime}
                                 screenSize={screenSize}
                                 rootUrl={rootUrlWithLang}
                                 apexChartsConfig={apexChartsConfig}
@@ -419,246 +483,177 @@ const SemanticPortal = props => {
                       )
                     }}
                   />
-                  <Switch>
-                    <Redirect
-                      from={`/${perspective.id}/page/:id`}
-                      to={{
-                        pathname: `${rootUrlWithLang}/${perspective.id}/page/:id`,
-                        hash: props.location.hash
-                      }}
-                    />
-                    <Route
-                      path={`${rootUrlWithLang}/${perspective.id}/page/:id`}
-                      render={routeProps => {
-                        return (
-                          <>
-                            <InfoHeader
-                              portalConfig={portalConfig}
-                              layoutConfig={layoutConfig}
-                              resultClass={perspective.id}
-                              pageType='instancePage'
-                              instanceData={props[perspective.id].instanceTableData}
-                              expanded={props[perspective.id].instancePageHeaderExpanded}
-                              updateExpanded={props.updatePerspectiveHeaderExpanded}
-                              screenSize={screenSize}
-                            />
-                            <Grid
-                              container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
-                                ? classes.instancePageContainerHeaderExpanded
-                                : classes.instancePageContainer}
-                            >
-                              <Grid item xs={12} className={classes.instancePageContent}>
-                                <InstancePage
-                                  portalConfig={portalConfig}
-                                  layoutConfig={layoutConfig}
-                                  perspectiveConfig={perspective}
-                                  perspectiveState={props[`${perspective.id}`]}
-                                  leafletMapState={props.leafletMap}
-                                  fetchPaginatedResults={props.fetchPaginatedResults}
-                                  fetchResults={props.fetchResults}
-                                  fetchInstanceAnalysis={props.fetchInstanceAnalysis}
-                                  fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
-                                  fetchGeoJSONLayers={props.fetchGeoJSONLayers}
-                                  fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
-                                  clearGeoJSONLayers={props.clearGeoJSONLayers}
-                                  fetchByURI={props.fetchByURI}
-                                  updatePage={props.updatePage}
-                                  updateRowsPerPage={props.updateRowsPerPage}
-                                  updateFacetOption={props.updateFacetOption}
-                                  updateMapBounds={props.updateMapBounds}
-                                  sortResults={props.sortResults}
-                                  showError={props.showError}
-                                  routeProps={routeProps}
-                                  perspective={perspective}
-                                  animationValue={props.animationValue}
-                                  animateMap={props.animateMap}
-                                  videoPlayerState={props.videoPlayer}
-                                  updateVideoPlayerTime={props.updateVideoPlayerTime}
-                                  screenSize={screenSize}
-                                  rootUrl={rootUrlWithLang}
-                                  apexChartsConfig={apexChartsConfig}
-                                  leafletConfig={leafletConfig}
-                                  networkConfig={networkConfig}
-                                />
-                              </Grid>
-                            </Grid>
-                          </>
-                        )
-                      }}
-                    />
-                  </Switch>
-                </React.Fragment>
-              )
-            }
-            return null
-          })}
-          {/* create routes for classes that have only info pages and no faceted search perspective */}
-          {perspectiveConfigOnlyInfoPages.map(perspective =>
-            <Switch key={perspective.id}>
-              <Redirect
-                from={`${rootUrl}/${perspective.id}/page/:id`}
-                to={`${rootUrlWithLang}/${perspective.id}/page/:id`}
-              />
-              <Route
-                path={`${rootUrlWithLang}/${perspective.id}/page/:id`}
-                render={routeProps => {
-                  return (
-                    <>
-                      <InfoHeader
-                        portalConfig={portalConfig}
-                        layoutConfig={layoutConfig}
-                        resultClass={perspective.id}
-                        pageType='instancePage'
-                        instanceData={props[perspective.id].instanceTableData}
-                        expanded={props[perspective.id].instancePageHeaderExpanded}
-                        updateExpanded={props.updatePerspectiveHeaderExpanded}
-                        screenSize={screenSize}
-                      />
-                      <Grid
-                        container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
-                          ? classes.instancePageContainerHeaderExpanded
-                          : classes.instancePageContainer}
-                      >
-                        <Grid item xs={12} className={classes.instancePageContent}>
-                          <InstancePage
-                            portalConfig={portalConfig}
-                            layoutConfig={layoutConfig}
-                            perspectiveConfig={perspective}
-                            perspectiveState={props[`${perspective.id}`]}
-                            leafletMapState={props.leafletMap}
-                            fetchPaginatedResults={props.fetchPaginatedResults}
-                            fetchResults={props.fetchResults}
-                            fetchInstanceAnalysis={props.fetchInstanceAnalysis}
-                            fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
-                            fetchGeoJSONLayers={props.fetchGeoJSONLayers}
-                            fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
-                            clearGeoJSONLayers={props.clearGeoJSONLayers}
-                            fetchByURI={props.fetchByURI}
-                            updatePage={props.updatePage}
-                            updateRowsPerPage={props.updateRowsPerPage}
-                            updateFacetOption={props.updateFacetOption}
-                            updateMapBounds={props.updateMapBounds}
-                            sortResults={props.sortResults}
-                            showError={props.showError}
-                            routeProps={routeProps}
-                            perspective={perspective}
-                            animationValue={props.animationValue}
-                            animateMap={props.animateMap}
-                            videoPlayerState={props.videoPlayer}
-                            updateVideoPlayerTime={props.updateVideoPlayerTime}
-                            screenSize={screenSize}
-                            rootUrl={rootUrlWithLang}
-                            apexChartsConfig={apexChartsConfig}
-                            leafletConfig={leafletConfig}
-                            networkConfig={networkConfig}
-                          />
-                        </Grid>
-                      </Grid>
-                    </>
-                  )
-                }}
-              />
-            </Switch>
-          )}
-          <Route
-            path={`${rootUrlWithLang}/perspective4/federated-search`}
-            render={routeProps =>
-              <>
-                <Grid container className={classes.mainContainerClientFS}>
-                  <Grid item sm={12} md={4} lg={3} className={classes.facetBarContainerClientFS}>
-                    <FacetBar
+                </Switch>
+              </React.Fragment>
+            )
+          }
+          return null
+        })}
+        {/* create routes for classes that have only info pages and no faceted search perspective */}
+        {perspectiveConfigOnlyInfoPages.map(perspective =>
+          <Switch key={perspective.id}>
+            <Redirect
+              from={`${rootUrl}/${perspective.id}/page/:id`}
+              to={`${rootUrlWithLang}/${perspective.id}/page/:id`}
+            />
+            <Route
+              path={`${rootUrlWithLang}/${perspective.id}/page/:id`}
+              render={routeProps => {
+                return (
+                  <>
+                    <InfoHeader
                       portalConfig={portalConfig}
                       layoutConfig={layoutConfig}
-                      facetedSearchMode='clientFS'
-                      facetClass='perspective4'
-                      resultClass='perspective4'
-                      facetData={props.clientFSState}
-                      clientFSFacetValues={props.clientFSFacetValues}
-                      fetchingResultCount={props.clientFSState.textResultsFetching}
-                      resultCount={noClientFSResults ? 0 : props.clientFSState.results.length}
+                      resultClass={perspective.id}
+                      pageType='instancePage'
+                      instanceData={props[perspective.id].instanceTableData}
+                      expanded={props[perspective.id].instancePageHeaderExpanded}
+                      updateExpanded={props.updatePerspectiveHeaderExpanded}
+                      screenSize={screenSize}
+                    />
+                    <Grid
+                      container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
+                        ? classes.instancePageContainerHeaderExpanded
+                        : classes.instancePageContainer}
+                    >
+                      <Grid item xs={12} className={classes.instancePageContent}>
+                        <InstancePage
+                          portalConfig={portalConfig}
+                          layoutConfig={layoutConfig}
+                          perspectiveConfig={perspective}
+                          perspectiveState={props[`${perspective.id}`]}
+                          leafletMapState={props.leafletMap}
+                          fetchPaginatedResults={props.fetchPaginatedResults}
+                          fetchResults={props.fetchResults}
+                          fetchInstanceAnalysis={props.fetchInstanceAnalysis}
+                          fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
+                          fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+                          fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
+                          clearGeoJSONLayers={props.clearGeoJSONLayers}
+                          fetchByURI={props.fetchByURI}
+                          updatePage={props.updatePage}
+                          updateRowsPerPage={props.updateRowsPerPage}
+                          updateFacetOption={props.updateFacetOption}
+                          updateMapBounds={props.updateMapBounds}
+                          sortResults={props.sortResults}
+                          showError={props.showError}
+                          routeProps={routeProps}
+                          perspective={perspective}
+                          animationValue={props.animationValue}
+                          animateMap={props.animateMap}
+                          videoPlayerState={props.videoPlayer}
+                          updateVideoPlayerTime={props.updateVideoPlayerTime}
+                          screenSize={screenSize}
+                          rootUrl={rootUrlWithLang}
+                          apexChartsConfig={apexChartsConfig}
+                          leafletConfig={leafletConfig}
+                          networkConfig={networkConfig}
+                        />
+                      </Grid>
+                    </Grid>
+                  </>
+                )
+              }}
+            />
+          </Switch>
+        )}
+        <Route
+          path={`${rootUrlWithLang}/perspective4/federated-search`}
+          render={routeProps =>
+            <>
+              <Grid container className={classes.mainContainerClientFS}>
+                <Grid item sm={12} md={4} lg={3} className={classes.facetBarContainerClientFS}>
+                  <FacetBar
+                    portalConfig={portalConfig}
+                    layoutConfig={layoutConfig}
+                    facetedSearchMode='clientFS'
+                    facetClass='perspective4'
+                    resultClass='perspective4'
+                    facetData={props.clientFSState}
+                    clientFSFacetValues={props.clientFSFacetValues}
+                    fetchingResultCount={props.clientFSState.textResultsFetching}
+                    resultCount={noClientFSResults ? 0 : props.clientFSState.results.length}
+                    clientFSState={props.clientFSState}
+                    clientFSToggleDataset={props.clientFSToggleDataset}
+                    clientFSFetchResults={props.clientFSFetchResults}
+                    clientFSClearResults={props.clientFSClearResults}
+                    clientFSUpdateQuery={props.clientFSUpdateQuery}
+                    clientFSUpdateFacet={props.clientFSUpdateFacet}
+                    defaultActiveFacets={perspectiveConfig.find(p => p.id === 'perspective4').defaultActiveFacets}
+                    leafletMap={props.leafletMap}
+                    updateMapBounds={props.updateMapBounds}
+                    screenSize={screenSize}
+                    showError={props.showError}
+                    rootUrl={rootUrlWithLang}
+                    apexChartsConfig={apexChartsConfig}
+                    leafletConfig={leafletConfig}
+                    networkConfig={networkConfig}
+                  />
+                </Grid>
+                <Grid item sm={12} md={8} lg={9} className={classes.resultsContainerClientFS}>
+                  {noClientFSResults && <MainClientFS />}
+                  {!noClientFSResults &&
+                    <FederatedResults
+                      portalConfig={portalConfig}
+                      layoutConfig={layoutConfig}
+                      perspective={perspectiveConfig.find(p => p.id === 'perspective4')}
+                      routeProps={routeProps}
+                      screenSize={screenSize}
                       clientFSState={props.clientFSState}
-                      clientFSToggleDataset={props.clientFSToggleDataset}
-                      clientFSFetchResults={props.clientFSFetchResults}
-                      clientFSClearResults={props.clientFSClearResults}
-                      clientFSUpdateQuery={props.clientFSUpdateQuery}
-                      clientFSUpdateFacet={props.clientFSUpdateFacet}
-                      defaultActiveFacets={perspectiveConfig.find(p => p.id === 'perspective4').defaultActiveFacets}
+                      clientFSResults={props.clientFSResults}
+                      clientFSSortResults={props.clientFSSortResults}
                       leafletMap={props.leafletMap}
                       updateMapBounds={props.updateMapBounds}
-                      screenSize={screenSize}
+                      fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
+                      fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+                      clearGeoJSONLayers={props.clearGeoJSONLayers}
                       showError={props.showError}
                       rootUrl={rootUrlWithLang}
                       apexChartsConfig={apexChartsConfig}
                       leafletConfig={leafletConfig}
                       networkConfig={networkConfig}
-                    />
-                  </Grid>
-                  <Grid item sm={12} md={8} lg={9} className={classes.resultsContainerClientFS}>
-                    {noClientFSResults && <MainClientFS />}
-                    {!noClientFSResults &&
-                      <FederatedResults
-                        portalConfig={portalConfig}
-                        layoutConfig={layoutConfig}
-                        perspective={perspectiveConfig.find(p => p.id === 'perspective4')}
-                        routeProps={routeProps}
-                        screenSize={screenSize}
-                        clientFSState={props.clientFSState}
-                        clientFSResults={props.clientFSResults}
-                        clientFSSortResults={props.clientFSSortResults}
-                        leafletMap={props.leafletMap}
-                        updateMapBounds={props.updateMapBounds}
-                        fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
-                        fetchGeoJSONLayers={props.fetchGeoJSONLayers}
-                        clearGeoJSONLayers={props.clearGeoJSONLayers}
-                        showError={props.showError}
-                        rootUrl={rootUrlWithLang}
-                        apexChartsConfig={apexChartsConfig}
-                        leafletConfig={leafletConfig}
-                        networkConfig={networkConfig}
-                      />}
-                  </Grid>
+                    />}
                 </Grid>
-                <Footer
-                  portalConfig={portalConfig}
-                  layoutConfig={layoutConfig}
-                />
-              </>}
-
-          />
-          {/* create routes for info buttons */}
-          {!layoutConfig.topBar.externalAboutPage &&
-            <Route
-              path={`${rootUrlWithLang}/about`}
-              render={() =>
-                <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
-                  <TextPage>
-                    {intl.getHTML('aboutThePortalPartOne')}
-                    {knowledgeGraphMetadataConfig.showTable &&
-                      <KnowledgeGraphMetadataTable
-                        portalConfig={portalConfig}
-                        layoutConfig={layoutConfig}
-                        perspectiveID={knowledgeGraphMetadataConfig.perspective}
-                        resultClass='knowledgeGraphMetadata'
-                        fetchKnowledgeGraphMetadata={props.fetchKnowledgeGraphMetadata}
-                        knowledgeGraphMetadata={props[knowledgeGraphMetadataConfig.perspective]
-                          ? props[knowledgeGraphMetadataConfig.perspective].knowledgeGraphMetadata
-                          : null}
-                      />}
-                    {intl.getHTML('aboutThePortalPartTwo')}
-                  </TextPage>
-                </div>}
-            />}
-          {!layoutConfig.topBar.externalInstructions &&
-            <Route
-              path={`${rootUrlWithLang}/instructions`}
-              render={() =>
-                <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
-                  <TextPage>{intl.getHTML('instructions')}</TextPage>
-                </div>}
-            />}
-        </>
-      </div>
-    </MuiPickersUtilsProvider>
+              </Grid>
+              <Footer
+                portalConfig={portalConfig}
+                layoutConfig={layoutConfig}
+              />
+            </>}
+        />
+        {/* create routes for info buttons */}
+        {!layoutConfig.topBar.externalAboutPage &&
+          <Route
+            path={`${rootUrlWithLang}/about`}
+            render={() =>
+              <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
+                <TextPage>
+                  {intl.getHTML('aboutThePortalPartOne')}
+                  {knowledgeGraphMetadataConfig.showTable &&
+                    <KnowledgeGraphMetadataTable
+                      portalConfig={portalConfig}
+                      layoutConfig={layoutConfig}
+                      perspectiveID={knowledgeGraphMetadataConfig.perspective}
+                      resultClass='knowledgeGraphMetadata'
+                      fetchKnowledgeGraphMetadata={props.fetchKnowledgeGraphMetadata}
+                      knowledgeGraphMetadata={props[knowledgeGraphMetadataConfig.perspective]
+                        ? props[knowledgeGraphMetadataConfig.perspective].knowledgeGraphMetadata
+                        : null}
+                    />}
+                  {intl.getHTML('aboutThePortalPartTwo')}
+                </TextPage>
+              </div>}
+          />}
+        {!layoutConfig.topBar.externalInstructions &&
+          <Route
+            path={`${rootUrlWithLang}/instructions`}
+            render={() =>
+              <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
+                <TextPage>{intl.getHTML('instructions')}</TextPage>
+              </div>}
+          />}
+      </>
+    </div>
   )
 }
 

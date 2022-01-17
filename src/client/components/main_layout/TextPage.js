@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
+import makeStyles from '@mui/styles/makeStyles';
+import Paper from '@mui/material/Paper'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3),
     marginLeft: theme.spacing(3),
     marginRight: theme.spacing(3),
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       padding: theme.spacing(1.5),
       marginLeft: 0,
       marginRight: 0

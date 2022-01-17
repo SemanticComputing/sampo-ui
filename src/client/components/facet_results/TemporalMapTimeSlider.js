@@ -1,7 +1,7 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types'
-import Slider from '@material-ui/core/Slider'
+import Slider from '@mui/material/Slider'
 import { BaseControl } from 'react-map-gl'
 import moment from 'moment'
 

@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import { withStyles } from '@material-ui/core/styles'
-import IconButton from '@material-ui/core/IconButton'
-import SearchIcon from '@material-ui/icons/Search'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import FormControl from '@material-ui/core/FormControl'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import withStyles from '@mui/styles/withStyles';
+import IconButton from '@mui/material/IconButton'
+import SearchIcon from '@mui/icons-material/Search'
+import Input from '@mui/material/Input'
+import InputLabel from '@mui/material/InputLabel'
+import InputAdornment from '@mui/material/InputAdornment'
+import FormControl from '@mui/material/FormControl'
+import CircularProgress from '@mui/material/CircularProgress'
 
 const styles = theme => ({
   textSearch: {
@@ -70,9 +70,7 @@ class TextFacet extends React.Component {
     const textResultsFetching = false
     if (textResultsFetching) {
       searchButton = (
-        <IconButton
-          aria-label={placeholder}
-        >
+        <IconButton aria-label={placeholder} size="large">
           <CircularProgress size={24} />
         </IconButton>
       )
@@ -82,7 +80,7 @@ class TextFacet extends React.Component {
           aria-label='search'
           onClick={this.handleClick}
           onMouseDown={this.handleMouseDown}
-        >
+          size="large">
           <SearchIcon />
         </IconButton>
       )

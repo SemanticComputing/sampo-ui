@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Dialog from '@material-ui/core/Dialog'
-import MuiDialogTitle from '@material-ui/core/DialogTitle'
-import IconButton from '@material-ui/core/IconButton'
-import CloseIcon from '@material-ui/icons/Close'
-import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
+import Dialog from '@mui/material/Dialog'
+import MuiDialogTitle from '@mui/material/DialogTitle'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
+import Typography from '@mui/material/Typography'
+import withStyles from '@mui/styles/withStyles';
 
 const styles = theme => ({
   dialogPaper: {
@@ -26,13 +26,17 @@ const DialogTitle = withStyles(styles)((props) => {
       <Typography variant='h6'>{children}</Typography>
       {onClose
         ? (
-          <IconButton aria-label='close' className={classes.closeButton} onClick={onClose}>
+          <IconButton
+            aria-label='close'
+            className={classes.closeButton}
+            onClick={onClose}
+            size="large">
             <CloseIcon />
           </IconButton>
           )
         : null}
     </MuiDialogTitle>
-  )
+  );
 })
 
 const GeneralDialog = props => {

@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import purple from '@material-ui/core/colors/purple'
-import { withStyles } from '@material-ui/core/styles'
-import Slider from '@material-ui/core/Slider'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+import CircularProgress from '@mui/material/CircularProgress'
+import withStyles from '@mui/styles/withStyles';
+import Slider from '@mui/material/Slider'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
 import { yearToISOString, ISOStringToYear } from './FacetHelpers'
+import { purple } from '@mui/material/colors';
 
 const styles = theme => ({
   root: {

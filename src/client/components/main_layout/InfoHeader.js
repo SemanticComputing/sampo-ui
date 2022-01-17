@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
-import Accordion from '@material-ui/core/Accordion'
-import AccordionSummary from '@material-ui/core/AccordionSummary'
-import AccordionDetails from '@material-ui/core/AccordionDetails'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import Typography from '@material-ui/core/Typography'
-// import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton'
-import InfoIcon from '@material-ui/icons/InfoOutlined'
-import Tooltip from '@material-ui/core/Tooltip'
+import makeStyles from '@mui/styles/makeStyles';
+import Accordion from '@mui/material/Accordion'
+import AccordionSummary from '@mui/material/AccordionSummary'
+import AccordionDetails from '@mui/material/AccordionDetails'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import Typography from '@mui/material/Typography'
+// import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton'
+import InfoIcon from '@mui/icons-material/InfoOutlined'
+import Tooltip from '@mui/material/Tooltip'
 import intl from 'react-intl-universal'
 
 const useStyles = makeStyles(theme => ({
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   summaryContent: {
     display: 'block',
     marginTop: theme.spacing(0.5),
-    marginBottom: `${theme.spacing(0.5)}px !important`
+    marginBottom: `${theme.spacing(0.5)} !important`
   },
   headingContainer: {
     display: 'flex'
@@ -133,7 +133,11 @@ const InfoHeader = props => {
               {props.pageType === 'instancePage' && intl.get(`perspectives.${props.resultClass}.instancePage.label`)}
             </Typography>
             <Tooltip title={intl.get('infoHeader.toggleInstructions')}>
-              <IconButton aria-label='toggle instructions' className={classes.infoIconButton} onClick={handleExpandButtonOnClick}>
+              <IconButton
+                aria-label='toggle instructions'
+                className={classes.infoIconButton}
+                onClick={handleExpandButtonOnClick}
+                size="large">
                 <InfoIcon className={classes.infoIcon} />
               </IconButton>
             </Tooltip>
@@ -153,7 +157,7 @@ const InfoHeader = props => {
         </AccordionDetails>
       </Accordion>
     </div>
-  )
+  );
 }
 
 InfoHeader.propTypes = {

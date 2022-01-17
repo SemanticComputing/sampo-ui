@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
 import GeneralDialog from '../main_layout/GeneralDialog'
 import ApexCharts from '../facet_results/ApexCharts'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles(theme => ({
   chartContainer: {
@@ -33,41 +33,39 @@ const ChartDialog = props => {
     setOpen(false)
   }
 
-  return (
-    <>
-      <Tooltip disableFocusListener title={tooltip}>
-        <IconButton
-          aria-label={tooltip}
-          aria-owns={open ? 'facet-option-menu' : undefined}
-          aria-haspopup='true'
-          onClick={handleClickOpen}
-        >
-          {props.icon}
-        </IconButton>
-      </Tooltip>
-      <GeneralDialog
-        open={open}
-        onClose={handleClose}
-        dialogTitle={props.dialogTitle}
-      >
-        <div className={classes.chartContainer}>
-          <ApexCharts
-            portalConfig={props.portalConfig}
-            perspectiveConfig={props.perspectiveConfig}
-            apexChartsConfig={props.apexChartsConfig}
-            results={results}
-            resultUpdateID={resultUpdateID}
-            fetching={fetching}
-            fetchData={fetchData}
-            resultClass={resultClass}
-            facetClass={facetClass}
-            facetID={facetID}
-            resultClassConfig={resultClassConfig}
-          />
-        </div>
-      </GeneralDialog>
-    </>
-  )
+  return <>
+    <Tooltip disableFocusListener title={tooltip}>
+      <IconButton
+        aria-label={tooltip}
+        aria-owns={open ? 'facet-option-menu' : undefined}
+        aria-haspopup='true'
+        onClick={handleClickOpen}
+        size="large">
+        {props.icon}
+      </IconButton>
+    </Tooltip>
+    <GeneralDialog
+      open={open}
+      onClose={handleClose}
+      dialogTitle={props.dialogTitle}
+    >
+      <div className={classes.chartContainer}>
+        <ApexCharts
+          portalConfig={props.portalConfig}
+          perspectiveConfig={props.perspectiveConfig}
+          apexChartsConfig={props.apexChartsConfig}
+          results={results}
+          resultUpdateID={resultUpdateID}
+          fetching={fetching}
+          fetchData={fetchData}
+          resultClass={resultClass}
+          facetClass={facetClass}
+          facetID={facetID}
+          resultClassConfig={resultClassConfig}
+        />
+      </div>
+    </GeneralDialog>
+  </>;
 }
 
 ChartDialog.propTypes = {

@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Dialog from '@material-ui/core/Dialog'
-import DialogContent from '@material-ui/core/DialogContent'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import withStyles from '@mui/styles/withStyles';
+import Typography from '@mui/material/Typography'
 import InstanceList from '../main_layout/InstanceList'
 import { Link } from 'react-router-dom'
 

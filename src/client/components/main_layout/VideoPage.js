@@ -1,8 +1,8 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
-import Grid from '@material-ui/core/Grid'
-import { Typography } from '@material-ui/core'
+import makeStyles from '@mui/styles/makeStyles';
+import Paper from '@mui/material/Paper'
+import Grid from '@mui/material/Grid'
+import { Typography } from '@mui/material'
 import InstancePageTable from './InstancePageTable'
 import Player from './Player'
 import VideoTableOfContents from './VideoTableOfContents'
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1),
     // flexWrap: 'wrap-reverse',
     [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
-      height: `calc(100% - ${theme.spacing(2.5)}px)`
+      height: `calc(100% - ${theme.spacing(2.5)})`
     }
   }),
   gridItem: props => ({
@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
       height: '60%'
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       maxWidth: 500
     },
     overflow: 'auto',
@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
   tableContainer: props => ({
     marginBottom: theme.spacing(1),
     [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
-      height: `calc(40% - ${theme.spacing(1)}px)`,
+      height: `calc(40% - ${theme.spacing(1)})`,
       overflow: 'auto'
     }
   }),

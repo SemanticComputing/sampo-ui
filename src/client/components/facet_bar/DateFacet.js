@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import { KeyboardDatePicker } from '@material-ui/pickers'
 import moment from 'moment'
 import intl from 'react-intl-universal'
-import FormHelperText from '@material-ui/core/FormHelperText'
+import FormHelperText from '@mui/material/FormHelperText'
 import classNames from 'classnames'
 
 const styles = theme => ({

@@ -1,20 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/Typography'
-import MenuItem from '@material-ui/core/MenuItem'
-import Menu from '@material-ui/core/Menu'
-import { makeStyles } from '@material-ui/core/styles'
-import MoreIcon from '@material-ui/icons/MoreVert'
-import Button from '@material-ui/core/Button'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import MenuItem from '@mui/material/MenuItem'
+import Menu from '@mui/material/Menu'
+import makeStyles from '@mui/styles/makeStyles'
+import MoreIcon from '@mui/icons-material/MoreVert'
+import Button from '@mui/material/Button'
 import { Link, NavLink } from 'react-router-dom'
 import TopBarSearchField from './TopBarSearchField'
 import TopBarInfoButton from './TopBarInfoButton'
 import TopBarLanguageButton from './TopBarLanguageButton'
-import Divider from '@material-ui/core/Divider'
+import Divider from '@mui/material/Divider'
 import { has } from 'lodash'
 import secoLogo from '../../img/logos/seco-logo-48x50.png'
 
@@ -79,7 +79,7 @@ const useStyles = makeStyles(theme => ({
   }),
   mainLogoButtonRoot: {
     paddingLeft: 0,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       minWidth: 48
     }
   },
@@ -92,11 +92,11 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.primary.main,
     whiteSpace: 'nowrap',
     textTransform: props.layoutConfig.topBar.logoTextTransform,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       fontSize: '1.5rem'
     },
     ...(props.layoutConfig.topBar.hideLogoTextOnMobile && {
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         display: 'none'
       }
     })
@@ -382,9 +382,11 @@ const TopBar = props => {
                 location={props.location}
               />}
             <IconButton
-              aria-label='display more actions' color='inherit'
+              aria-label='display more actions'
+              color='inherit'
               className={classes.mobileMenuButton}
               onClick={handleMobileMenuOpen}
+              size='large'
             >
               <MoreIcon />
             </IconButton>

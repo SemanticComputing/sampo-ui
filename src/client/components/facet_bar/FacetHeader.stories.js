@@ -1,6 +1,6 @@
 import React from 'react'
 import FacetHeader, { FacetHeaderComponent } from './FacetHeader'
-import Paper from '@material-ui/core/Paper'
+import Paper from '@mui/material/Paper'
 import { useSelector } from 'react-redux'
 import intl from 'react-intl-universal'
 import Center from '../../../../.storybook/Center'

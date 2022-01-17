@@ -2,9 +2,9 @@ import React from 'react'
 import Immutable from 'immutable'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import { withStyles } from '@material-ui/core/styles'
-import IconButton from '@material-ui/core/IconButton'
-import PlaceIcon from '@material-ui/icons/Place'
+import withStyles from '@mui/styles/withStyles';
+import IconButton from '@mui/material/IconButton'
+import PlaceIcon from '@mui/icons-material/Place'
 import { has } from 'lodash'
 import {
   AutoSizer,
@@ -119,10 +119,7 @@ class VirtualizedTable extends React.PureComponent {
       let marker = ''
       if (typeof rowData.lat !== 'undefined' || typeof rowData.long !== 'undefined') {
         marker = (
-          <IconButton
-            disabled
-            aria-label='Marker'
-          >
+          <IconButton disabled aria-label='Marker' size="large">
             <PlaceIcon />
           </IconButton>
         )

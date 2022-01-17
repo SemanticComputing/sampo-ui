@@ -287,3 +287,5 @@ export const createPerspectiveConfigOnlyInfoPages = async ({ portalID, onlyInsta
   }
   return perspectiveConfigOnlyInfoPages
 }
+
+export const getSpacing = (theme, value) => Number(theme.spacing(value).slice(0, -2))

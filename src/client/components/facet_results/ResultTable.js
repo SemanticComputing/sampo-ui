@@ -1,22 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import clsx from 'clsx'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
 import ResultTableCell from './ResultTableCell'
-import TableRow from '@material-ui/core/TableRow'
-import TableCell from '@material-ui/core/TableCell'
-import IconButton from '@material-ui/core/IconButton'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import purple from '@material-ui/core/colors/purple'
+import TableRow from '@mui/material/TableRow'
+import TableCell from '@mui/material/TableCell'
+import IconButton from '@mui/material/IconButton'
+import CircularProgress from '@mui/material/CircularProgress'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import querystring from 'querystring'
 import ResultTableHead from './ResultTableHead'
-import TablePagination from '@material-ui/core/TablePagination'
+import TablePagination from '@mui/material/TablePagination'
 import ResultTablePaginationActions from './ResultTablePaginationActions'
 import history from '../../History'
+import { purple } from '@mui/material/colors';
 
 const styles = theme => ({
   tableContainer: props => ({
@@ -42,7 +42,7 @@ const styles = theme => ({
   paginationToolbar: props => ({
     '& p': { fontSize: '0.75rem' },
     minHeight: props.layoutConfig.paginationToolbarHeight,
-    [theme.breakpoints.down(480)]: {
+    [theme.breakpoints.down(undefined)]: {
       display: 'flex',
       flexWrap: 'wrap',
       marginTop: theme.spacing(0.5)
@@ -266,13 +266,13 @@ class ResultTable extends React.Component {
               onClick={this.handleExpandRow(row.id)}
               aria-expanded={expanded}
               aria-label='Show more'
-            >
+              size="large">
               <ExpandMoreIcon />
             </IconButton>}
         </TableCell>
         {dataCells}
       </TableRow>
-    )
+    );
   }
 
   render () {

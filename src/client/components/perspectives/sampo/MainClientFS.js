@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Paper from '@material-ui/core/Paper'
+import withStyles from '@mui/styles/withStyles';
+import Typography from '@mui/material/Typography'
+import Paper from '@mui/material/Paper'
 import intl from 'react-intl-universal'
 import bgImage from '../../../img/main_page/bg2.jpg'
 
@@ -20,17 +20,17 @@ const styles = theme => ({
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     margin: theme.spacing(3),
     padding: theme.spacing(3),
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       padding: theme.spacing(1)
     }
   },
   frontPageHeading: {
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       fontSize: '1.2rem'
     }
   },
   frontPageText: {
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       fontSize: '1.0rem'
     }
   }

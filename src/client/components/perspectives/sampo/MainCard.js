@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Typography from '@material-ui/core/Typography'
-import Paper from '@material-ui/core/Paper'
-import Grid from '@material-ui/core/Grid'
+import Typography from '@mui/material/Typography'
+import Paper from '@mui/material/Paper'
+import Grid from '@mui/material/Grid'
 import intl from 'react-intl-universal'
-import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import { makeStyles } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import Card from '@mui/material/Card'
+import CardActionArea from '@mui/material/CardActionArea'
+import CardContent from '@mui/material/CardContent'
+import CardMedia from '@mui/material/CardMedia'
+import makeStyles from '@mui/styles/makeStyles';
+import useMediaQuery from '@mui/material/useMediaQuery'
 import { Link } from 'react-router-dom'
 import { has } from 'lodash'
 import defaultImage from '../../../img/main_page/thumb.png'
@@ -17,11 +17,11 @@ import defaultImage from '../../../img/main_page/thumb.png'
 const useStyles = makeStyles(theme => ({
   gridItem: props => ({
     textDecoration: 'none',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       justifyContent: 'center'
     },
     height: 228,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       height: 170,
       maxWidth: 300
     },
@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
 const MainCard = props => {
   const classes = useStyles(props)
   const { perspective, cardHeadingVariant } = props
-  const xsScreen = useMediaQuery(theme => theme.breakpoints.down('xs'))
+  const xsScreen = useMediaQuery(theme => theme.breakpoints.down('sm'))
   // const smScreen = useMediaQuery(theme => theme.breakpoints.between('sm', 'md'))
   const externalPerspective = has(perspective, 'externalUrl')
   const card = has(perspective, 'frontPageElement') && perspective.frontPageElement === 'card'
