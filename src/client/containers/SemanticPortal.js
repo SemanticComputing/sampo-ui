@@ -5,7 +5,6 @@ import { has } from 'lodash'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { withRouter, Route, Redirect, Switch } from 'react-router-dom'
-import classNames from 'classnames'
 import { compose } from '@shakacode/recompose'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
@@ -112,16 +111,6 @@ const useStyles = makeStyles(theme => ({
     },
     [theme.breakpoints.up(layoutConfig.reducedHeightBreakpoint)]: {
       height: `calc(100% - ${layoutConfig.topBar.defaultHeight + layoutConfig.footer.defaultHeight + theme.spacing(1)}px)`
-    }
-  },
-  textPageContainer: {
-    margin: theme.spacing(0.5),
-    width: `calc(100% - ${theme.spacing(1)}px)`,
-    [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
-      height: `calc(100% - ${layoutConfig.topBar.reducedHeight + theme.spacing(1.5)}px)`
-    },
-    [theme.breakpoints.up(layoutConfig.reducedHeightBreakpoint)]: {
-      height: `calc(100% - ${layoutConfig.topBar.defaultHeight + theme.spacing(1.5)}px)`
     }
   },
   perspectiveContainer: {
@@ -244,7 +233,7 @@ const SemanticPortal = props => {
   const { error } = props
   const theme = useTheme()
   const classes = useStyles(props)
-  const xsScreen = useMediaQuery(theme.breakpoints.down('xs'))
+  const xsScreen = useMediaQuery(theme.breakpoints.down('sm'))
   const smScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'))
   const mdScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'))
   const lgScreen = useMediaQuery(theme.breakpoints.between('lg', 'xl'))
@@ -626,31 +615,29 @@ const SemanticPortal = props => {
           <Route
             path={`${rootUrlWithLang}/about`}
             render={() =>
-              <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
-                <TextPage>
-                  {intl.getHTML('aboutThePortalPartOne')}
-                  {knowledgeGraphMetadataConfig.showTable &&
-                    <KnowledgeGraphMetadataTable
-                      portalConfig={portalConfig}
-                      layoutConfig={layoutConfig}
-                      perspectiveID={knowledgeGraphMetadataConfig.perspective}
-                      resultClass='knowledgeGraphMetadata'
-                      fetchKnowledgeGraphMetadata={props.fetchKnowledgeGraphMetadata}
-                      knowledgeGraphMetadata={props[knowledgeGraphMetadataConfig.perspective]
-                        ? props[knowledgeGraphMetadataConfig.perspective].knowledgeGraphMetadata
-                        : null}
-                    />}
-                  {intl.getHTML('aboutThePortalPartTwo')}
-                </TextPage>
-              </div>}
+              <TextPage layoutConfig={layoutConfig}>
+                {intl.getHTML('aboutThePortalPartOne')}
+                {knowledgeGraphMetadataConfig.showTable &&
+                  <KnowledgeGraphMetadataTable
+                    portalConfig={portalConfig}
+                    layoutConfig={layoutConfig}
+                    perspectiveID={knowledgeGraphMetadataConfig.perspective}
+                    resultClass='knowledgeGraphMetadata'
+                    fetchKnowledgeGraphMetadata={props.fetchKnowledgeGraphMetadata}
+                    knowledgeGraphMetadata={props[knowledgeGraphMetadataConfig.perspective]
+                      ? props[knowledgeGraphMetadataConfig.perspective].knowledgeGraphMetadata
+                      : null}
+                  />}
+                {intl.getHTML('aboutThePortalPartTwo')}
+              </TextPage>}
           />}
         {!layoutConfig.topBar.externalInstructions &&
           <Route
             path={`${rootUrlWithLang}/instructions`}
             render={() =>
-              <div className={classNames(classes.mainContainer, classes.textPageContainer)}>
-                <TextPage>{intl.getHTML('instructions')}</TextPage>
-              </div>}
+              <TextPage layoutConfig={layoutConfig}>
+                {intl.getHTML('instructions')}
+              </TextPage>}
           />}
       </>
     </div>

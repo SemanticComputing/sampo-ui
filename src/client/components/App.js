@@ -1,12 +1,22 @@
 import React from 'react'
-import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/styles'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
 import AdapterMoment from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 // import 'moment/locale/fi'
 import SemanticPortal from '../containers/SemanticPortal'
 import portalConfig from '../../configs/portalConfig.json'
 
-const { colorPalette } = portalConfig.layoutConfig
+const { colorPalette, reducedHeightBreakpoint, hundredPercentHeightBreakPoint, topBar } = portalConfig.layoutConfig
+
+const muiDefaultBreakpoints = {
+  xs: 0,
+  sm: 600,
+  md: 900,
+  lg: 1200,
+  xl: 1536
+}
+
+const defaultTheme = createTheme()
 
 const theme = createTheme({
   palette: {
@@ -17,7 +27,26 @@ const theme = createTheme({
       main: colorPalette.secondary.main
     }
   },
+  breakpoints: {
+    values: {
+      ...muiDefaultBreakpoints,
+      reducedHeight: muiDefaultBreakpoints[reducedHeightBreakpoint],
+      hundredPercentHeight: muiDefaultBreakpoints[hundredPercentHeightBreakPoint]
+    }
+  },
   components: {
+    MuiToolbar: {
+      styleOverrides: {
+        regular: {
+          [defaultTheme.breakpoints.down(reducedHeightBreakpoint)]: {
+            minHeight: topBar.reducedHeight
+          },
+          [defaultTheme.breakpoints.up(reducedHeightBreakpoint)]: {
+            minHeight: topBar.defaultHeight
+          }
+        }
+      }
+    },
     MuiTooltip: {
       tooltip: {
         fontSize: '1 rem'
@@ -64,11 +93,9 @@ const theme = createTheme({
 
 const App = () => (
   <LocalizationProvider dateAdapter={AdapterMoment}>
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <SemanticPortal />
-      </ThemeProvider>
-    </StyledEngineProvider>
+    <ThemeProvider theme={theme}>
+      <SemanticPortal />
+    </ThemeProvider>
   </LocalizationProvider>
 )
 

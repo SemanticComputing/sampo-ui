@@ -2,33 +2,13 @@ import React from 'react'
 import Paper from '@mui/material/Paper'
 import PropTypes from 'prop-types'
 import Grid from '@mui/material/Grid'
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from '@mui/styles/makeStyles'
+import { getSpacing } from '../../../helpers/helpers'
 import aaltoLogo from '../../../img/logos/Aalto_SCI_EN_13_BLACK_2_cropped.png'
 import hyLogo from '../../../img/logos/university-of-helsinki-logo-transparent-black.png'
 import heldigLogo from '../../../img/logos/heldig-logo-transparent-black.png'
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'block',
-    boxShadow: '0 -20px 20px -20px #333',
-    borderRadius: 0
-  },
-  layout: props => ({
-    [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
-      height: props.layoutConfig.footer.reducedHeight
-      // height: 115, for two row footer
-    },
-    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-      height: props.layoutConfig.footer.defaultHeight
-    },
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up(1500 + theme.spacing(6))]: {
-      width: 1500,
-      marginLeft: 'auto',
-      marginRight: 'auto'
-    }
-  }),
   gridContainer: {
     height: '100%',
     marginTop: 0,
@@ -85,26 +65,46 @@ const useStyles = makeStyles(theme => ({
 const Footer = props => {
   const classes = useStyles(props)
   return (
-    <Paper className={classes.root}>
-      <div className={classes.layout}>
-        <Grid className={classes.gridContainer} container spacing={3}>
-          <Grid item xs className={classes.gridItem}>
-            <a className={classes.link} href='https://www.aalto.fi/en/school-of-science' target='_blank' rel='noopener noreferrer'>
-              <img className={classes.aaltoLogo} src={aaltoLogo} alt='Aalto University logo' />
-            </a>
-          </Grid>
-          <Grid item xs className={classes.gridItem}>
-            <a className={classes.link} href='https://www.helsinki.fi/en' target='_blank' rel='noopener noreferrer'>
-              <img className={classes.hyLogo} src={hyLogo} alt='University of Helsinki logo' />
-            </a>
-          </Grid>
-          <Grid item xs className={classes.gridItem}>
-            <a className={classes.link} href='https://www.helsinki.fi/en/helsinki-centre-for-digital-humanities' target='_blank' rel='noopener noreferrer'>
-              <img className={classes.heldigLogo} src={heldigLogo} alt='Helsinki Centre for Digital Humanities logo' />
-            </a>
-          </Grid>
+    <Paper
+      sx={theme => ({
+        boxShadow: '0 -20px 20px -20px #333',
+        borderRadius: 0,
+        height: {
+          hundredPercentHeight: props.layoutConfig.footer.reducedHeight,
+          reducedHeight: props.layoutConfig.footer.defaultHeight
+        }
+      })}
+    >
+      <Grid
+        className={classes.gridContainer}
+        container spacing={3}
+        sx={theme => ({
+          height: '100%',
+          marginTop: 0,
+          marginBottom: 0,
+          [theme.breakpoints.up(1500 + getSpacing(theme, 6))]: {
+            width: 1500,
+            marginLeft: 'auto',
+            marginRight: 'auto'
+          }
+        })}
+      >
+        <Grid item xs className={classes.gridItem}>
+          <a className={classes.link} href='https://www.aalto.fi/en/school-of-science' target='_blank' rel='noopener noreferrer'>
+            <img className={classes.aaltoLogo} src={aaltoLogo} alt='Aalto University logo' />
+          </a>
         </Grid>
-      </div>
+        <Grid item xs className={classes.gridItem}>
+          <a className={classes.link} href='https://www.helsinki.fi/en' target='_blank' rel='noopener noreferrer'>
+            <img className={classes.hyLogo} src={hyLogo} alt='University of Helsinki logo' />
+          </a>
+        </Grid>
+        <Grid item xs className={classes.gridItem}>
+          <a className={classes.link} href='https://www.helsinki.fi/en/helsinki-centre-for-digital-humanities' target='_blank' rel='noopener noreferrer'>
+            <img className={classes.heldigLogo} src={heldigLogo} alt='Helsinki Centre for Digital Humanities logo' />
+          </a>
+        </Grid>
+      </Grid>
     </Paper>
   )
 }

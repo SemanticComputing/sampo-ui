@@ -7,9 +7,10 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
 import Menu from '@mui/material/Menu'
-import makeStyles from '@mui/styles/makeStyles'
 import MoreIcon from '@mui/icons-material/MoreVert'
 import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+import { useTheme } from '@mui/material/styles'
 import { Link, NavLink } from 'react-router-dom'
 import TopBarSearchField from './TopBarSearchField'
 import TopBarInfoButton from './TopBarInfoButton'
@@ -18,113 +19,22 @@ import Divider from '@mui/material/Divider'
 import { has } from 'lodash'
 import secoLogo from '../../img/logos/seco-logo-48x50.png'
 
-const useStyles = makeStyles(theme => ({
-  grow: {
-    flexGrow: 1
-  },
-  topBarToolbar: props => ({
-    minHeight: props.layoutConfig.topBar.reducedHeight,
-    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-      minHeight: props.layoutConfig.topBar.defaultHeight
-    },
-    paddingLeft: theme.spacing(1.5),
-    paddingRight: theme.spacing(1.5)
-  }),
-  sectionDesktop: props => ({
-    display: 'none',
-    [theme.breakpoints.up(props.layoutConfig.topBar.mobileMenuBreakpoint)]: {
-      display: 'flex'
-    }
-  }),
-  link: {
-    textDecoration: 'none'
-  },
-  sectionMobile: props => ({
-    display: 'flex',
-    [theme.breakpoints.up(props.layoutConfig.topBar.mobileMenuBreakpoint)]: {
-      display: 'none'
-    }
-  }),
-  appBarButton: {
-    whiteSpace: 'nowrap',
-    color: 'white !important',
-    border: `1px solid ${theme.palette.primary.main}`
-  },
-  appBarButtonActive: {
-    border: '1px solid white'
-  },
-  appBarDivider: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    borderLeft: '2px solid white'
-  },
-  secoLogo: props => ({
-    marginLeft: theme.spacing(1),
-    [theme.breakpoints.down(props.layoutConfig.topBar.mobileMenuBreakpoint)]: {
-      display: 'none'
-    }
-  }),
-  secoLogoImage: props => ({
-    height: 32,
-    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-      height: 50
-    }
-  }),
-  mainLogo: props => ({
-    height: props.layoutConfig.topBar.logoImageReducedHeight || 23,
-    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-      height: props.layoutConfig.topBar.logoImageHeight || 40
-    },
-    marginRight: theme.spacing(1)
-  }),
-  mainLogoButtonRoot: {
-    paddingLeft: 0,
-    [theme.breakpoints.down('sm')]: {
-      minWidth: 48
-    }
-  },
-  mainLogoButtonLabel: {
-    justifyContent: 'left'
-  },
-  mainLogoTypography: props => ({
-    // set color and background explicitly to keep Google Lighthouse happy
-    color: '#fff',
-    background: theme.palette.primary.main,
-    whiteSpace: 'nowrap',
-    textTransform: props.layoutConfig.topBar.logoTextTransform,
-    [theme.breakpoints.down('md')]: {
-      fontSize: '1.5rem'
-    },
-    ...(props.layoutConfig.topBar.hideLogoTextOnMobile && {
-      [theme.breakpoints.down('sm')]: {
-        display: 'none'
-      }
-    })
-  }),
-  logoSecondary: props => ({
-    height: 26,
-    [theme.breakpoints.up('sm')]: {
-      height: 32
-    },
-    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-      height: 52
-    }
-  }),
-  mobileMenuButton: {
-    padding: 12
-  }
-}))
-
 /**
  * Responsive app bar with a search field, perspective links, info links and a language
  * selector. Based on Material-UI's App Bar component.
  */
 const TopBar = props => {
+  const theme = useTheme()
+  // custom style function for utilizing React Router's isActive prop
+  const createAppBarButtonStyle = isActive => ({
+    whiteSpace: 'nowrap',
+    color: 'white !important',
+    border: isActive ? '1px solid white' : `1px solid ${theme.palette.primary.main}`
+  })
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
   const { perspectives, currentLocale, availableLocales, rootUrl, layoutConfig } = props
   const { topBar } = layoutConfig
-  const classes = useStyles(props)
   const handleMobileMenuOpen = event => setMobileMoreAnchorEl(event.currentTarget)
   const handleMobileMenuClose = () => setMobileMoreAnchorEl(null)
   const federatedSearchMode = props.location.pathname.indexOf('federated-search') !== -1
@@ -133,9 +43,11 @@ const TopBar = props => {
     showSearchField = layoutConfig.topBar.showSearchField
   }
 
-  // https://material-ui.com/components/buttons/#third-party-routing-library
-  const AdapterLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />)
-  const AdapterNavLink = React.forwardRef((props, ref) => <NavLink innerRef={ref} {...props} />)
+  // https://mui.com/guides/routing/#button
+  const AdapterLink = React.forwardRef((props, ref) =>
+    <Link ref={ref} {...props} role={undefined} />)
+  const AdapterNavLink = React.forwardRef((props, ref) =>
+    <NavLink ref={ref} {...props} role={undefined} />)
 
   const getInternalLink = perspective => {
     const searchMode = has(perspective, 'searchMode') ? perspective.searchMode : 'faceted-search'
@@ -152,19 +64,22 @@ const TopBar = props => {
   const renderMobileMenuItem = perspective => {
     if (has(perspective, 'externalUrl')) {
       return (
-        <a
-          className={classes.link}
+        <Box
+          component='a'
           key={perspective.id}
           href={perspective.externalUrl}
           target='_blank'
           rel='noopener noreferrer'
+          sx={{
+            textDecoration: 'none'
+          }}
         >
           <MenuItem>
             {perspective.label
               ? perspective.label.toUpperCase()
               : intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
           </MenuItem>
-        </a>
+        </Box>
       )
     } else {
       return (
@@ -183,31 +98,33 @@ const TopBar = props => {
   const renderDesktopTopMenuItem = perspective => {
     if (has(perspective, 'externalUrl')) {
       return (
-        <a
-          className={classes.link}
+        <Box
+          component='a'
           key={perspective.id}
           href={perspective.externalUrl}
           target='_blank'
           rel='noopener noreferrer'
+          sx={{
+            textDecoration: 'none'
+          }}
         >
           <Button
-            className={classes.appBarButton}
+            sx={createAppBarButtonStyle(false)}
           >
             {perspective.label
               ? perspective.label
               : intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
           </Button>
-        </a>
+        </Box>
       )
     } else {
       return (
         <Button
           key={perspective.id}
-          className={classes.appBarButton}
           component={AdapterNavLink}
           to={getInternalLink(perspective)}
           isActive={(match, location) => location.pathname.startsWith(`${props.rootUrl}/${perspective.id}`)}
-          activeClassName={classes.appBarButtonActive}
+          style={isActive => createAppBarButtonStyle(isActive)}
         >
           {intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
         </Button>
@@ -219,17 +136,19 @@ const TopBar = props => {
     let jsx
     if (item.externalLink) {
       jsx = (
-        <a
-          className={classes.link}
+        <Box
           key={item.id}
           href={intl.get(`topBar.info.${item.translatedUrl}`)}
           target='_blank'
           rel='noopener noreferrer'
+          sx={{
+            textDecoration: 'none'
+          }}
         >
           <MenuItem onClick={handleMobileMenuClose}>
             {intl.get(`topBar.info.${item.translatedText}`).toUpperCase()}
           </MenuItem>
-        </a>
+        </Box>
       )
     } else {
       jsx = (
@@ -284,28 +203,56 @@ const TopBar = props => {
   }
 
   return (
-    <div className={classes.root}>
-      {/* Add an empty Typography element to ensure that that the MuiTypography class is loaded for
-         any lower level components that use MuiTypography class only in translation files */}
-      <Typography />
+    <>
       <AppBar position='static'>
-        <Toolbar className={classes.topBarToolbar}>
+        <Toolbar
+          disableGutters
+          sx={theme => ({
+            paddingLeft: theme.spacing(1.5),
+            paddingRight: theme.spacing(1.5)
+          })}
+        >
           <Button
+            sx={theme => ({
+              paddingLeft: 0,
+              [theme.breakpoints.down('sm')]: {
+                minWidth: 48
+              }
+            })}
             component={AdapterLink} to='/'
-            classes={{
-              root: classes.mainLogoButtonRoot,
-              label: classes.mainLogoButtonLabel
-            }}
             onClick={() => federatedSearchMode ? props.clientFSClearResults() : null}
           >
             {topBar.logoImage &&
-              <img
-                className={classes.mainLogo}
+              <Box
+                component='img'
                 src={topBar.logoImage}
                 alt={`${intl.get('appTitle.short')} logo`}
+                sx={theme => ({
+                  height: props.layoutConfig.topBar.logoImageReducedHeight || 23,
+                  [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
+                    height: props.layoutConfig.topBar.logoImageHeight || 40
+                  },
+                  marginRight: theme.spacing(1)
+                })}
               />}
             {!topBar.hideLogoText &&
-              <Typography className={classes.mainLogoTypography} variant='h5'>
+              <Typography
+                sx={theme => ({
+                  color: '#fff',
+                  background: theme.palette.primary.main,
+                  whiteSpace: 'nowrap',
+                  textTransform: props.layoutConfig.topBar.logoTextTransform,
+                  [theme.breakpoints.down('md')]: {
+                    fontSize: '1.5rem'
+                  },
+                  ...(props.layoutConfig.topBar.hideLogoTextOnMobile && {
+                    [theme.breakpoints.down('sm')]: {
+                      display: 'none'
+                    }
+                  })
+                })}
+                variant='h5'
+              >
                 {props.xsScreen ? intl.get('appTitle.mobile') : intl.get('appTitle.short')}
               </Typography>}
           </Button>
@@ -316,7 +263,20 @@ const TopBar = props => {
               rel='noopener noreferrer'
             >
               <Button>
-                <img className={classes.logoSecondary} src={topBar.logoImageSecondary} alt='logoSecondary' />
+                <Box
+                  component='img'
+                  src={topBar.logoImageSecondary}
+                  alt='logoSecondary'
+                  sx={theme => ({
+                    height: 26,
+                    [theme.breakpoints.up('sm')]: {
+                      height: 32
+                    },
+                    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
+                      height: 52
+                    }
+                  })}
+                />
               </Button>
             </a>}
           {showSearchField &&
@@ -326,10 +286,23 @@ const TopBar = props => {
               xsScreen={props.xsScreen}
               rootUrl={rootUrl}
             />}
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box
+            sx={theme => ({
+              display: 'none',
+              [theme.breakpoints.up(props.layoutConfig.topBar.mobileMenuBreakpoint)]: {
+                display: 'flex'
+              }
+            })}
+          >
             {perspectives.map((perspective, index) => perspective.hideTopPerspectiveButton ? null : renderDesktopTopMenuItem(perspective, index))}
-            <div className={classes.appBarDivider} />
+            <Box
+              sx={theme => ({
+                marginLeft: theme.spacing(1),
+                marginRight: theme.spacing(1),
+                borderLeft: '2px solid white'
+              })}
+            />
             {renderDesktopTopMenuItem({
               id: 'feedback',
               externalUrl: props.layoutConfig.topBar.feedbackLink,
@@ -343,11 +316,10 @@ const TopBar = props => {
             })}
             {!topBar.externalInstructions &&
               <Button
-                className={classes.appBarButton}
                 component={AdapterNavLink}
                 to={`${props.rootUrl}/instructions`}
                 isActive={(match, location) => location.pathname.startsWith(`${props.rootUrl}/instructions`)}
-                activeClassName={classes.appBarButtonActive}
+                style={isActive => createAppBarButtonStyle(isActive)}
               >
                 {intl.get('topBar.instructions')}
               </Button>}
@@ -358,22 +330,41 @@ const TopBar = props => {
                 loadLocales={props.loadLocales}
                 location={props.location}
               />}
-          </div>
-          <a
-            className={classes.secoLogo}
+          </Box>
+          <Box
+            component='a'
             href='https://seco.cs.aalto.fi'
             target='_blank'
             rel='noopener noreferrer'
+            sx={theme => ({
+              marginLeft: theme.spacing(1),
+              [theme.breakpoints.down(props.layoutConfig.topBar.mobileMenuBreakpoint)]: {
+                display: 'none'
+              }
+            })}
           >
             <Button aria-label='link to Semantic Computing research group homepage'>
-              <img
-                className={classes.secoLogoImage}
+              <Box
+                component='img'
                 src={secoLogo}
                 alt='Semantic Computing research group logo'
+                sx={theme => ({
+                  height: 32,
+                  [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
+                    height: 50
+                  }
+                })}
               />
             </Button>
-          </a>
-          <div className={classes.sectionMobile}>
+          </Box>
+          <Box
+            sx={theme => ({
+              display: 'flex',
+              [theme.breakpoints.up(props.layoutConfig.topBar.mobileMenuBreakpoint)]: {
+                display: 'none'
+              }
+            })}
+          >
             {props.layoutConfig.topBar.showLanguageButton &&
               <TopBarLanguageButton
                 currentLocale={currentLocale}
@@ -384,17 +375,17 @@ const TopBar = props => {
             <IconButton
               aria-label='display more actions'
               color='inherit'
-              className={classes.mobileMenuButton}
+              edge='end'
               onClick={handleMobileMenuOpen}
               size='large'
             >
               <MoreIcon />
             </IconButton>
-          </div>
+          </Box>
         </Toolbar>
       </AppBar>
       {renderMobileMenu(perspectives)}
-    </div>
+    </>
   )
 }
 

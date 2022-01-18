@@ -49,19 +49,18 @@ const Main = props => {
       sx={theme => {
         const { layoutConfig } = props
         const defaultHeightReduction = layoutConfig.topBar.defaultHeight +
-          layoutConfig.footer.defaultHeight + getSpacing(theme, 1)
+          layoutConfig.footer.defaultHeight + getSpacing(theme, 2)
         const reducedHeightReduction = layoutConfig.topBar.reducedHeight +
-          layoutConfig.footer.reducedHeight + getSpacing(theme, 1)
+          layoutConfig.footer.reducedHeight + getSpacing(theme, 2)
         return {
-          [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
-            overflow: 'auto',
-            height: `calc(100% - ${reducedHeightReduction}px)`
+          paddingBottom: theme.spacing(2),
+          height: {
+            hundredPercentHeight: `calc(100% - ${reducedHeightReduction}px)`,
+            reducedHeight: `calc(100% - ${defaultHeightReduction}px)`
           },
-          [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-            overflow: 'auto',
-            height: `calc(100% - ${defaultHeightReduction}px)`
-          },
-          marginBottom: theme.spacing(1)
+          overflow: {
+            hundredPercentHeight: 'auto'
+          }
         }
       }}
     >

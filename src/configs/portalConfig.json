@@ -62,11 +62,14 @@
         "paginationToolbarHeight": 37,
         "tableFontSize": "0.8rem",
         "topBar": {
+            "logoImage": "logos/logo.png",
+            "logoTextTransform": "none",
+            "hideLogoTextOnMobile": true,
             "showLanguageButton": true,
             "feedbackLink": "https://link.webropolsurveys.com/...",
             "externalInstructions": false,
             "externalAboutPage": false,
-            "reducedHeight": 44,
+            "reducedHeight": 48,
             "defaultHeight": 64,
             "mobileMenuBreakpoint": 1360,
             "infoDropdown": [
