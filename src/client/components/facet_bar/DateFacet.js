@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from '@mui/styles/withStyles';
-import { KeyboardDatePicker } from '@material-ui/pickers'
+import withStyles from '@mui/styles/withStyles'
+import DatePicker from '@mui/lab/DatePicker'
 import moment from 'moment'
 import intl from 'react-intl-universal'
 import FormHelperText from '@mui/material/FormHelperText'
@@ -83,7 +83,7 @@ class DateFacet extends React.Component {
       !from.isSameOrBefore(to)
     return (
       <div>
-        <KeyboardDatePicker
+        <DatePicker
           className={classNames(classes.datePicker, classes.from)}
           label={intl.get('facets.dateFacet.fromLabel')}
           placeholder={moment(min).format('DD.MM.YYYY')}
@@ -99,7 +99,7 @@ class DateFacet extends React.Component {
           shouldDisableDate={date => date.isAfter(to)}
           disabled={someFacetIsFetching}
         />
-        <KeyboardDatePicker
+        <DatePicker
           className={classes.datePicker}
           label={intl.get('facets.dateFacet.toLabel')}
           placeholder={moment(max).format('DD.MM.YYYY')}

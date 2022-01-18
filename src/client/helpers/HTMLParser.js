@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactHtmlParser from 'react-html-parser'
 import { Link } from 'react-router-dom'
-import Tooltip from '@material-ui/core/Tooltip'
+import Tooltip from '@mui/material/Tooltip'
 import { arrayToObject } from './helpers'
 
 export default class HTMLParser {
@@ -50,7 +50,7 @@ export default class HTMLParser {
       if (linkStr.includes(',')) {
         const uris = linkStr.split(',')
         const listItemsJSX = []
-        uris.map((uri, index) => {
+        uris.forEach((uri, index) => {
           listItemsJSX.push(
             <li key={index}>
               <ul>

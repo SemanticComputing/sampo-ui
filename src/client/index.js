@@ -9,8 +9,7 @@ import App from './components/App'
 import { availableLocales } from './epics/index.js'
 import { loadLocales } from './actions'
 import { updateLocaleToPathname } from './helpers/helpers'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import purple from '@material-ui/core/colors/purple'
+import CircularProgress from '@mui/material/CircularProgress'
 import './index.css'
 import '@nosferatu500/react-sortable-tree/style.css'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
@@ -21,8 +20,8 @@ const { localeConfig } = portalConfig
 const store = configureStore()
 
 // init locale
-const localeFromUrl = window.location.pathname.substr(1, 2)
 let locale
+const localeFromUrl = window.location.pathname.substr(1, 2)
 // check if a valid locale was given in url
 if (Object.prototype.hasOwnProperty.call(availableLocales, localeFromUrl)) {
   locale = localeFromUrl
@@ -55,7 +54,7 @@ render(
             justifyContent: 'center'
           }}
           >
-            <CircularProgress style={{ color: purple[500] }} thickness={5} />
+            <CircularProgress color='primary' />
           </div>
           }
       >

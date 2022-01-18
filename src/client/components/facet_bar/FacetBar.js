@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import HierarchicalFacet from './HierarchicalFacet'
 import TextFacet from './TextFacet'
 import SliderFacet from './SliderFacet'
@@ -257,7 +257,7 @@ class FacetBar extends React.Component {
             content: classes.accordionSummaryContent
           }}
           expandIcon={<ExpandMoreIcon />}
-          IconButtonProps={{ onClick: this.handleExpandButtonOnClick(facetID) }}
+          // IconButtonProps={{ onClick: this.handleExpandButtonOnClick(facetID) }}
           aria-controls={`${facetID}-content`}
           id={`${facetID}-header`}
         >

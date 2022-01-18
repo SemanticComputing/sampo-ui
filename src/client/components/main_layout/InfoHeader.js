@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from '@mui/styles/makeStyles'
 import Accordion from '@mui/material/Accordion'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
@@ -125,7 +125,7 @@ const InfoHeader = props => {
           expandIcon={<ExpandMoreIcon />}
           aria-controls='infoheader-content'
           id='infoheader-header'
-          IconButtonProps={{ onClick: handleExpandButtonOnClick }}
+          // IconButtonProps={{ onClick: handleExpandButtonOnClick }}
         >
           <div className={classes.headingContainer}>
             <Typography component='h1' variant={getHeadingVariant()} className={classes.heading}>
@@ -137,7 +137,8 @@ const InfoHeader = props => {
                 aria-label='toggle instructions'
                 className={classes.infoIconButton}
                 onClick={handleExpandButtonOnClick}
-                size="large">
+                size='large'
+              >
                 <InfoIcon className={classes.infoIcon} />
               </IconButton>
             </Tooltip>
@@ -157,7 +158,7 @@ const InfoHeader = props => {
         </AccordionDetails>
       </Accordion>
     </div>
-  );
+  )
 }
 
 InfoHeader.propTypes = {

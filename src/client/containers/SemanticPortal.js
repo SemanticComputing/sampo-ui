@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import { has } from 'lodash'
 import { connect } from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles'
 import { withRouter, Route, Redirect, Switch } from 'react-router-dom'
 import { compose } from '@shakacode/recompose'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import Grid from '@material-ui/core/Grid'
+import Grid from '@mui/material/Grid'
 import {
   fetchResultCount,
   fetchPaginatedResults,
