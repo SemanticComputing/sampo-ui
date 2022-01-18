@@ -1,5 +1,5 @@
 import React from 'react'
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from '@mui/styles/makeStyles'
 import { SRLWrapper, useLightbox } from 'simple-react-lightbox'
 import Button from '@mui/material/Button'
 
