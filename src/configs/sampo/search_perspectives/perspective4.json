@@ -84,7 +84,8 @@
     },
     "facets": {
         "datasetSelector": {
-            "filterType": "datasetSelector"
+            "filterType": "datasetSelector",
+            "containerClass": "six"
         },
         "prefLabel": {
             "filterType": "clientFSLiteral",

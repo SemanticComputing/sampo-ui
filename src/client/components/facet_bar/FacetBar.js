@@ -41,6 +41,9 @@ const facetHeights = {
   },
   ten: {
     height: 357
+  },
+  default: {
+    height: 357
   }
 }
 
@@ -71,7 +74,9 @@ class FacetBar extends React.Component {
     const label = intl.get(`perspectives.${facetClass}.properties.${facetID}.label`)
     const description = intl.get(`perspectives.${facetClass}.properties.${facetID}.description`)
     const facet = { ...facets[facetID] }
-    const facetConstrainSelf = this.props.facetStateConstrainSelf.facets[facetID]
+    const facetConstrainSelf = this.props.facetDataConstrainSelf == null
+      ? null
+      : this.props.facetDataConstrainSelf.facets[facetID]
     let facetComponent = null
     const isActive = this.state.activeFacets.has(facetID)
     if (this.props.facetedSearchMode === 'clientFS' && facetID !== 'datasetSelector') {
@@ -226,6 +231,17 @@ class FacetBar extends React.Component {
         key={facetID}
         expanded={isActive}
         onChange={this.handleAccordionChange(facetID)}
+        sx={() => {
+          if (facetID === 'datasetSelector') {
+            return {
+              '&.MuiAccordion-root.Mui-expanded': {
+                marginTop: 0
+              }
+            }
+          } else {
+            return {}
+          }
+        }}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -239,7 +255,9 @@ class FacetBar extends React.Component {
             facetLabel={label}
             facet={facet}
             facetConstrainSelf={facetConstrainSelf}
-            facetConstrainSelfUpdateID={this.props.facetStateConstrainSelf.facetUpdateID}
+            facetConstrainSelfUpdateID={this.props.facetDataConstrainSelf
+              ? this.props.facetDataConstrainSelf.facetUpdateID
+              : null}
             isActive={isActive}
             facetClass={this.props.facetClass}
             resultClass={this.props.resultClass}
@@ -264,7 +282,9 @@ class FacetBar extends React.Component {
             paddingTop: 0,
             paddingLeft: theme.spacing(1),
             flexDirection: 'column',
-            height: facetHeights[facet.containerClass].height
+            height: facetHeights[facet.containerClass]
+              ? facetHeights[facet.containerClass].height
+              : facetHeights.default.height
           })}
         >
           {isActive && facetComponent}
@@ -393,7 +413,7 @@ class FacetBar extends React.Component {
 FacetBar.propTypes = {
   facetedSearchMode: PropTypes.string.isRequired,
   facetState: PropTypes.object.isRequired,
-  facetStateConstrainSelf: PropTypes.object.isRequired,
+  facetStateConstrainSelf: PropTypes.object,
   perspectiveState: PropTypes.object,
   facetClass: PropTypes.string.isRequired,
   resultClass: PropTypes.string.isRequired,

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
 import intl from 'react-intl-universal'

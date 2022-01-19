@@ -12,9 +12,6 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Paper from '@mui/material/Paper'
 
 const styles = theme => ({
-  root: {
-    marginBottom: theme.spacing(1)
-  },
   dialogContainer: {
     height: '100%',
     width: '100%'
@@ -22,13 +19,6 @@ const styles = theme => ({
   dialogPaper: {
     height: '100%',
     width: '100%'
-  },
-  mapSearch: {
-    margin: theme.spacing(1)
-  },
-  buttonLabel: {
-    fontWeigth: 'normal',
-    textTransform: 'none'
   },
   rightIcon: {
     marginLeft: theme.spacing(1)
@@ -74,13 +64,22 @@ class LeafletMapDialog extends React.Component {
     const { center, zoom } = maps.boundingboxSearch
 
     return (
-      <Paper className={classes.root}>
+      <Paper
+        sx={theme => ({
+          padding: theme.spacing(1),
+          [theme.breakpoints.down('md')]: {
+            marginBottom: theme.spacing(1)
+          }
+        })}
+      >
         <Button
           variant='contained'
           color='primary'
-          className={classes.mapSearch}
-          classes={{ label: classes.buttonLabel }}
           onClick={this.handleClickOpen}
+          sx={{
+            fontWeigth: 'normal',
+            textTransform: 'none'
+          }}
         >
           {intl.get(`perspectives.${perspectiveID}.searchByArea`)}
           {spatialResultsFetching

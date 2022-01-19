@@ -51,7 +51,7 @@ const FederatedResults = props => {
             center={mapClusters.center}
             zoom={mapClusters.zoom}
             results={props.clientFSResults}
-            leafletMapState={props.leafletMap}
+            leafletMapState={props.leafletMapState}
             resultClass='mapClusters'
             pageType='clientFSResults'
             mapMode='cluster'
@@ -83,7 +83,7 @@ const FederatedResults = props => {
                 center={mapMarkers.center}
                 zoom={mapMarkers.zoom}
                 results={props.clientFSResults}
-                leafletMapState={props.leafletMap}
+                leafletMapState={props.leafletMapState}
                 resultClass='mapMarkers'
                 pageType='clientFSResults'
                 mapMode='marker'
@@ -138,7 +138,7 @@ FederatedResults.propTypes = {
   clientFSState: PropTypes.object.isRequired,
   clientFSResults: PropTypes.array,
   clientFSSortResults: PropTypes.func.isRequired,
-  leafletMap: PropTypes.object.isRequired,
+  leafletMapState: PropTypes.object.isRequired,
   updateMapBounds: PropTypes.func.isRequired,
   fetchGeoJSONLayers: PropTypes.func,
   fetchGeoJSONLayersBackend: PropTypes.func.isRequired,

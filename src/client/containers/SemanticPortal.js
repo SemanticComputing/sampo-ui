@@ -55,7 +55,6 @@ import * as networkConfig from '../library_configs/Cytoscape.js/NetworkConfig'
 
 // ** Generate portal configuration based on JSON configs **
 import portalConfig from '../../configs/portalConfig.json'
-import FacetedSearchPerspective from '../components/facet_results/FacetedSearchPerspective'
 await processPortalConfig(portalConfig)
 const {
   portalID,
@@ -72,7 +71,6 @@ const perspectiveConfigOnlyInfoPages = await createPerspectiveConfigOnlyInfoPage
   portalID,
   onlyInstancePagePerspectives: perspectives.onlyInstancePages
 })
-
 // ** portal configuration end **
 
 // ** Import general components **
@@ -82,14 +80,13 @@ const TextPage = lazy(() => import('../components/main_layout/TextPage'))
 const Message = lazy(() => import('../components/main_layout/Message'))
 const InstancePage = lazy(() => import('../components/main_layout/InstancePage'))
 const FullTextSearch = lazy(() => import('../components/main_layout/FullTextSearch'))
-const FacetBar = lazy(() => import('../components/facet_bar/FacetBar'))
-const FederatedResults = lazy(() => import('../components/facet_results/FederatedResults'))
+const FacetedSearchPerspective = lazy(() => import('../components/facet_results/FacetedSearchPerspective'))
+const FederatedSearchPerspective = lazy(() => import('../components/facet_results/FederatedSearchPerspective'))
 const KnowledgeGraphMetadataTable = lazy(() => import('../components/main_layout/KnowledgeGraphMetadataTable'))
 // ** General components end **
 
 // ** Import portal specific components **
 const Main = lazy(() => import(`../components/perspectives/${portalID}/Main`))
-const MainClientFS = lazy(() => import(`../components/perspectives/${portalID}/MainClientFS`))
 const Footer = lazy(() => import(`../components/perspectives/${portalID}/Footer`))
 // ** Portal specific components end **
 
@@ -101,35 +98,6 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
       overflow: 'hidden',
       height: '100%'
-    }
-  },
-  mainContainerClientFS: {
-    marginTop: theme.spacing(0.5),
-    marginBottom: theme.spacing(0.5),
-    [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
-      height: `calc(100% - ${layoutConfig.topBar.reducedHeight + layoutConfig.footer.reducedHeight + theme.spacing(1)}px)`
-    },
-    [theme.breakpoints.up(layoutConfig.reducedHeightBreakpoint)]: {
-      height: `calc(100% - ${layoutConfig.topBar.defaultHeight + layoutConfig.footer.defaultHeight + theme.spacing(1)}px)`
-    }
-  },
-  facetBarContainerClientFS: {
-    overflow: 'auto',
-    paddingLeft: theme.spacing(0.5),
-    paddingRight: theme.spacing(0.5),
-    [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
-      height: '100%'
-    }
-  },
-  resultsContainerClientFS: {
-    minHeight: 500,
-    paddingBottom: '0px !important',
-    paddingRight: theme.spacing(0.5),
-    paddingLeft: theme.spacing(0.5),
-    marginTop: theme.spacing(0.5),
-    [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
-      height: '100%',
-      marginTop: 0
     }
   },
   instancePageContainer: {
@@ -453,66 +421,40 @@ const SemanticPortal = props => {
         <Route
           path={`${rootUrlWithLang}/perspective4/federated-search`}
           render={routeProps =>
-            <>
-              <Grid container className={classes.mainContainerClientFS}>
-                <Grid item sm={12} md={4} lg={3} className={classes.facetBarContainerClientFS}>
-                  <FacetBar
-                    portalConfig={portalConfig}
-                    layoutConfig={layoutConfig}
-                    facetedSearchMode='clientFS'
-                    facetClass='perspective4'
-                    resultClass='perspective4'
-                    facetData={props.clientFSState}
-                    clientFSFacetValues={props.clientFSFacetValues}
-                    fetchingResultCount={props.clientFSState.textResultsFetching}
-                    resultCount={noClientFSResults ? 0 : props.clientFSState.results.length}
-                    clientFSState={props.clientFSState}
-                    clientFSToggleDataset={props.clientFSToggleDataset}
-                    clientFSFetchResults={props.clientFSFetchResults}
-                    clientFSClearResults={props.clientFSClearResults}
-                    clientFSUpdateQuery={props.clientFSUpdateQuery}
-                    clientFSUpdateFacet={props.clientFSUpdateFacet}
-                    defaultActiveFacets={perspectiveConfig.find(p => p.id === 'perspective4').defaultActiveFacets}
-                    leafletMap={props.leafletMap}
-                    updateMapBounds={props.updateMapBounds}
-                    screenSize={screenSize}
-                    showError={props.showError}
-                    rootUrl={rootUrlWithLang}
-                    apexChartsConfig={apexChartsConfig}
-                    leafletConfig={leafletConfig}
-                    networkConfig={networkConfig}
-                  />
-                </Grid>
-                <Grid item sm={12} md={8} lg={9} className={classes.resultsContainerClientFS}>
-                  {noClientFSResults && <MainClientFS />}
-                  {!noClientFSResults &&
-                    <FederatedResults
-                      portalConfig={portalConfig}
-                      layoutConfig={layoutConfig}
-                      perspective={perspectiveConfig.find(p => p.id === 'perspective4')}
-                      routeProps={routeProps}
-                      screenSize={screenSize}
-                      clientFSState={props.clientFSState}
-                      clientFSResults={props.clientFSResults}
-                      clientFSSortResults={props.clientFSSortResults}
-                      leafletMap={props.leafletMap}
-                      updateMapBounds={props.updateMapBounds}
-                      fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
-                      fetchGeoJSONLayers={props.fetchGeoJSONLayers}
-                      clearGeoJSONLayers={props.clearGeoJSONLayers}
-                      showError={props.showError}
-                      rootUrl={rootUrlWithLang}
-                      apexChartsConfig={apexChartsConfig}
-                      leafletConfig={leafletConfig}
-                      networkConfig={networkConfig}
-                    />}
-                </Grid>
-              </Grid>
-              <Footer
-                portalConfig={portalConfig}
-                layoutConfig={layoutConfig}
-              />
-            </>}
+            <FederatedSearchPerspective
+              portalConfig={portalConfig}
+              layoutConfig={layoutConfig}
+              facetedSearchMode='clientFS'
+              facetClass='perspective4'
+              resultClass='perspective4'
+              facetState={props.clientFSState}
+              clientFSFacetValues={props.clientFSFacetValues}
+              fetchingResultCount={props.clientFSState.textResultsFetching}
+              resultCount={noClientFSResults ? 0 : props.clientFSState.results.length}
+              noClientFSResults={noClientFSResults}
+              clientFSState={props.clientFSState}
+              clientFSToggleDataset={props.clientFSToggleDataset}
+              clientFSFetchResults={props.clientFSFetchResults}
+              clientFSClearResults={props.clientFSClearResults}
+              clientFSUpdateQuery={props.clientFSUpdateQuery}
+              clientFSUpdateFacet={props.clientFSUpdateFacet}
+              defaultActiveFacets={perspectiveConfig.find(p => p.id === 'perspective4').defaultActiveFacets}
+              updateMapBounds={props.updateMapBounds}
+              screenSize={screenSize}
+              showError={props.showError}
+              rootUrl={rootUrlWithLang}
+              apexChartsConfig={apexChartsConfig}
+              leafletConfig={leafletConfig}
+              networkConfig={networkConfig}
+              perspective={perspectiveConfig.find(p => p.id === 'perspective4')}
+              routeProps={routeProps}
+              clientFSResults={props.clientFSResults}
+              clientFSSortResults={props.clientFSSortResults}
+              leafletMapState={props.leafletMap}
+              fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
+              fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+              clearGeoJSONLayers={props.clearGeoJSONLayers}
+            />}
         />
         {/* create routes for info buttons */}
         {!layoutConfig.topBar.externalAboutPage &&

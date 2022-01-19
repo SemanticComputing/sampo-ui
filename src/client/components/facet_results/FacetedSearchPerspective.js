@@ -68,8 +68,7 @@ const FacetedSearchPerspective = props => {
         <Grid
           item xs={12} md={3}
           sx={theme => ({
-            height: 'auto',
-            [theme.breakpoints.up('md')]: {
+            [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
               height: '100%'
             },
             [theme.breakpoints.down('sm')]: {
@@ -77,6 +76,7 @@ const FacetedSearchPerspective = props => {
             },
             overflow: 'auto',
             paddingLeft: '0px !important',
+            paddingRight: '4px !important',
             paddingTop: '0px !important',
             paddingBottom: '0px !important'
           })}
@@ -119,6 +119,7 @@ const FacetedSearchPerspective = props => {
             },
             paddingTop: '0px !important',
             paddingBottom: '0px !important',
+            paddingLeft: '4px !important',
             paddingRight: '0px !important',
             [theme.breakpoints.down('sm')]: {
               paddingLeft: '0px !important',

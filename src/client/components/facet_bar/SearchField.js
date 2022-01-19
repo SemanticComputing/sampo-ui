@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from '@mui/styles/withStyles'
 import intl from 'react-intl-universal'
 import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
@@ -10,17 +9,6 @@ import InputAdornment from '@mui/material/InputAdornment'
 import FormControl from '@mui/material/FormControl'
 import CircularProgress from '@mui/material/CircularProgress'
 import Paper from '@mui/material/Paper'
-
-const styles = theme => ({
-  root: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-    padding: theme.spacing(0.5)
-  },
-  textSearch: {
-    margin: theme.spacing(1)
-  }
-})
 
 /**
  * A component for text search in client-side faceted search architecture.
@@ -85,7 +73,6 @@ class SearchField extends React.Component {
   }
 
   render () {
-    const { classes } = this.props
     let searchButton = null
     if (this.props.search.textResultsFetching) {
       searchButton = (
@@ -107,8 +94,18 @@ class SearchField extends React.Component {
     }
 
     return (
-      <Paper className={classes.root}>
-        <FormControl className={classes.textSearch}>
+      <Paper
+        sx={theme => ({
+          marginTop: theme.spacing(1),
+          marginBottom: theme.spacing(1),
+          padding: theme.spacing(0.5)
+        })}
+      >
+        <FormControl
+          sx={theme => ({
+            margin: theme.spacing(1)
+          })}
+        >
           <InputLabel htmlFor='adornment-search'>{intl.get(`perspectives.${this.props.perspectiveID}.inputPlaceHolder`)}</InputLabel>
           <Input
             id='adornment-search'
@@ -129,7 +126,6 @@ class SearchField extends React.Component {
 }
 
 SearchField.propTypes = {
-  classes: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
   fetchResults: PropTypes.func.isRequired,
   clearResults: PropTypes.func.isRequired,
@@ -138,6 +134,4 @@ SearchField.propTypes = {
   perspectiveID: PropTypes.string.isRequired
 }
 
-export const SearchFieldComponent = SearchField
-
-export default withStyles(styles)(SearchField)
+export default SearchField
