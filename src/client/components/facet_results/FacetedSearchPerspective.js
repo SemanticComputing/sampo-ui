@@ -104,6 +104,7 @@ const FacetedSearchPerspective = props => {
             defaultActiveFacets={perspective.defaultActiveFacets}
             rootUrl={rootUrl}
             screenSize={screenSize}
+            leafletMapState={props.leafletMapState}
             apexChartsConfig={apexChartsConfig}
             leafletConfig={leafletConfig}
             networkConfig={networkConfig}
@@ -133,7 +134,7 @@ const FacetedSearchPerspective = props => {
             perspectiveState={perspectiveState}
             facetState={facetState}
             facetStateConstrainSelf={facetStateConstrainSelf}
-            leafletMapState={props.leafletMap}
+            leafletMapState={props.leafletMapState}
             fetchPaginatedResults={props.fetchPaginatedResults}
             fetchResults={props.fetchResults}
             fetchInstanceAnalysis={props.fetchInstanceAnalysis}
