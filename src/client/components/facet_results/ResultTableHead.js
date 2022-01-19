@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import classNames from 'classnames'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
@@ -50,7 +50,7 @@ const ResultTableHead = props => {
                       title={description}
                       enterDelay={300}
                     >
-                      <IconButton size="large">
+                      <IconButton size='large'>
                         <InfoIcon />
                       </IconButton>
                     </Tooltip>
@@ -67,7 +67,7 @@ const ResultTableHead = props => {
                     >
                       <TableSortLabel
                         active={sortBy === column.id}
-                        direction={sortDirection}
+                        direction={sortBy === column.id ? sortBy : 'asc'}
                         hideSortIcon
                         onClick={onSortBy(column.id)}
                       >
@@ -78,18 +78,18 @@ const ResultTableHead = props => {
                       title={description}
                       enterDelay={300}
                     >
-                      <IconButton size="large">
+                      <IconButton size='large'>
                         <InfoIcon />
                       </IconButton>
                     </Tooltip>
                   </TableCell>
                   )}
             </React.Fragment>
-          );
+          )
         })}
       </TableRow>
     </TableHead>
-  );
+  )
 }
 
 ResultTableHead.propTypes = {

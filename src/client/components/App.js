@@ -30,8 +30,8 @@ const theme = createTheme({
   breakpoints: {
     values: {
       ...muiDefaultBreakpoints,
-      reducedHeight: muiDefaultBreakpoints[reducedHeightBreakpoint],
-      hundredPercentHeight: muiDefaultBreakpoints[hundredPercentHeightBreakPoint]
+      reducedHeight: reducedHeightBreakpoint,
+      hundredPercentHeight: hundredPercentHeightBreakPoint
     }
   },
   components: {
@@ -47,47 +47,65 @@ const theme = createTheme({
         }
       }
     },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          padding: 4
+        }
+      }
+    },
     MuiTooltip: {
-      tooltip: {
-        fontSize: '1 rem'
+      styleOverrides: {
+        tooltip: {
+          fontSize: '1rem'
+        }
       }
     },
     MuiAccordion: {
-      root: {
-        '&$expanded': {
-          marginTop: 8,
-          marginBottom: 8
+      styleOverrides: {
+        root: {
+          '&.MuiAccordion-root.Mui-expanded': {
+            marginTop: 8,
+            marginBottom: 8
+          }
         }
       }
     },
     MuiAccordionSummary: {
-      content: {
-        '&$expanded': {
-          marginTop: 4
+      styleOverrides: {
+        root: {
+          paddingLeft: 8,
+          paddingRight: 8,
+          '&.MuiAccordionSummary-root.Mui-expanded': {
+            minHeight: 48
+          }
+        },
+        content: {
+          marginTop: 8,
+          marginBottom: 8,
+          '&.MuiAccordionSummary-content.Mui-expanded': {
+            marginTop: 0,
+            marginBottom: 0
+          }
         }
-      },
-      expandIcon: {
-        '&$expanded': {
-          marginTop: -16
-        }
-      }
-    },
-    MuiButton: {
-      endIcon: {
-        marginLeft: 0
-      }
-    },
-    MuiIconButton: {
-      root: {
-        padding: 4
-      }
-    },
-    MuiTableCell: {
-      sizeSmall: {
-        paddingTop: 0,
-        paddingBottom: 0
+        // expandIcon: {
+        //   '&$expanded': {
+        //     marginTop: -16
+        //   }
+        // }
       }
     }
+    // MuiButton: {
+    //   endIcon: {
+    //     marginLeft: 0
+    //   }
+    // },
+    // MuiTableCell: {
+    //   sizeSmall: {
+    //     paddingTop: 0,
+    //     paddingBottom: 0
+    //   }
+    // }
   }
 })
 

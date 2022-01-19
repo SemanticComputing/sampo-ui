@@ -1,7 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import withStyles from '@mui/styles/withStyles'
+import { has } from 'lodash'
+import Box from '@mui/material/Box'
+import Accordion from '@mui/material/Accordion'
+import AccordionSummary from '@mui/material/AccordionSummary'
+import AccordionDetails from '@mui/material/AccordionDetails'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import Typography from '@mui/material/Typography'
 import HierarchicalFacet from './HierarchicalFacet'
 import TextFacet from './TextFacet'
 import SliderFacet from './SliderFacet'
@@ -13,39 +19,10 @@ import FacetInfo from './FacetInfo'
 import DatasetSelector from './DatasetSelector'
 import SearchField from './SearchField'
 import LeafletMapDialog from './LeafletMapDialog'
-import Accordion from '@mui/material/Accordion'
-import AccordionSummary from '@mui/material/AccordionSummary'
-import AccordionDetails from '@mui/material/AccordionDetails'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import Typography from '@mui/material/Typography'
-import clsx from 'clsx'
-import { has } from 'lodash'
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    height: '100%'
-  },
-  facetInfoContainer: {
-    padding: theme.spacing(1),
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0
-  },
-  accordionSummaryRoot: props => ({
-    paddingLeft: theme.spacing(1),
-    cursor: 'default !important',
-    minHeight: 38,
-    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-      minHeight: 48
-    }
-  }),
-  accordionSummaryContent: {
-    margin: 0
-  },
-  accordionDetails: {
-    paddingTop: 0,
-    paddingLeft: theme.spacing(1),
-    flexDirection: 'column'
+const facetHeights = {
+  one: {
+    height: 54
   },
   two: {
     height: 60
@@ -65,7 +42,7 @@ const styles = theme => ({
   ten: {
     height: 357
   }
-})
+}
 
 /**
  * A component for rendering a preconfigured set of facets and related information.
@@ -78,7 +55,7 @@ class FacetBar extends React.Component {
     }
   }
 
-  handleExpandButtonOnClick = facetID => event => {
+  handleAccordionChange = facetID => event => {
     const activeFacets = this.state.activeFacets
     if (activeFacets.has(facetID)) {
       activeFacets.delete(facetID)
@@ -89,18 +66,16 @@ class FacetBar extends React.Component {
   }
 
   renderFacet = (facetID, someFacetIsFetching) => {
-    const { classes, facetClass } = this.props
-    const { facetUpdateID, updatedFacet, updatedFilter, facets } = this.props.facetData
+    const { facetClass } = this.props
+    const { facetUpdateID, updatedFacet, updatedFilter, facets } = this.props.facetState
     const label = intl.get(`perspectives.${facetClass}.properties.${facetID}.label`)
     const description = intl.get(`perspectives.${facetClass}.properties.${facetID}.description`)
     const facet = { ...facets[facetID] }
-    const facetConstrainSelf = this.props.facetDataConstrainSelf == null
-      ? null
-      : this.props.facetDataConstrainSelf.facets[facetID]
+    const facetConstrainSelf = this.props.facetStateConstrainSelf.facets[facetID]
     let facetComponent = null
     const isActive = this.state.activeFacets.has(facetID)
     if (this.props.facetedSearchMode === 'clientFS' && facetID !== 'datasetSelector') {
-      if (this.props.facetData.results == null) {
+      if (this.props.facetState.results == null) {
         // do not render facets when there are no results
         return null
       } else {
@@ -224,7 +199,7 @@ class FacetBar extends React.Component {
       case 'datasetSelector':
         facetComponent = (
           <DatasetSelector
-            datasets={this.props.facetData.datasets}
+            datasets={this.props.facetState.datasets}
             clientFSToggleDataset={this.props.clientFSToggleDataset}
             perspectiveID={this.props.facetClass}
           />
@@ -250,14 +225,10 @@ class FacetBar extends React.Component {
       <Accordion
         key={facetID}
         expanded={isActive}
+        onChange={this.handleAccordionChange(facetID)}
       >
         <AccordionSummary
-          classes={{
-            root: classes.accordionSummaryRoot,
-            content: classes.accordionSummaryContent
-          }}
           expandIcon={<ExpandMoreIcon />}
-          // IconButtonProps={{ onClick: this.handleExpandButtonOnClick(facetID) }}
           aria-controls={`${facetID}-content`}
           id={`${facetID}-header`}
         >
@@ -268,9 +239,7 @@ class FacetBar extends React.Component {
             facetLabel={label}
             facet={facet}
             facetConstrainSelf={facetConstrainSelf}
-            facetConstrainSelfUpdateID={this.props.facetDataConstrainSelf
-              ? this.props.facetDataConstrainSelf.facetUpdateID
-              : null}
+            facetConstrainSelfUpdateID={this.props.facetStateConstrainSelf.facetUpdateID}
             isActive={isActive}
             facetClass={this.props.facetClass}
             resultClass={this.props.resultClass}
@@ -291,7 +260,12 @@ class FacetBar extends React.Component {
           />
         </AccordionSummary>
         <AccordionDetails
-          className={clsx(classes[facet.containerClass], classes.accordionDetails)}
+          sx={theme => ({
+            paddingTop: 0,
+            paddingLeft: theme.spacing(1),
+            flexDirection: 'column',
+            height: facetHeights[facet.containerClass].height
+          })}
         >
           {isActive && facetComponent}
         </AccordionDetails>
@@ -308,25 +282,20 @@ class FacetBar extends React.Component {
     return variant
   }
 
-  renderFacets = ({ classes, facets, someFacetIsFetching }) => {
+  renderFacets = ({ facets, someFacetIsFetching }) => {
     const { screenSize } = this.props
     if (screenSize === 'xs' || screenSize === 'sm') {
+      // note: some Accordion styles defined in theme (App.js)
       return (
         <Accordion>
           <AccordionSummary
-            classes={{
-              root: classes.accordionSummaryRoot,
-              content: classes.accordionSummaryContent
-            }}
             expandIcon={<ExpandMoreIcon />}
             aria-controls='panel1a-content'
             id='panel1a-header'
           >
             <Typography variant={this.getTypographyVariant()}>{intl.get('facetBar.filters')}</Typography>
           </AccordionSummary>
-          <AccordionDetails
-            className={classes.accordionDetails}
-          />
+          <AccordionDetails />
           {facets && Object.keys(facets).map(facetID => {
             if (facetID === 'datasetSelector') { return null }
             if (!has(facets[facetID], 'filterType')) { return null }
@@ -348,10 +317,10 @@ class FacetBar extends React.Component {
   }
 
   render () {
-    const { classes, facetClass, resultClass, resultCount, facetData, facetedSearchMode } = this.props
-    const { facets } = facetData
+    const { facetClass, resultClass, resultCount, facetState, facetedSearchMode } = this.props
+    const { facets } = facetState
     let someFacetIsFetching = false
-    const hasClientFSResults = facetData.results !== null
+    const hasClientFSResults = facetState.results !== null
     if (facetedSearchMode === 'serverFS') {
       Object.values(facets).forEach(facet => {
         if (facet.isFetching) {
@@ -361,15 +330,20 @@ class FacetBar extends React.Component {
     }
 
     return (
-      <div className={classes.root}>
+      <Box
+        sx={{
+          width: '100%',
+          height: '100%'
+        }}
+      >
         {facetedSearchMode === 'clientFS' && this.renderFacet('datasetSelector', false)}
         {facetedSearchMode === 'clientFS' &&
           <SearchField
-            search={this.props.facetData}
+            search={this.props.facetState}
             fetchResults={this.props.clientFSFetchResults}
             clearResults={this.props.clientFSClearResults}
             updateQuery={this.props.clientFSUpdateQuery}
-            datasets={this.props.facetData.datasets}
+            datasets={this.props.facetState.datasets}
             perspectiveID={facetClass}
           />}
         {facetedSearchMode === 'clientFS' &&
@@ -385,11 +359,17 @@ class FacetBar extends React.Component {
             leafletConfig={this.props.leafletConfig}
           />}
         {(facetedSearchMode === 'serverFS' || hasClientFSResults) &&
-          <Paper className={classes.facetInfoContainer}>
+          <Paper
+            sx={theme => ({
+              padding: theme.spacing(1),
+              borderBottomLeftRadius: 0,
+              borderBottomRightRadius: 0
+            })}
+          >
             <FacetInfo
               facetedSearchMode={facetedSearchMode}
-              facetUpdateID={facetData.facetUpdateID}
-              facetData={facetData}
+              facetUpdateID={facetState.facetUpdateID}
+              facetState={facetState}
               facetClass={facetClass}
               resultClass={resultClass}
               resultCount={resultCount}
@@ -404,17 +384,16 @@ class FacetBar extends React.Component {
             />
           </Paper>}
         {(facetedSearchMode === 'serverFS' || hasClientFSResults) &&
-          this.renderFacets({ classes, facets, someFacetIsFetching })}
-      </div>
+          this.renderFacets({ facets, someFacetIsFetching })}
+      </Box>
     )
   }
 }
 
 FacetBar.propTypes = {
-  classes: PropTypes.object.isRequired,
   facetedSearchMode: PropTypes.string.isRequired,
-  facetData: PropTypes.object.isRequired,
-  facetDataConstrainSelf: PropTypes.object,
+  facetState: PropTypes.object.isRequired,
+  facetStateConstrainSelf: PropTypes.object.isRequired,
   perspectiveState: PropTypes.object,
   facetClass: PropTypes.string.isRequired,
   resultClass: PropTypes.string.isRequired,
@@ -442,6 +421,4 @@ FacetBar.propTypes = {
   screenSize: PropTypes.string.isRequired
 }
 
-export const FacetBarComponent = FacetBar
-
-export default withStyles(styles)(FacetBar)
+export default FacetBar

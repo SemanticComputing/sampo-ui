@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import makeStyles from '@mui/styles/makeStyles'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import Accordion from '@mui/material/Accordion'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
 // import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton'
 import InfoIcon from '@mui/icons-material/InfoOutlined'
@@ -13,26 +16,6 @@ import Tooltip from '@mui/material/Tooltip'
 import intl from 'react-intl-universal'
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    marginTop: theme.spacing(0.5),
-    marginLeft: theme.spacing(0.5),
-    marginRight: theme.spacing(0.5)
-  },
-  panel: {
-    width: '100%'
-  },
-  summary: props => ({
-    paddingLeft: theme.spacing(1),
-    minHeight: `${props.layoutConfig.infoHeader.reducedHeight.height}px !important`,
-    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-      minHeight: `${props.layoutConfig.infoHeader.default.height}px !important`
-    }
-  }),
-  summaryContent: {
-    display: 'block',
-    marginTop: theme.spacing(0.5),
-    marginBottom: `${theme.spacing(0.5)} !important`
-  },
   headingContainer: {
     display: 'flex'
   },
@@ -43,14 +26,6 @@ const useStyles = makeStyles(theme => ({
     padding: 0,
     marginLeft: theme.spacing(0.5)
   },
-  infoIcon: props => ({
-    [theme.breakpoints.down(props.layoutConfig.reducedHeightBreakpoint)]: {
-      fontSize: props.layoutConfig.infoHeader.reducedHeight.infoIconFontSize
-    },
-    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-      fontSize: props.layoutConfig.infoHeader.default.infoIconFontSize
-    }
-  }),
   label: {
     marginTop: theme.spacing(1),
     height: 32,
@@ -80,7 +55,7 @@ const useStyles = makeStyles(theme => ({
  * A component for instructions for a faceted search perspective or an entity landing page.
  */
 const InfoHeader = props => {
-  const handleExpandButtonOnClick = () => {
+  const handleAccordionChange = () => () => {
     props.updateExpanded({
       resultClass: props.resultClass,
       pageType: props.pageType
@@ -101,43 +76,69 @@ const InfoHeader = props => {
   }
 
   const getHeadingVariant = () => {
-    const { screenSize } = props
-    let variant = props.layoutConfig.infoHeader.default.headingVariant
-    if (screenSize === 'xs' || screenSize === 'sm' || screenSize === 'md' || screenSize === 'lg') {
-      variant = props.layoutConfig.infoHeader.reducedHeight.headingVariant
-    }
+    const { layoutConfig } = props
+    const { infoHeader } = layoutConfig
+    const theme = useTheme()
+    const defaultHeight = useMediaQuery(theme.breakpoints.up(layoutConfig.reducedHeightBreakpoint))
+    const variant = defaultHeight
+      ? infoHeader.default.headingVariant
+      : infoHeader.reducedHeight.headingVariant
     return variant
   }
 
   const classes = useStyles(props)
 
   return (
-    <div className={classes.root}>
-      <Accordion
-        className={classes.panel}
-        expanded={props.expanded}
-      >
+    <Box
+      sx={theme => ({
+        marginTop: theme.spacing(0.5),
+        marginLeft: theme.spacing(0.5),
+        marginRight: theme.spacing(0.5)
+
+      })}
+    >
+      <Accordion expanded={props.expanded} onChange={handleAccordionChange()}>
         <AccordionSummary
-          className={classes.summary}
-          classes={{
-            content: classes.summaryContent
-          }}
           expandIcon={<ExpandMoreIcon />}
           aria-controls='infoheader-content'
           id='infoheader-header'
-          // IconButtonProps={{ onClick: handleExpandButtonOnClick }}
+          sx={theme => ({
+            paddingLeft: theme.spacing(1),
+            minHeight: props.layoutConfig.infoHeader.reducedHeight.height,
+            [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
+              minHeight: props.layoutConfig.infoHeader.default.height
+            },
+            '& .MuiAccordionSummary-content': {
+              marginTop: theme.spacing(0.5),
+              marginBottom: theme.spacing(0.5)
+            }
+          })}
         >
           <div className={classes.headingContainer}>
-            <Typography component='h1' variant={getHeadingVariant()} className={classes.heading}>
-              {props.pageType === 'facetResults' && intl.get(`perspectives.${props.resultClass}.label`)}
-              {props.pageType === 'instancePage' && intl.get(`perspectives.${props.resultClass}.instancePage.label`)}
+            <Typography
+              component='h1'
+              variant={getHeadingVariant()}
+            >
+              {props.pageType === 'facetResults' &&
+                intl.get(`perspectives.${props.resultClass}.label`)}
+              {props.pageType === 'instancePage' &&
+                intl.get(`perspectives.${props.resultClass}.instancePage.label`)}
             </Typography>
             <Tooltip title={intl.get('infoHeader.toggleInstructions')}>
               <IconButton
                 aria-label='toggle instructions'
                 className={classes.infoIconButton}
-                onClick={handleExpandButtonOnClick}
                 size='large'
+                sx={theme => ({
+                  padding: 0,
+                  marginLeft: '4px !important',
+                  '& .MuiSvgIcon-root': {
+                    fontSize: props.layoutConfig.infoHeader.reducedHeight.infoIconFontSize,
+                    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
+                      fontSize: props.layoutConfig.infoHeader.default.infoIconFontSize
+                    }
+                  }
+                })}
               >
                 <InfoIcon className={classes.infoIcon} />
               </IconButton>
@@ -157,7 +158,7 @@ const InfoHeader = props => {
             </>}
         </AccordionDetails>
       </Accordion>
-    </div>
+    </Box>
   )
 }
 

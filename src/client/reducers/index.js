@@ -78,7 +78,10 @@ for (const perspective of perspectiveConfig) {
       maps,
       properties
     }
-    Object.keys(facets).forEach(key => { facets[key].isFetching = false })
+    Object.keys(facets).forEach(key => {
+      facets[key].isFetching = false
+      facets[key].values = null
+    })
     const facetsInitialStateFull = {
       ...facetsInitialState,
       facets

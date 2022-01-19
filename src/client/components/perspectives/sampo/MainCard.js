@@ -8,7 +8,7 @@ import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from '@mui/styles/makeStyles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Link } from 'react-router-dom'
 import { has } from 'lodash'
@@ -84,10 +84,18 @@ const MainCard = props => {
     >
       {!card &&
         <Paper className={classes.perspectiveCardPaper}>
-          <Typography gutterBottom variant={cardHeadingVariant} component='h2'>
+          <Typography
+            gutterBottom
+            variant={cardHeadingVariant}
+            component='h2'
+            sx={{ color: '#fff' }}
+          >
             {intl.get(`perspectives.${perspective.id}.label`)}
           </Typography>
-          <Typography component='p'>
+          <Typography
+            component='p'
+            sx={{ color: '#fff' }}
+          >
             {intl.get(`perspectives.${perspective.id}.shortDescription`)}
           </Typography>
         </Paper>}

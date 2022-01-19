@@ -56,8 +56,8 @@
                 "main": "#EB1806"
             }
         },
-        "hundredPercentHeightBreakPoint": "md",
-        "reducedHeightBreakpoint": "xl",
+        "hundredPercentHeightBreakPoint": 900,
+        "reducedHeightBreakpoint": 1920,
         "tabHeight": 58,
         "paginationToolbarHeight": 37,
         "tableFontSize": "0.8rem",

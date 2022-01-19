@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import clsx from 'clsx'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -16,7 +16,7 @@ import ResultTableHead from './ResultTableHead'
 import TablePagination from '@mui/material/TablePagination'
 import ResultTablePaginationActions from './ResultTablePaginationActions'
 import history from '../../History'
-import { purple } from '@mui/material/colors';
+import { purple } from '@mui/material/colors'
 
 const styles = theme => ({
   tableContainer: props => ({
@@ -30,24 +30,24 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     borderTop: '1px solid rgba(224, 224, 224, 1);'
   }),
-  paginationRoot: {
-    display: 'flex',
-    backgroundColor: '#fff',
-    borderTop: '1px solid rgba(224, 224, 224, 1);',
-    alignItems: 'center'
-  },
+  // paginationRoot: {
+  //   display: 'flex',
+  //   backgroundColor: '#fff',
+  //   borderTop: '1px solid rgba(224, 224, 224, 1);',
+  //   alignItems: 'center'
+  // },
   paginationCaption: {
     minWidth: 110
   },
-  paginationToolbar: props => ({
-    '& p': { fontSize: '0.75rem' },
-    minHeight: props.layoutConfig.paginationToolbarHeight,
-    [theme.breakpoints.down(undefined)]: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      marginTop: theme.spacing(0.5)
-    }
-  }),
+  // paginationToolbar: props => ({
+  //   '& p': { fontSize: '0.75rem' },
+  //   minHeight: props.layoutConfig.paginationToolbarHeight,
+  //   [theme.breakpoints.down(undefined)]: {
+  //     display: 'flex',
+  //     flexWrap: 'wrap',
+  //     marginTop: theme.spacing(0.5)
+  //   }
+  // }),
   progressContainer: {
     width: '100%',
     height: 'calc(100% - 72px)',
@@ -266,13 +266,14 @@ class ResultTable extends React.Component {
               onClick={this.handleExpandRow(row.id)}
               aria-expanded={expanded}
               aria-label='Show more'
-              size="large">
+              size='large'
+            >
               <ExpandMoreIcon />
             </IconButton>}
         </TableCell>
         {dataCells}
       </TableRow>
-    );
+    )
   }
 
   render () {
@@ -282,11 +283,11 @@ class ResultTable extends React.Component {
       <>
         <TablePagination
           component='div'
-          classes={{
-            root: classes.paginationRoot,
-            caption: classes.paginationCaption,
-            toolbar: classes.paginationToolbar
-          }}
+          // classes={{
+          //   root: classes.paginationRoot,
+          //   caption: classes.paginationCaption,
+          //   toolbar: classes.paginationToolbar
+          // }}
           count={resultCount == null ? 0 : resultCount}
           labelDisplayedRows={resultCount == null
             ? () => '-'
@@ -302,6 +303,24 @@ class ResultTable extends React.Component {
           onPageChange={this.handlePageChange}
           onRowsPerPageChange={this.handleRowsPerPageChange}
           ActionsComponent={ResultTablePaginationActions}
+          sx={theme => ({
+            display: 'flex',
+            backgroundColor: '#fff',
+            borderTop: '1px solid rgba(224, 224, 224, 1);',
+            alignItems: 'center',
+            '& .MuiTablePagination-toolbar': {
+              '& p': { fontSize: '0.75rem' },
+              minHeight: this.props.layoutConfig.paginationToolbarHeight,
+              [theme.breakpoints.down('sm')]: {
+                display: 'flex',
+                flexWrap: 'wrap',
+                marginTop: theme.spacing(0.5)
+              }
+            },
+            '& .MuiTablePagination-displayedRows': {
+              minWidth: 110
+            }
+          })}
         />
         <div className={classes.tableContainer}>
           {fetching

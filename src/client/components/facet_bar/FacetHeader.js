@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import Menu from '@mui/material/Menu'
@@ -27,9 +27,9 @@ const styles = theme => ({
     // justifyContent: 'space-between',
     width: '100%'
   },
-  facetLabel: props => ({
-    fontSize: '0.875rem'
-  }),
+  // facetLabel: props => ({
+  //   f
+  // }),
   facetValuesContainerTen: {
     height: 345,
     padding: theme.spacing(1)
@@ -283,87 +283,90 @@ class FacetHeader extends React.Component {
         )
       }
     }
-    return <>
-      {pieChartButton &&
-        <ChartDialog
-          portalConfig={this.props.portalConfig}
-          perspectiveConfig={this.props.perspectiveConfig}
-          apexChartsConfig={this.props.apexChartsConfig}
-          results={this.props.facetConstrainSelf.values}
-          resultUpdateID={this.props.facetConstrainSelfUpdateID}
-          fetching={this.props.facetConstrainSelf.isFetching}
-          fetchData={this.props.fetchFacetConstrainSelf}
-          facetClass={this.props.facetClass}
-          facetID={this.props.facetID}
-          icon={<PieChartIcon />}
-          tooltip={intl.get('facetBar.pieChart.tooltip')}
-          dialogTitle={this.props.facetLabel}
-          resultClassConfig={{
-            createChartData: 'createApexPieChartData',
-            property: this.props.facetID
-          }}
-        />}
-      {barChartButton &&
-        <ChartDialog
-          portalConfig={this.props.portalConfig}
-          perspectiveConfig={this.props.perspectiveConfig}
-          apexChartsConfig={this.props.apexChartsConfig}
-          results={this.props.facetConstrainSelf.values}
-          resultUpdateID={this.props.facetConstrainSelfUpdateID}
-          fetching={this.props.facetConstrainSelf.isFetching}
-          fetchData={this.props.fetchFacetConstrainSelf}
-          facetClass={this.props.facetClass}
-          facetID={this.props.facetID}
-          icon={<BarChartIcon />}
-          tooltip={intl.get('facetBar.barChart.tooltip')}
-          resultClassConfig={{
-            createChartData: 'createApexBarChartData',
-            property: this.props.facetID,
-            title: intl.get(`facetBar.barChart.${this.props.facetID}.title`),
-            xaxisTitle: intl.get(`facetBar.barChart.${this.props.facetID}.xaxisTitle`),
-            yaxisTitle: intl.get(`facetBar.barChart.${this.props.facetID}.yaxisTitle`),
-            seriesTitle: intl.get(`facetBar.barChart.${this.props.facetID}.seriesTitle`)
-          }}
-        />}
-      {lineChartButton &&
-        <ChartDialog
-          portalConfig={this.props.portalConfig}
-          perspectiveConfig={this.props.perspectiveConfig}
-          apexChartsConfig={this.props.apexChartsConfig}
-          results={this.props.perspectiveState.results}
-          resultUpdateID={this.props.perspectiveState.resultUpdateID}
-          fetching={this.props.perspectiveState.fetching}
-          fetchData={this.props.fetchResults}
-          resultClass={`${this.props.facetID}LineChart`}
-          facetClass={this.props.facetClass}
-          facetID={this.props.facetID}
-          icon={<LineChartIcon />}
-          tooltip={intl.get('facetBar.lineChart.tooltip')}
-          resultClassConfig={this.props.perspectiveConfig.resultClasses[`${this.props.facetID}LineChart`]}
-        />}
-      {menuButtons.length > 0 &&
-        <>
-          <Tooltip disableFocusListener title={intl.get('facetBar.filterOptions')}>
-            <IconButton
-              className='facetMenuButton'
-              aria-label={intl.get('facetBar.filterOptions')}
-              aria-owns={open ? 'facet-option-menu' : undefined}
-              aria-haspopup='true'
-              onClick={this.handleMenuButtonClick}
-              size="large">
-              <MoreVertIcon />
-            </IconButton>
-          </Tooltip>
-          <Menu
-            id='facet-option-menu'
-            anchorEl={anchorEl}
-            open={open}
-            onClose={this.handleMenuClose}
-          >
-            {menuButtons}
-          </Menu>
-        </>}
-    </>;
+    return (
+      <>
+        {pieChartButton &&
+          <ChartDialog
+            portalConfig={this.props.portalConfig}
+            perspectiveConfig={this.props.perspectiveConfig}
+            apexChartsConfig={this.props.apexChartsConfig}
+            results={this.props.facetConstrainSelf.values}
+            resultUpdateID={this.props.facetConstrainSelfUpdateID}
+            fetching={this.props.facetConstrainSelf.isFetching}
+            fetchData={this.props.fetchFacetConstrainSelf}
+            facetClass={this.props.facetClass}
+            facetID={this.props.facetID}
+            icon={<PieChartIcon />}
+            tooltip={intl.get('facetBar.pieChart.tooltip')}
+            dialogTitle={this.props.facetLabel}
+            resultClassConfig={{
+              createChartData: 'createApexPieChartData',
+              property: this.props.facetID
+            }}
+          />}
+        {barChartButton &&
+          <ChartDialog
+            portalConfig={this.props.portalConfig}
+            perspectiveConfig={this.props.perspectiveConfig}
+            apexChartsConfig={this.props.apexChartsConfig}
+            results={this.props.facetConstrainSelf.values}
+            resultUpdateID={this.props.facetConstrainSelfUpdateID}
+            fetching={this.props.facetConstrainSelf.isFetching}
+            fetchData={this.props.fetchFacetConstrainSelf}
+            facetClass={this.props.facetClass}
+            facetID={this.props.facetID}
+            icon={<BarChartIcon />}
+            tooltip={intl.get('facetBar.barChart.tooltip')}
+            resultClassConfig={{
+              createChartData: 'createApexBarChartData',
+              property: this.props.facetID,
+              title: intl.get(`facetBar.barChart.${this.props.facetID}.title`),
+              xaxisTitle: intl.get(`facetBar.barChart.${this.props.facetID}.xaxisTitle`),
+              yaxisTitle: intl.get(`facetBar.barChart.${this.props.facetID}.yaxisTitle`),
+              seriesTitle: intl.get(`facetBar.barChart.${this.props.facetID}.seriesTitle`)
+            }}
+          />}
+        {lineChartButton &&
+          <ChartDialog
+            portalConfig={this.props.portalConfig}
+            perspectiveConfig={this.props.perspectiveConfig}
+            apexChartsConfig={this.props.apexChartsConfig}
+            results={this.props.perspectiveState.results}
+            resultUpdateID={this.props.perspectiveState.resultUpdateID}
+            fetching={this.props.perspectiveState.fetching}
+            fetchData={this.props.fetchResults}
+            resultClass={`${this.props.facetID}LineChart`}
+            facetClass={this.props.facetClass}
+            facetID={this.props.facetID}
+            icon={<LineChartIcon />}
+            tooltip={intl.get('facetBar.lineChart.tooltip')}
+            resultClassConfig={this.props.perspectiveConfig.resultClasses[`${this.props.facetID}LineChart`]}
+          />}
+        {menuButtons.length > 0 &&
+          <>
+            <Tooltip disableFocusListener title={intl.get('facetBar.filterOptions')}>
+              <IconButton
+                className='facetMenuButton'
+                aria-label={intl.get('facetBar.filterOptions')}
+                aria-owns={open ? 'facet-option-menu' : undefined}
+                aria-haspopup='true'
+                onClick={this.handleMenuButtonClick}
+                size='large'
+              >
+                <MoreVertIcon />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              id='facet-option-menu'
+              anchorEl={anchorEl}
+              open={open}
+              onClose={this.handleMenuClose}
+            >
+              {menuButtons}
+            </Menu>
+          </>}
+      </>
+    )
   }
 
   render () {
@@ -374,12 +377,19 @@ class FacetHeader extends React.Component {
 
     return (
       <div className={classes.headingContainer}>
-        <Typography className={classes.facetLabel} variant='body1'>{facetLabel}</Typography>
+        <Typography
+          sx={{
+            fontSize: '0.875rem'
+          }}
+          variant='body1'
+        >
+          {facetLabel}
+        </Typography>
         <Tooltip
           title={facetDescription}
           enterDelay={300}
         >
-          <IconButton aria-label='description' size="large">
+          <IconButton aria-label='description' size='large'>
             <InfoIcon />
           </IconButton>
         </Tooltip>
@@ -388,7 +398,7 @@ class FacetHeader extends React.Component {
             {this.renderFacetMenu()}
           </div>}
       </div>
-    );
+    )
   }
 }
 

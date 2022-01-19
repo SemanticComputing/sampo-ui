@@ -2,32 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import { has } from 'lodash'
-import withStyles from '@mui/styles/withStyles';
 import ActiveFilters from './ActiveFilters'
 import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Divider from '@mui/material/Divider'
+import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import CircularProgress from '@mui/material/CircularProgress'
-import { purple } from '@mui/material/colors';
-
-const styles = theme => ({
-  facetInfoDivider: {
-    marginTop: theme.spacing(0.5),
-    marginBottom: theme.spacing(0.5)
-  },
-  headerContainer: {
-    display: 'flex',
-    justifyContent: 'space-between'
-  },
-  button: {
-    margin: theme.spacing(1)
-  },
-  infoText: {
-    fontWeight: 'bold',
-    fontSize: '1rem'
-  }
-})
+import { purple } from '@mui/material/colors'
 
 /**
  * A component for fetching and displaying the number of results, and displaying active filters.
@@ -63,9 +45,9 @@ class FacetInfo extends React.Component {
   }
 
   render () {
-    const { classes, facetClass, resultClass, resultCount, someFacetIsFetching, screenSize } = this.props
+    const { facetClass, resultClass, resultCount, someFacetIsFetching, screenSize } = this.props
     const mobileMode = screenSize === 'xs' || screenSize === 'sm'
-    const { facets } = this.props.facetData
+    const { facets } = this.props.facetState
     const uriFilters = {}
     const spatialFilters = {}
     const textFilters = {}
@@ -106,11 +88,28 @@ class FacetInfo extends React.Component {
       }
     })
     return (
-      <div className={classes.root}>
+      <>
         {this.props.fetchingResultCount
           ? <CircularProgress style={{ color: purple[500] }} thickness={5} size={26} />
-          : <Typography component='h2' className={classes.infoText} variant={this.getTypographyVariant()}>{intl.get('facetBar.results')}: {resultCount} {intl.get(`perspectives.${resultClass}.facetResultsType`)}</Typography>}
-        {!mobileMode && <Divider className={classes.facetInfoDivider} />}
+          : (
+            <Typography
+              component='h2'
+              variant={this.getTypographyVariant()}
+              sx={{
+                fontWeight: 'bold',
+                fontSize: '1rem'
+              }}
+            >
+              {intl.get('facetBar.results')}: {resultCount} {intl.get(`perspectives.${resultClass}.facetResultsType`)}
+            </Typography>
+            )}
+        {!mobileMode &&
+          <Divider
+            sx={theme => ({
+              marginTop: theme.spacing(0.5),
+              marginBottom: theme.spacing(0.5)
+            })}
+          />}
         {(activeUriFilters ||
           activeSpatialFilters ||
           activeTextFilters ||
@@ -119,47 +118,66 @@ class FacetInfo extends React.Component {
           activeIntegerFilters
         ) &&
           <>
-            <div className={classes.headerContainer}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between'
+              }}
+            >
               <Typography component='h2' variant={this.getTypographyVariant()}>{intl.get('facetBar.activeFilters')}</Typography>
               <Button
                 variant='contained'
                 color='secondary'
                 size='small'
-                className={classes.button}
                 startIcon={<DeleteIcon />}
                 onClick={this.handleRemoveAllFiltersOnClick}
                 disabled={someFacetIsFetching}
+                sx={theme => ({
+                  margin: theme.spacing(1)
+                })}
               >{intl.get('facetBar.removeAllFilters')}
               </Button>
-            </div>
-            <div className={classes.textContainer}>
-              <ActiveFilters
-                facetClass={facetClass}
-                uriFilters={uriFilters}
-                spatialFilters={spatialFilters}
-                textFilters={textFilters}
-                timespanFilters={timespanFilters}
-                dateNoTimespanFilters={dateNoTimespanFilters}
-                integerFilters={integerFilters}
-                updateFacetOption={this.props.updateFacetOption}
-                someFacetIsFetching={someFacetIsFetching}
-                fetchingResultCount={this.props.fetchingResultCount}
-                fetchFacet={this.props.fetchFacet}
-              />
-            </div>
-            <Divider className={classes.facetInfoDivider} />
+            </Box>
+            <ActiveFilters
+              facetClass={facetClass}
+              uriFilters={uriFilters}
+              spatialFilters={spatialFilters}
+              textFilters={textFilters}
+              timespanFilters={timespanFilters}
+              dateNoTimespanFilters={dateNoTimespanFilters}
+              integerFilters={integerFilters}
+              updateFacetOption={this.props.updateFacetOption}
+              someFacetIsFetching={someFacetIsFetching}
+              fetchingResultCount={this.props.fetchingResultCount}
+              fetchFacet={this.props.fetchFacet}
+            />
+            <Divider
+              sx={theme => ({
+                marginTop: theme.spacing(0.5),
+                marginBottom: theme.spacing(0.5)
+              })}
+            />
           </>}
-        {!mobileMode && <Typography component='h2' className={classes.infoText} variant={this.getTypographyVariant()}>{intl.get('facetBar.narrowDownBy')}:</Typography>}
-      </div>
+        {!mobileMode &&
+          <Typography
+            component='h2'
+            variant={this.getTypographyVariant()}
+            sx={{
+              fontWeight: 'bold',
+              fontSize: '1rem'
+            }}
+          >
+            {intl.get('facetBar.narrowDownBy')}:
+          </Typography>}
+      </>
     )
   }
 }
 
 FacetInfo.propTypes = {
-  classes: PropTypes.object.isRequired,
   facetedSearchMode: PropTypes.string.isRequired,
   facetUpdateID: PropTypes.number.isRequired,
-  facetData: PropTypes.object.isRequired,
+  facetState: PropTypes.object.isRequired,
   facetClass: PropTypes.string.isRequired,
   resultClass: PropTypes.string.isRequired,
   resultCount: PropTypes.number,
@@ -170,6 +188,4 @@ FacetInfo.propTypes = {
   fetchFacet: PropTypes.func
 }
 
-export const FacetInfoComponent = FacetInfo
-
-export default withStyles(styles)(FacetInfo)
+export default FacetInfo
