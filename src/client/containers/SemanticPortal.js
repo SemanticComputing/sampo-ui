@@ -315,6 +315,7 @@ const SemanticPortal = props => {
                   animateMap={props.animateMap}
                   videoPlayerState={props.videoPlayer}
                   updateVideoPlayerTime={props.updateVideoPlayerTime}
+                  updatePerspectiveHeaderExpanded={props.updatePerspectiveHeaderExpanded}
                   screenSize={screenSize}
                   rootUrl={rootUrlWithLang}
                   apexChartsConfig={apexChartsConfig}
