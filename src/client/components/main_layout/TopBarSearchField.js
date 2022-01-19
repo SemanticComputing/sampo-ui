@@ -49,8 +49,8 @@ class TopBarSearchField extends React.Component {
   }
 
   render () {
-    const { xsScreen } = this.props
-    const placeholder = xsScreen
+    const { screenSize } = this.props
+    const placeholder = screenSize === 'xs'
       ? intl.get('topBar.searchBarPlaceHolderShort')
       : intl.get('topBar.searchBarPlaceHolder')
     return (
@@ -110,7 +110,7 @@ class TopBarSearchField extends React.Component {
 
 TopBarSearchField.propTypes = {
   fetchFullTextResults: PropTypes.func,
-  xsScreen: PropTypes.bool.isRequired,
+  screenSize: PropTypes.string.isRequired,
   rootUrl: PropTypes.string.isRequired
 }
 

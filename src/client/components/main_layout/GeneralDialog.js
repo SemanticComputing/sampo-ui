@@ -4,8 +4,7 @@ import Dialog from '@mui/material/Dialog'
 import MuiDialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
-import Typography from '@mui/material/Typography'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 
 const styles = theme => ({
   dialogPaper: {
@@ -22,21 +21,28 @@ const styles = theme => ({
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props
   return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant='h6'>{children}</Typography>
+    <MuiDialogTitle
+      sx={theme => ({
+        paddingTop: theme.spacing(1),
+        paddingBottom: 0
+      })}
+      {...other}
+    >
+      {children}
       {onClose
         ? (
           <IconButton
             aria-label='close'
             className={classes.closeButton}
             onClick={onClose}
-            size="large">
+            size='large'
+          >
             <CloseIcon />
           </IconButton>
           )
         : null}
     </MuiDialogTitle>
-  );
+  )
 })
 
 const GeneralDialog = props => {

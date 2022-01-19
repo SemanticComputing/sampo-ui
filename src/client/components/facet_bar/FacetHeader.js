@@ -57,9 +57,10 @@ class FacetHeader extends React.Component {
   handleMenuButtonClick = event => {
     event.stopPropagation()
     this.setState({ anchorEl: event.currentTarget })
-  };
+  }
 
-  handleSortOnClick = buttonID => () => {
+  handleSortOnClick = buttonID => event => {
+    event.stopPropagation()
     this.setState({ anchorEl: null })
     let sortDirection
     if (buttonID === 'prefLabel') {
@@ -92,7 +93,7 @@ class FacetHeader extends React.Component {
       option: 'sortBy',
       value: buttonID
     })
-  };
+  }
 
   handleFilterTypeOnClick = buttonID => () => {
     this.setState({ anchorEl: null })
@@ -140,7 +141,7 @@ class FacetHeader extends React.Component {
       option: 'selectAlsoSubconcepts',
       value: selectAlsoSubconcepts
     })
-  };
+  }
 
   handleConjuctionOnClick = buttonID => () => {
     this.setState({ anchorEl: null })
@@ -161,7 +162,7 @@ class FacetHeader extends React.Component {
       option: 'useConjuction',
       value: useConjuction
     })
-  };
+  }
 
   handleMenuClose = () => {
     this.setState({ anchorEl: null })

@@ -2,6 +2,8 @@ import React from 'react'
 import querystring from 'querystring'
 import { has, sortBy } from 'lodash'
 import intl from 'react-intl-universal'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import MuiIcon from '../components/main_layout/MuiIcon'
 
 export const stateToUrl = ({
@@ -289,3 +291,19 @@ export const createPerspectiveConfigOnlyInfoPages = async ({ portalID, onlyInsta
 }
 
 export const getSpacing = (theme, value) => Number(theme.spacing(value).slice(0, -2))
+
+export const getScreenSize = () => {
+  const theme = useTheme()
+  const xsScreen = useMediaQuery(theme.breakpoints.down('sm'))
+  const smScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'))
+  const mdScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'))
+  const lgScreen = useMediaQuery(theme.breakpoints.between('lg', 'xl'))
+  const xlScreen = useMediaQuery(theme.breakpoints.up('xl'))
+  let screenSize = ''
+  if (xsScreen) { screenSize = 'xs' }
+  if (smScreen) { screenSize = 'sm' }
+  if (mdScreen) { screenSize = 'md' }
+  if (lgScreen) { screenSize = 'lg' }
+  if (xlScreen) { screenSize = 'xl' }
+  return screenSize
+}

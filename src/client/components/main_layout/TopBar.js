@@ -253,7 +253,7 @@ const TopBar = props => {
                 })}
                 variant='h5'
               >
-                {props.xsScreen ? intl.get('appTitle.mobile') : intl.get('appTitle.short')}
+                {props.screenSize === 'xs' ? intl.get('appTitle.mobile') : intl.get('appTitle.short')}
               </Typography>}
           </Button>
           {topBar.logoImageSecondary &&
@@ -283,7 +283,7 @@ const TopBar = props => {
             <TopBarSearchField
               fetchFullTextResults={props.fetchFullTextResults}
               clearResults={props.clearResults}
-              xsScreen={props.xsScreen}
+              screenSize={props.screenSize}
               rootUrl={rootUrl}
             />}
           <Box sx={{ flexGrow: 1 }} />
@@ -414,10 +414,7 @@ TopBar.propTypes = {
    * Perspective config as an array of objects.
    */
   perspectives: PropTypes.array.isRequired,
-  /**
-   * Flag for checking if the screen is extra small.
-   */
-  xsScreen: PropTypes.bool.isRequired,
+  screenSize: PropTypes.string.isRequired,
   /**
    * React Router's location object. The perspective links are highlighted based on this.
    */

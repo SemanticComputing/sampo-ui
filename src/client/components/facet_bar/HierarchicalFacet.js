@@ -148,8 +148,6 @@ class HierarchicalFacet extends Component {
       })
     }
 
-    console.log('didupate')
-
     // when values have been fetched, update component's state
     if (prevProps.facet.values !== this.props.facet.values) {
       this.setState({

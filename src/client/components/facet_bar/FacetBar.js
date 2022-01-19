@@ -74,9 +74,9 @@ class FacetBar extends React.Component {
     const label = intl.get(`perspectives.${facetClass}.properties.${facetID}.label`)
     const description = intl.get(`perspectives.${facetClass}.properties.${facetID}.description`)
     const facet = { ...facets[facetID] }
-    const facetConstrainSelf = this.props.facetDataConstrainSelf == null
+    const facetConstrainSelf = this.props.facetStateConstrainSelf == null
       ? null
-      : this.props.facetDataConstrainSelf.facets[facetID]
+      : this.props.facetStateConstrainSelf.facets[facetID]
     let facetComponent = null
     const isActive = this.state.activeFacets.has(facetID)
     if (this.props.facetedSearchMode === 'clientFS' && facetID !== 'datasetSelector') {
@@ -255,8 +255,8 @@ class FacetBar extends React.Component {
             facetLabel={label}
             facet={facet}
             facetConstrainSelf={facetConstrainSelf}
-            facetConstrainSelfUpdateID={this.props.facetDataConstrainSelf
-              ? this.props.facetDataConstrainSelf.facetUpdateID
+            facetConstrainSelfUpdateID={this.props.facetStateConstrainSelf
+              ? this.props.facetStateConstrainSelf.facetUpdateID
               : null}
             isActive={isActive}
             facetClass={this.props.facetClass}

@@ -3,12 +3,10 @@ import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import { has } from 'lodash'
 import { connect } from 'react-redux'
-import makeStyles from '@mui/styles/makeStyles'
 import { withRouter, Route, Redirect, Switch } from 'react-router-dom'
 import { compose } from '@shakacode/recompose'
-import { useTheme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import Grid from '@mui/material/Grid'
+
+import Box from '@mui/material/Box'
 import {
   fetchResultCount,
   fetchPaginatedResults,
@@ -47,7 +45,8 @@ import { filterResults } from '../selectors'
 import {
   processPortalConfig,
   createPerspectiveConfig,
-  createPerspectiveConfigOnlyInfoPages
+  createPerspectiveConfigOnlyInfoPages,
+  getScreenSize
 } from '../helpers/helpers'
 import * as apexChartsConfig from '../library_configs/ApexCharts/ApexChartsConfig'
 import * as leafletConfig from '../library_configs/Leaflet/LeafletConfig'
@@ -75,13 +74,12 @@ const perspectiveConfigOnlyInfoPages = await createPerspectiveConfigOnlyInfoPage
 
 // ** Import general components **
 const TopBar = lazy(() => import('../components/main_layout/TopBar'))
-const InfoHeader = lazy(() => import('../components/main_layout/InfoHeader'))
 const TextPage = lazy(() => import('../components/main_layout/TextPage'))
 const Message = lazy(() => import('../components/main_layout/Message'))
-const InstancePage = lazy(() => import('../components/main_layout/InstancePage'))
 const FullTextSearch = lazy(() => import('../components/main_layout/FullTextSearch'))
 const FacetedSearchPerspective = lazy(() => import('../components/facet_results/FacetedSearchPerspective'))
 const FederatedSearchPerspective = lazy(() => import('../components/facet_results/FederatedSearchPerspective'))
+const InstancePagePerspective = lazy(() => import('../components/main_layout/InstancePagePerspective'))
 const KnowledgeGraphMetadataTable = lazy(() => import('../components/main_layout/KnowledgeGraphMetadataTable'))
 // ** General components end **
 
@@ -90,52 +88,6 @@ const Main = lazy(() => import(`../components/perspectives/${portalID}/Main`))
 const Footer = lazy(() => import(`../components/perspectives/${portalID}/Footer`))
 // ** Portal specific components end **
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    backgroundColor: '#bdbdbd',
-    overflowX: 'hidden',
-    minHeight: '100%',
-    [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
-      overflow: 'hidden',
-      height: '100%'
-    }
-  },
-  instancePageContainer: {
-    margin: theme.spacing(0.5),
-    width: `calc(100% - ${theme.spacing(1)}px)`,
-    [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
-      height: `calc(100% - ${layoutConfig.topBar.reducedHeight + 2 * layoutConfig.infoHeader.reducedHeight.height + theme.spacing(1.5)}px)`
-    },
-    [theme.breakpoints.up(layoutConfig.reducedHeightBreakpoint)]: {
-      height: `calc(100% - ${layoutConfig.topBar.defaultHeight + 89 + theme.spacing(1.5)}px)`
-    }
-  },
-  instancePageContainerHeaderExpanded: {
-    margin: theme.spacing(0.5),
-    width: `calc(100% - ${theme.spacing(1)}px)`,
-    [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
-      height: `calc(100% - ${layoutConfig.topBar.reducedHeight +
-        2 * layoutConfig.infoHeader.reducedHeight.height +
-        layoutConfig.infoHeader.reducedHeight.expandedContentHeight +
-        theme.spacing(3.5)
-        }px)`
-    },
-    [theme.breakpoints.up(layoutConfig.reducedHeightBreakpoint)]: {
-      height: `calc(100% - ${layoutConfig.topBar.defaultHeight +
-        89 +
-        layoutConfig.infoHeader.default.expandedContentHeight +
-        theme.spacing(3.5)
-        }px)`
-    }
-  },
-  instancePageContent: {
-    [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
-      height: '100%'
-    },
-    padding: '0px !important'
-  }
-}))
-
 /**
  * A top-level container component, which connects all Sampo-UI components to the Redux store. Also
  * the main routes of the portal are defined here using React Router. Currently it is not possible to
@@ -143,20 +95,8 @@ const useStyles = makeStyles(theme => ({
  */
 const SemanticPortal = props => {
   const { error } = props
-  const theme = useTheme()
-  const classes = useStyles(props)
-  const xsScreen = useMediaQuery(theme.breakpoints.down('sm'))
-  const smScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'))
-  const mdScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'))
-  const lgScreen = useMediaQuery(theme.breakpoints.between('lg', 'xl'))
-  const xlScreen = useMediaQuery(theme.breakpoints.up('xl'))
-  let screenSize = ''
-  if (xsScreen) { screenSize = 'xs' }
-  if (smScreen) { screenSize = 'sm' }
-  if (mdScreen) { screenSize = 'md' }
-  if (lgScreen) { screenSize = 'lg' }
-  if (xlScreen) { screenSize = 'xl' }
   const rootUrlWithLang = `${rootUrl}/${props.options.currentLocale}`
+  const screenSize = getScreenSize()
   const noClientFSResults = props.clientFSState && props.clientFSState.results === null
 
   useEffect(() => {
@@ -166,7 +106,17 @@ const SemanticPortal = props => {
   }, [props.options.currentLocale])
 
   return (
-    <div className={classes.root}>
+    <Box
+      sx={theme => ({
+        backgroundColor: '#bdbdbd',
+        overflowX: 'hidden',
+        minHeight: '100%',
+        [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
+          overflow: 'hidden',
+          height: '100%'
+        }
+      })}
+    >
       <Message error={error} />
       <>
         <TopBar
@@ -179,7 +129,7 @@ const SemanticPortal = props => {
           currentLocale={props.options.currentLocale}
           availableLocales={props.options.availableLocales}
           loadLocales={props.loadLocales}
-          xsScreen={xsScreen}
+          screenSize={screenSize}
           location={props.location}
           layoutConfig={layoutConfig}
         />
@@ -288,62 +238,40 @@ const SemanticPortal = props => {
                   />
                   <Route
                     path={`${rootUrlWithLang}/${perspective.id}/page/:id`}
-                    render={routeProps => {
-                      return (
-                        <>
-                          <InfoHeader
-                            portalConfig={portalConfig}
-                            layoutConfig={layoutConfig}
-                            resultClass={perspective.id}
-                            pageType='instancePage'
-                            instanceData={props[perspective.id].instanceTableData}
-                            expanded={props[perspective.id].instancePageHeaderExpanded}
-                            updateExpanded={props.updatePerspectiveHeaderExpanded}
-                            screenSize={screenSize}
-                          />
-                          <Grid
-                            container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
-                              ? classes.instancePageContainerHeaderExpanded
-                              : classes.instancePageContainer}
-                          >
-                            <Grid item xs={12} className={classes.instancePageContent}>
-                              <InstancePage
-                                portalConfig={portalConfig}
-                                layoutConfig={layoutConfig}
-                                perspectiveConfig={perspective}
-                                perspectiveState={props[`${perspective.id}`]}
-                                leafletMapState={props.leafletMap}
-                                fetchPaginatedResults={props.fetchPaginatedResults}
-                                fetchResults={props.fetchResults}
-                                fetchInstanceAnalysis={props.fetchInstanceAnalysis}
-                                fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
-                                fetchGeoJSONLayers={props.fetchGeoJSONLayers}
-                                fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
-                                clearGeoJSONLayers={props.clearGeoJSONLayers}
-                                fetchByURI={props.fetchByURI}
-                                updatePage={props.updatePage}
-                                updateRowsPerPage={props.updateRowsPerPage}
-                                updateFacetOption={props.updateFacetOption}
-                                updateMapBounds={props.updateMapBounds}
-                                sortResults={props.sortResults}
-                                showError={props.showError}
-                                routeProps={routeProps}
-                                perspective={perspective}
-                                animationValue={props.animationValue}
-                                animateMap={props.animateMap}
-                                videoPlayerState={props.videoPlayer}
-                                updateVideoPlayerTime={props.updateVideoPlayerTime}
-                                screenSize={screenSize}
-                                rootUrl={rootUrlWithLang}
-                                apexChartsConfig={apexChartsConfig}
-                                leafletConfig={leafletConfig}
-                                networkConfig={networkConfig}
-                              />
-                            </Grid>
-                          </Grid>
-                        </>
-                      )
-                    }}
+                    render={routeProps =>
+                      <InstancePagePerspective
+                        portalConfig={portalConfig}
+                        layoutConfig={layoutConfig}
+                        perspectiveConfig={perspective}
+                        perspectiveState={props[`${perspective.id}`]}
+                        leafletMapState={props.leafletMap}
+                        fetchPaginatedResults={props.fetchPaginatedResults}
+                        fetchResults={props.fetchResults}
+                        fetchInstanceAnalysis={props.fetchInstanceAnalysis}
+                        fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
+                        fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+                        fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
+                        clearGeoJSONLayers={props.clearGeoJSONLayers}
+                        fetchByURI={props.fetchByURI}
+                        updatePage={props.updatePage}
+                        updateRowsPerPage={props.updateRowsPerPage}
+                        updateFacetOption={props.updateFacetOption}
+                        updateMapBounds={props.updateMapBounds}
+                        sortResults={props.sortResults}
+                        showError={props.showError}
+                        routeProps={routeProps}
+                        perspective={perspective}
+                        animationValue={props.animationValue}
+                        animateMap={props.animateMap}
+                        videoPlayerState={props.videoPlayer}
+                        updateVideoPlayerTime={props.updateVideoPlayerTime}
+                        updatePerspectiveHeaderExpanded={props.updatePerspectiveHeaderExpanded}
+                        screenSize={screenSize}
+                        rootUrl={rootUrlWithLang}
+                        apexChartsConfig={apexChartsConfig}
+                        leafletConfig={leafletConfig}
+                        networkConfig={networkConfig}
+                      />}
                   />
                 </Switch>
               </React.Fragment>
@@ -360,62 +288,39 @@ const SemanticPortal = props => {
             />
             <Route
               path={`${rootUrlWithLang}/${perspective.id}/page/:id`}
-              render={routeProps => {
-                return (
-                  <>
-                    <InfoHeader
-                      portalConfig={portalConfig}
-                      layoutConfig={layoutConfig}
-                      resultClass={perspective.id}
-                      pageType='instancePage'
-                      instanceData={props[perspective.id].instanceTableData}
-                      expanded={props[perspective.id].instancePageHeaderExpanded}
-                      updateExpanded={props.updatePerspectiveHeaderExpanded}
-                      screenSize={screenSize}
-                    />
-                    <Grid
-                      container spacing={1} className={props[perspective.id].instancePageHeaderExpanded
-                        ? classes.instancePageContainerHeaderExpanded
-                        : classes.instancePageContainer}
-                    >
-                      <Grid item xs={12} className={classes.instancePageContent}>
-                        <InstancePage
-                          portalConfig={portalConfig}
-                          layoutConfig={layoutConfig}
-                          perspectiveConfig={perspective}
-                          perspectiveState={props[`${perspective.id}`]}
-                          leafletMapState={props.leafletMap}
-                          fetchPaginatedResults={props.fetchPaginatedResults}
-                          fetchResults={props.fetchResults}
-                          fetchInstanceAnalysis={props.fetchInstanceAnalysis}
-                          fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
-                          fetchGeoJSONLayers={props.fetchGeoJSONLayers}
-                          fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
-                          clearGeoJSONLayers={props.clearGeoJSONLayers}
-                          fetchByURI={props.fetchByURI}
-                          updatePage={props.updatePage}
-                          updateRowsPerPage={props.updateRowsPerPage}
-                          updateFacetOption={props.updateFacetOption}
-                          updateMapBounds={props.updateMapBounds}
-                          sortResults={props.sortResults}
-                          showError={props.showError}
-                          routeProps={routeProps}
-                          perspective={perspective}
-                          animationValue={props.animationValue}
-                          animateMap={props.animateMap}
-                          videoPlayerState={props.videoPlayer}
-                          updateVideoPlayerTime={props.updateVideoPlayerTime}
-                          screenSize={screenSize}
-                          rootUrl={rootUrlWithLang}
-                          apexChartsConfig={apexChartsConfig}
-                          leafletConfig={leafletConfig}
-                          networkConfig={networkConfig}
-                        />
-                      </Grid>
-                    </Grid>
-                  </>
-                )
-              }}
+              render={routeProps =>
+                <InstancePagePerspective
+                  portalConfig={portalConfig}
+                  layoutConfig={layoutConfig}
+                  perspectiveConfig={perspective}
+                  perspectiveState={props[`${perspective.id}`]}
+                  leafletMapState={props.leafletMap}
+                  fetchPaginatedResults={props.fetchPaginatedResults}
+                  fetchResults={props.fetchResults}
+                  fetchInstanceAnalysis={props.fetchInstanceAnalysis}
+                  fetchFacetConstrainSelf={props.fetchFacetConstrainSelf}
+                  fetchGeoJSONLayers={props.fetchGeoJSONLayers}
+                  fetchGeoJSONLayersBackend={props.fetchGeoJSONLayersBackend}
+                  clearGeoJSONLayers={props.clearGeoJSONLayers}
+                  fetchByURI={props.fetchByURI}
+                  updatePage={props.updatePage}
+                  updateRowsPerPage={props.updateRowsPerPage}
+                  updateFacetOption={props.updateFacetOption}
+                  updateMapBounds={props.updateMapBounds}
+                  sortResults={props.sortResults}
+                  showError={props.showError}
+                  routeProps={routeProps}
+                  perspective={perspective}
+                  animationValue={props.animationValue}
+                  animateMap={props.animateMap}
+                  videoPlayerState={props.videoPlayer}
+                  updateVideoPlayerTime={props.updateVideoPlayerTime}
+                  screenSize={screenSize}
+                  rootUrl={rootUrlWithLang}
+                  apexChartsConfig={apexChartsConfig}
+                  leafletConfig={leafletConfig}
+                  networkConfig={networkConfig}
+                />}
             />
           </Switch>
         )}
@@ -487,7 +392,7 @@ const SemanticPortal = props => {
               </TextPage>}
           />}
       </>
-    </div>
+    </Box>
   )
 }
 
@@ -684,8 +589,6 @@ SemanticPortal.propTypes = {
    */
   clientFSUpdateFacet: PropTypes.func
 }
-
-export const SemanticPortalComponent = SemanticPortal
 
 export default compose(
   withRouter,

@@ -32,14 +32,24 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto'
   },
   expandedContent: props => ({
-    '& p, & ul': {
-      fontSize: '0.875rem'
+    '& p, ul': {
+      fontSize: '0.875rem !important',
+      ...theme.typography.body1
+    },
+    '& h6': {
+      ...theme.typography.h6,
+      marginTop: 0,
+      marginBottom: 0
+    },
+    '& p:first-child': {
+      marginTop: 0
     },
     height: props.layoutConfig.infoHeader.reducedHeight.expandedContentHeight,
     [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
       height: props.layoutConfig.infoHeader.default.expandedContentHeight,
       '& p, & ul': {
-        fontSize: '1rem'
+        fontSize: '1rem',
+        ...theme.typography.body1
       }
     },
     paddingTop: 0,
@@ -109,13 +119,21 @@ const InfoHeader = props => {
               minHeight: props.layoutConfig.infoHeader.default.height
             },
             '& .MuiAccordionSummary-content': {
+              display: 'block',
               marginTop: theme.spacing(0.5),
               marginBottom: theme.spacing(0.5)
             }
           })}
         >
-          <div className={classes.headingContainer}>
+          <Box
+            sx={{
+              display: 'flex'
+            }}
+          >
             <Typography
+              sx={{
+                flexShrink: 1
+              }}
               component='h1'
               variant={getHeadingVariant()}
             >
@@ -143,9 +161,19 @@ const InfoHeader = props => {
                 <InfoIcon className={classes.infoIcon} />
               </IconButton>
             </Tooltip>
-          </div>
+          </Box>
           {props.pageType === 'instancePage' &&
-            <Typography className={classes.label} component='h1' variant='h6'>{generateLabel()}</Typography>}
+            <Typography
+              component='h1'
+              variant='h6'
+              sx={theme => ({
+                marginTop: theme.spacing(1),
+                height: 32,
+                overflow: 'auto'
+              })}
+            >
+              {generateLabel()}
+            </Typography>}
         </AccordionSummary>
         <AccordionDetails className={classes.expandedContent}>
           {props.pageType === 'facetResults' && intl.getHTML(`perspectives.${props.resultClass}.longDescription`)}
