@@ -5,7 +5,7 @@
     "useAuth": false,
     "prefixesFile": "SparqlQueriesPrefixes.js"
   },
-  "sparqlQueriesFile": "SparqlQueriesPerspective1.js",
+  "sparqlQueriesFile": "SparqlQueriesPerspective2.js",
   "baseURI": "http://ldf.fi/mmm",
   "URITemplate": "<BASE_URI>/collection/<LOCAL_ID>",
   "resultClasses": {
