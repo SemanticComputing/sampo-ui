@@ -47,6 +47,11 @@ const theme = createTheme({
         }
       }
     },
+    MuiCircularProgress: {
+      defaultProps: {
+        thickness: 5
+      }
+    },
     MuiIconButton: {
       styleOverrides: {
         root: {

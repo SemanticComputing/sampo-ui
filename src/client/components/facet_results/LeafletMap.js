@@ -5,7 +5,6 @@ import L from 'leaflet'
 import { has } from 'lodash'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
-import { purple } from '@mui/material/colors'
 import history from '../../History'
 import 'leaflet/dist/leaflet.css' // Official Leaflet styles
 
@@ -1015,7 +1014,7 @@ class LeafletMap extends React.Component {
                   zIndex: 500
                 }}
               >
-                <CircularProgress style={{ color: purple[500] }} thickness={5} />
+                <CircularProgress />
               </Box>}
           </Box>
         </Box>

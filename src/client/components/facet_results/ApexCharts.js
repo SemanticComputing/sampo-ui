@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import ApexCharts from 'apexcharts'
 import CircularProgress from '@mui/material/CircularProgress'
 import MenuItem from '@mui/material/MenuItem'
@@ -10,7 +10,6 @@ import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 import GeneralDialog from '../main_layout/GeneralDialog'
 import InstaceList from '../main_layout/InstanceList'
-import { purple } from '@mui/material/colors';
 
 const defaultPadding = 32
 const smallScreenPadding = 8
@@ -254,7 +253,7 @@ class ApexChart extends React.Component {
           </div>}
         {fetching &&
           <div style={spinnerContainerStyle}>
-            <CircularProgress style={{ color: purple[500] }} thickness={5} />
+            <CircularProgress />
           </div>}
         {!fetching &&
           <div style={chartContainerStyle}>

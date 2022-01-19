@@ -16,7 +16,7 @@ import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import portalConfig from '../configs/portalConfig.json'
 
-const { localeConfig } = portalConfig
+const { localeConfig, layoutConfig } = portalConfig
 const store = configureStore()
 
 // init locale
@@ -54,7 +54,12 @@ render(
             justifyContent: 'center'
           }}
           >
-            <CircularProgress color='primary' />
+            <CircularProgress
+              sx={{
+                color: layoutConfig.colorPalette.primary.main
+              }}
+              thickness={5}
+            />
           </div>
           }
       >

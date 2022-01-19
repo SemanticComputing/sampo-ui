@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import CircularProgress from '@mui/material/CircularProgress'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import InputAdornment from '@mui/material/InputAdornment'
 import { has } from 'lodash'
-import { purple } from '@mui/material/colors';
 
 const styles = theme => ({
   root: {
@@ -101,7 +100,7 @@ class RangeFacet extends Component {
     if (isFetching) {
       return (
         <div className={classes.spinnerContainer}>
-          <CircularProgress style={{ color: purple[500] }} thickness={5} />
+          <CircularProgress />
         </div>
       )
     } else {

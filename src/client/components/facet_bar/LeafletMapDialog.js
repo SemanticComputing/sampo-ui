@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import intl from 'react-intl-universal'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -84,7 +84,7 @@ class LeafletMapDialog extends React.Component {
         >
           {intl.get(`perspectives.${perspectiveID}.searchByArea`)}
           {spatialResultsFetching
-            ? <CircularProgress className={classes.rightIcon} color='inherit' size={24} />
+            ? <CircularProgress className={classes.rightIcon} size={24} />
             : <CropFreeIcon className={classes.rightIcon} />}
         </Button>
 

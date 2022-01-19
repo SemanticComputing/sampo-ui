@@ -16,7 +16,6 @@ import ResultTableHead from './ResultTableHead'
 import TablePagination from '@mui/material/TablePagination'
 import ResultTablePaginationActions from './ResultTablePaginationActions'
 import history from '../../History'
-import { purple } from '@mui/material/colors'
 
 const styles = theme => ({
   tableContainer: props => ({
@@ -326,7 +325,7 @@ class ResultTable extends React.Component {
           {fetching
             ? (
               <div className={classes.progressContainer}>
-                <CircularProgress style={{ color: purple[500] }} thickness={5} />
+                <CircularProgress />
               </div>
               )
             : (

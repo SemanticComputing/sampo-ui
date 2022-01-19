@@ -9,7 +9,6 @@ import Divider from '@mui/material/Divider'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import CircularProgress from '@mui/material/CircularProgress'
-import { purple } from '@mui/material/colors'
 
 /**
  * A component for fetching and displaying the number of results, and displaying active filters.
@@ -90,7 +89,7 @@ class FacetInfo extends React.Component {
     return (
       <>
         {this.props.fetchingResultCount
-          ? <CircularProgress style={{ color: purple[500] }} thickness={5} size={26} />
+          ? <CircularProgress size={26} />
           : (
             <Typography
               component='h2'

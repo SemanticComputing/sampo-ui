@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
 import Input from '@mui/material/Input'
@@ -70,7 +70,7 @@ class TextFacet extends React.Component {
     const textResultsFetching = false
     if (textResultsFetching) {
       searchButton = (
-        <IconButton aria-label={placeholder} size="large">
+        <IconButton aria-label={placeholder} size='large'>
           <CircularProgress size={24} />
         </IconButton>
       )
@@ -80,7 +80,8 @@ class TextFacet extends React.Component {
           aria-label='search'
           onClick={this.handleClick}
           onMouseDown={this.handleMouseDown}
-          size="large">
+          size='large'
+        >
           <SearchIcon />
         </IconButton>
       )

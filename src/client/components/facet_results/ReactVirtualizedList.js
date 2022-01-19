@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { List, AutoSizer } from 'react-virtualized'
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from '@mui/styles/makeStyles'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography'
 import intl from 'react-intl-universal'
 import { Link } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress'
-import { purple } from '@mui/material/colors';
 
 const useStyles = makeStyles(theme => ({
   root: props => {
@@ -170,7 +169,7 @@ const ReactVirtualizedList = props => {
       {(!validResults() || props.perspectiveState.results.fetching)
         ? (
           <div className={classes.progressContainer}>
-            <CircularProgress style={{ color: purple[500] }} thickness={5} />
+            <CircularProgress />
           </div>
           )
         : (

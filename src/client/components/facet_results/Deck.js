@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import DeckGL from '@deck.gl/react'
 import { ArcLayer, PolygonLayer } from '@deck.gl/layers'
 import { HeatmapLayer, HexagonLayer } from '@deck.gl/aggregation-layers'
@@ -9,7 +9,6 @@ import DeckArcLayerLegend from './DeckArcLayerLegend'
 import DeckArcLayerDialog from './DeckArcLayerDialog'
 import DeckArcLayerTooltip from './DeckArcLayerTooltip'
 import CircularProgress from '@mui/material/CircularProgress'
-import { purple } from '@mui/material/colors'
 
 /* Documentation links:
   https://deck.gl/#/documentation/getting-started/using-with-react?section=adding-a-base-map
@@ -139,7 +138,7 @@ class Deck extends React.Component {
     if (this.props.fetching || this.props.fetchingInstanceAnalysisData) {
       return (
         <div className={this.props.classes.spinner}>
-          <CircularProgress style={{ color: purple[500] }} thickness={5} />
+          <CircularProgress />
         </div>
       )
     }

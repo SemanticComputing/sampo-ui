@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import TableCell from '@mui/material/TableCell'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import Tooltip from '@mui/material/Tooltip'
@@ -10,7 +10,6 @@ import Paper from '@mui/material/Paper'
 import { AutoSizer, Column, Table } from 'react-virtualized'
 import intl from 'react-intl-universal'
 import CircularProgress from '@mui/material/CircularProgress'
-import { purple } from '@mui/material/colors';
 
 const styles = theme => ({
   flexContainer: {
@@ -211,7 +210,7 @@ const ReactVirtualizedTable = props => {
       {fetching
         ? (
           <div style={progressContainerStyle}>
-            <CircularProgress style={{ color: purple[500] }} thickness={5} />
+            <CircularProgress />
           </div>
           )
         : (

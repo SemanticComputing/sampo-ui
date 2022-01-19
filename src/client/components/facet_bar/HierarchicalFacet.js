@@ -15,7 +15,6 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 import Typography from '@mui/material/Typography'
 import { generateLabelForMissingValue } from '../../helpers/helpers'
-import { purple } from '@mui/material/colors'
 
 const styles = () => ({
   facetSearchContainer: {
@@ -305,7 +304,7 @@ class HierarchicalFacet extends Component {
         {isFetching
           ? (
             <div className={classes.spinnerContainer}>
-              <CircularProgress style={{ color: purple[500] }} thickness={5} />
+              <CircularProgress />
             </div>
             )
           : (

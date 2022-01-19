@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import intl from 'react-intl-universal'
 import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
@@ -89,7 +89,7 @@ class SearchField extends React.Component {
     let searchButton = null
     if (this.props.search.textResultsFetching) {
       searchButton = (
-        <IconButton aria-label='Search places' size="large">
+        <IconButton aria-label='Search places' size='large'>
           <CircularProgress size={24} />
         </IconButton>
       )
@@ -99,7 +99,8 @@ class SearchField extends React.Component {
           aria-label='Search'
           onClick={this.handleClick}
           onMouseDown={this.handleMouseDown}
-          size="large">
+          size='large'
+        >
           <SearchIcon />
         </IconButton>
       )

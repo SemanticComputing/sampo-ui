@@ -2,12 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import CircularProgress from '@mui/material/CircularProgress'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import Slider from '@mui/material/Slider'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { yearToISOString, ISOStringToYear } from './FacetHelpers'
-import { purple } from '@mui/material/colors';
 
 const styles = theme => ({
   root: {
@@ -169,7 +168,7 @@ class SliderFacet extends Component {
     if (isFetching || start == null || end == null || min == null || max == null) {
       return (
         <div className={classes.spinnerContainer}>
-          <CircularProgress style={{ color: purple[500] }} thickness={5} />
+          <CircularProgress />
         </div>
       )
     }

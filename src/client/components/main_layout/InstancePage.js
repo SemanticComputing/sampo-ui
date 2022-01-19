@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -9,7 +9,6 @@ import ResultClassRoute from '../facet_results/ResultClassRoute'
 import { getLocalIDFromAppLocation, createURIfromLocalID } from '../../helpers/helpers'
 import { Route, Redirect } from 'react-router-dom'
 import { has } from 'lodash'
-import { purple } from '@mui/material/colors';
 
 const styles = () => ({
   root: {
@@ -121,7 +120,7 @@ class InstancePage extends React.Component {
         <Paper square className={classes.content}>
           {fetching && !hasTableData &&
             <div className={classes.spinnerContainer}>
-              <CircularProgress style={{ color: purple[500] }} thickness={5} />
+              <CircularProgress />
             </div>}
           {!hasTableData &&
             <div className={classes.spinnerContainer}>
