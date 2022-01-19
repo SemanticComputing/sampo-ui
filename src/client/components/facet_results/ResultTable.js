@@ -35,9 +35,9 @@ const styles = theme => ({
   //   borderTop: '1px solid rgba(224, 224, 224, 1);',
   //   alignItems: 'center'
   // },
-  paginationCaption: {
-    minWidth: 110
-  },
+  // paginationCaption: {
+  //   minWidth: 110
+  // },
   // paginationToolbar: props => ({
   //   '& p': { fontSize: '0.75rem' },
   //   minHeight: props.layoutConfig.paginationToolbarHeight,
@@ -55,9 +55,7 @@ const styles = theme => ({
     justifyContent: 'center'
   },
   expandCell: {
-    paddingRight: 0,
-    paddingTop: 0,
-    paddingBottom: 0
+    paddingRight: '0px !important'
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -291,7 +289,7 @@ class ResultTable extends React.Component {
           labelDisplayedRows={resultCount == null
             ? () => '-'
             : ({ from, to, count }) => `${from}-${to} of ${count}`}
-          rowsPerPage={pagesize}
+          rowsPerPage={parseInt(pagesize)}
           labelRowsPerPage={intl.get('table.rowsPerPage')}
           rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 50, 100]}
           page={page === -1 || resultCount === 0 ? 0 : page}
@@ -308,7 +306,11 @@ class ResultTable extends React.Component {
             borderTop: '1px solid rgba(224, 224, 224, 1);',
             alignItems: 'center',
             '& .MuiTablePagination-toolbar': {
-              '& p': { fontSize: '0.75rem' },
+              '& p': {
+                fontSize: '0.75rem',
+                marginTop: 0,
+                marginBottom: 0
+              },
               minHeight: this.props.layoutConfig.paginationToolbarHeight,
               [theme.breakpoints.down('sm')]: {
                 display: 'flex',

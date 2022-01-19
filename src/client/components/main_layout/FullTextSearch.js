@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from '@mui/styles/makeStyles'
 import PerspectiveTabs from './PerspectiveTabs'
 import ReactVirtualizedTable from '../facet_results/ReactVirtualizedTable'
 import CalendarViewDayIcon from '@mui/icons-material/CalendarViewDay'
@@ -43,6 +43,7 @@ const FullTextSearch = props => {
           return (
             <ReactVirtualizedTable
               fullTextSearch={props.fullTextSearch}
+              resultClass={props.resultClass}
               sortFullTextResults={props.sortFullTextResults}
               layoutConfig={props.layoutConfig}
             />

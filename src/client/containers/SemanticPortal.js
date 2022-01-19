@@ -218,6 +218,7 @@ const SemanticPortal = props => {
           render={routeProps =>
             <FullTextSearch
               fullTextSearch={props.fullTextSearch}
+              resultClass='fullTextSearch'
               sortFullTextResults={props.sortFullTextResults}
               routeProps={routeProps}
               screenSize={screenSize}

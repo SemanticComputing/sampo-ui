@@ -71,7 +71,7 @@ const FacetedSearchPerspective = props => {
             [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
               height: '100%'
             },
-            [theme.breakpoints.down('sm')]: {
+            [theme.breakpoints.down('md')]: {
               paddingRight: '0px !important'
             },
             overflow: 'auto',
@@ -121,7 +121,7 @@ const FacetedSearchPerspective = props => {
             paddingBottom: '0px !important',
             paddingLeft: '4px !important',
             paddingRight: '0px !important',
-            [theme.breakpoints.down('sm')]: {
+            [theme.breakpoints.down('md')]: {
               paddingLeft: '0px !important',
               marginBottom: theme.spacing(1),
               marginTop: theme.spacing(0.5)

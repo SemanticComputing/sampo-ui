@@ -69,7 +69,7 @@ const theme = createTheme({
     MuiAccordion: {
       styleOverrides: {
         root: {
-          '&.MuiAccordion-root.Mui-expanded': {
+          '&.Mui-expanded': {
             marginTop: 8,
             marginBottom: 8
           }
@@ -81,36 +81,33 @@ const theme = createTheme({
         root: {
           paddingLeft: 8,
           paddingRight: 8,
-          '&.MuiAccordionSummary-root.Mui-expanded': {
-            minHeight: 48
-          }
+          minHeight: 40
         },
         content: {
-          marginTop: 8,
-          marginBottom: 8,
-          '&.MuiAccordionSummary-content.Mui-expanded': {
+          marginTop: 4,
+          marginBottom: 4,
+          '&.Mui-expanded': {
             marginTop: 0,
             marginBottom: 0
           }
         }
-        // expandIcon: {
-        //   '&$expanded': {
-        //     marginTop: -16
-        //   }
-        // }
+      }
+    },
+    MuiButton: {
+      styleOverrides: {
+        endIcon: {
+          marginLeft: 0
+        }
+      }
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        sizeSmall: {
+          paddingTop: 0,
+          paddingBottom: 0
+        }
       }
     }
-    // MuiButton: {
-    //   endIcon: {
-    //     marginLeft: 0
-    //   }
-    // },
-    // MuiTableCell: {
-    //   sizeSmall: {
-    //     paddingTop: 0,
-    //     paddingBottom: 0
-    //   }
-    // }
   }
 })
 

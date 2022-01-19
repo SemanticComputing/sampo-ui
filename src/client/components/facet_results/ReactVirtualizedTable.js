@@ -81,6 +81,7 @@ class MuiVirtualizedTable extends React.PureComponent {
         container='div'
         expanded={false}
         collapsedMaxWords={collapsedMaxWords}
+        shortenLabel={false}
       />
     )
   };
@@ -104,7 +105,9 @@ class MuiVirtualizedTable extends React.PureComponent {
           >
             <TableSortLabel
               active={sortBy === dataKey}
-              direction={sortDirection}
+              direction={typeof sortDirection === 'string'
+                ? sortDirection
+                : 'asc'}
               hideSortIcon
               onClick={this.onSortBy(dataKey)}
             >
@@ -118,7 +121,7 @@ class MuiVirtualizedTable extends React.PureComponent {
 
   onSortBy = sortBy => () => {
     this.props.sortFullTextResults({
-      resultClass: 'fullText',
+      resultClass: this.props.resultClass,
       sortBy
     })
   }
@@ -223,6 +226,7 @@ const ReactVirtualizedTable = props => {
               sortBy={sortBy}
               sortDirection={sortDirection}
               sortFullTextResults={props.sortFullTextResults}
+              resultClass={props.resultClass}
             />
           </div>
           )}
