@@ -28,8 +28,8 @@ const TopBar = props => {
   // custom style function for utilizing React Router's isActive prop
   const createAppBarButtonStyle = isActive => ({
     whiteSpace: 'nowrap',
-    color: 'white !important',
-    border: isActive ? '1px solid white' : `1px solid ${theme.palette.primary.main}`
+    color: '#fff',
+    border: isActive ? '1px solid #fff' : `1px solid ${theme.palette.primary.main}`
   })
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
