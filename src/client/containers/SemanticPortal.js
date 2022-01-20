@@ -5,7 +5,6 @@ import { has } from 'lodash'
 import { connect } from 'react-redux'
 import { withRouter, Route, Redirect, Switch } from 'react-router-dom'
 import { compose } from '@shakacode/recompose'
-
 import Box from '@mui/material/Box'
 import {
   fetchResultCount,
@@ -90,8 +89,8 @@ const Footer = lazy(() => import(`../components/perspectives/${portalID}/Footer`
 
 /**
  * A top-level container component, which connects all Sampo-UI components to the Redux store. Also
- * the main routes of the portal are defined here using React Router. Currently it is not possible to
- * render this component in Storybook.
+ * the main routes of the portal are defined here based on JSON configs, using React Router.
+ * Currently it is not possible to render this component in Storybook.
  */
 const SemanticPortal = props => {
   const { error } = props
@@ -117,8 +116,10 @@ const SemanticPortal = props => {
         }
       })}
     >
+      {/* Error messages are shown on top of the app. */}
       <Message error={error} />
       <>
+        {/* No route for TopBar, because it is always visible. */}
         <TopBar
           rootUrl={rootUrlWithLang}
           search={props.fullTextSearch}
@@ -133,9 +134,11 @@ const SemanticPortal = props => {
           location={props.location}
           layoutConfig={layoutConfig}
         />
+        {/* Enforce a lang tag. */}
         <Route exact path={`${rootUrl}/`}>
           <Redirect to={rootUrlWithLang} />
         </Route>
+        {/* Create a route for portal front page. */}
         <Route
           exact path={`${rootUrlWithLang}/`}
           render={() =>
@@ -162,7 +165,7 @@ const SemanticPortal = props => {
             return null
           }}
         />
-        {/* route for full text search results */}
+        {/* Create a route for full text search results. */}
         <Route
           path={`${rootUrlWithLang}/full-text-search`}
           render={routeProps =>
@@ -176,7 +179,7 @@ const SemanticPortal = props => {
               layoutConfig={layoutConfig}
             />}
         />
-        {/* routes for faceted search perspectives */}
+        {/* Create routes for faceted search perspectives and corresponding instance pages. */}
         {perspectiveConfig.map(perspective => {
           if (!has(perspective, 'externalUrl') && perspective.searchMode === 'faceted-search') {
             return (
@@ -279,7 +282,7 @@ const SemanticPortal = props => {
           }
           return null
         })}
-        {/* create routes for classes that have only info pages and no faceted search perspective */}
+        {/* Create routes for perspectives that have only instance pages. */}
         {perspectiveConfigOnlyInfoPages.map(perspective =>
           <Switch key={perspective.id}>
             <Redirect
@@ -325,6 +328,7 @@ const SemanticPortal = props => {
             />
           </Switch>
         )}
+        {/* Optional: create a route for client side faceted search. */}
         <Route
           path={`${rootUrlWithLang}/perspective4/federated-search`}
           render={routeProps =>
@@ -363,7 +367,7 @@ const SemanticPortal = props => {
               clearGeoJSONLayers={props.clearGeoJSONLayers}
             />}
         />
-        {/* create routes for info buttons */}
+        {/* Create routes for top bar info buttons. */}
         {!layoutConfig.topBar.externalAboutPage &&
           <Route
             path={`${rootUrlWithLang}/about`}
@@ -384,6 +388,7 @@ const SemanticPortal = props => {
                 {intl.getHTML('aboutThePortalPartTwo')}
               </TextPage>}
           />}
+        {/* Create a route for instructions page */}
         {!layoutConfig.topBar.externalInstructions &&
           <Route
             path={`${rootUrlWithLang}/instructions`}
@@ -397,6 +402,7 @@ const SemanticPortal = props => {
   )
 }
 
+// State: connect the Redux store and React components.
 const mapStateToProps = state => {
   const stateToProps = {}
   perspectiveConfig.forEach(perspective => {
@@ -428,6 +434,7 @@ const mapStateToProps = state => {
   return stateToProps
 }
 
+// Actions: connect the Redux store and React components.
 const mapDispatchToProps = ({
   fetchResultCount,
   fetchPaginatedResults,
