@@ -35,14 +35,14 @@ const InstancePagePerspective = props => {
                 height: `calc(100% - ${layoutConfig.topBar.reducedHeight +
                     2 * layoutConfig.infoHeader.reducedHeight.height +
                     layoutConfig.infoHeader.reducedHeight.expandedContentHeight +
-                    getSpacing(theme, 2.5)
+                    getSpacing(theme, 1.5)
                     }px)`
               },
               [theme.breakpoints.up(layoutConfig.reducedHeightBreakpoint)]: {
                 height: `calc(100% - ${layoutConfig.topBar.defaultHeight +
                     2 * layoutConfig.infoHeader.default.height +
                     layoutConfig.infoHeader.default.expandedContentHeight +
-                    getSpacing(theme, 1.5)
+                    getSpacing(theme, 0.5)
                     }px)`
               }
             }

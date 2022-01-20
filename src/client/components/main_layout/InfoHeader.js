@@ -32,32 +32,7 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto'
   },
   expandedContent: props => ({
-    '& p, ul': {
-      fontSize: '0.875rem !important',
-      ...theme.typography.body1
-    },
-    '& h6': {
-      ...theme.typography.h6,
-      marginTop: 0,
-      marginBottom: 0
-    },
-    '& p:first-child': {
-      marginTop: 0
-    },
-    height: props.layoutConfig.infoHeader.reducedHeight.expandedContentHeight,
-    [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-      height: props.layoutConfig.infoHeader.default.expandedContentHeight,
-      '& p, & ul': {
-        fontSize: '1rem',
-        ...theme.typography.body1
-      }
-    },
-    paddingTop: 0,
-    paddingLeft: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-    overflow: 'auto',
-    display: 'block'
+
   })
 }))
 
@@ -175,7 +150,36 @@ const InfoHeader = props => {
               {generateLabel()}
             </Typography>}
         </AccordionSummary>
-        <AccordionDetails className={classes.expandedContent}>
+        <AccordionDetails
+          // className={classes.expandedContent}
+          sx={theme => ({
+            paddingTop: 0,
+            paddingLeft: theme.spacing(1),
+            paddingBottom: theme.spacing(1),
+            marginBottom: theme.spacing(0),
+            height: props.layoutConfig.infoHeader.reducedHeight.expandedContentHeight,
+            overflow: 'auto',
+            display: 'block',
+            '& p, & ul': {
+              ...theme.typography.body1,
+              fontSize: '0.8rem'
+            },
+            '& h6': {
+              ...theme.typography.h6,
+              marginTop: 0,
+              marginBottom: 0
+            },
+            '& p:first-of-type': {
+              marginTop: 0
+            },
+            [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
+              height: props.layoutConfig.infoHeader.default.expandedContentHeight,
+              '& p, & ul': {
+                fontSize: '1rem !important;'
+              }
+            }
+          })}
+        >
           {props.pageType === 'facetResults' && intl.getHTML(`perspectives.${props.resultClass}.longDescription`)}
           {props.pageType === 'instancePage' &&
             <>

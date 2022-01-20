@@ -34,14 +34,14 @@ const FacetedSearchPerspective = props => {
                 height: `calc(100% - ${layoutConfig.topBar.reducedHeight +
                     layoutConfig.infoHeader.reducedHeight.height +
                     layoutConfig.infoHeader.reducedHeight.expandedContentHeight +
-                    getSpacing(theme, 3.5)
+                    getSpacing(theme, 5.5)
                     }px)`
               },
               [theme.breakpoints.up(layoutConfig.reducedHeightBreakpoint)]: {
                 height: `calc(100% - ${layoutConfig.topBar.defaultHeight +
                     layoutConfig.infoHeader.default.height +
                     layoutConfig.infoHeader.default.expandedContentHeight +
-                    getSpacing(theme, 3.5)
+                    getSpacing(theme, 4.5)
                     }px)`
               }
             }
@@ -115,7 +115,7 @@ const FacetedSearchPerspective = props => {
           sx={theme => ({
             height: 'auto',
             [theme.breakpoints.up(props.layoutConfig.hundredPercentHeightBreakPoint)]: {
-              height: `calc(100% - ${getSpacing(theme, 0.5)}px)`
+              height: '100%'
             },
             paddingTop: '0px !important',
             paddingBottom: '0px !important',
