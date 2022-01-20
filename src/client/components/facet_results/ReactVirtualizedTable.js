@@ -187,7 +187,7 @@ MuiVirtualizedTable.propTypes = {
 const VirtualizedTable = withStyles(styles)(MuiVirtualizedTable)
 
 const rootStyle = {
-  height: 'calc(100% - 80px)',
+  height: 'calc(100% - 58px)',
   fontFamily: 'Roboto'
 }
 
@@ -200,7 +200,7 @@ const tableContainer = {
 
 const progressContainerStyle = {
   width: '100%',
-  height: 'calc(100% - 80px)',
+  height: 'calc(100% - 58px)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center'

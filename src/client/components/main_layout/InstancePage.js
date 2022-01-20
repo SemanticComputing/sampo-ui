@@ -45,8 +45,8 @@ class InstancePage extends React.Component {
 
   componentDidUpdate = prevProps => {
     // handle the case when the TABLE tab was not originally active
-    const prevPathname = prevProps.routeProps.location.pathname
-    const currentPathname = this.props.routeProps.location.pathname
+    const prevPathname = prevProps.location.pathname
+    const currentPathname = this.props.location.pathname
     if (!this.hasTableData() && prevPathname !== currentPathname && currentPathname.endsWith('table')) {
       this.fetchTableData()
     }
@@ -59,7 +59,7 @@ class InstancePage extends React.Component {
 
   getLocalID = () => {
     return getLocalIDFromAppLocation({
-      location: this.props.routeProps.location,
+      location: this.props.location,
       perspectiveConfig: this.props.perspectiveConfig
     })
   }
@@ -112,7 +112,6 @@ class InstancePage extends React.Component {
     return (
       <div className={classes.root}>
         <PerspectiveTabs
-          routeProps={this.props.routeProps}
           tabs={perspectiveConfig.instancePageTabs}
           screenSize={screenSize}
           layoutConfig={layoutConfig}
@@ -230,7 +229,7 @@ InstancePage.propTypes = {
   /**
     * Routing information from React Router.
     */
-  routeProps: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
   /**
     * Perspective config.
     */

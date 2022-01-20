@@ -3,12 +3,13 @@ import InfoHeader from '../main_layout/InfoHeader'
 import InstancePage from './InstancePage'
 import Grid from '@mui/material/Grid'
 import { getSpacing } from '../../helpers/helpers'
+import { useLocation } from 'react-router-dom'
 
 const InstancePagePerspective = props => {
   const {
     portalConfig, layoutConfig, perspective, perspectiveState,
     screenSize, rootUrl, apexChartsConfig, networkConfig,
-    leafletConfig, routeProps
+    leafletConfig
   } = props
   const { instancePageHeaderExpanded } = perspectiveState
   return (
@@ -95,7 +96,6 @@ const InstancePagePerspective = props => {
             updateMapBounds={props.updateMapBounds}
             sortResults={props.sortResults}
             showError={props.showError}
-            routeProps={routeProps}
             perspective={perspective}
             animationValue={props.animationValue}
             animateMap={props.animateMap}
@@ -106,6 +106,7 @@ const InstancePagePerspective = props => {
             apexChartsConfig={apexChartsConfig}
             leafletConfig={leafletConfig}
             networkConfig={networkConfig}
+            location={useLocation()}
           />
         </Grid>
       </Grid>

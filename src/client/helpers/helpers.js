@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import querystring from 'querystring'
 import { has, sortBy } from 'lodash'
 import intl from 'react-intl-universal'
@@ -306,4 +307,15 @@ export const getScreenSize = () => {
   if (lgScreen) { screenSize = 'lg' }
   if (xlScreen) { screenSize = 'xl' }
   return screenSize
+}
+
+// https://v5.reactrouter.com/web/api/Hooks/uselocation
+export const usePageViews = () => {
+  const location = useLocation()
+  useEffect(() => {
+    if (typeof window.ga === 'function') {
+      console.log(window.ga)
+      window.ga.send(['pageview', location.pathname])
+    }
+  }, [location])
 }

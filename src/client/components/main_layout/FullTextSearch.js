@@ -1,29 +1,35 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
-import makeStyles from '@mui/styles/makeStyles'
+import Box from '@mui/material/Box'
 import PerspectiveTabs from './PerspectiveTabs'
 import ReactVirtualizedTable from '../facet_results/ReactVirtualizedTable'
 import CalendarViewDayIcon from '@mui/icons-material/CalendarViewDay'
-
-const useStyles = makeStyles(theme => ({
-  root: props => ({
-    marginTop: theme.spacing(0.5),
-    height: `calc(100% - ${props.layoutConfig.tabHeight - 18}px)`
-  })
-}))
+import { getSpacing } from '../../helpers/helpers'
 
 /**
  * A component for displaying full text search results.
  */
 const FullTextSearch = props => {
   const { rootUrl, layoutConfig, screenSize } = props
-  const classes = useStyles(props)
   const perspectiveUrl = `${rootUrl}/full-text-search`
   return (
-    <div className={classes.root}>
+    <Box
+      sx={theme => ({
+        margin: theme.spacing(0.5),
+        [theme.breakpoints.up(layoutConfig.hundredPercentHeightBreakPoint)]: {
+          height: `calc(100% - ${layoutConfig.topBar.reducedHeight +
+              getSpacing(theme, 1)
+              }px)`
+        },
+        [theme.breakpoints.up(layoutConfig.reducedHeightBreakpoint)]: {
+          height: `calc(100% - ${layoutConfig.topBar.defaultHeight +
+              getSpacing(theme, 1)
+              }px)`
+        }
+      })}
+    >
       <PerspectiveTabs
-        routeProps={props.routeProps}
         tabs={[{
           id: 'table',
           label: 'table',
@@ -33,30 +39,23 @@ const FullTextSearch = props => {
         screenSize={screenSize}
         layoutConfig={layoutConfig}
       />
-      <Route
-        exact path={perspectiveUrl}
-        render={() => <Redirect to={`${perspectiveUrl}/table`} />}
-      />
-      <Route
-        path={`${perspectiveUrl}/table`}
-        render={() => {
-          return (
-            <ReactVirtualizedTable
-              fullTextSearch={props.fullTextSearch}
-              resultClass={props.resultClass}
-              sortFullTextResults={props.sortFullTextResults}
-              layoutConfig={props.layoutConfig}
-            />
-          )
-        }}
-      />
-    </div>
+      <Route exact path={perspectiveUrl}>
+        <Redirect to={`${perspectiveUrl}/table`} />
+      </Route>
+      <Route path={`${perspectiveUrl}/table`}>
+        <ReactVirtualizedTable
+          fullTextSearch={props.fullTextSearch}
+          resultClass={props.resultClass}
+          sortFullTextResults={props.sortFullTextResults}
+          layoutConfig={props.layoutConfig}
+        />
+      </Route>
+    </Box>
   )
 }
 
 FullTextSearch.propTypes = {
   fullTextSearch: PropTypes.object.isRequired,
-  routeProps: PropTypes.object.isRequired,
   screenSize: PropTypes.string.isRequired,
   rootUrl: PropTypes.string.isRequired
 }

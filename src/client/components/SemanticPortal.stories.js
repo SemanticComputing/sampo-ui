@@ -17,7 +17,6 @@ export const basic = () => {
   // const location = useLocation()
   // const screenSize = 'lg'
   // const rootUrlWithLang = ''
-  // const routeProps = { location }
   return (
     <SemanticPortal />
   )

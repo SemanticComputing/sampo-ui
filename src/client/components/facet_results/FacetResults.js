@@ -14,7 +14,6 @@ const FacetResults = props => {
   return (
     <>
       <PerspectiveTabs
-        routeProps={props.routeProps}
         tabs={perspective.tabs}
         screenSize={props.screenSize}
         layoutConfig={props.layoutConfig}
@@ -170,10 +169,6 @@ FacetResults.propTypes = {
    * Redux action for showing an error
    */
   updateFacetOption: PropTypes.func.isRequired,
-  /**
-   * Routing information from React Router.
-   */
-  routeProps: PropTypes.object.isRequired,
   /**
    * Perspective config.
    */

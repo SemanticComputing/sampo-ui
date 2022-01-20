@@ -1,5 +1,5 @@
 import React from 'react'
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from '@mui/styles/makeStyles'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 import { Typography } from '@mui/material'
@@ -7,6 +7,7 @@ import InstancePageTable from './InstancePageTable'
 import Player from './Player'
 import VideoTableOfContents from './VideoTableOfContents'
 import { has } from 'lodash'
+import { useLocation } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -111,7 +112,7 @@ const VideoPage = props => {
               <Player
                 resultClass={props.resultClass}
                 data={instanceTableData}
-                routeProps={props.routeProps}
+                location={useLocation()}
                 videoPlayerState={props.videoPlayerState}
                 updateVideoPlayerTime={props.updateVideoPlayerTime}
               />}

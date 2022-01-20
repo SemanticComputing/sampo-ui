@@ -1,7 +1,6 @@
 import React from 'react'
 import PerspectiveTabs, { PerspectiveTabsComponent } from './PerspectiveTabs'
 import { perspectiveConfig } from '../../configs/sampo/PerspectiveConfig'
-import { useLocation } from 'react-router-dom'
 
 export default {
   component: PerspectiveTabsComponent,
@@ -10,11 +9,8 @@ export default {
 
 export const basic = () => {
   const perspective = perspectiveConfig[0]
-  const location = useLocation()
-  const routeProps = { location }
   return (
     <PerspectiveTabs
-      routeProps={routeProps}
       tabs={perspective.tabs}
       screenSize='md'
     />

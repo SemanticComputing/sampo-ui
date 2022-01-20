@@ -11,9 +11,6 @@ export default {
 export const basic = () => {
   const facetResults = useSelector(state => state.perspective1)
   const location = useLocation()
-  const routeProps = {
-    location
-  }
   return (
     <div style={{ width: '100%', height: '100%' }}>
       <ResultTable
@@ -25,7 +22,7 @@ export const basic = () => {
         updatePage={() => null}
         updateRowsPerPage={() => null}
         sortResults={() => null}
-        routeProps={routeProps}
+        location={location}
         rootUrl=''
       />
     </div>

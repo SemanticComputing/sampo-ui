@@ -1,5 +1,5 @@
 import React from 'react'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 
 const styles = theme => ({
   // https://www.w3schools.com/howto/howto_css_responsive_iframes.asp
@@ -38,7 +38,7 @@ class Player extends React.Component {
   }
 
   componentDidUpdate = prevProps => {
-    if (this.props.routeProps.location.hash !== prevProps.routeProps.location.hash) {
+    if (this.props.location.hash !== prevProps.location.hash) {
       this.seekToBasedOnHash()
     }
   }
@@ -50,7 +50,7 @@ class Player extends React.Component {
   }
 
   seekToBasedOnHash = () => {
-    const seconds = this.props.routeProps.location.hash.substring(1)
+    const seconds = this.props.location.hash.substring(1)
     // https://developers.google.com/youtube/iframe_api_reference#seekTo
     this.player.seekTo(seconds)
   }
@@ -71,7 +71,7 @@ class Player extends React.Component {
   }
 
   onPlayerReady = event => {
-    if (this.props.routeProps.location.hash === '') {
+    if (this.props.location.hash === '') {
       this.props.updateVideoPlayerTime(parseInt(this.player.getCurrentTime()))
     } else {
       this.seekToBasedOnHash()

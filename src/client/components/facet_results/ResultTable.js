@@ -85,10 +85,10 @@ class ResultTable extends React.Component {
     let page
 
     // first check if page was given as url parameter
-    if (this.props.routeProps.location.search === '') {
+    if (this.props.location.search === '') {
       page = this.props.data.page === -1 ? 0 : this.props.data.page
     } else {
-      const qs = this.props.routeProps.location.search.replace('?', '')
+      const qs = this.props.location.search.replace('?', '')
       page = parseInt(querystring.parse(qs).page)
     }
 
@@ -126,7 +126,7 @@ class ResultTable extends React.Component {
 
     // handle browser's back button
     window.onpopstate = () => {
-      const qs = this.props.routeProps.location.search.replace('?', '')
+      const qs = this.props.location.search.replace('?', '')
       const newPage = parseInt(querystring.parse(qs).page)
       if (newPage !== this.props.data.page) {
         this.props.updatePage(this.props.resultClass, newPage)
@@ -338,7 +338,6 @@ class ResultTable extends React.Component {
                   onSortBy={this.handleSortBy}
                   sortBy={sortBy}
                   sortDirection={sortDirection}
-                  routeProps={this.props.routeProps}
                 />
                 <TableBody>
                   {paginatedResults.map(row => this.rowRenderer(row))}
@@ -361,7 +360,7 @@ ResultTable.propTypes = {
   sortResults: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
   updateRowsPerPage: PropTypes.func.isRequired,
-  routeProps: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
   rootUrl: PropTypes.string.isRequired
 }
 

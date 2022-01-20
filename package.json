@@ -32,7 +32,6 @@
     "@mui/material": "^5.3.0",
     "@mui/styles": "^5.3.0",
     "@nosferatu500/react-sortable-tree": "^3.0.5",
-    "@shakacode/recompose": "^0.30.3",
     "@turf/buffer": "^6.3.0",
     "apexcharts": "^3.33.0",
     "axios": "^0.25.0",

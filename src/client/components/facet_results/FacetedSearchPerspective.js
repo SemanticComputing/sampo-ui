@@ -9,7 +9,7 @@ const FacetedSearchPerspective = props => {
   const {
     portalConfig, layoutConfig, perspective, perspectiveState, facetState,
     facetStateConstrainSelf, screenSize, rootUrl, apexChartsConfig, networkConfig,
-    leafletConfig, routeProps
+    leafletConfig
   } = props
   const { facetedSearchHeaderExpanded } = perspectiveState
   return (
@@ -150,7 +150,6 @@ const FacetedSearchPerspective = props => {
             updateMapBounds={props.updateMapBounds}
             sortResults={props.sortResults}
             showError={props.showError}
-            routeProps={routeProps}
             perspective={perspective}
             animationValue={props.animationValue}
             animateMap={props.animateMap}

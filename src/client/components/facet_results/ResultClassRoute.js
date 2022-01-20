@@ -1,6 +1,6 @@
 import React, { lazy } from 'react'
 import intl from 'react-intl-universal'
-import { Route } from 'react-router-dom'
+import { Route, useLocation } from 'react-router-dom'
 import { has } from 'lodash'
 // import LineChartSotasurmat from '../perspectives/sotasurmat/LineChartSotasurmat'
 const ResultTable = lazy(() => import('./ResultTable'))
@@ -52,40 +52,32 @@ const ResultClassRoute = props => {
   switch (component) {
     case 'ResultTable':
       routeComponent = (
-        <Route
-          path={path}
-          render={routeProps =>
-            <ResultTable
-              portalConfig={portalConfig}
-              perspectiveConfig={perspective}
-              data={perspectiveState}
-              facetUpdateID={facetState.facetUpdateID}
-              resultClass={resultClass}
-              facetClass={facetClass}
-              fetchPaginatedResults={props.fetchPaginatedResults}
-              updatePage={props.updatePage}
-              updateRowsPerPage={props.updateRowsPerPage}
-              sortResults={props.sortResults}
-              routeProps={routeProps}
-              rootUrl={rootUrl}
-              layoutConfig={layoutConfig}
-            />}
+        <ResultTable
+          portalConfig={portalConfig}
+          perspectiveConfig={perspective}
+          data={perspectiveState}
+          facetUpdateID={facetState.facetUpdateID}
+          resultClass={resultClass}
+          facetClass={facetClass}
+          fetchPaginatedResults={props.fetchPaginatedResults}
+          updatePage={props.updatePage}
+          updateRowsPerPage={props.updateRowsPerPage}
+          sortResults={props.sortResults}
+          rootUrl={rootUrl}
+          layoutConfig={layoutConfig}
+          location={useLocation()}
         />
       )
       break
     case 'ReactVirtualizedList':
       routeComponent = (
-        <Route
-          path={path}
-          render={routeProps =>
-            <ReactVirtualizedList
-              resultClass={resultClass}
-              facetClass={facetClass}
-              fetchResults={props.fetchResults}
-              perspectiveState={perspectiveState}
-              facetUpdateID={facetState.facetUpdateID}
-              layoutConfig={layoutConfig}
-            />}
+        <ReactVirtualizedList
+          resultClass={resultClass}
+          facetClass={facetClass}
+          fetchResults={props.fetchResults}
+          perspectiveState={perspectiveState}
+          facetUpdateID={facetState.facetUpdateID}
+          layoutConfig={layoutConfig}
         />
       )
       break
@@ -116,12 +108,7 @@ const ResultClassRoute = props => {
           data: perspectiveState.instanceTableData
         }
       }
-      routeComponent = (
-        <Route
-          path={path}
-          render={routeProps => <InstancePageTable {...instanceTableProps} />}
-        />
-      )
+      routeComponent = <InstancePageTable {...instanceTableProps} />
       break
     }
     case 'LeafletMap': {
@@ -183,13 +170,7 @@ const ResultClassRoute = props => {
       if (pageType === 'instancePage') {
         leafletProps.uri = perspectiveState.instanceTableData.id
       }
-      routeComponent = (
-        <Route
-          path={path}
-          render={() =>
-            <LeafletMap {...leafletProps} />}
-        />
-      )
+      routeComponent = <LeafletMap {...leafletProps} />
       break
     }
     case 'Deck': {
@@ -238,12 +219,7 @@ const ResultClassRoute = props => {
           instanceVariable
         }
       }
-      routeComponent = (
-        <Route
-          path={path}
-          render={() => <Deck {...deckProps} />}
-        />
-      )
+      routeComponent = <Deck {...deckProps} />
       break
     }
     case 'ApexCharts': {
@@ -267,13 +243,7 @@ const ResultClassRoute = props => {
         facetUpdateID: facetState ? facetState.facetUpdateID : null,
         fetchData: props.fetchResults
       }
-      routeComponent = (
-        <Route
-          path={path}
-          render={() =>
-            <ApexCharts {...apexProps} />}
-        />
-      )
+      routeComponent = <ApexCharts {...apexProps} />
       break
     }
     // case 'LineChartSotasurmat': {
@@ -282,16 +252,9 @@ const ResultClassRoute = props => {
     //     facetUpdateID: facetState.facetUpdateID,
     //     fetchResults: props.fetchResults,
     //     updatePage: props.updatePage,
-    //     routeProps: props.routeProps,
     //     resultCount: perspectiveState.resultCount
     //   }
-    //   routeComponent = (
-    //     <Route
-    //       path={path}
-    //       render={() =>
-    //         <LineChartSotasurmat {...lineChartProps} />}
-    //     />
-    //   )
+    //   routeComponent = <LineChartSotasurmat {...lineChartProps} />
     //   break
     // }
     case 'Network': {
@@ -332,13 +295,7 @@ const ResultClassRoute = props => {
       if (pageType === 'instancePage') {
         networkProps.uri = perspectiveState.instanceTableData.id
       }
-      routeComponent = (
-        <Route
-          path={path}
-          render={() =>
-            <Network {...networkProps} />}
-        />
-      )
+      routeComponent = <Network {...networkProps} />
       break
     }
     case 'VideoPage': {
@@ -351,17 +308,10 @@ const ResultClassRoute = props => {
         perspectiveState,
         properties: getVisibleRows(perspectiveState),
         localID: props.localID,
-        routeProps: props.routeProps,
         videoPlayerState: props.videoPlayerState,
         updateVideoPlayerTime: props.updateVideoPlayerTime
       }
-      routeComponent = (
-        <Route
-          path={path}
-          render={() =>
-            <VideoPage {...videoPageProps} />}
-        />
-      )
+      routeComponent = <VideoPage {...videoPageProps} />
       break
     }
     case 'TemporalMap': {
@@ -378,61 +328,41 @@ const ResultClassRoute = props => {
         animateMap: props.animateMap,
         facetUpdateID: facetState.facetUpdateID
       }
-      routeComponent = (
-        <Route
-          path={path}
-          render={() =>
-            <TemporalMap {...temporalMapProps} />}
-        />
-      )
+      routeComponent = <TemporalMap {...temporalMapProps} />
       break
     }
     case 'WordCloud': {
       const wordCloudProps = {
         data: perspectiveState.instanceTableData[resultClassConfig.wordCloudProperty]
       }
-      routeComponent = (
-        <Route
-          path={path}
-          render={() =>
-            <WordCloud {...wordCloudProps} />}
-        />
-      )
+      routeComponent = <WordCloud {...wordCloudProps} />
       break
     }
     case 'Export': {
       const { pageType = 'facetResults' } = resultClassConfig
       const exportResultClass = resultClassConfig.resultClass
       routeComponent = (
-        <Route
-          path={path}
-          render={routeProps =>
-            <Export
-              portalConfig={portalConfig}
-              data={perspectiveState}
-              resultClass={exportResultClass}
-              facetClass={facetClass}
-              pageType={pageType}
-              fetchPaginatedResults={props.fetchPaginatedResults}
-              updatePage={props.updatePage}
-              layoutConfig={props.layoutConfig}
-            />}
+        <Export
+          portalConfig={portalConfig}
+          data={perspectiveState}
+          resultClass={exportResultClass}
+          facetClass={facetClass}
+          pageType={pageType}
+          fetchPaginatedResults={props.fetchPaginatedResults}
+          updatePage={props.updatePage}
+          layoutConfig={props.layoutConfig}
         />
       )
       break
     }
     case 'ExportCSV': {
       routeComponent = (
-        <Route
-          path={path}
-          render={routeProps =>
-            <ExportCSV
-              resultClass={resultClass}
-              facetClass={facetClass}
-              facetUpdateID={facetState.facetUpdateID}
-              facets={facetState.facets}
-              layoutConfig={layoutConfig}
-            />}
+        <ExportCSV
+          resultClass={resultClass}
+          facetClass={facetClass}
+          facetUpdateID={facetState.facetUpdateID}
+          facets={facetState.facets}
+          layoutConfig={layoutConfig}
         />
       )
       break
@@ -441,7 +371,11 @@ const ResultClassRoute = props => {
       routeComponent = <></>
       break
   }
-  return routeComponent
+  return (
+    <Route path={path}>
+      {routeComponent}
+    </Route>
+  )
 }
 
 export default ResultClassRoute

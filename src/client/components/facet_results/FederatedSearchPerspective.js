@@ -8,7 +8,7 @@ const FederatedSearchPerspective = props => {
   const {
     portalConfig, layoutConfig, perspective,
     screenSize, rootUrl, apexChartsConfig, networkConfig,
-    leafletConfig, routeProps
+    leafletConfig
   } = props
 
   const MainClientFS = lazy(() => import(`../../components/perspectives/${portalConfig.portalID}/MainClientFS`))
@@ -103,7 +103,6 @@ const FederatedSearchPerspective = props => {
             portalConfig={portalConfig}
             layoutConfig={layoutConfig}
             perspective={perspective}
-            routeProps={routeProps}
             screenSize={screenSize}
             clientFSState={props.clientFSState}
             clientFSResults={props.clientFSResults}

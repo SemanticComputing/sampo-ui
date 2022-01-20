@@ -98,8 +98,7 @@ ResultTableHead.propTypes = {
   columns: PropTypes.array.isRequired,
   onSortBy: PropTypes.func.isRequired,
   sortBy: PropTypes.string,
-  sortDirection: PropTypes.string,
-  routeProps: PropTypes.object.isRequired
+  sortDirection: PropTypes.string
 }
 
 export default withStyles(styles)(ResultTableHead)
