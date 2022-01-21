@@ -1,5 +1,5 @@
 import React from 'react'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import PropTypes from 'prop-types'
 import Slider from '@mui/material/Slider'
 import { BaseControl } from 'react-map-gl'
@@ -26,22 +26,14 @@ const styles = () => ({
     width: 28,
     backgroundColor: '#fff',
     boxShadow: iOSBoxShadow,
-    marginTop: -12,
-    marginLeft: -14,
+    // marginTop: -12,
+    // marginLeft: -14,
     '&:focus,&:hover,&$active': {
       boxShadow: '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)',
       // Reset on touch devices, it doesn't add specificity
       '@media (hover: none)': {
         boxShadow: iOSBoxShadow
       }
-    }
-  },
-  sliderValueLabel: {
-    left: 'calc(-50% + 12px)',
-    top: -22,
-    '& *': {
-      background: 'transparent',
-      color: '#fff'
     }
   }
 })
@@ -258,7 +250,6 @@ class TemporalMapTimeSlider extends BaseControl {
                   classes={{
                     root: classes.sliderRoot,
                     thumb: classes.sliderThumb,
-                    valueLabel: classes.sliderValueLabel,
                     track: classes.sliderTrack,
                     rail: classes.sliderRail
                   }}
@@ -270,6 +261,15 @@ class TemporalMapTimeSlider extends BaseControl {
                   step={1}
                   valueLabelDisplay='on'
                   valueLabelFormat={this._sliderValueText}
+                  sx={{
+                    '&.MuiSlider-valueLabel': {
+                      left: '-50%',
+                      '& *': {
+                        background: 'transparent',
+                        color: '#fff'
+                      }
+                    }
+                  }}
                 />
                 {/*
                 <div className="slider-labels-container">
