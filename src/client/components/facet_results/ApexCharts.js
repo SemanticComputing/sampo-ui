@@ -226,6 +226,7 @@ class ApexChart extends React.Component {
             <Typography>{dropdownText}</Typography>
             <FormControl className={classes.formControl}>
               <Select
+                variant='standard'
                 id='select-result-class'
                 value={this.state.resultClass}
                 onChange={this.handleResultClassOnChange}
@@ -241,6 +242,7 @@ class ApexChart extends React.Component {
             <Typography>{intl.get('apexCharts.chartType')}</Typography>
             <FormControl className={classes.formControl}>
               <Select
+                variant='standard'
                 id='select-chart-type'
                 value={this.state.chartType}
                 onChange={this.handleChartTypeOnChange}
