@@ -67,7 +67,7 @@ const ResultTableHead = props => {
                     >
                       <TableSortLabel
                         active={sortBy === column.id}
-                        direction={sortBy === column.id ? sortBy : 'asc'}
+                        direction={sortBy === column.id ? sortDirection : 'asc'}
                         hideSortIcon
                         onClick={onSortBy(column.id)}
                       >
