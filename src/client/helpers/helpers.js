@@ -314,8 +314,10 @@ export const usePageViews = () => {
   const location = useLocation()
   useEffect(() => {
     if (typeof window.ga === 'function') {
-      console.log(window.ga)
-      window.ga.send(['pageview', location.pathname])
+      // https://developers.google.com/analytics/devguides/collection/analyticsjs/single-page-applications#tracking_virtual_pageviews
+      // note: the ga function has been initialized in index.html
+      window.ga('set', 'page', location.pathname)
+      window.ga('send', 'pageview')
     }
   }, [location])
 }
