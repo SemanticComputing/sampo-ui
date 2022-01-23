@@ -296,7 +296,6 @@ class HierarchicalFacet extends Component {
             ? (searchFocusIndex + 1) % searchFoundCount
             : 0
       })
-
     return (
       <>
         {isFetching
@@ -346,7 +345,7 @@ class HierarchicalFacet extends Component {
                   }}
                 >
                   <SortableTree
-                    treeData={this.state.treeData}
+                    treeData={this.state.treeData || []}
                     onChange={treeData => this.setState({ treeData })}
                     canDrag={false}
                     rowHeight={30}
