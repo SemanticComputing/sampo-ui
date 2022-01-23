@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import intl from 'react-intl-universal'
 import ReactMapGL, { NavigationControl, FullscreenControl } from 'react-map-gl'
 import DeckGL, { ScatterplotLayer } from 'deck.gl'
