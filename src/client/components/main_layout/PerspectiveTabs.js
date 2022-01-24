@@ -35,6 +35,7 @@ const PerspectiveTabs = props => {
       // "MUI: The `value` provided to the Tabs component is invalid.
       // The Tab with this `value` ("0") is not part of the document layout.
       // Make sure the tab item is present in the document or that it's not `display: none`.""
+      // https://github.com/mui-org/material-ui/issues/29209
       const timer = setTimeout(() => setCurrentTab(pathnameToTabValue(location, tabs)), 1000)
 
       // clear timeout when component unmounts
@@ -45,8 +46,9 @@ const PerspectiveTabs = props => {
     [location]
   )
 
+  // always deactivate tabs, until the useEffect hook sets the value
   const handleChange = (event, newValue) => {
-    setCurrentTab(newValue)
+    setCurrentTab(false)
   }
 
   return (
