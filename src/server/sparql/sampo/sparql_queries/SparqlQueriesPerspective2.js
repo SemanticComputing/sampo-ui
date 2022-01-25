@@ -535,6 +535,16 @@ export const productionsByDecadeQuery = `
   ORDER BY ?category
 `
 
+export const productionsByDecadeQueryLower = `
+  ##
+  SELECT ?category (COUNT (DISTINCT ?instance) as ?count) WHERE {
+    ?instance ^crm:P108_has_produced/crm:P4_has_time-span/mmm-schema:decade ?category .
+    FILTER (?category < 2000)
+  }
+  GROUP BY ?category
+  ORDER BY ?category
+`
+
 export const productionsByDecadeAndCountryQuery = `
   SELECT ?id ?dataItem__id ?dataItem__prefLabel (count(?manuscript) as ?dataItem__value) WHERE {
     <FILTER>

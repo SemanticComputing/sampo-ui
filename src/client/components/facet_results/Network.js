@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { has } from 'lodash'
 import history from '../../History'
 import cytoscape from 'cytoscape'
 import panzoom from 'cytoscape-panzoom'
@@ -7,7 +8,6 @@ import 'cytoscape-panzoom/cytoscape.js-panzoom.css'
 import CircularProgress from '@mui/material/CircularProgress'
 import { library, dom } from '@fortawesome/fontawesome-svg-core'
 import { faMinus, faPlus, faExpand } from '@fortawesome/free-solid-svg-icons'
-import { purple } from '@mui/material/colors';
 
 const zoomControlOptions = {
   zoomFactor: 0.05, // zoom factor per zoom tick
@@ -116,17 +116,19 @@ class Network extends React.Component {
   }
 
   renderCytocape = () => {
-    this.cy.elements().remove()
-    this.cy.resize() // this fixes panning issues on a faceted search perspective
-    if (this.props.preprocess) {
-      this.props.preprocess(this.props.results.elements)
-    }
-    this.cy.add(this.props.results.elements)
-    if (this.props.layout) {
-      this.cy.layout(this.props.layout).run()
-    }
-    if (this.props.fitLayout) {
-      this.cy.fit()
+    if (has(this.props.results, 'elements')) {
+      this.cy.elements().remove()
+      this.cy.resize() // this fixes panning issues on a faceted search perspective
+      if (this.props.preprocess) {
+        this.props.preprocess(this.props.results.elements)
+      }
+      this.cy.add(this.props.results.elements)
+      if (this.props.layout) {
+        this.cy.layout(this.props.layout).run()
+      }
+      if (this.props.fitLayout) {
+        this.cy.fit()
+      }
     }
   }
 
@@ -154,7 +156,7 @@ class Network extends React.Component {
       <div style={rootStyle}>
         {fetching &&
           <div style={spinnerContainerStyle}>
-            <CircularProgress style={{ color: purple[500] }} thickness={5} />
+            <CircularProgress />
           </div>}
         <div id='cytoscape-container' style={cyContainerStyle} ref={this.cyRef} />
       </div>
@@ -163,7 +165,6 @@ class Network extends React.Component {
 }
 
 Network.propTypes = {
-  results: PropTypes.object,
   fetchResults: PropTypes.func,
   fetchNetworkById: PropTypes.func,
   resultClass: PropTypes.string.isRequired,

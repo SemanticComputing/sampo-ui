@@ -130,7 +130,9 @@ const ResultClassRoute = props => {
         perspectiveConfig: perspective,
         center: resultClassMap.center,
         zoom: resultClassMap.zoom,
-        results: perspectiveState.results,
+        results: Array.isArray(perspectiveState.results)
+          ? perspectiveState.results
+          : [],
         leafletMapState: props.leafletMapState,
         pageType,
         resultClass,
@@ -182,7 +184,9 @@ const ResultClassRoute = props => {
         perspectiveConfig: perspective,
         center: resultClassMap.center,
         zoom: resultClassMap.zoom,
-        results: perspectiveState.results,
+        results: Array.isArray(perspectiveState.results)
+          ? perspectiveState.results
+          : [],
         facetUpdateID: facetState.facetUpdateID,
         resultClass,
         facetClass,
@@ -244,6 +248,54 @@ const ResultClassRoute = props => {
         fetchData: props.fetchResults
       }
       routeComponent = <ApexCharts {...apexProps} />
+      break
+    }
+    case 'ApexChartsDouble': {
+      const { pageType = 'facetResults', upperResultClass, lowerResultClass, resultClasses } = resultClassConfig
+      const upperResultClassConfig = resultClasses[upperResultClass]
+      const lowerResultClassConfig = resultClasses[lowerResultClass]
+      const commonApexProps = {
+        portalConfig,
+        perspectiveConfig: perspective,
+        apexChartsConfig: props.apexChartsConfig,
+        pageType,
+        screenSize,
+        perspectiveState,
+        fetchInstanceAnalysis: props.fetchInstanceAnalysis,
+        instanceAnalysisDataUpdateID: perspectiveState.instanceAnalysisDataUpdateID,
+        instanceAnalysisData: perspectiveState.instanceAnalysisData,
+        facetUpdateID: facetState ? facetState.facetUpdateID : null,
+        fetchData: props.fetchResults
+      }
+      const upperApexProps = {
+        ...commonApexProps,
+        component: 'ApexChartsDouble',
+        order: 'upper',
+        resultClassConfig: upperResultClassConfig,
+        resultClass: upperResultClass,
+        facetClass: upperResultClassConfig.facetClass,
+        results: perspectiveState.upper,
+        fetching: perspectiveState.upperFetching,
+        resultUpdateID: perspectiveState.upperResultUpdateID
+      }
+      const lowerApexProps = {
+        ...commonApexProps,
+        component: 'ApexChartsDouble',
+        order: 'lower',
+        resultClassConfig: lowerResultClassConfig,
+        resultClass: lowerResultClass,
+        facetClass: lowerResultClassConfig.facetClass,
+        perspectiveState,
+        results: perspectiveState.lower,
+        fetching: perspectiveState.lowerFetching,
+        resultUpdateID: perspectiveState.lowerResultUpdateID
+      }
+      routeComponent = (
+        <>
+          <ApexCharts {...upperApexProps} />
+          <ApexCharts {...lowerApexProps} />
+        </>
+      )
       break
     }
     // case 'LineChartSotasurmat': {

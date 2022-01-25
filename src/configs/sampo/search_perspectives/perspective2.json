@@ -176,25 +176,52 @@
         },
         "productionTimespanLineChart": {
             "tabID": 3,
-            "component": "ApexCharts",
+            "component": "ApexChartsDouble",
             "tabPath": "production_dates",
             "tabIcon": "ShowChart",
-            "sparqlQuery": "productionsByDecadeQuery",
-            "facetClass": "perspective2",
-            "filterTarget": "instance",
-            "resultMapper": "mapLineChart",
-            "resultMapperConfig": {
-                "fillEmptyValues": false
-            },
-            "createChartData": "createSingleLineChartData",
-            "title": "Manuscript production by decade",
-            "xaxisTitle": "Decade",
-            "xaxisType": "category",
-            "xaxisTickAmount": 30,
-            "yaxisTitle": "Manuscript count",
-            "seriesTitle": "Manuscript count",
-            "stroke": {
-                "width": 2
+            "upperResultClass": "productionTimespanLineChartUpper",
+            "lowerResultClass": "productionTimespanLineChartLower",
+            "resultClasses": {
+                "productionTimespanLineChartUpper": {
+                    "height": "70%",
+                    "sparqlQuery": "productionsByDecadeQuery",
+                    "facetClass": "perspective2",
+                    "filterTarget": "instance",
+                    "resultMapper": "mapLineChart",
+                    "resultMapperConfig": {
+                        "fillEmptyValues": false
+                    },
+                    "createChartData": "createSingleLineChartData",
+                    "title": "Manuscript production by decade",
+                    "xaxisTitle": "Decade",
+                    "xaxisType": "category",
+                    "xaxisTickAmount": 30,
+                    "yaxisTitle": "Manuscript count",
+                    "seriesTitle": "Manuscript count",
+                    "stroke": {
+                        "width": 2
+                    }
+                },
+                "productionTimespanLineChartLower": {
+                    "height": "30%",
+                    "sparqlQuery": "productionsByDecadeQueryLower",
+                    "facetClass": "perspective2",
+                    "filterTarget": "instance",
+                    "resultMapper": "mapLineChart",
+                    "resultMapperConfig": {
+                        "fillEmptyValues": false
+                    },
+                    "createChartData": "createSingleLineChartData",
+                    "title": "Manuscript production by decade",
+                    "xaxisTitle": "Decade",
+                    "xaxisType": "category",
+                    "xaxisTickAmount": 30,
+                    "yaxisTitle": "Manuscript count",
+                    "seriesTitle": "Manuscript count",
+                    "stroke": {
+                        "width": 2
+                    }
+                }
             }
         },
         "productionsByDecadeAndCountry": {

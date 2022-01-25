@@ -80,7 +80,8 @@ export const fetchResults = ({
   uri = null,
   limit = null,
   optimize = null,
-  reason = null
+  reason = null,
+  order = null
 }) => ({
   type: FETCH_RESULTS,
   perspectiveID,
@@ -89,7 +90,8 @@ export const fetchResults = ({
   uri,
   limit,
   optimize,
-  reason
+  reason,
+  order
 })
 export const fetchInstanceAnalysis = ({
   resultClass,
@@ -150,13 +152,14 @@ export const updatePaginatedResults = ({ resultClass, page, pagesize, data, spar
   data,
   sparqlQuery
 })
-export const updateResults = ({ resultClass, data, sparqlQuery, query, jenaIndex }) => ({
+export const updateResults = ({ resultClass, data, sparqlQuery, query, jenaIndex, order = null }) => ({
   type: UPDATE_RESULTS,
   resultClass,
   data,
   sparqlQuery,
   query,
-  jenaIndex
+  jenaIndex,
+  order
 })
 export const sortResults = (resultClass, sortBy) => ({
   type: SORT_RESULTS,

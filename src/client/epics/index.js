@@ -144,7 +144,8 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
       map(ajaxResponse => updateResults({
         resultClass,
         data: ajaxResponse.response.data,
-        sparqlQuery: ajaxResponse.response.sparqlQuery
+        sparqlQuery: ajaxResponse.response.sparqlQuery,
+        order: action.order
       })),
       catchError(error => of({
         type: FETCH_RESULTS_FAILED,

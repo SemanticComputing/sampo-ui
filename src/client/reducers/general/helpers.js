@@ -15,8 +15,15 @@ export const fetchResults = (state, action, initialState) => {
     ...state,
     instance: null,
     instanceTableExternalData: null,
-    fetching: true,
-    ...(resetMapBounds && { maps: initialState.maps })
+    ...(resetMapBounds && { maps: initialState.maps }),
+    ...(action.order == null && {
+      fetching: true,
+      resultUpdateID: 0
+    }),
+    ...(action.order && {
+      [`${action.order}Fetching`]: true,
+      [`${action.order}ResultUpdateID`]: 0
+    })
   }
 }
 
@@ -214,13 +221,26 @@ export const updateResultCount = (state, action) => {
 }
 
 export const updateResults = (state, action, initialState) => {
-  return {
-    ...state,
-    results: action.data,
-    resultClass: action.resultClass,
-    resultsSparqlQuery: action.sparqlQuery,
-    fetching: false,
-    resultUpdateID: ++state.resultUpdateID
+  if (action.order) {
+    const { order } = action
+    return {
+      ...state,
+      results: null,
+      resultsSparqlQuery: action.sparqlQuery,
+      [order]: action.data,
+      [`${action.order}ResultClass`]: action.resultClass,
+      [`${action.order}Fetching`]: false,
+      [`${action.order}ResultUpdateID`]: ++state[`${action.order}ResultUpdateID`]
+    }
+  } else {
+    return {
+      ...state,
+      results: action.data,
+      resultClass: action.resultClass,
+      resultsSparqlQuery: action.sparqlQuery,
+      fetching: false,
+      resultUpdateID: ++state.resultUpdateID
+    }
   }
 }
 
