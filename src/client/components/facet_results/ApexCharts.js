@@ -152,7 +152,8 @@ class ApexChart extends React.Component {
     if (this.isSmallScreen()) {
       return 'auto'
     }
-    const doNotReduceTabHeight = this.props.component === 'ApexChartsDouble' && this.props.order === 'lower'
+    const doNotReduceTabHeight = (this.props.component === 'ApexChartsDouble' && this.props.order === 'lower') ||
+      this.props.resultClassConfig.pageType === 'instancePage'
     if (doNotReduceTabHeight) {
       const rootHeightReduction = 2 * defaultPadding + 1
       return `calc(${targetHeight} - ${rootHeightReduction}px)`

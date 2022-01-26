@@ -90,7 +90,7 @@ export const createMultipleLineChartData = ({
   const series = []
   for (const lineID in results) {
     series.push({
-      name: intl.get(`lineChart.${lineID}`),
+      name: intl.get(`lineChart.${lineID}`) || lineID,
       data: results[lineID]
     })
   }

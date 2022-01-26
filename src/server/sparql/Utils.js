@@ -1,10 +1,10 @@
 import { readFile } from 'fs/promises'
 import { has } from 'lodash'
 
-// import { backendSearchConfig as oldBackendSearchConfig } from './veterans/BackendSearchConfig'
+// import { backendSearchConfig as oldBackendSearchConfig } from './lettersampo/BackendSearchConfig'
 
-// import { battlesPerspectiveConfig as oldPerspectiveConfig } from './sotasurmat/perspective_configs/BattlesPerspectiveConfig'
-// import { INITIAL_STATE } from '../../client/reducers/sotasurmat/battlesFacets'
+// import { placesConfig as oldPerspectiveConfig } from './lettersampo/perspective_configs/PlacesConfig'
+// import { INITIAL_STATE } from '../../client/reducers/lettersampo/placesFacets'
 
 export const createBackendSearchConfig = async () => {
   const portalConfigJSON = await readFile('src/configs/portalConfig.json')
@@ -24,6 +24,7 @@ export const createBackendSearchConfig = async () => {
       perspectiveConfig.endpoint.prefixes = prefixes
     }
     if (perspectiveConfig.searchMode === 'faceted-search') {
+      let extraResultClasses = {} // gather nested result classes here
       let hasInstancePageResultClasses = false
       // handle default resultClass which is same as perspectiveID
       const { paginatedResultsConfig, instanceConfig } = perspectiveConfig.resultClasses[perspectiveID]
@@ -44,12 +45,20 @@ export const createBackendSearchConfig = async () => {
           for (const instancePageResultClass in instanceConfig.instancePageResultClasses) {
             const instancePageResultClassConfig = instanceConfig.instancePageResultClasses[instancePageResultClass]
             processResultClassConfig(instancePageResultClassConfig, sparqlQueries, resultMappers)
+            if (instancePageResultClassConfig.resultClasses) {
+              for (const extraResultClass in instancePageResultClassConfig.resultClasses) {
+                processResultClassConfig(instancePageResultClassConfig.resultClasses[extraResultClass], sparqlQueries, resultMappers)
+              }
+              extraResultClasses = {
+                ...extraResultClasses,
+                ...instancePageResultClassConfig.resultClasses
+              }
+            }
           }
           hasInstancePageResultClasses = true
         }
       }
       // handle other resultClasses
-      let extraResultClasses = {}
       for (const resultClass in perspectiveConfig.resultClasses) {
         if (resultClass === perspectiveID) { continue }
         const resultClassConfig = perspectiveConfig.resultClasses[resultClass]
@@ -101,10 +110,24 @@ export const createBackendSearchConfig = async () => {
       instanceConfig.postprocess.func = resultMappers[instanceConfig.postprocess.func]
     }
     let hasInstancePageResultClasses = false
+    let extraResultClasses = {} // gather nested result classes here
     if (has(instanceConfig, 'instancePageResultClasses')) {
       for (const instancePageResultClass in instanceConfig.instancePageResultClasses) {
         const instancePageResultClassConfig = instanceConfig.instancePageResultClasses[instancePageResultClass]
         processResultClassConfig(instancePageResultClassConfig, sparqlQueries, resultMappers)
+        if (instancePageResultClassConfig.resultClasses) {
+          for (const extraResultClass in instancePageResultClassConfig.resultClasses) {
+            processResultClassConfig(instancePageResultClassConfig.resultClasses[extraResultClass], sparqlQueries, resultMappers)
+          }
+          extraResultClasses = {
+            ...extraResultClasses,
+            ...instancePageResultClassConfig.resultClasses
+          }
+        }
+      }
+      perspectiveConfig.resultClasses = {
+        ...perspectiveConfig.resultClasses,
+        ...extraResultClasses
       }
       hasInstancePageResultClasses = true
     }
