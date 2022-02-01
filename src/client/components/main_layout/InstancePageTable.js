@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import clsx from 'clsx'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Table from '@mui/material/Table'
@@ -126,79 +126,82 @@ class InstancePageTable extends React.Component {
   render = () => {
     const { classes, data, properties, screenSize, perspectiveConfig } = this.props
     const perspectiveID = perspectiveConfig.id
-    return <>
-      {data &&
-        <Table className={classes.instanceTable} size='small'>
-          <TableBody>
-            {properties.map(row => {
-              const label = intl.get(`perspectives.${perspectiveID}.properties.${row.id}.label`)
-              const description = intl.get(`perspectives.${perspectiveID}.properties.${row.id}.description`)
-              const {
-                id, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, minWidth,
-                linkAsButton, collapsedMaxWords, showSource, sourceExternalLink, renderAsHTML, HTMLParserTask
-              } = row
-              let { previewImageHeight } = row
-              if (screenSize === 'xs' || screenSize === 'sm') {
-                previewImageHeight = 50
+    return (
+      <>
+        {data &&
+          <Table className={classes.instanceTable} size='small'>
+            <TableBody>
+              {properties.map(row => {
+                const label = intl.get(`perspectives.${perspectiveID}.properties.${row.id}.label`)
+                const description = intl.get(`perspectives.${perspectiveID}.properties.${row.id}.description`)
+                const {
+                  id, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, minWidth,
+                  linkAsButton, collapsedMaxWords, showSource, sourceExternalLink, renderAsHTML, HTMLParserTask
+                } = row
+                let { previewImageHeight } = row
+                if (screenSize === 'xs' || screenSize === 'sm') {
+                  previewImageHeight = 50
+                }
+                const expanded = this.state.expandedRows.has(row.id)
+                return (
+                  <TableRow key={row.id}>
+                    <TableCell className={classes.labelCell}>
+                      {label}
+                      <Tooltip
+                        className={classes.tooltip}
+                        title={description}
+                        enterDelay={300}
+                      >
+                        <IconButton size='large'>
+                          <InfoIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+                    <TableCell className={classes.expandCell}>
+                      {this.hasExpandableContent({ data: data[id], config: row }) &&
+                        <IconButton
+                          className={clsx(classes.expand, {
+                            [classes.expandOpen]: expanded
+                          })}
+                          onClick={this.handleExpandRow(row.id)}
+                          aria-expanded={expanded}
+                          aria-label='Show more'
+                          size='large'
+                        >
+                          <ExpandMoreIcon />
+                        </IconButton>}
+                    </TableCell>
+                    <ResultTableCell
+                      key={id}
+                      columnId={id}
+                      data={data[id]}
+                      valueType={valueType}
+                      makeLink={makeLink}
+                      externalLink={externalLink}
+                      sortValues={sortValues}
+                      sortBy={sortBy}
+                      numberedList={numberedList}
+                      minWidth={minWidth}
+                      previewImageHeight={previewImageHeight}
+                      container='cell'
+                      expanded={expanded}
+                      shortenLabel={false}
+                      linkAsButton={linkAsButton}
+                      collapsedMaxWords={collapsedMaxWords}
+                      showSource={showSource}
+                      sourceExternalLink={sourceExternalLink}
+                      renderAsHTML={renderAsHTML}
+                      HTMLParserTask={HTMLParserTask}
+                      referencedTerm={data.referencedTerm}
+                    />
+                  </TableRow>
+                )
               }
-              const expanded = this.state.expandedRows.has(row.id)
-              return (
-                <TableRow key={row.id}>
-                  <TableCell className={classes.labelCell}>
-                    {label}
-                    <Tooltip
-                      className={classes.tooltip}
-                      title={description}
-                      enterDelay={300}
-                    >
-                      <IconButton size="large">
-                        <InfoIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                  <TableCell className={classes.expandCell}>
-                    {this.hasExpandableContent({ data: data[id], config: row }) &&
-                      <IconButton
-                        className={clsx(classes.expand, {
-                          [classes.expandOpen]: expanded
-                        })}
-                        onClick={this.handleExpandRow(row.id)}
-                        aria-expanded={expanded}
-                        aria-label='Show more'
-                        size="large">
-                        <ExpandMoreIcon />
-                      </IconButton>}
-                  </TableCell>
-                  <ResultTableCell
-                    key={id}
-                    columnId={id}
-                    data={data[id]}
-                    valueType={valueType}
-                    makeLink={makeLink}
-                    externalLink={externalLink}
-                    sortValues={sortValues}
-                    sortBy={sortBy}
-                    numberedList={numberedList}
-                    minWidth={minWidth}
-                    previewImageHeight={previewImageHeight}
-                    container='cell'
-                    expanded={expanded}
-                    shortenLabel={false}
-                    linkAsButton={linkAsButton}
-                    collapsedMaxWords={collapsedMaxWords}
-                    showSource={showSource}
-                    sourceExternalLink={sourceExternalLink}
-                    renderAsHTML={renderAsHTML}
-                    HTMLParserTask={HTMLParserTask}
-                    referencedTerm={data.referencedTerm}
-                  />
-                </TableRow>
-              );
-            }
-            )}
-          </TableBody>
-        </Table>}
-    </>;
+              )}
+            </TableBody>
+          </Table>}
+      </>
+    )
   }
 }
 
