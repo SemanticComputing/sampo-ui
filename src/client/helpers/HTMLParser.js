@@ -3,6 +3,7 @@ import ReactHtmlParser from 'react-html-parser'
 import { Link } from 'react-router-dom'
 import Tooltip from '@mui/material/Tooltip'
 import { arrayToObject } from './helpers'
+import { findAll, prependChild } from 'domutils'
 
 export default class HTMLParser {
   constructor (props) {
@@ -12,6 +13,7 @@ export default class HTMLParser {
 
   parseHTML (html) {
     let transform
+    let preprocessNodes
     switch (this.props.HTMLParserTask) {
       case 'addReactRouterLinks':
         transform = this.addReactRouterLinks
@@ -19,11 +21,46 @@ export default class HTMLParser {
       case 'addAnnotationTooltips':
         this.processReferencedTerms()
         transform = this.addAnnotationTooltips
+        preprocessNodes = this.preprocessNodes
         break
       default:
         transform = null
     }
-    return ReactHtmlParser(html, { transform })
+    return ReactHtmlParser(html, { transform, preprocessNodes })
+  }
+
+  preprocessNodes (nodes) {
+    // Add new divs with ids for each section
+    const sectionDivs = findAll((node) => (node.attribs.class === 'section'), nodes)
+    sectionDivs.forEach(node => {
+      let chapterNumber
+      if (node.parent.attribs.class === 'entry-into-force' && node.parent.parent.attribs.class === 'chapter') {
+        chapterNumber = node.parent.parent.children[0].children[0].data
+        chapterNumber = `chapter_${chapterNumber.replace(' luku', '')}_`
+        chapterNumber = chapterNumber.replace(/\s/g, '')
+      } else if (node.parent.attribs.class === 'chapter') {
+        chapterNumber = node.parent.children[0].children[0].data
+        chapterNumber = `chapter_${chapterNumber.replace(' luku', '')}_`
+        chapterNumber = chapterNumber.replace(/\s/g, '')
+      } else {
+        chapterNumber = ''
+      }
+      const sectionItemIdentifier = node.children[0].children[0].data
+      let sectionNumber
+      if (sectionItemIdentifier.includes('§')) {
+        sectionNumber = sectionItemIdentifier.replace(/\s/g, '').replace('§', '')
+      } else {
+        sectionNumber = '1'
+      }
+      const newNode = {
+        type: 'tag',
+        name: 'div',
+        attribs: { id: `#${chapterNumber}section_${sectionNumber}` },
+        children: []
+      }
+      prependChild(node, newNode)
+    })
+    return nodes
   }
 
   addReactRouterLinks (node, index) {
@@ -43,34 +80,43 @@ export default class HTMLParser {
 
   addAnnotationTooltips = (node, index) => {
     const props = this.props
-    if (node.type === 'tag' && node.name === 'span' && node.attribs.name === 'namedentity' && node.attribs['data-link'] !== '') {
+
+    // Sections: replace the divs created in preprocessNodes with new divs that hold a ref
+    if (node.parent &&
+      node.parent.attribs &&
+      node.parent.attribs.class === 'section' &&
+      node.attribs &&
+      node.attribs.id &&
+      node.attribs.id.includes('section')
+    ) {
+      const id = node.attribs.id
+      return <div key={index} id={id} className='ref' ref={element => { this.props.sectionRefs.current[id] = element }} />
+    }
+
+    // Add tooltips for showing automatic annnotations
+    if (this.referencedTermsObj && node.type === 'tag' && node.name === 'span' &&
+    node.attribs.name === 'namedentity' && node.attribs['data-link'] && node.attribs['data-link'] !== '') {
       const linkStr = node.attribs['data-link']
-      const occurrenceID = node.attribs['data-occurrence-id']
       let tooltipJSX
       if (linkStr.includes(',')) {
-        const uris = linkStr.split(',')
-        const listItemsJSX = []
-        uris.forEach((uri, index) => {
-          listItemsJSX.push(
-            <li key={index}>
-              <ul>
-                {this.renderAnnotation(uri)}
-              </ul>
-            </li>
-          )
+        const urisJSX = []
+        let uris = linkStr.split(',')
+        uris = uris.filter(uri => this.shouldAddAnnotation(uri))
+        if (uris.length === 0) { return }
+        uris.forEach(uri => {
+          urisJSX.push(this.renderAnnotation(uri))
         })
         tooltipJSX = (
           <div className={props.classes.tooltipContent}>
-            <ol className={props.classes.tooltipList}>{listItemsJSX}</ol>
+            {urisJSX}
           </div>
         )
       } else {
         const uri = linkStr
+        if (!this.shouldAddAnnotation(uri)) { return }
         tooltipJSX = (
           <div className={props.classes.tooltipContent}>
-            <ul className={props.classes.tooltipList}>
-              {this.renderAnnotation(uri)}
-            </ul>
+            {this.renderAnnotation(uri)}
           </div>
         )
       }
@@ -83,7 +129,7 @@ export default class HTMLParser {
       }
       return (
         <Tooltip
-          key={occurrenceID}
+          key={index}
           title={tooltipJSX}
           interactive
           placement='top'
@@ -98,18 +144,48 @@ export default class HTMLParser {
     }
   }
 
+  shouldAddAnnotation = uri => {
+    // Add annotations only for DBpedia and TTP terms which have an external link
+    return (uri.startsWith('http://fi.dbpedia.org/') ||
+      uri.startsWith('http://ldf.fi/ttp/')) &&
+      this.referencedTermsObj[uri] && this.referencedTermsObj[uri].externalLink
+  }
+
   renderAnnotation = uri => {
     if (uri.startsWith('http://ldf.fi/ttp/')) {
       const localID = uri.replace('http://ldf.fi/ttp/', '')
       uri = `http://ldf.fi/ttp/${encodeURIComponent(localID)}`
     }
-    return (
-      <>
-        <li><i><small>URI:</small></i> <a href={uri} target='_blank' rel='noopener noreferrer'>{this.referencedTermsObj[uri].id}</a></li>
-        <li><i><small>dctems:hasFormat:</small></i> <a href={this.referencedTermsObj[uri].format} target='_blank' rel='noopener noreferrer'>{this.referencedTermsObj[uri].format}</a></li>
-        <li><i><small>skos:prefLabel:</small></i> {this.referencedTermsObj[uri].prefLabel}</li>
-        <li><i><small>rdfs:comment:</small></i> {this.referencedTermsObj[uri].comment}</li>
-      </>
-    )
+    const { prefLabel, description, externalLink } = this.referencedTermsObj[uri]
+    let source
+    if (uri.startsWith('http://ldf.fi/ttp/')) {
+      source = 'Tieteen termipankki'
+    }
+    if (uri.startsWith('http://fi.dbpedia.org/')) {
+      source = 'Wikipedia'
+    }
+    if (source === 'Wikipedia') {
+      return (
+        <React.Fragment key={uri}>
+          <p>
+            <a href={externalLink} target='_blank' rel='noopener noreferrer'>
+              {prefLabel.charAt(0).toUpperCase() + prefLabel.slice(1)} ({source})
+            </a>
+          </p>
+          <p>{description}</p>
+        </React.Fragment>
+      )
+    }
+    if (source === 'Tieteen termipankki') {
+      return (
+        <React.Fragment key={uri}>
+          <p>
+            <a href={externalLink} target='_blank' rel='noopener noreferrer'>
+              {prefLabel.charAt(0).toUpperCase() + prefLabel.slice(1)} ({source})
+            </a>
+          </p>
+        </React.Fragment>
+      )
+    }
   }
 }
