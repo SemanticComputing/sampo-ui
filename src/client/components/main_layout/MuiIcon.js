@@ -20,7 +20,9 @@ import {
   PlayArrow,
   MailOutline,
   TrendingDown,
-  Tune
+  Tune,
+  ArrowForward,
+  Subject
 } from '@mui/icons-material'
 import has from 'lodash'
 
@@ -46,7 +48,9 @@ const MuiIcon = props => {
     PlayArrow: PlayArrow,
     MailOutline: MailOutline,
     TrendingDown: TrendingDown,
-    Tune: Tune
+    Tune: Tune,
+    ArrowForward: ArrowForward,
+    Subject: Subject
   }
   if (has(MuiIcons, props.iconName)) {
     const MuiIconComponent = MuiIcons[props.iconName]
