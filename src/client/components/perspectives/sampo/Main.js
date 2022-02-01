@@ -12,7 +12,8 @@ import { getSpacing } from '../../../helpers/helpers'
  * A component for generating a front page for a semantic portal.
  */
 const Main = props => {
-  const { perspectives, screenSize } = props
+  const { perspectives, screenSize, layoutConfig } = props
+  const { mainPage } = layoutConfig
   let headingVariant = 'h5'
   let subheadingVariant = 'body1'
   let descriptionVariant = 'body1'
@@ -47,7 +48,6 @@ const Main = props => {
   return (
     <Box
       sx={theme => {
-        const { layoutConfig } = props
         const defaultHeightReduction = layoutConfig.topBar.defaultHeight +
           layoutConfig.footer.defaultHeight + getSpacing(theme, 2)
         const reducedHeightReduction = layoutConfig.topBar.reducedHeight +
@@ -66,16 +66,16 @@ const Main = props => {
     >
       <Box
         sx={theme => ({
-          background: props.layoutConfig.mainPage.bannerBackround,
+          background: mainPage.bannerBackround,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          height: props.layoutConfig.mainPage.bannerMobileHeight,
+          height: mainPage.bannerMobileHeight,
           [theme.breakpoints.up('md')]: {
-            height: props.layoutConfig.mainPage.bannerReducedHeight
+            height: mainPage.bannerReducedHeight
           },
           [theme.breakpoints.up('xl')]: {
-            height: props.layoutConfig.mainPage.bannerDefaultHeight
+            height: mainPage.bannerDefaultHeight
           },
           boxShadow: '0 -15px 15px 0px #bdbdbd inset',
           display: 'flex',
@@ -101,11 +101,13 @@ const Main = props => {
           <Box
             sx={theme => ({
               marginTop: theme.spacing(1.5),
-              [theme.breakpoints.up('md')]: {
-                display: 'flex',
-                '& div': {
-                  flexGrow: 1,
-                  width: 0
+              ...(mainPage.wrapSubheading) && {
+                [theme.breakpoints.up('md')]: {
+                  display: 'flex',
+                  '& div': {
+                    flexGrow: 1,
+                    width: 0
+                  }
                 }
               }
             })}

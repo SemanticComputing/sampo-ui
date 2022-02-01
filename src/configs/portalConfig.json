@@ -91,7 +91,8 @@
             "bannerBackround": "linear-gradient( rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45) ), url(<BANNER_IMAGE_URL)",
             "bannerMobileHeight": 150,
             "bannerReducedHeight": 220,
-            "bannerDefaultHeight": 300
+            "bannerDefaultHeight": 300,
+            "wrapSubheading": true
         },
         "infoHeader": {
             "default": {
