@@ -365,3 +365,69 @@ export const createExtraResultClassesForJSONConfig = async oldBackendSearchConfi
 
 // createExtraResultClassesForJSONConfig(oldBackendSearchConfig)
 // mergeFacetConfigs(INITIAL_STATE.facets, oldPerspectiveConfig.facets)
+
+export class Counter {
+  dct;
+
+  constructor (arr) {
+    this.dct = {}
+    this.update(arr)
+  }
+
+  mostCommon (n) {
+    const lst = Object.entries(this.dct)
+    lst.sort((a, b) => {
+      return b[1] - a[1]
+    })
+    return lst.slice(0, n)
+  }
+
+  mostCommonLabels (n) {
+    const lst = this.mostCommon(n)
+    return lst.map(x => { return x[0] })
+  }
+
+  update (arr) {
+    if (arr) {
+      arr.forEach(x => this.addItem(x))
+    }
+  }
+
+  combine (other) {
+    for (const x of Object.keys(other.dct)) {
+      if (x in this.dct) {
+        this.dct[x] += other.dct[x]
+      } else {
+        this.dct[x] = other.dct[x]
+      }
+    }
+  }
+
+  addItem (x) {
+    if (x in this.dct) {
+      this.dct[x] += 1
+    } else {
+      this.dct[x] = 1
+    }
+  }
+}
+
+/**
+ export class DefaultDict {
+  proxy;
+
+  constructor (DefaultClass) {
+    this.proxy = new Proxy({}, {
+      get: (target, name) => {
+        if (!(name in target)) {
+          target[name] = new DefaultClass()
+        }
+        return target[name]
+      }
+    })
+    return this.proxy
+  }
+  // Object.keys(dc)
+  // Object.entries(dc)
+}
+*/
