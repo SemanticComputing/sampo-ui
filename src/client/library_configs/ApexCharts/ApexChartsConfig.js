@@ -128,6 +128,117 @@ export const createMultipleLineChartData = ({
   return apexChartOptionsWithData
 }
 
+export const createTopTimelineChartData = ({
+  resultClass,
+  facetClass,
+  perspectiveState,
+  results,
+  resultClassConfig,
+  screenSize
+}) => {
+  // console.log('topN', results.topN)
+  const {
+    title,
+    fill,
+    tooltip,
+    legend,
+    grid
+  } = resultClassConfig
+  results.series.forEach(x => { x.name = intl.get(`lineChart.${x.name}`) || x.name })
+  const apexChartOptionsWithData = {
+    chart: {
+      id: 'topN',
+      type: 'scatter',
+      width: '100%',
+      height: '100%',
+      fontFamily: 'Roboto',
+      toolbar: {
+        autoSelected: 'pan',
+        show: true
+      }
+    },
+    series: results.series,
+    title: {
+      text: title.replace(/{}/g, results.topN.toString()),
+      align: 'left'
+    },
+    xaxis: {
+      type: 'datetime',
+      min: results.minUTC,
+      max: results.maxUTC,
+      lines: {
+        show: true
+      }
+    },
+    yaxis: {
+      min: -1,
+      max: results.topTies.length,
+      tickAmount: results.topTies.length + 1,
+      reversed: true,
+      labels: {
+        formatter: function (value) {
+          return (value >= 0) ? results.topTies[value] || '' : ''
+        },
+        minWidth: 150,
+        maxWidth: 300,
+        align: 'right'
+      }
+    },
+    ...(grid) && { grid },
+    ...(tooltip) && { tooltip },
+    ...(legend) && { legend },
+    ...(fill) && { fill }
+  }
+  return apexChartOptionsWithData
+}
+
+export const createTopTimelineChartData2 = ({
+  resultClass,
+  facetClass,
+  perspectiveState,
+  results,
+  resultClassConfig,
+  screenSize
+}) => {
+  const {
+    title,
+    stroke,
+    fill,
+    tooltip,
+    xaxis,
+    yaxis,
+    grid
+  } = resultClassConfig
+  results.forEach(x => { x.name = intl.get(`lineChart.${x.name}`) || x.name })
+  const apexChartOptionsWithData = {
+    series: results,
+    chart: {
+      id: 'area-datetime',
+      type: 'area',
+      height: '100%'
+      /**
+       brush: { target: 'topN', enabled: true },
+       selection: {
+         enabled: true,
+         xaxis: {
+           min: results.minUTC,
+           max: results.maxUTC2
+          }
+        }
+        */
+    },
+    dataLabels: { enabled: false },
+    ...(title) && { title },
+    ...(xaxis) && { xaxis },
+    ...(yaxis) && { yaxis },
+    ...(grid) && { grid },
+    ...(tooltip) && { tooltip },
+    ...(stroke) && { stroke },
+    ...(fill) && { fill }
+  }
+  return apexChartOptionsWithData
+}
+
 export const createApexPieChartData = ({
   resultClass,
   facetClass,
