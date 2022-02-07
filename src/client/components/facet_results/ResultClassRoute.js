@@ -13,7 +13,7 @@ const Network = lazy(() => import('./Network'))
 const VideoPage = lazy(() => import('../main_layout/VideoPage'))
 const WordCloud = lazy(() => import('../main_layout/WordCloud'))
 const TemporalMap = lazy(() => import('./TemporalMap'))
-// const BarChartRace = lazy(() => import('../../facet_results/BarChartRace'))
+const BarChartRace = lazy(() => import('./BarChartRace'))
 const ExportCSV = lazy(() => import('./ExportCSV'))
 const Export = lazy(() => import('./Export'))
 
@@ -364,6 +364,23 @@ const ResultClassRoute = props => {
         updateVideoPlayerTime: props.updateVideoPlayerTime
       }
       routeComponent = <VideoPage {...videoPageProps} />
+      break
+    }
+    case 'BarChartRace': {
+      const { stepBegin, stepEnd, stepIncrement, stepDuration } = resultClassConfig
+      const barChartRaceProps = {
+        portalConfig,
+        fetchData: props.fetchResults,
+        resultClass,
+        facetClass,
+        resultUpdateID: perspectiveState.resultUpdateID,
+        results: props.perspectiveState.results,
+        stepBegin,
+        stepEnd,
+        stepIncrement,
+        stepDuration
+      }
+      routeComponent = <BarChartRace {...barChartRaceProps} />
       break
     }
     case 'TemporalMap': {
