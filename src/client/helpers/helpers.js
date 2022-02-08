@@ -79,6 +79,13 @@ export const stateToUrl = ({
           priority: value.priority,
           values: value.timespanFilter
         })
+      } else if (has(value, 'dateNoTimespanFilter') && value.dateNoTimespanFilter !== null) {
+        constraints.push({
+          facetID: key,
+          filterType: value.filterType,
+          priority: value.priority,
+          values: value.dateNoTimespanFilter
+        })
       } else if (has(value, 'integerFilter') && value.integerFilter !== null) {
         constraints.push({
           facetID: key,
@@ -236,18 +243,20 @@ export const createPerspectiveConfig = async ({ portalID, searchPerspectives }) 
           if (has(resultClassConfig.instanceConfig, 'instancePageResultClasses')) {
             for (const instancePageResultClassID in resultClassConfig.instanceConfig.instancePageResultClasses) {
               const instancePageResultClassConfig = resultClassConfig.instanceConfig.instancePageResultClasses[instancePageResultClassID]
-              const { tabID, tabPath, tabIcon } = instancePageResultClassConfig
-              instancePageTabs.push({
-                id: tabPath,
-                value: tabID,
-                icon: <MuiIcon iconName={tabIcon} />
-              })
+              if (!instancePageResultClassConfig.hideTab && has(instancePageResultClassConfig, 'tabID') && has(instancePageResultClassConfig, 'tabPath')) {
+                const { tabID, tabPath, tabIcon } = instancePageResultClassConfig
+                instancePageTabs.push({
+                  id: tabPath,
+                  value: tabID,
+                  icon: <MuiIcon iconName={tabIcon} />
+                })
+              }
             }
           }
           // paginated results
           resultClassConfig = resultClassConfig.paginatedResultsConfig
         }
-        if (has(resultClassConfig, 'tabID') && has(resultClassConfig, 'tabPath')) {
+        if (!resultClassConfig.hideTab && has(resultClassConfig, 'tabID') && has(resultClassConfig, 'tabPath')) {
           const { tabID, tabPath, tabIcon } = resultClassConfig
           tabs.push({
             id: tabPath,
@@ -278,12 +287,14 @@ export const createPerspectiveConfigOnlyInfoPages = async ({ portalID, onlyInsta
     if (has(defaultResultClassConfig.instanceConfig, 'instancePageResultClasses')) {
       for (const instancePageResultClassID in defaultResultClassConfig.instanceConfig.instancePageResultClasses) {
         const instancePageResultClassConfig = defaultResultClassConfig.instanceConfig.instancePageResultClasses[instancePageResultClassID]
-        const { tabID, tabPath, tabIcon } = instancePageResultClassConfig
-        instancePageTabs.push({
-          id: tabPath,
-          value: tabID,
-          icon: <MuiIcon iconName={tabIcon} />
-        })
+        if (!instancePageResultClassConfig.hideTab && has(instancePageResultClassConfig, 'tabID') && has(instancePageResultClassConfig, 'tabPath')) {
+          const { tabID, tabPath, tabIcon } = instancePageResultClassConfig
+          instancePageTabs.push({
+            id: tabPath,
+            value: tabID,
+            icon: <MuiIcon iconName={tabIcon} />
+          })
+        }
       }
     }
     perspective.instancePageTabs = sortBy(instancePageTabs, 'value')
