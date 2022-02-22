@@ -347,6 +347,7 @@ const SemanticPortal = props => {
                 screenSize={screenSize}
                 showError={props.showError}
                 rootUrl={rootUrlWithLang}
+                location={location}
                 apexChartsConfig={apexChartsConfig}
                 leafletConfig={leafletConfig}
                 networkConfig={networkConfig}

@@ -114,6 +114,7 @@ const FederatedSearchPerspective = props => {
             clearGeoJSONLayers={props.clearGeoJSONLayers}
             showError={props.showError}
             rootUrl={rootUrl}
+            location={props.location}
             apexChartsConfig={apexChartsConfig}
             leafletConfig={leafletConfig}
             networkConfig={networkConfig}

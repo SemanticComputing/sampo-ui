@@ -39,23 +39,29 @@ class ApexChart extends React.Component {
   }
 
   componentDidMount = () => {
-    this.props.fetchData({
-      perspectiveID: this.props.perspectiveConfig.id,
-      resultClass: this.state.resultClass,
-      facetClass: this.props.facetClass,
-      facetID: this.props.facetID,
-      uri: this.props.perspectiveState && this.props.perspectiveState.instanceTableData
-        ? this.props.perspectiveState.instanceTableData.id
-        : null,
-      order: this.props.order
-    })
+    const { pageType = 'facetResults' } = this.props
+    if (this.props.fetchData) {
+      this.props.fetchData({
+        perspectiveID: this.props.perspectiveConfig.id,
+        resultClass: this.state.resultClass,
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+        uri: this.props.perspectiveState && this.props.perspectiveState.instanceTableData
+          ? this.props.perspectiveState.instanceTableData.id
+          : null,
+        order: this.props.order
+      })
+    }
+    if (pageType === 'clientFSResults') {
+      this.renderChart()
+    }
   }
 
   componentDidUpdate = (prevProps, prevState) => {
+    const { pageType = 'facetResults' } = this.props
     if (this.props.resultUpdateID !== 0 && prevProps.resultUpdateID !== this.props.resultUpdateID) {
       this.renderChart()
     }
-    const { pageType = 'facetResults' } = this.props
     if (pageType === 'facetResults' && prevProps.facetUpdateID !== this.props.facetUpdateID) {
       this.props.fetchData({
         perspectiveID: this.props.perspectiveConfig.id,
@@ -64,6 +70,9 @@ class ApexChart extends React.Component {
         facetID: this.props.facetID,
         order: this.props.order
       })
+    }
+    if (pageType === 'clientFSResults' && prevProps.facetUpdateID !== this.props.facetUpdateID) {
+      this.renderChart()
     }
     if (prevState.resultClass !== this.state.resultClass) {
       this.props.fetchData({
@@ -291,7 +300,7 @@ class ApexChart extends React.Component {
 }
 
 ApexChart.propTypes = {
-  fetchData: PropTypes.func.isRequired,
+  fetchData: PropTypes.func,
   resultClass: PropTypes.string,
   facetClass: PropTypes.string
 }

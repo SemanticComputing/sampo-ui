@@ -80,8 +80,7 @@
     "rxjs": "^7.2.0",
     "simple-react-lightbox": "^3.6.9-0",
     "simple-statistics": "^7.7.0",
-    "swagger-ui-express": "^4.1.6",
-    "victory": "^0.26.1"
+    "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",

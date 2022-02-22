@@ -251,7 +251,7 @@ export const createApexPieChartData = ({
   const series = []
   let otherCount = 0
   const arraySum = results.reduce((sum, current) => sum + current.instanceCount, 0)
-  const { sliceVisibilityThreshold = defaultSliceVisibilityThreshold, propertyID } = resultClassConfig
+  const { sliceVisibilityThreshold = defaultSliceVisibilityThreshold, propertyID, title = null } = resultClassConfig
   results.forEach(item => {
     const sliceFraction = item.instanceCount / arraySum
     if (sliceFraction <= sliceVisibilityThreshold) {
@@ -292,7 +292,8 @@ export const createApexPieChartData = ({
     ...apexPieChartOptions,
     colors: chartColors,
     series,
-    labels
+    labels,
+    ...(title) && { title }
   }
   return apexChartOptionsWithData
 }

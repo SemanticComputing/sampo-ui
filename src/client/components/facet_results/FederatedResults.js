@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import Immutable from 'immutable'
 import intl from 'react-intl-universal'
 import { Route, Redirect } from 'react-router-dom'
+import { groupBy, orderBy } from 'lodash'
 import PerspectiveTabs from '../main_layout/PerspectiveTabs'
 import LeafletMap from './LeafletMap'
 import ResultInfo from './ResultInfo'
 import VirtualizedTable from './VirtualizedTable'
-import Pie from './Pie.js'
+import ApexCharts from './ApexCharts'
 import CSVButton from './CSVButton'
 
 const FederatedResults = props => {
@@ -19,6 +20,18 @@ const FederatedResults = props => {
   const layerControlExpanded = screenSize === 'md' ||
     screenSize === 'lg' ||
     screenSize === 'xl'
+  let groupedResults = []
+  if (props.location.pathname.endsWith('statistics')) {
+    const grouped = groupBy(props.clientFSResults, clientFSState.groupBy)
+    for (const key in grouped) {
+      groupedResults.push({
+        category: key,
+        prefLabel: key,
+        instanceCount: grouped[key].length
+      })
+    }
+    groupedResults = orderBy(groupedResults, 'instanceCount', 'desc')
+  }
   return (
     <>
       <PerspectiveTabs
@@ -97,13 +110,22 @@ const FederatedResults = props => {
           : <ResultInfo message={intl.get('leafletMap.tooManyResults')} />}
       </Route>
       <Route path={`${rootUrl}/${perspectiveID}/${searchMode}/statistics`}>
-        <Pie
+        <ApexCharts
           portalConfig={portalConfig}
-          data={props.clientFSResults}
-          groupBy={props.clientFSState.groupBy}
-          groupByLabel={props.clientFSState.groupByLabel}
-          query={props.clientFSState.query}
           layoutConfig={layoutConfig}
+          perspectiveConfig={props.perspectiveConfig}
+          apexChartsConfig={props.apexChartsConfig}
+          results={groupedResults}
+          pageType='clientFSResults'
+          facetUpdateID={props.clientFSState.facetUpdateID}
+          resultClassConfig={{
+            createChartData: 'createApexPieChartData',
+            property: props.clientFSState.groupBy,
+            title: {
+              text: props.clientFSState.groupByLabel,
+              align: 'left'
+            }
+          }}
         />
       </Route>
       <Route path={`${rootUrl}/${perspectiveID}/${searchMode}/download`}>
