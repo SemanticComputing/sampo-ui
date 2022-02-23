@@ -36,7 +36,6 @@
     "apexcharts": "^3.33.0",
     "axios": "^0.25.0",
     "buffer": "^6.0.3",
-    "core-js": "^3.19.1",
     "cytoscape": "^3.12.1",
     "cytoscape-panzoom": "^2.5.3",
     "date-fns": "^2.19.0",
