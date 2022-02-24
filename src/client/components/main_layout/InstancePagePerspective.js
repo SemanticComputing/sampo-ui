@@ -99,7 +99,7 @@ const InstancePagePerspective = props => {
             perspective={perspective}
             animationValue={props.animationValue}
             animateMap={props.animateMap}
-            videoPlayerState={props.videoPlayer}
+            videoPlayerState={props.videoPlayerState}
             updateVideoPlayerTime={props.updateVideoPlayerTime}
             screenSize={screenSize}
             rootUrl={rootUrl}
