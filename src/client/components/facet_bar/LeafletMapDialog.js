@@ -21,6 +21,7 @@ const styles = theme => ({
     width: '100%'
   },
   rightIcon: {
+    color: 'white',
     marginLeft: theme.spacing(1)
   }
 })
@@ -67,9 +68,7 @@ class LeafletMapDialog extends React.Component {
       <Paper
         sx={theme => ({
           padding: theme.spacing(1),
-          [theme.breakpoints.down('md')]: {
-            marginBottom: theme.spacing(1)
-          }
+          marginBottom: theme.spacing(1)
         })}
       >
         <Button
