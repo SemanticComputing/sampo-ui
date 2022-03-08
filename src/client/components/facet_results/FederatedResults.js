@@ -56,6 +56,7 @@ const FederatedResults = props => {
       <Route path={`${rootUrl}/${perspectiveID}/${searchMode}/map_clusters`}>
         <LeafletMap
           portalConfig={portalConfig}
+          perspectiveConfig={perspective}
           center={mapClusters.center}
           zoom={mapClusters.zoom}
           results={props.clientFSResults}
@@ -84,6 +85,7 @@ const FederatedResults = props => {
           ? (
             <LeafletMap
               portalConfig={portalConfig}
+              perspectiveConfig={perspective}
               center={mapMarkers.center}
               zoom={mapMarkers.zoom}
               results={props.clientFSResults}

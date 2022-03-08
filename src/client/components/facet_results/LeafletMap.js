@@ -943,7 +943,8 @@ class LeafletMap extends React.Component {
       if (pageType === 'instancePage' || pageType === 'clientFSResults') {
         marker.bindPopup(this.props.createPopUpContent({
           data: result,
-          resultClass: this.props.resultClass
+          resultClass: this.props.resultClass,
+          perspectiveID: this.props.perspectiveConfig.id
         }))
       }
       return marker

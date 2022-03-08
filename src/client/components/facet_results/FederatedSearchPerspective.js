@@ -10,6 +10,7 @@ const FederatedSearchPerspective = props => {
     screenSize, rootUrl, apexChartsConfig, networkConfig,
     leafletConfig
   } = props
+  const perspectiveID = perspective.id
 
   const MainClientFS = lazy(() => import(`../../components/perspectives/${portalConfig.portalID}/MainClientFS`))
 
@@ -55,8 +56,8 @@ const FederatedSearchPerspective = props => {
           portalConfig={portalConfig}
           layoutConfig={layoutConfig}
           facetedSearchMode='clientFS'
-          facetClass='perspective4'
-          resultClass='perspective4'
+          facetClass={perspectiveID}
+          resultClass={perspectiveID}
           facetState={props.clientFSState}
           clientFSFacetValues={props.clientFSFacetValues}
           fetchingResultCount={props.clientFSState.textResultsFetching}
