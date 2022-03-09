@@ -239,7 +239,7 @@ export const createPerspectiveConfig = async ({ portalID, searchPerspectives }) 
         let resultClassConfig = perspective.resultClasses[resultClass]
         // handle the default resultClass of this perspective
         if (resultClass === perspective.id) {
-          // instance pages
+          // default resultClass, instance pages
           if (has(resultClassConfig.instanceConfig, 'instancePageResultClasses')) {
             for (const instancePageResultClassID in resultClassConfig.instanceConfig.instancePageResultClasses) {
               const instancePageResultClassConfig = resultClassConfig.instanceConfig.instancePageResultClasses[instancePageResultClassID]
@@ -253,10 +253,10 @@ export const createPerspectiveConfig = async ({ portalID, searchPerspectives }) 
               }
             }
           }
-          // paginated results
+          // default resultClass, paginated results tab is added next
           resultClassConfig = resultClassConfig.paginatedResultsConfig
         }
-        if (!resultClassConfig.hideTab && has(resultClassConfig, 'tabID') && has(resultClassConfig, 'tabPath')) {
+        if (resultClassConfig && has(resultClassConfig, 'tabID') && !resultClassConfig.hideTab && has(resultClassConfig, 'tabPath')) {
           const { tabID, tabPath, tabIcon } = resultClassConfig
           tabs.push({
             id: tabPath,
