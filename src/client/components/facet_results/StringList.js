@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from '@mui/styles/withStyles';
+import withStyles from '@mui/styles/withStyles'
 import Collapse from '@mui/material/Collapse'
 import HTMLParser from '../../helpers/HTMLParser'
 import classNames from 'classnames'
@@ -47,9 +47,9 @@ const StringList = props => {
     }
     return (
       <>
-        <div>{firstValue}</div>
+        <span>{firstValue}</span>
         {addThreeDots &&
-          <span className={props.classes.threeDots} onClick={() => props.onExpandClick(props.rowId)}> ...</span>}
+          <span className={props.classes.threeDots} onClick={() => props.onExpandClick(props.rowId)}>...</span>}
       </>
     )
   }

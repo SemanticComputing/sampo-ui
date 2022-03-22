@@ -15,6 +15,8 @@ const ResultTableCell = props => {
   } = props
   let cellContent = null
   const cellStyle = {
+    paddingTop: 3,
+    paddingBottom: 3,
     ...(height && { height }),
     ...(minWidth && { minWidth })
   }
