@@ -2,8 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import withStyles from '@mui/styles/withStyles'
 import Collapse from '@mui/material/Collapse'
+import IconButton from '@mui/material/IconButton'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import HTMLParser from '../../helpers/HTMLParser'
 import classNames from 'classnames'
+import clsx from 'clsx'
 
 const styles = theme => ({
   resultTableList: props => ({
@@ -27,6 +30,16 @@ const styles = theme => ({
   },
   threeDots: {
     cursor: 'pointer'
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest
+    })
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)'
   }
 })
 
@@ -71,7 +84,7 @@ const StringList = props => {
     }
   }
 
-  const { renderAsHTML, classes } = props
+  const { renderAsHTML, classes, expanded, rowId, onExpandClick } = props
   let { data } = props
   if (data == null || data === '-') {
     return '-'
@@ -83,11 +96,23 @@ const StringList = props => {
   }
   return (
     <>
-      {!props.expanded && createFirstValue(data, isArray)}
+      {!expanded && createFirstValue(data, isArray)}
       <Collapse in={props.expanded} timeout='auto' unmountOnExit>
         {isArray && createBasicList(data)}
         {!isArray && <div>{data}</div>}
       </Collapse>
+      {expanded &&
+        <IconButton
+          className={clsx(classes.expand, {
+            [classes.expandOpen]: expanded
+          })}
+          onClick={() => onExpandClick(rowId)}
+          aria-expanded={expanded}
+          aria-label='Show more'
+          size='large'
+        >
+          <ExpandMoreIcon />
+        </IconButton>}
     </>
   )
 }
