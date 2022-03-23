@@ -190,7 +190,7 @@ class ResultTable extends React.Component {
     const dataCells = this.props.data.properties.map(column => {
       const {
         id, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, minWidth,
-        height, linkAsButton, collapsedMaxWords, sourceExternalLink, renderAsHTML, HTMLParserTask
+        height, linkAsButton, collapsedMaxWords, showExtraCollapseButton, sourceExternalLink, renderAsHTML, HTMLParserTask
       } = column
       let { previewImageHeight } = column
       if (screenSize === 'xs' || screenSize === 'sm') {
@@ -243,6 +243,7 @@ class ResultTable extends React.Component {
           onExpandClick={this.handleExpandRowFromChildComponent}
           linkAsButton={linkAsButton}
           collapsedMaxWords={collapsedMaxWords}
+          showExtraCollapseButton={showExtraCollapseButton}
           shortenLabel={shortenLabel}
           showSource={false}
           sourceExternalLink={sourceExternalLink}

@@ -11,7 +11,7 @@ const ResultTableCell = props => {
     data, tableData, valueType, makeLink, externalLink, sortValues, sortBy, numberedList, minWidth,
     height, container, columnId, expanded, linkAsButton, collapsedMaxWords, showSource,
     sourceExternalLink, renderAsHTML, HTMLParserTask, referencedTerm, previewImageHeight,
-    onExpandClick, rowId, shortenLabel = false
+    onExpandClick, showExtraCollapseButton, rowId, shortenLabel = false
   } = props
   let cellContent = null
   const cellStyle = {
@@ -52,6 +52,7 @@ const ResultTableCell = props => {
           onExpandClick={onExpandClick}
           rowId={rowId}
           collapsedMaxWords={collapsedMaxWords}
+          showExtraCollapseButton={showExtraCollapseButton}
           shortenLabel={shortenLabel}
           renderAsHTML={renderAsHTML}
           HTMLParserTask={HTMLParserTask}

@@ -84,7 +84,7 @@ const StringList = props => {
     }
   }
 
-  const { renderAsHTML, classes, expanded, rowId, onExpandClick } = props
+  const { renderAsHTML, classes, expanded, rowId, onExpandClick, showExtraCollapseButton = false } = props
   let { data } = props
   if (data == null || data === '-') {
     return '-'
@@ -101,7 +101,7 @@ const StringList = props => {
         {isArray && createBasicList(data)}
         {!isArray && <div>{data}</div>}
       </Collapse>
-      {expanded &&
+      {expanded && showExtraCollapseButton &&
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded

@@ -472,6 +472,7 @@
             "numberedList": false,
             "minWidth": 220,
             "collapsedMaxWords": 5,
+            "showExtraCollapseButton": true,
             "expandedOnInstancePage": true
         },
         {
