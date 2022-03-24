@@ -44,19 +44,22 @@ const styles = theme => ({
 })
 
 const StringList = props => {
-  const createFirstValue = (data, isArray) => {
-    let firstValue = isArray ? data[0] : data
+  const parser = new HTMLParser(props)
+
+  const createFirstValue = data => {
+    let firstValue = Array.isArray(data) ? data[0] : data
     let addThreeDots = false
     if (props.collapsedMaxWords) {
       const wordCount = firstValue.split(' ').length
       if (wordCount > props.collapsedMaxWords) {
         firstValue = firstValue.trim().split(' ').splice(0, props.collapsedMaxWords).join(' ')
         addThreeDots = true
-        // firstValue = `${firstValue}...`
       }
     } else if (isArray) {
       addThreeDots = true
-      // firstValue = `${firstValue}...`
+    }
+    if (props.renderAsHTML) {
+      firstValue = parser.parseHTML(firstValue)
     }
     return (
       <>
@@ -90,16 +93,19 @@ const StringList = props => {
     return '-'
   }
   const isArray = Array.isArray(data)
+  let firstValue
+  if (!expanded) {
+    firstValue = createFirstValue(data)
+  }
   if (renderAsHTML) {
-    const parser = new HTMLParser(props)
     data = parser.parseHTML(data)
   }
   return (
     <>
-      {!expanded && createFirstValue(data, isArray)}
+      {!expanded && firstValue}
       <Collapse in={props.expanded} timeout='auto' unmountOnExit>
         {isArray && createBasicList(data)}
-        {!isArray && <div>{data}</div>}
+        {!isArray && <>{data}</>}
       </Collapse>
       {expanded && showExtraCollapseButton &&
         <IconButton
