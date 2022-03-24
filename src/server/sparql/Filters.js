@@ -131,7 +131,6 @@ const generateTextFilter = ({
     ? `${queryTargetVariable} text:query ${queryObject} .
     ?${filterTarget} ${facetConfig.textQueryPredicate} ${queryTargetVariable} .`
     : `${querySubject} text:query ${queryObject} .`
-  console.log(filterStr)
   if (inverse) {
     return `
       FILTER NOT EXISTS {
