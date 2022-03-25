@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import { TextField } from '@mui/material'
 import DatePicker from '@mui/lab/DatePicker'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import moment from 'moment'
 import intl from 'react-intl-universal'
 
 /**
- * A component for a date facet with pickers using @material-ui/pickers and Moment.js.
+ * A date facet component built on @mui/lab/DatePicker and Moment.js.
  */
 class DateFacet extends React.Component {
   constructor (props) {
@@ -15,7 +16,8 @@ class DateFacet extends React.Component {
     this.state = {
       from: moment(this.props.facet.min),
       to: moment(this.props.facet.max),
-      error: false
+      fromError: false,
+      toError: false
     }
   }
 
@@ -25,14 +27,9 @@ class DateFacet extends React.Component {
     if (this.isValidDate(from) &&
       this.isValidDate(to) &&
       from.isSameOrBefore(to)) {
-      const values = [
-        from.format('YYYY-MM-DD'),
-        to.format('YYYY-MM-DD')
-      ]
-      this.updateFacet(values)
-      this.setState({ error: false })
+      this.setState({ fromError: false })
     } else {
-      this.setState({ error: true })
+      this.setState({ fromError: true })
     }
   }
 
@@ -42,24 +39,30 @@ class DateFacet extends React.Component {
     if (this.isValidDate(from) &&
       this.isValidDate(to) &&
       from.isSameOrBefore(to)) {
-      const values = [
-        this.state.from.format('YYYY-MM-DD'),
-        to.format('YYYY-MM-DD')
-      ]
-      this.updateFacet(values)
-      this.setState({ error: false })
+      this.setState({ toError: false })
     } else {
-      this.setState({ error: true })
+      this.setState({ toError: true })
     }
   }
 
-  updateFacet = values => {
-    this.props.updateFacetOption({
-      facetClass: this.props.facetClass,
-      facetID: this.props.facetID,
-      option: this.props.facet.filterType,
-      value: values
-    })
+  handleApplyOnClick = () => this.updateFacet()
+
+  updateFacet = () => {
+    const { from, to } = this.state
+    if (this.isValidDate(from) &&
+      this.isValidDate(to) &&
+      from.isSameOrBefore(to)) {
+      const values = [
+        from.format('YYYY-MM-DD'),
+        to.format('YYYY-MM-DD')
+      ]
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: this.props.facetID,
+        option: this.props.facet.filterType,
+        value: values
+      })
+    }
   }
 
   isValidDate = date => {
@@ -72,63 +75,73 @@ class DateFacet extends React.Component {
   }
 
   render () {
-    const { from, to, error } = this.state
+    const { from, to, fromError, toError } = this.state
     const { min, max } = this.props.facet
     const { someFacetIsFetching } = this.props
     return (
-      <div>
-        <DatePicker
-          label={intl.get('facets.dateFacet.fromLabel')}
-          renderInput={params =>
-            <TextField
-              error={error}
-              helperText={error ? intl.get('facets.dateFacet.toBeforeFrom') : ' '}
-              {...params}
-            />}
-          placeholder={moment(min).format('DD.MM.YYYY')}
-          mask='__.__.____'
-          value={from}
-          onChange={date => this.handleFromChange(date)}
-          inputFormat='DD.MM.YYYY'
-          minDate={moment(min)}
-          maxDate={moment(max)}
-          invalidDateMessage={intl.get('facets.dateFacet.invalidDate')}
-          // minDateMessage={intl.get('facets.dateFacet.minDate', { minDate: moment(min).format('DD.MM.YYYY') })}
-          // maxDateMessage={intl.get('facets.dateFacet.maxDate', { maxDate: moment(max).format('DD.MM.YYYY') })}
-          cancelText={intl.get('facets.dateFacet.cancel')}
-          shouldDisableDate={date => date.isAfter(to)}
-          disabled={someFacetIsFetching}
-        />
-        <Box
-          sx={theme => ({
-            marginTop: theme.spacing(2.5)
-          })}
-        >
+      <Box
+        sx={{
+          height: '100%',
+          display: 'flex'
+        }}
+      >
+        <Box sx={{ width: '160px' }}>
           <DatePicker
-            label={intl.get('facets.dateFacet.toLabel')}
+            label={intl.get('facets.dateFacet.fromLabel')}
             renderInput={params =>
               <TextField
-                error={error}
-                helperText={error ? intl.get('facets.dateFacet.toBeforeFrom') : ' '}
+                error={fromError}
+                helperText={fromError ? intl.get('facets.dateFacet.invalidDate') : ' '}
                 {...params}
               />}
-            placeholder={moment(max).format('DD.MM.YYYY')}
+            placeholder={moment(min).format('DD.MM.YYYY')}
             mask='__.__.____'
-            value={to}
-            onChange={date => this.handleToChange(date)}
+            value={from}
+            onChange={date => this.handleFromChange(date)}
             inputFormat='DD.MM.YYYY'
             minDate={moment(min)}
             maxDate={moment(max)}
-            invalidDateMessage={intl.get('facets.dateFacet.invalidDate')}
-            // minDateMessage={intl.get('facets.dateFacet.minDate', { minDate: moment(min).format('DD.MM.YYYY') })}
-            // maxDateMessage={intl.get('facets.dateFacet.maxDate', { maxDate: moment(max).format('DD.MM.YYYY') })}
-            cancelText={intl.get('facets.dateFacet.cancel')}
-            shouldDisableDate={date => date.isBefore(from)}
             disabled={someFacetIsFetching}
           />
-
+          <Box
+            sx={theme => ({
+              marginTop: theme.spacing(1.5)
+            })}
+          >
+            <DatePicker
+              label={intl.get('facets.dateFacet.toLabel')}
+              renderInput={params =>
+                <TextField
+                  error={toError}
+                  helperText={toError ? intl.get('facets.dateFacet.invalidDate') : ' '}
+                  {...params}
+                />}
+              placeholder={moment(max).format('DD.MM.YYYY')}
+              mask='__.__.____'
+              value={to}
+              onChange={date => this.handleToChange(date)}
+              inputFormat='DD.MM.YYYY'
+              minDate={moment(min)}
+              maxDate={moment(max)}
+              disabled={someFacetIsFetching}
+            />
+          </Box>
         </Box>
-      </div>
+        <Box sx={theme => ({
+          marginLeft: theme.spacing(1.5),
+          paddingTop: '55px'
+        })}
+        >
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={this.handleApplyOnClick}
+            disabled={someFacetIsFetching || fromError || toError}
+          >
+            {intl.get('facetBar.applyFacetSelection')}
+          </Button>
+        </Box>
+      </Box>
     )
   }
 }
