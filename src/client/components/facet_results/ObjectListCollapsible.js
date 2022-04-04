@@ -30,7 +30,7 @@ const styles = () => ({
 
 const ObjectListCollapsible = props => {
   const {
-    sortValues, sortBy, makeLink, externalLink, linkAsButton, columnId, showSource,
+    sortValues, sortBy, sortByConvertDataTypeTo, makeLink, externalLink, linkAsButton, columnId, showSource,
     sourceExternalLink, numberedList, collapsedMaxWords, classes, shortenLabel
   } = props
   let { data } = props
@@ -46,6 +46,11 @@ const ObjectListCollapsible = props => {
     } else if (props.columnId === 'event') {
       data = orderBy(data, 'date')
     } else if (props.sortBy) {
+      if (sortByConvertDataTypeTo && sortByConvertDataTypeTo === 'integer') {
+        data.forEach(item => {
+          item[sortBy] = parseInt(item[sortBy])
+        })
+      }
       data = orderBy(data, sortBy)
     } else {
       data = orderBy(data, 'prefLabel')
