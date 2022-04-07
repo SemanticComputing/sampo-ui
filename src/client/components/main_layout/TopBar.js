@@ -123,7 +123,7 @@ const TopBar = props => {
           key={perspective.id}
           component={AdapterNavLink}
           to={getInternalLink(perspective)}
-          isActive={(match, location) => location.pathname.startsWith(`${props.rootUrl}/${perspective.id}`)}
+          isActive={(match, location) => location.pathname.includes(`/${perspective.id}/`)}
           style={isActive => createAppBarButtonStyle(isActive)}
         >
           {intl.get(`perspectives.${perspective.id}.label`).toUpperCase()}
