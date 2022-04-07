@@ -335,6 +335,7 @@ class ResultTable extends React.Component {
             : (
               <Table size='small'>
                 <ResultTableHead
+                  perspectiveConfig={this.props.perspectiveConfig}
                   resultClass={this.props.resultClass}
                   columns={this.props.data.properties}
                   onSortBy={this.handleSortBy}

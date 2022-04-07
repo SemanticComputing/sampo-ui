@@ -68,11 +68,10 @@ class FacetBar extends React.Component {
     this.setState({ activeFacets })
   }
 
-  renderFacet = (facetID, someFacetIsFetching) => {
-    const { facetClass } = this.props
+  renderFacet = ({ facetID, someFacetIsFetching, propertiesTranslationsID }) => {
     const { facetUpdateID, updatedFacet, updatedFilter, facets } = this.props.facetState
-    const label = intl.get(`perspectives.${facetClass}.properties.${facetID}.label`)
-    const description = intl.get(`perspectives.${facetClass}.properties.${facetID}.description`)
+    const label = intl.get(`perspectives.${propertiesTranslationsID}.properties.${facetID}.label`)
+    const description = intl.get(`perspectives.${propertiesTranslationsID}.properties.${facetID}.description`)
     const facet = { ...facets[facetID] }
     const facetConstrainSelf = this.props.facetStateConstrainSelf == null
       ? null
@@ -302,7 +301,7 @@ class FacetBar extends React.Component {
     return variant
   }
 
-  renderFacets = ({ facets, someFacetIsFetching }) => {
+  renderFacets = ({ facets, someFacetIsFetching, propertiesTranslationsID }) => {
     const { screenSize } = this.props
     if (screenSize === 'xs' || screenSize === 'sm') {
       // note: some Accordion styles defined in theme (App.js)
@@ -319,7 +318,7 @@ class FacetBar extends React.Component {
           {facets && Object.keys(facets).map(facetID => {
             if (facetID === 'datasetSelector') { return null }
             if (!has(facets[facetID], 'filterType')) { return null }
-            return this.renderFacet(facetID, someFacetIsFetching)
+            return this.renderFacet({ facetID, someFacetIsFetching, propertiesTranslationsID })
           })}
         </Accordion>
       )
@@ -329,7 +328,7 @@ class FacetBar extends React.Component {
           {facets && Object.keys(facets).map(facetID => {
             if (facetID === 'datasetSelector') { return null }
             if (!has(facets[facetID], 'filterType')) { return null }
-            return this.renderFacet(facetID, someFacetIsFetching)
+            return this.renderFacet({ facetID, someFacetIsFetching, propertiesTranslationsID })
           })}
         </>
       )
@@ -337,7 +336,8 @@ class FacetBar extends React.Component {
   }
 
   render () {
-    const { facetClass, resultClass, resultCount, facetState, facetedSearchMode } = this.props
+    const { facetClass, resultClass, resultCount, facetState, facetedSearchMode, perspectiveConfig } = this.props
+    const propertiesTranslationsID = perspectiveConfig.propertiesTranslationsID || facetClass
     const { facets } = facetState
     let someFacetIsFetching = false
     const hasClientFSResults = facetState.results !== null
@@ -356,7 +356,7 @@ class FacetBar extends React.Component {
           height: '100%'
         }}
       >
-        {facetedSearchMode === 'clientFS' && this.renderFacet('datasetSelector', false)}
+        {facetedSearchMode === 'clientFS' && this.renderFacet({ facetID: 'datasetSelector', someFacetIsFetching: false, propertiesTranslationsID })}
         {facetedSearchMode === 'clientFS' &&
           <SearchField
             search={this.props.facetState}
@@ -401,10 +401,11 @@ class FacetBar extends React.Component {
               perspectiveID={facetClass}
               clearAllFacets={this.props.clearAllFacets}
               screenSize={this.props.screenSize}
+              propertiesTranslationsID={propertiesTranslationsID}
             />
           </Paper>}
         {(facetedSearchMode === 'serverFS' || hasClientFSResults) &&
-          this.renderFacets({ facets, someFacetIsFetching })}
+          this.renderFacets({ facets, someFacetIsFetching, propertiesTranslationsID })}
       </Box>
     )
   }

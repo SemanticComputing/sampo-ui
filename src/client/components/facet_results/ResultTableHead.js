@@ -24,7 +24,8 @@ const styles = theme => ({
 })
 
 const ResultTableHead = props => {
-  const { classes, columns, sortBy, sortDirection, onSortBy } = props
+  const { classes, columns, sortBy, sortDirection, onSortBy, perspectiveConfig, resultClass } = props
+  const translationsID = perspectiveConfig.propertiesTranslationsID || resultClass
   return (
     <TableHead>
       <TableRow>
@@ -36,8 +37,8 @@ const ResultTableHead = props => {
               <td className={classes.headerCol} key='empty2' />
             )
           }
-          const label = intl.get(`perspectives.${props.resultClass}.properties.${column.id}.label`)
-          const description = intl.get(`perspectives.${props.resultClass}.properties.${column.id}.description`)
+          const label = intl.get(`perspectives.${translationsID}.properties.${column.id}.label`)
+          const description = intl.get(`perspectives.${translationsID}.properties.${column.id}.description`)
           return (
             <React.Fragment key={column.id}>
               {column.disableSort

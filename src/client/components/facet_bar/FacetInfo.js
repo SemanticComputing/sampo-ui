@@ -149,6 +149,7 @@ class FacetInfo extends React.Component {
               someFacetIsFetching={someFacetIsFetching}
               fetchingResultCount={this.props.fetchingResultCount}
               fetchFacet={this.props.fetchFacet}
+              propertiesTranslationsID={this.props.propertiesTranslationsID}
             />
             <Divider
               sx={theme => ({

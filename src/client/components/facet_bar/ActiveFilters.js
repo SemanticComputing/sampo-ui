@@ -6,7 +6,7 @@ import ChipsArray from './ChipsArray'
 const ActiveFilters = props => {
   const {
     uriFilters, textFilters, timespanFilters, dateNoTimespanFilters, integerFilters,
-    facetClass, someFacetIsFetching, fetchingResultCount
+    someFacetIsFetching, fetchingResultCount, propertiesTranslationsID
   } = props
   const facetValues = []
   Object.keys(uriFilters).forEach(activeFacetID => {
@@ -14,7 +14,7 @@ const ActiveFilters = props => {
     Object.values(uriFilters[activeFacetID]).forEach(value => {
       facetValues.push({
         facetID: activeFacetID,
-        facetLabel: intl.get(`perspectives.${facetClass}.properties.${activeFacetID}.label`),
+        facetLabel: intl.get(`perspectives.${propertiesTranslationsID}.properties.${activeFacetID}.label`),
         filterType: 'uriFilter',
         value: value // a react sortable tree object
       })
@@ -23,7 +23,7 @@ const ActiveFilters = props => {
   Object.keys(textFilters).forEach(facetID => {
     facetValues.push({
       facetID: facetID,
-      facetLabel: intl.get(`perspectives.${facetClass}.properties.${facetID}.label`),
+      facetLabel: intl.get(`perspectives.${propertiesTranslationsID}.properties.${facetID}.label`),
       filterType: 'textFilter',
       value: textFilters[facetID]
     })
@@ -31,7 +31,7 @@ const ActiveFilters = props => {
   Object.keys(timespanFilters).forEach(facetID => {
     facetValues.push({
       facetID: facetID,
-      facetLabel: intl.get(`perspectives.${facetClass}.properties.${facetID}.label`),
+      facetLabel: intl.get(`perspectives.${propertiesTranslationsID}.properties.${facetID}.label`),
       filterType: 'timespanFilter',
       value: timespanFilters[facetID]
     })
@@ -39,7 +39,7 @@ const ActiveFilters = props => {
   Object.keys(dateNoTimespanFilters).forEach(facetID => {
     facetValues.push({
       facetID: facetID,
-      facetLabel: intl.get(`perspectives.${facetClass}.properties.${facetID}.label`),
+      facetLabel: intl.get(`perspectives.${propertiesTranslationsID}.properties.${facetID}.label`),
       filterType: 'dateNoTimespanFilter',
       value: dateNoTimespanFilters[facetID]
     })
@@ -47,7 +47,7 @@ const ActiveFilters = props => {
   Object.keys(integerFilters).forEach(facetID => {
     facetValues.push({
       facetID: facetID,
-      facetLabel: intl.get(`perspectives.${facetClass}.properties.${facetID}.label`),
+      facetLabel: intl.get(`perspectives.${propertiesTranslationsID}.properties.${facetID}.label`),
       filterType: 'integerFilter',
       value: integerFilters[facetID]
     })
