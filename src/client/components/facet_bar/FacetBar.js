@@ -71,7 +71,8 @@ class FacetBar extends React.Component {
   renderFacet = ({ facetID, someFacetIsFetching, propertiesTranslationsID }) => {
     const { facetUpdateID, updatedFacet, updatedFilter, facets } = this.props.facetState
     const label = intl.get(`perspectives.${propertiesTranslationsID}.properties.${facetID}.label`)
-    const description = intl.get(`perspectives.${propertiesTranslationsID}.properties.${facetID}.description`)
+    const description = intl.get(`perspectives.${propertiesTranslationsID}.properties.${facetID}.facetDescription`) ||
+      intl.get(`perspectives.${propertiesTranslationsID}.properties.${facetID}.description`)
     const facet = { ...facets[facetID] }
     const facetConstrainSelf = this.props.facetStateConstrainSelf == null
       ? null
