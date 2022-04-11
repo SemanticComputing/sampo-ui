@@ -54,6 +54,7 @@ const FederatedSearchPerspective = props => {
       >
         <FacetBar
           portalConfig={portalConfig}
+          perspectiveConfig={perspective}
           layoutConfig={layoutConfig}
           facetedSearchMode='clientFS'
           facetClass={perspectiveID}
