@@ -18,6 +18,7 @@ The following research prototype portals use this repository as a base:
 11. [WarMemoirSampo](https://github.com/SemanticComputing/veterans-web-app)
 12. [WarSampo analyzer](https://github.com/SemanticComputing/warsa-analyzer-web-app)
 13. [ArtSampo](https://github.com/SemanticComputing/artsampo-web-app)
+14. [Constellations of Correspondence](https://github.com/SemanticComputing/coco-web-app)
 
 An example deployment generated from this repository is published at [sampo-ui.demo.seco.cs.aalto.fi](https://sampo-ui.demo.seco.cs.aalto.fi). It combines perspectives from the Mapping Manuscript Migrations and NameSampo portals, and can be used for testing and as a starting point for developing new portals. 
 
