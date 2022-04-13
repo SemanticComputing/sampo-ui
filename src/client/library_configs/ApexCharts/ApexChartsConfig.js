@@ -31,6 +31,7 @@ export const createSingleLineChartData = ({
     fill,
     tooltip
   } = resultClassConfig
+  const customizedCategoryLabels = resultClassConfig.resultMapperConfig && resultClassConfig.resultMapperConfig.customizedCategoryLabels
   const apexChartOptionsWithData = {
     chart: {
       type: 'line',
@@ -51,6 +52,7 @@ export const createSingleLineChartData = ({
       ...(xaxisType) && { type: xaxisType }, // default is 'category'
       ...(xaxisTickAmount) && { tickAmount: xaxisTickAmount },
       ...(xaxisLabels) && { labels: xaxisLabels },
+      ...(customizedCategoryLabels) && { overwriteCategories: results.categeryLabels },
       categories: results.categoriesData,
       title: {
         text: xaxisTitle

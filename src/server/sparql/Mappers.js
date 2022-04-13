@@ -146,7 +146,9 @@ export const mapNameSampoResults = sparqlBindings => {
 export const mapLineChart = ({ sparqlBindings, config }) => {
   const seriesData = []
   const categoriesData = []
+  const categeryLabels = []
   const sparqlBindingsLength = sparqlBindings.length
+  const customizedCategoryLabels = config && config.customizedCategoryLabels
   sparqlBindings.forEach((b, index, bindings) => {
     const currentCategory = parseInt(b.category.value)
     const currentValue = parseInt(b.count.value)
@@ -156,6 +158,9 @@ export const mapLineChart = ({ sparqlBindings, config }) => {
         ? config.xAxisConverter(currentCategory)
         : currentCategory
     )
+    if (customizedCategoryLabels) {
+      categeryLabels.push(b.categoryLabel.value)
+    }
     if (config && config.fillEmptyValues && index + 1 < sparqlBindingsLength) {
       let categoryIter = currentCategory
       const nextNonZeroCategory = parseInt(bindings[index + 1].category.value)
@@ -173,7 +178,8 @@ export const mapLineChart = ({ sparqlBindings, config }) => {
   })
   return {
     seriesData,
-    categoriesData
+    categoriesData,
+    ...(customizedCategoryLabels) && { categeryLabels }
   }
 }
 
@@ -605,4 +611,13 @@ export const createCorrespondenceChartDataLower = ({ sparqlBindings, config }) =
     }
   })
   return series
+}
+
+export const processTextIndexHighlighting = ({ data }) => {
+  data.forEach(item => {
+    if (item.literal) {
+      item.content = item.literal
+    }
+  })
+  return data
 }
