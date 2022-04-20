@@ -275,6 +275,7 @@ class FacetBar extends React.Component {
             apexChartsConfig={this.props.apexChartsConfig}
             leafletConfig={this.props.leafletConfig}
             networkConfig={this.props.networkConfig}
+            someFacetIsFetching={someFacetIsFetching}
           />
         </AccordionSummary>
         <AccordionDetails

@@ -164,7 +164,10 @@ class FacetHeader extends React.Component {
     })
   }
 
-  handleMenuClose = () => {
+  handleMenuClose = (event, reason) => {
+    if (reason === 'backdropClick') {
+      event.stopPropagation()
+    }
     this.setState({ anchorEl: null })
   }
 
@@ -346,16 +349,18 @@ class FacetHeader extends React.Component {
         {menuButtons.length > 0 &&
           <>
             <Tooltip disableFocusListener title={intl.get('facetBar.filterOptions')}>
-              <IconButton
-                className='facetMenuButton'
-                aria-label={intl.get('facetBar.filterOptions')}
-                aria-owns={open ? 'facet-option-menu' : undefined}
-                aria-haspopup='true'
-                onClick={this.handleMenuButtonClick}
-                size='large'
-              >
-                <MoreVertIcon />
-              </IconButton>
+              <span>
+                <IconButton
+                  className='facetMenuButton'
+                  aria-label={intl.get('facetBar.filterOptions')}
+                  aria-owns={open ? 'facet-option-menu' : undefined}
+                  aria-haspopup='true'
+                  onClick={this.handleMenuButtonClick}
+                  size='large'
+                >
+                  <MoreVertIcon />
+                </IconButton>
+              </span>
             </Tooltip>
             <Menu
               id='facet-option-menu'
@@ -421,7 +426,8 @@ FacetHeader.propTypes = {
   updateFacetOption: PropTypes.func,
   facetDescription: PropTypes.string.isRequired,
   rootUrl: PropTypes.string.isRequired,
-  layoutConfig: PropTypes.object.isRequired
+  layoutConfig: PropTypes.object.isRequired,
+  someFacetIsFetching: PropTypes.bool.isRequired
 }
 
 export const FacetHeaderComponent = FacetHeader
