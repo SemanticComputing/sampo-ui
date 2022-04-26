@@ -118,6 +118,7 @@
             "instanceConfig": {
                 "propertiesQueryBlock": "placePropertiesInfoWindow",
                 "relatedInstances": "manuscriptsProducedAt",
+                "filterTarget": "related__id",
                 "createPopUpContent": "createPopUpContentMMM"
             }
         },

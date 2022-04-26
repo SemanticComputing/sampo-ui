@@ -294,6 +294,7 @@ export const getByURI = ({
   if (langTagSecondary) {
     q = q.replace(/<LANG_SECONDARY>/g, langTagSecondary)
   }
+  // console.log(endpoint.prefixes + q)
   return runSelectQuery({
     query: endpoint.prefixes + q,
     endpoint: endpoint.url,
