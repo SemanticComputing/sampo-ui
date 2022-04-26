@@ -13,13 +13,16 @@ export const fetchResults = (state, action, initialState) => {
   }
   return {
     ...state,
-    instance: null,
     instanceTableExternalData: null,
-    ...(resetMapBounds && { maps: initialState.maps }),
+    ...(resetMapBounds && {
+      maps: initialState.maps,
+      instanceTableData: null
+    }),
     ...(action.order == null && {
       fetching: true,
       resultUpdateID: 0
     }),
+    // special case for two simultaneus ApexCharts components:
     ...(action.order && {
       [`${action.order}Fetching`]: true,
       [`${action.order}ResultUpdateID`]: 0
