@@ -122,18 +122,18 @@ export const boundsToValues = bounds => {
 
 export const handleAxiosError = error => {
   if (error.response) {
-  // The request was made and the server responded with a status code
-  // that falls out of the range of 2xx
+    // The request was made and the server responded with a status code
+    // that falls out of the range of 2xx
     console.log(error.response.data)
-  // console.log(error.response.status);
-  // console.log(error.response.headers);
+    // console.log(error.response.status);
+    // console.log(error.response.headers);
   } else if (error.request) {
     // The request was made but no response was received
     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
     // http.ClientRequest in node.js
     console.log(error.request)
   } else {
-  // Something happened in setting up the request that triggered an Error
+    // Something happened in setting up the request that triggered an Error
     console.log('Error', error.message)
   }
   console.log(error.config)
@@ -174,7 +174,7 @@ export const arrayToObject = ({ array, keyField }) =>
 export const generateLabelForMissingValue = ({ perspective, property }) => {
   // Check if there is a translated label for missing value, or use defaults
   return intl.get(`perspectives.${perspective}.properties.${property}.missingValueLabel`) ||
-   intl.get('facetBar.defaultMissingValueLabel') || 'Unknown'
+    intl.get('facetBar.defaultMissingValueLabel') || 'Unknown'
 }
 
 export const getLocalIDFromAppLocation = ({ location, perspectiveConfig }) => {
@@ -193,10 +193,15 @@ export const getLocalIDFromAppLocation = ({ location, perspectiveConfig }) => {
   return localID
 }
 
-export const createURIfromLocalID = ({ localID, baseURI, URITemplate }) => {
-  let uri = URITemplate
-  uri = uri.replaceAll('<BASE_URI>', baseURI)
-  uri = uri.replaceAll('<LOCAL_ID>', localID)
+export const createURIfromLocalID = ({ localID, baseURI, URITemplate, localIDAsURI }) => {
+  let uri = ''
+  if (localIDAsURI) {
+    uri = decodeURIComponent(localID)
+  } else {
+    uri = URITemplate
+    uri = uri.replaceAll('<BASE_URI>', baseURI)
+    uri = uri.replaceAll('<LOCAL_ID>', localID)
+  }
   return uri
 }
 

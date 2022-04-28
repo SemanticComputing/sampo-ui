@@ -72,10 +72,11 @@ class InstancePage extends React.Component {
   fetchTableData = () => {
     const { perspectiveConfig } = this.props
     const { baseURI, baseURIs, URITemplate, id } = perspectiveConfig
+    const { localIDAsURI } = perspectiveConfig.resultClasses[perspectiveConfig.id].instanceConfig
     const localID = this.getLocalID()
     this.setState({ localID })
     let uri = null
-    if (!baseURI) {
+    if (!baseURI && baseURIs) {
       for (const localIDPrefix in baseURIs) {
         if (localID.startsWith(localIDPrefix)) {
           const { baseURI, URITemplate } = baseURIs[localIDPrefix]
@@ -87,7 +88,7 @@ class InstancePage extends React.Component {
         uri = createURIfromLocalID({ localID, baseURI, URITemplate })
       }
     } else {
-      uri = createURIfromLocalID({ localID, baseURI, URITemplate })
+      uri = createURIfromLocalID({ localID, baseURI, URITemplate, localIDAsURI })
     }
     this.props.fetchByURI({
       perspectiveID: id,
