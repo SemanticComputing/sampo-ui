@@ -1,7 +1,3 @@
-node_modules
-dist
 *.swp
 .env
 .vscode
-token.json
-credentials.json
