@@ -3,7 +3,8 @@ import { has } from 'lodash'
 import {
   facetValuesQuery,
   facetValuesQueryTimespan,
-  facetValuesRange
+  facetValuesRange,
+  hierarchicalFacetValuesQuery
 } from './SparqlQueriesGeneral'
 import {
   generateConstraintsBlock,
@@ -36,7 +37,11 @@ export const getFacet = async ({
       mapper = mapFacet
       break
     case 'hierarchical':
-      q = facetValuesQuery
+      if (facetConfig.maxHierarchyLevel) {
+        q = hierarchicalFacetValuesQuery
+      } else {
+        q = facetValuesQuery
+      }
       mapper = mapHierarchicalFacet
       break
     case 'timespan':
@@ -114,11 +119,18 @@ export const getFacet = async ({
   )
   if (facetConfig.facetType === 'hierarchical') {
     q = q.replace('<ORDER_BY>', '# no need for ordering')
-    q = q.replace(/<PREDICATE>/g, `${facetConfig.predicate}/${facetConfig.parentProperty}*`)
-    q = q.replace('<PARENTS>', `
-            OPTIONAL { ?id ${facetConfig.parentProperty} ?parent_ }
-            BIND(COALESCE(?parent_, '0') as ?parent)
-    `)
+
+    if (facetConfig.maxHierarchyLevel) {
+      q = q.replace(/<HIERARCHY>/g, generateHierarchyBlock({depth: facetConfig.maxHierarchyLevel}))
+      q = q.replace(/<PREDICATE>/g, facetConfig.predicate)
+      q = q.replace(/<PARENTPROPERTY>/g, facetConfig.parentProperty)
+    } else {
+      q = q.replace(/<PREDICATE>/g, `${facetConfig.predicate}/${facetConfig.parentProperty}*`)
+      q = q.replace('<PARENTS>', `
+              OPTIONAL { ?id ${facetConfig.parentProperty} ?parent_ }
+              BIND(COALESCE(?parent_, '0') as ?parent)
+      `)
+    }
   } else {
     q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})`)
     q = q.replace(/<PREDICATE>/g, facetConfig.predicate)
@@ -156,9 +168,9 @@ export const getFacet = async ({
   if (langTag) {
     q = q.replace(/<LANG>/g, langTag)
   }
-  // if (facetID === 'productionPlace') {
-  //   console.log(endpoint.prefixes + q)
-  // }
+
+  //console.log(endpoint.prefixes + q)
+
   const response = await runSelectQuery({
     query: endpoint.prefixes + q,
     endpoint: endpoint.url,
@@ -295,3 +307,42 @@ const unknownBlock = `
     BIND(<UNKNOWN_SELECTED> as ?selected)
   }
 `
+
+export const generateHierarchyBlock = ({
+  depth
+}) => {
+  if (depth === 0) {
+    return `
+    {
+      ?instance <PREDICATE> ?id .
+    }
+  `
+  } else {
+    let block = ''
+    for (let i = 0; i < depth; i++) {
+      let parentPath = ''
+      for (let x = 0; x < i; x++) {
+        parentPath = parentPath + '/<PARENTPROPERTY>'
+      }
+      block = block + `
+          {
+            ?instance <PREDICATE>${parentPath} ?id .
+            ?id <PARENTPROPERTY> ?parent .
+          }
+          UNION
+          {
+            ?instance <PREDICATE>${parentPath} ?id .
+            FILTER NOT EXISTS { ?id <PARENTPROPERTY> ?noParent . }
+            BIND ('0' AS ?parent)
+          }
+      `
+      if ( i < (depth - 1) ) {
+        block = block + `
+          UNION
+        `
+      }
+    }
+    return (block)
+  }
+
+}
