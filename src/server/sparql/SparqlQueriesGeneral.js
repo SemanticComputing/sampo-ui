@@ -131,11 +131,15 @@ export const hierarchicalFacetValuesQuery = `
         SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) ?id ?parent ?selected {
           # facet values that return results
           {
-            <FILTER>
             <HIERARCHY>
 
+            <FILTER>
             VALUES ?facetClass { <FACET_CLASS> }
             ?instance a ?facetClass .
+
+            OPTIONAL { ?id <PARENTPROPERTY> ?parent_ }
+            BIND(COALESCE(?parent_, '0') as ?parent)
+
             <SELECTED_VALUES>
           }
           <SELECTED_VALUES_NO_HITS>

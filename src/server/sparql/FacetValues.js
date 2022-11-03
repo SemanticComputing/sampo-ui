@@ -169,7 +169,7 @@ export const getFacet = async ({
     q = q.replace(/<LANG>/g, langTag)
   }
 
-  //console.log(endpoint.prefixes + q)
+  // console.log(endpoint.prefixes + q)
 
   const response = await runSelectQuery({
     query: endpoint.prefixes + q,
@@ -327,13 +327,6 @@ export const generateHierarchyBlock = ({
       block = block + `
           {
             ?instance <PREDICATE>${parentPath} ?id .
-            ?id <PARENTPROPERTY> ?parent .
-          }
-          UNION
-          {
-            ?instance <PREDICATE>${parentPath} ?id .
-            FILTER NOT EXISTS { ?id <PARENTPROPERTY> ?noParent . }
-            BIND ('0' AS ?parent)
           }
       `
       if ( i < (depth - 1) ) {
