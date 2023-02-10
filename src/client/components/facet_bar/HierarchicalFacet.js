@@ -234,6 +234,8 @@ class HierarchicalFacet extends Component {
                 // node.id === 'http://ldf.fi/MISSING_VALUE' ||
                 // prevent selecting when another facet is still updating:
                 this.props.someFacetIsFetching ||
+                // prevent selecting while resultcount is updating
+                this.props.fetchingResultCount ||
                 // prevent selecting all facet values when there is a logical OR between the selections:
                 // (!this.props.facet.useConjuction && !isSelected && selectedCount >= this.props.facet.distinctValueCount - 1) ||
                 // prevent selecting when parent has been selected
@@ -400,6 +402,10 @@ HierarchicalFacet.propTypes = {
    * A facet should be disabled while some other facet is updating.
    */
   someFacetIsFetching: PropTypes.bool.isRequired,
+    /**
+   * A facet should be disabled while resultcount is updating.
+   */
+  fetchingResultCount: PropTypes.bool.isRequired,
   /**
    * An integer for detecting if some other facet was updated.
    */

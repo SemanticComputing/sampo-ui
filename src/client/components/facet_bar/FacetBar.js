@@ -102,6 +102,7 @@ class FacetBar extends React.Component {
             updatedFilter={updatedFilter}
             fetchFacet={this.props.fetchFacet}
             someFacetIsFetching={someFacetIsFetching}
+            fetchingResultCount={this.props.fetchingResultCount}
             updateFacetOption={this.props.updateFacetOption}
           />
         )
@@ -117,6 +118,7 @@ class FacetBar extends React.Component {
             facetUpdateID={facetUpdateID}
             clientFSUpdateFacet={this.props.clientFSUpdateFacet}
             someFacetIsFetching={someFacetIsFetching}
+            fetchingResultCount={false}
             facetedSearchMode='clientFS'
           />
         )
