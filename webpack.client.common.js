@@ -62,6 +62,13 @@ module.exports = {
         options: {
           outputPath: 'images'
         }
+      },
+      {
+        test: /\.(woff2|woff|eot|ttf)$/,
+        loader: 'file-loader',
+        options: {
+          name: 'fonts/[name].[ext]'
+        }
       }
     ]
   },
