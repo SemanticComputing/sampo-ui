@@ -37,6 +37,8 @@ import markerIconRed from '../../img/markers/marker-icon-red.png'
 import markerIconOrange from '../../img/markers/marker-icon-orange.png'
 import markerIconYellow from '../../img/markers/marker-icon-yellow.png'
 
+import mapboxLogo from '../../img/logos/mapbox-logo-white.png'
+
 // const buffer = lazy(() => import('@turf/buffer'))
 import buffer from '@turf/buffer'
 
@@ -265,7 +267,7 @@ class LeafletMap extends React.Component {
 
     // Base layer(s)
     const mapboxBaseLayer = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${mapboxStyle}/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`, {
-      attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener">Mapbox</a> &copy; <a href="http://osm.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
+      attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener">Mapbox</a> &copy; <a href="http://osm.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors  <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
       tileSize: 512,
       zoomOffset: -1
     })
@@ -1002,6 +1004,16 @@ class LeafletMap extends React.Component {
               height: '100%'
             }}
           >
+          <Box
+                component='img'
+                src={mapboxLogo}
+                sx={{
+                  height: 20,
+                  ml: 6,
+                  mt: 1,
+                  bottom: 1
+                }}
+            />
             {(this.props.fetching ||
             (this.props.showExternalLayers && this.props.leafletMapState.fetching)) &&
               <Box
