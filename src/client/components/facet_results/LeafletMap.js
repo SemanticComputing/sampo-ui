@@ -37,7 +37,7 @@ import markerIconRed from '../../img/markers/marker-icon-red.png'
 import markerIconOrange from '../../img/markers/marker-icon-orange.png'
 import markerIconYellow from '../../img/markers/marker-icon-yellow.png'
 
-import mapboxLogo from '../../img/logos/mapbox-logo-white.png'
+import mapboxLogo from '../../img/logos/mapbox-logo-black.png'
 
 // const buffer = lazy(() => import('@turf/buffer'))
 import buffer from '@turf/buffer'
@@ -1004,16 +1004,17 @@ class LeafletMap extends React.Component {
               height: '100%'
             }}
           >
-          <Box
+          {<Box
                 component='img'
                 src={mapboxLogo}
                 sx={{
                   height: 20,
                   ml: 6,
                   mt: 1,
-                  bottom: 1
+                  position: 'absolute',
+                  zIndex:1000
                 }}
-            />
+            ></Box>}
             {(this.props.fetching ||
             (this.props.showExternalLayers && this.props.leafletMapState.fetching)) &&
               <Box
