@@ -1,7 +1,7 @@
 import React from 'react'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import AdapterMoment from '@mui/lab/AdapterMoment'
-import LocalizationProvider from '@mui/lab/LocalizationProvider'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import 'moment/locale/fi'
 import SemanticPortal from '../containers/SemanticPortal'
 import portalConfig from '../../configs/portalConfig.json'
@@ -112,11 +112,15 @@ const theme = createTheme({
 })
 
 const App = () => (
-  <LocalizationProvider dateAdapter={AdapterMoment}>
-    <ThemeProvider theme={theme}>
-      <SemanticPortal />
-    </ThemeProvider>
-  </LocalizationProvider>
+  <>
+    <LocalizationProvider dateAdapter={AdapterMoment}>
+      <ThemeProvider theme={theme}>
+        <SemanticPortal />
+      </ThemeProvider>
+    </LocalizationProvider>
+    
+  </>
+  
 )
 
 export default App
