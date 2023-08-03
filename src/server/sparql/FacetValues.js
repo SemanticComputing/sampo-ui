@@ -138,6 +138,11 @@ export const getFacet = async ({
   }
   q = q.replace(/<FILTER>/g, filterBlock)
   q = q.replace(/<FACET_CLASS>/g, backendSearchConfig[facetClass].facetClass)
+  if (has(backendSearchConfig[facetClass], 'facetClassPredicate')) {
+    q = q.replace(/<FACET_CLASS_PREDICATE>/g, backendSearchConfig[facetClass].facetClassPredicate)
+  } else {
+    q = q.replace(/<FACET_CLASS_PREDICATE>/g, 'a')
+  }
   q = q.replace('<UNKNOWN_SELECTED>', unknownSelected)
   q = q.replace('<MISSING_PREDICATE>', facetConfig.predicate)
   if (has(facetConfig, 'labelPattern')) {
@@ -294,7 +299,7 @@ const unknownBlock = `
       SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) {
         <FILTER>
         VALUES ?facetClass { <FACET_CLASS> }
-        ?instance a ?facetClass .
+        ?instance <FACET_CLASS_PREDICATE> ?facetClass .
         FILTER NOT EXISTS {
           ?instance <MISSING_PREDICATE> [] .
         }

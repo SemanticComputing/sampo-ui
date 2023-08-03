@@ -365,7 +365,7 @@ export const handleUnknownValue = values => {
 const generateMissingValueBlock = ({ predicate, filterTarget }) => {
   return ` 
     VALUES ?facetClass { <FACET_CLASS> }
-    ?${filterTarget} a ?facetClass .
+    ?${filterTarget} <FACET_CLASS_PREDICATE> ?facetClass .
     FILTER NOT EXISTS {
       ?${filterTarget} ${predicate} [] .
     }

@@ -72,6 +72,11 @@ export const getPaginatedResults = ({
     q = q = q.replace('<ORDER_BY>', `ORDER BY (!BOUND(?orderBy)) ${sortDirection}(?orderBy)`)
   }
   q = q.replace(/<FACET_CLASS>/g, facetClass)
+  if (has(backendSearchConfig[resultClass], 'facetClassPredicate')) {
+    q = q.replace(/<FACET_CLASS_PREDICATE>/g, backendSearchConfig[resultClass].facetClassPredicate)
+  } else {
+    q = q.replace(/<FACET_CLASS_PREDICATE>/g, 'a')
+  }
   q = q.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`)
   q = q.replace('<RESULT_SET_PROPERTIES>', propertiesQueryBlock)
   if (langTag) {
@@ -154,6 +159,11 @@ export const getAllResults = ({
     }))
   }
   q = q.replace(/<FACET_CLASS>/g, perspectiveConfig.facetClass)
+  if (has(backendSearchConfig[resultClass], 'facetClassPredicate')) {
+    q = q.replace(/<FACET_CLASS_PREDICATE>/g, backendSearchConfig[resultClass].facetClassPredicate)
+  } else {
+    q = q.replace(/<FACET_CLASS_PREDICATE>/g, 'a')
+  }
   if (langTag) {
     q = q.replace(/<LANG>/g, langTag)
   }
@@ -232,6 +242,12 @@ export const getResultCount = ({
     }))
   }
   q = q.replace(/<FACET_CLASS>/g, perspectiveConfig.facetClass)
+  if (has(backendSearchConfig[resultClass], 'facetClassPredicate')) {
+    q = q.replace(/<FACET_CLASS_PREDICATE>/g, backendSearchConfig[resultClass].facetClassPredicate)
+  } else {
+    q = q.replace(/<FACET_CLASS_PREDICATE>/g, 'a')
+  }
+
   // console.log(endpoint.prefixes + q)
   return runSelectQuery({
     query: endpoint.prefixes + q,
