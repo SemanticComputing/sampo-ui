@@ -81,7 +81,7 @@
     "react-redux-toastr": "^7.6.13",
     "react-router-dom": "^5.3.0",
     "react-sortable-tree-theme-file-explorer": "git+https://github.com/SemanticComputing/react-sortable-tree-theme-file-explorer.git#88cee6950b0656452987c5bd7e76780c62b1e913",
-    "react-virtualized": "^9.22.3",
+    "react-virtualized": "^9.22.5",
     "react-wordcloud": "^1.2.7",
     "redux": "^4.2.1",
     "redux-observable": "^2.0.0",

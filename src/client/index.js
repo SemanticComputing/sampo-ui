@@ -70,7 +70,6 @@ render(
         <App />
       </Suspense>
     </Router>
-
     <ReduxToastr
       timeOut={0}
       newestOnTop={false}

@@ -118,7 +118,6 @@ const App = () => (
         <SemanticPortal />
       </ThemeProvider>
     </LocalizationProvider>
-    
   </>
   
 )
