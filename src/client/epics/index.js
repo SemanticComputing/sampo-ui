@@ -80,13 +80,15 @@ const fetchPaginatedResultsEpic = (action$, state$) => action$.pipe(
   mergeMap(([action, state]) => {
     const { resultClass, facetClass, sortBy } = action
     const { page, pagesize, sortDirection } = state[resultClass]
+    const langTag = state.options.currentLocale
     const params = stateToUrl({
       facets: state[`${facetClass}Facets`].facets,
       facetClass: null,
       page,
       pagesize,
       sortBy,
-      sortDirection
+      sortDirection,
+      langTag
     })
     const requestUrl = `${apiUrl}/faceted-search/${resultClass}/paginated`
     // https://rxjs-dev.firebaseapp.com/api/ajax/ajax

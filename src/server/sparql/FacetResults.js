@@ -17,7 +17,8 @@ export const getPaginatedResults = ({
   constraints,
   sortBy,
   sortDirection,
-  resultFormat
+  resultFormat,
+  langTag,
 }) => {
   let q = facetResultSetQuery
   const perspectiveConfig = backendSearchConfig[resultClass]
@@ -26,7 +27,6 @@ export const getPaginatedResults = ({
     facets,
     facetClass,
     defaultConstraint = null,
-    langTag = null,
     langTagSecondary = null
   } = perspectiveConfig
   const resultClassConfig = perspectiveConfig.resultClasses[resultClass]

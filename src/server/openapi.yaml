@@ -60,7 +60,12 @@ paths:
                     type: object
                   nullable: true
                   default: null
-                  example: null  
+                  example: null 
+                langTag:
+                  type: string
+                  nullable: false
+                  default: en
+                  example: en
       responses:
         '200':   
           description: Paginated search results
