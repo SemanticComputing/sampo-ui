@@ -125,13 +125,15 @@ const fetchResultsEpic = (action$, state$) => action$.pipe(
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
     const { perspectiveID, resultClass, facetClass, limit, optimize } = action
+    const langTag = state.options.currentLocale
     const params = stateToUrl({
       perspectiveID,
       facets: facetClass ? state[`${facetClass}Facets`].facets : null,
       facetClass,
       uri: action.uri ? action.uri : null,
       limit,
-      optimize
+      optimize,
+      langTag
     })
     const requestUrl = `${apiUrl}/faceted-search/${resultClass}/all`
     // https://rxjs-dev.firebaseapp.com/api/ajax/ajax
@@ -167,6 +169,7 @@ const fetchInstanceAnalysisEpic = (action$, state$) => action$.pipe(
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
     const { resultClass, facetClass, fromID, toID, period, province } = action
+    const langTag = state.options.currentLocale
     const params = stateToUrl({
       facets: facetClass ? state[`${facetClass}Facets`].facets : null,
       facetClass,
@@ -174,7 +177,8 @@ const fetchInstanceAnalysisEpic = (action$, state$) => action$.pipe(
       fromID,
       toID,
       period,
-      province
+      province,
+      langTag
     })
     const requestUrl = `${apiUrl}/faceted-search/${resultClass}/all`
     // https://rxjs-dev.firebaseapp.com/api/ajax/ajax
@@ -271,10 +275,12 @@ const fetchByURIEpic = (action$, state$) => action$.pipe(
   withLatestFrom(state$),
   mergeMap(([action, state]) => {
     const { perspectiveID, resultClass, facetClass, uri } = action
+    const langTag = state.options.currentLocale
     const params = stateToUrl({
       perspectiveID,
       facets: facetClass == null ? null : state[`${facetClass}Facets`].facets,
-      facetClass
+      facetClass,
+      langTag
     })
     const requestUrl = `${apiUrl}/${resultClass}/page/${encodeURIComponent(uri)}`
     return ajax({
@@ -311,11 +317,13 @@ const fetchFacetEpic = (action$, state$) => action$.pipe(
     const facets = state[`${facetClass}Facets`].facets
     const facet = facets[facetID]
     const { sortBy = null, sortDirection = null } = facet
+    const langTag = state.options.currentLocale
     const params = stateToUrl({
       facets,
       sortBy,
       sortDirection,
-      constrainSelf
+      constrainSelf,
+      langTag
     })
     const requestUrl = `${apiUrl}/faceted-search/${action.facetClass}/facet/${facetID}`
     return ajax({
@@ -355,11 +363,13 @@ const fetchFacetConstrainSelfEpic = (action$, state$) => action$.pipe(
     const facets = state[`${facetClass}Facets`].facets
     const facet = facets[facetID]
     const { sortBy, sortDirection } = facet
+    const langTag = state.options.currentLocale
     const params = stateToUrl({
       facets: facets,
       sortBy: sortBy,
       sortDirection: sortDirection,
-      constrainSelf: true
+      constrainSelf: true,
+      langTag
     })
     const requestUrl = `${apiUrl}/faceted-search/${action.facetClass}/facet/${facetID}`
     return ajax({

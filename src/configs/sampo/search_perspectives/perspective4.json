@@ -4,6 +4,7 @@
     "sparqlQueries": "federatedSearchSparqlQueries",
     "frontPageImage": "main_page/places-452x262.jpg",
     "searchMode": "federated-search",
+    "enableDynamicLanguageChange": false,
     "defaultActiveFacets": [
         "datasetSelector"
     ],

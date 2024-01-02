@@ -11,6 +11,7 @@
     "facetClass": "crm:E10_Transfer_of_Custody crm:E12_Production mmm-schema:ManuscriptActivity",
     "frontPageImage": "main_page/events-452x262.jpg",
     "searchMode": "faceted-search",
+    "enableDynamicLanguageChange": false,
     "defaultActiveFacets": [],
     "defaultTab": "table",
     "defaultInstancePageTab": "table",

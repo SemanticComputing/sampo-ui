@@ -115,7 +115,12 @@ paths:
                     type: object
                   nullable: true
                   default: null
-                  example: null  
+                  example: null
+                langTag:
+                  type: string
+                  nullable: false
+                  default: en
+                  example: en  
       responses:
         '200':   
           description: All search results
@@ -246,7 +251,12 @@ paths:
                     default: null
                 constrainSelf:
                   type: boolean
-                  default: false           
+                  default: false    
+                langTag:
+                  type: string
+                  nullable: false
+                  default: en
+                  example: en       
       responses:
         '200':   
           description: Facet values
@@ -307,6 +317,11 @@ paths:
                       type: object
                     nullable: true
                     default: null
+                langTag:
+                  type: string
+                  nullable: false
+                  default: en
+                  example: en
       responses:
         '200':
           description: Information about a single resource
