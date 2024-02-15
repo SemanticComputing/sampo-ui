@@ -11,6 +11,7 @@
     "facetClass": "frbroo:F1_Work",
     "frontPageImage": "main_page/works-452x262.jpg",
     "searchMode": "faceted-search",
+    "enableDynamicLanguageChange": false,
     "defaultActiveFacets": [
         "prefLabel"
     ],
