@@ -99,8 +99,8 @@ class ResultTable extends React.Component {
       search: `?page=${page}`
     })
 
-    // check if facet updates have been made before
-    if (this.props.facetUpdateID > 0) {
+    // check if facet updates have been made before or dynamic language tag is active for perspective
+    if (this.props.facetUpdateID > 0 || this.props.perspectiveConfig.enableDynamicLanguageChange) {
       this.fetchResults()
     }
   }
