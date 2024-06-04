@@ -11,6 +11,7 @@
     "facetClass": "frbroo:F4_Manifestation_Singleton",
     "frontPageImage": "main_page/manuscripts-452x262.jpg",
     "searchMode": "faceted-search",
+    "enableDynamicLanguageChange": false,
     "defaultActiveFacets": [],
     "defaultTab": "table",
     "defaultInstancePageTab": "table",

@@ -82,7 +82,8 @@ createBackendSearchConfig().then(backendSearchConfig => {
         sortBy: body.sortBy,
         sortDirection: body.sortDirection,
         constraints: body.constraints,
-        resultFormat: 'json'
+        resultFormat: 'json',
+        dynamicLangTag: body.langTag
       })
       res.json(data)
     } catch (error) {
@@ -108,7 +109,8 @@ createBackendSearchConfig().then(backendSearchConfig => {
         fromID: body.fromID,
         toID: body.toID,
         period: body.period,
-        province: body.province
+        province: body.province,
+        dynamicLangTag: body.langTag
       })
       if (resultFormat === 'csv') {
         res.writeHead(200, {
@@ -134,7 +136,8 @@ createBackendSearchConfig().then(backendSearchConfig => {
         resultClass: req.params.resultClass,
         facetClass: req.query.facetClass || null,
         constraints: req.query.constraints == null ? null : req.query.constraints,
-        resultFormat: resultFormat
+        resultFormat: resultFormat,
+        dynamicLangTag: req.body.langTag
       })
       if (resultFormat === 'csv') {
         res.writeHead(200, {
@@ -175,7 +178,8 @@ createBackendSearchConfig().then(backendSearchConfig => {
         uri: params.uri,
         facetClass: body.facetClass,
         constraints: body.constraints,
-        resultFormat: 'json'
+        resultFormat: 'json',
+        dynamicLangTag: body.langTag
       })
       res.json(data)
     } catch (error) {
@@ -194,7 +198,8 @@ createBackendSearchConfig().then(backendSearchConfig => {
         sortDirection: body.sortDirection,
         constraints: body.constraints,
         resultFormat: 'json',
-        constrainSelf: body.constrainSelf
+        constrainSelf: body.constrainSelf,
+        dynamicLangTag: body.langTag
       })
       res.json(data)
     } catch (error) {

@@ -24,7 +24,8 @@ export const stateToUrl = ({
   fromID = null,
   toID = null,
   period = null,
-  province = null
+  province = null,
+  langTag = null
 }) => {
   const params = {}
   if (perspectiveID !== null) { params.perspectiveID = perspectiveID }
@@ -43,6 +44,7 @@ export const stateToUrl = ({
   if (toID !== null) { params.toID = toID }
   if (period !== null) { params.period = period }
   if (province !== null) { params.province = province }
+  if (langTag !== null) { params.langTag = langTag }
   if (facets !== null) {
     const constraints = []
     for (const [key, value] of Object.entries(facets)) {
