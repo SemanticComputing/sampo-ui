@@ -136,19 +136,19 @@ const TopBar = props => {
     let jsx
     if (item.externalLink) {
       jsx = (
-        <Box
+        <a
           key={item.id}
           href={intl.get(`topBar.info.${item.translatedUrl}`)}
           target='_blank'
           rel='noopener noreferrer'
-          sx={{
+          style={{
             textDecoration: 'none'
           }}
         >
           <MenuItem onClick={handleMobileMenuClose}>
             {intl.get(`topBar.info.${item.translatedText}`).toUpperCase()}
           </MenuItem>
-        </Box>
+        </a>
       )
     } else {
       jsx = (
