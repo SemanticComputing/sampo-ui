@@ -91,7 +91,8 @@
     "emloLetterNetwork": "",
     "emloSentReceived": "",
     "download": "",
-    "recommendations": ""
+    "recommendations": "",
+    "share": ""
   },
   "table": {
     "rowsPerPage": "",
@@ -1184,5 +1185,16 @@
   "aboutThePortalPartOne": "",
   "aboutThePortalPartTwo": "",
   "instructions": "",
-  "feedback": ""
+  "feedback": "",
+  "exportLink": {
+    "viewLabel": "Välilehti",
+    "viewInstructions": "Valitse välilehti, jossa haku avautuu",
+    "fieldLabel": "Luotu linkki (kirjoitussuojattu)",
+    "infoBody": "Voit jakaa tekemäsi haun alla olevan linkin avulla. Linkki luodaan sen perusteella, mitä olet valinnut eri fasetteja käyttäen, ja se avaa tämän näkymän hakunäkymän näillä valinnoilla valitulla välilehdellä. Voit vaihtaa avattavan välilehden mihin tahansa tuettuun välilehtivaihtoehtoon käyttäen alla olevaa pudotusvalikkoa. Jos teet uusia valintoja ollessasi tällä sivulla, linkki päivittyy automaattisesti sisältämään ne.",
+    "warningTitle": "Luotu linkki saattaa olla liian pitkä joillekin selaimille",
+    "warningBody": "Luodun linkin tämänhetkinen pituus on päälle 2 000 merkkiä. Selaimilla on vaihtelevia rajoja niillä toimivien linkkien enimmäispituuksille. <strong>Tämä linkki ei välttämättä toimi kaikilla selaimilla</strong> — voit lyhentää linkin pituutta poistamalla joitakin valitsemiasi fasettivalintoja.",
+    "errorTitle": "Luotu linkki on liian pitkä",
+    "errorBody": "Luodun linkin tämänhetkinen pituus on päälle 15 800 merkkiä. <strong>Palvelin kieltäytyy käsittelemästä pyyntöjä, jotka ylittävät tietyt pituusrajat</strong> — voit lyhentää linkin pituutta poistamalla joitakin valitsemiasi fasettivalintoja.",
+    "copyLinkToClipboard": "Kopioi linkki leikepöydälle"
+  }
 }

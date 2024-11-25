@@ -77,19 +77,33 @@ class ResultTable extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      expandedRows: new Set()
+      expandedRows: new Set(),
+      defaultFacetFetchingRequired: false
     }
   }
 
   componentDidMount = () => {
     let page
+    let constraints = []
 
-    // first check if page was given as url parameter
+    // first check if page or constraints were given as url parameter
     if (this.props.location.search === '') {
       page = this.props.data.page === -1 ? 0 : this.props.data.page
     } else {
       const qs = this.props.location.search.replace('?', '')
-      page = parseInt(querystring.parse(qs).page)
+      page = parseInt(querystring.parse(qs).page) ? parseInt(querystring.parse(qs).page) : 0
+      const parsedConstraints = querystring.parse(qs).constraints
+      constraints = parsedConstraints ? JSON.parse(decodeURIComponent(parsedConstraints)) : []
+    }
+
+    // update imported facets
+    for (const constraint of constraints) {
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: constraint.facetId,
+        option: constraint.filterType,
+        value: constraint.value
+      })
     }
 
     // then update app state and url accordingly
@@ -103,6 +117,11 @@ class ResultTable extends React.Component {
     if (this.props.facetUpdateID > 0 || this.props.perspectiveConfig.enableDynamicLanguageChange) {
       this.fetchResults()
     }
+
+    // check if default facets need to be refetched due to imported facets
+    if (constraints.length > 0) {
+      this.setState({ defaultFacetFetchingRequired: true })
+    }
   }
 
   componentDidUpdate = prevProps => {
@@ -113,6 +132,18 @@ class ResultTable extends React.Component {
         pathname: `${this.props.rootUrl}/${this.props.resultClass}/faceted-search/table`,
         search: `?page=${this.props.data.page}`
       })
+    }
+
+    // check if facets are still fetching
+    let someFacetIsFetching = false
+    Object.values(this.props.facetState.facets).forEach(facet => { if (facet.isFetching) { someFacetIsFetching = true } })
+    // refetch default facets (excl. text facets) when facets have been updated
+    if (this.state.defaultFacetFetchingRequired && this.props.facetUpdateID > 0 && !someFacetIsFetching) {
+      const defaultFacets = this.props.perspectiveConfig.defaultActiveFacets
+      for (const facet of defaultFacets) {
+        if (this.props.perspectiveConfig.facets[facet].filterType !== 'textFilter') this.props.fetchFacet({ facetClass: this.props.facetClass, facetID: facet })
+      }
+      this.setState({ defaultFacetFetchingRequired: false })
     }
 
     // when sort property or direction changes, return to first page
@@ -142,7 +173,7 @@ class ResultTable extends React.Component {
     return (
       prevProps.data.sortBy !== this.props.data.sortBy ||
       prevProps.data.sortDirection !== this.props.data.sortDirection ||
-      prevProps.facetUpdateID !== this.props.facetUpdateID ||
+      (!this.state.defaultFacetFetchingRequired && prevProps.facetUpdateID !== this.props.facetUpdateID) ||
       prevProps.data.pagesize !== this.props.data.pagesize
     )
   }
@@ -364,7 +395,8 @@ ResultTable.propTypes = {
   updatePage: PropTypes.func.isRequired,
   updateRowsPerPage: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
-  rootUrl: PropTypes.string.isRequired
+  rootUrl: PropTypes.string.isRequired,
+  currentLocale: PropTypes.string.isRequired
 }
 
 export const ResultTableComponent = ResultTable

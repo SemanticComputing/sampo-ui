@@ -147,6 +147,7 @@ const FacetedSearchPerspective = props => {
             updatePage={props.updatePage}
             updateRowsPerPage={props.updateRowsPerPage}
             updateFacetOption={props.updateFacetOption}
+            fetchFacet={props.fetchFacet}
             updateMapBounds={props.updateMapBounds}
             sortResults={props.sortResults}
             showError={props.showError}

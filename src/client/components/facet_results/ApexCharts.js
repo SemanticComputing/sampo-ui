@@ -10,6 +10,8 @@ import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 import GeneralDialog from '../main_layout/GeneralDialog'
 import InstaceList from '../main_layout/InstanceList'
+import querystring from 'querystring'
+import history from '../../History'
 
 const defaultPadding = 32
 const smallScreenPadding = 8
@@ -34,11 +36,43 @@ class ApexChart extends React.Component {
         ? apexChartsConfig[resultClassConfig.createChartData]
         : apexChartsConfig[resultClassConfig.chartTypes[0].createChartData],
       chartType: resultClassConfig.dropdownForChartTypes ? resultClassConfig.chartTypes[0].id : null,
-      dialogData: null
+      dialogData: null,
+      defaultFacetFetchingRequired: false
     }
   }
 
   componentDidMount = () => {
+    let constraints = []
+
+    // first check if page or constraints were given as url parameter
+    if (this.props.location.search !== '') {
+      const qs = this.props.location.search.replace('?', '')
+      const parsedConstraints = querystring.parse(qs).constraints
+      // do not try to import constraints twice for ApexChartsDouble components
+      if (!this.props.doNotImportConstraints) constraints = parsedConstraints ? JSON.parse(decodeURIComponent(parsedConstraints)) : []
+    }
+
+    // update imported facets
+    for (const constraint of constraints) {
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: constraint.facetId,
+        option: constraint.filterType,
+        value: constraint.value
+      })
+    }
+
+    // check if default facets need to be refetched due to imported facets
+    if (constraints.length > 0) {
+      // remove query from URL
+      const tabPath = this.props.resultClassConfig.tabPath ? this.props.resultClassConfig.tabPath : this.props.tabPath
+      history.replace({
+        pathname: `${this.props.rootUrl}/${this.props.facetClass}/faceted-search/${tabPath}`
+      })
+
+      this.setState({ defaultFacetFetchingRequired: true })
+    }
+
     const { pageType = 'facetResults' } = this.props
     if (this.props.fetchData) {
       this.props.fetchData({
@@ -71,6 +105,20 @@ class ApexChart extends React.Component {
         order: this.props.order
       })
     }
+
+    // check if facets are still fetching
+    let someFacetIsFetching = false
+    if (pageType === 'facetResults') Object.values(this.props.facetState.facets).forEach(facet => { if (facet.isFetching) { someFacetIsFetching = true } })
+
+    // refetch default facets (excl. text facets) when facets have been updated
+    if (this.state.defaultFacetFetchingRequired && this.props.facetUpdateID > 0 && !someFacetIsFetching) {
+      const defaultFacets = this.props.perspectiveConfig.defaultActiveFacets
+      for (const facet of defaultFacets) {
+        if (this.props.perspectiveConfig.facets[facet].filterType !== 'textFilter') this.props.fetchFacet({ facetClass: this.props.facetClass, facetID: facet })
+      }
+      this.setState({ defaultFacetFetchingRequired: false })
+    }
+
     if (pageType === 'clientFSResults' && prevProps.facetUpdateID !== this.props.facetUpdateID) {
       this.renderChart()
     }

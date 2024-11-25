@@ -6,6 +6,7 @@ import { has } from 'lodash'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import history from '../../History'
+import querystring from 'querystring'
 import 'leaflet/dist/leaflet.css' // Official Leaflet styles
 
 // Leaflet plugins
@@ -68,11 +69,41 @@ class LeafletMap extends React.Component {
       showBuffer: true,
       popupID: null,
       popupOpen: false,
-      popupBinded: false
+      popupBinded: false,
+      defaultFacetFetchingRequired: false
     }
   }
 
   componentDidMount = () => {
+    let constraints = []
+
+    // first check if page or constraints were given as url parameter
+    if (this.props.location.search !== '') {
+      const qs = this.props.location.search.replace('?', '')
+      const parsedConstraints = querystring.parse(qs).constraints
+      constraints = parsedConstraints ? JSON.parse(decodeURIComponent(parsedConstraints)) : []
+    }
+
+    // update imported facets
+    for (const constraint of constraints) {
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: constraint.facetId,
+        option: constraint.filterType,
+        value: constraint.value
+      })
+    }
+
+    // check if default facets need to be refetched due to imported facets
+    if (constraints.length > 0) {
+      // remove query from URL
+      history.replace({
+        pathname: `${this.props.rootUrl}/${this.props.facetClass}/faceted-search/${this.props.tabPath}`
+      })
+
+      this.setState({ defaultFacetFetchingRequired: true })
+    }
+
     if (this.props.mapMode &&
       (this.props.pageType === 'facetResults' || this.props.pageType === 'instancePage')) {
       this.props.fetchResults({
@@ -96,6 +127,19 @@ class LeafletMap extends React.Component {
   }
 
   componentDidUpdate = (prevProps, prevState) => {
+    // check if facets are still fetching
+    let someFacetIsFetching = false
+    if (this.props.pageType === 'facetResults' && this.props.facetState) Object.values(this.props.facetState.facets).forEach(facet => { if (facet.isFetching) { someFacetIsFetching = true } })
+
+    // refetch default facets (excl. text facets) when facets have been updated
+    if (this.state.defaultFacetFetchingRequired && this.props.facetUpdateID > 0 && !someFacetIsFetching) {
+      const defaultFacets = this.props.perspectiveConfig.defaultActiveFacets
+      for (const facet of defaultFacets) {
+        if (this.props.perspectiveConfig.facets[facet].filterType !== 'textFilter') this.props.fetchFacet({ facetClass: this.props.facetClass, facetID: facet })
+      }
+      this.setState({ defaultFacetFetchingRequired: false })
+    }
+
     // Dispatch a resize event so that Leaflet fits
     // it's container properly. Copied from
     // https://stackoverflow.com/a/61205108
@@ -1004,17 +1048,17 @@ class LeafletMap extends React.Component {
               height: '100%'
             }}
           >
-          {<Box
-                component='img'
-                src={mapboxLogo}
-                sx={{
-                  height: 20,
-                  ml: 6,
-                  mt: 1,
-                  position: 'absolute',
-                  zIndex:1000
-                }}
-            ></Box>}
+            <Box
+              component='img'
+              src={mapboxLogo}
+              sx={{
+                height: 20,
+                ml: 6,
+                mt: 1,
+                position: 'absolute',
+                zIndex: 1000
+              }}
+            />
             {(this.props.fetching ||
             (this.props.showExternalLayers && this.props.leafletMapState.fetching)) &&
               <Box

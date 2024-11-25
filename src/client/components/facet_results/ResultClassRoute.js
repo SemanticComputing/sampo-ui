@@ -2,6 +2,7 @@ import React, { lazy } from 'react'
 import intl from 'react-intl-universal'
 import { Route, useLocation } from 'react-router-dom'
 import { has } from 'lodash'
+import { useSelector } from 'react-redux'
 // import LineChartSotasurmat from '../perspectives/sotasurmat/LineChartSotasurmat'
 const ResultTable = lazy(() => import('./ResultTable'))
 const InstancePageTable = lazy(() => import('../main_layout/InstancePageTable'))
@@ -15,6 +16,7 @@ const WordCloud = lazy(() => import('../main_layout/WordCloud'))
 const TemporalMap = lazy(() => import('./TemporalMap'))
 const BarChartRace = lazy(() => import('./BarChartRace'))
 const ExportCSV = lazy(() => import('./ExportCSV'))
+const ExportLink = lazy(() => import('./ExportLink'))
 const Export = lazy(() => import('./Export'))
 
 const getVisibleRows = perspectiveState => {
@@ -48,6 +50,7 @@ const ResultClassRoute = props => {
     popupMaxWidth = 150
   }
   const { component } = resultClassConfig
+  const currentLocale = useSelector(state => state.options.currentLocale)
   let routeComponent
   switch (component) {
     case 'ResultTable':
@@ -62,10 +65,14 @@ const ResultClassRoute = props => {
           fetchPaginatedResults={props.fetchPaginatedResults}
           updatePage={props.updatePage}
           updateRowsPerPage={props.updateRowsPerPage}
+          updateFacetOption={props.updateFacetOption}
+          fetchFacet={props.fetchFacet}
+          facetState={props.facetState}
           sortResults={props.sortResults}
           rootUrl={rootUrl}
           layoutConfig={layoutConfig}
           location={useLocation()}
+          currentLocale={currentLocale}
         />
       )
       break
@@ -156,7 +163,13 @@ const ResultClassRoute = props => {
         customMapControl,
         layerConfigs: props.leafletConfig.layerConfigs,
         infoHeaderExpanded: perspectiveState.facetedSearchHeaderExpanded,
-        layoutConfig: props.layoutConfig
+        layoutConfig: props.layoutConfig,
+        updateFacetOption: props.updateFacetOption,
+        fetchFacet: props.fetchFacet,
+        facetState: props.facetState,
+        location: useLocation(),
+        rootUrl: rootUrl,
+        tabPath: resultClassConfig.tabPath
       }
       if (pageType === 'facetResults') {
         leafletProps.facetUpdateID = facetState.facetUpdateID
@@ -197,7 +210,13 @@ const ResultClassRoute = props => {
         layerType,
         updateMapBounds: props.updateMapBounds,
         showTooltips,
-        layoutConfig: props.layoutConfig
+        layoutConfig: props.layoutConfig,
+        updateFacetOption: props.updateFacetOption,
+        fetchFacet: props.fetchFacet,
+        facetState: props.facetState,
+        location: useLocation(),
+        rootUrl: rootUrl,
+        tabPath: resultClassConfig.tabPath
       }
       if (instanceAnalysisData) {
         deckProps = {
@@ -245,7 +264,12 @@ const ResultClassRoute = props => {
         instanceAnalysisDataUpdateID: perspectiveState.instanceAnalysisDataUpdateID,
         instanceAnalysisData: perspectiveState.instanceAnalysisData,
         facetUpdateID: facetState ? facetState.facetUpdateID : null,
-        fetchData: props.fetchResults
+        updateFacetOption: props.updateFacetOption,
+        fetchData: props.fetchResults,
+        fetchFacet: props.fetchFacet,
+        facetState: props.facetState,
+        location: useLocation(),
+        rootUrl: rootUrl
       }
       routeComponent = <ApexCharts {...apexProps} />
       break
@@ -265,7 +289,13 @@ const ResultClassRoute = props => {
         instanceAnalysisDataUpdateID: perspectiveState.instanceAnalysisDataUpdateID,
         instanceAnalysisData: perspectiveState.instanceAnalysisData,
         facetUpdateID: facetState ? facetState.facetUpdateID : null,
-        fetchData: props.fetchResults
+        updateFacetOption: props.updateFacetOption,
+        fetchData: props.fetchResults,
+        fetchFacet: props.fetchFacet,
+        facetState: props.facetState,
+        location: useLocation(),
+        rootUrl: rootUrl,
+        tabPath: resultClassConfig.tabPath
       }
       const upperApexProps = {
         ...commonApexProps,
@@ -288,7 +318,8 @@ const ResultClassRoute = props => {
         perspectiveState,
         results: perspectiveState.lower,
         fetching: perspectiveState.lowerFetching,
-        resultUpdateID: perspectiveState.lowerResultUpdateID
+        resultUpdateID: perspectiveState.lowerResultUpdateID,
+        doNotImportConstraints: true
       }
       routeComponent = (
         <>
@@ -432,6 +463,21 @@ const ResultClassRoute = props => {
           facetUpdateID={facetState.facetUpdateID}
           facets={facetState.facets}
           layoutConfig={layoutConfig}
+        />
+      )
+      break
+    }
+    case 'ExportLink': {
+      routeComponent = (
+        <ExportLink
+          resultClass={resultClass}
+          facetClass={facetClass}
+          facetUpdateID={facetState.facetUpdateID}
+          facets={facetState.facets}
+          layoutConfig={layoutConfig}
+          rootUrl={rootUrl}
+          data={perspectiveState}
+          perspectiveConfig={perspective}
         />
       )
       break
