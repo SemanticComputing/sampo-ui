@@ -78,7 +78,7 @@ class LeafletMap extends React.Component {
     let constraints = []
 
     // first check if page or constraints were given as url parameter
-    if (this.props.location.search !== '') {
+    if (this.props.location && this.props.location.search !== '') {
       const qs = this.props.location.search.replace('?', '')
       const parsedConstraints = querystring.parse(qs).constraints
       constraints = parsedConstraints ? JSON.parse(decodeURIComponent(parsedConstraints)) : []

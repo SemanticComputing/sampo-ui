@@ -87,7 +87,7 @@ class ResultTable extends React.Component {
     let constraints = []
 
     // first check if page or constraints were given as url parameter
-    if (this.props.location.search === '') {
+    if (this.props.location && this.props.location.search === '') {
       page = this.props.data.page === -1 ? 0 : this.props.data.page
     } else {
       const qs = this.props.location.search.replace('?', '')
@@ -136,7 +136,7 @@ class ResultTable extends React.Component {
 
     // check if facets are still fetching
     let someFacetIsFetching = false
-    Object.values(this.props.facetState.facets).forEach(facet => { if (facet.isFetching) { someFacetIsFetching = true } })
+    if (this.props.facetState) Object.values(this.props.facetState.facets).forEach(facet => { if (facet.isFetching) { someFacetIsFetching = true } })
     // refetch default facets (excl. text facets) when facets have been updated
     if (this.state.defaultFacetFetchingRequired && this.props.facetUpdateID > 0 && !someFacetIsFetching) {
       const defaultFacets = this.props.perspectiveConfig.defaultActiveFacets

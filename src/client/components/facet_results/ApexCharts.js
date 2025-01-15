@@ -45,7 +45,7 @@ class ApexChart extends React.Component {
     let constraints = []
 
     // first check if page or constraints were given as url parameter
-    if (this.props.location.search !== '') {
+    if (this.props.location && this.props.location.search !== '') {
       const qs = this.props.location.search.replace('?', '')
       const parsedConstraints = querystring.parse(qs).constraints
       // do not try to import constraints twice for ApexChartsDouble components
@@ -108,7 +108,7 @@ class ApexChart extends React.Component {
 
     // check if facets are still fetching
     let someFacetIsFetching = false
-    if (pageType === 'facetResults') Object.values(this.props.facetState.facets).forEach(facet => { if (facet.isFetching) { someFacetIsFetching = true } })
+    if (pageType === 'facetResults' && this.props.facetState) Object.values(this.props.facetState.facets).forEach(facet => { if (facet.isFetching) { someFacetIsFetching = true } })
 
     // refetch default facets (excl. text facets) when facets have been updated
     if (this.state.defaultFacetFetchingRequired && this.props.facetUpdateID > 0 && !someFacetIsFetching) {
