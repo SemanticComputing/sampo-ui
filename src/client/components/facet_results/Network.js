@@ -109,8 +109,13 @@ class Network extends React.Component {
     // check if filters have changed
     if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
       this.props.fetchResults({
+        perspectiveID: this.props.perspectiveConfig.id,
         resultClass: this.props.resultClass,
-        facetClass: this.props.facetClass
+        facetClass: this.props.facetClass,
+        uri: this.props.uri,
+        limit: this.props.limit,
+        optimize: this.props.optimize,
+        reason: 'facetUpdate'
       })
     }
   }
