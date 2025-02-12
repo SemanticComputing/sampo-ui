@@ -367,7 +367,13 @@ const ResultClassRoute = props => {
         fitLayout,
         ...(style && { style }),
         ...(layout && { layout }),
-        ...(preprocess && { preprocess: networkConfig[preprocess] })
+        ...(preprocess && { preprocess: networkConfig[preprocess] }),
+        updateFacetOption: props.updateFacetOption,
+        fetchFacet: props.fetchFacet,
+        facetState: props.facetState,
+        location: useLocation(),
+        rootUrl: rootUrl,
+        tabPath: resultClassConfig.tabPath
       }
       if (pageType === 'facetResults') {
         networkProps = {

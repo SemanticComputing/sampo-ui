@@ -8,6 +8,7 @@ import 'cytoscape-panzoom/cytoscape.js-panzoom.css'
 import CircularProgress from '@mui/material/CircularProgress'
 import { library, dom } from '@fortawesome/fontawesome-svg-core'
 import { faMinus, faPlus, faExpand } from '@fortawesome/free-solid-svg-icons'
+import querystring from 'querystring'
 
 const zoomControlOptions = {
   zoomFactor: 0.05, // zoom factor per zoom tick
@@ -44,9 +45,41 @@ class Network extends React.Component {
   constructor (props) {
     super(props)
     this.cyRef = React.createRef()
+    this.state = {
+      defaultFacetFetchingRequired: false
+    }
   }
 
   componentDidMount = () => {
+    let constraints = []
+
+    // first check if page or constraints were given as url parameter
+    if (this.props.location && this.props.location.search !== '') {
+      const qs = this.props.location.search.replace('?', '')
+      const parsedConstraints = querystring.parse(qs).constraints
+      constraints = parsedConstraints ? JSON.parse(decodeURIComponent(parsedConstraints)) : []
+    }
+
+    // update imported facets
+    for (const constraint of constraints) {
+      this.props.updateFacetOption({
+        facetClass: this.props.facetClass,
+        facetID: constraint.facetId,
+        option: constraint.filterType,
+        value: constraint.value
+      })
+    }
+
+    // check if default facets need to be refetched due to imported facets
+    if (constraints.length > 0) {
+      // remove query from URL
+      history.replace({
+        pathname: `${this.props.rootUrl}/${this.props.facetClass}/faceted-search/${this.props.tabPath}`
+      })
+
+      this.setState({ defaultFacetFetchingRequired: true })
+    }
+
     this.props.fetchResults({
       perspectiveID: this.props.perspectiveConfig.id,
       resultClass: this.props.resultClass,
@@ -106,6 +139,20 @@ class Network extends React.Component {
       (prevProps.fetching && !this.props.fetching)) {
       this.renderCytocape()
     }
+
+    // check if facets are still fetching
+    let someFacetIsFetching = false
+    if (this.props.pageType === 'facetResults' && this.props.facetState) Object.values(this.props.facetState.facets).forEach(facet => { if (facet.isFetching) { someFacetIsFetching = true } })
+
+    // refetch default facets (excl. text facets) when facets have been updated
+    if (this.state.defaultFacetFetchingRequired && this.props.facetUpdateID > 0 && !someFacetIsFetching) {
+      const defaultFacets = this.props.perspectiveConfig.defaultActiveFacets
+      for (const facet of defaultFacets) {
+        if (this.props.perspectiveConfig.facets[facet].filterType !== 'textFilter') this.props.fetchFacet({ facetClass: this.props.facetClass, facetID: facet })
+      }
+      this.setState({ defaultFacetFetchingRequired: false })
+    }
+
     // check if filters have changed
     if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
       this.props.fetchResults({

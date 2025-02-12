@@ -59,17 +59,17 @@ class ExportLink extends React.Component {
   }
 
   componentDidMount = () => {
-    this.setState({ downloadLink: this.createDownloadLink() })
+    this.setState({ downloadLink: this.createLink() })
   }
 
   componentDidUpdate = prevProps => {
     // check if filters have changed
     if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
-      this.setState({ downloadLink: this.createDownloadLink() })
+      this.setState({ downloadLink: this.createLink() })
     }
   }
 
-  createDownloadLink = () => {
+  createLink = () => {
     const params = stateToUrl({
       facetClass: this.props.facetClass,
       facets: this.props.facets
@@ -77,7 +77,7 @@ class ExportLink extends React.Component {
 
     const constraints = params.constraints ? params.constraints : []
     const mappedConstraints = []
-    // go through constraints:
+    // go through constraints
     for (const constraint of constraints) {
       const facetId = constraint.facetID
       const filterType = constraint.filterType
@@ -133,7 +133,7 @@ class ExportLink extends React.Component {
   }
 
   updateDownloadLink = () => {
-    this.setState({ downloadLink: this.createDownloadLink() })
+    this.setState({ downloadLink: this.createLink() })
   }
 
   handleViewChange (event) {
@@ -151,7 +151,7 @@ class ExportLink extends React.Component {
     const errorBody = intl.getHTML('exportLink.errorBody') ? intl.getHTML('exportLink.errorBody') : parse('The current length of the generated link is more than 15,800 characters. <strong>The server will refuse to handle requests that go over certain length limits</strong> — you can reduce the length of the link by deselecting some facet options.')
     const copyLinkToClipboard = intl.get('exportLink.copyLinkToClipboard') ? intl.get('exportLink.copyLinkToClipboard') : 'Copy link to clipboard'
 
-    const acceptedComponentTypes = ['ApexCharts', 'ApexChartsDouble', 'LeafletMap', 'Deck']
+    const acceptedComponentTypes = ['ApexCharts', 'ApexChartsDouble', 'LeafletMap', 'Deck', 'Network']
     const defaultTab = this.props.perspectiveConfig.resultClasses[this.props.perspectiveConfig.id].paginatedResultsConfig
     const suitableResultClasses = Object.values(this.props.perspectiveConfig.resultClasses).filter(resultClass => acceptedComponentTypes.includes(resultClass.component))
     return (
