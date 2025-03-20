@@ -2,9 +2,8 @@ import React from 'react'
 import DateFacet, { DateFacetComponent } from './DateFacet'
 import Center from '../../../../.storybook/Center'
 import PaperContainer from '../../../../.storybook/PaperContainer'
-import { MuiPickersUtilsProvider } from '@material-ui/pickers'
-import moment from 'moment'
-import MomentUtils from '@date-io/moment'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import 'moment/locale/fi'
 // import 'moment/locale/en'
 
@@ -40,7 +39,7 @@ export const basic = props => {
   const facetID = 'productionTimespan'
   return (
     <div style={{ width: 400, height: 150 }}>
-      <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} locale='fi'>
+      <LocalizationProvider dateAdapter={AdapterMoment}>
         <DateFacet
           facetID={facetID}
           facet={facet}
@@ -51,7 +50,7 @@ export const basic = props => {
           someFacetIsFetching={false}
           updateFacetOption={() => null}
         />
-      </MuiPickersUtilsProvider>
+      </LocalizationProvider>
     </div>
   )
 }

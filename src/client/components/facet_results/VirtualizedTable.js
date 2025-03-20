@@ -13,6 +13,8 @@ import {
   SortIndicator
 } from 'react-virtualized'
 
+import 'react-virtualized/styles.css';
+
 // https://github.com/bvaughn/react-virtualized/issues/650
 // https://github.com/bvaughn/react-virtualized/blob/master/docs/usingAutoSizer.md
 
@@ -82,7 +84,6 @@ class VirtualizedTable extends React.PureComponent {
     this._noRowsRenderer = this._noRowsRenderer.bind(this)
     this._sort = this._sort.bind(this)
   }
-
   render () {
     const { classes, list, perspectiveID } = this.props
     // console.log(list)
