@@ -859,7 +859,7 @@
     "viewLabel": "Tab",
     "viewInstructions": "Choose the tab in which the query will open",
     "fieldLabel": "Generated link (read-only)",
-    "infoBody": "You can share the query you made by using the link below. The link is generated based on what you have selected for different facets and will open the search view of this perpsective with those choices on the selected tab. You can change the opened tab to any of the supported ones using the dropdown menu below. If you make additional choices while on this page, the link will be automatically updated to include those.",
+    "infoBody": "You can share the query you made by using the link below. The link is generated based on what you have selected for different facets and will open the search view of this perspective with those choices on the selected tab. You can change the opened tab to any of the supported ones using the dropdown menu below. If you make additional choices while on this page, the link will be automatically updated to include those.",
     "warningTitle": "Generated link might be too long for some browsers",
     "warningBody": "The current length of the generated link is more than 2,000 characters. Browsers have different limits for the maximum lengths of links they can handle. <strong>This link might not work on all browsers</strong> — you can reduce the length of the link by deselecting some facet options.",
     "errorTitle": "Generated link is too long",
