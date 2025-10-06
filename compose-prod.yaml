@@ -1,0 +1,24 @@
+name: sampo-ui-prod
+
+services:
+  client:
+    build:
+      context: ./client
+      target: client-prod
+    image: sampo-ui-client:prod
+    container_name: sampo-ui-client-prod
+    ports:
+      - "8080:80"
+    environment:
+      API_URL: ${API_URL}
+
+  server:
+    build:
+      context: ./server
+      target: server-build
+    image: sampo-ui-server:prod
+    container_name: sampo-ui-server-prod
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./configs:/app/configs

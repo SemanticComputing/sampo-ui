@@ -1,0 +1,64 @@
+{
+  "name": "sampo-ui",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SemanticComputing/sampo-ui"
+  },
+  "license": "MIT",
+  "author": "Esko Ikkala <esko.ikkala@aalto.fi>",
+  "contributors": [
+    "Erkki Heino",
+    "Heikki Rantala"
+  ],
+  "scripts": {
+    "build": "cross-env BABEL_ENV=node babel src --out-dir ./dist --copy-files",
+    "dev": "cross-env BABEL_ENV=node NODE_ENV=development nodemon -r dotenv/config src/index.js --exec babel-node",
+    "utils": "cross-env BABEL_ENV=node NODE_ENV=development nodemon -r dotenv/config src/sparql/Utils.js --exec babel-node",
+    "sitemap": "cross-env BABEL_ENV=node babel-node src/sitemap_generator/SitemapGenerator.js",
+    "translate": "cross-env BABEL_ENV=node babel-node src/translations_generator/index.js"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.15.4",
+    "@nosferatu500/react-sortable-tree": "^3.0.5",
+    "axios": "^1.10.0",
+    "date-fns": "^2.19.0",
+    "deck.gl": "^8.6.0",
+    "express": "^4.18.2",
+    "express-openapi-validator": "^4.13.2",
+    "express-static-gzip": "^2.1.1",
+    "flat": "^5.0.2",
+    "js-yaml": "^3.13.1",
+    "querystring": "^0.2.1",
+    "simple-statistics": "^7.7.0",
+    "swagger-ui-express": "^4.1.6"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.15.5",
+    "@babel/eslint-parser": "^7.15.4",
+    "@babel/node": "^7.15.4",
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-env": "^7.15.4",
+    "@babel/preset-react": "^7.14.5",
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "babel-loader": "^8.2.2",
+    "concurrently": "^6.3.0",
+    "copy-webpack-plugin": "^7.0.0",
+    "cross-env": "^7.0.0",
+    "css-loader": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "file-loader": "^6.2.0",
+    "googleapis": "^71.0.0",
+    "html-webpack-plugin": "^5.3.1",
+    "nodemon": "^3.1.10",
+    "sitemap": "^6.3.5",
+    "standard": "^16.0.4"
+  },
+  "standard": {
+    "parser": "@babel/eslint-parser"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
+  }
+}

@@ -1,0 +1,41 @@
+name: sampo-ui-dev
+
+services:
+  client:
+    build:
+      context: ./client
+      target: client-dev
+    command: npm run dev
+    volumes:
+      - ./client:/app/client
+      - client_node_modules:/app/client/node_modules # Prevent overwrite of deps
+    ports:
+      - "8080:8080"
+    working_dir: /app/client
+    environment:
+      BABEL_ENV: ${BABEL_ENV}
+      NODE_ENV: ${NODE_ENV}
+      API_URL: ${API_URL}
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: ./server
+      target: server-dev
+    command: npm run dev
+    volumes:
+      - ./server:/app/server
+      - ./configs:/app/configs
+      - server_node_modules:/app/server/node_modules # Prevent overwrite of deps
+    ports:
+      - "3001:3001"
+    working_dir: /app/server
+    environment:
+      BABEL_ENV: ${SERVER_BABEL_ENV}
+      NODE_ENV: ${NODE_ENV}
+
+
+volumes:
+  client_node_modules:
+  server_node_modules:
