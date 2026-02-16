@@ -1,5 +1,6 @@
 import axios from 'axios'
 import querystring from 'querystring'
+import {isValidUrl} from "./Utils";
 
 export const runSelectQuery = async ({
   query,
@@ -11,6 +12,9 @@ export const runSelectQuery = async ({
   resultFormat,
   useAuth = false
 }) => {
+  if (!isValidUrl(endpoint)) {
+    endpoint = process.env.SPARQL_ENDPOINT
+  }
   const MIMEtype = resultFormat === 'json'
     ? 'application/sparql-results+json; charset=utf-8'
     : 'text/csv; charset=utf-8'
@@ -44,27 +48,17 @@ export const runSelectQuery = async ({
       return response.data
     }
   } catch (error) {
+    // Handle logging error for server
     if (error.response) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
-      console.log(`Response status: ${error.response.status}\n`)
-      console.log('Response data: \n')
-      console.log(error.response.data)
-      console.log('\n')
-    // console.log(error.response.headers);
-    } else if (error.request) {
-      // The request was made but no response was received
-      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-      // http.ClientRequest in node.js
-      console.log(error.request)
-    } else {
-    // Something happened in setting up the request that triggered an Error
-      console.error(error)
+      console.error(`Response status: ${error.response.status}\n`)
+      console.error('Response data: \n')
+      console.error(error.response.data)
+      console.error('\n')
     }
-    // console.log(error.config)
-    return {
-      data: null,
-      sparqlQuery: query
-    }
+
+    // rethrow error to give info to client side
+    throw error
   }
 }

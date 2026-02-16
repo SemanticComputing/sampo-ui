@@ -42,6 +42,10 @@ const TopBar = props => {
   if (has(layoutConfig.topBar, 'showSearchField')) {
     showSearchField = layoutConfig.topBar.showSearchField
   }
+  let showFeedbackButton = true
+  if (has(layoutConfig.topBar, 'showFeedbackButton')) {
+    showFeedbackButton = layoutConfig.topBar.showFeedbackButton
+  }
 
   // https://mui.com/guides/routing/#button
   const AdapterLink = React.forwardRef((props, ref) =>
@@ -303,7 +307,7 @@ const TopBar = props => {
                 borderLeft: '2px solid white'
               })}
             />
-            {renderDesktopTopMenuItem({
+            {showFeedbackButton && renderDesktopTopMenuItem({
               id: 'feedback',
               externalUrl: props.layoutConfig.topBar.feedbackLink,
               label: intl.get('topBar.feedback')

@@ -10,6 +10,8 @@ const pieChartColors = ['#a12a3c', '#0f00b5', '#81c7a4', '#ffdea6', '#ff0033', '
 
 const defaultSliceVisibilityThreshold = 0.01
 
+const DATE_OFFSET = 100000000000000 // Make posix value of dates positive for charts
+
 export const createSingleLineChartData = ({
   resultClass,
   facetClass,
@@ -95,6 +97,26 @@ export const createMultipleLineChartData = ({
       data: results[lineID]
     })
   }
+
+  const xaxisConfig = {
+    ...(xaxisType) && { type: xaxisType }, // default is 'category'
+    ...(xaxisTickAmount) && { tickAmount: xaxisTickAmount },
+    ...(xaxisLabels) && { labels: xaxisLabels },
+    title: {
+      text: xaxisTitle
+    }
+  }
+
+// Conditionally add the datetime formatter ONLY when type is 'datetime'
+  if (xaxisType === 'datetime') {
+    xaxisConfig.labels = {
+      formatter: (value) => {
+        const date = new Date(value - DATE_OFFSET);
+        return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+      }
+    }
+  }
+
   const apexChartOptionsWithData = {
     chart: {
       type: 'area',
@@ -109,14 +131,7 @@ export const createMultipleLineChartData = ({
     dataLabels: {
       enabled: false
     },
-    xaxis: {
-      ...(xaxisType) && { type: xaxisType }, // default is 'category'
-      ...(xaxisTickAmount) && { tickAmount: xaxisTickAmount },
-      ...(xaxisLabels) && { labels: xaxisLabels },
-      title: {
-        text: xaxisTitle
-      }
-    },
+    xaxis: xaxisConfig,
     yaxis: {
       title: {
         text: yaxisTitle

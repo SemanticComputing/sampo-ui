@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {isValidUrl} from "./Utils";
 
 export const runNetworkQuery = async ({
   endpoint,
@@ -9,6 +10,9 @@ export const runNetworkQuery = async ({
   id,
   optimize
 }) => {
+  if (!isValidUrl(endpoint)) {
+    endpoint = process.env.SPARQL_ENDPOINT
+  }
   const payload = {
     endpoint,
     prefixes,

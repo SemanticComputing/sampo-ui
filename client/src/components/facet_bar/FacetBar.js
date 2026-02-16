@@ -156,17 +156,38 @@ class FacetBar extends React.Component {
         )
         break
       case 'dateFilter':
-      case 'dateNoTimespanFilter':
         facetComponent = (
-          <DateFacet
+          <SliderFacet
             facetID={facetID}
             facet={facet}
+            facetFilter={null}
+            facetLabel={label}
             facetClass={this.props.facetClass}
-            resultClass={this.props.resultClass}
-            facetUpdateID={facetUpdateID}
             fetchFacet={this.props.fetchFacet}
             someFacetIsFetching={someFacetIsFetching}
             updateFacetOption={this.props.updateFacetOption}
+            showError={this.props.showError}
+            dataType='ISOString'
+            minLabel={intl.get('facetBar.min')}
+            maxLabel={intl.get('facetBar.max')}
+          />
+        )
+        break
+      case 'dateNoTimespanFilter':
+        facetComponent = (
+          <SliderFacet
+            facetID={facetID}
+            facet={facet}
+            facetFilter={null}
+            facetLabel={label}
+            facetClass={this.props.facetClass}
+            fetchFacet={this.props.fetchFacet}
+            someFacetIsFetching={someFacetIsFetching}
+            updateFacetOption={this.props.updateFacetOption}
+            showError={this.props.showError}
+            dataType='ISOString'
+            minLabel={intl.get('facetBar.min')}
+            maxLabel={intl.get('facetBar.max')}
           />
         )
         break

@@ -1,6 +1,7 @@
 import { readFile } from 'fs/promises'
 import path from 'path'
 import { has } from 'lodash'
+import * as generalQueries from '../sparql/SparqlQueriesGeneral'
 
 export const loadConfig = async (fileName) => {
   const configPath = path.join(__dirname, '..', '..', '..', 'configs', fileName)
@@ -10,6 +11,20 @@ export const loadConfig = async (fileName) => {
 const loadQueryConfig = async (fileName) => {
   const configPath = path.join(__dirname, '..', '..', '..', 'configs', fileName)
   return await import(configPath)
+}
+
+const loadGeneralQueries = (perspectiveConfig, sparqlQueries) => {
+  if (!perspectiveConfig.generalQueries) {
+    perspectiveConfig.generalQueries = {}
+  }
+
+  for (const [type, query] of Object.entries(generalQueries)) {
+    if (perspectiveConfig.generalQueries[type]){
+      perspectiveConfig.generalQueries[type] = sparqlQueries[perspectiveConfig.generalQueries[type]];
+    } else {
+      perspectiveConfig.generalQueries[type] = query;
+    }
+  }
 }
 
 export const createBackendSearchConfig = async () => {
@@ -100,8 +115,12 @@ export const createBackendSearchConfig = async () => {
       const queryBlock = sparqlQueries[queryBlockID]
       perspectiveConfig.propertiesQueryBlock = queryBlock
     }
+
+    loadGeneralQueries(perspectiveConfig, sparqlQueries)
+
     backendSearchConfig[perspectiveID] = perspectiveConfig
   }
+
   for (const perspectiveID of portalConfig.perspectives.onlyInstancePages) {
     const perspectiveConfig = await loadConfig(`${portalID}/only_instance_pages/${perspectiveID}.json`)
     const { sparqlQueriesFile } = perspectiveConfig
@@ -144,9 +163,12 @@ export const createBackendSearchConfig = async () => {
     const { prefixesFile } = perspectiveConfig.endpoint
     const { prefixes } = await loadQueryConfig(`${portalID}/sparql_queries/${prefixesFile}`)
     perspectiveConfig.endpoint.prefixes = prefixes
+
+    loadGeneralQueries(perspectiveConfig, sparqlQueries)
+
     backendSearchConfig[perspectiveID] = perspectiveConfig
   }
-  // console.log(Object.keys(backendSearchConfig))
+
   return backendSearchConfig
 }
 
@@ -399,6 +421,12 @@ export class Counter {
     }
   }
 }
+
+export function isValidUrl(str) {
+  const regex = /^(https?:\/\/)[\w.-]+(\.[\w.-]+)+[/\w .-]*$/;
+  return regex.test(str);
+}
+
 
 /**
  export class DefaultDict {

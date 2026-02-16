@@ -3,11 +3,6 @@ import { runSelectQuery } from './SparqlApi'
 import { runNetworkQuery } from './NetworkApi'
 import { makeObjectList, mapCount } from './Mappers'
 import { generateConstraintsBlock } from './Filters'
-import {
-  countQuery,
-  facetResultSetQuery,
-  instanceQuery
-} from './SparqlQueriesGeneral'
 
 export const getPaginatedResults = ({
   backendSearchConfig,
@@ -20,8 +15,8 @@ export const getPaginatedResults = ({
   resultFormat,
   dynamicLangTag
 }) => {
-  let q = facetResultSetQuery
   const perspectiveConfig = backendSearchConfig[resultClass]
+  let q = perspectiveConfig.generalQueries.facetResultSetQuery
   const {
     endpoint,
     facets,
@@ -40,9 +35,9 @@ export const getPaginatedResults = ({
     postprocess = null
   } = resultClassConfig.paginatedResultsConfig
   if (constraints == null && defaultConstraint == null) {
-    q = q.replace('<FILTER>', '# no filters')
+    q = q.replaceAll('<FILTER>', '# no filters')
   } else {
-    q = q.replace('<FILTER>', generateConstraintsBlock({
+    q = q.replaceAll('<FILTER>', generateConstraintsBlock({
       backendSearchConfig,
       facetClass: resultClass, // use resultClass as facetClass
       constraints,
@@ -52,8 +47,8 @@ export const getPaginatedResults = ({
     }))
   }
   if (sortBy == null) {
-    q = q.replace('<ORDER_BY_TRIPLE>', '')
-    q = q.replace('<ORDER_BY>', '# no sorting')
+    q = q.replaceAll('<ORDER_BY_TRIPLE>', '')
+    q = q.replaceAll('<ORDER_BY>', '# no sorting')
   }
   if (sortBy !== null) {
     let sortByPredicate
@@ -70,22 +65,22 @@ export const getPaginatedResults = ({
     } else {
       sortByPattern = `OPTIONAL { ?id ${sortByPredicate} ?orderBy }`
     }
-    q = q.replace('<ORDER_BY_TRIPLE>', sortByPattern)
-    q = q = q.replace('<ORDER_BY>', `ORDER BY (!BOUND(?orderBy)) ${sortDirection}(?orderBy)`)
+    q = q.replaceAll('<ORDER_BY_TRIPLE>', sortByPattern)
+    q = q = q.replaceAll('<ORDER_BY>', `ORDER BY (!BOUND(?orderBy)) ${sortDirection}(?orderBy)`)
   }
-  q = q.replace(/<FACET_CLASS>/g, facetClass)
+  q = q.replaceAll(/<FACET_CLASS>/g, facetClass)
   if (has(backendSearchConfig[resultClass], 'facetClassPredicate')) {
-    q = q.replace(/<FACET_CLASS_PREDICATE>/g, backendSearchConfig[resultClass].facetClassPredicate)
+    q = q.replaceAll(/<FACET_CLASS_PREDICATE>/g, backendSearchConfig[resultClass].facetClassPredicate)
   } else {
-    q = q.replace(/<FACET_CLASS_PREDICATE>/g, 'a')
+    q = q.replaceAll(/<FACET_CLASS_PREDICATE>/g, 'a')
   }
-  q = q.replace('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`)
-  q = q.replace('<RESULT_SET_PROPERTIES>', propertiesQueryBlock)
+  q = q.replaceAll('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`)
+  q = q.replaceAll('<RESULT_SET_PROPERTIES>', propertiesQueryBlock)
   if (langTag) {
-    q = q.replace(/<LANG>/g, langTag)
+    q = q.replaceAll(/<LANG>/g, langTag)
   }
   if (langTagSecondary) {
-    q = q.replace(/<LANG_SECONDARY>/g, langTagSecondary)
+    q = q.replaceAll(/<LANG_SECONDARY>/g, langTagSecondary)
   }
   // console.log(endpoint.prefixes + q)
   return runSelectQuery({
@@ -151,9 +146,9 @@ export const getAllResults = ({
   } = resultClassConfig
   let q = sparqlQuery
   if (constraints == null && defaultConstraint == null) {
-    q = q.replace(/<FILTER>/g, '# no filters')
+    q = q.replaceAll(/<FILTER>/g, '# no filters')
   } else {
-    q = q.replace(/<FILTER>/g, generateConstraintsBlock({
+    q = q.replaceAll(/<FILTER>/g, generateConstraintsBlock({
       backendSearchConfig,
       facetClass,
       constraints,
@@ -162,35 +157,35 @@ export const getAllResults = ({
       facetID: null
     }))
   }
-  q = q.replace(/<FACET_CLASS>/g, perspectiveConfig.facetClass)
+  q = q.replaceAll(/<FACET_CLASS>/g, perspectiveConfig.facetClass)
   if (has(backendSearchConfig[resultClass], 'facetClassPredicate')) {
-    q = q.replace(/<FACET_CLASS_PREDICATE>/g, backendSearchConfig[resultClass].facetClassPredicate)
+    q = q.replaceAll(/<FACET_CLASS_PREDICATE>/g, backendSearchConfig[resultClass].facetClassPredicate)
   } else {
-    q = q.replace(/<FACET_CLASS_PREDICATE>/g, 'a')
+    q = q.replaceAll(/<FACET_CLASS_PREDICATE>/g, 'a')
   }
   if (langTag) {
-    q = q.replace(/<LANG>/g, langTag)
+    q = q.replaceAll(/<LANG>/g, langTag)
   }
   if (langTagSecondary) {
-    q = q.replace(/<LANG_SECONDARY>/g, langTagSecondary)
+    q = q.replaceAll(/<LANG_SECONDARY>/g, langTagSecondary)
   }
   if (fromID) {
-    q = q.replace(/<FROM_ID>/g, `<${fromID}>`)
+    q = q.replaceAll(/<FROM_ID>/g, `<${fromID}>`)
   }
   if (toID) {
-    q = q.replace(/<TO_ID>/g, `<${toID}>`)
+    q = q.replaceAll(/<TO_ID>/g, `<${toID}>`)
   }
   if (period) {
-    q = q.replace(/<PERIOD>/g, `<${period}>`)
+    q = q.replaceAll(/<PERIOD>/g, `<${period}>`)
   }
   if (province) {
-    q = q.replace(/<PROVINCE>/g, `<${province}>`)
+    q = q.replaceAll(/<PROVINCE>/g, `<${province}>`)
   }
   if (property) {
-    q = q.replace(/<PROPERTY>/g, property)
+    q = q.replaceAll(/<PROPERTY>/g, property)
   }
   if (rdfType) {
-    q = q.replace(/<RDF_TYPE>/g, rdfType)
+    q = q.replaceAll(/<RDF_TYPE>/g, rdfType)
   }
   if (resultClassConfig.useNetworkAPI) {
     return runNetworkQuery({
@@ -205,7 +200,7 @@ export const getAllResults = ({
     })
   } else {
     if (uri !== null) {
-      q = q.replace(/<ID>/g, `<${uri}>`)
+      q = q.replaceAll(/<ID>/g, `<${uri}>`)
     }
     // console.log(endpoint.prefixes + q)
     return runSelectQuery({
@@ -226,16 +221,16 @@ export const getResultCount = ({
   constraints,
   resultFormat
 }) => {
-  let q = countQuery
   const perspectiveConfig = backendSearchConfig[resultClass]
+  let q = perspectiveConfig.generalQueries.countQuery
   const {
     endpoint,
     defaultConstraint = null
   } = perspectiveConfig
   if (constraints == null && defaultConstraint == null) {
-    q = q.replace('<FILTER>', '# no filters')
+    q = q.replaceAll('<FILTER>', '# no filters')
   } else {
-    q = q.replace('<FILTER>', generateConstraintsBlock({
+    q = q.replaceAll('<FILTER>', generateConstraintsBlock({
       backendSearchConfig,
       facetClass: resultClass, // use resultClass as facetClass
       constraints,
@@ -245,11 +240,11 @@ export const getResultCount = ({
       filterTripleFirst: true
     }))
   }
-  q = q.replace(/<FACET_CLASS>/g, perspectiveConfig.facetClass)
+  q = q.replaceAll(/<FACET_CLASS>/g, perspectiveConfig.facetClass)
   if (has(backendSearchConfig[resultClass], 'facetClassPredicate')) {
-    q = q.replace(/<FACET_CLASS_PREDICATE>/g, backendSearchConfig[resultClass].facetClassPredicate)
+    q = q.replaceAll(/<FACET_CLASS_PREDICATE>/g, backendSearchConfig[resultClass].facetClassPredicate)
   } else {
-    q = q.replace(/<FACET_CLASS_PREDICATE>/g, 'a')
+    q = q.replaceAll(/<FACET_CLASS_PREDICATE>/g, 'a')
   }
 
   // console.log(endpoint.prefixes + q)
@@ -294,13 +289,13 @@ export const getByURI = ({
     resultMapperConfig = null,
     postprocess = null
   } = resultClassConfig.instanceConfig
-  let q = instanceQuery
-  q = q.replace('<PROPERTIES>', propertiesQueryBlock)
-  q = q.replace('<RELATED_INSTANCES>', relatedInstances)
+  let q = perspectiveConfig.generalQueries.instanceQuery
+  q = q.replaceAll('<PROPERTIES>', propertiesQueryBlock)
+  q = q.replaceAll('<RELATED_INSTANCES>', relatedInstances)
   if (constraints == null || noFilterForRelatedInstances) {
-    q = q.replace('<FILTER>', '# no filters')
+    q = q.replaceAll('<FILTER>', '# no filters')
   } else {
-    q = q.replace('<FILTER>', generateConstraintsBlock({
+    q = q.replaceAll('<FILTER>', generateConstraintsBlock({
       backendSearchConfig,
       resultClass: resultClass,
       facetClass: facetClass,
@@ -309,12 +304,12 @@ export const getByURI = ({
       facetID: null
     }))
   }
-  q = q.replace(/<ID>/g, `<${uri}>`)
+  q = q.replaceAll(/<ID>/g, `<${uri}>`)
   if (langTag) {
-    q = q.replace(/<LANG>/g, langTag)
+    q = q.replaceAll(/<LANG>/g, langTag)
   }
   if (langTagSecondary) {
-    q = q.replace(/<LANG_SECONDARY>/g, langTagSecondary)
+    q = q.replaceAll(/<LANG_SECONDARY>/g, langTagSecondary)
   }
   // console.log(endpoint.prefixes + q)
   return runSelectQuery({

@@ -1,7 +1,7 @@
 name: sampo-ui-prod
 
 services:
-  client:
+  cient:
     build:
       context: ./client
       target: client-prod
@@ -20,5 +20,18 @@ services:
     container_name: sampo-ui-server-prod
     ports:
       - "3001:3001"
+    volumes:
+      - ./configs:/app/configs
+  
+  combo:
+    build:
+      context: .
+      target: combo-prd
+    image: sampo-ui-combo:prod
+    container_name: sampo-ui-combo-prod
+    ports:
+      - "3002:3001"
+    environment:
+      API_URL: ${API_URL}
     volumes:
       - ./configs:/app/configs

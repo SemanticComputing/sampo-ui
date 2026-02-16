@@ -10,9 +10,9 @@ import {
   isArray,
   mergeWith
 } from 'lodash'
-import { getTreeFromFlatData } from '@nosferatu500/react-sortable-tree'
-import { ckmeans } from 'simple-statistics'
-import { Counter } from './Utils'
+import {getTreeFromFlatData} from '@nosferatu500/react-sortable-tree'
+import {ckmeans} from 'simple-statistics'
+import {Counter} from './Utils'
 
 export const mapPlaces = sparqlBindings => {
   const results = sparqlBindings.map(b => {
@@ -20,7 +20,7 @@ export const mapPlaces = sparqlBindings => {
       id: b.id.value,
       lat: b.lat.value,
       long: b.long.value,
-      ...(Object.prototype.hasOwnProperty.call(b, 'instanceCount') && { instanceCount: b.instanceCount.value })
+      ...(Object.prototype.hasOwnProperty.call(b, 'instanceCount') && {instanceCount: b.instanceCount.value})
     }
   })
   return results
@@ -73,7 +73,7 @@ export const mapCount = sparqlBindings => {
   return sparqlBindings[0].count.value
 }
 
-export const mapFacet = ({ sparqlBindings, config }) => {
+export const mapFacet = ({sparqlBindings, config}) => {
   let results = []
   if (sparqlBindings.length > 0) {
     results = sparqlBindings.map(b => {
@@ -97,8 +97,8 @@ export const mapFacet = ({ sparqlBindings, config }) => {
   return results
 }
 
-export const mapHierarchicalFacet = ({ sparqlBindings, config }) => {
-  const results = mapFacet({ sparqlBindings, config })
+export const mapHierarchicalFacet = ({sparqlBindings, config}) => {
+  const results = mapFacet({sparqlBindings, config})
   let treeData = getTreeFromFlatData({
     flatData: results,
     getKey: node => node.id, // resolve a node's key
@@ -112,7 +112,7 @@ export const mapHierarchicalFacet = ({ sparqlBindings, config }) => {
   })
 }
 
-export const mapTimespanFacet = ({ sparqlBindings, config }) => {
+export const mapTimespanFacet = ({sparqlBindings, config}) => {
   const b = sparqlBindings[0]
   return {
     min: b.min.value,
@@ -136,14 +136,14 @@ export const mapNameSampoResults = sparqlBindings => {
       markerColor: has(b, 'markerColor') ? b.markerColor.value : '-',
       namesArchiveLink: has(b, 'namesArchiveLink') ? b.namesArchiveLink.value : '-',
       positioningAccuracy: has(b, 'positioningAccuracy') ? b.positioningAccuracy.value : '-',
-      ...(Object.prototype.hasOwnProperty.call(b, 'lat') && { lat: b.lat.value }),
-      ...(Object.prototype.hasOwnProperty.call(b, 'long') && { long: b.long.value })
+      ...(Object.prototype.hasOwnProperty.call(b, 'lat') && {lat: b.lat.value}),
+      ...(Object.prototype.hasOwnProperty.call(b, 'long') && {long: b.long.value})
     }
   })
   return results
 }
 
-export const mapLineChart = ({ sparqlBindings, config }) => {
+export const mapLineChart = ({sparqlBindings, config}) => {
   const seriesData = []
   const categoriesData = []
   const categeryLabels = []
@@ -179,11 +179,11 @@ export const mapLineChart = ({ sparqlBindings, config }) => {
   return {
     seriesData,
     categoriesData,
-    ...(customizedCategoryLabels) && { categeryLabels }
+    ...(customizedCategoryLabels) && {categeryLabels}
   }
 }
 
-export const mapMultipleLineChart = ({ sparqlBindings, config }) => {
+export const mapMultipleLineChart = ({sparqlBindings, config}) => {
   const res = {}
   sparqlBindings.forEach(b => {
     for (const p in b) {
@@ -225,6 +225,55 @@ export const mapMultipleLineChart = ({ sparqlBindings, config }) => {
   return res
 }
 
+const DATE_OFFSET = 100000000000000 // Make posix value of dates positive for charts
+// Mapper intended for charts where the X-axis are exact dates. Use a date offset to ensure the values are positive
+export const mapTimelineChart = ({sparqlBindings, config}) => {
+  if (sparqlBindings.length === 0) return {}
+
+  const rows = sparqlBindings.map(b => {
+    const row = {}
+    Object.keys(b).forEach(key => {
+      row[key] = b[key].value
+    })
+    return row
+  })
+
+  const dateColumn = Object.keys(rows[0]).find(col => {
+    const d = Date.parse(rows[0][col])
+    return !isNaN(d)
+  })
+
+  if (!dateColumn) throw new Error('No valid date column found')
+
+  const uniqueColumns = new Set()
+  rows.forEach((row) => {
+    Object.keys(row).forEach(key => {
+      if (key !== dateColumn) {
+        uniqueColumns.add(key)
+      }
+    })
+  })
+
+  const valueColumns = Array.from(uniqueColumns)
+
+  if (valueColumns.length === 0) return {}
+
+  const result = {}
+
+  valueColumns.forEach(col => {
+    result[col] = rows
+      .map(row => {
+        const timestamp = Date.parse(row[dateColumn])
+        const value = parseFloat(row[col])
+        if (isNaN(timestamp) || isNaN(value)) return null
+        return {x: timestamp + DATE_OFFSET, y: value}
+      })
+      .filter(point => point !== null)
+  })
+
+  return result
+}
+
 export const mapPieChart = sparqlBindings => {
   const results = sparqlBindings.map(b => {
     return {
@@ -236,8 +285,8 @@ export const mapPieChart = sparqlBindings => {
   return results
 }
 
-export const linearScale = ({ data, config }) => {
-  const { variable, minAllowed, maxAllowed } = config
+export const linearScale = ({data, config}) => {
+  const {variable, minAllowed, maxAllowed} = config
   const length = data.length
   const min = Number(data[length - 1][variable])
   const max = Number(data[0][variable])
@@ -294,8 +343,8 @@ const recursiveSortAndSelectChildren = nodes => {
   return nodes
 }
 
-export const toBarChartRaceFormat = ({ data, config }) => {
-  const { step } = config
+export const toBarChartRaceFormat = ({data, config}) => {
+  const {step} = config
   const firstKey = parseInt(data[0].id)
   const lastKey = parseInt(data[data.length - 1].id)
   const resultObj = {}
@@ -354,7 +403,7 @@ const mergeDataItems = (itemA, itemB) => {
   return merged
 }
 
-export const toPolygonLayerFormat = ({ data, config }) => {
+export const toPolygonLayerFormat = ({data, config}) => {
   // const scaledData = linearScale({ data, config })
   const valuesArray = []
   data.forEach(item => {
@@ -372,12 +421,12 @@ export const toPolygonLayerFormat = ({ data, config }) => {
   // Ckmeans algorithm: https://journal.r-project.org/archive/2011-2/RJournal_2011-2_Wang+Song.pdf
   const clusters = ckmeans(valuesArray, 8)
   data.forEach(item => {
-    item.choroplethColor = getChoroplethMapColor({ value: Number(item.instanceCount), clusters })
+    item.choroplethColor = getChoroplethMapColor({value: Number(item.instanceCount), clusters})
   })
   return data
 }
 
-const getChoroplethMapColor = ({ value, clusters }) => {
+const getChoroplethMapColor = ({value, clusters}) => {
   // https://colorbrewer2.org/#type=sequential&scheme=YlOrRd&n=8
   const colors = [
     [255, 255, 204],
@@ -398,18 +447,18 @@ const getChoroplethMapColor = ({ value, clusters }) => {
   return heatmapColor
 }
 
-export const createPaddedTimeCodes = ({ data, config }) => {
+export const createPaddedTimeCodes = ({data, config}) => {
   data.forEach(item => {
     let target = item[config.target]
     if (!Array.isArray(target)) {
       target = [target]
     }
     target.forEach(targetItem => {
-      const { hours, minutes, seconds } = targetItem
+      const {hours, minutes, seconds} = targetItem
       if (hours == null || minutes == null || seconds == null) {
         // console.log(targetItem)
       } else {
-        const paddedTimecode = createPaddedTimeCode({ hours, minutes, seconds })
+        const paddedTimecode = createPaddedTimeCode({hours, minutes, seconds})
         targetItem[config.timeCodeProperty] = paddedTimecode
       }
     })
@@ -417,7 +466,7 @@ export const createPaddedTimeCodes = ({ data, config }) => {
   return data
 }
 
-const createPaddedTimeCode = ({ hours, minutes, seconds }) => {
+const createPaddedTimeCode = ({hours, minutes, seconds}) => {
   return `${hours}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`
 }
 
@@ -425,12 +474,12 @@ const createPaddedTimeCode = ({ hours, minutes, seconds }) => {
 // const MS_PER_NS = 1e-6
 
 /**
-* @param {Array} objects A list of objects as SPARQL results.
-* @returns {Array} The mapped object list.
-* @description
-* Map the SPARQL results as objects, and return a list where result rows with the same
-* id are merged into one object.
-*/
+ * @param {Array} objects A list of objects as SPARQL results.
+ * @returns {Array} The mapped object list.
+ * @description
+ * Map the SPARQL results as objects, and return a list where result rows with the same
+ * id are merged into one object.
+ */
 export const makeObjectList = (objects) => {
   // const time = process.hrtime()
   const objList = transform(objects, function (result, obj) {
@@ -453,13 +502,13 @@ export const makeDict = (objects) => {
 }
 
 /**
-* @param {Object} obj A single SPARQL result row object.
-* @returns {Object} The mapped object.
-* @description
-* Flatten the result object. Discard everything except values.
-* Assume that each property of the obj has a value property with
-* the actual value.
-*/
+ * @param {Object} obj A single SPARQL result row object.
+ * @returns {Object} The mapped object.
+ * @description
+ * Flatten the result object. Discard everything except values.
+ * Assume that each property of the obj has a value property with
+ * the actual value.
+ */
 const makeObject = (obj) => {
   const o = {}
   forIn(obj, function (value, key) {
@@ -472,14 +521,14 @@ const makeObject = (obj) => {
 }
 
 /**
-* @param {Array} valueList A list to which the value should be added.
-* @param {Object} value The value to add to the list.
-* @returns {Array} The merged list.
-* @description
-* Add the given value to the given list, merging an object value to and
-* object in the list if both have the same id attribute.
-* A value already present in valueList is discarded.
-*/
+ * @param {Array} valueList A list to which the value should be added.
+ * @param {Object} value The value to add to the list.
+ * @returns {Array} The merged list.
+ * @description
+ * Add the given value to the given list, merging an object value to and
+ * object in the list if both have the same id attribute.
+ * A value already present in valueList is discarded.
+ */
 const mergeValueToList = (valueList, value) => {
   let old
   if (isObject(value) && value.id) {
@@ -505,12 +554,12 @@ const mergeValueToList = (valueList, value) => {
 }
 
 /**
-* @param {Object} first An object as returned by makeObject.
-* @param {Object} second The object to merge with the first.
-* @returns {Object} The merged object.
-* @description
-* Merges two objects.
-*/
+ * @param {Object} first An object as returned by makeObject.
+ * @param {Object} second The object to merge with the first.
+ * @returns {Object} The merged object.
+ * @description
+ * Merges two objects.
+ */
 const mergeObjects = (first, second) => {
   // Merge two objects into one object.
   return mergeWith(first, second, merger)
@@ -556,21 +605,29 @@ const arrayToObject = (array, keyField) =>
     return obj
   }, {})
 
-export const createCorrespondenceChartData = ({ sparqlBindings, config }) => {
-  const { numberTopResults, types, lastLabel } = config
+export const createCorrespondenceChartData = ({sparqlBindings, config}) => {
+  const {numberTopResults, types, lastLabel} = config
   let topN = numberTopResults || 10
 
-  sparqlBindings.forEach(b => { Object.keys(b).forEach(key => { b[key] = b[key].value }) })
+  sparqlBindings.forEach(b => {
+    Object.keys(b).forEach(key => {
+      b[key] = b[key].value
+    })
+  })
 
   //  Dates '1663-10-26' to UTC -9662204389000
-  sparqlBindings.forEach(b => { b.date = Date.parse(b.date) })
+  sparqlBindings.forEach(b => {
+    b.date = Date.parse(b.date)
+  })
 
   //  find the N most common values in the data
   const cnAll = new Counter(sparqlBindings.map(ob => ob[ob.type + '__label']))
   const topTies = cnAll.mostCommonLabels(topN)
 
   const datas = {}
-  types.forEach(type => { datas[type] = [] })
+  types.forEach(type => {
+    datas[type] = []
+  })
   sparqlBindings.forEach(ob => {
     const v = topTies.indexOf(ob[ob.type + '__label'])
     //  one of the top correspondences (v > -1) or in other (topTies.length)
@@ -581,13 +638,19 @@ export const createCorrespondenceChartData = ({ sparqlBindings, config }) => {
     }
   })
 
-  const years = new Set(sparqlBindings.map(ob => { return parseInt(ob.year) }))
+  const years = new Set(sparqlBindings.map(ob => {
+    return parseInt(ob.year)
+  }))
 
   topN = topTies.length
-  if (lastLabel) { topTies.push(lastLabel) }
+  if (lastLabel) {
+    topTies.push(lastLabel)
+  }
 
   return {
-    series: types.map(type => { return { name: type, data: datas[type] } }),
+    series: types.map(type => {
+      return {name: type, data: datas[type]}
+    }),
     topTies: topTies,
     topN: topN,
     minUTC: Date.UTC(Math.min(...years)),
@@ -596,9 +659,9 @@ export const createCorrespondenceChartData = ({ sparqlBindings, config }) => {
   }
 }
 
-export const createCorrespondenceChartDataLower = ({ sparqlBindings, config }) => {
+export const createCorrespondenceChartDataLower = ({sparqlBindings, config}) => {
   const series = []
-  Object.entries(mapMultipleLineChart({ sparqlBindings, config })).forEach(([key, arr]) => {
+  Object.entries(mapMultipleLineChart({sparqlBindings, config})).forEach(([key, arr]) => {
     // filter out empty result arrays, e.g. 'sent_letters' : []
     if (arr && arr.length) {
       const lastX = arr[arr.length - 1]
@@ -613,7 +676,7 @@ export const createCorrespondenceChartDataLower = ({ sparqlBindings, config }) =
   return series
 }
 
-export const processTextIndexHighlighting = ({ data }) => {
+export const processTextIndexHighlighting = ({data}) => {
   data.forEach(item => {
     if (item.literal) {
       item.content = item.literal

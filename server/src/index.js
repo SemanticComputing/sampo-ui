@@ -39,6 +39,22 @@ createBackendSearchConfig().then(backendSearchConfig => {
     next()
   })
 
+  // ==============================================
+  // STATIC FILES - serve before API routes: static files include frontend React app files
+  // ==============================================
+  const staticPath = process.env.STATIC_PATH || path.join(__dirname, '../../public')
+  
+  // Serve static files (JS, CSS, images, etc.)
+  app.use(express.static(staticPath, {
+    // Optional: cache static assets for 1 year in production
+    maxAge: process.env.NODE_ENV === 'production' ? '1y' : 0,
+    index: ["index.html"]  // Don't serve index.html automatically, we handle SPA routing below
+  }))
+
+  // ==============================================
+  // API ROUTES - all /api/* requests handled here
+  // ==============================================
+
   // Generate API docs from YAML file with Swagger UI
   let swaggerDocument
   try {
@@ -93,7 +109,6 @@ createBackendSearchConfig().then(backendSearchConfig => {
       })
       res.json(data)
     } catch (error) {
-      console.log(error)
       next(error)
     }
   })
@@ -387,14 +402,15 @@ createBackendSearchConfig().then(backendSearchConfig => {
     }
   })
 
+  const isDevelopment = process.env.NODE_ENV !== 'production'
   // Express server is used to serve the React app only in production
-  // if (!isDevelopment) {
-  //   /*  Routes are matched to a url in order of their definition
-  //       Redirect all the the rest for react-router to handle */
-  //   app.get('*', function (request, response) {
-  //     response.sendFile(path.join(publicPath, 'index.html'))
-  //   })
-  // }
+  if (!isDevelopment) {
+     /*  Routes are matched to a url in order of their definition
+         Redirect all the the rest for react-router to handle */
+     app.get('*', function (request, response) {
+      response.sendFile(path.resolve(__dirname, '../../public/index.html'))
+    })
+  }
 
   // const servingInfo = isDevelopment
   //   ? 'NODE_ENV=development, so Webpack serves the React app'

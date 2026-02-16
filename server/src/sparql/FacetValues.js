@@ -1,12 +1,6 @@
 import { runSelectQuery } from './SparqlApi'
 import { has } from 'lodash'
 import {
-  facetValuesQuery,
-  facetValuesQueryTimespan,
-  facetValuesRange,
-  hierarchicalFacetValuesQuery
-} from './SparqlQueriesGeneral'
-import {
   generateConstraintsBlock,
   handleUnknownValue
 } from './Filters'
@@ -27,6 +21,7 @@ export const getFacet = async ({
   constrainSelf,
   dynamicLangTag
 }) => {
+  const perspectiveConfig = backendSearchConfig[facetClass]
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
   const { endpoint, defaultConstraint = null, enableDynamicLanguageChange } = backendSearchConfig[facetClass]
   const langTag = enableDynamicLanguageChange ? dynamicLangTag : backendSearchConfig[facetClass].langTag || null
@@ -35,27 +30,27 @@ export const getFacet = async ({
   let mapper = null
   switch (facetConfig.facetType) {
     case 'list':
-      q = facetValuesQuery
+      q = perspectiveConfig.generalQueries.facetValuesQuery
       mapper = mapFacet
       break
     case 'hierarchical':
       if (facetConfig.maxHierarchyLevel) {
-        q = hierarchicalFacetValuesQuery
+        q = perspectiveConfig.generalQueries.hierarchicalFacetValuesQuery
       } else {
-        q = facetValuesQuery
+        q = perspectiveConfig.generalQueries.facetValuesQuery
       }
       mapper = mapHierarchicalFacet
       break
     case 'timespan':
-      q = facetValuesQueryTimespan
+      q = perspectiveConfig.generalQueries.facetValuesQueryTimespan
       mapper = mapTimespanFacet
       break
     case 'integer':
-      q = facetValuesRange
+      q = perspectiveConfig.generalQueries.facetValuesRange
       mapper = mapTimespanFacet
       break
     default:
-      q = facetValuesQuery
+      q = perspectiveConfig.generalQueries.facetValuesQuery
       mapper = mapFacet
   }
   let selectedBlock = '# no selections'
@@ -107,48 +102,48 @@ export const getFacet = async ({
     }
   }
   if (facetConfig.hideUnknownValue) {
-    q = q.replace(/<UNKNOWN_VALUES>/g, '')
+    q = q.replaceAll(/<UNKNOWN_VALUES>/g, '')
   } else {
-    q = q.replace(/<UNKNOWN_VALUES>/g, unknownBlock)
+    q = q.replaceAll(/<UNKNOWN_VALUES>/g, unknownBlock)
   }
-  q = q.replace('<SELECTED_VALUES>', selectedBlock)
-  q = q.replace('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock)
-  q = q.replace(/<FACET_VALUE_FILTER>/g, facetConfig.facetValueFilter ? facetConfig.facetValueFilter : '')
-  q = q.replace(/<FACET_LABEL_FILTER>/g,
+  q = q.replaceAll('<SELECTED_VALUES>', selectedBlock)
+  q = q.replaceAll('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock)
+  q = q.replaceAll(/<FACET_VALUE_FILTER>/g, facetConfig.facetValueFilter ? facetConfig.facetValueFilter : '')
+  q = q.replaceAll(/<FACET_LABEL_FILTER>/g,
     has(facetConfig, 'facetLabelFilter')
       ? facetConfig.facetLabelFilter
       : ''
   )
   if (facetConfig.facetType === 'hierarchical') {
-    q = q.replace('<ORDER_BY>', '# no need for ordering')
+    q = q.replaceAll('<ORDER_BY>', '# no need for ordering')
 
     if (facetConfig.maxHierarchyLevel) {
-      q = q.replace(/<HIERARCHY>/g, generateHierarchyBlock({ depth: facetConfig.maxHierarchyLevel }))
-      q = q.replace(/<PREDICATE>/g, facetConfig.predicate)
-      q = q.replace(/<PARENTPROPERTY>/g, facetConfig.parentProperty)
+      q = q.replaceAll(/<HIERARCHY>/g, generateHierarchyBlock({ depth: facetConfig.maxHierarchyLevel }))
+      q = q.replaceAll(/<PREDICATE>/g, facetConfig.predicate)
+      q = q.replaceAll(/<PARENTPROPERTY>/g, facetConfig.parentProperty)
     } else {
-      q = q.replace(/<PREDICATE>/g, `${facetConfig.predicate}/${facetConfig.parentProperty}*`)
-      q = q.replace('<PARENTS>', `
+      q = q.replaceAll(/<PREDICATE>/g, `${facetConfig.predicate}/${facetConfig.parentProperty}*`)
+      q = q.replaceAll('<PARENTS>', `
               OPTIONAL { ?id ${facetConfig.parentProperty} ?parent_ }
               BIND(COALESCE(?parent_, '0') as ?parent)
       `)
     }
   } else {
-    q = q.replace('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})`)
-    q = q.replace(/<PREDICATE>/g, facetConfig.predicate)
-    q = q.replace('<PARENTS>', ' # no parents')
+    q = q.replaceAll('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})`)
+    q = q.replaceAll(/<PREDICATE>/g, facetConfig.predicate)
+    q = q.replaceAll('<PARENTS>', ' # no parents')
   }
-  q = q.replace(/<FILTER>/g, filterBlock)
-  q = q.replace(/<FACET_CLASS>/g, backendSearchConfig[facetClass].facetClass)
+  q = q.replaceAll(/<FILTER>/g, filterBlock)
+  q = q.replaceAll(/<FACET_CLASS>/g, backendSearchConfig[facetClass].facetClass)
   if (has(backendSearchConfig[facetClass], 'facetClassPredicate')) {
-    q = q.replace(/<FACET_CLASS_PREDICATE>/g, backendSearchConfig[facetClass].facetClassPredicate)
+    q = q.replaceAll(/<FACET_CLASS_PREDICATE>/g, backendSearchConfig[facetClass].facetClassPredicate)
   } else {
-    q = q.replace(/<FACET_CLASS_PREDICATE>/g, 'a')
+    q = q.replaceAll(/<FACET_CLASS_PREDICATE>/g, 'a')
   }
-  q = q.replace('<UNKNOWN_SELECTED>', unknownSelected)
-  q = q.replace('<MISSING_PREDICATE>', facetConfig.predicate)
+  q = q.replaceAll('<UNKNOWN_SELECTED>', unknownSelected)
+  q = q.replaceAll('<MISSING_PREDICATE>', facetConfig.predicate)
   if (has(facetConfig, 'labelPattern')) {
-    q = q.replace('<LABELS>', facetConfig.labelPattern)
+    q = q.replaceAll('<LABELS>', facetConfig.labelPattern)
   } else {
     const defaultLabelPattern = `
      OPTIONAL {
@@ -157,23 +152,23 @@ export const getFacet = async ({
        }
      BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
     `
-    q = q.replace('<LABELS>', defaultLabelPattern)
+    q = q.replaceAll('<LABELS>', defaultLabelPattern)
     const facetLabelPredicate = facetConfig.facetLabelPredicate
       ? facetConfig.facetLabelPredicate
       : 'skos:prefLabel'
-    q = q.replace('<FACET_LABEL_PREDICATE>', facetLabelPredicate)
-    q = q.replace(/<FACET_LABEL_FILTER>/g,
+    q = q.replaceAll('<FACET_LABEL_PREDICATE>', facetLabelPredicate)
+    q = q.replaceAll(/<FACET_LABEL_FILTER>/g,
       has(facetConfig, 'facetLabelFilter')
         ? facetConfig.facetLabelFilter
         : ''
     )
   }
   if (facetConfig.facetType === 'timespan') {
-    q = q.replace('<START_PROPERTY>', facetConfig.startProperty)
-    q = q.replace('<END_PROPERTY>', facetConfig.endProperty)
+    q = q.replaceAll('<START_PROPERTY>', facetConfig.startProperty)
+    q = q.replaceAll('<END_PROPERTY>', facetConfig.endProperty)
   }
   if (langTag) {
-    q = q.replace(/<LANG>/g, langTag)
+    q = q.replaceAll(/<LANG>/g, langTag)
   }
 
   // console.log(endpoint.prefixes + q)
@@ -237,7 +232,7 @@ const generateSelectedNoHitsBlock = ({
     facetID: facetID,
     inverse: true
   })
-  const selections = literal ? `'${currentSelectionsWithoutUnknown.join(' ')}'` : `<${currentSelectionsWithoutUnknown.join('> <')}>`
+  const selections = literal ? `'${currentSelectionsWithoutUnknown.join("' '")}'` : `<${currentSelectionsWithoutUnknown.join('> <')}>`
   return `
   UNION
   # facet values that have been selected but return no results
@@ -287,7 +282,7 @@ export const generateSelectedFilter = ({
   inverse,
   literal
 }) => {
-  const selections = literal ? `'${currentSelectionsWithoutUnknown.join(', ')}'` : `<${currentSelectionsWithoutUnknown.join('>, <')}>`
+  const selections = literal ? `'${currentSelectionsWithoutUnknown.join("', '")}'` : `<${currentSelectionsWithoutUnknown.join('>, <')}>`
   return (`
           FILTER(?id ${inverse ? 'NOT' : ''} IN ( ${selections} ))
   `)

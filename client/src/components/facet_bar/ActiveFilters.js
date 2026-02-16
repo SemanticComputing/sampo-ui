@@ -70,6 +70,7 @@ ActiveFilters.propTypes = {
   spatialFilters: PropTypes.object.isRequired,
   textFilters: PropTypes.object.isRequired,
   timespanFilters: PropTypes.object.isRequired,
+  dateNoTimespanFilters: PropTypes.object.isRequired,
   integerFilters: PropTypes.object.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
   someFacetIsFetching: PropTypes.bool.isRequired,

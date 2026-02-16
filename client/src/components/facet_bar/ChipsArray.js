@@ -90,8 +90,8 @@ const ChipsArray = props => {
         }
         if (item.filterType === 'dateNoTimespanFilter') {
           key = item.facetID
-          const start = format(new Date(item.value.start), 'dd.MM.yyyy')
-          const end = format(new Date(item.value.end), 'dd.MM.yyyy')
+          const start = format(new Date(item.value[0]), 'dd.MM.yyyy')
+          const end = format(new Date(item.value[1]), 'dd.MM.yyyy')
           valueLabel = `${start} ${intl.get('facets.dateFacet.to')} ${end}`
         }
         if (item.filterType === 'integerFilter') {

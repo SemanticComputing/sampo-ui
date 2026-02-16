@@ -25,7 +25,8 @@ export const generateConstraintsBlock = ({
             facetID: c.facetID,
             filterTarget: filterTarget,
             queryString: c.values,
-            inverse: inverse
+            inverse: inverse,
+            defaultSparql: backendSearchConfig[facetClass].endpoint["defaultSparql"],
           })
           break
         case 'uriFilter':
@@ -101,7 +102,8 @@ const generateTextFilter = ({
   facetID,
   filterTarget,
   queryString,
-  inverse
+  inverse,
+  defaultSparql=false,
 }) => {
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
   const queryTargetVariable = facetConfig.textQueryPredicate
@@ -131,10 +133,18 @@ const generateTextFilter = ({
        !has(facetConfig, 'textQueryHiglightingOptions')) {
     queryObject = `'${queryString}' ${textQueryMaxInstances}`
   }
-  const filterStr = facetConfig.textQueryPredicate
-    ? `${queryTargetVariable} text:query ${queryObject} .
+  let filterStr = ""
+  if (defaultSparql) {
+    filterStr = `
+      ?${filterTarget} ${facetConfig.textQueryProperty} ?o .
+      FILTER(CONTAINS(LCASE(?o), "${queryString}"))
+    `
+  } else {
+    filterStr = facetConfig.textQueryPredicate
+      ? `${queryTargetVariable} text:query ${queryObject} .
     ?${filterTarget} ${facetConfig.textQueryPredicate} ${queryTargetVariable} .`
-    : `${querySubject} text:query ${queryObject} .`
+      : `${querySubject} text:query ${queryObject} .`
+  }
   if (inverse) {
     return `
       FILTER NOT EXISTS {
@@ -268,14 +278,14 @@ const generateDateNoTimespanFilter = ({
   const { start, end } = values
   let datefilter = ''
   if (start === '') {
-    datefilter = `?value <= "${end}"^^xsd:date`
+    datefilter = `?${facetID}Value <= "${end}"^^xsd:date`
   } else if (end === '') {
-    datefilter = `?value >= "${start}"^^xsd:date`
+    datefilter = `?${facetID}Value  >= "${start}"^^xsd:date`
   } else {
-    datefilter = `?value >= "${start}"^^xsd:date && ?value <= "${end}"^^xsd:date`
+    datefilter = `?${facetID}Value  >= "${start}"^^xsd:date && ?${facetID}Value  <= "${end}"^^xsd:date`
   }
   const filterStr = `
-    ?${filterTarget} ${facetConfig.predicate} ?value .
+    ?${filterTarget} ${facetConfig.predicate} ?${facetID}Value  .
     FILTER(
       ${datefilter}
     )

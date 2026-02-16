@@ -1,9 +1,11 @@
 # Base stage for shared setup
 FROM node:22.17-slim AS base
+
+RUN mkdir -p /app/server
 WORKDIR /app
 # Install dependencies
-COPY package*.json ./server/
-RUN cd server && npm install
+COPY package*.json .
+RUN npm install
 
 # Server development stage
 FROM base AS server-dev
