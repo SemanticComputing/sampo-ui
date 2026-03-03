@@ -258,6 +258,7 @@ const generateIntegerFilter = ({
   if (inverse) {
     return `
     FILTER NOT EXISTS {
+        ?instance ?predicate ?id . 
         ${filterStr}
     }
     `
