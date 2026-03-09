@@ -80,6 +80,11 @@ module.exports = {
   },
   resolve: {
     extensions: [".js", ".jsx"],
+    modules: [
+      "node_modules",
+      path.resolve(__dirname, "custom"),
+      path.resolve(__dirname, "src"),
+    ],
     alias: {
       // maps @something to path/to/something
       // See https://webpack.js.org/configuration/resolve/ for more information
