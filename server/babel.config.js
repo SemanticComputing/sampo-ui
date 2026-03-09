@@ -18,9 +18,6 @@ module.exports = function (api) {
     ]);
     presets.push(["@babel/preset-react", { runtime: "classic" }]);
     plugins.push("@babel/plugin-transform-runtime");
-    plugins.push("babel-plugin-module-resolver", {
-      root: ["./custom", "./src"],
-    });
   }
   if (process.env.BABEL_ENV === "node") {
     presets.push([
@@ -36,6 +33,10 @@ module.exports = function (api) {
   if (process.env.BABEL_ENV === undefined) {
     presets.push(["@babel/preset-react", { runtime: "classic" }]);
   }
+
+  plugins.push("babel-plugin-module-resolver", {
+    root: ["./custom", "./src"],
+  });
 
   return {
     presets,
