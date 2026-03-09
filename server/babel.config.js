@@ -1,41 +1,45 @@
 module.exports = function (api) {
-  api.cache(true)
-  const presets = []
-  const plugins = []
-  if (process.env.BABEL_ENV === 'browser') {
+  api.cache(true);
+  const presets = [];
+  const plugins = [];
+  if (process.env.BABEL_ENV === "browser") {
     presets.push([
       // https://babeljs.io/docs/en/babel-preset-env
-      '@babel/preset-env',
+      "@babel/preset-env",
       {
         /**
          * Target Browserslist’s default browsers.
          * https://github.com/browserslist/browserslist
          */
-        targets: 'defaults',
-        useBuiltIns: 'usage',
-        corejs: { version: 3, proposals: true }
-      }
-    ])
-    presets.push(['@babel/preset-react', { runtime: 'classic' }])
-    plugins.push('@babel/plugin-transform-runtime')
+        targets: "defaults",
+        useBuiltIns: "usage",
+        corejs: { version: 3, proposals: true },
+      },
+    ]);
+    presets.push(["@babel/preset-react", { runtime: "classic" }]);
+    plugins.push("@babel/plugin-transform-runtime");
   }
-  if (process.env.BABEL_ENV === 'node') {
+  if (process.env.BABEL_ENV === "node") {
     presets.push([
-      '@babel/preset-env',
+      "@babel/preset-env",
       {
         targets: {
-          node: '22'
-        }
-      }
-    ])
+          node: "22",
+        },
+      },
+    ]);
   }
   // for JavaScript Standard Style library to support JSX syntax
   if (process.env.BABEL_ENV === undefined) {
-    presets.push(['@babel/preset-react', { runtime: 'classic' }])
+    presets.push(["@babel/preset-react", { runtime: "classic" }]);
   }
+
+  plugins.push("babel-plugin-module-resolver", {
+    root: ["./custom", "./src"],
+  });
 
   return {
     presets,
-    plugins
-  }
-}
+    plugins,
+  };
+};

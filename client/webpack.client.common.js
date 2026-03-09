@@ -1,16 +1,22 @@
-const path = require('path')
-require('dotenv').config()
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const webpack = require('webpack')
+const path = require("path");
+require("dotenv").config();
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const webpack = require("webpack");
 
-const outputDirectory = 'dist/public'
-const apiUrl = typeof process.env.API_URL !== 'undefined' ? process.env.API_URL : 'http://localhost:3001/api/v1'
-const mapboxAccessToken = typeof process.env.MAPBOX_ACCESS_TOKEN !== 'undefined' ? process.env.MAPBOX_ACCESS_TOKEN : 'MAPBOX_ACCESS_TOKEN missing'
+const outputDirectory = "dist/public";
+const apiUrl =
+  typeof process.env.API_URL !== "undefined"
+    ? process.env.API_URL
+    : "http://localhost:3001/api/v1";
+const mapboxAccessToken =
+  typeof process.env.MAPBOX_ACCESS_TOKEN !== "undefined"
+    ? process.env.MAPBOX_ACCESS_TOKEN
+    : "MAPBOX_ACCESS_TOKEN missing";
 
 module.exports = {
   entry: {
-    app: './src/index.js'
+    app: "./src/index.js",
   },
   plugins: [
     /**
@@ -21,61 +27,71 @@ module.exports = {
      *
      * During rebuilds, all webpack assets that are not used anymore
      * will be removed automatically.
-    */
+     */
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       // Load a custom template
-      template: 'src/index.html',
-      favicon: 'src/favicon.ico'
+      template: "src/index.html",
+      favicon: "src/favicon.ico",
     }),
     new webpack.DefinePlugin({
-      'process.env.API_URL': JSON.stringify(apiUrl),
-      'process.env.MAPBOX_ACCESS_TOKEN': JSON.stringify(mapboxAccessToken)
-    })
+      "process.env.API_URL": JSON.stringify(apiUrl),
+      "process.env.MAPBOX_ACCESS_TOKEN": JSON.stringify(mapboxAccessToken),
+    }),
   ],
   output: {
-    filename: '[name].[fullhash].js',
+    filename: "[name].[fullhash].js",
     path: path.resolve(__dirname, outputDirectory),
-    publicPath: '/'
+    publicPath: "/",
   },
   module: {
     rules: [
       {
         test: /\.m?js$/,
         exclude: /node_modules/,
-        use: ['babel-loader']
+        use: ["babel-loader"],
       },
       {
         test: /\.s?css$/,
         use: [
           // Creates `style` nodes from JS strings
-          'style-loader',
+          "style-loader",
           // Translates CSS into CommonJS
-          'css-loader',
+          "css-loader",
           // Compiles Sass to CSS
-          'sass-loader'
-        ]
+          "sass-loader",
+        ],
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        loader: 'file-loader',
+        loader: "file-loader",
         options: {
-          outputPath: 'images'
-        }
+          outputPath: "images",
+        },
       },
       {
         test: /\.(woff2|woff|eot|ttf)$/,
-        loader: 'file-loader',
+        loader: "file-loader",
         options: {
-          name: 'fonts/[name].[ext]'
-        }
-      }
-    ]
+          name: "fonts/[name].[ext]",
+        },
+      },
+    ],
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: [".js", ".jsx"],
+    modules: [
+      "node_modules",
+      path.resolve(__dirname, "custom"),
+      path.resolve(__dirname, "src"),
+    ],
+    alias: {
+      // maps @something to path/to/something
+      // See https://webpack.js.org/configuration/resolve/ for more information
+      "~*": path.resolve(__dirname, "src/*"),
+    },
   },
   experiments: {
-    topLevelAwait: true
-  }
-}
+    topLevelAwait: true,
+  },
+};

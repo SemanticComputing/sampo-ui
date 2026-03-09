@@ -57,52 +57,6 @@ const Footer = (props) => {
           }}
         />
       </Box>
-      <Box
-        component="a"
-        href="https://www.helsinki.fi/en"
-        target="_blank"
-        rel="noopener noreferrer"
-        sx={(theme) => ({
-          width: 155,
-          height: 40,
-          [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-            width: 168,
-            height: 45,
-          },
-        })}
-      >
-        <Box
-          component="img"
-          src={hyLogo}
-          alt="University of Helsinki logo"
-          sx={{
-            height: "100%",
-          }}
-        />
-      </Box>
-      <Box
-        component="a"
-        href="https://www.helsinki.fi/en/helsinki-centre-for-digital-humanities"
-        target="_blank"
-        rel="noopener noreferrer"
-        sx={(theme) => ({
-          width: 118,
-          height: 30,
-          [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-            width: 130,
-            height: 33,
-          },
-        })}
-      >
-        <Box
-          component="img"
-          src={heldigLogo}
-          alt="Helsinki Centre for Digital Humanities logo"
-          sx={{
-            height: "100%",
-          }}
-        />
-      </Box>
     </Paper>
   );
 };

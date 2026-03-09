@@ -43,6 +43,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "babel-loader": "^8.2.2",
+    "babel-plugin-module-resolver": "5.0.2",
     "concurrently": "^6.3.0",
     "copy-webpack-plugin": "^7.0.0",
     "cross-env": "^7.0.0",
