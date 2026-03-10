@@ -74,5 +74,9 @@ export const useConfigsStore = create((set, get) => ({
       }))
       return img
     }
+  },
+
+  getStaticFileUrl: (file) => {
+    return `${CONFIGS_URL}/${get().portalConfig.portalID}/assets/${file}`
   }
 }))

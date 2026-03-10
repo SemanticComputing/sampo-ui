@@ -137,6 +137,7 @@ const ResultClassRoute = props => {
         perspectiveConfig: perspective,
         center: resultClassMap.center,
         zoom: resultClassMap.zoom,
+        customTilesLayer: resultClassConfig.customTilesLayer,
         results: Array.isArray(perspectiveState.results)
           ? perspectiveState.results
           : [],
@@ -195,6 +196,7 @@ const ResultClassRoute = props => {
       let deckProps = {
         portalConfig,
         perspectiveConfig: perspective,
+        customTilesLayer: resultClassConfig.customTilesLayer,
         center: resultClassMap.center,
         zoom: resultClassMap.zoom,
         results: Array.isArray(perspectiveState.results)

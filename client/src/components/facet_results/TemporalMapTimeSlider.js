@@ -2,7 +2,6 @@ import React from 'react'
 import { withStyles } from 'tss-react/mui'
 import PropTypes from 'prop-types'
 import Slider from '@mui/material/Slider'
-import { BaseControl } from 'react-map-gl'
 import moment from 'moment'
 
 const blue = 'rgb(0, 126, 230)'
@@ -39,7 +38,12 @@ const styles = () => ({
 })
 
 // https://uber.github.io/react-map-gl/#/Documentation/advanced/custom-components
-class TemporalMapTimeSlider extends BaseControl {
+class TemporalMapTimeSlider extends React.Component {
+  constructor(props) {
+    super(props)
+    this._containerRef = React.createRef()  // replaces BaseControl's built-in ref
+  }
+
   state = {
     memory: [],
     currentDay: null,
@@ -184,7 +188,7 @@ class TemporalMapTimeSlider extends BaseControl {
     return moment(isoDate).format('DD.MM.YYYY')
   }
 
-  _render () {
+  render () {
     const { classes } = this.props
     const {
       // memory,
