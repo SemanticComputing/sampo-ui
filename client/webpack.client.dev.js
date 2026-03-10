@@ -15,7 +15,7 @@ module.exports = merge(common, {
     ],
     hot: true,
     host: '0.0.0.0',
-    port: 8081,
+    port: 8080,
     open: true,
     historyApiFallback: true,
     devMiddleware: {
