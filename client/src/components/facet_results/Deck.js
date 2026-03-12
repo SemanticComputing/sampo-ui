@@ -308,7 +308,26 @@ class Deck extends React.Component {
     }
 
     if (mapboxAccessToken) {
-      return `https://api.mapbox.com/styles/v1/mapbox/${mapboxStyle}?access_token=${mapboxAccessToken}`
+      return {
+        version: 8,
+        sources: {
+          'mapbox-tiles': {
+            type: 'raster',
+            tiles: [
+              `https://api.mapbox.com/styles/v1/mapbox/${mapboxStyle}/tiles/256/{z}/{x}/{y}?access_token=${mapboxAccessToken}`
+            ],
+            tileSize: 256,
+            attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/" target="_blank">Mapbox</a> &copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a>'
+          }
+        },
+        layers: [{
+          id: 'mapbox-tiles-layer',
+          type: 'raster',
+          source: 'mapbox-tiles',
+          minzoom: 0,
+          maxzoom: 22
+        }]
+      }
     }
 
     // fallback gray base
@@ -328,6 +347,7 @@ class Deck extends React.Component {
         controller={true}
         layers={[layer]}
         onViewStateChange={({viewState}) => this.handleOnViewportChange(viewState)}
+        style={{ width: '100%', height: '100%', position: 'relative' }}
         getCursor={({isDragging, isHovering}) => {
           if (isDragging) return 'grabbing'
           if (isHovering) return 'pointer'
@@ -347,6 +367,7 @@ class Deck extends React.Component {
           reuseMaps
           mapStyle={this.getMapStyle()}
           preventStyleDiffing
+          style={{ width: '100%', height: '100%' }}
         >
           <NavigationControl position='top-left'/>
           <FullscreenControl position='top-left' containerId='map-root'/>
