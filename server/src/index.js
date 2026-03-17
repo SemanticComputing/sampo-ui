@@ -92,6 +92,8 @@ createBackendSearchConfig().then(backendSearchConfig => {
   })
   app.use(validator)
 
+  app.get('/health', (req, res) => res.sendStatus(200));
+
   // https://medium.com/@Abazhenov/using-async-await-in-express-with-node-8-b8af872c0016
   app.post(`${apiPath}/faceted-search/:resultClass/paginated`, async (req, res, next) => {
     const { params, body } = req
