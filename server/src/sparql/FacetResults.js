@@ -297,9 +297,9 @@ export const getByURI = ({
   } else {
     q = q.replaceAll('<FILTER>', generateConstraintsBlock({
       backendSearchConfig,
-      resultClass: resultClass,
-      facetClass: facetClass,
-      constraints: constraints,
+      resultClass,
+      facetClass,
+      constraints,
       filterTarget,
       facetID: null
     }))

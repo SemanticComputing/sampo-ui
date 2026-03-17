@@ -1,19 +1,19 @@
 import React from 'react'
-import {styled} from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import Button from '@mui/material/Button'
 import Lightbox from 'yet-another-react-lightbox'
-import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails"
-import Captions from "yet-another-react-lightbox/plugins/captions"
-import "yet-another-react-lightbox/styles.css"
-import "yet-another-react-lightbox/plugins/thumbnails.css"
-import "yet-another-react-lightbox/plugins/captions.css"
+import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails'
+import Captions from 'yet-another-react-lightbox/plugins/captions'
+import 'yet-another-react-lightbox/styles.css'
+import 'yet-another-react-lightbox/plugins/thumbnails.css'
+import 'yet-another-react-lightbox/plugins/captions.css'
 
 const ImgPreviewImage = styled('img')({
   border: '1px solid lightgray'
 })
 
 const ImageGallerySRL = props => {
-  let {data} = props
+  let { data } = props
   if (!Array.isArray(data)) {
     data = [data]
   }
@@ -22,7 +22,7 @@ const ImageGallerySRL = props => {
 
   const thumbnailsRef = React.useRef(null)
 
-  function importAll(r) {
+  function importAll (r) {
     const imageCache = {}
     r.keys().map(item => (imageCache[item.replace('./', '')] = r(item)))
     return imageCache
@@ -57,13 +57,13 @@ const ImageGallerySRL = props => {
         close={() => setOpen(false)}
         slides={images}
         plugins={[Thumbnails, Captions]}
-        thumbnails={{ref: thumbnailsRef}}
+        thumbnails={{ ref: thumbnailsRef }}
         on={{
           click: () => {
             (thumbnailsRef.current?.visible
               ? thumbnailsRef.current?.hide
               : thumbnailsRef.current?.show)?.()
-          },
+          }
         }}
       />
     </>

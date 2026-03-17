@@ -43,12 +43,12 @@ createBackendSearchConfig().then(backendSearchConfig => {
   // STATIC FILES - serve before API routes: static files include frontend React app files
   // ==============================================
   const staticPath = process.env.STATIC_PATH || path.join(__dirname, '../../public')
-  
+
   // Serve static files (JS, CSS, images, etc.)
   app.use(express.static(staticPath, {
     // Optional: cache static assets for 1 year in production
     maxAge: process.env.NODE_ENV === 'production' ? '1y' : 0,
-    index: ["index.html"]  // Don't serve index.html automatically, we handle SPA routing below
+    index: ['index.html'] // Don't serve index.html automatically, we handle SPA routing below
   }))
 
   // ==============================================
@@ -92,7 +92,7 @@ createBackendSearchConfig().then(backendSearchConfig => {
   })
   app.use(validator)
 
-  app.get('/health', (req, res) => res.sendStatus(200));
+  app.get('/health', (req, res) => res.sendStatus(200))
 
   // https://medium.com/@Abazhenov/using-async-await-in-express-with-node-8-b8af872c0016
   app.post(`${apiPath}/faceted-search/:resultClass/paginated`, async (req, res, next) => {
@@ -407,9 +407,9 @@ createBackendSearchConfig().then(backendSearchConfig => {
   const isDevelopment = process.env.NODE_ENV !== 'production'
   // Express server is used to serve the React app only in production
   if (!isDevelopment) {
-     /*  Routes are matched to a url in order of their definition
+    /*  Routes are matched to a url in order of their definition
          Redirect all the the rest for react-router to handle */
-     app.get('*', function (request, response) {
+    app.get('*', function (request, response) {
       response.sendFile(path.resolve(__dirname, '../../public/index.html'))
     })
   }

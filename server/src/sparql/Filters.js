@@ -21,22 +21,22 @@ export const generateConstraintsBlock = ({
         case 'textFilter':
           filterStr += generateTextFilter({
             backendSearchConfig,
-            facetClass: facetClass,
+            facetClass,
             facetID: c.facetID,
-            filterTarget: filterTarget,
+            filterTarget,
             queryString: c.values,
-            inverse: inverse,
-            defaultSparql: backendSearchConfig[facetClass].endpoint["defaultSparql"],
+            inverse,
+            defaultSparql: backendSearchConfig[facetClass].endpoint.defaultSparql
           })
           break
         case 'uriFilter':
           filterStr += generateUriFilter({
             backendSearchConfig,
-            facetClass: facetClass,
+            facetClass,
             facetID: c.facetID,
-            filterTarget: filterTarget,
+            filterTarget,
             values: c.values,
-            inverse: inverse,
+            inverse,
             filterTripleFirst,
             selectAlsoSubconcepts: Object.prototype.hasOwnProperty.call(c, 'selectAlsoSubconcepts')
               ? c.selectAlsoSubconcepts
@@ -47,43 +47,43 @@ export const generateConstraintsBlock = ({
         case 'spatialFilter':
           filterStr += generateSpatialFilter({
             backendSearchConfig,
-            facetClass: facetClass,
+            facetClass,
             facetID: c.facetID,
-            filterTarget: filterTarget,
+            filterTarget,
             values: c.values,
-            inverse: inverse
+            inverse
           })
           break
         case 'timespanFilter':
         case 'dateFilter':
           filterStr += generateTimespanFilter({
             backendSearchConfig,
-            facetClass: facetClass,
+            facetClass,
             facetID: c.facetID,
-            filterTarget: filterTarget,
+            filterTarget,
             values: c.values,
-            inverse: inverse
+            inverse
           })
           break
         case 'dateNoTimespanFilter':
           filterStr += generateDateNoTimespanFilter({
             backendSearchConfig,
-            facetClass: facetClass,
+            facetClass,
             facetID: c.facetID,
-            filterTarget: filterTarget,
+            filterTarget,
             values: c.values,
-            inverse: inverse
+            inverse
           })
           break
         case 'integerFilter':
         case 'integerFilterRange':
           filterStr += generateIntegerFilter({
             backendSearchConfig,
-            facetClass: facetClass,
+            facetClass,
             facetID: c.facetID,
-            filterTarget: filterTarget,
+            filterTarget,
             values: c.values,
-            inverse: inverse
+            inverse
           })
           break
       }
@@ -103,7 +103,7 @@ const generateTextFilter = ({
   filterTarget,
   queryString,
   inverse,
-  defaultSparql=false,
+  defaultSparql = false
 }) => {
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
   const queryTargetVariable = facetConfig.textQueryPredicate
@@ -133,7 +133,7 @@ const generateTextFilter = ({
        !has(facetConfig, 'textQueryHiglightingOptions')) {
     queryObject = `'${queryString}' ${textQueryMaxInstances}`
   }
-  let filterStr = ""
+  let filterStr = ''
   if (defaultSparql) {
     filterStr = `
       ?${filterTarget} ${facetConfig.textQueryProperty} ?o .
@@ -322,14 +322,14 @@ const generateUriFilter = ({
     const valuesStr = generateValuesForUriFilter({ values: modifiedValues, literal, useConjuction })
     s = useConjuction
       ? generateConjuctionForUriFilter({
-          facetID,
-          predicate,
-          parentProperty,
-          filterTarget,
-          inverse,
-          includeChildren,
-          valuesStr
-        })
+        facetID,
+        predicate,
+        parentProperty,
+        filterTarget,
+        inverse,
+        includeChildren,
+        valuesStr
+      })
       : generateDisjunctionForUriFilter({
         facetID,
         predicate,

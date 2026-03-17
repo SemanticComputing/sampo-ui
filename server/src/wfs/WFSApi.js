@@ -23,7 +23,7 @@ export const fetchGeoJSONLayer = async ({ layerID, bounds = null }) => {
   try {
     const response = await axios.get(url)
     return {
-      layerID: layerID,
+      layerID,
       geoJSON: response.data
     }
   } catch (error) {

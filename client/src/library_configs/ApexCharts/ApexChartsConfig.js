@@ -107,11 +107,11 @@ export const createMultipleLineChartData = ({
     }
   }
 
-// Conditionally add the datetime formatter ONLY when type is 'datetime'
+  // Conditionally add the datetime formatter ONLY when type is 'datetime'
   if (xaxisType === 'datetime') {
     xaxisConfig.labels = {
       formatter: (value) => {
-        const date = new Date(value - DATE_OFFSET);
+        const date = new Date(value - DATE_OFFSET)
         return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
       }
     }

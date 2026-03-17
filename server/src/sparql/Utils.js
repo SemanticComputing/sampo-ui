@@ -19,10 +19,10 @@ const loadGeneralQueries = (perspectiveConfig, sparqlQueries) => {
   }
 
   for (const [type, query] of Object.entries(generalQueries)) {
-    if (perspectiveConfig.generalQueries[type]){
-      perspectiveConfig.generalQueries[type] = sparqlQueries[perspectiveConfig.generalQueries[type]];
+    if (perspectiveConfig.generalQueries[type]) {
+      perspectiveConfig.generalQueries[type] = sparqlQueries[perspectiveConfig.generalQueries[type]]
     } else {
-      perspectiveConfig.generalQueries[type] = query;
+      perspectiveConfig.generalQueries[type] = query
     }
   }
 }
@@ -377,7 +377,7 @@ export const createExtraResultClassesForJSONConfig = async oldBackendSearchConfi
 // mergeFacetConfigs(INITIAL_STATE.facets, oldPerspectiveConfig.facets)
 
 export class Counter {
-  dct;
+  dct
 
   constructor (arr) {
     this.dct = {}
@@ -422,11 +422,10 @@ export class Counter {
   }
 }
 
-export function isValidUrl(str) {
-  const regex = /^(https?:\/\/)[\w.-]+(\.[\w.-]+)+[/\w .-]*$/;
-  return regex.test(str);
+export function isValidUrl (str) {
+  const regex = /^(https?:\/\/)[\w.-]+(\.[\w.-]+)+[/\w .-]*$/
+  return regex.test(str)
 }
-
 
 /**
  export class DefaultDict {

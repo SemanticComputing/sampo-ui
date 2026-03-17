@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import L from 'leaflet'
-import {has} from 'lodash'
+import { has } from 'lodash'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import history from '../../History'
 import qs from 'qs'
 import 'leaflet/dist/leaflet.css' // Official Leaflet styles
-import * as protomapsL from "protomaps-leaflet";
+import * as protomapsL from 'protomaps-leaflet'
 
 // Leaflet plugins
 import 'leaflet-fullscreen/dist/fullscreen.png'
@@ -39,7 +39,7 @@ import markerIconYellow from '../../img/markers/marker-icon-yellow.png'
 
 import mapboxLogo from '../../img/logos/mapbox-logo-black.png'
 
-import {useConfigsStore} from "../../stores/configsStore";
+import { useConfigsStore } from '../../stores/configsStore'
 
 // const buffer = lazy(() => import('@turf/buffer'))
 import buffer from '@turf/buffer'
@@ -60,7 +60,7 @@ const ColorIcon = L.Icon.extend({
  * switchable basemaps and overlay layers.
  */
 class LeafletMap extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       activeLayers: props.activeLayers ? props.activeLayers : [],
@@ -102,7 +102,7 @@ class LeafletMap extends React.Component {
         pathname: `${this.props.rootUrl}/${this.props.facetClass}/faceted-search/${this.props.tabPath}`
       })
 
-      this.setState({defaultFacetFetchingRequired: true})
+      this.setState({ defaultFacetFetchingRequired: true })
     }
 
     if (this.props.mapMode &&
@@ -123,29 +123,33 @@ class LeafletMap extends React.Component {
       this.props.clearGeoJSONLayers()
     }
     if (this.props.showExternalLayers && !this.props.locateUser) {
-      this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({eventType: 'programmatic'})
+      this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
     }
   }
 
   componentDidUpdate = (prevProps, prevState) => {
     // check if facets are still fetching
     let someFacetIsFetching = false
-    if (this.props.pageType === 'facetResults' && this.props.facetState) Object.values(this.props.facetState.facets).forEach(facet => {
-      if (facet.isFetching) {
-        someFacetIsFetching = true
-      }
-    })
+    if (this.props.pageType === 'facetResults' && this.props.facetState) {
+      Object.values(this.props.facetState.facets).forEach(facet => {
+        if (facet.isFetching) {
+          someFacetIsFetching = true
+        }
+      })
+    }
 
     // refetch default facets (excl. text facets) when facets have been updated
     if (this.state.defaultFacetFetchingRequired && this.props.facetUpdateID > 0 && !someFacetIsFetching) {
       const defaultFacets = this.props.perspectiveConfig.defaultActiveFacets
       for (const facet of defaultFacets) {
-        if (this.props.perspectiveConfig.facets[facet].filterType !== 'textFilter') this.props.fetchFacet({
-          facetClass: this.props.facetClass,
-          facetID: facet
-        })
+        if (this.props.perspectiveConfig.facets[facet].filterType !== 'textFilter') {
+          this.props.fetchFacet({
+            facetClass: this.props.facetClass,
+            facetID: facet
+          })
+        }
       }
-      this.setState({defaultFacetFetchingRequired: false})
+      this.setState({ defaultFacetFetchingRequired: false })
     }
 
     // Dispatch a resize event so that Leaflet fits
@@ -220,9 +224,9 @@ class LeafletMap extends React.Component {
           }),
           {
             closeButton: true,
-            ...(this.props.popupMaxHeight && {maxHeight: this.props.popupMaxHeight}),
-            ...(this.props.popupMaxWidth && {maxWidth: this.props.popupMaxWidth}),
-            ...(this.props.popupMinWidth && {minWidth: this.props.popupMinWidth})
+            ...(this.props.popupMaxHeight && { maxHeight: this.props.popupMaxHeight }),
+            ...(this.props.popupMaxWidth && { maxWidth: this.props.popupMaxWidth }),
+            ...(this.props.popupMinWidth && { minWidth: this.props.popupMinWidth })
           })
         .openPopup()
         .on('popupclose', () => {
@@ -233,7 +237,7 @@ class LeafletMap extends React.Component {
             popupBinded: false
           })
         })
-      this.setState({popupBinded: true})
+      this.setState({ popupBinded: true })
     }
 
     if (this.props.showExternalLayers &&
@@ -307,7 +311,7 @@ class LeafletMap extends React.Component {
         const leafletOverlayToRemove = this.overlayLayers[intl.get(`leafletMap.externalLayers.${layerID}`)]
         leafletOverlayToRemove.clearLayers()
       })
-      this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({eventType: 'programmatic'})
+      this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
     }
 
     if (prevProps.infoHeaderExpanded && (prevProps.infoHeaderExpanded !== this.props.infoHeaderExpanded)) {
@@ -316,11 +320,11 @@ class LeafletMap extends React.Component {
   }
 
   initMap = () => {
-    const {mapboxConfig} = this.props.portalConfig
-    const {mapboxAccessToken, mapboxStyle} = mapboxConfig
+    const { mapboxConfig } = this.props.portalConfig
+    const { mapboxAccessToken, mapboxStyle } = mapboxConfig
 
     // Base layer(s)
-    let mapboxBaseLayer = undefined;
+    let mapboxBaseLayer
     if (mapboxAccessToken) {
       mapboxBaseLayer = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${mapboxStyle}/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`, {
         attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener">Mapbox</a> &copy; <a href="http://osm.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong> contributors',
@@ -333,17 +337,17 @@ class LeafletMap extends React.Component {
 
     const customLayer = this.props.customTilesLayer
     if (customLayer) {
-      if (customLayer.type === "pmtiles"){
+      if (customLayer.type === 'pmtiles') {
         const layer = protomapsL.leafletLayer({
           url: customLayer.inConfig ? useConfigsStore.getState().getStaticFileUrl(customLayer.url) : customLayer.url,
-          flavor: "light",
-          lang: "en",
+          flavor: 'light',
+          lang: 'en',
           maxZoom: customLayer.maxZoom,
-          minZoom: customLayer.minZoom,
-        });
+          minZoom: customLayer.minZoom
+        })
         layers.push(layer)
       }
-    } else if(mapboxBaseLayer){
+    } else if (mapboxBaseLayer) {
       layers.push(mapboxBaseLayer)
     }
 
@@ -360,10 +364,10 @@ class LeafletMap extends React.Component {
       }),
       zoomControl: false,
       zoominfoControl: true,
-      layers: layers,
+      layers,
       fullscreenControl: true
     }).whenReady(context => {
-      this.updateEnlargedBounds({mapInstance: context.target})
+      this.updateEnlargedBounds({ mapInstance: context.target })
       context.target.invalidateSize()
     })
 
@@ -438,7 +442,7 @@ class LeafletMap extends React.Component {
   }
 
   setCustomMapControlVisibility = () => {
-    const {activeLayers} = this.state
+    const { activeLayers } = this.state
     let hideCustomControl = true
     activeLayers.forEach(layerID => {
       if (layerID === 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_alue' ||
@@ -465,7 +469,7 @@ class LeafletMap extends React.Component {
 
   onLocationFound = e => {
     this.leafletMap.setView(e.latlng, 13)
-    this.updateEnlargedBounds({mapInstance: this.leafletMap})
+    this.updateEnlargedBounds({ mapInstance: this.leafletMap })
     L.userMarker(e.latlng, {
       pulsing: true,
       accuracy: e.accuracy,
@@ -475,7 +479,7 @@ class LeafletMap extends React.Component {
       .bindPopup('You are within ' + e.accuracy + ' meters from this point')
     // .openPopup()
     this.initMapEventListenersForExternalLayers()
-    this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({eventType: 'programmatic'})
+    this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
     this.updateMapBounds()
     this.initMapEventListenersForBounds()
   }
@@ -486,7 +490,7 @@ class LeafletMap extends React.Component {
       this.props.zoom
     )
     this.initMapEventListenersForExternalLayers()
-    this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({eventType: 'programmatic'})
+    this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
     this.updateMapBounds()
     this.initMapEventListenersForBounds()
     // this.props.showError({
@@ -512,7 +516,7 @@ class LeafletMap extends React.Component {
   }
 
   drawPointData = () => {
-    const {results} = this.props
+    const { results } = this.props
     this.resultMarkerLayer.clearLayers()
     switch (this.state.mapMode) {
       case 'cluster':
@@ -561,7 +565,7 @@ class LeafletMap extends React.Component {
               activeLayers: [...currentLayers, layerID]
             }
           })
-          this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({eventType: 'programmatic'})
+          this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
         } else {
           this.props.showError({
             title: '',
@@ -580,7 +584,7 @@ class LeafletMap extends React.Component {
         leafletOverlayToRemove.clearLayers()
         this.setState(state => {
           const activeLayers = state.activeLayers.filter(layerID => layerID !== layerIDToRemove)
-          return {activeLayers}
+          return { activeLayers }
         })
       }
     })
@@ -588,18 +592,18 @@ class LeafletMap extends React.Component {
     // Fired when zooming starts
     this.leafletMap.on('zoomstart', () => {
       if (this.props.showExternalLayers) {
-        this.setState({prevZoomLevel: this.leafletMap.getZoom()})
+        this.setState({ prevZoomLevel: this.leafletMap.getZoom() })
       }
     })
 
     // Fired when zooming ends
     this.leafletMap.on('zoomend', event => {
-      this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({eventType: 'zoomend'})
+      this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'zoomend' })
     })
 
     // Fired when dragging ends
     this.leafletMap.on('dragend', () => {
-      this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({eventType: 'dragend'})
+      this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'dragend' })
     })
   }
 
@@ -644,7 +648,7 @@ class LeafletMap extends React.Component {
     })
 
     // Add all basemaps and all overlays via the control to the map
-    this.layerControl = L.control.layers(basemaps, this.overlayLayers, {collapsed: !this.props.layerControlExpanded}).addTo(this.leafletMap)
+    this.layerControl = L.control.layers(basemaps, this.overlayLayers, { collapsed: !this.props.layerControlExpanded }).addTo(this.leafletMap)
 
     // Create opacity controller if needed
     if (showOpacityController) {
@@ -652,13 +656,13 @@ class LeafletMap extends React.Component {
     }
   }
 
-  updateEnlargedBounds = ({mapInstance}) => {
+  updateEnlargedBounds = ({ mapInstance }) => {
     const currentBounds = mapInstance.getBounds()
     const enlargedBounds = currentBounds.pad(1.5)
-    this.setState({enlargedBounds})
+    this.setState({ enlargedBounds })
   }
 
-  maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers = ({eventType}) => {
+  maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers = ({ eventType }) => {
     if (this.state.activeLayers.length === 0) {
       return
     }
@@ -675,7 +679,7 @@ class LeafletMap extends React.Component {
     }
     // console.log('setting new enlarged bounds')
     const enlargedBounds = currentBounds.pad(1.5)
-    this.setState({enlargedBounds})
+    this.setState({ enlargedBounds })
     // console.log('fetching new GeoJSON layers')
     // console.log(enlargedBounds.toBBoxString())
     // L.rectangle(enlargedBounds).addTo(this.leafletMap)
@@ -709,9 +713,9 @@ class LeafletMap extends React.Component {
 
     // Only the layer that is added last is clickable, so add buffer first
     if (this.state.showBuffer) {
-      const {distance, units, style} = leafletOverlay.options.buffer
+      const { distance, units, style } = leafletOverlay.options.buffer
       try {
-        const bufferedGeoJSON = buffer(layerObj.geoJSON, distance, {units})
+        const bufferedGeoJSON = buffer(layerObj.geoJSON, distance, { units })
         const leafletGeoJSONBufferLayer = L.geoJSON(bufferedGeoJSON, {
           // style for GeoJSON Polygons
           style
@@ -722,7 +726,7 @@ class LeafletMap extends React.Component {
       }
     }
 
-    const {createGeoJSONPointStyle, createGeoJSONPolygonStyle, createPopup} = leafletOverlay.options
+    const { createGeoJSONPointStyle, createGeoJSONPolygonStyle, createPopup } = leafletOverlay.options
     try {
       const leafletGeoJSONLayer = L.geoJSON(layerObj.geoJSON, {
         // style for GeoJSON Points
@@ -763,7 +767,7 @@ class LeafletMap extends React.Component {
         const checkboxLabel = L.DomUtil.create('span', null, checkboxInnerContainer)
         checkboxLabel.textContent = intl.get('leafletMap.showBufferZones')
         L.DomEvent.on(checkbox, 'click', event => {
-          this.setState({showBuffer: event.target.checked})
+          this.setState({ showBuffer: event.target.checked })
         })
 
         // const markersInputContainer = L.DomUtil.create('div', 'leaflet-control-mapmode-input-container', container)
@@ -797,7 +801,7 @@ class LeafletMap extends React.Component {
     L.control.mapmode = opts => {
       return new L.Control.Mapmode(opts)
     }
-    L.control.mapmode({position: 'topright'}).addTo(this.leafletMap)
+    L.control.mapmode({ position: 'topright' }).addTo(this.leafletMap)
   }
 
   addDrawButtons = () => {
@@ -981,13 +985,13 @@ class LeafletMap extends React.Component {
             markerIcon = markerIconGreen
         }
         marker = L.marker(latLng, {
-          icon: new ColorIcon({iconUrl: markerIcon}),
+          icon: new ColorIcon({ iconUrl: markerIcon }),
           id: result.id,
           prefLabel: result.prefLabel ? result.prefLabel : null,
           events: result.events ? result.events : null
         })
       }
-      const {pageType} = this.props
+      const { pageType } = this.props
       if (pageType === 'facetResults') {
         marker.on('click', this.markerOnClickFacetResults)
       }
@@ -1002,14 +1006,14 @@ class LeafletMap extends React.Component {
     }
   }
 
-  createNavButton = ({href, text}) => {
+  createNavButton = ({ href, text }) => {
     const el = document.createElement('button')
     el.textContent = text
     el.addEventListener('click', history.push(href))
   }
 
   markerOnClickFacetResults = event => {
-    const {id} = event.target.options
+    const { id } = event.target.options
     this.setState({
       popupID: id,
       popupOpen: true
@@ -1032,7 +1036,7 @@ class LeafletMap extends React.Component {
   }
 
   render = () => {
-    const {layoutConfig, pageType} = this.props
+    const { layoutConfig, pageType } = this.props
     return (
       <>
         <Box
@@ -1043,7 +1047,7 @@ class LeafletMap extends React.Component {
                 : '100%'
             },
             position: 'relative',
-            ...(pageType !== 'mobileMapPage' && {height: 400})
+            ...(pageType !== 'mobileMapPage' && { height: 400 })
           })}
         >
           <Box
@@ -1066,19 +1070,19 @@ class LeafletMap extends React.Component {
             />
             {(this.props.fetching ||
                 (this.props.showExternalLayers && this.props.leafletMapState.fetching)) &&
-              <Box
-                sx={{
-                  height: 40,
-                  width: 40,
-                  position: 'absolute',
-                  left: '50%',
-                  top: '50%',
-                  transform: 'translate(-50%,-50%)',
-                  zIndex: 500
-                }}
-              >
-                <CircularProgress/>
-              </Box>}
+                  <Box
+                    sx={{
+                      height: 40,
+                      width: 40,
+                      position: 'absolute',
+                      left: '50%',
+                      top: '50%',
+                      transform: 'translate(-50%,-50%)',
+                      zIndex: 500
+                    }}
+                  >
+                    <CircularProgress />
+                  </Box>}
           </Box>
         </Box>
       </>

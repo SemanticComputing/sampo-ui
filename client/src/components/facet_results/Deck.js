@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {withStyles} from 'tss-react/mui'
+import { withStyles } from 'tss-react/mui'
 import DeckGL from '@deck.gl/react'
-import {ArcLayer, PolygonLayer} from '@deck.gl/layers'
-import {HeatmapLayer, HexagonLayer} from '@deck.gl/aggregation-layers'
+import { ArcLayer, PolygonLayer } from '@deck.gl/layers'
+import { HeatmapLayer, HexagonLayer } from '@deck.gl/aggregation-layers'
 
-import ReactMapGL, {FullscreenControl, NavigationControl} from 'react-map-gl/maplibre'
+import ReactMapGL, { FullscreenControl, NavigationControl } from 'react-map-gl/maplibre'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 import maplibregl from 'maplibre-gl'
-import {Protocol} from 'pmtiles'
-import {layers, namedFlavor} from '@protomaps/basemaps'
+import { Protocol } from 'pmtiles'
+import { layers, namedFlavor } from '@protomaps/basemaps'
 
 import DeckArcLayerLegend from './DeckArcLayerLegend'
 import DeckArcLayerDialog from './DeckArcLayerDialog'
@@ -18,7 +18,7 @@ import DeckArcLayerTooltip from './DeckArcLayerTooltip'
 import CircularProgress from '@mui/material/CircularProgress'
 import history from '../../History'
 import qs from 'qs'
-import {useConfigsStore} from "../../stores/configsStore";
+import { useConfigsStore } from '../../stores/configsStore'
 
 /* Documentation links:
   https://deck.gl/#/documentation/getting-started/using-with-react?section=adding-a-base-map
@@ -89,6 +89,7 @@ class Deck extends React.Component {
     hoverInfo: null,
     defaultFacetFetchingRequired: false
   }
+
   mapContainer = React.createRef()
 
   componentDidMount = () => {
@@ -123,7 +124,7 @@ class Deck extends React.Component {
         pathname: `${this.props.rootUrl}/${this.props.facetClass}/faceted-search/${this.props.tabPath}`
       })
 
-      this.setState({defaultFacetFetchingRequired: true})
+      this.setState({ defaultFacetFetchingRequired: true })
     }
 
     this.props.fetchResults({
@@ -131,11 +132,11 @@ class Deck extends React.Component {
       facetClass: this.props.facetClass,
       sortBy: null
     })
-    this.setState({mounted: true})
+    this.setState({ mounted: true })
   }
 
   componentWillUnmount = () => {
-    if (this.props.customTilesLayer?.type === "pmtiles") {
+    if (this.props.customTilesLayer?.type === 'pmtiles') {
       maplibregl.removeProtocol('pmtiles')
     }
   }
@@ -143,22 +144,26 @@ class Deck extends React.Component {
   componentDidUpdate = prevProps => {
     // check if facets are still fetching
     let someFacetIsFetching = false
-    if (this.props.pageType === 'facetResults' && this.props.facetState) Object.values(this.props.facetState.facets).forEach(facet => {
-      if (facet.isFetching) {
-        someFacetIsFetching = true
-      }
-    })
+    if (this.props.pageType === 'facetResults' && this.props.facetState) {
+      Object.values(this.props.facetState.facets).forEach(facet => {
+        if (facet.isFetching) {
+          someFacetIsFetching = true
+        }
+      })
+    }
 
     // refetch default facets (excl. text facets) when facets have been updated
     if (this.state.defaultFacetFetchingRequired && this.props.facetUpdateID > 0 && !someFacetIsFetching) {
       const defaultFacets = this.props.perspectiveConfig.defaultActiveFacets
       for (const facet of defaultFacets) {
-        if (this.props.perspectiveConfig.facets[facet].filterType !== 'textFilter') this.props.fetchFacet({
-          facetClass: this.props.facetClass,
-          facetID: facet
-        })
+        if (this.props.perspectiveConfig.facets[facet].filterType !== 'textFilter') {
+          this.props.fetchFacet({
+            facetClass: this.props.facetClass,
+            facetID: facet
+          })
+        }
       }
-      this.setState({defaultFacetFetchingRequired: false})
+      this.setState({ defaultFacetFetchingRequired: false })
     }
 
     // check if filters have changed
@@ -177,8 +182,8 @@ class Deck extends React.Component {
   }
 
   componentStateEqualsReduxState = () => {
-    const {viewport} = this.state
-    const {longitude, latitude, zoom} = viewport
+    const { viewport } = this.state
+    const { longitude, latitude, zoom } = viewport
     return (
       zoom === this.props.zoom &&
       longitude === this.props.center[1] &&
@@ -187,7 +192,7 @@ class Deck extends React.Component {
   }
 
   setDialog = info => {
-    console.log("set dialog")
+    console.log('set dialog')
     this.setState({
       dialog: {
         open: true,
@@ -213,15 +218,15 @@ class Deck extends React.Component {
 
   handleOnViewportChange = viewport => {
     if (this.state.mounted) {
-      this.setState({viewport})
+      this.setState({ viewport })
     }
   }
 
-  renderSpinner() {
+  renderSpinner () {
     if (this.props.fetching || this.props.fetchingInstanceAnalysisData) {
       return (
         <div className={this.props.classes.spinner}>
-          <CircularProgress/>
+          <CircularProgress />
         </div>
       )
     }
@@ -241,7 +246,7 @@ class Deck extends React.Component {
       getSourcePosition: d => this.parseCoordinates(d.from),
       getTargetPosition: d => this.parseCoordinates(d.to),
       onClick: info => this.setDialog(info),
-      onHover: info => this.setState({hoverInfo: info}),
+      onHover: info => this.setState({ hoverInfo: info }),
       autoHighlight: true
     })
 
@@ -249,9 +254,9 @@ class Deck extends React.Component {
     new HeatmapLayer({
       id: 'heatmapLayer',
       data,
-      ...(this.props.perspectiveConfig.resultClasses[this.props.resultClass].heatmapRadiusPixels && {radiusPixels: this.props.perspectiveConfig.resultClasses[this.props.resultClass].heatmapRadiusPixels}),
-      ...(this.props.perspectiveConfig.resultClasses[this.props.resultClass].heatmapThreshold && {threshold: this.props.perspectiveConfig.resultClasses[this.props.resultClass].heatmapThreshold}),
-      ...(this.props.perspectiveConfig.resultClasses[this.props.resultClass].heatmapIntensity && {intensity: this.props.perspectiveConfig.resultClasses[this.props.resultClass].heatmapIntensity}),
+      ...(this.props.perspectiveConfig.resultClasses[this.props.resultClass].heatmapRadiusPixels && { radiusPixels: this.props.perspectiveConfig.resultClasses[this.props.resultClass].heatmapRadiusPixels }),
+      ...(this.props.perspectiveConfig.resultClasses[this.props.resultClass].heatmapThreshold && { threshold: this.props.perspectiveConfig.resultClasses[this.props.resultClass].heatmapThreshold }),
+      ...(this.props.perspectiveConfig.resultClasses[this.props.resultClass].heatmapIntensity && { intensity: this.props.perspectiveConfig.resultClasses[this.props.resultClass].heatmapIntensity }),
       getPosition: d => [+d.long, +d.lat],
       getWeight: d => +d.instanceCount
     })
@@ -288,8 +293,8 @@ class Deck extends React.Component {
     })
 
   getMapStyle = () => {
-    const {customTilesLayer, portalConfig} = this.props
-    const {mapboxAccessToken, mapboxStyle} = portalConfig.mapboxConfig
+    const { customTilesLayer, portalConfig } = this.props
+    const { mapboxAccessToken, mapboxStyle } = portalConfig.mapboxConfig
 
     if (customTilesLayer?.type === 'pmtiles') {
       const url = customTilesLayer.inConfig
@@ -301,9 +306,9 @@ class Deck extends React.Component {
         glyphs: 'https://protomaps.github.io/basemaps-assets/fonts/{fontstack}/{range}.pbf',
         sprite: 'https://protomaps.github.io/basemaps-assets/sprites/v4/light',
         sources: {
-          'pmtiles-source': {type: 'vector', url: `pmtiles://${url}`}
+          'pmtiles-source': { type: 'vector', url: `pmtiles://${url}` }
         },
-        layers: layers('pmtiles-source', namedFlavor('light'), {lang: 'en'})
+        layers: layers('pmtiles-source', namedFlavor('light'), { lang: 'en' })
       }
     }
 
@@ -334,31 +339,31 @@ class Deck extends React.Component {
     return {
       version: 8,
       sources: {},
-      layers: [{id: 'background', type: 'background', paint: {'background-color': '#e0e0e0'}}]
+      layers: [{ id: 'background', type: 'background', paint: { 'background-color': '#e0e0e0' } }]
     }
   }
 
   renderMap = (layer, showTooltip, hoverInfo) => {
-    const {layerType} = this.props
+    const { layerType } = this.props
 
     return (
       <DeckGL
         viewState={this.state.viewport}
-        controller={true}
+        controller
         layers={[layer]}
-        onViewStateChange={({viewState}) => this.handleOnViewportChange(viewState)}
+        onViewStateChange={({ viewState }) => this.handleOnViewportChange(viewState)}
         style={{ width: '100%', height: '100%', position: 'relative' }}
-        getCursor={({isDragging, isHovering}) => {
+        getCursor={({ isDragging, isHovering }) => {
           if (isDragging) return 'grabbing'
           if (isHovering) return 'pointer'
           return 'grab'
         }}
         {...(layerType === 'polygonLayer'
           ? {
-            getTooltip: ({object}) => object && {
-              html: `<h2>${object.prefLabel}</h2><div>${object.instanceCount}</div>`
+              getTooltip: ({ object }) => object && {
+                html: `<h2>${object.prefLabel}</h2><div>${object.instanceCount}</div>`
+              }
             }
-          }
           : {})
         }
       >
@@ -369,8 +374,8 @@ class Deck extends React.Component {
           preventStyleDiffing
           style={{ width: '100%', height: '100%' }}
         >
-          <NavigationControl position='top-left'/>
-          <FullscreenControl position='top-left' containerId='map-root'/>
+          <NavigationControl position='top-left' />
+          <FullscreenControl position='top-left' containerId='map-root' />
         </ReactMapGL>
 
         {layerType === 'arcLayer' &&
@@ -410,10 +415,10 @@ class Deck extends React.Component {
     )
   }
 
-  render() {
-    const {classes, layerType, fetching, results, showTooltips, portalConfig} = this.props
-    const {mapboxAccessToken, mapboxStyle} = portalConfig.mapboxConfig
-    const {hoverInfo} = this.state
+  render () {
+    const { classes, layerType, fetching, results, showTooltips, portalConfig } = this.props
+    const { mapboxAccessToken, mapboxStyle } = portalConfig.mapboxConfig
+    const { hoverInfo } = this.state
     const showTooltip = showTooltips && hoverInfo && hoverInfo.object
     const hasData = !fetching && results && results.length > 0 &&
       (
@@ -447,10 +452,11 @@ class Deck extends React.Component {
       }
     }
     return (
-      <div className={classes.root} ref={this.mapContainer} style={{position: 'relative'}}
-           onContextMenu={e => e.preventDefault()}>
+      <div
+        className={classes.root} ref={this.mapContainer} style={{ position: 'relative' }}
+        onContextMenu={e => e.preventDefault()}
+      >
         {this.renderMap(layer, showTooltip, hoverInfo)}
-
 
       </div>
     )

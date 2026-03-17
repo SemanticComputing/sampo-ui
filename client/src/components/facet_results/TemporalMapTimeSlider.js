@@ -39,9 +39,9 @@ const styles = () => ({
 
 // https://uber.github.io/react-map-gl/#/Documentation/advanced/custom-components
 class TemporalMapTimeSlider extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
-    this._containerRef = React.createRef()  // replaces BaseControl's built-in ref
+    this._containerRef = React.createRef() // replaces BaseControl's built-in ref
   }
 
   state = {
