@@ -30,8 +30,19 @@ const loadGeneralQueries = (perspectiveConfig, sparqlQueries) => {
 export const createBackendSearchConfig = async () => {
   const portalConfig = await loadConfig('portalConfig.json')
 
-  const resultMappers = await import('./Mappers')
   const { portalID } = portalConfig
+
+  const resultMappers = await import('./Mappers')
+  try {
+    const customMappers = await loadQueryConfig(`${portalID}/mappers.js`)
+    Object.assign(resultMappers, customMappers)
+    console.log("custom mappers found")
+  } catch (e) {
+    console.error(e)
+  }
+  console.log("RESULT MAPPERS")
+  console.log(resultMappers)
+
   const backendSearchConfig = {}
   for (const perspectiveID of portalConfig.perspectives.searchPerspectives) {
     const perspectiveConfig = await loadConfig(`${portalID}/search_perspectives/${perspectiveID}.json`)
@@ -338,7 +349,16 @@ export const createExtraResultClassesForJSONConfig = async oldBackendSearchConfi
     if (has(resultClassConfig, 'perspectiveID')) {
       // console.log(resultClass)
       // const { perspectiveID } = resultClassConfig
-      const { q, nodes, filterTarget, resultMapper, resultMapperConfig, instance, properties, useNetworkAPI } = resultClassConfig
+      const {
+        q,
+        nodes,
+        filterTarget,
+        resultMapper,
+        resultMapperConfig,
+        instance,
+        properties,
+        useNetworkAPI
+      } = resultClassConfig
       if (instance && instance.relatedInstances === '') {
         delete instance.relatedInstances
       }
@@ -429,20 +449,20 @@ export function isValidUrl (str) {
 
 /**
  export class DefaultDict {
-  proxy;
+ proxy;
 
-  constructor (DefaultClass) {
-    this.proxy = new Proxy({}, {
-      get: (target, name) => {
-        if (!(name in target)) {
-          target[name] = new DefaultClass()
-        }
-        return target[name]
-      }
-    })
-    return this.proxy
-  }
-  // Object.keys(dc)
-  // Object.entries(dc)
-}
-*/
+ constructor (DefaultClass) {
+ this.proxy = new Proxy({}, {
+ get: (target, name) => {
+ if (!(name in target)) {
+ target[name] = new DefaultClass()
+ }
+ return target[name]
+ }
+ })
+ return this.proxy
+ }
+ // Object.keys(dc)
+ // Object.entries(dc)
+ }
+ */
