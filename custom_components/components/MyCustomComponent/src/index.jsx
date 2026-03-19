@@ -6,7 +6,7 @@ const MyCustomComponent = ({
   facetClass,
   facetUpdateID,
   fetchPaginatedResults,
-  updatePage,
+  updatePage
 }) => {
   useEffect(() => {
     // Mirror ResultTable: set page to 0 if it's -1, then let the
