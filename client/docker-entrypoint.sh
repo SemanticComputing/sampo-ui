@@ -16,14 +16,20 @@ patch_index_html() {
   CUSTOM=$(fetch_if_exists "$API_URL/configs/index.html")
   [ -z "$CUSTOM" ] && return
 
-  echo "Patching index.html head from $API_URL/configs/index.html..."
+  echo "Patching index.html from $API_URL/configs/index.html..."
 
-  CUSTOM_HEAD=$(echo "$CUSTOM" | awk '/<head>/,/<\/head>/')
+  # Extract everything from <head> up to and including </title> from custom file
+  CUSTOM_HEAD=$(echo "$CUSTOM" | awk '/<head>/{found=1} found{print} /<\/title>/{exit}')
 
+  # Normalize the built file so <head> and </title> are on their own lines
+  sed -i 's|<head>|\n<head>\n|g' "$WEBROOT/index.html"
+  sed -i 's|</title>|\n</title>\n|g' "$WEBROOT/index.html"
+
+  # Replace from <head> up to and including </title> with custom block
   awk -v new_head="$CUSTOM_HEAD" '
-    /<head>/  { in_head=1; print new_head; next }
-    /<\/head>/{ in_head=0; next }
-    in_head   { next }
+    /<head>/   { in_head=1; print new_head; next }
+    /<\/title>/{ in_head=0; next }
+    in_head    { next }
     { print }
   ' "$WEBROOT/index.html" > /tmp/index.html && mv /tmp/index.html "$WEBROOT/index.html"
 }
