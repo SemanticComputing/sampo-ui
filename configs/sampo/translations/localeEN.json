@@ -353,6 +353,55 @@
         }
       }
     },
+    "customcomponent": {
+      "label": "Custom component test",
+      "facetResultsType": "works",
+      "shortDescription": "Testing the use of a custom component",
+      "longDescription": "<p class=\"MuiTypography-root MuiTypography-body1 MuiTypography-paragraph\"> Use this perspective to access data related to Works. The MMM data model follows the <a href='https://www.ifla.org/publications/node/11240' target='_blank' rel='noopener noreferrer'>FRBRoo</a> definition of a work, which refers to “distinct concepts or combinations of concepts identified in artistic and intellectual expressions.” Works contain title and author information. If two or more source datasets include the same Work and this has been verified, the information from the source datasets has been merged into one Work. See <a href=\"/instructions\">instructions</a> for using the filters. The result view can be selected using the tabs: </p> <ul class=\"MuiTypography-root MuiTypography-body1\"> <li> <strong>TABLE</STRONG> view gives you a list of specific works, and the manuscripts and manuscript collections in which they can be found. </li> <li> <strong>EXPORT</strong> the SPARQL query used to generate the result table view into YASGUI query editor. </li> </ul>",
+      "instancePage": {
+        "label": "Work",
+        "description": "<p class=\"MuiTypography-root MuiTypography-body1 MuiTypography-paragraph\"> The MMM data model follows the <a href='https://www.ifla.org/publications/node/11240' target='_blank' rel='noopener noreferrer'>FRBRoo</a> definition of a work, which refers to “distinct concepts or combinations of concepts identified in artistic and intellectual expressions.” Works contain title and author information. This definition is not shared by the Bibale or Oxford Libraries’ conception of the term, which both define their internal “work” concept more closely to the FRBRoo conception of an Expression. The SDBM does not have a work concept at all, recording only the titles of the texts as given in its various sources, without normalizing that data or linking it directly to author information. Works were generated within the MMM dataset by manually creating links across the three datasets’ various conceptions of the relationship between authors and their creations. This process was not able to reconcile every work contained within the combined dataset. </p>"
+      },
+      "properties": {
+        "uri": {
+          "label": "URI",
+          "description": "Uniform Resource Identifier"
+        },
+        "prefLabel": {
+          "label": "Title",
+          "description": "The name or title of the Work.",
+          "textFacetInputPlaceholder": "Search..."
+        },
+        "author": {
+          "label": "Possible author",
+          "description": "The author(s) associated with the Work. Because of the structure of entries in the Schoenberg Database, the authors shown as being associated with a Work may actually be associated with other Works in the same manuscript instead."
+        },
+        "language": {
+          "label": "Language",
+          "description": "The language in which a Work is written in the manuscript (i.e., an “Expression” of a Work). One manuscript may contain multiple languages."
+        },
+        "expression": {
+          "label": "Expression",
+          "description": "The expression(s) of the Work."
+        },
+        "manuscript": {
+          "label": "Manuscript",
+          "description": "The specific manuscript(s) in which the Work can be found."
+        },
+        "productionTimespan": {
+          "label": "Manuscript production date",
+          "description": "The date(s) when the manuscript(s) in which the Work can be found were written. Multiple production dates may appear for a single manuscript, when there are discrepancies between the contributing data source or when the precise date is uncertain."
+        },
+        "collection": {
+          "label": "Collection",
+          "description": "The specific collection(s) of manuscripts in which a Work can be found."
+        },
+        "source": {
+          "label": "Source",
+          "description": "The source database(s) (Schoenberg, Bibale, and Bodleian) that the Work occurs in. Click on the result table link to view the original record on the source’s website."
+        }
+      }
+    },
     "perspective3": {
       "label": "Perspective 3",
       "facetResultsType": "events",

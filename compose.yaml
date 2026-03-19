@@ -9,6 +9,7 @@ services:
     volumes:
       - ./client:/app/client
       - client_node_modules:/app/client/node_modules # Prevent overwrite of deps
+      - ./custom_components/dist:/app/custom-components
     ports:
       - "8080:8080"
     working_dir: /app/client

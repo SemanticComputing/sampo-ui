@@ -1,4 +1,5 @@
 import React, { Suspense, lazy } from 'react'
+import ReactDOM from 'react-dom'
 import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import ReduxToastr from 'react-redux-toastr'
@@ -17,6 +18,9 @@ import '@fontsource/roboto/700.css'
 import { useConfigsStore } from './stores/configsStore'
 
 const root = createRoot(document.getElementById('root'))
+
+window.React = React
+window.ReactDOM = ReactDOM
 
 const FullscreenCentered = ({ children }) => (
   <div style={{
@@ -84,7 +88,7 @@ const renderApp = async () => {
           <FullscreenCentered>
             <CircularProgress sx={{ color: layoutConfig.colorPalette.primary.main }} thickness={5} />
           </FullscreenCentered>
-        }
+          }
         >
           <App />
         </Suspense>

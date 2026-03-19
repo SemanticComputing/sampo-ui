@@ -1,0 +1,17 @@
+{
+  "name": "custom-components",
+  "scripts": {
+    "build": "sh build.sh",
+    "build:MyCustomComponent": "webpack --config components/MyCustomComponent/webpack.config.js --mode production"
+  },
+  "devDependencies": {
+    "@babel/core": "^7",
+    "@babel/preset-react": "^7",
+    "babel-loader": "^9",
+    "webpack": "^5",
+    "webpack-cli": "^5"
+  },
+  "peerDependencies": {
+    "react": "^17 || ^18"
+  }
+}

@@ -8,9 +8,11 @@ module.exports = merge(common, {
   devServer: {
     static: [
       {
-        directory: path.resolve(__dirname, '../configs'),
-        publicPath: '/configs',
-        watch: true
+        directory: path.join(__dirname, 'build')
+      },
+      {
+        directory: '/app/custom-components',
+        publicPath: '/custom-components'
       }
     ],
     hot: true,
