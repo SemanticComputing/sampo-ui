@@ -40,8 +40,6 @@ export const createBackendSearchConfig = async () => {
   } catch (e) {
     console.error(e)
   }
-  console.log("RESULT MAPPERS")
-  console.log(resultMappers)
 
   const backendSearchConfig = {}
   for (const perspectiveID of portalConfig.perspectives.searchPerspectives) {
@@ -443,7 +441,7 @@ export class Counter {
 }
 
 export function isValidUrl (str) {
-  const regex = /^(https?:\/\/)[\w.-]+(\.[\w.-]+)+[/\w .-]*$/
+  const regex = /^https?:\/\/[^\s/$.?#].[^\s]*$/
   return regex.test(str)
 }
 
