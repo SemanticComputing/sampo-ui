@@ -66,7 +66,7 @@ const Main = props => {
     >
       <Box
         sx={theme => ({
-          background: mainPage.bannerBackround,
+          background: mainPage.bannerBackground,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
