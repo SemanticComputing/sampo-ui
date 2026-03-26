@@ -36,9 +36,7 @@ export const createBackendSearchConfig = async () => {
   try {
     const customMappers = await loadQueryConfig(`${portalID}/mappers.js`)
     Object.assign(resultMappers, customMappers)
-    console.log("custom mappers found")
   } catch (e) {
-    console.error(e)
   }
 
   const backendSearchConfig = {}
