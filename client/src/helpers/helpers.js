@@ -55,8 +55,8 @@ export const stateToUrl = ({
           values: Object.keys(value.uriFilter),
           ...(Object.prototype.hasOwnProperty.call(value, 'selectAlsoSubconcepts') &&
             { selectAlsoSubconcepts: value.selectAlsoSubconcepts }),
-          useConjuction: Object.prototype.hasOwnProperty.call(value, 'useConjuction')
-            ? value.useConjuction
+          useConjunction: Object.prototype.hasOwnProperty.call(value, 'useConjunction')
+            ? value.useConjunction
             : false
         })
       } else if (has(value, 'spatialFilter') && value.spatialFilter !== null) {
