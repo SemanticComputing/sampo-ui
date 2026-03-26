@@ -80,7 +80,7 @@ const MainCard = props => {
   const xsScreen = useMediaQuery(theme => theme.breakpoints.down('sm'))
   const externalPerspective = has(perspective, 'externalUrl')
   const isCard = perspective.frontPageElement === 'card'
-  const searchMode = has(perspective, 'searchMode') ? perspective.searchMode : 'faceted-search'
+  const searchMode = has(perspective, 'searchMode') ? (perspective.searchMode === 'dummy-internal' ? '' : perspective.searchMode) : 'faceted-search'
 
   const linkProps = externalPerspective
     ? {

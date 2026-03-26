@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import has from 'lodash'
 import MainCard from './MainCard'
 import { getSpacing } from '../../helpers/helpers'
+import { Grid } from '@mui/material'
 
 /**
  * A component for generating a front page for a semantic portal.
@@ -43,6 +43,21 @@ const Main = props => {
       subheadingVariant = 'h4'
       descriptionVariant = 'h6'
       break
+  }
+
+  const perspectiveCard = (perspective) => {
+    const hideCard = (has(perspective.hideCardOnFrontPage) && perspective.hideCardOnFrontPage)
+    if (!hideCard) {
+      return (
+        <MainCard
+          key={perspective.id}
+          perspective={perspective}
+          cardHeadingVariant='h5'
+          rootUrl={props.rootUrl}
+        />
+      )
+    }
+    return null
   }
 
   return (
@@ -143,25 +158,38 @@ const Main = props => {
             {intl.get('selectPerspective')}
           </Typography>
         </Box>
-        <Grid
-          container spacing={screenSize === 'sm' ? 2 : 1}
-          justifyContent={screenSize === 'xs' || screenSize === 'sm' ? 'center' : 'flex-start'}
-        >
-          {perspectives.map(perspective => {
-            const hideCard = (has(perspective.hideCardOnFrontPage) && perspective.hideCardOnFrontPage)
-            if (!hideCard) {
+        {
+          layoutConfig.mainPage.perspectives
+            ? layoutConfig.mainPage.perspectives.map(section => {
               return (
-                <MainCard
-                  key={perspective.id}
-                  perspective={perspective}
-                  cardHeadingVariant='h5'
-                  rootUrl={props.rootUrl}
-                />
+                <div key={section.id} style={{ marginBottom: 20 }}>
+                  <Typography variant={subheadingVariant} align='center' color='textPrimary' paragraph>
+                    {intl.get(`mainPageLayout.${section.id}.heading`)}
+                  </Typography>
+                  <Typography variant={descriptionVariant} align='center' color='textPrimary' paragraph>
+                    {intl.get(`mainPageLayout.${section.id}.description`)}
+                  </Typography>
+                  <Grid
+                    container spacing={screenSize === 'sm' ? 2 : 1}
+                    justifyContent={screenSize === 'xs' || screenSize === 'sm' ? 'center' : 'flex-start'}
+                  >
+                    {section.perspectives.map(perspectiveName => {
+                      const perspective = perspectives.find(item => item.id === perspectiveName)
+                      return (perspectiveCard(perspective))
+                    })}
+                  </Grid>
+                </div>
               )
-            }
-            return null
-          })}
-        </Grid>
+            })
+            : <Grid
+                container spacing={screenSize === 'sm' ? 2 : 1}
+                justifyContent={screenSize === 'xs' || screenSize === 'sm' ? 'center' : 'flex-start'}
+              >
+              {perspectives.map(perspective => perspectiveCard(perspective))}
+            </Grid>
+
+        }
+
         <Box
           sx={theme => ({
             marginTop: theme.spacing(1),
