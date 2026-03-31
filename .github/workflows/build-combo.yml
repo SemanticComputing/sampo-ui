@@ -1,4 +1,4 @@
-name: build-client.yml
+name: build-combo.yml
 on:
   push:
     tags:

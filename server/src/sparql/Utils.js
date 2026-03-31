@@ -37,7 +37,6 @@ export const createBackendSearchConfig = async () => {
     const customMappers = await loadQueryConfig(`${portalID}/mappers.js`)
     Object.assign(resultMappers, customMappers)
   } catch (e) {
-    console.error(e)
   }
 
   const backendSearchConfig = {}
@@ -440,7 +439,7 @@ export class Counter {
 }
 
 export function isValidUrl (str) {
-  const regex = /^(https?:\/\/)[\w.-]+(\.[\w.-]+)+[/\w .-]*$/
+  const regex = /^https?:\/\/[^\s/$.?#].[^\s]*$/
   return regex.test(str)
 }
 

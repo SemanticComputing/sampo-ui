@@ -91,7 +91,7 @@ class HierarchicalFacet extends Component {
   serverFScomponentDidUpdate = prevProps => {
     // update component state if the user modified this facet
     if (prevProps.facetUpdateID !== this.props.facetUpdateID) {
-      if (!this.props.facet.useConjuction && this.props.updatedFacet === this.props.facetID) {
+      if (!this.props.facet.useConjunction && this.props.updatedFacet === this.props.facetID) {
         if (has(this.props.updatedFilter, 'path')) {
           const treeObj = this.props.updatedFilter
           try {
@@ -128,7 +128,7 @@ class HierarchicalFacet extends Component {
         this.props.fetchFacet({
           facetClass: this.props.facetClass,
           facetID: this.props.facetID,
-          constrainSelf: this.props.facet.useConjuction
+          constrainSelf: this.props.facet.useConjunction
         })
       }
     }
@@ -237,7 +237,7 @@ class HierarchicalFacet extends Component {
                 // prevent selecting while resultcount is updating
                 this.props.fetchingResultCount ||
                 // prevent selecting all facet values when there is a logical OR between the selections:
-                // (!this.props.facet.useConjuction && !isSelected && selectedCount >= this.props.facet.distinctValueCount - 1) ||
+                // (!this.props.facet.useConjunction && !isSelected && selectedCount >= this.props.facet.distinctValueCount - 1) ||
                 // prevent selecting when parent has been selected
                 node.disabled === 'true'
               }
