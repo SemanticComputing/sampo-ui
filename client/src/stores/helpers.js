@@ -20,6 +20,12 @@ export const configHelpers = (getConfigJsonFile, getConfigImgFile) => {
     if (layoutConfig.topBar.logoImageSecondary) {
       layoutConfig.topBar.logoImageSecondaryUrl = await getConfigImgFile(layoutConfig.topBar.logoImageSecondary)
     }
+    if (layoutConfig.footer.images) {
+      for (const image of layoutConfig.footer.images) {
+        image.image = await getConfigImgFile(image.image)
+      }
+      console.log(layoutConfig.footer.images)
+    }
   }
 
   const createPerspectiveConfigs = async (searchPerspectives) => {

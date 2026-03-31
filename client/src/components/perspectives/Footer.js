@@ -4,12 +4,13 @@ import PropTypes from 'prop-types'
 import Box from '@mui/material/Box'
 import aaltoLogo from '../../img/logos/Aalto_SCI_EN_13_BLACK_2_cropped.png'
 import hyLogo from '../../img/logos/university-of-helsinki-logo-transparent-black.png'
-import heldigLogo from '../../img/logos/heldig-logo-transparent-black.png'
+import { useConfigsStore } from '../../stores/configsStore'
 
 /**
  * A component for creating a footer. The logos are imported inside this component.
  */
 const Footer = props => {
+  const { getConfigImgFile } = useConfigsStore()
   return (
     <Paper
       sx={theme => ({
@@ -34,75 +35,34 @@ const Footer = props => {
         }
       })}
     >
-      <Box
-        component='a'
-        href='https://www.aalto.fi/en/school-of-science'
-        target='_blank'
-        rel='noopener noreferrer'
-        sx={theme => ({
-          width: 143,
-          height: 29,
-          [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-            width: 167,
-            height: 34
-          }
-        })}
-      >
-        <Box
-          component='img'
-          src={aaltoLogo}
-          alt='Aalto University logo'
-          sx={{
-            height: '100%'
-          }}
-        />
-      </Box>
-      <Box
-        component='a'
-        href='https://www.helsinki.fi/en'
-        target='_blank'
-        rel='noopener noreferrer'
-        sx={theme => ({
-          width: 155,
-          height: 40,
-          [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-            width: 168,
-            height: 45
-          }
-        })}
-      >
-        <Box
-          component='img'
-          src={hyLogo}
-          alt='University of Helsinki logo'
-          sx={{
-            height: '100%'
-          }}
-        />
-      </Box>
-      <Box
-        component='a'
-        href='https://www.helsinki.fi/en/helsinki-centre-for-digital-humanities'
-        target='_blank'
-        rel='noopener noreferrer'
-        sx={theme => ({
-          width: 118,
-          height: 30,
-          [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
-            width: 130,
-            height: 33
-          }
-        })}
-      >
-        <Box
-          component='img'
-          src={heldigLogo}
-          alt='Helsinki Centre for Digital Humanities logo'
-          sx={{
-            height: '100%'
-          }}
-        />
-      </Box>
+      {props.layoutConfig.footer.images && props.layoutConfig.footer.images.map(image => {
+        return (
+          <Box
+            key={image.id}
+            component='a'
+            href={image.href}
+            target='_blank'
+            rel='noopener noreferrer'
+            sx={theme => ({
+              width: image.width,
+              height: image.height,
+              [theme.breakpoints.up(props.layoutConfig.reducedHeightBreakpoint)]: {
+                width: image.width * 1.125,
+                height: image.height * 1.125
+              }
+            })}
+          >
+            <Box
+              component='img'
+              src={image.image}
+              alt={image.alt}
+              sx={{
+                height: '100%'
+              }}
+            />
+          </Box>
+        )
+      })}
     </Paper>
   )
 }
