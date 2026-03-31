@@ -191,14 +191,14 @@ createBackendSearchConfig().then(backendSearchConfig => {
     }
   })
 
-  app.post(`${apiPath}/:resultClass/page/:uri`, async (req, res, next) => {
+  app.post(`${apiPath}/:resultClass/page`, async (req, res, next) => {
     const { params, body } = req
     try {
       const data = await getByURI({
         backendSearchConfig,
         perspectiveID: body.perspectiveID,
         resultClass: params.resultClass,
-        uri: params.uri,
+        uri: body.uri,
         facetClass: body.facetClass,
         constraints: body.constraints,
         resultFormat: 'json',

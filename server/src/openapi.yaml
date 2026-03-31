@@ -284,7 +284,7 @@ paths:
                   sparqlQuery:
                     type: string
                     description: The SPARQL query that was used for the values of the facet                 
-  /{resultClass}/page/{uri}:
+  /{resultClass}/page:
     post: 
       summary: Return information about a single resource, optionally applying facet filters
       parameters:
@@ -295,13 +295,6 @@ paths:
             example: perspective1
           required: true
           description: The class of the resource
-        - in: path
-          name: uri
-          schema: 
-            type: string
-            example: http://ldf.fi/mmm/manifestation_singleton/bibale_10003
-          required: true
-          description: The URI of the resource
       requestBody:
         required: true
         content: 
@@ -322,6 +315,10 @@ paths:
                   nullable: false
                   default: en
                   example: en
+                uri:
+                  type: string
+                  example: http://ldf.fi/mmm/manifestation_singleton/bibale_10003
+                  description: The URI of the resource
       responses:
         '200':
           description: Information about a single resource
