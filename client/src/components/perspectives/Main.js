@@ -45,13 +45,14 @@ const Main = props => {
       break
   }
 
-  const perspectiveCard = (perspective) => {
+  const perspectiveCard = (perspective, cardsPerRow = 2) => {
     const hideCard = (has(perspective.hideCardOnFrontPage) && perspective.hideCardOnFrontPage)
     if (!hideCard) {
       return (
         <MainCard
           key={perspective.id}
           perspective={perspective}
+          cardsPerRow={cardsPerRow}
           cardHeadingVariant='h5'
           rootUrl={props.rootUrl}
         />
@@ -175,7 +176,7 @@ const Main = props => {
                   >
                     {section.perspectives.map(perspectiveName => {
                       const perspective = perspectives.find(item => item.id === perspectiveName)
-                      return (perspectiveCard(perspective))
+                      return (perspectiveCard(perspective, section.cardsPerRow))
                     })}
                   </Grid>
                 </div>
