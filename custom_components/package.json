@@ -2,7 +2,7 @@
   "name": "custom-components",
   "scripts": {
     "build": "sh build.sh",
-    "build:MyCustomComponent": "webpack --config components/MyCustomComponent/webpack.config.js --mode production"
+    "build:ExampleCustomComponent": "webpack --config components/ExampleCustomComponent/webpack.config.js --mode production"
   },
   "devDependencies": {
     "@babel/core": "^7",
@@ -12,6 +12,20 @@
     "webpack-cli": "^5"
   },
   "peerDependencies": {
-    "react": "^17 || ^18"
+    "react": "^17 || ^18",
+    "@mui/material": ">=6",
+    "@mui/icons-material": ">=6",
+    "react-intl-universal": ">=2",
+    "lodash": ">=4",
+    "qs": ">=6",
+    "prop-types": ">=15"
+  },
+  "peerDependenciesMeta": {
+    "@mui/material": { "optional": true },
+    "@mui/icons-material": { "optional": true },
+    "react-intl-universal": { "optional": true },
+    "lodash": { "optional": true },
+    "qs": { "optional": true },
+    "prop-types": { "optional": true }
   }
 }

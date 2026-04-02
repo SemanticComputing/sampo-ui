@@ -1,5 +1,18 @@
 const path = require('path')
 
+const simpleExternals = {
+  react: 'React',
+  'react-dom': 'ReactDOM',
+  'react-intl-universal': ['__sharedLibraries', 'intl'],
+  'tss-react/mui': ['__sharedLibraries', 'tssReactMui'],
+  'react-redux': ['__sharedLibraries', 'reactRedux'],
+  'prop-types': ['__sharedLibraries', 'PropTypes'],
+  lodash: ['__sharedLibraries', '_'],
+  qs: ['__sharedLibraries', 'qs'],
+  '@sampo-ui/components': ['__sharedLibraries', 'components'],
+  '@sampo-ui/helpers': ['__sharedLibraries', 'helpers']
+}
+
 module.exports = (componentName) => ({
   entry: path.resolve(__dirname, `../components/${componentName}/src/index.jsx`),
   output: {
@@ -10,11 +23,31 @@ module.exports = (componentName) => ({
       name: ['__customComponents', componentName]
     }
   },
-  externals: {
-    // Use the host app's React, don't bundle a second copy
-    react: 'React',
-    'react-dom': 'ReactDOM'
-  },
+  externals: [
+    function ({ request }, callback) {
+      if (simpleExternals[request]) {
+        return callback(null, simpleExternals[request])
+      }
+      // @mui/material/Box → window.__sharedLibraries.MUI.Box
+      if (request.startsWith('@mui/material/')) {
+        const component = request.replace('@mui/material/', '')
+        return callback(null, ['__sharedLibraries', 'MUI', component])
+      }
+      // @mui/icons-material/ExpandMore → window.__sharedLibraries.MuiIcons.ExpandMore
+      if (request.startsWith('@mui/icons-material/')) {
+        const icon = request.replace('@mui/icons-material/', '')
+        return callback(null, ['__sharedLibraries', 'MuiIcons', icon])
+      }
+      // @mui/material (barrel) → window.__sharedLibraries.MUI
+      if (request === '@mui/material') {
+        return callback(null, ['__sharedLibraries', 'MUI'])
+      }
+      if (request === '@mui/icons-material') {
+        return callback(null, ['__sharedLibraries', 'MuiIcons'])
+      }
+      callback()
+    }
+  ],
   module: {
     rules: [{
       test: /\.jsx?$/,

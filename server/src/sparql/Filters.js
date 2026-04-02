@@ -321,7 +321,7 @@ const generateUriFilter = ({
   if (modifiedValues.length > 0) {
     const valuesStr = generateValuesForUriFilter({ values: modifiedValues, literal, useConjunction })
     s = useConjunction
-      ? generateConjuctionForUriFilter({
+      ? generateConjunctionForUriFilter({
         facetID,
         predicate,
         parentProperty,
@@ -438,7 +438,7 @@ const generateDisjunctionForUriFilter = ({
   return s
 }
 
-const generateConjuctionForUriFilter = ({
+const generateConjunctionForUriFilter = ({
   facetID,
   predicate,
   parentProperty,

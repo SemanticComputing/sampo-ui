@@ -19,6 +19,7 @@ import FacetInfo from './FacetInfo'
 import DatasetSelector from './DatasetSelector'
 import SearchField from './SearchField'
 import LeafletMapDialog from './LeafletMapDialog'
+import CustomComponentWrapper from '../CustomComponentWrapper'
 
 const facetHeights = {
   one: {
@@ -89,6 +90,44 @@ class FacetBar extends React.Component {
       }
     }
     switch (facet.filterType) {
+      case 'CustomComponent': {
+        const { componentName } = facet
+        facetComponent = (
+          <CustomComponentWrapper
+            componentName={componentName}
+            // Facet identity
+            facetID={facetID}
+            facet={facet}
+            facetClass={this.props.facetClass}
+            resultClass={this.props.resultClass}
+            // Facet state
+            facetState={this.props.facetState}
+            facetUpdateID={facetUpdateID}
+            updatedFacet={updatedFacet}
+            updatedFilter={updatedFilter}
+            // Fetching state
+            someFacetIsFetching={someFacetIsFetching}
+            fetchingResultCount={this.props.fetchingResultCount}
+            // Actions
+            fetchFacet={this.props.fetchFacet}
+            updateFacetOption={this.props.updateFacetOption}
+            clearFacet={this.props.clearFacet}
+            clearAllFacets={this.props.clearAllFacets}
+            fetchResultCount={this.props.fetchResultCount}
+            showError={this.props.showError}
+            // Config
+            portalConfig={this.props.portalConfig}
+            perspectiveConfig={this.props.perspectiveConfig}
+            layoutConfig={this.props.layoutConfig}
+            // Context
+            facetedSearchMode={this.props.facetedSearchMode}
+            perspectiveState={this.props.perspectiveState}
+            rootUrl={this.props.rootUrl}
+            screenSize={this.props.screenSize}
+          />
+        )
+        break
+      }
       case 'uriFilter':
       case 'spatialFilter':
         facetComponent = (

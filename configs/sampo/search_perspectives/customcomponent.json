@@ -22,7 +22,7 @@
             "paginatedResultsConfig": {
                 "tabID": 0,
                 "component": "CustomComponent",
-                "componentName": "MyCustomComponent",
+                "componentName": "ExampleCustomComponent",
                 "tabPath": "table",
                 "tabIcon": "CalendarViewDay",
                 "propertiesQueryBlock": "workProperties",
@@ -118,9 +118,10 @@
     ],
     "facets": {
         "prefLabel": {
-            "containerClass": "one",
+            "containerClass": "ten",
             "facetType": "text",
-            "filterType": "textFilter",
+            "filterType": "CustomComponent",
+            "componentName": "ExampleCustomFacet",
             "sortByPredicate": "skos:prefLabel",
             "textQueryProperty": "skos:prefLabel"
         },

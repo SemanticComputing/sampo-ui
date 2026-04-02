@@ -1,12 +1,21 @@
 import React, { Suspense, lazy } from 'react'
 import ReactDOM from 'react-dom'
 import { createRoot } from 'react-dom/client'
-import { Provider } from 'react-redux'
 import ReduxToastr from 'react-redux-toastr'
 import { Router } from 'react-router-dom'
 import history from './History'
 import CircularProgress from '@mui/material/CircularProgress'
 import Alert from '@mui/material/Alert'
+import * as MUI from '@mui/material'
+import * as MuiIcons from '@mui/icons-material'
+import intl from 'react-intl-universal'
+import { withStyles } from 'tss-react/mui'
+import { useSelector, useDispatch, connect, Provider } from 'react-redux'
+import PropTypes from 'prop-types'
+import _ from 'lodash'
+import qs from 'qs'
+import * as helpers from './helpers/helpers'
+import * as components from './components'
 import './index.css'
 import '@nosferatu500/react-sortable-tree/style.css'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
@@ -21,6 +30,19 @@ const root = createRoot(document.getElementById('root'))
 
 window.React = React
 window.ReactDOM = ReactDOM
+
+window.__sharedLibraries = {
+  MUI,
+  MuiIcons,
+  intl,
+  tssReactMui: { withStyles },
+  reactRedux: { useSelector, useDispatch, connect },
+  PropTypes,
+  _,
+  qs,
+  components,
+  helpers
+}
 
 const FullscreenCentered = ({ children }) => (
   <div style={{

@@ -143,7 +143,7 @@ class FacetHeader extends React.Component {
     })
   }
 
-  handleConjuctionOnClick = buttonID => () => {
+  handleConjunctionOnClick = buttonID => () => {
     this.setState({ anchorEl: null })
     let useConjunction
     if (buttonID === 'useConjunction') {
@@ -271,7 +271,7 @@ class FacetHeader extends React.Component {
           <MenuItem
             key='useConjunction'
             selected={useConjunction}
-            onClick={this.handleConjuctionOnClick('useConjunction')}
+            onClick={this.handleConjunctionOnClick('useConjunction')}
           >
             {intl.get('facetBar.useConjunction')}
           </MenuItem>
@@ -280,7 +280,7 @@ class FacetHeader extends React.Component {
           <MenuItem
             key='useDisjunction'
             selected={!useConjunction}
-            onClick={this.handleConjuctionOnClick('useDisjunction')}
+            onClick={this.handleConjunctionOnClick('useDisjunction')}
           >
             {intl.get('facetBar.useDisjunction')}
           </MenuItem>
