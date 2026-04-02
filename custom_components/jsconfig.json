@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@sampo-ui/components": ["../client/src/components"],
+      "@sampo-ui/helpers": ["../client/src/helpers/helpers"]
+    }
+  }
+}

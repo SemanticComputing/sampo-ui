@@ -73,7 +73,12 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
+    modules: [
+      'node_modules',
+      path.resolve(__dirname, 'custom'),
+      path.resolve(__dirname, 'src')
+    ]
   },
   experiments: {
     topLevelAwait: true
