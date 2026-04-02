@@ -34,6 +34,10 @@ module.exports = function (api) {
     presets.push(['@babel/preset-react', { runtime: 'classic' }])
   }
 
+  plugins.push(["babel-plugin-module-resolver", {
+    root: ["./custom", "./src"],
+  }]);
+
   return {
     presets,
     plugins

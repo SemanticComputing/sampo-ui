@@ -118,7 +118,7 @@
     ],
     "facets": {
         "prefLabel": {
-            "containerClass": "ten",
+            "containerClass": "three",
             "facetType": "text",
             "filterType": "CustomComponent",
             "componentName": "ExampleCustomFacet",
