@@ -172,7 +172,7 @@ const updateFacetFilter = (state, action) => {
       ...state.facets[facetID],
       textFilter: value
     }
-  } else if (oldFacet.filterType === 'timespanFilter' || oldFacet.filterType === 'dateFilter' || oldFacet.filterType === 'dateNoTimespanFilter' ) {
+  } else if (oldFacet.filterType === 'timespanFilter' || oldFacet.filterType === 'dateFilter' || oldFacet.filterType === 'dateNoTimespanFilter') {
     if (value == null) {
       newFacet = {
         ...state.facets[facetID],

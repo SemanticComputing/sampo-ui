@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {isValidUrl} from "./Utils";
+import { isValidUrl } from './Utils'
 
 export const runNetworkQuery = async ({
   endpoint,

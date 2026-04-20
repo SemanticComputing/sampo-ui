@@ -6,9 +6,9 @@ export const configHelpers = (getConfigJsonFile, getConfigImgFile) => {
   const processPortalConfig = async portalConfig => {
     const { layoutConfig, mapboxConfig } = portalConfig
     if (layoutConfig.mainPage) {
-      const { bannerImage, bannerBackround } = layoutConfig.mainPage
+      const { bannerImage, bannerBackground } = layoutConfig.mainPage
       const bannerImageURL = await getConfigImgFile(bannerImage)
-      layoutConfig.mainPage.bannerBackround = bannerBackround.replace('<BANNER_IMAGE_URL>', bannerImageURL)
+      layoutConfig.mainPage.bannerBackground = bannerBackground.replace('<BANNER_IMAGE_URL>', bannerImageURL)
     }
     const mapboxAccessToken = process.env.MAPBOX_ACCESS_TOKEN
     if (mapboxConfig && mapboxAccessToken) {
@@ -19,6 +19,12 @@ export const configHelpers = (getConfigJsonFile, getConfigImgFile) => {
     }
     if (layoutConfig.topBar.logoImageSecondary) {
       layoutConfig.topBar.logoImageSecondaryUrl = await getConfigImgFile(layoutConfig.topBar.logoImageSecondary)
+    }
+    if (layoutConfig.footer.images) {
+      for (const image of layoutConfig.footer.images) {
+        image.image = await getConfigImgFile(image.image)
+      }
+      console.log(layoutConfig.footer.images)
     }
   }
 

@@ -21,69 +21,69 @@ export const generateConstraintsBlock = ({
         case 'textFilter':
           filterStr += generateTextFilter({
             backendSearchConfig,
-            facetClass: facetClass,
+            facetClass,
             facetID: c.facetID,
-            filterTarget: filterTarget,
+            filterTarget,
             queryString: c.values,
-            inverse: inverse,
-            defaultSparql: backendSearchConfig[facetClass].endpoint["defaultSparql"],
+            inverse,
+            defaultSparql: backendSearchConfig[facetClass].endpoint.defaultSparql
           })
           break
         case 'uriFilter':
           filterStr += generateUriFilter({
             backendSearchConfig,
-            facetClass: facetClass,
+            facetClass,
             facetID: c.facetID,
-            filterTarget: filterTarget,
+            filterTarget,
             values: c.values,
-            inverse: inverse,
+            inverse,
             filterTripleFirst,
             selectAlsoSubconcepts: Object.prototype.hasOwnProperty.call(c, 'selectAlsoSubconcepts')
               ? c.selectAlsoSubconcepts
               : true, // default behaviour for hierarchical facets, can be controlled via reducers
-            useConjuction: c.useConjuction
+            useConjunction: c.useConjunction
           })
           break
         case 'spatialFilter':
           filterStr += generateSpatialFilter({
             backendSearchConfig,
-            facetClass: facetClass,
+            facetClass,
             facetID: c.facetID,
-            filterTarget: filterTarget,
+            filterTarget,
             values: c.values,
-            inverse: inverse
+            inverse
           })
           break
         case 'timespanFilter':
         case 'dateFilter':
           filterStr += generateTimespanFilter({
             backendSearchConfig,
-            facetClass: facetClass,
+            facetClass,
             facetID: c.facetID,
-            filterTarget: filterTarget,
+            filterTarget,
             values: c.values,
-            inverse: inverse
+            inverse
           })
           break
         case 'dateNoTimespanFilter':
           filterStr += generateDateNoTimespanFilter({
             backendSearchConfig,
-            facetClass: facetClass,
+            facetClass,
             facetID: c.facetID,
-            filterTarget: filterTarget,
+            filterTarget,
             values: c.values,
-            inverse: inverse
+            inverse
           })
           break
         case 'integerFilter':
         case 'integerFilterRange':
           filterStr += generateIntegerFilter({
             backendSearchConfig,
-            facetClass: facetClass,
+            facetClass,
             facetID: c.facetID,
-            filterTarget: filterTarget,
+            filterTarget,
             values: c.values,
-            inverse: inverse
+            inverse
           })
           break
       }
@@ -103,7 +103,7 @@ const generateTextFilter = ({
   filterTarget,
   queryString,
   inverse,
-  defaultSparql=false,
+  defaultSparql = false
 }) => {
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
   const queryTargetVariable = facetConfig.textQueryPredicate
@@ -133,7 +133,7 @@ const generateTextFilter = ({
        !has(facetConfig, 'textQueryHiglightingOptions')) {
     queryObject = `'${queryString}' ${textQueryMaxInstances}`
   }
-  let filterStr = ""
+  let filterStr = ''
   if (defaultSparql) {
     filterStr = `
       ?${filterTarget} ${facetConfig.textQueryProperty} ?o .
@@ -258,6 +258,7 @@ const generateIntegerFilter = ({
   if (inverse) {
     return `
     FILTER NOT EXISTS {
+        ?instance ?predicate ?id . 
         ${filterStr}
     }
     `
@@ -310,7 +311,7 @@ const generateUriFilter = ({
   inverse,
   selectAlsoSubconcepts,
   filterTripleFirst,
-  useConjuction
+  useConjunction
 }) => {
   const facetConfig = backendSearchConfig[facetClass].facets[facetID]
   const includeChildren = facetConfig.facetType === 'hierarchical' && selectAlsoSubconcepts
@@ -318,17 +319,17 @@ const generateUriFilter = ({
   const { modifiedValues, indexOfUnknown } = handleUnknownValue(values)
   let s
   if (modifiedValues.length > 0) {
-    const valuesStr = generateValuesForUriFilter({ values: modifiedValues, literal, useConjuction })
-    s = useConjuction
-      ? generateConjuctionForUriFilter({
-          facetID,
-          predicate,
-          parentProperty,
-          filterTarget,
-          inverse,
-          includeChildren,
-          valuesStr
-        })
+    const valuesStr = generateValuesForUriFilter({ values: modifiedValues, literal, useConjunction })
+    s = useConjunction
+      ? generateConjunctionForUriFilter({
+        facetID,
+        predicate,
+        parentProperty,
+        filterTarget,
+        inverse,
+        includeChildren,
+        valuesStr
+      })
       : generateDisjunctionForUriFilter({
         facetID,
         predicate,
@@ -382,18 +383,18 @@ const generateMissingValueBlock = ({ predicate, filterTarget }) => {
   `
 }
 
-const generateValuesForUriFilter = ({ values, literal, useConjuction }) => {
+const generateValuesForUriFilter = ({ values, literal, useConjunction }) => {
   let str = ''
-  if (literal && useConjuction) {
+  if (literal && useConjunction) {
     str = `"${values.join('", "')}" .`
   }
-  if (!literal && useConjuction) {
+  if (!literal && useConjunction) {
     str = `<${values.join('>, <')}> .`
   }
-  if (literal && !useConjuction) {
+  if (literal && !useConjunction) {
     str = `"${values.join('" "')}" `
   }
-  if (!literal && !useConjuction) {
+  if (!literal && !useConjunction) {
     str = `<${values.join('> <')}> `
   }
   return str
@@ -437,7 +438,7 @@ const generateDisjunctionForUriFilter = ({
   return s
 }
 
-const generateConjuctionForUriFilter = ({
+const generateConjunctionForUriFilter = ({
   facetID,
   predicate,
   parentProperty,

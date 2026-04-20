@@ -4,13 +4,21 @@ import { withStyles } from 'tss-react/mui'
 import DeckGL from '@deck.gl/react'
 import { ArcLayer, PolygonLayer } from '@deck.gl/layers'
 import { HeatmapLayer, HexagonLayer } from '@deck.gl/aggregation-layers'
-import ReactMapGL, { NavigationControl, FullscreenControl, HTMLOverlay } from 'react-map-gl'
+
+import ReactMapGL, { FullscreenControl, NavigationControl } from 'react-map-gl/maplibre'
+import 'maplibre-gl/dist/maplibre-gl.css'
+
+import maplibregl from 'maplibre-gl'
+import { Protocol } from 'pmtiles'
+import { layers, namedFlavor } from '@protomaps/basemaps'
+
 import DeckArcLayerLegend from './DeckArcLayerLegend'
 import DeckArcLayerDialog from './DeckArcLayerDialog'
 import DeckArcLayerTooltip from './DeckArcLayerTooltip'
 import CircularProgress from '@mui/material/CircularProgress'
 import history from '../../History'
 import qs from 'qs'
+import { useConfigsStore } from '../../stores/configsStore'
 
 /* Documentation links:
   https://deck.gl/#/documentation/getting-started/using-with-react?section=adding-a-base-map
@@ -40,11 +48,21 @@ const styles = (theme, props) => ({
     top: 0,
     left: 0,
     padding: theme.spacing(1),
-    zIndex: 1
+    zIndex: 2
   },
   fullscreenButton: {
     position: 'absolute',
     top: 105
+  },
+  mapWrapper: {
+    '& .maplibregl-ctrl-top-left': {
+      pointerEvents: 'all',
+      zIndex: 3
+    },
+    '& .maplibregl-ctrl-top-right': {
+      pointerEvents: 'all',
+      zIndex: 3
+    }
   }
 })
 
@@ -72,7 +90,14 @@ class Deck extends React.Component {
     defaultFacetFetchingRequired: false
   }
 
+  mapContainer = React.createRef()
+
   componentDidMount = () => {
+    if (this.props.customTilesLayer?.type === 'pmtiles') {
+      const protocol = new Protocol()
+      maplibregl.addProtocol('pmtiles', protocol.tile)
+    }
+
     let constraints = []
 
     // first check if page or constraints were given as url parameter
@@ -110,16 +135,33 @@ class Deck extends React.Component {
     this.setState({ mounted: true })
   }
 
+  componentWillUnmount = () => {
+    if (this.props.customTilesLayer?.type === 'pmtiles') {
+      maplibregl.removeProtocol('pmtiles')
+    }
+  }
+
   componentDidUpdate = prevProps => {
     // check if facets are still fetching
     let someFacetIsFetching = false
-    if (this.props.pageType === 'facetResults' && this.props.facetState) Object.values(this.props.facetState.facets).forEach(facet => { if (facet.isFetching) { someFacetIsFetching = true } })
+    if (this.props.pageType === 'facetResults' && this.props.facetState) {
+      Object.values(this.props.facetState.facets).forEach(facet => {
+        if (facet.isFetching) {
+          someFacetIsFetching = true
+        }
+      })
+    }
 
     // refetch default facets (excl. text facets) when facets have been updated
     if (this.state.defaultFacetFetchingRequired && this.props.facetUpdateID > 0 && !someFacetIsFetching) {
       const defaultFacets = this.props.perspectiveConfig.defaultActiveFacets
       for (const facet of defaultFacets) {
-        if (this.props.perspectiveConfig.facets[facet].filterType !== 'textFilter') this.props.fetchFacet({ facetClass: this.props.facetClass, facetID: facet })
+        if (this.props.perspectiveConfig.facets[facet].filterType !== 'textFilter') {
+          this.props.fetchFacet({
+            facetClass: this.props.facetClass,
+            facetID: facet
+          })
+        }
       }
       this.setState({ defaultFacetFetchingRequired: false })
     }
@@ -150,6 +192,7 @@ class Deck extends React.Component {
   }
 
   setDialog = info => {
+    console.log('set dialog')
     this.setState({
       dialog: {
         open: true,
@@ -226,12 +269,12 @@ class Deck extends React.Component {
       radius: 2000,
       elevationScale: 100,
       getPosition: d => [+d.long, +d.lat]
-    /* onHover: ({ object, x, y }) => {
-      const tooltip = `${object.centroid.join(', ')}\nCount: ${object.points.length}`
-    Update tooltip
-       http://deck.gl/#/documentation/developer-guide/adding-interactivity?section=example-display-a-tooltip-for-hovered-object
+      /* onHover: ({ object, x, y }) => {
+        const tooltip = `${object.centroid.join(', ')}\nCount: ${object.points.length}`
+      Update tooltip
+         http://deck.gl/#/documentation/developer-guide/adding-interactivity?section=example-display-a-tooltip-for-hovered-object
 
-    } */
+      } */
     })
 
   createPolygonLayer = data =>
@@ -249,6 +292,129 @@ class Deck extends React.Component {
       getLineWidth: 1
     })
 
+  getMapStyle = () => {
+    const { customTilesLayer, portalConfig } = this.props
+    const { mapboxAccessToken, mapboxStyle } = portalConfig.mapboxConfig
+
+    if (customTilesLayer?.type === 'pmtiles') {
+      const url = customTilesLayer.inConfig
+        ? useConfigsStore.getState().getStaticFileUrl(customTilesLayer.url)
+        : customTilesLayer.url
+
+      return {
+        version: 8,
+        glyphs: 'https://protomaps.github.io/basemaps-assets/fonts/{fontstack}/{range}.pbf',
+        sprite: 'https://protomaps.github.io/basemaps-assets/sprites/v4/light',
+        sources: {
+          'pmtiles-source': { type: 'vector', url: `pmtiles://${url}` }
+        },
+        layers: layers('pmtiles-source', namedFlavor('light'), { lang: 'en' })
+      }
+    }
+
+    if (mapboxAccessToken) {
+      return {
+        version: 8,
+        sources: {
+          'mapbox-tiles': {
+            type: 'raster',
+            tiles: [
+              `https://api.mapbox.com/styles/v1/mapbox/${mapboxStyle}/tiles/256/{z}/{x}/{y}?access_token=${mapboxAccessToken}`
+            ],
+            tileSize: 256,
+            attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/" target="_blank">Mapbox</a> &copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a>'
+          }
+        },
+        layers: [{
+          id: 'mapbox-tiles-layer',
+          type: 'raster',
+          source: 'mapbox-tiles',
+          minzoom: 0,
+          maxzoom: 22
+        }]
+      }
+    }
+
+    // fallback gray base
+    return {
+      version: 8,
+      sources: {},
+      layers: [{ id: 'background', type: 'background', paint: { 'background-color': '#e0e0e0' } }]
+    }
+  }
+
+  renderMap = (layer, showTooltip, hoverInfo) => {
+    const { layerType } = this.props
+
+    return (
+      <DeckGL
+        viewState={this.state.viewport}
+        controller
+        layers={[layer]}
+        onViewStateChange={({ viewState }) => this.handleOnViewportChange(viewState)}
+        style={{ width: '100%', height: '100%', position: 'relative' }}
+        getCursor={({ isDragging, isHovering }) => {
+          if (isDragging) return 'grabbing'
+          if (isHovering) return 'pointer'
+          return 'grab'
+        }}
+        {...(layerType === 'polygonLayer'
+          ? {
+              getTooltip: ({ object }) => object && {
+                html: `<h2>${object.prefLabel}</h2><div>${object.instanceCount}</div>`
+              }
+            }
+          : {})
+        }
+      >
+        {/* ReactMapGL as a child — DeckGL passes it the map context automatically */}
+        <ReactMapGL
+          reuseMaps
+          mapStyle={this.getMapStyle()}
+          preventStyleDiffing
+          style={{ width: '100%', height: '100%' }}
+        >
+          <NavigationControl position='top-left' />
+          <FullscreenControl position='top-left' containerId='map-root' />
+        </ReactMapGL>
+
+        {layerType === 'arcLayer' &&
+          <DeckArcLayerLegend
+            title={this.props.legendTitle}
+            fromText={this.props.legendFromText}
+            toText={this.props.legendToText}
+          />}
+
+        {layerType === 'arcLayer' && this.props.instanceAnalysisData && this.state.dialog.open &&
+          <DeckArcLayerDialog
+            onClose={this.closeDialog.bind(this)}
+            data={this.props.instanceAnalysisData}
+            from={this.state.dialog.from}
+            to={this.state.dialog.to}
+            fromText={this.props.fromText}
+            toText={this.props.toText}
+            countText={this.props.countText}
+            listHeadingSingleInstance={this.props.listHeadingSingleInstance}
+            listHeadingMultipleInstances={this.props.listHeadingMultipleInstances}
+            instanceVariable={[this.props.instanceVariable]}
+            resultClass={this.props.resultClass}
+            facetClass={this.props.facetClass}
+          />}
+
+        {layerType === 'arcLayer' && showTooltip &&
+          <DeckArcLayerTooltip
+            data={hoverInfo}
+            fromText={this.props.fromText}
+            toText={this.props.toText}
+            countText={this.props.countText}
+            showMoreText={this.props.showMoreText}
+          />}
+
+        {this.renderSpinner()}
+      </DeckGL>
+    )
+  }
+
   render () {
     const { classes, layerType, fetching, results, showTooltips, portalConfig } = this.props
     const { mapboxAccessToken, mapboxStyle } = portalConfig.mapboxConfig
@@ -260,7 +426,7 @@ class Deck extends React.Component {
         (results[0].from && results[0].to) ||
         results[0].polygon
       )
-      // console.log(hasData)
+    // console.log(hasData)
 
     /* It's OK to create a new Layer instance on every render
        https://github.com/uber/deck.gl/blob/master/docs/developer-guide/using-layers.md#should-i-be-creating-new-layers-on-every-render
@@ -286,77 +452,12 @@ class Deck extends React.Component {
       }
     }
     return (
-      <div className={classes.root}>
-        <ReactMapGL
-          {...this.state.viewport}
-          width='100%'
-          height='100%'
-          reuseMaps
-          mapStyle={`mapbox://styles/mapbox/${mapboxStyle}`}
-          preventStyleDiffing
-          mapboxApiAccessToken={mapboxAccessToken}
-          onViewportChange={this.handleOnViewportChange}
-        >
-          <div className={classes.navigationContainer}>
-            <NavigationControl />
-            <FullscreenControl
-              className={classes.fullscreenButton}
-              container={document.querySelector('mapboxgl-map')}
-            />
-          </div>
-          {layerType === 'arcLayer' &&
-            <HTMLOverlay redraw={() =>
-              <DeckArcLayerLegend
-                title={this.props.legendTitle}
-                fromText={this.props.legendFromText}
-                toText={this.props.legendToText}
-              />}
-            />}
-          <DeckGL
-            viewState={this.state.viewport}
-            layers={[layer]}
-            getCursor={() => 'initial'}
-            {...(layerType === 'polygonLayer'
-              ? {
-                  getTooltip: ({ object }) => object && {
-                    html: `
-                      <h2>${object.prefLabel}</h2>
-                      <div>${object.instanceCount}</div>
-                    `
-                    // style: {
-                    //   backgroundColor: '#f00',
-                    //   fontSize: '0.8em'
-                    // }
-                  }
-                }
-              : {})
-              }
-          />
-          {this.renderSpinner()}
-          {layerType === 'arcLayer' && this.props.instanceAnalysisData && this.state.dialog.open &&
-            <DeckArcLayerDialog
-              onClose={this.closeDialog.bind(this)}
-              data={this.props.instanceAnalysisData}
-              from={this.state.dialog.from}
-              to={this.state.dialog.to}
-              fromText={this.props.fromText}
-              toText={this.props.toText}
-              countText={this.props.countText}
-              listHeadingSingleInstance={this.props.listHeadingSingleInstance}
-              listHeadingMultipleInstances={this.props.listHeadingMultipleInstances}
-              instanceVariable={[this.props.instanceVariable]}
-              resultClass={this.props.resultClass}
-              facetClass={this.props.facetClass}
-            />}
-          {layerType === 'arcLayer' && showTooltip &&
-            <DeckArcLayerTooltip
-              data={hoverInfo}
-              fromText={this.props.fromText}
-              toText={this.props.toText}
-              countText={this.props.countText}
-              showMoreText={this.props.showMoreText}
-            />}
-        </ReactMapGL>
+      <div
+        className={classes.root} ref={this.mapContainer} style={{ position: 'relative' }}
+        onContextMenu={e => e.preventDefault()}
+      >
+        {this.renderMap(layer, showTooltip, hoverInfo)}
+
       </div>
     )
   }

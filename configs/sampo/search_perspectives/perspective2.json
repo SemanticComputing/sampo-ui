@@ -716,8 +716,8 @@
             "sortBy": "instanceCount",
             "sortByPredicate": "crm:P51_has_former_or_current_owner/skos:prefLabel",
             "sortDirection": "desc",
-            "useConjuction": false,
-            "useConjuctionButton": true
+            "useConjunction": false,
+            "useConjunctionButton": true
         },
         "collection": {
             "containerClass": "ten",

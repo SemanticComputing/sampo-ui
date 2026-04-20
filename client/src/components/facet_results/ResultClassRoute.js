@@ -3,6 +3,7 @@ import intl from 'react-intl-universal'
 import { Route, useLocation } from 'react-router-dom'
 import { has } from 'lodash'
 import { useSelector } from 'react-redux'
+import CustomComponentWrapper from '../CustomComponentWrapper'
 // import LineChartSotasurmat from '../perspectives/sotasurmat/LineChartSotasurmat'
 const ResultTable = lazy(() => import('./ResultTable'))
 const InstancePageTable = lazy(() => import('../main_layout/InstancePageTable'))
@@ -25,7 +26,7 @@ const getVisibleRows = perspectiveState => {
   const instanceClass = instanceTableData.type ? instanceTableData.type.id : ''
   properties.forEach(row => {
     if ((has(row, 'onlyForClass') && row.onlyForClass === instanceClass) ||
-       !has(row, 'onlyForClass')) {
+      !has(row, 'onlyForClass')) {
       visibleRows.push(row)
     }
   })
@@ -39,8 +40,8 @@ const ResultClassRoute = props => {
   } = props
   const { maps } = perspectiveState
   const layerControlExpanded = screenSize === 'md' ||
-  screenSize === 'lg' ||
-  screenSize === 'xl'
+    screenSize === 'lg' ||
+    screenSize === 'xl'
   let popupMaxHeight = 320
   let popupMinWidth = 280
   let popupMaxWidth = 280
@@ -53,6 +54,47 @@ const ResultClassRoute = props => {
   const currentLocale = useSelector(state => state.options.currentLocale)
   let routeComponent
   switch (component) {
+    case 'CustomComponent': {
+      const { componentName } = resultClassConfig
+      routeComponent = (
+        <CustomComponentWrapper
+          componentName={componentName}
+          // Keep shorthands for convenience
+          results={perspectiveState.results}
+          fetching={perspectiveState.fetching}
+          // But also pass the whole thing as data, like built-in components get it
+          data={perspectiveState}
+          // Identity
+          resultClass={resultClass}
+          facetClass={facetClass}
+          rootUrl={rootUrl}
+          // Config
+          portalConfig={portalConfig}
+          layoutConfig={layoutConfig}
+          perspectiveConfig={perspective}
+          resultClassConfig={resultClassConfig}
+          // Facet state
+          facetState={facetState}
+          facetUpdateID={facetState.facetUpdateID}
+          // UI
+          screenSize={screenSize}
+          location={useLocation()}
+          currentLocale={currentLocale}
+          // Actions — names and signatures match what core components actually use
+          fetchPaginatedResults={props.fetchPaginatedResults}
+          fetchResults={props.fetchResults}
+          fetchByURI={props.fetchByURI}
+          fetchFacet={props.fetchFacet}
+          fetchInstanceAnalysis={props.fetchInstanceAnalysis}
+          updatePage={props.updatePage}
+          updateRowsPerPage={props.updateRowsPerPage}
+          updateFacetOption={props.updateFacetOption}
+          sortResults={props.sortResults}
+          showError={props.showError}
+        />
+      )
+      break
+    }
     case 'ResultTable':
       routeComponent = (
         <ResultTable
@@ -137,6 +179,7 @@ const ResultClassRoute = props => {
         perspectiveConfig: perspective,
         center: resultClassMap.center,
         zoom: resultClassMap.zoom,
+        customTilesLayer: resultClassConfig.customTilesLayer,
         results: Array.isArray(perspectiveState.results)
           ? perspectiveState.results
           : [],
@@ -195,6 +238,7 @@ const ResultClassRoute = props => {
       let deckProps = {
         portalConfig,
         perspectiveConfig: perspective,
+        customTilesLayer: resultClassConfig.customTilesLayer,
         center: resultClassMap.center,
         zoom: resultClassMap.zoom,
         results: Array.isArray(perspectiveState.results)

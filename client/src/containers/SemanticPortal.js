@@ -353,6 +353,18 @@ const SemanticPortal = props => {
               />
             </Route>
           )}
+        {portalConfig.layoutConfig?.topBar?.infoDropdown?.map(dropdownItem => {
+          if (dropdownItem.id === 'about') {
+            return null
+          }
+          return (
+            <Route path={`${rootUrlWithLang}/${dropdownItem.internalLink?.replace(/^\//, '')}`} key={dropdownItem.id}>
+              <TextPage layoutConfig={layoutConfig}>
+                {intl.getHTML(dropdownItem.id)}
+              </TextPage>
+            </Route>
+          )
+        })}
         {/* create routes for top bar info buttons */}
         {!layoutConfig.topBar.externalAboutPage &&
           <Route path={`${rootUrlWithLang}/about`}>

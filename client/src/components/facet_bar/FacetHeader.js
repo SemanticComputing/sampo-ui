@@ -143,14 +143,14 @@ class FacetHeader extends React.Component {
     })
   }
 
-  handleConjuctionOnClick = buttonID => () => {
+  handleConjunctionOnClick = buttonID => () => {
     this.setState({ anchorEl: null })
-    let useConjuction
-    if (buttonID === 'useConjuction') {
-      useConjuction = true
+    let useConjunction
+    if (buttonID === 'useConjunction') {
+      useConjunction = true
     }
     if (buttonID === 'useDisjunction') {
-      useConjuction = false
+      useConjunction = false
     }
     this.props.clearFacet({
       facetClass: this.props.facetClass,
@@ -159,8 +159,8 @@ class FacetHeader extends React.Component {
     this.props.updateFacetOption({
       facetClass: this.props.facetClass,
       facetID: this.props.facetID,
-      option: 'useConjuction',
-      value: useConjuction
+      option: 'useConjunction',
+      value: useConjunction
     })
   }
 
@@ -184,8 +184,8 @@ class FacetHeader extends React.Component {
       lineChartButton = false,
       selectAlsoSubconceptsButton = false,
       selectAlsoSubconcepts,
-      useConjuctionButton = false,
-      useConjuction
+      useConjunctionButton = false,
+      useConjunction
     } = this.props.facet
     const open = Boolean(anchorEl)
     const menuButtons = []
@@ -240,7 +240,7 @@ class FacetHeader extends React.Component {
         </MenuItem>
       )
     }
-    if (useConjuctionButton || selectAlsoSubconceptsButton) {
+    if (useConjunctionButton || selectAlsoSubconceptsButton) {
       menuButtons.push(
         <ListSubheader component='div' key='selectionOptionsSubheader'>
           {intl.get('facetBar.selectionOptions')}
@@ -266,21 +266,21 @@ class FacetHeader extends React.Component {
           </MenuItem>
         )
       }
-      if (useConjuctionButton) {
+      if (useConjunctionButton) {
         menuButtons.push(
           <MenuItem
-            key='useConjuction'
-            selected={useConjuction}
-            onClick={this.handleConjuctionOnClick('useConjuction')}
+            key='useConjunction'
+            selected={useConjunction}
+            onClick={this.handleConjunctionOnClick('useConjunction')}
           >
-            {intl.get('facetBar.useConjuction')}
+            {intl.get('facetBar.useConjunction')}
           </MenuItem>
         )
         menuButtons.push(
           <MenuItem
             key='useDisjunction'
-            selected={!useConjuction}
-            onClick={this.handleConjuctionOnClick('useDisjunction')}
+            selected={!useConjunction}
+            onClick={this.handleConjunctionOnClick('useDisjunction')}
           >
             {intl.get('facetBar.useDisjunction')}
           </MenuItem>

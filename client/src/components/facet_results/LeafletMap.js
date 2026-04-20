@@ -8,6 +8,7 @@ import Box from '@mui/material/Box'
 import history from '../../History'
 import qs from 'qs'
 import 'leaflet/dist/leaflet.css' // Official Leaflet styles
+import * as protomapsL from 'protomaps-leaflet'
 
 // Leaflet plugins
 import 'leaflet-fullscreen/dist/fullscreen.png'
@@ -37,6 +38,8 @@ import markerIconOrange from '../../img/markers/marker-icon-orange.png'
 import markerIconYellow from '../../img/markers/marker-icon-yellow.png'
 
 import mapboxLogo from '../../img/logos/mapbox-logo-black.png'
+
+import { useConfigsStore } from '../../stores/configsStore'
 
 // const buffer = lazy(() => import('@turf/buffer'))
 import buffer from '@turf/buffer'
@@ -127,13 +130,24 @@ class LeafletMap extends React.Component {
   componentDidUpdate = (prevProps, prevState) => {
     // check if facets are still fetching
     let someFacetIsFetching = false
-    if (this.props.pageType === 'facetResults' && this.props.facetState) Object.values(this.props.facetState.facets).forEach(facet => { if (facet.isFetching) { someFacetIsFetching = true } })
+    if (this.props.pageType === 'facetResults' && this.props.facetState) {
+      Object.values(this.props.facetState.facets).forEach(facet => {
+        if (facet.isFetching) {
+          someFacetIsFetching = true
+        }
+      })
+    }
 
     // refetch default facets (excl. text facets) when facets have been updated
     if (this.state.defaultFacetFetchingRequired && this.props.facetUpdateID > 0 && !someFacetIsFetching) {
       const defaultFacets = this.props.perspectiveConfig.defaultActiveFacets
       for (const facet of defaultFacets) {
-        if (this.props.perspectiveConfig.facets[facet].filterType !== 'textFilter') this.props.fetchFacet({ facetClass: this.props.facetClass, facetID: facet })
+        if (this.props.perspectiveConfig.facets[facet].filterType !== 'textFilter') {
+          this.props.fetchFacet({
+            facetClass: this.props.facetClass,
+            facetID: facet
+          })
+        }
       }
       this.setState({ defaultFacetFetchingRequired: false })
     }
@@ -239,7 +253,9 @@ class LeafletMap extends React.Component {
         if (this.props.customMapControl) {
           document.getElementById('leaflet-control-custom-checkbox-buffer').disabled = true
         }
-        this.layerControl._layerControlInputs.forEach(input => { input.disabled = true })
+        this.layerControl._layerControlInputs.forEach(input => {
+          input.disabled = true
+        })
         this.leafletMap.removeControl(this.zoominfoControl)
         this.leafletMap.dragging.disable()
         this.leafletMap.touchZoom.disable()
@@ -308,14 +324,36 @@ class LeafletMap extends React.Component {
     const { mapboxAccessToken, mapboxStyle } = mapboxConfig
 
     // Base layer(s)
-    const mapboxBaseLayer = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${mapboxStyle}/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`, {
-      attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener">Mapbox</a> &copy; <a href="http://osm.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong> contributors',
-      tileSize: 512,
-      zoomOffset: -1
-    })
+    let mapboxBaseLayer
+    if (mapboxAccessToken) {
+      mapboxBaseLayer = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${mapboxStyle}/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`, {
+        attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener">Mapbox</a> &copy; <a href="http://osm.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong> contributors',
+        tileSize: 512,
+        zoomOffset: -1
+      })
+    }
+
+    const layers = []
+
+    const customLayer = this.props.customTilesLayer
+    if (customLayer) {
+      if (customLayer.type === 'pmtiles') {
+        const layer = protomapsL.leafletLayer({
+          url: customLayer.inConfig ? useConfigsStore.getState().getStaticFileUrl(customLayer.url) : customLayer.url,
+          flavor: 'light',
+          lang: 'en',
+          maxZoom: customLayer.maxZoom,
+          minZoom: customLayer.minZoom
+        })
+        layers.push(layer)
+      }
+    } else if (mapboxBaseLayer) {
+      layers.push(mapboxBaseLayer)
+    }
 
     // layer for markers
     this.resultMarkerLayer = L.layerGroup()
+    layers.push(this.resultMarkerLayer)
 
     const container = this.props.container ? this.props.container : 'map'
     const locateUser = this.locateUser()
@@ -326,10 +364,7 @@ class LeafletMap extends React.Component {
       }),
       zoomControl: false,
       zoominfoControl: true,
-      layers: [
-        mapboxBaseLayer,
-        this.resultMarkerLayer
-      ],
+      layers,
       fullscreenControl: true
     }).whenReady(context => {
       this.updateEnlargedBounds({ mapInstance: context.target })
@@ -355,7 +390,7 @@ class LeafletMap extends React.Component {
     }
 
     // initialize layers from external sources
-    if (this.props.showExternalLayers) {
+    if (this.props.showExternalLayers && mapboxBaseLayer) {
       const basemaps = {
         [intl.get(`leafletMap.basemaps.mapbox.${mapboxStyle}`)]: mapboxBaseLayer
         // [intl.get('leafletMap.basemaps.backgroundMapNLS')]: nlsVectortilesBackgroundmap,
@@ -394,7 +429,9 @@ class LeafletMap extends React.Component {
   }
 
   componentStateEqualsReduxState = () => {
-    if (this.leafletMap.getZoom() == null) { return true }
+    if (this.leafletMap.getZoom() == null) {
+      return true
+    }
     const currentZoom = this.leafletMap.getZoom()
     const currentCenter = this.leafletMap.getCenter()
     return (
@@ -409,9 +446,9 @@ class LeafletMap extends React.Component {
     let hideCustomControl = true
     activeLayers.forEach(layerID => {
       if (layerID === 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_alue' ||
-      layerID === 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_piste' ||
-      layerID === 'WFS_MV_Kulttuuriymparisto:Arkeologiset_kohteet_alue' ||
-      layerID === 'WFS_MV_Kulttuuriymparisto:Arkeologiset_kohteet_piste'
+        layerID === 'WFS_MV_KulttuuriymparistoSuojellut:Muinaisjaannokset_piste' ||
+        layerID === 'WFS_MV_Kulttuuriymparisto:Arkeologiset_kohteet_alue' ||
+        layerID === 'WFS_MV_Kulttuuriymparisto:Arkeologiset_kohteet_piste'
       ) {
         hideCustomControl = false
       }
@@ -440,7 +477,7 @@ class LeafletMap extends React.Component {
     })
       .addTo(this.leafletMap)
       .bindPopup('You are within ' + e.accuracy + ' meters from this point')
-      // .openPopup()
+    // .openPopup()
     this.initMapEventListenersForExternalLayers()
     this.maybeUpdateEnlargedBoundsAndFetchGeoJSONLayers({ eventType: 'programmatic' })
     this.updateMapBounds()
@@ -1032,20 +1069,20 @@ class LeafletMap extends React.Component {
               }}
             />
             {(this.props.fetching ||
-            (this.props.showExternalLayers && this.props.leafletMapState.fetching)) &&
-              <Box
-                sx={{
-                  height: 40,
-                  width: 40,
-                  position: 'absolute',
-                  left: '50%',
-                  top: '50%',
-                  transform: 'translate(-50%,-50%)',
-                  zIndex: 500
-                }}
-              >
-                <CircularProgress />
-              </Box>}
+                (this.props.showExternalLayers && this.props.leafletMapState.fetching)) &&
+                  <Box
+                    sx={{
+                      height: 40,
+                      width: 40,
+                      position: 'absolute',
+                      left: '50%',
+                      top: '50%',
+                      transform: 'translate(-50%,-50%)',
+                      zIndex: 500
+                    }}
+                  >
+                    <CircularProgress />
+                  </Box>}
           </Box>
         </Box>
       </>

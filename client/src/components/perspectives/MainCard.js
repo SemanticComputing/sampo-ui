@@ -76,11 +76,11 @@ const StyledCardContent = styled(CardContent)({
  * A component for generating a Material-UI Card for a perspective on the portal's landing page.
  */
 const MainCard = props => {
-  const { perspective, cardHeadingVariant, rootUrl } = props
+  const { perspective, cardHeadingVariant, rootUrl, cardsPerRow } = props
   const xsScreen = useMediaQuery(theme => theme.breakpoints.down('sm'))
   const externalPerspective = has(perspective, 'externalUrl')
   const isCard = perspective.frontPageElement === 'card'
-  const searchMode = has(perspective, 'searchMode') ? perspective.searchMode : 'faceted-search'
+  const searchMode = has(perspective, 'searchMode') ? (perspective.searchMode === 'dummy-internal' ? '' : perspective.searchMode) : 'faceted-search'
 
   const linkProps = externalPerspective
     ? {
@@ -100,6 +100,7 @@ const MainCard = props => {
       item
       xs={12}
       sm={6}
+      md={12 / cardsPerRow}
       container={xsScreen}
       perspective={perspective}
     >

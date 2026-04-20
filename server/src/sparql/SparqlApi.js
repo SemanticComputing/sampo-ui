@@ -1,6 +1,6 @@
 import axios from 'axios'
 import querystring from 'querystring'
-import {isValidUrl} from "./Utils";
+import { isValidUrl } from './Utils'
 
 export const runSelectQuery = async ({
   query,
@@ -29,7 +29,7 @@ export const runSelectQuery = async ({
   try {
     const response = await axios({
       method: 'post',
-      headers: headers,
+      headers,
       url: endpoint,
       data: q
     })
