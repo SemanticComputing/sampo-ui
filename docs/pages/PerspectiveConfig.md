@@ -180,3 +180,5 @@ Under facets the filter facets on the left side of the result components get def
 
 Facets can use a variety of default components and filters. Custom facet components and filters are also supported as documented in [custom components](./CustomComponents.md).
 
+---
+
