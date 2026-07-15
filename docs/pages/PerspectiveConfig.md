@@ -76,10 +76,10 @@ Under facets, you can define all the filters and sorting predicates of your colu
     "defaultSparql": true
 },
 "generalQueries": {
-    "facetResultSetQuery": "facetResultSetQueryBelhisfirm"
+    "facetResultSetQuery": "facetResultSetQueryCustom"
 },
 "sparqlQueriesFile": "SparqlQueriesScob.js",
-"baseURI": "http://belhisfirm.be/resource",
+"baseURI": "http://example.com/resource",
 "URITemplate": "<BASE_URI>/corporation/<LOCAL_ID>",
 "facetClass": "bhf:Corporation",
 "frontPageImage": "main_page/events-452x262.jpg",
