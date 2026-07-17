@@ -42,7 +42,8 @@ import {
 import { filterResults } from 'selectors'
 import {
   getScreenSize,
-  usePageViews
+  usePageViews,
+  getInstancePagePathPattern
 } from 'helpers/helpers'
 import * as apexChartsConfig from 'library_configs/ApexCharts/ApexChartsConfig'
 import * as leafletConfig from 'library_configs/Leaflet/LeafletConfig'
@@ -225,13 +226,13 @@ const SemanticPortal = props => {
                 {perspective.resultClasses[perspective.id].instanceConfig &&
                   <Switch>
                     <Redirect
-                      from={`/${perspective.id}/page/:id`}
+                      from={getInstancePagePathPattern({ perspectiveConfig: perspective })}
                       to={{
-                        pathname: `${rootUrlWithLang}/${perspective.id}/page/:id`,
+                        pathname: `${rootUrlWithLang}${getInstancePagePathPattern({ perspectiveConfig: perspective })}`,
                         hash: location.hash
                       }}
                     />
-                    <Route path={`${rootUrlWithLang}/${perspective.id}/page/:id`}>
+                    <Route path={`${rootUrlWithLang}${getInstancePagePathPattern({ perspectiveConfig: perspective })}`}>
                       <InstancePagePerspective
                         portalConfig={portalConfig}
                         layoutConfig={layoutConfig}
@@ -275,10 +276,10 @@ const SemanticPortal = props => {
         {perspectiveConfigsInfoOnlyPages.map(perspective =>
           <Switch key={perspective.id}>
             <Redirect
-              from={`${rootUrl}/${perspective.id}/page/:id`}
-              to={`${rootUrlWithLang}/${perspective.id}/page/:id`}
+              from={`${rootUrl}${getInstancePagePathPattern({ perspectiveConfig: perspective })}`}
+              to={`${rootUrlWithLang}${getInstancePagePathPattern({ perspectiveConfig: perspective })}`}
             />
-            <Route path={`${rootUrlWithLang}/${perspective.id}/page/:id`}>
+            <Route path={`${rootUrlWithLang}${getInstancePagePathPattern({ perspectiveConfig: perspective })}`}>
               <InstancePagePerspective
                 portalConfig={portalConfig}
                 layoutConfig={layoutConfig}

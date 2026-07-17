@@ -88,7 +88,53 @@ Under facets, you can define all the filters and sorting predicates of your colu
 "defaultInstancePageTab": "table",
 ```
 
+#### Instance page URLs: `baseURI`, `URITemplate` and `instancePageUrlMode`
 
+Instance page URLs contain only a short `LOCAL_ID`, not the full resource URI. `baseURI` and
+`URITemplate` are what turn that `LOCAL_ID` back into the URI that gets queried, so `URITemplate`
+must be the exact inverse of however your SPARQL builds the link. `<LOCAL_ID>` must be the **last**
+segment of `URITemplate`.
+
+`instancePageUrlMode` chooses the URL shape:
+
+| Value | Instance page URL for `http://example.com/resource/corporation/12345` |
+|---|---|
+| omitted / `"localID"` | `/en/corporations/page/12345` (default) |
+| `"uri"` | `/en/resource/corporation/12345` |
+
+In `"uri"` mode the URL path is the resource URI's path, so in production — where the portal is
+served from the same domain as your URIs — the URI itself is a working address: opening
+`http://example.com/resource/corporation/12345` lands on the instance page (it redirects to add the
+default locale, exactly like a locale-less link does today). Only the URI's *path* is ever used in
+URLs, and the URI is rebuilt from the configured `baseURI` rather than from the browser's address,
+so the same config also works in development on `localhost:8080/resource/corporation/12345`.
+
+`"uri"` mode requires both `baseURI` and `URITemplate`; if either is missing it falls back to the
+default URL shape. Faceted search URLs are unaffected and keep the `/en/corporations/faceted-search/table`
+form, so a portal using this mode has two URL styles side by side.
+
+Each mode needs a matching `dataProviderUrl` binding in your SPARQL — this is what builds the link,
+and the framework uses the string verbatim. Default mode keeps only the last URI segment:
+
+```sparql
+BIND(CONCAT("/corporations/page/", REPLACE(STR(?id), "^.*\\/(.+)", "$1")) AS ?prefLabel__dataProviderUrl)
+```
+
+`"uri"` mode drops `/page/` and the perspective, and emits the URI's path instead. The domain is
+written out in full because it is a property of your data, identical in development and production:
+
+```sparql
+BIND(IF(STRSTARTS(STR(?id), "http://example.com/resource/"),
+        STRAFTER(STR(?id), "http://example.com"), "") AS ?prefLabel__dataProviderUrl)
+```
+
+The `STRSTARTS` guard matters: `STRAFTER` returns an empty string when the URI does not start with
+your domain, and a resource with an empty `dataProviderUrl` renders as plain text instead of a link.
+
+Limitations of `"uri"` mode: URIs with `#` fragments cannot be used (a `#` becomes a browser
+fragment); the `baseURIs` prefix-map is not supported (use the singular `baseURI`); and because the
+route is mounted at the site root, the first path segment of your URIs must not collide with a
+locale code or a perspective id.
 
 ---
 

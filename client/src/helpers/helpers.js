@@ -213,6 +213,33 @@ export const createURIfromLocalID = ({ localID, baseURI, URITemplate, localIDAsU
   return uri
 }
 
+// The part of URITemplate before <LOCAL_ID>, with <BASE_URI> reduced to the path of baseURI:
+// baseURI 'http://example.com/resource' + URITemplate '<BASE_URI>/corporation/<LOCAL_ID>'
+// gives '/resource/corporation'. Only the path is used, so instance page URLs match the
+// resource URI in production and still work on any other host in development.
+const getInstancePageURIPrefix = ({ baseURI, URITemplate }) => {
+  const basePath = new URL(baseURI).pathname.replace(/\/+$/, '')
+  return URITemplate
+    .replaceAll('<BASE_URI>', basePath)
+    .replace(/\/?<LOCAL_ID>.*$/, '')
+}
+
+const useURIAsInstancePageUrl = perspectiveConfig =>
+  perspectiveConfig.instancePageUrlMode === 'uri' &&
+  has(perspectiveConfig, 'baseURI') && has(perspectiveConfig, 'URITemplate')
+
+// Route pattern for a perspective's instance pages, e.g. '/resource/corporation/:id'
+export const getInstancePagePathPattern = ({ perspectiveConfig }) =>
+  useURIAsInstancePageUrl(perspectiveConfig)
+    ? `${getInstancePageURIPrefix(perspectiveConfig)}/:id`
+    : `/${perspectiveConfig.id}/page/:id`
+
+// Path of a single instance page, e.g. '/resource/corporation/12345'
+export const createInstancePagePath = ({ perspectiveConfig, localID }) =>
+  useURIAsInstancePageUrl(perspectiveConfig)
+    ? `${getInstancePageURIPrefix(perspectiveConfig)}/${localID}`
+    : `/${perspectiveConfig.id}/page/${localID}`
+
 export const getSpacing = (theme, value) => Number(theme.spacing(value).slice(0, -2))
 
 export const getScreenSize = () => {
