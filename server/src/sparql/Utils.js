@@ -1,11 +1,41 @@
-import { readFile } from 'fs/promises'
+import { readFile, access } from 'fs/promises'
 import path from 'path'
 import { has } from 'lodash'
+import { parse, printParseErrorCode } from 'jsonc-parser'
 import * as generalQueries from '../sparql/SparqlQueriesGeneral'
 
+// Resolve a config path, transparently falling back to a `.jsonc` (or `.json`)
+// sibling when the requested extension does not exist on disk. This lets portal
+// authors name their config files either `.json` or `.jsonc`.
+const resolveConfigPath = async (configPath) => {
+  const fileExists = async (p) => {
+    try {
+      await access(p)
+      return true
+    } catch {
+      return false
+    }
+  }
+  if (await fileExists(configPath)) return configPath
+  let alternative
+  if (configPath.endsWith('.jsonc')) {
+    alternative = configPath.slice(0, -1) // .jsonc -> .json
+  } else if (configPath.endsWith('.json')) {
+    alternative = `${configPath}c` // .json -> .jsonc
+  }
+  if (alternative && await fileExists(alternative)) return alternative
+  return configPath // let readFile throw a meaningful ENOENT for the original path
+}
+
 export const loadConfig = async (fileName) => {
-  const configPath = path.join(__dirname, '..', '..', '..', 'configs', fileName)
-  return JSON.parse(await readFile(configPath, 'utf-8'))
+  const configPath = await resolveConfigPath(path.join(__dirname, '..', '..', '..', 'configs', fileName))
+  const errors = []
+  const config = parse(await readFile(configPath, 'utf-8'), errors, { allowTrailingComma: true })
+  if (errors.length > 0) {
+    const details = errors.map(e => `${printParseErrorCode(e.error)} at offset ${e.offset}`).join(', ')
+    throw new Error(`Failed to parse config file ${configPath}: ${details}`)
+  }
+  return config
 }
 
 const loadQueryConfig = async (fileName) => {

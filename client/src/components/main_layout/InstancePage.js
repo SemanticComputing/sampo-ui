@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import CircularProgress from '@mui/material/CircularProgress'
 import PerspectiveTabs from 'components/main_layout/PerspectiveTabs'
 import ResultClassRoute from 'components/facet_results/ResultClassRoute'
-import { getLocalIDFromAppLocation, createURIfromLocalID } from 'helpers/helpers'
+import { getLocalIDFromAppLocation, createURIfromLocalID, createInstancePagePath } from 'helpers/helpers'
 import { Route, Redirect } from 'react-router-dom'
 import { has } from 'lodash'
 
@@ -116,6 +116,7 @@ class InstancePage extends React.Component {
     const { classes, perspectiveState, perspectiveConfig, rootUrl, screenSize, layoutConfig } = this.props
     const { fetching } = perspectiveState
     const resultClass = perspectiveConfig.id
+    const instancePagePath = createInstancePagePath({ perspectiveConfig, localID: this.state.localID })
     const defaultInstancePageTab = perspectiveConfig.defaultInstancePageTab
       ? perspectiveConfig.defaultInstancePageTab
       : 'table'
@@ -146,11 +147,11 @@ class InstancePage extends React.Component {
           {hasTableData &&
             <>
               <Route
-                exact path={`${rootUrl}/${resultClass}/page/${this.state.localID}`}
+                exact path={`${rootUrl}${instancePagePath}`}
                 render={routeProps =>
                   <Redirect
                     to={{
-                      pathname: `${rootUrl}/${resultClass}/page/${this.state.localID}/${defaultInstancePageTab}`,
+                      pathname: `${rootUrl}${instancePagePath}/${defaultInstancePageTab}`,
                       hash: routeProps.location.hash
                     }}
                   />}
@@ -164,7 +165,7 @@ class InstancePage extends React.Component {
                   return null
                 }
                 const { tabPath } = resultClassConfig
-                const path = `${rootUrl}/${resultClass}/page/${this.state.localID}/${tabPath}`
+                const path = `${rootUrl}${instancePagePath}/${tabPath}`
                 return (
                   <ResultClassRoute
                     key={instancePageResultClass}
