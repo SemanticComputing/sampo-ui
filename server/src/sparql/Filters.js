@@ -35,7 +35,7 @@ export const generateConstraintsBlock = ({
             facetClass,
             facetID: c.facetID,
             filterTarget,
-            queryString: c.values,
+            queryString: c.values.replaceAll('\\', '\\\\').replaceAll('\'', '\\\''),
             inverse,
             defaultSparql: backendSearchConfig[facetClass].endpoint.defaultSparql
           })
@@ -128,8 +128,8 @@ const generateTextFilter = ({
 
   if (facetConfig.textQueryType === 'regex') {
     return `
-    ${queryTargetVariable} ${facetConfig.textQueryProperty} ?regexTarget .
-    FILTER(REGEX(STR(?regexTarget), "${queryString}", "i"))
+      ${queryTargetVariable} ${facetConfig.textQueryProperty} ?regexTarget .
+      FILTER(REGEX(STR(?regexTarget), '${queryString}', 'i'))
     `
   }
 
@@ -156,7 +156,7 @@ const generateTextFilter = ({
   if (defaultSparql) {
     filterStr = `
       ?${filterTarget} ${facetConfig.textQueryProperty} ?o .
-      FILTER(CONTAINS(LCASE(?o), "${queryString.toLowerCase()}"))
+      FILTER(CONTAINS(LCASE(?o), '${queryString.toLowerCase()}'))
     `
   } else {
     filterStr = facetConfig.textQueryPredicate
