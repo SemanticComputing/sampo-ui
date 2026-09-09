@@ -33,7 +33,9 @@ be used to run Sampo-UI as one container where the server is hosted on `/api`.
 
 ## Documentation
 
-[docs page](docs/README.md)
+ - [GitHub docs page](docs/README.md)
+ - [Sampo-UI framework tool page](https://seco.cs.aalto.fi/tools/sampo-ui/)
+ - [Sampo Model, Data Services, and Series of Semantic Portals](https://seco.cs.aalto.fi/applications/sampo/)
 
 ## Developer guide
 
