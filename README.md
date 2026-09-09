@@ -45,7 +45,7 @@ Instead, install an appropriate [plugin](https://standardjs.com/index.html#are-t
 editor, it is highly recommended to switch into a supported editor.
 
 ## Version 3.0.0 vs v4.0.0 onwards
-Version 4 is a very major refactoring update that changed the way Sampo portals get built. See [docs page](docs/README.md) and [migration guide](docs/MIGRATION.md) for more info.
+Version 4 is a very major refactoring update that changed the way Sampo portals get built. See [docs page](docs/README.md) and [migration guide](docs/MIGRATION.md) for more info. Version 3 code is available on the [legacy-v3 branch](https://github.com/SemanticComputing/sampo-ui/tree/legacy-v3) of the repository.
 
 The following research prototype portals used Sampo-UI version 3 or earlier as a base:
 
