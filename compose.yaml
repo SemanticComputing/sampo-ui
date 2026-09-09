@@ -1,0 +1,51 @@
+name: sampo-ui-dev
+
+services:
+  client:
+    build:
+      context: ./client
+      target: client-dev
+    command: npm run dev
+    volumes:
+      - ./client:/app/client
+      - client_node_modules:/app/client/node_modules # Prevent overwrite of deps
+      - ./custom_components/dist:/app/custom-components
+    ports:
+      - "8080:8080"
+    working_dir: /app/client
+    environment:
+      BABEL_ENV: ${BABEL_ENV}
+      NODE_ENV: ${NODE_ENV}
+      API_URL: ${API_URL}
+    depends_on:
+      server:
+        condition: service_healthy
+
+  server:
+    build:
+      context: ./server
+      target: server-dev
+    command: npm run dev
+    volumes:
+      - ./server:/app/server
+      - ./configs:/app/configs
+      - server_node_modules:/app/server/node_modules # Prevent overwrite of deps
+    ports:
+      - "3001:3001"
+    working_dir: /app/server
+    environment:
+      BABEL_ENV: ${SERVER_BABEL_ENV}
+      NODE_ENV: ${NODE_ENV}
+      SPARQL_ENDPOINT: ${SPARQL_ENDPOINT}
+      SPARQL_ENDPOINT_BASIC_AUTH: ${SPARQL_ENDPOINT_BASIC_AUTH}
+    healthcheck:
+      test: [ "CMD", "node", "-e", "require('http').get('http://localhost:3001/health', r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+
+volumes:
+  client_node_modules:
+  server_node_modules:

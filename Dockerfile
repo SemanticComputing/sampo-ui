@@ -1,32 +1,77 @@
-FROM node:16.13.0-alpine
-ARG API_URL
-ARG MAPBOX_ACCESS_TOKEN
+# Combined Dockerfile for both client and server production builds
 
-# Based on https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
+# Base stage for shared setup
+# Client build stage
+FROM node:22.20-slim AS client-build
+RUN mkdir -p /app/client
+WORKDIR /app/client
+COPY client/package*.json ./
+RUN npm install
+COPY client/ ./
 
-# Create app directory
-WORKDIR /usr/src/app
+ENV API_URL=/api/v1
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
-COPY webpack*.js ./
+RUN npm run build
 
-# Babel 7 presets and plugins
-COPY babel.config.js ./
 
-# Bundle app source
-COPY src ./src
+# Server production build stage
+FROM node:22.20-slim AS server-build
+RUN mkdir -p /app/server
+WORKDIR /app/server
+COPY server/package*.json .
+RUN npm install
+COPY server/ ./
+RUN npm run build
 
-# Run the scripts defined in package.json using build arguments
-RUN npm install && \ 
-API_URL=$API_URL MAPBOX_ACCESS_TOKEN=$MAPBOX_ACCESS_TOKEN npm run build
 
-EXPOSE 3001
+# ---------------------------------------------------------------------------
+# combo-prd: single container — nginx (port 80) + Express (port 3001)
+# ---------------------------------------------------------------------------
+FROM node:22-alpine AS combo-prd
 
-# https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
-USER node
+# nginx: Alpine apk (uses /etc/nginx/http.d/ for server blocks)
+# gettext: provides envsubst for nginx config templating
+# wget: busybox wget is already present on alpine
+RUN apk add --no-cache nginx gettext \
+    && rm -f /etc/nginx/http.d/default.conf \
+    && mkdir -p /etc/nginx/http.d /etc/nginx/templates
 
-# Express server handles the backend functionality and also serves the React app
-CMD ["node", "/usr/src/app/dist/server"]
+# OpenShift: allow nginx to run as non-root user and still write to its own dirs
+RUN chgrp -R 0 /etc/nginx \
+    && chmod -R g=u /etc/nginx \
+    && chgrp -R 0 /var/lib/nginx \
+    && chmod -R g=u /var/lib/nginx \
+    && chgrp -R 0 /var/log/nginx \
+    && chmod -R g=u /var/log/nginx \
+    && chgrp -R 0 /run/nginx \
+    && chmod -R g=u /run/nginx
+
+# Client static files → nginx webroot (same path as standalone client-prod stage)
+COPY --from=client-build /app/client/dist/public /usr/share/nginx/html
+
+# nginx config template (combo version adds /api/ proxy to Express)
+COPY combo-nginx.conf /etc/nginx/templates/default.conf.template
+
+# Express server (compiled JS + node_modules)
+COPY --from=server-build /app/server /app/server
+
+# Default configs (override with -v ./configs:/app/configs at runtime)
+COPY ./configs /app/configs
+
+# Custom components dir (bind-mount a volume here at runtime if needed)
+RUN mkdir -p /app/custom-components
+
+# Combo startup entrypoint
+COPY combo-entrypoint.sh /combo-entrypoint.sh
+RUN chmod +x /combo-entrypoint.sh
+
+# 80:   nginx serving the React SPA
+# 3001: Express API (direct access, also proxied through nginx at /api/)
+EXPOSE 80 3001
+
+# Tests through nginx (/health is proxied to Express), so a crash in either
+# service causes the container to report unhealthy.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+  CMD wget -q --spider http://localhost:3001/health || exit 1
+
+ENTRYPOINT ["/combo-entrypoint.sh"]

@@ -1,0 +1,332 @@
+import { runSelectQuery } from './SparqlApi'
+import { has } from 'lodash'
+import {
+  generateConstraintsBlock,
+  handleUnknownValue
+} from './Filters'
+import {
+  mapFacet,
+  mapHierarchicalFacet,
+  mapTimespanFacet
+} from './Mappers'
+
+export const getFacet = async ({
+  backendSearchConfig,
+  facetClass,
+  facetID,
+  sortBy = null,
+  sortDirection = null,
+  constraints,
+  resultFormat,
+  constrainSelf,
+  dynamicLangTag
+}) => {
+  const perspectiveConfig = backendSearchConfig[facetClass]
+  const facetConfig = backendSearchConfig[facetClass].facets[facetID]
+  const { endpoint, defaultConstraint = null, enableDynamicLanguageChange } = backendSearchConfig[facetClass]
+  const langTag = enableDynamicLanguageChange ? dynamicLangTag : backendSearchConfig[facetClass].langTag || null
+  // choose query template and result mapper:
+  let q = ''
+  let mapper = null
+  switch (facetConfig.facetType) {
+    case 'list':
+      q = perspectiveConfig.generalQueries.facetValuesQuery
+      mapper = mapFacet
+      break
+    case 'hierarchical':
+      if (facetConfig.maxHierarchyLevel) {
+        q = perspectiveConfig.generalQueries.hierarchicalFacetValuesQuery
+      } else {
+        q = perspectiveConfig.generalQueries.facetValuesQuery
+      }
+      mapper = mapHierarchicalFacet
+      break
+    case 'timespan':
+      q = perspectiveConfig.generalQueries.facetValuesQueryTimespan
+      mapper = mapTimespanFacet
+      break
+    case 'integer':
+      q = perspectiveConfig.generalQueries.facetValuesRange
+      mapper = mapTimespanFacet
+      break
+    default:
+      q = perspectiveConfig.generalQueries.facetValuesQuery
+      mapper = mapFacet
+  }
+  let selectedBlock = '# no selections'
+  let selectedNoHitsBlock = '# no filters from other facets'
+  let filterBlock
+  let unknownSelected = 'false'
+  let currentSelectionsWithoutUnknown = []
+  if (constraints == null && defaultConstraint == null) {
+    filterBlock = '# no filters'
+  } else {
+    filterBlock = generateConstraintsBlock({
+      backendSearchConfig,
+      facetClass,
+      constraints,
+      defaultConstraint,
+      filterTarget: 'instance',
+      facetID,
+      inverse: false,
+      constrainSelf // facet does not constrain itself by default
+    })
+  }
+  if (constraints) {
+    const currentSelections = getUriFilters(constraints, facetID)
+    // if <http://ldf.fi/MISSING_VALUE> is selected, it needs special care
+    const { indexOfUnknown, modifiedValues } = handleUnknownValue(currentSelections)
+    currentSelectionsWithoutUnknown = modifiedValues
+    const previousSelectionsExist = hasPreviousSelections(constraints, facetID)
+    const previousSelectionsFromOtherFacetsExist = hasPreviousSelectionsFromOtherFacets(constraints, facetID)
+    if (indexOfUnknown !== -1) {
+      unknownSelected = 'true'
+    }
+    /* if this facet has previous selections (exluding <http://ldf.fi/MISSING_VALUE>),
+       they need to be binded as selected */
+    if (currentSelectionsWithoutUnknown.length > 0 && hasPreviousSelections) {
+      selectedBlock = generateSelectedBlock({ currentSelectionsWithoutUnknown, literal: facetConfig.literal })
+    }
+    /* if there is previous selections in this facet AND in some other facet, we need an
+        additional block for facet values that return 0 hits */
+    if (previousSelectionsExist && previousSelectionsFromOtherFacetsExist && currentSelectionsWithoutUnknown.length > 0) {
+      selectedNoHitsBlock = generateSelectedNoHitsBlock({
+        backendSearchConfig,
+        facetClass,
+        facetID,
+        constraints,
+        // no defaultConstraint here
+        currentSelectionsWithoutUnknown,
+        literal: facetConfig.literal
+      })
+    }
+  }
+  if (facetConfig.hideUnknownValue) {
+    q = q.replaceAll(/<UNKNOWN_VALUES>/g, '')
+  } else {
+    q = q.replaceAll(/<UNKNOWN_VALUES>/g, unknownBlock)
+  }
+  q = q.replaceAll('<SELECTED_VALUES>', selectedBlock)
+  q = q.replaceAll('<SELECTED_VALUES_NO_HITS>', selectedNoHitsBlock)
+  q = q.replaceAll(/<FACET_VALUE_FILTER>/g, facetConfig.facetValueFilter ? facetConfig.facetValueFilter : '')
+  q = q.replaceAll(/<FACET_LABEL_FILTER>/g,
+    has(facetConfig, 'facetLabelFilter')
+      ? facetConfig.facetLabelFilter
+      : ''
+  )
+  if (facetConfig.facetType === 'hierarchical') {
+    q = q.replaceAll('<ORDER_BY>', '# no need for ordering')
+
+    if (facetConfig.maxHierarchyLevel) {
+      q = q.replaceAll(/<HIERARCHY>/g, generateHierarchyBlock({ depth: facetConfig.maxHierarchyLevel }))
+      q = q.replaceAll(/<PREDICATE>/g, facetConfig.predicate)
+      q = q.replaceAll(/<PARENTPROPERTY>/g, facetConfig.parentProperty)
+    } else {
+      q = q.replaceAll(/<PREDICATE>/g, `${facetConfig.predicate}/${facetConfig.parentProperty}*`)
+      q = q.replaceAll('<PARENTS>', `
+              OPTIONAL { ?id ${facetConfig.parentProperty} ?parent_ }
+              BIND(COALESCE(?parent_, '0') as ?parent)
+      `)
+    }
+  } else {
+    q = q.replaceAll('<ORDER_BY>', `ORDER BY ${sortDirection}(?${sortBy})`)
+    q = q.replaceAll(/<PREDICATE>/g, facetConfig.predicate)
+    q = q.replaceAll('<PARENTS>', ' # no parents')
+  }
+  q = q.replaceAll(/<FILTER>/g, filterBlock)
+  q = q.replaceAll(/<FACET_CLASS>/g, backendSearchConfig[facetClass].facetClass)
+  if (has(backendSearchConfig[facetClass], 'facetClassPredicate')) {
+    q = q.replaceAll(/<FACET_CLASS_PREDICATE>/g, backendSearchConfig[facetClass].facetClassPredicate)
+  } else {
+    q = q.replaceAll(/<FACET_CLASS_PREDICATE>/g, 'a')
+  }
+  q = q.replaceAll('<UNKNOWN_SELECTED>', unknownSelected)
+  q = q.replaceAll('<MISSING_PREDICATE>', facetConfig.predicate)
+  if (has(facetConfig, 'labelPattern')) {
+    q = q.replaceAll('<LABELS>', facetConfig.labelPattern)
+  } else {
+    const defaultLabelPattern = `
+     OPTIONAL {
+         ?id <FACET_LABEL_PREDICATE> ?prefLabel_
+         <FACET_LABEL_FILTER>
+       }
+     BIND(COALESCE(STR(?prefLabel_), STR(?id)) AS ?prefLabel)
+    `
+    q = q.replaceAll('<LABELS>', defaultLabelPattern)
+    const facetLabelPredicate = facetConfig.facetLabelPredicate
+      ? facetConfig.facetLabelPredicate
+      : 'skos:prefLabel'
+    q = q.replaceAll('<FACET_LABEL_PREDICATE>', facetLabelPredicate)
+    q = q.replaceAll(/<FACET_LABEL_FILTER>/g,
+      has(facetConfig, 'facetLabelFilter')
+        ? facetConfig.facetLabelFilter
+        : ''
+    )
+  }
+  if (facetConfig.facetType === 'timespan') {
+    q = q.replaceAll('<START_PROPERTY>', facetConfig.startProperty)
+    q = q.replaceAll('<END_PROPERTY>', facetConfig.endProperty)
+  }
+  if (langTag) {
+    q = q.replaceAll(/<LANG>/g, langTag)
+  }
+
+  // console.log(endpoint.prefixes + q)
+
+  const response = await runSelectQuery({
+    query: endpoint.prefixes + q,
+    endpoint: endpoint.url,
+    useAuth: endpoint.useAuth,
+    resultMapper: mapper,
+    resultMapperConfig: facetConfig,
+    resultFormat
+  })
+  if (facetConfig.facetType === 'hierarchical') {
+    return ({
+      facetClass,
+      id: facetID,
+      data: response.data.treeData,
+      flatData: response.data.flatData,
+      sparqlQuery: response.sparqlQuery
+    })
+  } else {
+    return ({
+      facetClass,
+      id: facetID,
+      data: response.data,
+      sparqlQuery: response.sparqlQuery
+    })
+  }
+}
+
+const generateSelectedBlock = ({
+  currentSelectionsWithoutUnknown,
+  literal
+}) => {
+  const selections = literal
+    ? `'${currentSelectionsWithoutUnknown.join("', '")}'`
+    : `<${currentSelectionsWithoutUnknown.join('>, <')}>`
+  // Mark the selected value(s) with a direct BIND instead of a triple-less
+  // OPTIONAL { FILTER(?id IN ..) BIND(true AS ?selected_) }: that construct is
+  // mistranslated by some engines (QLever silently drops the flag; the VALUES
+  // variant makes Ontop rebind ?id and miscount). ?id is already bound in the
+  // enclosing group, so IN(...) evaluates portably.
+  return `
+          BIND(IF(?id IN ( ${selections} ), true, false) AS ?selected_)
+  `
+}
+
+const generateSelectedNoHitsBlock = ({
+  backendSearchConfig,
+  facetClass,
+  facetID,
+  constraints,
+  currentSelectionsWithoutUnknown,
+  literal
+}) => {
+  const noHitsFilter = generateConstraintsBlock({
+    backendSearchConfig,
+    facetClass,
+    constraints,
+    filterTarget: 'instance',
+    facetID,
+    inverse: true
+  })
+  const selections = literal ? `'${currentSelectionsWithoutUnknown.join("' '")}'` : `<${currentSelectionsWithoutUnknown.join('> <')}>`
+  return `
+  UNION
+  # facet values that have been selected but return no results
+  {
+    VALUES ?id { ${selections} }
+    ${noHitsFilter}
+    BIND(true AS ?selected_)
+  }
+    `
+}
+
+const hasPreviousSelections = (constraints, facetID) => {
+  let hasPreviousSelections = false
+  constraints.forEach(facet => {
+    if (facet.facetID === facetID && facet.filterType === 'uriFilter') {
+      hasPreviousSelections = true
+    }
+  })
+  return hasPreviousSelections
+}
+
+const hasPreviousSelectionsFromOtherFacets = (constraints, facetID) => {
+  let hasPreviousSelectionsFromOtherFacets = false
+  constraints.forEach(facet => {
+    if (facet.facetID !== facetID && facet.filterType === 'uriFilter') {
+      const unknownAsOnlySelection = facet.values.length === 1 && facet.values[0] === 'http://ldf.fi/MISSING_VALUE'
+      if (!unknownAsOnlySelection) {
+        hasPreviousSelectionsFromOtherFacets = true
+      }
+    }
+  })
+  return hasPreviousSelectionsFromOtherFacets
+}
+
+const getUriFilters = (constraints, facetID) => {
+  let filters = []
+  constraints.forEach(facet => {
+    if (facet.facetID === facetID && facet.filterType === 'uriFilter') {
+      filters = facet.values
+    }
+  })
+  return filters
+}
+
+
+const unknownBlock = `
+  UNION
+  {
+    # 'Unknown' facet value for results with no predicate path
+    {
+      SELECT DISTINCT (count(DISTINCT ?instance) as ?instanceCount) {
+        <FILTER>
+        VALUES ?facetClass { <FACET_CLASS> }
+        ?instance <FACET_CLASS_PREDICATE> ?facetClass .
+        FILTER NOT EXISTS {
+          ?instance <MISSING_PREDICATE> [] .
+        }
+      }
+    }
+    FILTER(?instanceCount > 0)
+    BIND(IRI("http://ldf.fi/MISSING_VALUE") AS ?id)
+    # prefLabel for <http://ldf.fi/MISSING_VALUE> is given in client/translations
+    BIND('0' as ?parent)
+    BIND(<UNKNOWN_SELECTED> as ?selected)
+  }
+`
+
+export const generateHierarchyBlock = ({
+  depth
+}) => {
+  if (depth === 0) {
+    return `
+    {
+      ?instance <PREDICATE> ?id .
+    }
+  `
+  } else {
+    let block = ''
+    for (let i = 0; i < depth; i++) {
+      let parentPath = ''
+      for (let x = 0; x < i; x++) {
+        parentPath = parentPath + '/<PARENTPROPERTY>'
+      }
+      block = block + `
+          {
+            ?instance <PREDICATE>${parentPath} ?id .
+          }
+      `
+      if (i < (depth - 1)) {
+        block = block + `
+          UNION
+        `
+      }
+    }
+    return (block)
+  }
+}

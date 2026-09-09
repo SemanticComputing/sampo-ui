@@ -1,0 +1,154 @@
+import React, { Suspense, lazy } from 'react'
+import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
+import ReduxToastr from 'react-redux-toastr'
+import { Router, Link, NavLink, useHistory, useLocation, useParams, Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
+import history from 'History'
+import CircularProgress from '@mui/material/CircularProgress'
+import Alert from '@mui/material/Alert'
+import * as MUI from '@mui/material'
+import * as MuiIcons from '@mui/icons-material'
+import intl from 'react-intl-universal'
+import { withStyles } from 'tss-react/mui'
+import { useSelector, useDispatch, connect, Provider } from 'react-redux'
+import PropTypes from 'prop-types'
+import _ from 'lodash'
+import qs from 'qs'
+import * as helpers from 'helpers/helpers'
+import * as components from 'components'
+import 'index.css'
+import '@nosferatu500/react-sortable-tree/style.css'
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
+import 'mapbox-gl/dist/mapbox-gl.css'
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
+import { useConfigsStore } from 'stores/configsStore'
+import { loadCustomCss } from 'helpers/loadCustomCss'
+
+const root = createRoot(document.getElementById('root'))
+
+window.React = React
+window.ReactDOM = ReactDOM
+
+window.__sharedLibraries = {
+  MUI,
+  MuiIcons,
+  intl,
+  tssReactMui: { withStyles },
+  reactRedux: { useSelector, useDispatch, connect },
+  reactRouterDom: { Link, NavLink, useHistory, useLocation, useParams, Switch, Route, Redirect, BrowserRouter },
+  PropTypes,
+  _,
+  qs,
+  history,
+  components,
+  helpers,
+  configsStore: {
+    useConfigsStore,
+    getPortalConfig: useConfigsStore.getState().getPortalConfig,
+    getConfigJsonFile: useConfigsStore.getState().getConfigJsonFile,
+    getConfigImgFile: useConfigsStore.getState().getConfigImgFile,
+    getStaticFileUrl: useConfigsStore.getState().getStaticFileUrl
+  }
+}
+
+const FullscreenCentered = ({ children }) => (
+  <div style={{
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 20
+  }}
+  >
+    {children}
+  </div>
+)
+
+const renderLoading = () => {
+  root.render(
+    <FullscreenCentered>
+      <CircularProgress sx={{ color: 'black' }} thickness={5} />
+    </FullscreenCentered>
+  )
+}
+
+const renderError = (error) => {
+  root.render(
+    <FullscreenCentered>
+      <Alert severity='error'>Failed to load config: {error.message}</Alert>
+    </FullscreenCentered>
+  )
+}
+
+const renderApp = async () => {
+  const App = lazy(() => import('components/App'))
+  const [
+    { default: configureStore },
+    { availableLocales },
+    { loadLocales },
+    { updateLocaleToPathname }
+  ] = await Promise.all([
+    import('configureStore'),
+    import('epics'),
+    import('actions'),
+    import('helpers/helpers')
+  ])
+  const { portalConfig, getStaticFileUrl } = useConfigsStore.getState()
+  const { localeConfig, layoutConfig } = portalConfig
+
+  // load custom css file
+  if (layoutConfig.customCssFile) {
+    loadCustomCss(getStaticFileUrl(layoutConfig.customCssFile))
+  }
+  const store = configureStore()
+
+  let locale
+  const localeFromUrl = window.location.pathname.substr(1, 2)
+  if (Object.prototype.hasOwnProperty.call(availableLocales, localeFromUrl)) {
+    locale = localeFromUrl
+  } else {
+    locale = localeConfig.defaultLocale
+    const { pathname, hash } = window.location
+    const newPathname = updateLocaleToPathname({ pathname, locale, replaceOld: false })
+    history.push({ pathname: newPathname, hash })
+  }
+  store.dispatch(loadLocales(locale))
+
+  root.render(
+    <Provider store={store}>
+      <Router history={history}>
+        <Suspense fallback={
+          <FullscreenCentered>
+            <CircularProgress sx={{ color: layoutConfig.colorPalette.primary.main }} thickness={5} />
+          </FullscreenCentered>
+          }
+        >
+          <App />
+        </Suspense>
+      </Router>
+      <ReduxToastr
+        timeOut={0}
+        newestOnTop={false}
+        preventDuplicates
+        position='top-center'
+        transitionIn='fadeIn'
+        transitionOut='fadeOut'
+      />
+    </Provider>
+  )
+}
+
+;(async () => {
+  try {
+    renderLoading()
+    await useConfigsStore.getState().initConfigs()
+    await renderApp()
+  } catch (error) {
+    console.error('Caught error in index.js:', error)
+    renderError(error)
+  }
+})()
