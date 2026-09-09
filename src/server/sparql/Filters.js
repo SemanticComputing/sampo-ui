@@ -24,7 +24,7 @@ export const generateConstraintsBlock = ({
             facetClass: facetClass,
             facetID: c.facetID,
             filterTarget: filterTarget,
-            queryString: c.values,
+            queryString: c.values.replaceAll('\\', '\\\\').replaceAll('\'', '\\\''),
             inverse: inverse
           })
           break
@@ -115,8 +115,8 @@ const generateTextFilter = ({
 
   if (facetConfig.textQueryType === 'regex') {
     return `
-    ${queryTargetVariable} ${facetConfig.textQueryProperty} ?regexTarget .
-    FILTER(REGEX(STR(?regexTarget), "${queryString}", "i"))
+      ${queryTargetVariable} ${facetConfig.textQueryProperty} ?regexTarget .
+      FILTER(REGEX(STR(?regexTarget), '${queryString}', 'i'))
     `
   }
 
