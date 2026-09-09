@@ -92,7 +92,18 @@
             "bannerMobileHeight": 150,
             "bannerReducedHeight": 220,
             "bannerDefaultHeight": 300,
-            "wrapSubheading": true
+            "wrapSubheading": true,
+            "perspectives": [
+                {
+                    "id": "part1",
+                    "cardsPerRow": 3,
+                    "perspectives": [
+                        "perspective1",
+                        "perspective2",
+                        "perspective3"
+                    ]
+                }
+            ]
         },
         "infoHeader": {
             "default": {
