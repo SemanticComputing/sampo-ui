@@ -5,7 +5,6 @@
     "perspectives": {
         "searchPerspectives": [
             "perspective1",
-            "customcomponent",
             "perspective2",
             "perspective3",
             "fullTextSearch"
