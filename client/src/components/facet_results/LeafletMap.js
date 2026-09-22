@@ -335,6 +335,7 @@ class LeafletMap extends React.Component {
           url: customLayer.inConfig ? useConfigsStore.getState().getStaticFileUrl(customLayer.url) : customLayer.url,
           flavor: 'light',
           lang: 'en',
+          maxDataZoom: customLayer.maxDataZoom,
           maxZoom: customLayer.maxZoom,
           minZoom: customLayer.minZoom
         })
