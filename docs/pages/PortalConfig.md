@@ -1,16 +1,16 @@
 # Portal Config
 
-The `protalConfig.js` file is the entry point of your sampo config. In here you define all the different perspectives your app has, as well as some layout of your front page. (Note that all manner of layout and styling config in here will be moved to css in future versions). 
+The `protalConfig.js` file is the entry point of your Sampo-UI config. In here you define all the different perspectives your app has, as well as some layout of your front page. (Note that all manner of layout and styling config in here will be moved to css in future versions). 
 
-A lot of the config options in here are remnants of older sampo projects that do not really fit into the generic model for version 4 onwards. These will be removed in future versions. Only the important config options are described here. It can happen that sampo will not run without a value passed for some of these legacy configs, in those cases simply use a default value as in the example configs here.
+A lot of the config options in here are remnants of older Sampo projects that do not really fit into the generic model for version 4 onwards. These will be removed in future versions. Only the important config options are described here. It can happen that Sampo-UI will not run without a value passed for some of these legacy configs, in those cases simply use a default value as in the example configs here.
 
 ## Content config
 
-``"portalID": "sampo",`` the portalID essentially defines which config directory sampo will read and use. 
+``"portalID": "sampo",`` the portalID essentially defines which config directory Sampo-UI will read and use. 
 
 ---
 
-``"staticsUrl": "",`` with a staticsUrl you can define a different url where sampo should look for your statics such as images and icons. If set to nothing sampo will look for them under `<portalID>/assets/`.
+``"staticsUrl": "",`` with a staticsUrl you can define a different url where Sampo-UI should look for your statics such as images and icons. If set to nothing Sampo-UI will look for them under `<portalID>/assets/`.
 
 ---
 
@@ -65,7 +65,7 @@ Under the layoutConfig object you will define everything to do with the layout o
 ```
 "customCssFile": "custom.css",
 ```
-A custom css file can be provided that will override default styling. It is recommended to use this over defining color palette etc in the `portalConfig.json` file as ideally styling should not be part of the json, but it is still possible for now as seen below.
+A custom CSS file can be provided that will override default styling. It is recommended to use this over defining color palette etc in the `portalConfig.json` file as ideally styling should not be part of the JSON, but it is still possible for now as seen below.
 
 ```
 "colorPalette": {
@@ -156,5 +156,5 @@ For the main part of the landing page what perspectives to show where can be def
 }
 ```
 
-In the footer sampo by default supports putting whatever images with href you want. Again custom css could be used if more customisation is needed.
+In the footer Sampo-UI by default supports putting whatever images with `href` you want. Again custom CSS could be used if more customisation is needed.
 

@@ -1,9 +1,9 @@
 # Locales
 
-Locale config files are json config where the actual text content of the portal is written. A locale.json must be made
+Locale config files are JSON config where the actual text content of the portal is written. A `locale.json` must be made
 per language the portal uses. 
 
-Each entry in this json file refers to some ID defined either in config or in sampo core.
+Each entry in this JSON file refers to some ID defined either in config or in Sampo-UI core.
 
 ## General entries
 The upper half of the example locale files in this repository (up until `perspectives`) contains some general locale config
@@ -33,7 +33,7 @@ must in the root of locales have something like:
 ```
 "aboutPage": "htmlFile:pages/about_en.html"
 ```
-and then put the actual content of the page in said html file. The content can also be put directly in the locale json as a string, but since that gets very dirty for large pages it is not recommended.
+and then put the actual content of the page in said HTML file. The content can also be put directly in the locale JSON as a string, but since that gets very dirty for large pages it is not recommended.
 
 
 ### Dummy internal perspectives

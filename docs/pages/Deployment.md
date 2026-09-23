@@ -1,6 +1,6 @@
-# Deploying a sampo app
+# Deploying a Sampo app
 
-The intended way to deploy a sampo application is to use the pre-built sampo core images. Here are some ways to deploy
+The intended way to deploy a Sampo application is to use the pre-built Sampo-UI core images. Here are some ways to deploy
 using said images.
 
 ## Separate server and client containers
@@ -14,7 +14,7 @@ app as 1 container using the combo image. With this method everything is exposed
 ## Baking config build
 Another option using the combo image is to simply use it as a base image and directly bake your configs into it.
 
-Example Dockerfile:
+Example Dockerfile (replace `sampoConfigs` folder name with the name of your configuration file folder):
 ```
 FROM node:22.17-slim AS base
 WORKDIR /app
@@ -24,7 +24,7 @@ RUN npm install --legacy-peer-deps
 
 RUN npm run build
 
-FROM ghcr.io/ghentcdh/sampo-ui-combo:v4.4.3 as prod
+FROM ghcr.io/semanticcomputing/sampo-ui-combo:v4.0.0 as prod
 COPY --from=base /app/dist/ /app/custom-components
 COPY sampoConfigs/ /app/configs/
 ENV NODE_ENV=production

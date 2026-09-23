@@ -1,6 +1,6 @@
 # Perspectives config
 
-Every perspective referenced in `portalConfig.json` needs a perspective json config file. Some example configs are presented here.
+Every perspective referenced in `portalConfig.json` needs a perspective JSON config file. Some example configs are presented here.
 
 ## Search perspectives
 Search perspectives are the perspectives for faceted search pages.
@@ -58,7 +58,7 @@ Search perspectives are the perspectives for faceted search pages.
 
 The id of the perspective is what you need to reference in `portalConfig.json`. 
 
-In resultClasses you define all the different tabs you want in your perspective, as well as eventually an instanceConfig if you want an instance page with the same properties as your table.
+In `resultClasses` you define all the different tabs you want in your perspective, as well as eventually an `instanceConfig` if you want an instance page with the same properties as your table.
 
 Under properties, you can define all the columns shown in your table.
 
@@ -93,7 +93,7 @@ Under facets, you can define all the filters and sorting predicates of your colu
 ---
 
 ### Table resultClass
-The most basic resultclass used in virtually every perspective is table with also an associated instance page. 
+The most basic `resultclass` used in virtually every perspective is table with also an associated instance page. 
 
 #### ResultClass
 ```
@@ -124,7 +124,7 @@ The most basic resultclass used in virtually every perspective is table with als
   ...
 },
 ```
-See [sparql config](./SparqlConfig.md) for how to exactly config your sparql queries.
+See [SPARQL config](./SparqlConfig.md) for how to exactly config your sparql queries.
 
 #### Properties
 ```
@@ -158,7 +158,7 @@ See [sparql config](./SparqlConfig.md) for how to exactly config your sparql que
     ...
 ],
 ```
-The properties list lists all columns that can be displayed in the table. See [sparql config](./SparqlConfig.md) for how exactly to query the data to be displayed in the table. `onlyOnInstancePage` can be set to only display the value on instance pages as to not bloat the results table. `sortBy` defines by which field a cell with multiple entries will be sorted.
+The properties list lists all columns that can be displayed in the table. See [SPARQL config](./SparqlConfig.md) for how exactly to query the data to be displayed in the table. `onlyOnInstancePage` can be set to only display the value on instance pages as to not bloat the results table. `sortBy` defines by which field a cell with multiple entries will be sorted.
 
 #### Facets
 ```

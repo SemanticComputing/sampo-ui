@@ -2,13 +2,13 @@
 
 ## How queries get constructed
 
-The sampo server constructs its queries starting from a general query structure with tags in it like ``<FILTER>``. 
+The Sampo-UI server constructs its queries starting from a general query structure with tags in it like ``<FILTER>``. 
 Queries get constructed by replacing these tags with query sections depending on the selected perspective and facets.
 
 General query structures can be overwritten as described in [overwriting general queries](./CustomComponents.md#overwriting-general-queries).
 
-In version 5 of sampo we aim to replace this system with a set default profiles, each profile being a specifically made
-for a particular type of sparql endpoint (Jena, Qlever, Ontop, ...). 
+In version 5 of Sampo-UI we aim to replace this system with a set default profiles, each profile being a specifically made
+for a particular type of SPARQL endpoint (Jena, Qlever, Ontop, ...). 
 
 ### Facet results queries
 ```sparql
@@ -34,7 +34,7 @@ in the `propertiesQueryBlock` of the perspective config. The properties query bl
 
 
 #### Creating objects
-By default, when doing paginated result queries sampo will use a mapper that transforms bound variables like this:
+By default, when doing paginated result queries Sampo-UI will use a mapper that transforms bound variables like this:
 ``?name__id``, ``?name__prefLabel`` into objects like this: ``"name": {"id": "value", "prefLabe": "value"}``. 
 When defining properties as described [here](./PerspectiveConfig.md#properties) you can use `"valueType": "object"`. 
 Using this will make the client display the `prefLabel` value and allow you to use `sortBy` for multiple values within a cell.
@@ -50,7 +50,7 @@ SELECT * {
   <RELATED_INSTANCES>
 }
 ```
-The default instance query binds the selected instance's id and then queries your defined properties block for it.
+The default instance query binds the selected instance's ID and then queries your defined properties block for it.
 
 ---
 
@@ -104,7 +104,7 @@ The facet values query selects all the facet values that are still available mat
 ### Why overwrite?
 There are two common reasons to want to overwrite some of these default queries. 
 
-The first is simply if your particular sparql endpoint has some quirks that do not align well with the default.
+The first is simply if your particular SPARQL endpoint has some quirks that do not align well with the default.
 
 The second is if you require significantly more customisation for a complicated perspective.
 See securities perspective of [BelHisFirm](https://github.com/GhentCDH/BelHISFirm-Frontend) for an example.
