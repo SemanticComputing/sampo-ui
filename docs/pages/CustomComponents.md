@@ -1,17 +1,17 @@
 # Custom Components, mappers and queries
 
-For projects where the components sampo-ui offers do not suffice, you have the option of making your own custom components.
-Your custom components are part of your own config and are thus completely separate from the core sampo app; which allows
+For projects where the components Sampo-UI offers do not suffice, you have the option of making your own custom components.
+Your custom components are part of your own config and are thus completely separate from the core Sampo app; which allows
 you to make components that are highly specific to your app. 
 
 ## Custom component logic
 Custom components have to be built beforehand and then mounted into client image. At runtime if a config refers to a
-custom component, sampo will be able to find and render said custom component from the mounted volume. Sampo passes
+custom component, Sampo-UI will be able to find and render said custom component from the mounted volume. Sampo passes
 a lot of config as props to the component which allows for a lot of flexibility when developing them. 
 
-The sampo client registers its react instance, important libraries as well as all default sampo components on 
+The Sampo-UI client registers its react instance, important libraries as well as all default Sampo-UI components on 
 `window.__sharedLibraries`.
-This allows the custom components to make use of all of those and further expand on existing sampo components. Of course when building custom components you can also 
+This allows the custom components to make use of all of those and further expand on existing Sampo-UI components. Of course when building custom components you can also 
 add extra libraries since they have their own `package.json`.
 
 ### Props and shared libraries
@@ -34,7 +34,7 @@ It receives the exact same props every built-in result component does: `results`
 (`resultClassConfig`, `perspectiveConfig`, `portalConfig`). See the `propTypes` in
 `ExampleCustomComponent` for the complete list.
 
-The simplest custom component wraps an existing sampo component imported from
+The simplest custom component wraps an existing Sampo-UI component imported from
 `@sampo-ui/components` and forwards its props:
 ```jsx
 import React from 'react'
@@ -127,9 +127,9 @@ The full signature is `({ backendSearchConfig, facetClass, facetID, filterTarget
 `uriFilter`, etc).
 
 ## Overwriting general queries
-The general sparql queries from sampo will sometimes not work for certain types of sparql endpoints, or will not be 
+The general SPARQL queries from Sampo-UI will sometimes not work for certain types of SPARQL endpoints, or will not be 
 sufficient in some specific cases. These general queries can be overwritten per perspective by writing new ones in the
-perspective's sparql queries file and putting a `generalQueries` object in the perspective's json config.
+perspective's SPARQL queries file and putting a `generalQueries` object in the perspective's JSON config.
 ```json
 "generalQueries": {
   "facetResultSetQuery": "customFacetResultSetQuery",
