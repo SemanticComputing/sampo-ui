@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 import Box from '@mui/material/Box'
-import PerspectiveTabs from './PerspectiveTabs'
-import ReactVirtualizedTable from '../facet_results/ReactVirtualizedTable'
+import PerspectiveTabs from 'components/main_layout/PerspectiveTabs'
+import ReactVirtualizedTable from 'components/facet_results/ReactVirtualizedTable'
 import CalendarViewDayIcon from '@mui/icons-material/CalendarViewDay'
-import { getSpacing } from '../../helpers/helpers'
+import { getSpacing } from 'helpers/helpers'
 
 /**
  * A component for displaying full text search results.

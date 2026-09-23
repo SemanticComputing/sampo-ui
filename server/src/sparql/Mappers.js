@@ -273,6 +273,92 @@ export const mapTimelineChart = ({ sparqlBindings, config }) => {
   return result
 }
 
+export const mapAoristicChart = sparqlBindings => {
+  const interval = parseInt(sparqlBindings[0].interval.value)
+  const min_year = getMinYear(sparqlBindings)
+  const max_year = getMaxYear(sparqlBindings)
+
+  const results = sparqlBindings.map(b => {
+    return {
+      id: b.id.value,
+      earliestYear: parseInt(b.earliestYear.value),
+      latestYear: parseInt(b.latestYear.value)
+    }
+  })
+
+  let aoristic_results = []
+
+  let current_start = Math.floor(min_year / interval) * interval
+  let current_end = current_start + interval - 1
+
+
+  while (true) {
+    let count = 0
+    results.forEach(item => {
+      count = count + getPercentageWithinInterval(item, current_start, current_end, interval) / 100
+      // console.log(getPercentageWithinInterval(item, current_start, current_end))
+    })
+    aoristic_results.push({
+      category: current_start.toString() + '-' + current_end.toString(),
+      prefLabel: current_start.toString() + '-' + current_end.toString(),
+      instanceCount: count
+    })
+    current_start = current_start + interval
+    current_end = current_start + interval - 1
+    if (current_start > max_year) {
+      break
+    }
+  }
+  return aoristic_results
+}
+
+const getMinYear = bindings => {
+  let minYear = 999999999
+  bindings.forEach(item => {
+    // console.log(item.earliestYear.value)
+    if (parseInt(item.earliestYear.value) < minYear) {
+      minYear = parseInt(item.earliestYear.value)
+    }
+  });
+  return minYear
+}
+
+const getMaxYear = bindings => {
+  let maxYear = -Infinity
+  bindings.forEach(item => {
+    if (parseInt(item.latestYear.value) > maxYear) {
+      maxYear = parseInt(item.latestYear.value)
+    }
+  });
+  return maxYear
+}
+
+function getPercentageWithinInterval(item, start, end) {
+  let earliestYear
+  let latestYear
+  if (item.earliestYear >= start && item.latestYear <= end) {
+    return 100
+  }
+  if (item.earliestYear > end || item.latestYear < start) {
+    return 0
+  }
+  if (item.earliestYear < start) {
+    earliestYear = start
+  } else {
+    earliestYear = item.earliestYear
+  }
+  if (item.latestYear > end) {
+    latestYear = end
+  } else {
+    latestYear = item.latestYear
+  }
+  let absolute_amount = latestYear - earliestYear
+
+  let percentage = absolute_amount / (item.latestYear - item.earliestYear) * 100
+
+  return percentage
+}
+
 export const mapPieChart = sparqlBindings => {
   const results = sparqlBindings.map(b => {
     return {
@@ -285,6 +371,7 @@ export const mapPieChart = sparqlBindings => {
 }
 
 export const linearScale = ({ data, config }) => {
+  if (data.length === 0) return data
   const { variable, minAllowed, maxAllowed } = config
   const length = data.length
   const min = Number(data[length - 1][variable])

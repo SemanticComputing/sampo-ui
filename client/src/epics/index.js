@@ -11,7 +11,7 @@ import {
 } from 'rxjs/operators'
 import { combineEpics, ofType } from 'redux-observable'
 import intl from 'react-intl-universal'
-import { stateToUrl, pickSelectedDatasets } from '../helpers/helpers'
+import { stateToUrl, pickSelectedDatasets } from 'helpers/helpers'
 import qs from 'qs'
 import {
   FETCH_RESULT_COUNT,
@@ -50,8 +50,8 @@ import {
   updateGeoJSONLayers,
   updateKnowledgeGraphMetadata,
   fetchGeoJSONLayersFailed
-} from '../actions'
-import { useConfigsStore } from '../stores/configsStore'
+} from 'actions'
+import { useConfigsStore } from 'stores/configsStore'
 
 const portalConfig = await useConfigsStore.getState().getPortalConfig()
 const { localeConfig, documentFinderConfig } = portalConfig

@@ -3,6 +3,9 @@ import { withStyles } from 'tss-react/mui'
 import PropTypes from 'prop-types'
 import Slider from '@mui/material/Slider'
 import moment from 'moment'
+import FastRewindIcon from '@mui/icons-material/FastRewind'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import PauseIcon from '@mui/icons-material/Pause'
 
 const blue = 'rgb(0, 126, 230)'
 const iOSBoxShadow =
@@ -49,7 +52,7 @@ class TemporalMapTimeSlider extends React.Component {
     currentDay: null,
     hideContainer: '',
     value: 0,
-    sliderDuration: this.props.sliderDuration.normalSpeed,
+    sliderDuration: this.props.sliderDuration?.normalSpeed ?? 600,
     intervalSetter: null,
     isPlaying: false,
     playOrPause: 'play',
@@ -136,7 +139,7 @@ class TemporalMapTimeSlider extends React.Component {
     if (type === 'half') {
       this.setState(
         {
-          sliderDuration: this.props.sliderDuration.halfSpeed,
+          sliderDuration: this.props.sliderDuration?.halfSpeed ?? 1200,
           halfSpeedEnabled: true,
           regularSpeedEnabled: false,
           doubleSpeedEnabled: false
@@ -149,7 +152,7 @@ class TemporalMapTimeSlider extends React.Component {
     } else if (type === 'regular') {
       this.setState(
         {
-          sliderDuration: this.props.sliderDuration.normalSpeed,
+          sliderDuration: this.props.sliderDuration?.normalSpeed ?? 600,
           halfSpeedEnabled: false,
           regularSpeedEnabled: true,
           doubleSpeedEnabled: false
@@ -162,7 +165,7 @@ class TemporalMapTimeSlider extends React.Component {
     } else if (type === 'double') {
       this.setState(
         {
-          sliderDuration: this.props.sliderDuration.doubleSpeed,
+          sliderDuration: this.props.sliderDuration?.doubleSpeed ?? 300,
           halfSpeedEnabled: false,
           regularSpeedEnabled: false,
           doubleSpeedEnabled: true
@@ -185,7 +188,7 @@ class TemporalMapTimeSlider extends React.Component {
 
   _sliderValueText = value => {
     const isoDate = this.props.dates[value]
-    return moment(isoDate).format('DD.MM.YYYY')
+    return isoDate ? moment(isoDate).format('DD.MM.YYYY') : '...'
   }
 
   render () {
@@ -239,10 +242,10 @@ class TemporalMapTimeSlider extends React.Component {
             <div className='row'>
               <div className='control-buttons row'>
                 <div className='button' onClick={this.handleResetSlider}>
-                  <i className='icon undo' />
+                  <FastRewindIcon />
                 </div>
                 <div className='button' onClick={this.handleAnimation}>
-                  <i className={`icon ${playOrPause}`} />
+                  {playOrPause == 'play' ? <PlayArrowIcon /> : <PauseIcon /> }
                 </div>
               </div>
 

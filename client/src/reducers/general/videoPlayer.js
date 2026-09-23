@@ -1,4 +1,4 @@
-import { UPDATE_VIDEO_PLAYER_TIME } from '../../actions'
+import { UPDATE_VIDEO_PLAYER_TIME } from 'actions'
 
 export const INITIAL_STATE = {
   videoPlayerTime: null

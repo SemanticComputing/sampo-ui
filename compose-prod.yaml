@@ -1,7 +1,7 @@
 name: sampo-ui-prod
 
 services:
-  cient:
+  client:
     build:
       context: ./client
       target: client-prod
@@ -20,6 +20,8 @@ services:
     container_name: sampo-ui-server-prod
     ports:
       - "3001:3001"
+    environment:
+      SPARQL_ENDPOINT_BASIC_AUTH: ${SPARQL_ENDPOINT_BASIC_AUTH}
     volumes:
       - ./configs:/app/configs
   
@@ -31,6 +33,8 @@ services:
     container_name: sampo-ui-combo-prod
     ports:
       - "3002:80"
+    environment:
+      SPARQL_ENDPOINT_BASIC_AUTH: ${SPARQL_ENDPOINT_BASIC_AUTH}
     volumes:
       - ./configs:/app/configs
       - ./custom_components/dist:/app/custom-components

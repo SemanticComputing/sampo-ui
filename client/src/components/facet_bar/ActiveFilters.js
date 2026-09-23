@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
-import ChipsArray from './ChipsArray'
+import ChipsArray from 'components/facet_bar/ChipsArray'
 
 const ActiveFilters = props => {
   const {
-    uriFilters, textFilters, timespanFilters, dateNoTimespanFilters, integerFilters,
+    uriFilters, textFilters, timespanFilters, dateNoTimespanFilters, integerFilters, customFilters,
     someFacetIsFetching, fetchingResultCount, propertiesTranslationsID
   } = props
   const facetValues = []
@@ -52,6 +52,14 @@ const ActiveFilters = props => {
       value: integerFilters[facetID]
     })
   })
+  Object.keys(customFilters).forEach(facetID => {
+    facetValues.push({
+      facetID,
+      facetLabel: intl.get(`perspectives.${propertiesTranslationsID}.properties.${facetID}.label`),
+      filterType: 'customFilter',
+      value: customFilters[facetID]
+    })
+  })
   return (
     <ChipsArray
       data={facetValues}
@@ -72,6 +80,7 @@ ActiveFilters.propTypes = {
   timespanFilters: PropTypes.object.isRequired,
   dateNoTimespanFilters: PropTypes.object.isRequired,
   integerFilters: PropTypes.object.isRequired,
+  customFilters: PropTypes.object.isRequired,
   updateFacetOption: PropTypes.func.isRequired,
   someFacetIsFetching: PropTypes.bool.isRequired,
   fetchingResultCount: PropTypes.bool.isRequired,

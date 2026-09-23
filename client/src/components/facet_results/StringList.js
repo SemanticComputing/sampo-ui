@@ -4,7 +4,7 @@ import { withStyles } from 'tss-react/mui'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import HTMLParser from '../../helpers/HTMLParser'
+import HTMLParser from 'helpers/HTMLParser'
 import classNames from 'classnames'
 import clsx from 'clsx'
 

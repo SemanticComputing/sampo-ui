@@ -1,8 +1,8 @@
 import React from 'react'
-import InfoHeader from '../main_layout/InfoHeader'
-import InstancePage from './InstancePage'
+import InfoHeader from 'components/main_layout/InfoHeader'
+import InstancePage from 'components/main_layout/InstancePage'
 import Grid from '@mui/material/Grid'
-import { getSpacing } from '../../helpers/helpers'
+import { getSpacing } from 'helpers/helpers'
 import { useLocation } from 'react-router-dom'
 
 const InstancePagePerspective = props => {

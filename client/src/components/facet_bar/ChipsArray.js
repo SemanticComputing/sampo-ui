@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from 'tss-react/mui'
 import Chip from '@mui/material/Chip'
 import Tooltip from '@mui/material/Tooltip'
-import { ISOStringToYear } from './FacetHelpers'
+import { ISOStringToYear } from 'components/facet_bar/FacetHelpers'
 import { format } from 'date-fns'
 import intl from 'react-intl-universal'
 
@@ -55,6 +55,14 @@ const ChipsArray = props => {
             facetClass: props.facetClass,
             facetID: item.facetID
           })
+          break
+        case 'customFilter':
+          props.updateFacetOption({
+            facetClass: props.facetClass,
+            facetID: item.facetID,
+            option: 'customFilter',
+            value: null
+          })
       }
     }
   }
@@ -101,6 +109,12 @@ const ChipsArray = props => {
           valueLabel = `
               ${start !== '' ? start : '-'}
               to ${end !== '' ? end : '-'}`
+        }
+        if (item.filterType === 'customFilter') {
+          key = item.facetID
+          valueLabel = item.value == null
+            ? 'active'
+            : (typeof item.value === 'object' ? JSON.stringify(item.value) : String(item.value))
         }
         return (
           <Tooltip key={key} title={`${item.facetLabel}: ${valueLabel}`}>

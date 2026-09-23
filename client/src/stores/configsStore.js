@@ -1,5 +1,6 @@
 import { create } from 'zustand'
-import { configHelpers } from './helpers'
+import { parse } from 'jsonc-parser'
+import { configHelpers } from 'stores/helpers'
 
 const apiUrl = process.env.API_URL
 const CONFIGS_URL = `${apiUrl}/configs`
@@ -9,6 +10,7 @@ export const useConfigsStore = create((set, get) => ({
   perspectiveConfigs: [],
   perspectiveConfigsInfoOnlyPages: [],
   jsonConfigs: {},
+  textConfigs: {},
   imgConfigs: {},
 
   initConfigs: async () => {
@@ -35,7 +37,7 @@ export const useConfigsStore = create((set, get) => ({
     if (get().portalConfig !== null) {
       return get().portalConfig
     } else {
-      const portal = await fetch(`${CONFIGS_URL}/portalConfig.json`).then(res => res.json())
+      const portal = await fetch(`${CONFIGS_URL}/portalConfig.json`).then(res => res.text()).then(text => parse(text))
       set({ portalConfig: portal })
       return portal
     }
@@ -48,11 +50,26 @@ export const useConfigsStore = create((set, get) => ({
     if (file in get().jsonConfigs) {
       return get().jsonConfigs[file]
     } else {
-      const jsonFile = await fetch(`${CONFIGS_URL}/${get().portalConfig.portalID}/${file}`).then(res => res.json())
+      const jsonFile = await fetch(`${CONFIGS_URL}/${get().portalConfig.portalID}/${file}`).then(res => res.text()).then(text => parse(text))
       set(state => ({
         jsonConfigs: { ...state.jsonConfigs, [file]: jsonFile }
       }))
       return jsonFile
+    }
+  },
+
+  getConfigTextFile: async (file) => {
+    if (!get().portalConfig) {
+      await get().getPortalConfig()
+    }
+    if (file in get().textConfigs) {
+      return get().textConfigs[file]
+    } else {
+      const textFile = await fetch(`${CONFIGS_URL}/${get().portalConfig.portalID}/${file}`).then(res => res.text())
+      set(state => ({
+        textConfigs: { ...state.textConfigs, [file]: textFile }
+      }))
+      return textFile
     }
   },
 

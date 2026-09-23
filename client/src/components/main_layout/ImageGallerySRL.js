@@ -32,7 +32,7 @@ const ImageGallerySRL = props => {
     let tempUrl = item.url
     const absoluteUrlRegExp = /^(?:[a-z]+:)?\/\//i
     if (!absoluteUrlRegExp.test(item.url)) {
-      const importedImages = importAll(require.context('../../img/', true, /\.(png|jpg)$/))
+      const importedImages = importAll(require.context('img/', true, /\.(png|jpg)$/))
       if (importedImages[item.url] !== undefined) {
         tempUrl = importedImages[item.url].default
       }

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
-import { getSpacing } from '../../helpers/helpers'
+import { getSpacing } from 'helpers/helpers'
 
 /**
  * A component for creating a responsive page with static content.

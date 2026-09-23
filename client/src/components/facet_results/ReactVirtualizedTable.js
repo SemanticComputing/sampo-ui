@@ -5,7 +5,7 @@ import { withStyles } from 'tss-react/mui'
 import TableCell from '@mui/material/TableCell'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import Tooltip from '@mui/material/Tooltip'
-import ResultTableCell from './ResultTableCell'
+import ResultTableCell from 'components/facet_results/ResultTableCell'
 import Paper from '@mui/material/Paper'
 import { AutoSizer, Column, Table } from 'react-virtualized'
 import intl from 'react-intl-universal'
@@ -67,7 +67,7 @@ class MuiVirtualizedTable extends React.PureComponent {
 
   cellRenderer = ({ cellData, columnIndex }) => {
     const { columns /* classes, rowHeight, onRowClick */ } = this.props
-    const { id, valueType, makeLink, externalLink, sortValues, numberedList, minWidth, collapsedMaxWords } = columns[columnIndex]
+    const { id, valueType, makeLink, externalLink, sortValues, numberedList, minWidth, maxHeight, collapsedMaxWords } = columns[columnIndex]
     return (
       <ResultTableCell
         columnId={id}
@@ -78,6 +78,7 @@ class MuiVirtualizedTable extends React.PureComponent {
         numberedList={numberedList}
         sortValues={sortValues}
         minWidth={minWidth}
+        maxHeight={maxHeight}
         container='div'
         expanded={false}
         collapsedMaxWords={collapsedMaxWords}

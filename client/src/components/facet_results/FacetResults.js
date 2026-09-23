@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 import { has } from 'lodash'
-import PerspectiveTabs from '../main_layout/PerspectiveTabs'
-import ResultClassRoute from './ResultClassRoute'
+import PerspectiveTabs from 'components/main_layout/PerspectiveTabs'
+import ResultClassRoute from 'components/facet_results/ResultClassRoute'
 
 const FacetResults = props => {
   const {

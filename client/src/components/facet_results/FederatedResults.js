@@ -4,12 +4,12 @@ import Immutable from 'immutable'
 import intl from 'react-intl-universal'
 import { Route, Redirect } from 'react-router-dom'
 import { groupBy, orderBy } from 'lodash'
-import PerspectiveTabs from '../main_layout/PerspectiveTabs'
-import LeafletMap from './LeafletMap'
-import ResultInfo from './ResultInfo'
-import VirtualizedTable from './VirtualizedTable'
-import ApexCharts from './ApexCharts'
-import CSVButton from './CSVButton'
+import PerspectiveTabs from 'components/main_layout/PerspectiveTabs'
+import LeafletMap from 'components/facet_results/LeafletMap'
+import ResultInfo from 'components/facet_results/ResultInfo'
+import VirtualizedTable from 'components/facet_results/VirtualizedTable'
+import ApexCharts from 'components/facet_results/ApexCharts'
+import CSVButton from 'components/facet_results/CSVButton'
 
 const FederatedResults = props => {
   const { rootUrl, perspective, screenSize, clientFSState, layoutConfig, portalConfig } = props

@@ -8,8 +8,8 @@ import {
   CLIENT_FS_UPDATE_FACET,
   CLIENT_FS_SORT_RESULTS,
   UPDATE_MAP_BOUNDS
-} from '../../actions'
-import { handleDataFetchingAction } from './results'
+} from 'actions'
+import { handleDataFetchingAction } from 'reducers/general/results'
 
 export const createFederatedSearchReducer = (initialState, resultClassesForMapBounds) => {
   const reducerFunc = (state = initialState, action) => {

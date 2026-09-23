@@ -131,6 +131,7 @@
       "mapbox": {
         "light-v10": ""
       },
+      "openStreetMap": "",
       "googleRoadmap": "",
       "topographicalMapNLS": "",
       "backgroundMapNLS": ""

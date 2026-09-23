@@ -4,7 +4,7 @@ import { withStyles } from 'tss-react/mui'
 import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
 import intl from 'react-intl-universal'
-import bgImage from '../../img/main_page/bg2.jpg'
+import bgImage from 'img/main_page/bg2.jpg'
 
 const styles = (theme) => ({
   paper: {

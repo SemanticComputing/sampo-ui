@@ -1,9 +1,9 @@
 import React from 'react'
-import InfoHeader from '../main_layout/InfoHeader'
-import FacetBar from '../facet_bar/FacetBar'
-import FacetResults from './FacetResults'
+import InfoHeader from 'components/main_layout/InfoHeader'
+import FacetBar from 'components/facet_bar/FacetBar'
+import FacetResults from 'components/facet_results/FacetResults'
 import Grid from '@mui/material/Grid'
-import { getSpacing } from '../../helpers/helpers'
+import { getSpacing } from 'helpers/helpers'
 
 const FacetedSearchPerspective = props => {
   const {

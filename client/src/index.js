@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { createRoot } from 'react-dom/client'
 import ReduxToastr from 'react-redux-toastr'
 import { Router, Link, NavLink, useHistory, useLocation, useParams, Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
-import history from './History'
+import history from 'History'
 import CircularProgress from '@mui/material/CircularProgress'
 import Alert from '@mui/material/Alert'
 import * as MUI from '@mui/material'
@@ -14,9 +14,9 @@ import { useSelector, useDispatch, connect, Provider } from 'react-redux'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import qs from 'qs'
-import * as helpers from './helpers/helpers'
-import * as components from './components'
-import './index.css'
+import * as helpers from 'helpers/helpers'
+import * as components from 'components'
+import 'index.css'
 import '@nosferatu500/react-sortable-tree/style.css'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -24,7 +24,8 @@ import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
-import { useConfigsStore } from './stores/configsStore'
+import { useConfigsStore } from 'stores/configsStore'
+import { loadCustomCss } from 'helpers/loadCustomCss'
 
 const root = createRoot(document.getElementById('root'))
 
@@ -84,20 +85,25 @@ const renderError = (error) => {
 }
 
 const renderApp = async () => {
-  const App = lazy(() => import('./components/App'))
+  const App = lazy(() => import('components/App'))
   const [
     { default: configureStore },
     { availableLocales },
     { loadLocales },
     { updateLocaleToPathname }
   ] = await Promise.all([
-    import('./configureStore'),
-    import('./epics'),
-    import('./actions'),
-    import('./helpers/helpers')
+    import('configureStore'),
+    import('epics'),
+    import('actions'),
+    import('helpers/helpers')
   ])
-  const portalConfig = useConfigsStore.getState().portalConfig
+  const { portalConfig, getStaticFileUrl } = useConfigsStore.getState()
   const { localeConfig, layoutConfig } = portalConfig
+
+  // load custom css file
+  if (layoutConfig.customCssFile) {
+    loadCustomCss(getStaticFileUrl(layoutConfig.customCssFile))
+  }
   const store = configureStore()
 
   let locale

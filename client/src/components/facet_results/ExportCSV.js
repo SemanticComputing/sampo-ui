@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from 'tss-react/mui'
 import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
-import { stateToUrl } from '../../helpers/helpers'
+import { stateToUrl } from 'helpers/helpers'
 
 const apiUrl = process.env.API_URL
 

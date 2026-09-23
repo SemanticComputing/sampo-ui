@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ObjectListItemLink from './ObjectListItemLink'
+import ObjectListItemLink from 'components/facet_results/ObjectListItemLink'
 
 const ObjectListItem = props => {
   const { data, makeLink, externalLink, linkAsButton, isFirstValue, collapsedMaxWords, shortenLabel } = props

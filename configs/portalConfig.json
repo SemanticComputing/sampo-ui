@@ -115,9 +115,6 @@
             "defaultHeight": 64
         }
     },
-    "mapboxConfig": {
-        "mapboxStyle": "light-v10"
-    },
     "yasguiConfig": {
         "yasguiBaseURL": "https://yasgui.triply.cc",
         "yasguiParams": {
@@ -130,12 +127,5 @@
     },
     "documentFinderConfig": {
         "apiURL": "https://data.finlex.fi/document-finder-backend"
-    },
-    "temporalMapConfig": {
-        "sliderDuration": {
-            "halfSpeed": 1200,
-            "normalSpeed": 600,
-            "doubleSpeed": 300
-        }
     }
 }

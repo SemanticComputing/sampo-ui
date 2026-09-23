@@ -8,10 +8,10 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
-import GeneralDialog from '../main_layout/GeneralDialog'
-import InstaceList from '../main_layout/InstanceList'
+import GeneralDialog from 'components/main_layout/GeneralDialog'
+import InstaceList from 'components/main_layout/InstanceList'
 import qs from 'qs'
-import history from '../../History'
+import history from 'History'
 
 const defaultPadding = 32
 const smallScreenPadding = 8

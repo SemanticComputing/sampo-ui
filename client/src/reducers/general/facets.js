@@ -5,14 +5,14 @@ import {
   UPDATE_FACET_OPTION,
   CLEAR_FACET,
   CLEAR_ALL_FACETS
-} from '../../actions'
+} from 'actions'
 import {
   fetchFacet,
   fetchFacetFailed,
   updateFacetValues,
   updateFacetOption,
   clearFacet
-} from './helpers'
+} from 'reducers/general/helpers'
 
 export const handleFacetAction = (state, action, initialState) => {
   switch (action.type) {

@@ -6,7 +6,7 @@ import {
   FETCH_BY_URI_FAILED,
   FETCH_KNOWLEDGE_GRAPH_METADATA_FAILED,
   FETCH_GEOJSON_LAYERS_FAILED
-} from '../../actions'
+} from 'actions'
 
 export const INITIAL_STATE = {
   id: 0,

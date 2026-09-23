@@ -2,9 +2,9 @@ import React from 'react'
 import Paper from '@mui/material/Paper'
 import PropTypes from 'prop-types'
 import Box from '@mui/material/Box'
-import aaltoLogo from '../../img/logos/Aalto_SCI_EN_13_BLACK_2_cropped.png'
-import hyLogo from '../../img/logos/university-of-helsinki-logo-transparent-black.png'
-import { useConfigsStore } from '../../stores/configsStore'
+import aaltoLogo from 'img/logos/Aalto_SCI_EN_13_BLACK_2_cropped.png'
+import hyLogo from 'img/logos/university-of-helsinki-logo-transparent-black.png'
+import { useConfigsStore } from 'stores/configsStore'
 
 /**
  * A component for creating a footer. The logos are imported inside this component.

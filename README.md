@@ -1,18 +1,13 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 # Sampo-UI
 
-This fork of Sampo-UI has as main purpose to modernise the framework to make it more usable for new projects.
-Secondly, it also tries to move as much customisation as possible to configs to make it more robust and future-proof.
-
-See the [wiki page](https://github.com/GhentCDH/sampo-ui/wiki/Sampo%E2%80%90UI-updates-by-GhentCDH) for detailed
-explanations on changes made.
+A framework for building user interfaces for semantic portals.
 
 ## Running development and production
 
 ### Development
 
-Copy the content of `example.env` into your own `.env` file. Note that if you need additional env variables that you
-need to add them to compose.yaml as well.
+Copy the content of `example.env` into your own `.env` file.
 
 Then run:
 
@@ -21,65 +16,54 @@ docker compose up
 ```
 to run both client and server in development mode.
 
+Make a copy of `compose.yaml` and edit the mounted volumes to point to your configs and run that to test in development mode.
+
+Configs need to be mounted on server while custom components need to be mounted to client.
+
 
 ### Production
 
-To build client and server images run:
+To build client, server and combo images run:
 ```bash
 docker compose -f compose-prod.yaml build 
 ```
 
-To run prod containers make sure you again have a .env with your `API_URL` and all other env variables you need. Again 
-note that if you need additional env variables that you need to add them to compose-prod.yaml as well.
-Then run:
+Sampo can be run as split client and server containers where the `API_URL` of the server can be set. The combo image can
+be used to run sampo as one container where the server is hosted on `/api`.
 
-```bash
-docker compose -f compose-prod.yaml up
-```
+## Documentation
+
+[docs page](docs/README.md)
 
 ## Developer guide
 
 ### Coding style
 
-The [JavaScript style guide, linter, and formatter](https://standardjs.com) module (named "standard" in package.json) is installed by default as development dependency. Do not install or create any additional style definitions or configurations. Instead, install an appropriate [plugin](https://standardjs.com/index.html#are-there-text-editor-plugins) for your text editor. If there are no plugins  available for your favorite editor, it is highly recommended to switch into a supported editor. 
+The [JavaScript style guide, linter, and formatter](https://standardjs.com) module (named "standard" in package.json) is installed by 
+default as development dependency. Do not install or create any additional style definitions or configurations. 
+Instead, install an appropriate [plugin](https://standardjs.com/index.html#are-there-text-editor-plugins) for your text editor. If there are no plugins  available for your favorite 
+editor, it is highly recommended to switch into a supported editor.
 
-## Documentation
+## Version 3.0.0 vs v4.0.0 onwards
+Version 4 is a very major refactoring update that changed the way sampo portals get built. See docs page for more info.
 
-### Client
+The following research prototype portals used sampo version 3 or earlier as a base:
 
-Sampo-UI's React components are documented [here](https://semanticcomputing.github.io/sampo-ui) using Storybook.
-
-Here is a list of the main JavaScript libraries on which the Sampo-UI client is built on:
-
-* [React &ndash; A JavaScript library for building user interfaces](https://reactjs.org/)
-* [Material-UI &ndash; React components for faster and easier web development](https://material-ui.com/)
-* [Redux &ndash; A Predictable State Container for JS Apps](https://redux.js.org/)
-* [redux-observable &ndash; RxJS-based middleware for Redux](https://redux-observable.js.org/)
-* [Reselect &ndash; Selector library for Redux](https://github.com/reduxjs/reselect)
-* [React Router &ndash; Declarative routing for React](https://reacttraining.com/react-router/web/guides/quick-start)
-* [react-intl-universal &ndash; React internationalization package developed by Alibaba Group](https://github.com/alibaba/react-intl-universal)
-* [deck.gl &ndash; Large-scale WebGL-powered Data Visualization](https://deck.gl) 
-* [react-map-gl &ndash; React friendly API wrapper around MapboxGL JS](https://github.com/visgl/react-map-gl) 
-* [Leaflet &ndash; a JavaScript library for interactive maps](https://leafletjs.com/) 
-* [Cytoscape &ndash; an open source software platform for visualizing complex networks](https://cytoscape.org/)
-* [ApexCharts.js &ndash; Open Source JavaScript Charts for your website](https://apexcharts.com/)
-* [React Sortable Tree &ndash; A React component for representation of hierarchical data](https://github.com/frontend-collective/react-sortable-tree)
-* [Moment.js &ndash; Parse, validate, manipulate, and display dates and times in JavaScript](https://momentjs.com/)
-
-### Backend
-
-The API provided by Sampo-UI's backend includes routes for the following search paradigms: faceted search, 
-full text search, and federated full text or spatial search. The API is described using the 
-[OpenAPI Specification](https://swagger.io/specification). The same specification is used for both 
-documenting the API, and validating the API requests and responses. 
-
-An API documentation with example configuration can been seen [here](https://sampo-ui.demo.seco.cs.aalto.fi/api-docs/).
-
-Sampo-UI's backend is based on the following JavaScript libraries:
-
-* [Express &ndash; Fast, unopinionated, minimalist web framework for Node.js](https://expressjs.com/)
-* [axios &ndash; Promise based HTTP client for the browser and Node.js](https://github.com/axios/axios)
-* [Lodash &ndash; A modern JavaScript utility library delivering modularity, performance & extras](https://lodash.com/)
+1. [NameSampo](https://github.com/SemanticComputing/nimisampo.fi)
+2. [Mapping Manuscript Migrations](https://github.com/mapping-manuscript-migrations/mmm-web-app)
+3. [WarVictimSampo 1914&ndash;1922](https://github.com/SemanticComputing/sotasurmat-web-app)
+4. [LawSampo](https://github.com/SemanticComputing/lawsampo-web-app)
+5. [AcademySampo](https://github.com/SemanticComputing/academysampo-web-app)
+6. [FindSampo](https://github.com/SemanticComputing/findsampo-web-app)
+7. [HistorySampo](https://github.com/SemanticComputing/historysampo-web-app)
+8. [LetterSampo](https://github.com/SemanticComputing/lettersampo-web-app)
+9. [Hellerau](https://github.com/SemanticComputing/hellerau-web-app)
+10. [ParliamentSampo](https://github.com/SemanticComputing/parliamentsampo-web-app)
+11. [WarMemoirSampo](https://github.com/SemanticComputing/veterans-web-app)
+12. [WarSampo analyzer](https://github.com/SemanticComputing/warsa-analyzer-web-app)
+13. [ArtSampo](https://github.com/SemanticComputing/artsampo-web-app)
+14. [Constellations of Correspondence](https://github.com/SemanticComputing/coco-web-app)
+15. [BookSampo](https://github.com/SemanticComputing/booksampo-web-app)
 
 ## Extra: forking into the same organization account
 
@@ -115,3 +99,21 @@ The example fetches only master branch:
 10. Go to the branch of your new repository where you want to merge the changes in upstream.
 Merge, solve conflicts and enjoy:
 `git merge upstream/master`
+
+## Credits
+
+Developed by the [Semantic Computing Research Group (SeCo)](https://seco.cs.aalto.fi/) and the [Ghent Centre for Digital Humanities (GhentCDH)](https://www.ghentcdh.ugent.be/).
+
+Funded by [FIN-CLARIAH](https://www.kielipankki.fi/organization/fin-clariah/) and [Clariah-VL](https://clariahvl.hypotheses.org/).
+
+Supported by [CSC – IT Center for Science](https://csc.fi/en/).
+
+<img src="https://www.ldf.fi/img/seco-logo.png" alt="SeCo logo" width="300">
+
+<img src="https://www.ghentcdh.ugent.be/ghentcdh_logo_blue_text_transparent_bg_landscape.svg" alt="GhentCDH logo" width="400">
+
+<img src="https://www.kielipankki.fi/wp-content/uploads/FIN-CLARIN_logo_2016_transparent.png" alt="FIN-CLARIN logo" width="400">
+
+<img src="https://seco.cs.aalto.fi/projects/fin-clariah/dariah_logo.png" alt="DARIAH-FI logo" width="400">
+
+<img src="https://www.ghentcdh.ugent.be/sites/default/files/clariah_small.jpg" alt="CLARIAH-VL logo" width="400">

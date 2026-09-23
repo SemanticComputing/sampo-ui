@@ -12,12 +12,12 @@ import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import { Link, NavLink } from 'react-router-dom'
-import TopBarSearchField from './TopBarSearchField'
-import TopBarInfoButton from './TopBarInfoButton'
-import TopBarLanguageButton from './TopBarLanguageButton'
+import TopBarSearchField from 'components/main_layout/TopBarSearchField'
+import TopBarInfoButton from 'components/main_layout/TopBarInfoButton'
+import TopBarLanguageButton from 'components/main_layout/TopBarLanguageButton'
 import Divider from '@mui/material/Divider'
 import { has } from 'lodash'
-import secoLogo from '../../img/logos/seco-logo-48x50.png'
+import secoLogo from 'img/logos/seco-logo-48x50.png'
 
 /**
  * Responsive app bar with a search field, perspective links, info links and a language

@@ -3,8 +3,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import 'moment/locale/fi'
-import SemanticPortal from '../containers/SemanticPortal'
-import { useConfigsStore } from '../stores/configsStore'
+import SemanticPortal from 'containers/SemanticPortal'
+import { useConfigsStore } from 'stores/configsStore'
 
 await useConfigsStore.getState().initConfigs()
 const portalConfig = useConfigsStore.getState().portalConfig

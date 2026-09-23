@@ -3,22 +3,21 @@ import intl from 'react-intl-universal'
 import { Route, useLocation } from 'react-router-dom'
 import { has } from 'lodash'
 import { useSelector } from 'react-redux'
-import CustomComponentWrapper from '../CustomComponentWrapper'
-// import LineChartSotasurmat from '../perspectives/sotasurmat/LineChartSotasurmat'
-const ResultTable = lazy(() => import('./ResultTable'))
-const InstancePageTable = lazy(() => import('../main_layout/InstancePageTable'))
-const ReactVirtualizedList = lazy(() => import('./ReactVirtualizedList'))
-const LeafletMap = lazy(() => import('./LeafletMap'))
-const Deck = lazy(() => import('./Deck'))
-const ApexCharts = lazy(() => import('./ApexCharts'))
-const Network = lazy(() => import('./Network'))
-const VideoPage = lazy(() => import('../main_layout/VideoPage'))
-// const WordCloud = lazy(() => import('../main_layout/WordCloud'))
-const TemporalMap = lazy(() => import('./TemporalMap'))
-const BarChartRace = lazy(() => import('./BarChartRace'))
-const ExportCSV = lazy(() => import('./ExportCSV'))
-const ExportLink = lazy(() => import('./ExportLink'))
-const Export = lazy(() => import('./Export'))
+import CustomComponentWrapper from 'components/CustomComponentWrapper'
+const ResultTable = lazy(() => import('components/facet_results/ResultTable'))
+const InstancePageTable = lazy(() => import('components/main_layout/InstancePageTable'))
+const ReactVirtualizedList = lazy(() => import('components/facet_results/ReactVirtualizedList'))
+const LeafletMap = lazy(() => import('components/facet_results/LeafletMap'))
+const Deck = lazy(() => import('components/facet_results/Deck'))
+const ApexCharts = lazy(() => import('components/facet_results/ApexCharts'))
+const Network = lazy(() => import('components/facet_results/Network'))
+const VideoPage = lazy(() => import('components/main_layout/VideoPage'))
+// const WordCloud = lazy(() => import('components/main_layout/WordCloud'))
+const TemporalMap = lazy(() => import('components/facet_results/TemporalMap'))
+const BarChartRace = lazy(() => import('components/facet_results/BarChartRace'))
+const ExportCSV = lazy(() => import('components/facet_results/ExportCSV'))
+const ExportLink = lazy(() => import('components/facet_results/ExportLink'))
+const Export = lazy(() => import('components/facet_results/Export'))
 
 const getVisibleRows = perspectiveState => {
   const { properties, instanceTableData } = perspectiveState
@@ -141,7 +140,8 @@ const ResultClassRoute = props => {
         resultClass,
         fetchResults: props.fetchResults,
         properties,
-        screenSize
+        screenSize,
+        fetching: perspectiveState.fetching
       }
       if (resultClassConfig.fetchResultsWhenMounted) {
         instanceTableProps = {

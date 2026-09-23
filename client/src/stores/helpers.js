@@ -1,18 +1,14 @@
 import { has, sortBy } from 'lodash'
-import MuiIcon from '../components/main_layout/MuiIcon'
+import MuiIcon from 'components/main_layout/MuiIcon'
 import React from 'react'
 
 export const configHelpers = (getConfigJsonFile, getConfigImgFile) => {
   const processPortalConfig = async portalConfig => {
-    const { layoutConfig, mapboxConfig } = portalConfig
+    const { layoutConfig } = portalConfig
     if (layoutConfig.mainPage) {
       const { bannerImage, bannerBackground } = layoutConfig.mainPage
       const bannerImageURL = await getConfigImgFile(bannerImage)
       layoutConfig.mainPage.bannerBackground = bannerBackground.replace('<BANNER_IMAGE_URL>', bannerImageURL)
-    }
-    const mapboxAccessToken = process.env.MAPBOX_ACCESS_TOKEN
-    if (mapboxConfig && mapboxAccessToken) {
-      mapboxConfig.mapboxAccessToken = mapboxAccessToken
     }
     if (layoutConfig.topBar.logoImage) {
       layoutConfig.topBar.logoImageUrl = await getConfigImgFile(layoutConfig.topBar.logoImage)

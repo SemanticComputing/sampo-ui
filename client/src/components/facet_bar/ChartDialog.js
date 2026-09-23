@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-import GeneralDialog from '../main_layout/GeneralDialog'
-import ApexCharts from '../facet_results/ApexCharts'
+import GeneralDialog from 'components/main_layout/GeneralDialog'
+import ApexCharts from 'components/facet_results/ApexCharts'
 import { styled } from '@mui/material/styles'
 
 const DivChartContainer = styled('div')(({ theme }) => ({

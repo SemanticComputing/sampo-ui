@@ -47,14 +47,15 @@ const ResultTableHead = props => {
                     className={classes.headerCol}
                   >
                     {label}
-                    <Tooltip
-                      title={description}
-                      enterDelay={300}
-                    >
-                      <IconButton size='large'>
-                        <InfoIcon />
-                      </IconButton>
-                    </Tooltip>
+                    {description &&
+                      <Tooltip
+                        title={description}
+                        enterDelay={300}
+                      >
+                        <IconButton size='large'>
+                          <InfoIcon />
+                        </IconButton>
+                      </Tooltip>}
                   </TableCell>
                   )
                 : (
@@ -75,14 +76,15 @@ const ResultTableHead = props => {
                         {label}
                       </TableSortLabel>
                     </Tooltip>
-                    <Tooltip
-                      title={description}
-                      enterDelay={300}
-                    >
-                      <IconButton size='large'>
-                        <InfoIcon />
-                      </IconButton>
-                    </Tooltip>
+                    {description &&
+                      <Tooltip
+                        title={description}
+                        enterDelay={300}
+                      >
+                        <IconButton size='large'>
+                          <InfoIcon />
+                        </IconButton>
+                      </Tooltip>}
                   </TableCell>
                   )}
             </React.Fragment>

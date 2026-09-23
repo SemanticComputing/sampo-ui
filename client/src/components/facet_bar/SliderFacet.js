@@ -6,7 +6,7 @@ import { withStyles } from 'tss-react/mui'
 import Slider from '@mui/material/Slider'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import { yearToISOString, ISOStringToYear } from './FacetHelpers'
+import { yearToISOString, ISOStringToYear } from 'components/facet_bar/FacetHelpers'
 
 const styles = (theme) => ({
   root: {

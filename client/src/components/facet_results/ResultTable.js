@@ -5,17 +5,17 @@ import { withStyles } from 'tss-react/mui'
 import clsx from 'clsx'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
-import ResultTableCell from './ResultTableCell'
+import ResultTableCell from 'components/facet_results/ResultTableCell'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import IconButton from '@mui/material/IconButton'
 import CircularProgress from '@mui/material/CircularProgress'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import qs from 'qs'
-import ResultTableHead from './ResultTableHead'
+import ResultTableHead from 'components/facet_results/ResultTableHead'
 import TablePagination from '@mui/material/TablePagination'
-import ResultTablePaginationActions from './ResultTablePaginationActions'
-import history from '../../History'
+import ResultTablePaginationActions from 'components/facet_results/ResultTablePaginationActions'
+import history from 'History'
 
 const styles = (theme, props) => ({
   tableContainer: {
@@ -221,7 +221,7 @@ class ResultTable extends React.Component {
     const dataCells = this.props.data.properties.map(column => {
       const {
         id, valueType, makeLink, externalLink, sortValues, sortBy, sortByConvertDataTypeTo, numberedList, minWidth,
-        height, linkAsButton, collapsedMaxWords, showExtraCollapseButton, sourceExternalLink, renderAsHTML, HTMLParserTask
+        height, maxHeight, linkAsButton, collapsedMaxWords, showExtraCollapseButton, sourceExternalLink, renderAsHTML, HTMLParserTask
       } = column
       let { previewImageHeight } = column
       if (screenSize === 'xs' || screenSize === 'sm') {
@@ -269,6 +269,7 @@ class ResultTable extends React.Component {
           numberedList={numberedList}
           height={height}
           minWidth={minWidth}
+          maxHeight={maxHeight}
           previewImageHeight={previewImageHeight}
           container='cell'
           expanded={expanded}

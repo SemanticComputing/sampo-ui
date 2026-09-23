@@ -203,16 +203,16 @@ const generateSelectedBlock = ({
   currentSelectionsWithoutUnknown,
   literal
 }) => {
-  const selectedFilter = generateSelectedFilter({
-    currentSelectionsWithoutUnknown,
-    inverse: false,
-    literal
-  })
+  const selections = literal
+    ? `'${currentSelectionsWithoutUnknown.join("', '")}'`
+    : `<${currentSelectionsWithoutUnknown.join('>, <')}>`
+  // Mark the selected value(s) with a direct BIND instead of a triple-less
+  // OPTIONAL { FILTER(?id IN ..) BIND(true AS ?selected_) }: that construct is
+  // mistranslated by some engines (QLever silently drops the flag; the VALUES
+  // variant makes Ontop rebind ?id and miscount). ?id is already bound in the
+  // enclosing group, so IN(...) evaluates portably.
   return `
-          OPTIONAL {
-            ${selectedFilter}
-            BIND(true AS ?selected_)
-          }
+          BIND(IF(?id IN ( ${selections} ), true, false) AS ?selected_)
   `
 }
 
@@ -277,16 +277,6 @@ const getUriFilters = (constraints, facetID) => {
   return filters
 }
 
-export const generateSelectedFilter = ({
-  currentSelectionsWithoutUnknown,
-  inverse,
-  literal
-}) => {
-  const selections = literal ? `'${currentSelectionsWithoutUnknown.join("', '")}'` : `<${currentSelectionsWithoutUnknown.join('>, <')}>`
-  return (`
-          FILTER(?id ${inverse ? 'NOT' : ''} IN ( ${selections} ))
-  `)
-}
 
 const unknownBlock = `
   UNION

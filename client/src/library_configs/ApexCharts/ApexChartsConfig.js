@@ -1,5 +1,5 @@
 import intl from 'react-intl-universal'
-import { generateLabelForMissingValue } from '../../helpers/helpers'
+import { generateLabelForMissingValue } from 'helpers/helpers'
 
 // list of colors generated with http://phrogz.net/css/distinct-colors.html
 const pieChartColors = ['#a12a3c', '#0f00b5', '#81c7a4', '#ffdea6', '#ff0033', '#424cff', '#1b6935', '#ff9d00', '#5c3c43',
@@ -458,6 +458,106 @@ const apexBarChartOptions = {
         hideOverflowingLabels: true,
         orientation: 'horizontal'
       }
+    }
+  }
+}
+
+export const createApexBarChartAoristictData = ({
+  resultClass,
+  facetClass,
+  perspectiveState,
+  results,
+  chartTypeObj,
+  resultClassConfig,
+  screenSize
+}) => {
+  const {
+    title,
+    seriesTitle,
+    xaxisTitle,
+    yaxisTitle
+  } = resultClassConfig
+  const categories = []
+  const colors = []
+  const data = []
+  let otherCount = 0
+  const arraySum = results.reduce((sum, current) => sum + current.instanceCount, 0)
+  const { sliceVisibilityThreshold = defaultSliceVisibilityThreshold, propertyID } = resultClassConfig
+  if (chartTypeObj && chartTypeObj.sortByLocaleCompare) {
+    const prop = chartTypeObj.sortByLocaleCompare
+    results.sort((a, b) => a[prop].localeCompare(b[prop]))
+  }
+  results.forEach(item => {
+    const sliceFraction = item.instanceCount / arraySum
+    if (sliceFraction <= sliceVisibilityThreshold) {
+      otherCount += item.instanceCount
+      categories.push(item.prefLabel)
+      colors.push('#000000')
+      data.push(item.instanceCount)
+    } else {
+      if (item.id === 'http://ldf.fi/MISSING_VALUE' || item.category === 'http://ldf.fi/MISSING_VALUE') {
+        item.prefLabel = generateLabelForMissingValue({ perspective: facetClass, property: propertyID })
+      }
+      categories.push(item.prefLabel)
+      colors.push('#000000')
+      data.push(Math.round(item.instanceCount))
+    }
+  })
+  if (otherCount !== 0) {
+    categories.push(intl.get('apexCharts.other') || 'Other')
+    colors.push('#000000')
+    data.push(Math.round(otherCount))
+  }
+  const apexChartOptionsWithData = {
+    ...apexBarChartAoristicOptions,
+    series: [{
+      data,
+      name: 'Temporalweight'
+    }],
+    title: {
+      text: title
+    },
+    xaxis: {
+      categories,
+      title: {
+        text: xaxisTitle
+      }
+    },
+    yaxis: {
+      title: {
+        text: yaxisTitle
+      }
+    },
+    dataLabels: {
+      enabled: false,
+      offsetY: -20,
+      style: {
+        fontWeight: 400,
+        colors
+      }
+    }
+  }
+  return apexChartOptionsWithData
+}
+
+const apexBarChartAoristicOptions = {
+  // see https://apexcharts.com/docs --> Options
+  chart: {
+    type: 'bar',
+    width: '100%',
+    height: '100%',
+    parentHeightOffset: 10,
+    fontFamily: 'Roboto'
+  },
+  plotOptions: {
+    bar: {
+      dataLabels: {
+        position: 'top',
+        maxItems: 100,
+        hideOverflowingLabels: true,
+        orientation: 'horizontal'
+      },
+      columnWidth: '100%'
     }
   }
 }

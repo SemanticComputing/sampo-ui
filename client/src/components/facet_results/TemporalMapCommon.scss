@@ -85,6 +85,7 @@ $secondary_color: rgb(255, 153, 51);
         @include style-definition(row, flex-end, center);
         color: lightgrey;
         font-size: 0.85rem;
+        align-items: baseline;
 
         div {
           cursor: pointer;

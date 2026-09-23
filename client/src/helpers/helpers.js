@@ -94,6 +94,13 @@ export const stateToUrl = ({
           priority: value.priority,
           values: value.integerFilter
         })
+      } else if (has(value, 'customFilter') && value.customFilter !== null) {
+        constraints.push({
+          facetID: key,
+          filterType: 'customFilter',
+          priority: value.priority,
+          values: value.customFilter
+        })
       }
     }
     if (constraints.length > 0) {

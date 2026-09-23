@@ -18,7 +18,7 @@ import {
   UPDATE_PERSPECTIVE_HEADER_EXPANDED,
   UPDATE_KNOWLEDGE_GRAPH_METADATA,
   UPDATE_MAP_BOUNDS
-} from '../../actions'
+} from 'actions'
 import {
   fetchResults,
   fetchResultsFailed,
@@ -36,7 +36,7 @@ import {
   updateHeaderExpanded,
   updateKnowledgeGraphMetadata,
   updateMapBounds
-} from './helpers'
+} from 'reducers/general/helpers'
 
 export const handleDataFetchingAction = (state, action, initialState) => {
   switch (action.type) {

@@ -17,6 +17,17 @@ export const generateConstraintsBlock = ({
     const modifiedConstraints = constraints.filter(facet => facet.facetID !== skipFacetID)
     modifiedConstraints.sort((a, b) => a.priority - b.priority)
     modifiedConstraints.forEach(c => {
+      const facetCfg = backendSearchConfig[facetClass]?.facets?.[c.facetID]
+      if (facetCfg?.customFilterName) {
+        const overrideFunc = backendSearchConfig.customFilters?.[facetCfg.customFilterName]
+        if (overrideFunc) {
+          filterStr += overrideFunc({
+            backendSearchConfig, facetClass, facetID: c.facetID,
+            filterTarget, values: c.values, inverse
+          })
+          return
+        }
+      }
       switch (c.filterType) {
         case 'textFilter':
           filterStr += generateTextFilter({
@@ -145,7 +156,7 @@ const generateTextFilter = ({
   if (defaultSparql) {
     filterStr = `
       ?${filterTarget} ${facetConfig.textQueryProperty} ?o .
-      FILTER(CONTAINS(LCASE(?o), "${queryString}"))
+      FILTER(CONTAINS(LCASE(?o), "${queryString.toLowerCase()}"))
     `
   } else {
     filterStr = facetConfig.textQueryPredicate

@@ -4,7 +4,7 @@ import {
   CLEAR_GEOJSON_LAYERS,
   UPDATE_GEOJSON_LAYERS,
   FETCH_GEOJSON_LAYERS_FAILED
-} from '../../actions'
+} from 'actions'
 
 export const INITIAL_STATE = {
   layerData: [],

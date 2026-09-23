@@ -2,7 +2,7 @@ import React from 'react'
 import parse from 'html-react-parser'
 import { Link } from 'react-router-dom'
 import Tooltip from '@mui/material/Tooltip'
-import { arrayToObject } from './helpers'
+import { arrayToObject } from 'helpers/helpers'
 import { findAll, prependChild } from 'domutils'
 
 export default class HTMLParser {
@@ -68,8 +68,17 @@ export default class HTMLParser {
 
   addReactRouterLinks (node, index) {
     if (node.type === 'tag' && node.name === 'a') {
-      const href = node.attribs.href
-      const text = node.children[0].data
+      const href = node.attribs.href || ''
+      const text = node.children[0] && node.children[0].data
+      // External/absolute links (scheme like http:, https:, mailto:, tel:, or
+      // protocol-relative //) must render as real anchors so the browser navigates out
+      // and honours target/rel. React Router's <Link> would treat them as in-app paths.
+      const isExternal = /^([a-z][a-z0-9+.-]*:|\/\/)/i.test(href)
+      if (isExternal) {
+        const { target } = node.attribs
+        const rel = node.attribs.rel || (target === '_blank' ? 'noopener noreferrer' : undefined)
+        return <a key={index} href={href} target={target} rel={rel}>{text}</a>
+      }
       return <Link key={index} to={href}>{text}</Link>
     }
   }

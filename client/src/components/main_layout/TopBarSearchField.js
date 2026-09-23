@@ -5,7 +5,7 @@ import { alpha } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import SearchIcon from '@mui/icons-material/Search'
 import InputBase from '@mui/material/InputBase'
-import history from '../../History'
+import history from 'History'
 
 /**
  * A search field that can be embedded into the TopBar.

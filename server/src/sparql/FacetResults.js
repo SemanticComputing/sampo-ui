@@ -34,6 +34,20 @@ export const getPaginatedResults = ({
     resultMapperConfig = null,
     postprocess = null
   } = resultClassConfig.paginatedResultsConfig
+  q = q.replaceAll('<RESULT_SET_PROPERTIES>', propertiesQueryBlock)
+  q = q.replaceAll('<SUBQUERY_FILTER>', `
+    {
+      SELECT DISTINCT ?id ?orderBy {
+        <FILTER>
+        VALUES ?facetClass { <FACET_CLASS> }
+        ?id <FACET_CLASS_PREDICATE> ?facetClass .
+        <ORDER_BY_TRIPLE>
+      }
+      <ORDER_BY>
+      <PAGE>
+    }
+    FILTER(BOUND(?id))
+  `)
   if (constraints == null && defaultConstraint == null) {
     q = q.replaceAll('<FILTER>', '# no filters')
   } else {
@@ -75,7 +89,6 @@ export const getPaginatedResults = ({
     q = q.replaceAll(/<FACET_CLASS_PREDICATE>/g, 'a')
   }
   q = q.replaceAll('<PAGE>', `LIMIT ${pagesize} OFFSET ${page * pagesize}`)
-  q = q.replaceAll('<RESULT_SET_PROPERTIES>', propertiesQueryBlock)
   if (langTag) {
     q = q.replaceAll(/<LANG>/g, langTag)
   }

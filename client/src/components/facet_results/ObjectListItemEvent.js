@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from 'tss-react/mui'
-import ObjectListItemLink from './ObjectListItemLink'
+import ObjectListItemLink from 'components/facet_results/ObjectListItemLink'
 
 const styles = () => ({
   dateContainer: {

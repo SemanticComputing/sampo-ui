@@ -2,18 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from 'tss-react/mui'
 import Collapse from '@mui/material/Collapse'
-import { ISOStringToDate } from './Dates'
+import { ISOStringToDate } from 'components/facet_results/Dates'
 import { orderBy, has } from 'lodash'
-import ObjectListItem from './ObjectListItem'
-import ObjectListItemSources from './ObjectListItemSources'
-import ObjectListItemEvent from './ObjectListItemEvent'
+import ObjectListItem from 'components/facet_results/ObjectListItem'
+import ObjectListItemSources from 'components/facet_results/ObjectListItemSources'
+import ObjectListItemEvent from 'components/facet_results/ObjectListItemEvent'
 import classNames from 'classnames'
 
 const styles = (theme, props) => ({
   resultTableList: {
-    maxHeight: props.tableData && props.tableData.paginatedResultsRowContentMaxHeight
+    maxHeight: props.maxHeight ?? (props.tableData && props.tableData.paginatedResultsRowContentMaxHeight
       ? props.tableData.paginatedResultsRowContentMaxHeight
-      : 200,
+      : 200),
     overflow: 'auto'
   },
   valueList: {
@@ -72,7 +72,7 @@ const ObjectListCollapsible = props => {
       )
     } else {
       return (
-        <>
+        <div style={{ color: itemData.color ? itemData.color : '' }}>
           <ObjectListItem
             data={itemData}
             shortenLabel={shortenLabel}
@@ -90,7 +90,7 @@ const ObjectListCollapsible = props => {
               shortenLabel={shortenLabel}
               externalLink={sourceExternalLink}
             />}
-        </>
+        </div>
       )
     }
   }
@@ -142,7 +142,8 @@ ObjectListCollapsible.propTypes = {
   columnId: PropTypes.string.isRequired,
   linkAsButton: PropTypes.bool,
   showSource: PropTypes.bool,
-  shortenLabel: PropTypes.bool.isRequired
+  shortenLabel: PropTypes.bool.isRequired,
+  maxHeight: PropTypes.number
 }
 
 export default withStyles(ObjectListCollapsible, styles)

@@ -2,12 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from 'tss-react/mui'
 import intl from 'react-intl-universal'
-import ReactMapGL, { NavigationControl, FullscreenControl } from 'react-map-gl'
+import ReactMapGL, { Map, useControl, FullscreenControl, NavigationControl, AttributionControl } from 'react-map-gl/maplibre'
+import 'maplibre-gl/dist/maplibre-gl.css'
+
 import DeckGL, { ScatterplotLayer } from 'deck.gl'
+import { MapboxOverlay as DeckOverlay } from '@deck.gl/mapbox'
 import Paper from '@mui/material/Paper'
-import TemporalMapTimeSlider from './TemporalMapTimeSlider'
-import './TemporalMapCommon.scss'
+import TemporalMapTimeSlider from 'components/facet_results/TemporalMapTimeSlider'
+import 'components/facet_results/TemporalMapCommon.scss'
 import Typography from '@mui/material/Typography'
+import CircularProgress from '@mui/material/CircularProgress'
 import { has } from 'lodash'
 import Moment from 'moment'
 import { extendMoment } from 'moment-range'
@@ -36,8 +40,24 @@ const styles = (theme) => ({
   },
   fullscreenButton: {
     marginTop: theme.spacing(1)
+  },
+  spinner: {
+    height: 40,
+    width: 40,
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%,-50%)'
   }
 })
+
+// https://github.com/visgl/deck.gl/blob/master/examples/website/maplibre/app.tsx
+function DeckGLOverlay(props) {
+  const overlay = useControl(() => new DeckOverlay(props))
+  overlay.setProps(props)
+  return null
+}
+
 /**
  * A component for displaying a WebGL map with an animated layer.
  * Based on https://github.com/AdriSolid/DECK.GL-Time-Slider
@@ -129,23 +149,29 @@ class TemporalMap extends Component {
 
   _renderTooltip () {
     const { hoveredObject, pointerX, pointerY } = this.state || {}
+    const greaterPlaceLabel = intl.get(`temporalMap.resultClasses.${this.props.resultClass}.greaterPlace`)
+    const startDateLabel = intl.get(`temporalMap.resultClasses.${this.props.resultClass}.startDate`)
+    const endDateLabel = intl.get(`temporalMap.resultClasses.${this.props.resultClass}.endDate`)
+    const descriptionLabel = intl.get(`temporalMap.resultClasses.${this.props.resultClass}.description`)
     return hoveredObject && (
       <Paper className={this.props.classes.tooltipContainer} style={{ left: pointerX + 10, top: pointerY + 10 }}>
         <Typography variant='h6'>
           {hoveredObject.prefLabel}
         </Typography>
-        <Typography>
-          {intl.get('perspectives.battles.temporalMap.municipality')}: {hoveredObject.greaterPlace}
-        </Typography>
-        <Typography>
-          {intl.get('perspectives.battles.temporalMap.startDate')}: {moment(hoveredObject.startDate).format('DD.MM.YYYY')}
-        </Typography>
-        <Typography>
-          {intl.get('perspectives.battles.temporalMap.endDate')}: {moment(hoveredObject.endDate).format('DD.MM.YYYY')}
-        </Typography>
-        {has(hoveredObject, 'units') &&
+        {has(hoveredObject, 'greaterPlace') && 
           <Typography>
-            {intl.get('perspectives.battles.temporalMap.units')}: {hoveredObject.units}
+            {greaterPlaceLabel ? `${greaterPlaceLabel}: ` : ''}{hoveredObject.greaterPlace}
+          </Typography>}
+        <Typography>
+          {startDateLabel ? `${startDateLabel}: ` : ''}{moment(hoveredObject.startDate).format('DD.MM.YYYY')}
+        </Typography>
+        {has(hoveredObject, 'endDate') &&
+          <Typography>
+            {endDateLabel ? `${endDateLabel}: ` : ''}{moment(hoveredObject.endDate).format('DD.MM.YYYY')}
+          </Typography>}
+        {has(hoveredObject, 'description') &&
+          <Typography>
+            {descriptionLabel ? `${descriptionLabel}: ` : ''}{hoveredObject.description}
           </Typography>}
       </Paper>
     )
@@ -157,15 +183,18 @@ class TemporalMap extends Component {
       new ScatterplotLayer({
         id: 'time-layer',
         data,
-        opacity: 0.3,
+        opacity: this.props.perspectiveConfig.resultClasses[this.props.resultClass].componentConfig?.opacity ?? 0.3,
         stroked: true,
         filled: true,
-        radiusScale: 15,
-        radiusMinPixels: 8,
-        radiusMaxPixels: 100,
+        radiusScale: this.props.perspectiveConfig.resultClasses[this.props.resultClass].componentConfig?.radiusScale ?? 15,
+        radiusMinPixels: this.props.perspectiveConfig.resultClasses[this.props.resultClass].componentConfig?.radiusMinPixels ?? 8,
+        radiusMaxPixels: this.props.perspectiveConfig.resultClasses[this.props.resultClass].componentConfig?.radiusMaxPixels ?? 100,
         lineWidthMinPixels: 1,
         getPosition: d => [+d.long, +d.lat],
         getFillColor: d => d.isNew ? [255, 0, 0] : [0, 0, 0],
+        ...(this.props.perspectiveConfig.resultClasses[this.props.resultClass].componentConfig?.radiusVariable && { 
+          getRadius: d => (this.props.perspectiveConfig.resultClasses[this.props.resultClass].componentConfig?.radiusVariableMultiplier ?? 1) * d[this.props.perspectiveConfig.resultClasses[this.props.resultClass].componentConfig?.radiusVariable] 
+        }),
         pickable: true,
         autoHighlight: true,
         onHover: info => this.setState({
@@ -177,24 +206,66 @@ class TemporalMap extends Component {
     ]
   }
 
+  getMapStyle = () => {
+    const { portalConfig } = this.props
+
+    return {
+      version: 8,
+      sources: {
+        'osm-tiles': {
+          type: 'raster',
+          tiles: [
+            `https://tile.openstreetmap.org/{z}/{x}/{y}.png`
+          ],
+          tileSize: 256,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }
+      },
+      layers: [{
+        id: 'osm-tiles-layer',
+        type: 'raster',
+        source: 'osm-tiles',
+        minzoom: 0,
+        maxzoom: 22
+      }]
+    }
+
+    // fallback gray base
+    /*return {
+      version: 8,
+      sources: {},
+      layers: [{ id: 'background', type: 'background', paint: { 'background-color': '#e0e0e0' } }]
+    }*/
+  }
+
+  renderSpinner () {
+    if (this.props.fetching) {
+      return (
+        <div className={this.props.classes.spinner}>
+          <CircularProgress />
+        </div>
+      )
+    }
+    return null
+  }
+
   handleOnViewportChange = viewport =>
     this.state.mounted && this.setState({ viewport })
 
   render () {
     const { viewport, memory, dates } = this.state
     const { classes, animateMap, portalConfig } = this.props
-    const { mapboxAccessToken, mapboxStyle } = portalConfig.mapboxConfig
     return (
       <div id='temporal-map-root' ref={this.mapElementRef} className={classes.root}>
-        <ReactMapGL
+        <Map
           {...viewport}
-          width='100%'
-          height='100%'
           reuseMaps
-          mapStyle={`mapbox://styles/mapbox/${mapboxStyle}`}
+          mapStyle={this.getMapStyle()}
           preventStyleDiffing
-          mapboxApiAccessToken={mapboxAccessToken}
           onViewportChange={this.handleOnViewportChange}
+          onMove={(evt) => this.handleOnViewportChange(evt.viewState)}
+          attributionControl={false}
+          style={{ width: '100%', height: '100%', zIndex: '0' }}
         >
           <div className={classes.navigationContainer}>
             <NavigationControl />
@@ -203,20 +274,21 @@ class TemporalMap extends Component {
               container={document.querySelector('temporal-map-root')}
             />
           </div>
-          <DeckGL
+          <DeckGLOverlay
             layers={this._renderLayers()}
             viewState={viewport}
           />
-          <TemporalMapTimeSlider
-            mapElementRef={this.mapElementRef}
-            memory={memory}
-            dates={dates}
-            animateMap={animateMap}
-            initialValue={this.props.animationValue[0]}
-            sliderDuration={portalConfig.temporalMapConfig.sliderDuration}
-          />
-          {this._renderTooltip()}
-        </ReactMapGL>
+          {this.renderSpinner()}
+        </Map>
+        <TemporalMapTimeSlider
+          mapElementRef={this.mapElementRef}
+          memory={memory}
+          dates={dates}
+          animateMap={animateMap}
+          initialValue={this.props.animationValue[0]}
+          sliderDuration={this.props.perspectiveConfig.resultClasses[this.props.resultClass].componentConfig?.sliderDuration}
+        />
+        {this._renderTooltip()}
       </div>
     )
   }
@@ -254,7 +326,11 @@ TemporalMap.propTypes = {
   /**
    * ID for detecting updates in facets.
    */
-  facetUpdateID: PropTypes.number.isRequired
+  facetUpdateID: PropTypes.number.isRequired,
+  /**
+   * Loading indicator.
+   */
+  fetching: PropTypes.bool.isRequired
 }
 
 export const TemporalMapComponent = TemporalMap

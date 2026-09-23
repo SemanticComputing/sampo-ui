@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware, compose, bindActionCreators } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
 import { actions as toastrActions } from 'react-redux-toastr'
-import reducer from './reducers'
-import rootEpic from './epics'
+import reducer from 'reducers'
+import rootEpic from 'epics'
 
 export default function configureStore (preloadedState) {
   const epicMiddleware = createEpicMiddleware()

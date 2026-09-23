@@ -1,7 +1,91 @@
 import { has, orderBy } from 'lodash'
-import history from '../../History'
+import history from 'History'
 import intl from 'react-intl-universal'
 import moment from 'moment'
+
+const createLink = (external = false, url, label) => {
+  const link = document.createElement('a')
+
+  if (external) {
+    link.setAttribute('target', '_blank')
+    link.setAttribute('rel', 'noopener noreferrer')
+    link.setAttribute('href', url)
+  } else {
+    link.addEventListener('click', () => history.push(url))
+  }
+
+  link.textContent = label
+  link.style.cssText = 'cursor: pointer; text-decoration: underline'
+
+  return link
+}
+
+export const createConfigurablePopUpContent = ({ data, resultClass, popUpElements = [] }) => {
+  const container = document.createElement('div')
+
+  popUpElements.forEach((element) => {
+    let element_data = data
+
+    if (element.source === 'sparql') {
+      element_data = data[element.variableName]
+    } else if (element.source === 'intl') {
+      element_data = intl.get(element.variableName)
+    }
+
+    if (element.isArray && Array.isArray(element_data)) {
+      let listing
+
+      // default to <div> if parent elment is not specified
+      listing = document.createElement(element.arrayParentElement ? element.arrayParentElement : 'div')
+
+      let instances = element.orderBy ? orderBy(element_data, element.orderBy) : element_data
+
+      instances.forEach(i => {
+        const li = document.createElement(element.htmlElement)
+        if (element.makeLink && i.dataProviderUrl) {
+          const link = createLink(element.externalLink, i.dataProviderUrl, i.prefLabel)
+          li.appendChild(link)
+        } else {
+          li.textContent = i.prefLabel
+        }
+        listing.appendChild(li)
+      })
+
+      container.appendChild(listing)
+    }
+    else if (element_data) {
+      // ensure only one value
+      if (Array.isArray(element_data)) {
+        element_data = element_data[0]
+      }
+
+      const el = document.createElement(element.htmlElement)
+
+      if (element.htmlElement === 'img') {
+        el.className = 'leaflet-popup-content-image'
+        el.setAttribute('src', element_data.url)
+      }
+
+      if (element.makeLink && has(element_data, 'dataProviderUrl')) {
+        const link = createLink(element.externalLink, element_data.dataProviderUrl, element_data.prefLabel)
+        el.appendChild(link)
+      } else {
+        el.textContent = (element.type === "object") ? element_data.prefLabel : element_data
+      }
+
+      container.appendChild(el)
+    } else if (element.includeUndefined) {
+      const el = document.createElement('span')
+      el.textContent = '-'
+      el.textContent = element.undefinedReplacement ? element.undefinedReplacement : el.textContent
+      el.textContent = element.undefinedReplacementIntl ? intl.get(element.undefinedReplacementIntl) : el.textContent
+      container.appendChild(el)
+    }
+  })
+
+  return container
+}
+
 
 export const createPopUpContentDefault = ({ data, resultClass }) => {
   if (Array.isArray(data.prefLabel)) {

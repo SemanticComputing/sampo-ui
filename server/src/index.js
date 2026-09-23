@@ -69,19 +69,28 @@ createBackendSearchConfig().then(backendSearchConfig => {
 
   // Serve the configs directory at /configs
   const configsPath = '/app/configs'
+  const isFile = async (p) => {
+    try {
+      return (await fs.promises.stat(p)).isFile()
+    } catch (err) {
+      return false
+    }
+  }
   app.use(`${apiPath}/configs`, async (req, res, next) => {
     const filePath = path.join(configsPath, req.path)
-    try {
-      const stats = await fs.promises.stat(filePath)
-      if (stats.isFile()) {
+    // Transparently fall back to a `.jsonc` sibling so config files can be named
+    // either `.json` or `.jsonc`; the client keeps requesting `.json` URLs.
+    if (!(await isFile(filePath)) && req.path.endsWith('.json')) {
+      const jsoncPath = path.join(configsPath, `${req.path}c`)
+      if (await isFile(jsoncPath)) {
+        req.url = req.url.replace(/\.json(\?|$)/, '.jsonc$1')
         return express.static(configsPath)(req, res, next)
-      } else {
-        console.log(`Requested path is not a file: ${filePath}`)
-        next()
       }
-    } catch (err) {
+    }
+    if (await isFile(filePath)) {
+      return express.static(configsPath)(req, res, next)
+    } else {
       console.log(`File not found or inaccessible: ${filePath}`)
-      // console.error(`Error accessing ${filePath}:`, err.message)
       next()
     }
   })

@@ -1,10 +1,10 @@
 import React, { lazy } from 'react'
-import FacetBar from '../facet_bar/FacetBar'
-import FederatedResults from './FederatedResults'
+import FacetBar from 'components/facet_bar/FacetBar'
+import FederatedResults from 'components/facet_results/FederatedResults'
 import Grid from '@mui/material/Grid'
-import { getSpacing } from '../../helpers/helpers'
+import { getSpacing } from 'helpers/helpers'
 
-const MainClientFS = lazy(() => import('../../components/perspectives/MainClientFS'))
+const MainClientFS = lazy(() => import('components/perspectives/MainClientFS'))
 
 const FederatedSearchPerspective = props => {
   const {

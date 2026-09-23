@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import intl from 'react-intl-universal'
 import { has } from 'lodash'
-import ActiveFilters from './ActiveFilters'
+import ActiveFilters from 'components/facet_bar/ActiveFilters'
 import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Divider from '@mui/material/Divider'
@@ -53,12 +53,14 @@ class FacetInfo extends React.Component {
     const timespanFilters = {}
     const dateNoTimespanFilters = {}
     const integerFilters = {}
+    const customFilters = {}
     let activeUriFilters = false
     let activeSpatialFilters = false
     let activeTextFilters = false
     let activeTimespanFilters = false
     let activeDateNoTimespanFilters = false
     let activeIntegerFilters = false
+    let activeCustomFilters = false
     Object.entries(facets).forEach(entry => {
       const [key, value] = entry
       if (has(value, 'uriFilter') && value.uriFilter !== null) {
@@ -84,6 +86,10 @@ class FacetInfo extends React.Component {
       if (has(value, 'integerFilter') && value.integerFilter !== null) {
         activeIntegerFilters = true
         integerFilters[key] = value.integerFilter
+      }
+      if (has(value, 'customFilter') && value.customFilter !== null) {
+        activeCustomFilters = true
+        customFilters[key] = value.customFilter
       }
     })
     return (
@@ -114,7 +120,8 @@ class FacetInfo extends React.Component {
           activeTextFilters ||
           activeTimespanFilters ||
           activeDateNoTimespanFilters ||
-          activeIntegerFilters
+          activeIntegerFilters ||
+          activeCustomFilters
         ) &&
           <>
             <Box
@@ -145,6 +152,7 @@ class FacetInfo extends React.Component {
               timespanFilters={timespanFilters}
               dateNoTimespanFilters={dateNoTimespanFilters}
               integerFilters={integerFilters}
+              customFilters={customFilters}
               updateFacetOption={this.props.updateFacetOption}
               someFacetIsFetching={someFacetIsFetching}
               fetchingResultCount={this.props.fetchingResultCount}

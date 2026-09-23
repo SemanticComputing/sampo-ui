@@ -3,7 +3,7 @@ import {
   SORT_FULL_TEXT_RESULTS,
   UPDATE_RESULTS,
   CLEAR_RESULTS
-} from '../../actions'
+} from 'actions'
 import { orderBy } from 'lodash'
 
 const handleFullTextSearchAction = (state, action, initialState) => {

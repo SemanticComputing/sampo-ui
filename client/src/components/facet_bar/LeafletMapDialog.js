@@ -7,7 +7,7 @@ import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogTitle from '@mui/material/DialogTitle'
 import CropFreeIcon from '@mui/icons-material/CropFree'
-import LeafletMap from '../facet_results/LeafletMap'
+import LeafletMap from 'components/facet_results/LeafletMap'
 import CircularProgress from '@mui/material/CircularProgress'
 import Paper from '@mui/material/Paper'
 

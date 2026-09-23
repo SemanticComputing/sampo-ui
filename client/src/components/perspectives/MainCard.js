@@ -12,7 +12,7 @@ import { styled } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Link } from 'react-router-dom'
 import { has } from 'lodash'
-import defaultImage from '../../img/main_page/thumb.png'
+import defaultImage from 'img/main_page/thumb.png'
 
 const GridItem = styled(Grid, {
   shouldForwardProp: prop => prop !== 'perspective'
@@ -82,6 +82,10 @@ const MainCard = props => {
   const isCard = perspective.frontPageElement === 'card'
   const searchMode = has(perspective, 'searchMode') ? (perspective.searchMode === 'dummy-internal' ? '' : perspective.searchMode) : 'faceted-search'
 
+  const internalTo = perspective.searchMode === 'dummy-internal'
+    ? `${rootUrl}${perspective.internalLink}`
+    : `${rootUrl}/${perspective.id}/${searchMode}`
+
   const linkProps = externalPerspective
     ? {
         component: 'a',
@@ -90,7 +94,7 @@ const MainCard = props => {
       }
     : {
         component: Link,
-        to: `${rootUrl}/${perspective.id}/${searchMode}`
+        to: internalTo
       }
 
   return (

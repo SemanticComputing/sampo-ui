@@ -4,21 +4,22 @@ import { withStyles } from 'tss-react/mui'
 import DeckGL from '@deck.gl/react'
 import { ArcLayer, PolygonLayer } from '@deck.gl/layers'
 import { HeatmapLayer, HexagonLayer } from '@deck.gl/aggregation-layers'
+import { MapboxOverlay as DeckOverlay } from '@deck.gl/mapbox'
 
-import ReactMapGL, { FullscreenControl, NavigationControl } from 'react-map-gl/maplibre'
+import { Map, useControl, FullscreenControl, NavigationControl, AttributionControl } from 'react-map-gl/maplibre'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 import maplibregl from 'maplibre-gl'
 import { Protocol } from 'pmtiles'
 import { layers, namedFlavor } from '@protomaps/basemaps'
 
-import DeckArcLayerLegend from './DeckArcLayerLegend'
-import DeckArcLayerDialog from './DeckArcLayerDialog'
-import DeckArcLayerTooltip from './DeckArcLayerTooltip'
+import DeckArcLayerLegend from 'components/facet_results/DeckArcLayerLegend'
+import DeckArcLayerDialog from 'components/facet_results/DeckArcLayerDialog'
+import DeckArcLayerTooltip from 'components/facet_results/DeckArcLayerTooltip'
 import CircularProgress from '@mui/material/CircularProgress'
-import history from '../../History'
+import history from 'History'
 import qs from 'qs'
-import { useConfigsStore } from '../../stores/configsStore'
+import { useConfigsStore } from 'stores/configsStore'
 
 /* Documentation links:
   https://deck.gl/#/documentation/getting-started/using-with-react?section=adding-a-base-map
@@ -65,6 +66,13 @@ const styles = (theme, props) => ({
     }
   }
 })
+
+// https://github.com/visgl/deck.gl/blob/master/examples/website/maplibre/app.tsx
+function DeckGLOverlay(props) {
+  const overlay = useControl(() => new DeckOverlay(props))
+  overlay.setProps(props)
+  return null
+}
 
 /**
  * A component for WebGL maps using deck.gl and ReactMapGL.
@@ -293,7 +301,6 @@ class Deck extends React.Component {
 
   getMapStyle = () => {
     const { customTilesLayer, portalConfig } = this.props
-    const { mapboxAccessToken, mapboxStyle } = portalConfig.mapboxConfig
 
     if (customTilesLayer?.type === 'pmtiles') {
       const url = customTilesLayer.inConfig
@@ -311,72 +318,67 @@ class Deck extends React.Component {
       }
     }
 
-    if (mapboxAccessToken) {
-      return {
-        version: 8,
-        sources: {
-          'mapbox-tiles': {
-            type: 'raster',
-            tiles: [
-              `https://api.mapbox.com/styles/v1/mapbox/${mapboxStyle}/tiles/256/{z}/{x}/{y}?access_token=${mapboxAccessToken}`
-            ],
-            tileSize: 256,
-            attribution: '&copy; <a href="https://www.mapbox.com/map-feedback/" target="_blank">Mapbox</a> &copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a>'
-          }
-        },
-        layers: [{
-          id: 'mapbox-tiles-layer',
+    return {
+      version: 8,
+      sources: {
+        'osm-tiles': {
           type: 'raster',
-          source: 'mapbox-tiles',
-          minzoom: 0,
-          maxzoom: 22
-        }]
-      }
+          tiles: [
+            `https://tile.openstreetmap.org/{z}/{x}/{y}.png`
+          ],
+          tileSize: 256,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }
+      },
+      layers: [{
+        id: 'osm-tiles-layer',
+        type: 'raster',
+        source: 'osm-tiles',
+        minzoom: 0,
+        maxzoom: 22
+      }]
     }
 
     // fallback gray base
-    return {
+    /*return {
       version: 8,
       sources: {},
       layers: [{ id: 'background', type: 'background', paint: { 'background-color': '#e0e0e0' } }]
-    }
+    }*/
   }
 
   renderMap = (layer, showTooltip, hoverInfo) => {
     const { layerType } = this.props
 
     return (
-      <DeckGL
-        viewState={this.state.viewport}
-        controller
-        layers={[layer]}
-        onViewStateChange={({ viewState }) => this.handleOnViewportChange(viewState)}
-        style={{ width: '100%', height: '100%', position: 'relative' }}
-        getCursor={({ isDragging, isHovering }) => {
-          if (isDragging) return 'grabbing'
-          if (isHovering) return 'pointer'
-          return 'grab'
-        }}
-        {...(layerType === 'polygonLayer'
-          ? {
-              getTooltip: ({ object }) => object && {
-                html: `<h2>${object.prefLabel}</h2><div>${object.instanceCount}</div>`
-              }
-            }
-          : {})
-        }
-      >
-        {/* ReactMapGL as a child — DeckGL passes it the map context automatically */}
-        <ReactMapGL
+      <>
+        <Map
           reuseMaps
           mapStyle={this.getMapStyle()}
-          preventStyleDiffing
-          style={{ width: '100%', height: '100%' }}
+          initialViewState={this.state.viewport}
+          onMove={(evt) => this.handleOnViewportChange(evt.viewState)}
+          attributionControl={false}
+          style={{ width: '100%', height: '100%', zIndex: '0' }}
         >
-          <NavigationControl position='top-left' />
-          <FullscreenControl position='top-left' containerId='map-root' />
-        </ReactMapGL>
+          <DeckGLOverlay
+            layers={[layer]}
+            controller={true}
+            {...(layerType === 'polygonLayer'
+              ? {
+                  getTooltip: ({ object }) =>
+                    object && {
+                      html: `<h2>${object.prefLabel}</h2><div>${object.instanceCount}</div>`
+                    }
+                }
+              : {})}
+          />
 
+          <NavigationControl position="top-left" />
+          <FullscreenControl position="top-left" />
+          <AttributionControl compact={false} position="bottom-right" />
+          
+          {this.renderSpinner()}
+        </Map>
         {layerType === 'arcLayer' &&
           <DeckArcLayerLegend
             title={this.props.legendTitle}
@@ -408,15 +410,12 @@ class Deck extends React.Component {
             countText={this.props.countText}
             showMoreText={this.props.showMoreText}
           />}
-
-        {this.renderSpinner()}
-      </DeckGL>
+      </>
     )
   }
 
   render () {
     const { classes, layerType, fetching, results, showTooltips, portalConfig } = this.props
-    const { mapboxAccessToken, mapboxStyle } = portalConfig.mapboxConfig
     const { hoverInfo } = this.state
     const showTooltip = showTooltips && hoverInfo && hoverInfo.object
     const hasData = !fetching && results && results.length > 0 &&
@@ -425,7 +424,6 @@ class Deck extends React.Component {
         (results[0].from && results[0].to) ||
         results[0].polygon
       )
-    // console.log(hasData)
 
     /* It's OK to create a new Layer instance on every render
        https://github.com/uber/deck.gl/blob/master/docs/developer-guide/using-layers.md#should-i-be-creating-new-layers-on-every-render

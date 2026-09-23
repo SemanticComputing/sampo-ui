@@ -3,12 +3,12 @@ import {
   FETCH_FACET_CONSTRAIN_SELF_FAILED,
   UPDATE_FACET_VALUES_CONSTRAIN_SELF,
   CLEAR_ALL_FACETS
-} from '../../actions'
+} from 'actions'
 import {
   fetchFacet,
   fetchFacetFailed,
   updateFacetValues
-} from './helpers'
+} from 'reducers/general/helpers'
 
 export const handleFacetConstrainSelfAction = (state, action, initialState) => {
   switch (action.type) {

@@ -10,7 +10,7 @@ import Tooltip from '@mui/material/Tooltip'
 import { Link } from 'react-router-dom'
 import { has } from 'lodash'
 import parse from 'html-react-parser'
-import { arrayToObject } from '../../helpers/helpers'
+import { arrayToObject } from 'helpers/helpers'
 
 const styles = (theme) => ({
   root: {

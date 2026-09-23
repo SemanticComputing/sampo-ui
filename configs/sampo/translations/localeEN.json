@@ -133,6 +133,7 @@
       "mapbox": {
         "light-v10": "Mapbox Light (OpenStreetMap)"
       },
+      "openStreetMap": "OpenStreetMap",
       "googleRoadmap": "Google Maps",
       "topographicalMapNLS": "Topographical map (National Land Survey of Finland)",
       "backgroundMapNLS": "Background map (National Land Survey of Finland)",

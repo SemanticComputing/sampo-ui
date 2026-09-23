@@ -1,23 +1,23 @@
 import { combineReducers } from 'redux'
 import { has } from 'lodash'
 import { reducer as toastrReducer } from 'react-redux-toastr'
-import { createResultsReducer } from './general/results'
-import { createFacetsReducer } from './general/facets'
-import { createFacetsConstrainSelfReducer } from './general/facetsConstrainSelf'
-import { createFederatedSearchReducer } from './general/federatedSearch'
-import { createFullTextSearchReducer } from './general/fullTextSearch'
-import error from './general/error'
-import options from './general/options'
-import animation from './general/animation'
-import videoPlayer from './general/videoPlayer'
-import leafletMap from './general/leafletMap'
+import { createResultsReducer } from 'reducers/general/results'
+import { createFacetsReducer } from 'reducers/general/facets'
+import { createFacetsConstrainSelfReducer } from 'reducers/general/facetsConstrainSelf'
+import { createFederatedSearchReducer } from 'reducers/general/federatedSearch'
+import { createFullTextSearchReducer } from 'reducers/general/fullTextSearch'
+import error from 'reducers/general/error'
+import options from 'reducers/general/options'
+import animation from 'reducers/general/animation'
+import videoPlayer from 'reducers/general/videoPlayer'
+import leafletMap from 'reducers/general/leafletMap'
 import {
   resultsInitialState,
   facetsInitialState,
   fullTextSearchInitialState,
   federatedSearchInitialState
-} from './general/initialStates'
-import { useConfigsStore } from '../stores/configsStore'
+} from 'reducers/general/initialStates'
+import { useConfigsStore } from 'stores/configsStore'
 
 const portalConfig = await useConfigsStore.getState().getPortalConfig()
 

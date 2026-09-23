@@ -4,8 +4,8 @@ import intl from 'react-intl-universal'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import has from 'lodash'
-import MainCard from './MainCard'
-import { getSpacing } from '../../helpers/helpers'
+import MainCard from 'components/perspectives/MainCard'
+import { getSpacing } from 'helpers/helpers'
 import { Grid } from '@mui/material'
 
 /**

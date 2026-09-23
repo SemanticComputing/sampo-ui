@@ -6,8 +6,8 @@ import Menu from '@mui/material/Menu'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { withStyles } from 'tss-react/mui'
 import { Link } from 'react-router-dom'
-import history from '../../History'
-import { updateLocaleToPathname } from '../../helpers/helpers'
+import history from 'History'
+import { updateLocaleToPathname } from 'helpers/helpers'
 
 const styles = (theme) => ({
   link: {

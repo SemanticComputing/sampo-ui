@@ -8,10 +8,11 @@ import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
-import ResultTableCell from '../facet_results/ResultTableCell'
+import ResultTableCell from 'components/facet_results/ResultTableCell'
 import Tooltip from '@mui/material/Tooltip'
 import IconButton from '@mui/material/IconButton'
 import InfoIcon from '@mui/icons-material/InfoOutlined'
+import CircularProgress from '@mui/material/CircularProgress'
 
 const styles = (theme) => ({
   instanceTable: {
@@ -132,6 +133,10 @@ class InstancePageTable extends React.Component {
     const perspectiveID = perspectiveConfig.id
     return (
       <>
+        {this.props.fetching &&
+          <div className={classes.spinnerContainer}>
+            <CircularProgress />
+          </div>}
         {data &&
           <Table className={classes.instanceTable} size='small'>
             <TableBody>
@@ -139,7 +144,7 @@ class InstancePageTable extends React.Component {
                 const label = intl.get(`perspectives.${perspectiveID}.properties.${row.id}.label`)
                 const description = intl.get(`perspectives.${perspectiveID}.properties.${row.id}.description`)
                 const {
-                  id, valueType, makeLink, externalLink, sortValues, sortBy, sortByConvertDataTypeTo, numberedList, minWidth,
+                  id, valueType, makeLink, externalLink, sortValues, sortBy, sortByConvertDataTypeTo, numberedList, minWidth, maxHeight,
                   linkAsButton, collapsedMaxWords, showSource, sourceExternalLink, renderAsHTML, HTMLParserTask
                 } = row
                 let { previewImageHeight } = row
@@ -151,15 +156,16 @@ class InstancePageTable extends React.Component {
                   <TableRow key={row.id}>
                     <TableCell className={classes.labelCell}>
                       {label}
-                      <Tooltip
-                        className={classes.tooltip}
-                        title={description}
-                        enterDelay={300}
-                      >
-                        <IconButton size='large'>
-                          <InfoIcon />
-                        </IconButton>
-                      </Tooltip>
+                      {description &&
+                        <Tooltip
+                          className={classes.tooltip}
+                          title={description}
+                          enterDelay={300}
+                        >
+                          <IconButton size='large'>
+                            <InfoIcon />
+                          </IconButton>
+                        </Tooltip>}
                     </TableCell>
                     <TableCell className={classes.expandCell}>
                       {this.hasExpandableContent({ data: data[id], config: row }) &&
@@ -188,6 +194,7 @@ class InstancePageTable extends React.Component {
                       sortByConvertDataTypeTo={sortByConvertDataTypeTo}
                       numberedList={numberedList}
                       minWidth={minWidth}
+                      maxHeight={maxHeight}
                       previewImageHeight={previewImageHeight}
                       container='cell'
                       expanded={expanded}

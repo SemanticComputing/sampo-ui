@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { loadCustomComponent } from '../helpers/loadCustomComponent'
+import { loadCustomComponent } from 'helpers/loadCustomComponent'
 
 const CustomComponentWrapper = ({ componentName, ...props }) => {
   const [Component, setComponent] = useState(null)

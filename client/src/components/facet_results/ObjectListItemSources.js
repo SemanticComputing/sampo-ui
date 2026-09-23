@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ObjectListItemLink from './ObjectListItemLink'
+import ObjectListItemLink from 'components/facet_results/ObjectListItemLink'
 import { orderBy } from 'lodash'
 
 const ObjectListItemSources = props => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { has } from 'lodash'
-import history from '../../History'
+import history from 'History'
 import cytoscape from 'cytoscape'
 import panzoom from 'cytoscape-panzoom'
 import 'cytoscape-panzoom/cytoscape.js-panzoom.css'
