@@ -476,7 +476,8 @@ const ResultClassRoute = props => {
         fetchResults: props.fetchResults,
         animationValue: props.animationValue,
         animateMap: props.animateMap,
-        facetUpdateID: facetState.facetUpdateID
+        facetUpdateID: facetState.facetUpdateID,
+        fetching: perspectiveState.fetching
       }
       routeComponent = <TemporalMap {...temporalMapProps} />
       break
