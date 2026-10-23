@@ -893,6 +893,10 @@ class LeafletMap extends React.Component {
     this.markers = {}
     let clusterer = null
     clusterer = new L.MarkerClusterGroup({
+      maxClusterRadius: ((this.props.pageType === 'instancePage') ? 
+        this.props.perspectiveConfig.resultClasses[this.props.perspectiveConfig.id]?.instanceConfig?.instancePageResultClasses[this.props.resultClass]?.componentConfig?.maxClusterRadius 
+        : this.props.perspectiveConfig.resultClasses[this.props.resultClass]?.componentConfig?.maxClusterRadius
+      ) ?? 80,
       iconCreateFunction: (cluster) => {
         let childCount = 0
         if (this.props.showInstanceCountInClusters) {
