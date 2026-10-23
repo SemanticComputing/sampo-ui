@@ -74,7 +74,7 @@ const ResultClassRoute = props => {
           resultClassConfig={resultClassConfig}
           // Facet state
           facetState={facetState}
-          facetUpdateID={facetState.facetUpdateID}
+          facetUpdateID={facetState?.facetUpdateID}
           // UI
           screenSize={screenSize}
           location={useLocation()}
@@ -90,6 +90,8 @@ const ResultClassRoute = props => {
           updateFacetOption={props.updateFacetOption}
           sortResults={props.sortResults}
           showError={props.showError}
+          // Pass URI for instance page queries
+          {...(resultClassConfig.pageType && resultClassConfig.pageType === 'instancePage' ? { uri: perspectiveState.instanceTableData.id } : {})}
         />
       )
       break
