@@ -131,7 +131,7 @@ for (const perspective of perspectiveConfig) {
 
 for (const perspective of perspectiveConfigOnlyInfoPages) {
   const perspectiveID = perspective.id
-  const { resultClasses, properties } = perspective
+  const { resultClasses, properties, maps } = perspective
   const { instanceConfig } = resultClasses[perspectiveID]
   let extraResultClasses = {}
   let instancePageResultClasses = {}
@@ -149,7 +149,8 @@ for (const perspective of perspectiveConfigOnlyInfoPages) {
   }
   const resultsInitialStateFull = {
     ...resultsInitialState,
-    properties
+    properties,
+    maps
   }
   const resultsReducer = createResultsReducer(
     resultsInitialStateFull,
