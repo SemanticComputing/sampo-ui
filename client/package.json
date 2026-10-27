@@ -58,7 +58,7 @@
     "react": "^18.0.0",
     "react-csv": "^2.0.3",
     "react-dom": "^18.0.0",
-    "react-intl-universal": "^2.4.8",
+    "react-intl-universal": "^2.14.0",
     "react-map-gl": "^7.1.9",
     "react-redux": "^7.2.0",
     "react-redux-toastr": "8.0.0",
