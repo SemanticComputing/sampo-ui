@@ -1,4 +1,4 @@
-# Sparql queries config
+# SPARQL queries config
 
 ## How queries get constructed
 
@@ -8,7 +8,7 @@ Queries get constructed by replacing these tags with query sections depending on
 General query structures can be overwritten as described in [overwriting general queries](./CustomComponents.md#overwriting-general-queries).
 
 In version 5 of Sampo-UI we aim to replace this system with a set default profiles, each profile being a specifically made
-for a particular type of SPARQL endpoint (Jena, Qlever, Ontop, ...). 
+for a particular type of SPARQL endpoint (Jena, QLever, Ontop, ...). 
 
 ### Facet results queries
 ```sparql
@@ -30,7 +30,7 @@ FILTER(BOUND(?id))
 }
 ```
 This is the default facet results query. The inner query selects all the ids matching the class of the perspective being queried where all selected filters match. ``<RESULT_SET_PROPERTIES>`` gets replaced by the properties query block referenced
-in the `propertiesQueryBlock` of the perspective config. The properties query block should query all the fields that need to be displayed starting from the `?id` which will always be bound. Different properties that can be matched indepentently should be joined using `union` statements.
+in the `propertiesQueryBlock` of the perspective config. The properties query block should query all the fields that need to be displayed starting from the `?id` which will always be bound. Different properties that can be matched independently should be joined using `union` statements.
 
 
 #### Creating objects

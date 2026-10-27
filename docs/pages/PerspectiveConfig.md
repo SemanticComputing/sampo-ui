@@ -7,7 +7,7 @@ Search perspectives are the perspectives for faceted search pages.
 
 ### General structure
 
-```
+```json
 {
     "id": "corporations",
     ... // more general config
@@ -67,7 +67,7 @@ Under facets, you can define all the filters and sorting predicates of your colu
 ---
 
 ### General config properties
-```
+```json
 "id": "corporations",
 "endpoint": {
     "url": "",
@@ -139,10 +139,10 @@ locale code or a perspective id.
 ---
 
 ### Table resultClass
-The most basic `resultclass` used in virtually every perspective is table with also an associated instance page. 
+The most basic `resultClass` used in virtually every perspective is table with also an associated instance page. 
 
 #### ResultClass
-```
+```json
 "resultClasses": {
   "yourTable": {
       "paginatedResultsConfig": {
@@ -170,10 +170,10 @@ The most basic `resultclass` used in virtually every perspective is table with a
   ...
 },
 ```
-See [SPARQL config](./SparqlConfig.md) for how to exactly config your sparql queries.
+See [SPARQL config](./SparqlConfig.md) for how to exactly configure your SPARQL queries.
 
 #### Properties
-```
+```json
 "properties": [
     {
         "id": "ID",
@@ -207,7 +207,7 @@ See [SPARQL config](./SparqlConfig.md) for how to exactly config your sparql que
 The properties list lists all columns that can be displayed in the table. See [SPARQL config](./SparqlConfig.md) for how exactly to query the data to be displayed in the table. `onlyOnInstancePage` can be set to only display the value on instance pages as to not bloat the results table. `sortBy` defines by which field a cell with multiple entries will be sorted.
 
 #### Facets
-```
+```json
 "facets": {
   "id": {
       "sortByPredicate": "ex:id"
@@ -225,6 +225,3 @@ The properties list lists all columns that can be displayed in the table. See [S
 Under facets the filter facets on the left side of the result components get defined. `sortByPredicate` can also be defined here which declares which predicate should be used to sort on the matching column. 
 
 Facets can use a variety of default components and filters. Custom facet components and filters are also supported as documented in [custom components](./CustomComponents.md).
-
----
-

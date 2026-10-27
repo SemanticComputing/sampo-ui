@@ -1,6 +1,6 @@
 # Portal Config
 
-The `protalConfig.js` file is the entry point of your Sampo-UI config. In here you define all the different perspectives your app has, as well as some layout of your front page. (Note that all manner of layout and styling config in here will be moved to css in future versions). 
+The `portalConfig.js` file is the entry point of your Sampo-UI config. In here you define all the different perspectives your app has, as well as some layout of your front page. (Note that all manner of layout and styling config in here will be moved to CSS in future versions)
 
 A lot of the config options in here are remnants of older Sampo projects that do not really fit into the generic model for version 4 onwards. These will be removed in future versions. Only the important config options are described here. It can happen that Sampo-UI will not run without a value passed for some of these legacy configs, in those cases simply use a default value as in the example configs here.
 
@@ -10,11 +10,11 @@ A lot of the config options in here are remnants of older Sampo projects that do
 
 ---
 
-``"staticsUrl": "",`` with a staticsUrl you can define a different url where Sampo-UI should look for your statics such as images and icons. If set to nothing Sampo-UI will look for them under `<portalID>/assets/`.
+``"staticsUrl": "",`` with a staticsUrl you can define a different URL where Sampo-UI should look for your statics such as images and icons. If set to nothing Sampo-UI will look for them under `<portalID>/assets/`.
 
 ---
 
-```
+```json
 "perspectives": {
     "searchPerspectives": [
         "corporations",
@@ -32,7 +32,7 @@ The perspectives config defines all the search perspectives you want to use and 
 
 ---
 
-```
+```json
 "localeConfig": {
     "defaultLocale": "en",
     "availableLocales": [
@@ -55,19 +55,19 @@ Here you define the different locales your app uses. Each locale will have its o
 
 ### Layout config
 Note that this layout config will likely significantly change in version 5, but for now this is how it works.
-```
+```json
 "layoutConfig": {
   ...
 }
 ```
 Under the layoutConfig object you will define everything to do with the layout of your landing page.
 
-```
+```json
 "customCssFile": "custom.css",
 ```
 A custom CSS file can be provided that will override default styling. It is recommended to use this over defining color palette etc in the `portalConfig.json` file as ideally styling should not be part of the JSON, but it is still possible for now as seen below.
 
-```
+```json
 "colorPalette": {
     "primary": {
         "main": "#2a2521"
@@ -85,7 +85,7 @@ A custom CSS file can be provided that will override default styling. It is reco
 
 ---
 
-```
+```json
 "topBar": {
     "showSearchField": false,
     "logoImage": "",
@@ -114,7 +114,7 @@ What is important however is `infoDropdown` where you can define what pages to d
 
 ---
 
-```
+```json
 "mainPage": {
     "bannerImage": "main_page/mmm-banner.jpg",
     "bannerBackground": "#f3eee3",
@@ -138,7 +138,7 @@ For the main part of the landing page what perspectives to show where can be def
 
 ---
 
-```
+```json
 "footer": {
     "reducedHeight": 54,
     "defaultHeight": 64,

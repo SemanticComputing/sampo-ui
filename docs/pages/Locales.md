@@ -19,7 +19,7 @@ In the `perspectives` object the text for facets and table columns gets defined.
 All pages defined in the `infoDropdown` in `portalConfig.json` must have their page content defined in locales.
 
 For example:
-```
+```json
 "infoDropdown": [
     {
         "id": "about",
@@ -30,7 +30,7 @@ For example:
 ]
 ```
 must in the root of locales have something like:
-```
+```json
 "aboutPage": "htmlFile:pages/about_en.html"
 ```
 and then put the actual content of the page in said HTML file. The content can also be put directly in the locale JSON as a string, but since that gets very dirty for large pages it is not recommended.
@@ -41,7 +41,7 @@ The above part can only put these pages in the info dropdown. It is also possibl
 they appear as their own button in the topbar and can have a card on the front page.
 
 To define that make a new perspective json file under ``search_perspectives`` and structure it like this:
-```
+```json
 {
     "id": "about",
     "searchMode": "dummy-internal",

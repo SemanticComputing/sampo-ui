@@ -15,7 +15,7 @@ app as 1 container using the combo image. With this method everything is exposed
 Another option using the combo image is to simply use it as a base image and directly bake your configs into it.
 
 Example Dockerfile (replace `sampoConfigs` folder name with the name of your configuration file folder):
-```
+```Dockerfile
 FROM node:22.17-slim AS base
 WORKDIR /app
 
