@@ -7,9 +7,8 @@ import { HeatmapLayer, HexagonLayer } from '@deck.gl/aggregation-layers'
 import { MapboxOverlay as DeckOverlay } from '@deck.gl/mapbox'
 
 import { Map, useControl, FullscreenControl, NavigationControl, AttributionControl } from 'react-map-gl/maplibre'
+import { addProtocol, removeProtocol, setWorkerUrl } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
-
-import maplibregl from 'maplibre-gl'
 import { Protocol } from 'pmtiles'
 import { layers, namedFlavor } from '@protomaps/basemaps'
 
@@ -20,6 +19,9 @@ import CircularProgress from '@mui/material/CircularProgress'
 import history from 'History'
 import qs from 'qs'
 import { useConfigsStore } from 'stores/configsStore'
+
+// https://maplibre.org/maplibre-gl-js/docs/guides/v5-to-v6-migration-guide/
+setWorkerUrl(new URL('maplibre-gl/dist/maplibre-gl-worker.mjs', import.meta.url).toString())
 
 /* Documentation links:
   https://deck.gl/#/documentation/getting-started/using-with-react?section=adding-a-base-map
@@ -103,7 +105,7 @@ class Deck extends React.Component {
   componentDidMount = () => {
     if (this.props.customTilesLayer?.type === 'pmtiles') {
       const protocol = new Protocol()
-      maplibregl.addProtocol('pmtiles', protocol.tile)
+      addProtocol('pmtiles', protocol.tile)
     }
 
     let constraints = []
@@ -145,7 +147,7 @@ class Deck extends React.Component {
 
   componentWillUnmount = () => {
     if (this.props.customTilesLayer?.type === 'pmtiles') {
-      maplibregl.removeProtocol('pmtiles')
+      removeProtocol('pmtiles')
     }
   }
 

@@ -67,6 +67,13 @@ module.exports = {
         options: {
           name: 'fonts/[name].[ext]'
         }
+      },
+      // Add rule for disabling dynamic URL parsing for maplibre-gl (see issue https://github.com/maplibre/maplibre-gl-js/issues/8060)
+      {
+        test: /[\\/]maplibre-gl[\\/]dist[\\/]maplibre-gl\.mjs$/,
+        parser: {
+          dynamicUrl: false
+        }
       }
     ]
   },
