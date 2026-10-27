@@ -16,7 +16,7 @@ Another option using the combo image is to simply use it as a base image and dir
 
 Example Dockerfile (replace `sampoConfigs` folder name with the name of your configuration file folder):
 ```Dockerfile
-FROM node:22.17-slim AS base
+FROM node:22-slim AS base
 WORKDIR /app
 
 COPY custom_components .

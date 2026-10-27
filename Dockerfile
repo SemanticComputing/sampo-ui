@@ -2,7 +2,7 @@
 
 # Base stage for shared setup
 # Client build stage
-FROM node:22.20-slim AS client-build
+FROM node:22-slim AS client-build
 RUN mkdir -p /app/client
 WORKDIR /app/client
 COPY client/package*.json ./
@@ -15,7 +15,7 @@ RUN npm run build
 
 
 # Server production build stage
-FROM node:22.20-slim AS server-build
+FROM node:22-slim AS server-build
 RUN mkdir -p /app/server
 WORKDIR /app/server
 COPY server/package*.json .

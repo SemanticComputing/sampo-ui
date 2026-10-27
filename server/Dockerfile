@@ -1,5 +1,5 @@
 # Base stage for shared setup
-FROM node:22.17-slim AS base
+FROM node:22-slim AS base
 
 RUN mkdir -p /app/server
 WORKDIR /app

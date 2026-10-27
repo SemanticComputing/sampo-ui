@@ -1,5 +1,5 @@
 # Base stage for client setup
-FROM node:22.17-slim AS base
+FROM node:22-slim AS base
 
 RUN mkdir -p /app/client
 WORKDIR /app
