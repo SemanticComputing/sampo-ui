@@ -37,6 +37,11 @@ module.exports = {
     publicPath: '/'
   },
   module: {
+    parser: {
+      "css/auto": {
+        exportType: "style"
+      }
+    },
     rules: [
       {
         test: /\.m?js$/,
@@ -45,27 +50,21 @@ module.exports = {
       },
       {
         test: /\.s?css$/,
-        use: [
-          // Creates `style` nodes from JS strings
-          'style-loader',
-          // Translates CSS into CommonJS
-          'css-loader',
-          // Compiles Sass to CSS
-          'sass-loader'
-        ]
+        use: ['sass-loader'],
+        type: "css/auto"
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        loader: 'file-loader',
-        options: {
-          outputPath: 'images'
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[name][ext]'
         }
       },
       {
         test: /\.(woff2|woff|eot|ttf)$/,
-        loader: 'file-loader',
-        options: {
-          name: 'fonts/[name].[ext]'
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[name][ext]',
         }
       },
       // Add rule for disabling dynamic URL parsing for maplibre-gl (see issue https://github.com/maplibre/maplibre-gl-js/issues/8060)
@@ -86,6 +85,7 @@ module.exports = {
     ]
   },
   experiments: {
+    css: true,
     topLevelAwait: true
   }
 }
