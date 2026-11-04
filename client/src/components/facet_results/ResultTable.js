@@ -220,7 +220,7 @@ class ResultTable extends React.Component {
     let renderExpandButton
     const dataCells = this.props.data.properties.map(column => {
       const {
-        id, valueType, makeLink, externalLink, sortValues, sortBy, sortByConvertDataTypeTo, numberedList, minWidth,
+        id, valueType, makeLink, externalLink, sortValues, sortBy, sortDirection, sortByConvertDataTypeTo, numberedList, minWidth,
         height, maxHeight, linkAsButton, collapsedMaxWords, showExtraCollapseButton, sourceExternalLink, renderAsHTML, HTMLParserTask
       } = column
       let { previewImageHeight } = column
@@ -265,6 +265,7 @@ class ResultTable extends React.Component {
           externalLink={externalLink}
           sortValues={sortValues}
           sortBy={sortBy}
+          sortDirection={sortDirection}
           sortByConvertDataTypeTo={sortByConvertDataTypeTo}
           numberedList={numberedList}
           height={height}

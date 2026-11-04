@@ -7,7 +7,7 @@ import ImageGallerySRL from 'components/main_layout/ImageGallerySRL'
 
 const ResultTableCell = props => {
   const {
-    data, tableData, valueType, makeLink, externalLink, sortValues, sortBy, sortByConvertDataTypeTo,
+    data, tableData, valueType, makeLink, externalLink, sortValues, sortBy, sortDirection, sortByConvertDataTypeTo,
     numberedList, minWidth, height, maxHeight, container, columnId, expanded, linkAsButton, collapsedMaxWords, showSource,
     sourceExternalLink, renderAsHTML, HTMLParserTask, referencedTerm, previewImageHeight,
     onExpandClick, showExtraCollapseButton, rowId, shortenLabel = false
@@ -29,6 +29,7 @@ const ResultTableCell = props => {
           externalLink={externalLink}
           sortValues={sortValues}
           sortBy={sortBy}
+          sortDirection={sortDirection}
           sortByConvertDataTypeTo={sortByConvertDataTypeTo}
           numberedList={numberedList}
           rowId={rowId}
