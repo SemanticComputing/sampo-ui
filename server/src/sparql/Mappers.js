@@ -20,6 +20,7 @@ export const mapPlaces = sparqlBindings => {
       id: b.id.value,
       lat: b.lat.value,
       long: b.long.value,
+      ...(Object.prototype.hasOwnProperty.call(b, 'markerColor') && { markerColor: b.markerColor.value }),
       ...(Object.prototype.hasOwnProperty.call(b, 'instanceCount') && { instanceCount: b.instanceCount.value })
     }
   })
