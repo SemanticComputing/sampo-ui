@@ -36,6 +36,9 @@ import markerIconGreen from 'img/markers/marker-icon-green.png'
 import markerIconRed from 'img/markers/marker-icon-red.png'
 import markerIconOrange from 'img/markers/marker-icon-orange.png'
 import markerIconYellow from 'img/markers/marker-icon-yellow.png'
+import markerIconBlue from 'img/markers/marker-icon-blue.png'
+import markerIconBlack from 'img/markers/marker-icon-black.png'
+import markerIconGrey from 'img/markers/marker-icon-grey.png'
 
 import { useConfigsStore } from 'stores/configsStore'
 
@@ -978,6 +981,16 @@ class LeafletMap extends React.Component {
             break
           case 'yellow':
             markerIcon = markerIconYellow
+            break
+          case 'blue':
+            markerIcon = markerIconBlue
+            break
+          case 'black':
+            markerIcon = markerIconBlack
+            break
+          case 'grey':
+          case 'gray':
+            markerIcon = markerIconGrey
             break
           default:
             markerIcon = markerIconGreen
