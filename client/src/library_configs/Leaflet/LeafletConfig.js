@@ -66,7 +66,7 @@ export const createConfigurablePopUpContent = ({ data, resultClass, popUpElement
         el.setAttribute('src', element_data.url)
       }
 
-      if (element.makeLink && has(element_data, 'dataProviderUrl')) {
+      if (element.makeLink && element_data.dataProviderUrl) {
         const link = createLink(element.externalLink, element_data.dataProviderUrl, element_data.prefLabel)
         el.appendChild(link)
       } else {
