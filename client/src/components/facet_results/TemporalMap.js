@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { withStyles } from 'tss-react/mui'
 import intl from 'react-intl-universal'
 import ReactMapGL, { Map, useControl, FullscreenControl, NavigationControl, AttributionControl } from 'react-map-gl/maplibre'
+
+import { setWorkerUrl } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 import DeckGL, { ScatterplotLayer } from 'deck.gl'
@@ -16,6 +18,9 @@ import { has } from 'lodash'
 import Moment from 'moment'
 import { extendMoment } from 'moment-range'
 const moment = extendMoment(Moment)
+
+// https://maplibre.org/maplibre-gl-js/docs/guides/v5-to-v6-migration-guide/
+setWorkerUrl(new URL('maplibre-gl/dist/maplibre-gl-worker.mjs', import.meta.url).toString())
 
 const styles = (theme) => ({
   root: {
